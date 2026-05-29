@@ -1,7 +1,22 @@
 # Master Workout Builder — Deep Engineering & UX Spec
 
 **Stream 3 · TGP (The Growth Project)** — NestJS backend + React Native (Expo) mobile.
-Author: Dynasia G. Status: **DRAFT for build sequencing**. Date: 2026-05-28.
+Author: Dynasia G. Status: **APPROVED for build sequencing** (operator decisions A–D locked 2026-05-28). Date: 2026-05-28.
+
+> **Priority: this is build Priority #1, to the highest standard.**
+
+### Operator decisions (locked)
+- **A — Sub-coach templates = grab-a-copy, never mutate the source.** Head-coach templates are an
+  immutable **pool of building blocks**. A sub-coach who starts from one gets their **own owned
+  fork**; editing the fork never touches the head coach's master or any other sub-coach's view.
+  Starting from a head-coach template is **Option C**, deliberately placed *behind* (A) build with
+  AI from scratch and (B) build yourself from scratch. See §7.
+- **B — Rip out the legacy AI path entirely** (no flag, no fallback). The new gateway path must
+  **actually build the workout regime in-app, VISIBLY** — the coach watches it materialise into a
+  real, editable program on screen, not a black-box spinner. See §4.
+- **C — Undo retention = last 30 edits per plan.** See §5.2.
+- **D — Repurpose the "Templates" tab into a unified Assignables Library** (workout plans,
+  nutrition packages/plans, and anything else assignable at large). See §8.2.
 
 This spec is the authoritative build plan for the Master Workout Builder: a coach-owned
 reusable program/template system, a Build-with-AI **live create** capability (coach-editable
@@ -138,7 +153,10 @@ keeps the clone path trivial (copy rows, flip the flag) and lets analytics join 
 // NEW
 model WorkoutProgram {
   id              String    @id @default(uuid())
-  coach_id        String    // FK User, onDelete Cascade — the OWNING (head) coach tenant
+  coach_id        String    // TENANT — the head-coach business this row belongs to
+  owner_user_id   String    // OWNER — author of THIS template (head coach OR sub-coach). See §7.2
+  visibility      String    @default("owner_only") // 'owner_only' | 'tenant_shared' (building block)
+  forked_from_id  String?   // self-FK: head-coach template this fork was copied from (§7.3)
   name            String
   description     String?
   weeks           Int       // 1..52
@@ -153,7 +171,8 @@ model WorkoutProgram {
   archived_at     DateTime?
   plans           WorkoutPlan[]
   revisions       WorkoutProgramRevision[]
-  @@index([coach_id, is_template, archived_at, updated_at(sort: Desc)])
+  @@index([coach_id, visibility, is_template, archived_at, updated_at(sort: Desc)])
+  @@index([owner_user_id, archived_at])
   @@index([coach_id, cloned_from_id])
 }
 
@@ -271,12 +290,20 @@ Both:
   single-emit guard the `assign-workout` materialiser already does
   (`assign-workout.materialiser.ts:114-220`).
 
-### 4.3 "Live create" + "coach-editable" — the interaction contract
+### 4.3 "Live create" + "coach-editable" — the interaction contract (operator decision B)
 
-- **Live create** means: the coach taps "Build with AI", the model proposes a full program, and on
-  approval the plans/exercises are **materialised into real editable `WorkoutPlan` rows** that the
-  coach can immediately keep editing in the same builder (with autosave + undo). It is NOT a
-  read-only chat transcript and NOT a one-shot black box.
+- **VISIBLE in-app build (mandatory).** When the coach taps "Build with AI", the regime must
+  **materialise on screen, in the real builder, as it is generated** — the coach watches the
+  program take shape (weeks → days → exercises streaming/populating into actual editable rows), not
+  a spinner that later dumps a finished block. Implementation: the gateway emits the program as a
+  sequence of `draft.create_workout_plan` ops (one per day) that the mobile builder renders
+  **optimistically and progressively** into the live Program Builder grid as each op resolves. The
+  end state is a real, editable `WorkoutProgram` + `WorkoutPlan` rows the coach can immediately keep
+  editing (autosave + undo apply). It is NOT a read-only chat transcript and NOT a one-shot black
+  box.
+- **Live create** means: the model proposes a full program, and on approval the plans/exercises are
+  **materialised into real editable `WorkoutPlan` rows** that the coach can immediately keep editing
+  in the same builder (with autosave + undo).
 - **Coach-editable diffs** means: AI *edits* (`draft.edit_workout_plan`) are proposed as a diff the
   coach can accept whole, accept partially (per-op toggles in the review sheet), or reject — then
   the accepted ops apply through the normal autosave/revision path so they are **undoable** like
@@ -286,14 +313,26 @@ Both:
   `AIWorkoutDraftScreen.tsx:434-438` does today. `CoachAIBudgetService.canCharge` gates pre-call
   (already wired, A2 FIXED).
 
-### 4.4 Migrating Path A
+### 4.4 Remove the legacy AI path entirely (operator decision B — no flag, no fallback)
 
-Re-point `coach-ai.service.ts:approveDraft` for `WORKOUT_PROGRAM` drafts to **emit
-`draft.create_workout_plan` actions per day through the gateway** instead of inline-creating. This:
-- Unifies the approval inbox (one `/ai/gateway/drafts`).
-- Inherits the PRODUCT-1 race protections.
-- Is sequenced as a **follow-on** (4.4 lands after 4.2/4.3 are stable) to avoid destabilising the
-  one working AI-create path. Until then, Path A stays as-is behind a feature flag.
+The old inline-create path (`coach-ai.service.ts:272-316` `materializeWorkoutProgram`, and its
+whole-object `editDraft` merge) is **deleted**, not flagged. There is no dual-run period.
+
+What "rip out" means concretely:
+- `approveDraft` for `WORKOUT_PROGRAM` drafts no longer inline-creates N `WorkoutPlan` rows. The
+  entire create path goes through the gateway `draft.create_workout_plan` materialiser (§4.2),
+  inheriting the PRODUCT-1 race protections (`materialised_ref`/`materialised_at`).
+- The separate `/coach/ai/drafts` inbox for workout-program drafts is collapsed into the single
+  `/ai/gateway/drafts` surface. (The old `AIDraft` `WORKOUT_PROGRAM` rows are migrated/expired by a
+  one-shot migration; any in-flight legacy drafts at deploy time are surfaced for re-generation.)
+- Mobile `AIWorkoutDraftScreen` (the old flat-`days[]` adapter, `AIWorkoutDraftScreen.tsx:63-99`)
+  is replaced by the visible-in-builder generation flow + the diff-review surface (§8.2
+  `WorkoutAIDraftReview`), migrated to `semanticColors`.
+- Because there is no fallback, the new path must be **fully proven by the Auditor gate before the
+  legacy path is deleted in the same stream** — the Fixer loop runs to CLEAN on the new gateway
+  create/edit capabilities (§4.2) and the visible build flow (§4.3) first, and the deletion of the
+  legacy code is the final commit of Phase 3 (§11). This sequences the *risk* without keeping a
+  runtime flag.
 
 ### 4.5 Per-exercise inline AI (the Everfit-beating affordance)
 
@@ -350,12 +389,13 @@ model WorkoutProgramRevision {
   always see "coach undid to revision 4 at 14:02".
 - **Redo** = undo to a later revision index (no separate machinery).
 
-### 5.2 Retention / pruning
+### 5.2 Retention / pruning (operator decision C — last 30 edits)
 
-- Keep the **last 50 revisions per plan** + all revisions from the last 30 days, whichever is
-  larger. Older interior revisions are pruned by a nightly cron (the `initial` and any `clone`
-  revisions are never pruned, to preserve provenance). Pruning never deletes the head or anything
-  reachable by an outstanding `cloned_from` reference.
+- Keep the **last 30 revisions per plan**. Older interior revisions are pruned by a nightly cron.
+  The `initial` and any `clone` revisions are **never pruned** (provenance is preserved even if it
+  pushes the count past 30), and pruning never deletes the current head or anything reachable by an
+  outstanding `cloned_from` reference. So a coach always has up to 30 undo steps of recent edit
+  history, plus the immutable creation/clone anchors.
 
 ### 5.3 Mobile undo model
 
@@ -458,47 +498,90 @@ This is the **50-Failures #5 (IDOR) / #9 (privilege escalation)** shape: scoping
 at the route layer (`RolesGuard`) and a single direct-FK service check — no data-layer second line
 of defence.
 
-### 7.2 Decision: wire `SubCoachScopeService` into the builder + a scoped-access helper
+### 7.2 Decision (operator A): templates are an immutable shared POOL; sub-coaches FORK to own
 
+The operator model: a head coach's templates are a **pool of building blocks**. A sub-coach
+**never edits a head-coach template in place**. Instead they **grab a copy**, which produces a
+**new template that the sub-coach owns**, and they edit that fork freely. The head coach's master
+and every other sub-coach's view are untouched. This requires distinguishing the *tenant* (which
+head-coach business the row belongs to) from the *owner* (which user authored/owns this particular
+template).
+
+**Schema refinement to `WorkoutProgram` / `WorkoutPlan` (additive):**
+```
+  coach_id        String   // TENANT — the head-coach business this row belongs to (unchanged)
+  owner_user_id   String   // OWNER — the user who authored/owns THIS template (head coach OR sub-coach)
+  visibility      String   @default("owner_only")  // 'owner_only' | 'tenant_shared'
+  forked_from_id  String?  // self-FK: the head-coach template this fork was copied from (provenance)
+```
+- A **head-coach** master template: `owner_user_id = headCoachId`, `visibility = 'tenant_shared'`
+  (visible to the whole business as a building block).
+- A **sub-coach fork**: `owner_user_id = subCoachId`, `visibility = 'owner_only'`,
+  `forked_from_id = <master id>`. It belongs to the same `coach_id` tenant but is **owned and
+  edited only by that sub-coach**.
+- **Forking is the only write path a sub-coach has to a shared template.** There is no
+  edit-in-place on a `tenant_shared` template you don't own. (A head coach editing their own master
+  is just a normal owned edit.)
+
+**Service wiring:**
 1. `WorkoutBuilderModule` imports `SubCoachModule` (exporting `SubCoachScopeService`).
 2. Replace `assertClientBelongsToCoach(coachId, clientId)` with
-   `assertCanAccessClient(actingUserId, clientId)` which returns true if **either**:
-   - `client.coach_id === actingUserId` (head coach / owner), **or**
-   - `SubCoachScopeService.canAccessClient(actingUserId, clientId)` returns true (open
-     `SubCoachAssignment`).
+   `assertCanAccessClient(actingUserId, clientId)` returning true if **either**
+   `client.coach_id === actingUserId` (head coach/owner) **or**
+   `SubCoachScopeService.canAccessClient(actingUserId, clientId)` (open `SubCoachAssignment`).
 3. Apply the same helper on the AI path (`coach-ai.service.ts:assertCoachOwnsClient`).
-4. **Plan ownership stays head-scoped** for *editing the master library* (sub-coaches assign and
-   build *client-instance* plans, but the head coach owns the shared template library) — unless the
-   `SubCoachAssignment` scope explicitly grants template-edit. This is a **scoped permission**, not
-   a binary: the scope row's capability set decides build-vs-assign-vs-template-edit.
+4. **Template edit authority** = `template.owner_user_id === actingUserId`. A sub-coach editing a
+   `tenant_shared` master they don't own is rejected; the UI offers "Make a copy" instead, which
+   calls `forkTemplate`.
 
-### 7.3 Scoped permission shape
+### 7.3 `forkTemplate` (grab a building block, make it your own)
 
-`SubCoachScopeService.canAccessClient` is the gate for **client-bound** actions (assign, clone-to,
-build a client-instance plan). For **library-bound** actions (edit a master template), add a
-capability check `SubCoachScopeService.canEditTemplates(subCoachId)` (new, defaulting to false) so a
-head coach can opt a senior sub-coach into shared-library editing without granting it to all.
+New `WorkoutBuilderService.forkTemplate(sourceTemplateId, actingUserId)`:
+1. Authorize: the source must be `visibility='tenant_shared'` within the actor's tenant (a
+   sub-coach can fork any building block in their business) OR owned by the actor.
+2. Deep-copy by value (same machinery as clone-to-client, §3.2): new `WorkoutProgram` + child
+   `WorkoutPlan`s + `WorkoutPlanExercise`s with fresh ids, `owner_user_id = actingUserId`,
+   `visibility = 'owner_only'`, `forked_from_id = sourceTemplateId`, fresh revision baseline.
+3. The fork is fully independent: later edits to the source master never touch the fork, and the
+   fork's edits never touch the source. This is the "grab from the pool, never change it in there,
+   make it your own afterwards" contract verbatim.
+
+No `canEditTemplates` capability flag is needed under this model — the **fork** *is* the
+sub-coach's editing affordance, so there's no risk surface of a sub-coach mutating shared masters.
+(Optional future: let a head coach "promote" a sub-coach fork back into `tenant_shared` — deferred.)
 
 ### 7.4 RLS — the second line of defence (50-Failures #2 / #5)
 
 Every new table (`WorkoutProgram`, `WorkoutPlanRevision`, `WorkoutProgramRevision`,
 `ClientWorkoutAssignmentSnapshot`) ships with **Postgres RLS policies** so that even a controller
 that forgot the service-layer check cannot leak cross-tenant rows:
-- `WorkoutProgram`: `USING (coach_id = current_setting('app.user_id') OR
-  EXISTS(open SubCoachAssignment for the program's clients))`.
-- Revision/snapshot tables: policy joins back to the owning plan/program's coach tenant.
+- `WorkoutProgram` read policy: `USING (owner_user_id = current_setting('app.user_id')` (you own
+  it) `OR (coach_id = current_setting('app.tenant_id') AND visibility = 'tenant_shared')` (a shared
+  building block in your business) `OR EXISTS(open SubCoachAssignment linking you to a client of
+  this instance program))`.
+- `WorkoutProgram` write policy: `USING (owner_user_id = current_setting('app.user_id'))` — you can
+  only write rows you own, so the data layer itself prevents a sub-coach from mutating a head
+  coach's `tenant_shared` master even if a service check were forgotten. Forking writes a NEW row
+  owned by the actor, which passes.
+- Revision/snapshot tables: policy joins back to the owning plan/program's `owner_user_id` + tenant.
 - This is the **data-layer** defence the inventory flags as missing (50-Failures #2 RLS, #5 IDOR).
   Wire `app.user_id` / `app.role` GUCs from `JwtAuthGuard` via a Prisma middleware that sets them
   per-request (the same pattern used by RLS-enabled tables elsewhere; if none exists yet, this
   spec introduces it and the auditor verifies it under the standing gate).
 
-### 7.5 Mobile parity
+### 7.5 Mobile parity (the fork flow on screen)
 
 Mobile inventory §4.2: sub-coaches and coaches share the same `ClientsStack`, no per-screen
-capability fork. Keep the binary UI but **surface the scoped capability**: if
-`canEditTemplates=false`, the sub-coach sees the master library **read-only** (can clone-to-client,
-cannot edit the master). The "Build with AI" and per-client builder remain available within their
-assigned roster. Defence-in-depth in-screen guard mirrors `PendingAiDraftsScreen.tsx:57,66-69`.
+capability fork. Under operator decision A the UX is:
+- A sub-coach browsing the **Assignables Library** sees head-coach `tenant_shared` building blocks
+  rendered as **read-only cards with a "Make a copy to edit" affordance** (never an in-place edit
+  pen). Tapping it calls `forkTemplate` and drops them straight into the builder editing **their
+  own** new copy.
+- The sub-coach's own forks + own-built programs appear in a **"My programs"** filter, fully
+  editable.
+- Head coaches see their masters as directly editable (they own them).
+- Defence-in-depth in-screen guard mirrors `PendingAiDraftsScreen.tsx:57,66-69`; the real
+  enforcement is the `owner_user_id` write check + RLS (§7.4).
 
 ---
 
@@ -526,24 +609,54 @@ Design tokens are `src/theme/tokens.ts` (the single source of truth). **All new 
 - **Motion** — `fast 120ms` for taps, `base 400ms` "velvet timing", decel easing
   `[0.16, 1, 0.3, 1]`. DnD reorder animates with Reanimated (already installed 4.3.1).
 
-### 8.2 Pages & navigation page-paths
+### 8.2 The "Templates" tab → unified Assignables Library (operator decision D)
+
+The misnamed guideline-only `ProgramTemplatesScreen` (mobile inventory §1.3) is repurposed. The
+coach tab becomes a **unified Assignables Library** — one home for everything a coach can assign at
+large:
+- **Workout programs** (this stream's masters/templates).
+- **Nutrition packages / meal plans** (the existing `MealTemplate` / `DailyMealPlan` library,
+  backend inventory §3 "other models").
+- **Guideline packages** (the old `ProgramTemplate` notes — fat-loss / lean-bulk / etc — moved here
+  as one category instead of monopolising the whole tab).
+- Extensible to anything else assignable later (challenges, habit packs).
+
+The library is segmented by type, with a **"My programs" vs "Shared building blocks"** filter that
+drives the fork model (§7.5). Search + goal-tag filter span all types.
+
+### 8.2.1 The three-way "New program" entry flow (operator decision A ordering)
+
+When a coach starts a new workout program, the entry sheet offers **exactly these, in this order**
+— deliberately placing "from a head-coach template" LAST so building fresh is the default instinct:
+
+| # | Option | Route / action |
+|---|---|---|
+| **A** | **Build with AI from scratch** | Opens the **visible in-app AI build** (§4.3): regime materialises live into the Program Builder grid as editable rows. |
+| **B** | **Build yourself from scratch** | Opens an empty `WorkoutProgramBuilder` — manual weeks/days/exercises with autosave + undo. |
+| **C** | **Start from a template** (building block) | Opens the shared-library picker. Selecting a `tenant_shared` head-coach template calls `forkTemplate` (§7.3) → the coach edits their **own copy**; the source is never touched. |
+
+For a **head coach**, Option C still forks-by-value (so a master stays pristine while they spin a
+client-specific variant). For a **sub-coach**, Option C is the *only* way to touch a head-coach
+building block, and it always produces an owned fork.
+
+### 8.2.2 Pages & navigation page-paths
 
 A **dedicated coach Workouts surface** (fixes mobile gap: no dedicated workouts tab today; the only
 entry is `ClientDetailScreen.tsx:449` which always opens a new blank plan). New stack on the
-existing `ClientsStack` (and a top-level Coach tab repurposing the misnamed "Templates" tab so it
-finally means *workout* templates):
+existing `ClientsStack`, reachable from the repurposed Assignables Library tab:
 
 | Page | Page-path (route name) | Purpose |
 |---|---|---|
-| Program Library | `WorkoutProgramLibrary` | Coach's master templates grid; "New program", "New from template", search, goal-tag filter. (Replaces guideline-only `ProgramTemplatesScreen` semantics for the workouts tab.) |
+| Assignables Library | `AssignablesLibrary` | Unified library (workouts / nutrition / guidelines); "My programs" vs "Shared building blocks" filter; "+ New" → the A/B/C entry sheet (§8.2.1). Replaces `ProgramTemplatesScreen`. |
 | Program Builder | `WorkoutProgramBuilder { programId? }` | The Master Planner grid: weeks × days matrix, copy/paste across weeks, drag-drop, week duplication. |
 | Day Editor | `WorkoutDayEditor { programId, week, day }` | The exercise list for one day: DnD rows, per-row expand (sets/reps/weight/rest/superset/notes/video), inline AI actions. |
-| AI Compose | `WorkoutAIDraftReview { draftId }` | Diff review of a `draft.create_workout_plan` / `edit_workout_plan` (before/after, per-op accept). Supersedes `AIWorkoutDraftScreen`, migrated to `semanticColors`. |
+| AI Build / Review | `WorkoutAIDraftReview { draftId }` | The visible build target + diff review of `draft.create_workout_plan` / `edit_workout_plan` (before/after, per-op accept). Replaces `AIWorkoutDraftScreen`, on `semanticColors`. |
 | Assign | `WorkoutProgramAssign { programId }` | Clone-to-client + program fan-out assignment; client multi-select scoped by `canAccessClient`. |
 | Preview-as-client | `WorkoutClientPreview { programId|planId }` | Renders the plan exactly as the client sees it (fixes mobile gap #11). |
 
 The legacy flat `CoachWorkoutBuilderScreen` is retained as a "Quick plan" entry but routes its save
-through the new autosave path; it is no longer the primary surface.
+through the new autosave path; it is no longer the primary surface. The guideline-posting action
+(`usePostClientGuidelines`) moves into the client-detail screen where it belongs.
 
 ### 8.3 Key interactions
 
@@ -587,7 +700,7 @@ conflict = `warning`).
 | Real undo / revision history | ❌ | ❌ | ✅ auditable revisions (§5) | **TGP-only** |
 | Google-Docs autosave | ⚠️ partial | ❌ | ✅ diff autosave + offline mirror (§6) | **TGP edge** |
 | Client snapshot immutability | ⚠️ | ❌ (live read) | ✅ snapshot-at-assign (§3.3) | **TGP edge** |
-| Sub-coach scoped permissions | ❌ | ❌ (blocked) | ✅ scoped assign/build/template (§7) | **TGP-only** |
+| Sub-coach scoped permissions + fork-own templates | ❌ | ❌ (blocked) | ✅ scoped assign/build + grab-a-copy fork model (§7) | **TGP-only** |
 | Preview-as-client | ✅ | ❌ | ✅ (§8.2) | Equal |
 | Quiet-luxury UX | ❌ (utilitarian) | partial | ✅ full token system (§8) | **TGP-only** |
 
@@ -636,30 +749,34 @@ turn (R64).
 4. `POST /undo` endpoint (§5.1). Revision pruning cron (§5.2).
 
 **Phase 3 — AI gateway capabilities:**
-5. `draft.create_workout_plan` + `draft.edit_workout_plan` materialisers in the registry (§4.2).
-6. (Follow-on) re-point Path A behind a flag (§4.4).
+5. `draft.create_workout_plan` + `draft.edit_workout_plan` materialisers in the registry (§4.2);
+   the **visible in-app build** flow (§4.3) wired end-to-end and proven by the Auditor gate.
+6. **Delete the legacy inline AI path** (`materializeWorkoutProgram`, old `AIWorkoutDraftScreen`)
+   as the FINAL commit of this phase — no flag, no fallback (operator decision B, §4.4). One-shot
+   migration of any in-flight legacy `WORKOUT_PROGRAM` drafts.
 
 **Phase 4 — mobile:**
 7. `useAutosave` hook + save-state pill + dirty-guard (§6.3, §6.5).
-8. Unified Program Library / Builder grid / Day editor with DnD, supersets, weight, video, inline
-   AI (§8). Migrate `AIWorkoutDraftScreen` to `semanticColors` + diff review.
-9. Mobile undo stack + optimistic rollback on all builder mutations (§5.3).
-10. Preview-as-client + scoped sub-coach UI (§7.5, §8.2).
+8. Repurposed **Assignables Library** tab + the A/B/C "New program" entry sheet (§8.2.1); unified
+   Program Builder grid / Day editor with DnD, supersets, weight, video, inline AI (§8). Visible AI
+   build target + diff review replacing `AIWorkoutDraftScreen`, on `semanticColors`.
+9. Mobile undo stack (last 30) + optimistic rollback on all builder mutations (§5.3).
+10. Preview-as-client + the sub-coach fork flow ("Make a copy to edit") (§7.5, §8.2).
 
-PR #207 (app icon) remains awaiting operator merge (R32) and is independent of this stream.
+PR #207 (app icon) — **MERGED** 2026-05-29 (squash `8e48a0b`); independent of this stream.
 
 ---
 
-## 12. Open questions for the operator
+## 12. Operator decisions — LOCKED
 
-1. **Template-edit scope default** (§7.3): default sub-coaches to *read-only* on the head coach's
-   master library (clone-to-client allowed, edit-master gated by `canEditTemplates`)? Recommended:
-   yes.
-2. **Path A migration timing** (§4.4): land the new gateway create-capability first and keep the
-   inline path behind a flag for one release, or cut over immediately? Recommended: flag for one
-   release.
-3. **Revision retention** (§5.2): 50-revisions-or-30-days acceptable, or do coaches need longer
-   audit trails for compliance? Recommended: 50/30 to start, revisit.
-4. **"Templates" tab repurposing** (§8.2): the current guideline-only `ProgramTemplatesScreen` —
-   move guidelines to a sub-section of client detail and reclaim the tab for workout programs?
-   Recommended: yes (the tab name has been misleading since Phase 11).
+All four open questions were resolved by the operator on 2026-05-28 (see the header block). For the
+record:
+
+| # | Question | Decision |
+|---|---|---|
+| A | Sub-coach access to head-coach templates | **Grab-a-copy / fork model.** Head-coach templates are an immutable shared **pool of building blocks**; a sub-coach forks one into their **own owned copy** (`forkTemplate`, §7.3) and edits that — the source is never mutated. "Start from a template" is **Option C**, placed behind (A) AI-from-scratch and (B) build-yourself (§8.2.1). |
+| B | Legacy AI path | **Rip it out entirely — no flag, no fallback** (§4.4). New gateway path must **build the regime in-app, VISIBLY** (§4.3). |
+| C | Undo retention | **Last 30 edits per plan** (§5.2). |
+| D | "Templates" tab | **Repurpose into a unified Assignables Library** — workout programs, nutrition packages/plans, guideline packages, and future assignables (§8.2). |
+
+**Build priority: this stream is Priority #1, to the highest standard.**
