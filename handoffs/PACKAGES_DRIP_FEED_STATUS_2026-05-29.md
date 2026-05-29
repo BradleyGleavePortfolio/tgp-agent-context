@@ -6,7 +6,7 @@
 ---
 
 ## TL;DR
-- **14 of 18 PRs merged** (all Auditor-CLEAN of P0/P1/P2). **PR-15 in flight** (both halves built + under independent audit at time of writing).
+- **15 of 18 PRs merged** (all Auditor-CLEAN of P0/P1/P2). **PR-16 next.** PR-15 fully merged (backend #324 + mobile #211); buyer Deliverables + PurchaseUnpackScreen now live end-to-end.
 - The feature turns a TGP "package" from a price-tag-that-delivers-nothing into a **content-agnostic deliverables engine**: coaches attach workouts / meal plans / PDFs / videos / auto-messages to a package; every checkout (in-app, guest, web) fans that content out on a **coach-authored drip schedule**.
 - All three GitHub repos are **PRIVATE** (set 2026-05-29): `growth-project-backend`, `growth-project-mobile`, `tgp-agent-context`.
 
@@ -46,9 +46,9 @@ Git proxy clone base: `https://git-agent-proxy.perplexity.ai/BradleyGleavePortfo
 
 ---
 
-## IN FLIGHT — PR-15 (spans BOTH repos; built, under audit)
-- **PR-15A #324 (backend):** `GET /v1/checkout/purchases/:purchaseId/drops` (the buyer-drops endpoint that unblocks PR-13's mobile screen) + `COACH_NEW_PURCHASE` notification + SSR thank-you parity. Builder reported 299 suites / 3597 tests; +22 new. **Status: independent audit running.**
-- **PR-15B #211 (mobile):** `PurchaseUnpackScreen` ("here's what you just got + what's coming") + flip Deliverables to the live endpoint + extracted shared DropRow/routeForDrop. Builder reported 139 suites / 1514 tests; +30. **Status: independent audit running.**
+## PR-15 — MERGED (spanned BOTH repos)
+- **PR-15A #324 (backend):** `GET /v1/checkout/purchases/:purchaseId/drops` + `COACH_NEW_PURCHASE` notification + SSR thank-you parity. CLEAN R1. 299 suites / 3597 tests.
+- **PR-15B #211 (mobile):** `PurchaseUnpackScreen` + flipped Deliverables to the live endpoint + extracted shared DropRow/routeForDrop. CLEAN R2 (R1 P2: 404/501 were collapsed to not_configured — fixed so 404→retryable error, 501→calm). 139 suites / 1521 tests.
 - **Endpoint contract shipped by 15A** (mobile must match exactly):
   ```json
   { "drops": [ { "id","asset_type","asset_id","asset_revision_id","cadence_kind",
@@ -61,7 +61,7 @@ Git proxy clone base: `https://git-agent-proxy.perplexity.ai/BradleyGleavePortfo
 ## Remaining PRs (next operator: build in this order)
 | PR | Title | Repo(s) | Brief written? |
 |---|---|---|---|
-| PR-15 | Buyer drops endpoint + PurchaseUnpackScreen + SSR thank-you + COACH_NEW_PURCHASE | backend + mobile | YES (`specs/PR15_BRIEF.md`) — in flight |
+| PR-15 | Buyer drops endpoint + PurchaseUnpackScreen + SSR thank-you + COACH_NEW_PURCHASE | backend + mobile | DONE — merged |
 | PR-16 | Refund/cancel → cancelPendingForPurchase from refund/dispute/sub-deleted handlers | backend | NO — write first |
 | PR-17 | Edit-after-purchase "push to existing" (decision #2): apply to pending drops only, "future buyers only" copy | backend + mobile | NO — write first |
 | PR-18 | Polish pass (works through `specs/PR18_POLISH_BACKLOG.md`) | backend + mobile | NO — write first |

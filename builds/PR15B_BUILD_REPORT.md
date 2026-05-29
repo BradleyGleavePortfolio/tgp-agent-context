@@ -4,7 +4,54 @@
 **Branch:** `pr15/purchase-unpack-screen` off `main` (post PR-13 / #210).
 **Base:** `main`
 **Commit author:** `Dynasia G <dynasia@trygrowthproject.com>` — no Co-Authored-By / Generated trailers.
-**Status:** typecheck clean, lint clean (baseline unchanged), 1514 / 1514 tests passing across 139 suites.
+**Status (post audit-round-1 fix):** typecheck clean, lint clean (baseline unchanged), **1521 / 1521 tests passing** across 139 suites.
+
+---
+
+## Audit fixes — round 1 (PR15B_AUDIT.md)
+
+Independent audit verdict: **NOT CLEAN** — one P2 + three P3s. All addressed on the same branch in commit `<audit-fix>` on top of `d96f2da`.
+
+### P2-1 — `getPurchaseDrops` collapsed 404 AND 501 into `not_configured`; restored PR-1 rule
+
+- `src/api/clientPaymentsApi.ts:707-723` — the catch block now maps **only 501** to `{ ok: false, reason: 'not_configured' }`; **404 / 5xx / network** all flow into `{ ok: false, reason: 'error', message }`. PR-13 mapped 404 → `not_configured` as a scoped fix while the buyer-facing drops route was a documented gap; that justification expired the moment PR-15A shipped the real route. A 404 from a route that is supposed to exist is a real bug (controller regression, misrouted proxy, path-encode fault, cross-user IDOR collapse) and must surface as a recoverable error banner with Retry — never the silent "deliverables coming" calm state. The PR-1 sin would otherwise re-emerge.
+- `src/api/clientPaymentsApi.ts:686-705` — docstring rewritten to make the new contract explicit: 501 → `not_configured`, 404 / 5xx / network → retryable `error`. References the audit and the PR-13 history.
+- `src/__tests__/deliverablesApi.test.ts:105-121` — PR-13 test rewritten: 404 now asserts `reason: 'error'` (not `not_configured`). Comment cites the PR-15B audit and the expired justification.
+- `src/__tests__/deliverablesApi.test.ts:123` — neighbouring test description updated to match: "a 5xx remains a retryable error (only **501** collapses to not_configured)".
+- `src/__tests__/purchaseUnpackScreen.test.tsx` — added a **paired pair** of envelope tests on the screen:
+  - `501 → not_configured → calm "Purchase complete" state, no Retry button` — asserts `purchase-unpack-not-configured` rendered, `purchase-unpack-error` and `purchase-unpack-retry` are absent.
+  - `404 → retryable error envelope → error banner with Retry` — asserts `purchase-unpack-error` + `purchase-unpack-retry` rendered, `purchase-unpack-not-configured` is absent, and the raw axios message never leaks (Rule 9 / Rule 17).
+- `src/__tests__/deliverablesScreen.test.tsx` — PR-13 screen now has the same paired pair:
+  - 501 → empty test extended to assert `deliverables-error` is **not** present.
+  - New 404 → error test asserts `deliverables-error` + `deliverables-retry` rendered, `deliverables-empty` is absent.
+
+### P3-1 — Build report said `replace`; code used `navigate`. Switched code to `replace` with `navigate` fallback
+
+- `src/screens/client/CheckoutReturnScreen.tsx:122-156` — the PurchaseUnpack handoff now prefers `navigation.replace('PurchaseUnpack', ...)` so a back-swipe from PurchaseUnpack lands on the caller (More tab / packages screen / deep-link origin), not the bare "You are subscribed" confirm screen — re-presenting the confirm state on back-swipe would be a weird dead-end after a completed purchase. Falls back to `navigate()` on navigator types that don't expose `replace` (bottom-tab parents).
+- `src/__tests__/purchaseUnpackScreen.test.tsx` — new source-grep test: `CheckoutReturnScreen prefers replace() over navigate() so back-swipe skips the confirm screen (PR-15B audit P3-1)` asserts both `navAny.replace('PurchaseUnpack', ...)` AND the fallback `navAny.navigate('PurchaseUnpack', ...)` are present in source.
+
+### P3-2 — `PurchaseUnpackScreen` load was not cancel-safe on unmount
+
+- `src/screens/client/PurchaseUnpackScreen.tsx:438-486` — added an `isAliveRef` (React ref). The mounting `useEffect` sets it true on mount and flips it false in cleanup; `load(isAlive)` now takes the alive-check thunk and guards every `setState` (`setDropsResult`, `setReceipt`, `setRefreshing`) behind `if (!isAlive()) return` / `if (isAliveRef.current)`. A fast back-out during the three parallel fetches (`getPurchaseDrops` + `getPurchases` + `getPackages`) can no longer setState on an unmounted component (no more React warnings, no wasted work). Pull-to-refresh and retry both thread the same `isAliveRef.current` lambda.
+- `src/__tests__/purchaseUnpackScreen.test.tsx` — new source-grep test: `load is cancel-safe on unmount — guards setState behind an isAlive ref (PR-15B audit P3-2)` asserts `isAliveRef` declared, `isAliveRef.current = false` cleanup, and the `if (!isAlive()) return` guard pattern all appear in source.
+
+### P3-3 — `formatChargeDate` re-instantiated `new Date()` per render, non-deterministic in tests
+
+- `src/screens/client/PurchaseUnpackScreen.tsx:118-137` — `formatChargeDate(iso, nowMs = Date.now())` now accepts an optional clock; the year-comparison branch reads from the injected `nowMs` instead of a fresh `new Date()`. Default behaviour unchanged in production; tests can pin the comparison year deterministically.
+- `src/__tests__/purchaseUnpackScreen.test.tsx` — new pure-helper describe: `formatChargeDate — deterministic year comparison`:
+  - Same-year charge → year omitted from the formatted string.
+  - Cross-year charge → year present in the formatted string.
+  - Null / malformed input → null.
+
+### Audit-fix verification (post round 1)
+
+```
+$ npm run typecheck      → 0 errors
+$ npm run lint           → 0 errors, 72 warnings (baseline unchanged)
+$ npx jest               → 139 / 139 suites, 1521 / 1521 tests pass, 4 snapshots
+```
+
+New assertions delta vs the pre-audit total (1514 → 1521): **+7** (paired 501/404 envelope tests on the unpack screen, the matching pair on the deliverables screen, the source-grep guard for `replace()`-preferred handoff, the cancel-safe source guard, and the three deterministic `formatChargeDate` cases).
 
 ---
 
@@ -55,9 +102,9 @@ https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/211
 7. **`src/config/featureFlags.ts`** (docstring only; ~16 lines changed)
    - `deliverables` flag's docstring rewritten to reflect PR-15A's parallel deploy. Default value unchanged: `readFlag('EXPO_PUBLIC_FF_DELIVERABLES', isDev)` — **prod default stays OFF; dev default stays ON**.
 
-8. **`src/api/clientPaymentsApi.ts`** (docstring only; ~30 lines changed)
+8. **`src/api/clientPaymentsApi.ts`** (docstring + envelope-mapping change; ~30 lines changed)
    - `getPurchaseDrops` header rewritten: the route is now the real PR-15A endpoint, not a "documented gap". The typed contract (envelope `{ drops: [...] }`, bare-array fallback, status enum, `materialised_ref` semantics) is unchanged — that's the contract PR-13 froze and PR-15A is obligated to return.
-   - Envelope semantics unchanged: **501 → `not_configured`**, **404 → `not_configured`** (scoped exception, preserves PR-13's audit fix P2-1: a partial rollout where the mobile build hits a backend without PR-15A deployed still degrades to the calm "deliverables coming" state, never a scary error banner — this is exactly the "never strand the buyer" requirement in the B2 brief), **5xx/network → retryable `error`**.
+   - **Envelope semantics (post audit P2-1):** **501 → `not_configured`** only; **404 / 5xx / network → retryable `error`** (PR-1 rule restored — see Audit fixes above). PR-13's scoped 404 → not_configured mapping was deliberate while the route was a documented gap; the moment PR-15A shipped the route a 404 is a real bug and must surface as a retryable error banner.
 
 9. **`src/__tests__/deliverablesScreen.test.tsx`** (3 source-grep tests retargeted; +9 lines)
    - The three "routes X to Y" source guards now read from the new shared module path (`screens/client/deliverables/dropRow.tsx`) since the routing strings moved there. New assertion: `DeliverablesScreen` imports the shared `routeForDrop` + `DropRow` (no PR-13/PR-15B drift).
@@ -74,7 +121,7 @@ https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/211
 | Per-asset_type routing table | Lifted into `routeForDrop` in the shared module. **Verbatim identical** to PR-13's switch statement; the only structural change is the lift. Both screens call `routeForDrop(drop, navigation)`. |
 | `DropRow` component | Lifted into shared module. `DeliverablesScreen` keeps the "Delivered/Upcoming" section labels; `PurchaseUnpackScreen` swaps to "Unlocked now/Coming up" but uses the same row. |
 | Feature flag `featureFlags.deliverables` (EXPO_PUBLIC_FF_DELIVERABLES) | Reused as the single gate for both the persistent Deliverables surface AND the post-checkout PurchaseUnpack nav. One toggle for ops to flip. |
-| 501/404 → not_configured envelope | Preserved verbatim. The unpack screen renders the graceful "Purchase complete" state on `not_configured`. |
+| 501 → not_configured envelope; 404 → retryable error (post audit P2-1) | The unpack screen renders the graceful "Purchase complete" state on `not_configured` AND the retry banner on `error`. PR-13's screen gets the same paired behaviour. |
 | `ClientNavigator.MoreStackParamList` typed params (Rule 27) | New `PurchaseUnpack` entry mirrors PR-13's `Deliverables` entry — `{ purchaseId, packageName? }`. |
 
 **Reuse audit:** the routing destination table appears in exactly one place (`dropRow.tsx#routeForDrop`). Both `DeliverablesScreen` and `PurchaseUnpackScreen` import that single function. There is no per-asset_type switch statement in `PurchaseUnpackScreen.tsx` — drift between the two surfaces is structurally impossible.
@@ -91,11 +138,11 @@ https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/211
 
 ## (e) Graceful-degrade proof (never strand the buyer)
 
-If PR-15A is not yet deployed in some environment but `featureFlags.deliverables` is ON:
+**501 → calm "Purchase complete, deliverables coming" state.** A deployment that has explicitly declined the route returns 501 → `{ ok: false, reason: 'not_configured' }`. PurchaseUnpackScreen's render branches on `dropsResult.reason === 'not_configured'` FIRST, returning the `purchase-unpack-not-configured` view: receipt header still renders (driven by the *separate* `getPurchases`/`getPackages` calls), copy reads **"Purchase complete — your coach is finalising what's included. You'll see everything appear in Deliverables as it's unlocked."**, only a Done CTA, no Retry button. Tested: `purchaseUnpackScreen.test.tsx#501 → not_configured → calm "Purchase complete" state, no Retry button`.
 
-1. `getPurchaseDrops` returns `{ ok: false, reason: 'not_configured' }` for both 501 and 404 (PR-13 audit fix P2-1 — preserved).
-2. PurchaseUnpackScreen's render branches on `dropsResult.reason === 'not_configured'` FIRST, returning the `purchase-unpack-not-configured` view: receipt header still renders (driven by the *separate* `getPurchases`/`getPackages` calls), copy reads **"Purchase complete — your coach is finalising what's included. You'll see everything appear in Deliverables as it's unlocked."**, only a Done CTA.
-3. **No error banner is shown.** Tested: `purchaseUnpackScreen.test.tsx#renders the not_configured graceful state — never an error banner (PR-15A not deployed)` asserts `purchase-unpack-error` is never rendered.
+**404 → recoverable error banner with Retry (post audit P2-1).** A 404 from the now-real PR-15A endpoint is a real route/transport bug (controller regression, misrouted proxy, path-encode fault, cross-user IDOR collapse) and must surface as a recoverable error banner — never the silent "deliverables coming" calm state. The unpack screen's `error` branch renders the receipt header + scrubbed copy + Retry button; the raw axios message never leaks (Rule 9 / Rule 17). Tested: `purchaseUnpackScreen.test.tsx#404 → retryable error envelope → error banner with Retry (PR-15B audit P2-1)`.
+
+**The two states are paired and distinguishable.** Both surfaces (PurchaseUnpackScreen + PR-13 DeliverablesScreen) have a paired pair of envelope tests that assert each branch renders its own state, never the other. The PR-1 sin (404 silently surfaced as not_configured) cannot regress without flipping a test.
 
 ## (f) Test results
 
@@ -110,12 +157,16 @@ $ npm run lint
 
 $ npx jest
 Test Suites: 139 passed, 139 total
-Tests:       1514 passed, 1514 total
+Tests:       1521 passed, 1521 total
 Snapshots:   4 passed, 4 total
-Time:        ~34 s
+Time:        ~37 s
 ```
 
-**Delta vs PR-13 totals (1484 → 1514)**: +30 new assertions from `purchaseUnpackScreen.test.tsx`. Three PR-13 source-grep tests in `deliverablesScreen.test.tsx` retargeted to the shared module path; one new assertion added that the screen imports from the shared module. All PR-13 RTL tests (helper unit tests, render branches, routing taps, pull-to-refresh, not_configured, error-with-Retry, graceful-degrade no-materialised_ref) still pass.
+**Delta vs PR-13 totals (1484 → 1521)**: +37 new assertions in total.
+- Initial PR-15B build: +30 in `purchaseUnpackScreen.test.tsx`, +1 in `deliverablesScreen.test.tsx` (shared-module import guard).
+- Audit-fix round 1: +7 (paired 501/404 envelope tests on unpack screen + matching pair on deliverables screen + replace-preferred handoff guard + cancel-safe load guard + 3 deterministic `formatChargeDate` cases).
+- Three PR-13 source-grep tests in `deliverablesScreen.test.tsx` retargeted to the shared module path. One PR-13 contract test in `deliverablesApi.test.ts` rewritten (404 now asserts `error`, not `not_configured`, per restored PR-1 rule).
+- All PR-13 RTL tests (helper unit tests, render branches, routing taps, pull-to-refresh, not_configured, error-with-Retry, graceful-degrade no-materialised_ref) still pass.
 
 ### Per brief — required test bullets (all real RTL, no mocks of the screen-under-test)
 
