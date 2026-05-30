@@ -1,0 +1,30 @@
+# AUDIT — Wave1 A1: per-user daily AI token quota (PR #333 @ ebbac07)
+VERDICT: NOT CLEAN
+Typecheck: pass (`cd /home/user/workspace/wt-a1-quota && npx tsc --noEmit`; exit 0, 0 stdout/stderr bytes)
+Lint: pass (`npx eslint src/ai/ai.service.ts src/ai/ai.dto.ts test/ai.service.spec.ts test/ai/ai-gateway-hardening.spec.ts test/analytics-instrumentation.spec.ts`; 5 files, 0 errors, 0 warnings)
+Tests: pass (`npx jest --runInBand test/ai.service.spec.ts test/ai/*.spec.ts test/ai-*.spec.ts`; 19 suites passed; 230 passed / 234 total, 4 skipped; 6 snapshots passed)
+Install: pass (`npm ci`; 1011 packages installed, Prisma Client generated, 0 vulnerabilities)
+
+## P0 findings
+- None.
+
+## P1 findings
+- [src/ai/ai.service.ts:61-82, src/ai/ai.service.ts:331-341, src/ai/ai.service.ts:604-610, src/ai/ai.service.ts:625-633, src/ai/ai.service.ts:680-683] The 12,000-token daily limit is still not a true hard cap on provider TOTAL tokens. The pre-call gate reserves `ceil(chars / 4 * 1.15) + 600`, and the new input-only pre-check uses that same heuristic estimate, not a tokenizer-derived upper bound. If a prompt's real provider input tokens exceed the estimate, the request can pass the pre-call gate, complete, and then `reconcileDailyTokens()` applies `actual - reserved` as an unguarded post-spend increment that can move `tokens_used` above `DAILY_TOKEN_QUOTA`. The next call will be blocked once the ledger is over/near the cap, but the over-cap provider call has already completed; the cap is therefore after-the-fact accounting, not a hard pre-spend bound. Fix: compute/reserve a provider-tokenizer upper bound before the call, or make the reservation a proven worst-case bound from enforced input limits; do not rely on an unguarded post-call increment to discover real spend after the provider has billed it.
+
+## P2 findings
+- None.
+
+## P3 (non-blocking)
+- [src/ai/ai.service.ts:398-400] The Anthropic branch still hardcodes `maxTokens: 600` instead of using `MAX_TOKENS_PER_CALL`. It currently matches the constant, so this is not a merge blocker, but future changes to the constant could silently desynchronize the reservation from the provider output cap.
+
+## Verification of PR claims
+- Scope: verified acceptable. `git diff --name-only origin/main...HEAD` contains only `src/ai/ai.dto.ts`, `src/ai/ai.service.ts`, `test/ai.service.spec.ts`, `test/ai/ai-gateway-hardening.spec.ts`, and `test/analytics-instrumentation.spec.ts`; the non-`src/ai` files are tests under `test/`.
+- P1 layer (a), already at cap rejected: verified true. `reserveDailyTokens()` reads the day row and throws a 429 `AI_DAILY_QUOTA_EXCEEDED` before any provider branch when `consumed >= DAILY_TOKEN_QUOTA` [src/ai/ai.service.ts:591-619].
+- P1 layer (b), estimated input alone must fit: verified implemented but not sufficient for a hard total-token cap. The code rejects when `consumed + inputFloor > DAILY_TOKEN_QUOTA`, but `inputFloor` is the heuristic `estimateInputTokens(promptText)`, so it can only prove that the estimated input fits, not that the provider-billed input fits [src/ai/ai.service.ts:79-82, src/ai/ai.service.ts:331-341, src/ai/ai.service.ts:604-610].
+- P1 layer (c), atomic race-safe reservation: verified true for the reserved amount. The guarded `updateMany` uses `tokens_used <= DAILY_TOKEN_QUOTA - cost` and increments `tokens_used` by `cost`, so two concurrent reservations cannot both push the ledger above the cap for the estimated reservation [src/ai/ai.service.ts:622-648]. This does not close the remaining P1 because the later `actual > reserved` reconcile increment has no cap guard and occurs after provider spend [src/ai/ai.service.ts:680-683].
+- P1 under-reserved-call reconcile: verified partially true. If a provider reports a larger real total, `reconcileDailyTokens()` writes the larger value and a later call is blocked once `consumed >= DAILY_TOKEN_QUOTA` or the estimated input no longer fits [src/ai/ai.service.ts:504-507, src/ai/ai.service.ts:604-619, src/ai/ai.service.ts:680-683]. This protects subsequent calls, but it does not make the already-completed under-reserved call pre-spend safe.
+- P1 output cap: verified bounded. Perplexity passes `max_tokens: MAX_TOKENS_PER_CALL`, and Anthropic passes `maxTokens: 600`, which currently equals `MAX_TOKENS_PER_CALL` [src/ai/ai.service.ts:398-400, src/ai/ai.service.ts:453-458]. I did not find an unbounded-output path in `src/ai/ai.service.ts`; the remaining overshoot path is bounded by the output cap plus enforced prompt/context sizes, but it can still exceed the 12,000 daily cap before being blocked on the next call.
+- P2 empty-text usage reconcile: verified fixed. Anthropic captures `(result.tokensIn ?? 0) + (result.tokensOut ?? 0)` before checking `result.text`, so no-text-with-usage reconciles real usage instead of refunding; zero/absent usage remains eligible for refund when the branch falls back [src/ai/ai.service.ts:391-425, src/ai/ai.service.ts:486-508]. Perplexity captures `response.usage.total_tokens` before checking message content, so empty content with usage reconciles the provider total, while empty content with no usage is refunded as genuinely zero/unknown billable usage [src/ai/ai.service.ts:453-475, src/ai/ai.service.ts:486-508]. I found no double-count path because `actualTokens` is settled once in the single `finally` block.
+- Day-key reserve/reconcile invariant: verified preserved. `reserveDailyTokens()` captures `quotaDate` once and returns it, and the `finally` path passes that same date into `reconcileDailyTokens()` [src/ai/ai.service.ts:358-362, src/ai/ai.service.ts:586-648, src/ai/ai.service.ts:671-692].
+- Refund underflow guard: verified preserved. Refunds use `updateMany` with `tokens_used: { gte: refund }` before decrementing, so a refund cannot take the ledger below zero [src/ai/ai.service.ts:685-692].
+- 429 error contract: verified preserved. Both pre-call rejection paths throw `HttpStatus.TOO_MANY_REQUESTS` with `error: AI_DAILY_QUOTA_EXCEEDED` [src/ai/ai.service.ts:608-619, src/ai/ai.service.ts:637-645].
