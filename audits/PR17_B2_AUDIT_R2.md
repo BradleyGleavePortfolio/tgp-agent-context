@@ -31,3 +31,12 @@ Tests: fail-to-run — ran `cd /home/user/workspace/audit-pr17-b2-r2 && npx jest
 - One atomic chunked seed/materialise transaction → verified. Seed rows are written inside one interactive `$transaction`, chunked at `CHUNK_SIZE = 500` via `createMany({ skipDuplicates: true })`, then the same transaction re-reads target `(purchase, content, push_seq)` rows and materialises due-now drops before commit (`src/packages/package-push.service.ts:96-99`, `src/packages/package-push.service.ts:346-435`). Notifications are deliberately after the transaction and failure-isolated (`src/packages/package-push.service.ts:437-445`, `src/packages/package-push.service.ts:650-737`).
 - Status vocabulary → verified. `SHIPPED_STATUSES = ['fired', 'delivered']` is centralized (`src/packages/package-push.service.ts:85-94`). Preview, `push_existing`, and `resend` logic use existing drops across all `push_seq`, treat any existing drop as already scheduled for `push_existing`, and use latest drop shipped status for `resend` (`src/packages/package-push.service.ts:172-196`, `src/packages/package-push.service.ts:292-340`, `src/packages/package-push.service.ts:636-643`).
 - Happy-path regression check → verified. Seq-0 first pushes still build `push_seq=0` seed rows for buyers with no existing pair (`src/packages/package-push.service.ts:308-320`), use the coach-selected `fire_at` directly (`src/packages/package-push.service.ts:300-304`, `src/packages/package-push.service.ts:601-620`), leave forward-dated rows pending for the cron (`src/packages/package-push.service.ts:382-395`), and inline-materialise only due-now rows (`src/packages/package-push.service.ts:382-430`).
+
+---
+## Operator gate-rerun note (post-merge)
+The GPT-5.5 auditor's CLEAN verdict was code-review-only: at audit time the sandbox disk was full (ENOSPC), so `npm ci` failed and tsc/lint/tests could not execute. After reclaiming disk space, the operator re-ran the real gates in the SHA-pinned worktree at `e60be1e`:
+- `npx tsc --noEmit` → exit 0 (0 errors)
+- `npm run lint` → exit 0 (0 errors, 17 pre-existing warnings, none in B2-touched files)
+- `npx jest test/package-push.service.spec.ts` → 31/31 passed
+- `npx jest packages` → 33/33 passed
+Gates GREEN + code review CLEAN → merge bar met. PR #330 squash-merged to main `0b2fe65`.
