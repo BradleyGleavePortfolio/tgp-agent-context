@@ -1,0 +1,30 @@
+# AUDIT — PR-17 M2: coach package contents authoring screen + nav (PR #213)
+VERDICT: NOT CLEAN
+Typecheck: pass (`npm run typecheck` / `tsc --noEmit`, exit 0)
+Lint: pass (`npx eslint src/screens/coach/payments/CoachPackageContentsScreen.tsx src/screens/coach/payments/contents/ContentAttachForm.tsx src/navigation/CoachNavigator.tsx src/screens/coach/payments/CoachPackageEditScreen.tsx src/__tests__/CoachPackageContentsScreen.test.tsx --max-warnings=99999`, exit 0)
+Tests: pass on isolated rerun (`npx jest src/__tests__/CoachPackageContentsScreen.test.tsx --runInBand` → Test Suites: 1 passed; Tests: 11 passed, 0 failed). Note: an initial parallel run with typecheck/lint timed out 1 RTL case at Jest's 5s timeout; the same command rerun alone passed in 2.286s.
+
+SHA verified: `git -C /home/user/workspace/audit-pr17-m2 rev-parse HEAD` = `00c214f06cc0cfffe158cd6bb3c5e6f87e40dc87`.
+
+## P0 findings
+- None.
+
+## P1 findings
+- [src/screens/coach/payments/contents/ContentAttachForm.tsx:126] The edit form seeds local state from `content` only in `useState` initializers and never re-syncs when the parent opens the modal for a row; the parent keeps the same `ContentAttachForm` instance mounted and merely changes `content`/`visible` (`src/screens/coach/payments/CoachPackageContentsScreen.tsx:358`). Because `handleSubmit` sends a patch from that stale/default local state (`src/screens/coach/payments/contents/ContentAttachForm.tsx:184`), opening an existing row and pressing Save can clear its title/caption and reset cadence to `immediate` instead of editing the selected row values. This is P1 because the advertised EDIT path can corrupt package content metadata. Fix by resetting all form state in a `useEffect` keyed on `content?.id` and `visible`, or by keying/unmounting the form per mode/content id; add an RTL test that opens an existing content row and verifies the seeded fields and patch body.
+- [src/screens/coach/payments/contents/ContentAttachForm.tsx:65] The form exposes `fixed_calendar` and `on_milestone` as selectable cadence choices, but `buildCadencePayload` sends `{}` for every non-`relative_to_purchase` kind (`src/screens/coach/payments/contents/ContentAttachForm.tsx:146`). The backend contract requires `fixed_calendar.cadence_payload.release_at` (`src/packages/package-contents.dto.ts:48`) and `on_milestone.cadence_payload.milestone_key` (`src/packages/package-contents.dto.ts:70`), so these visible choices produce guaranteed backend validation errors on attach/patch. This is P1 missing input validation/UX correctness on the core authoring flow. Fix by hiding unsupported cadence kinds until their required fields exist, or collect and validate the required payload fields before submitting; add tests for each visible cadence option.
+
+## P2 findings
+- None beyond the P1 blockers above.
+
+## P3 (non-blocking)
+- None.
+
+## Verification of PR claims
+- Scope adherence → verified true. The PR diff contains only `src/screens/coach/payments/CoachPackageContentsScreen.tsx`, `src/screens/coach/payments/contents/ContentAttachForm.tsx`, `src/navigation/CoachNavigator.tsx`, `src/screens/coach/payments/CoachPackageEditScreen.tsx`, and `src/__tests__/CoachPackageContentsScreen.test.tsx`.
+- Forbidden M2/M3/M4 bleed → verified true. The diff does not modify `src/api/packageContentsApi.ts`, backend files, dependency files, or add `PushPromptSheet.tsx` / `PushConfirmModal.tsx`; the contents screen only has a TODO placeholder callback at `src/screens/coach/payments/CoachPackageContentsScreen.tsx:212`.
+- Screen calls `coachPackageContentsApi.list/attach/patch/remove` with the package id → mostly verified true: list uses `list(packageId)` at `src/screens/coach/payments/CoachPackageContentsScreen.tsx:88`, attach uses `attach(packageId, body, generateIdempotencyKey())` at `src/screens/coach/payments/CoachPackageContentsScreen.tsx:125`, patch uses `patch(packageId, editing.id, body, generateIdempotencyKey())` at `src/screens/coach/payments/CoachPackageContentsScreen.tsx:150`, and remove uses `remove(packageId, content.id, generateIdempotencyKey())` at `src/screens/coach/payments/CoachPackageContentsScreen.tsx:184`. The edit form state bug above means the patch body can be wrong even though the API method/ids are correct.
+- Loading/empty/error handling → verified true. Loading renders an activity indicator at `src/screens/coach/payments/CoachPackageContentsScreen.tsx:274`, errors render retry UI at `src/screens/coach/payments/CoachPackageContentsScreen.tsx:282`, and empty state uses warm copy at `src/screens/coach/payments/CoachPackageContentsScreen.tsx:297`.
+- Idempotency on mutations → verified true for M2-owned calls. Attach, patch, and remove pass `generateIdempotencyKey()` at `src/screens/coach/payments/CoachPackageContentsScreen.tsx:125`, `src/screens/coach/payments/CoachPackageContentsScreen.tsx:150`, and `src/screens/coach/payments/CoachPackageContentsScreen.tsx:184`; the M1 client shapes that as an `Idempotency-Key` header at `src/api/packageContentsApi.ts:126`.
+- Navigation wiring → verified true. `SettingsStackParamList` includes `CoachPackageContents: { packageId: string; title?: string }` at `src/navigation/CoachNavigator.tsx:202`, the screen is registered at `src/navigation/CoachNavigator.tsx:418`, and `CoachPackageEditScreen` navigates with `{ packageId: original.id, title: original.title }` at `src/screens/coach/payments/CoachPackageEditScreen.tsx:470`.
+- UI Bible basics → mostly verified true. Runtime changed source has no hardcoded hex literals outside theme usage, no emoji, uses `useTheme` colors, keeps the default cadence as `immediate`, and puts advanced cadence behind a disclosure; however the disclosed cadence choices include invalid options without collecting required payload fields, which is the P1 above.
+- Builder verification claims → typecheck/lint/new Jest test pass when run directly, but the tests do not cover edit form seeding or unsupported cadence submissions, which are the two blockers found here.
