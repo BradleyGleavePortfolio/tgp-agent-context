@@ -171,3 +171,55 @@ No other deviations. Scope held exactly; B1-owned and forbidden files untouched.
 - **SHA-pin:** `ee0432e8d3666a38a08f243b27203b85877db1d6`.
 - This report is a builder record, NOT a verdict (R1 §4). An independent
   `gpt_5_5` audit re-checks at the PR head SHA above.
+
+---
+
+# R2 — audit remediation (P0 resend-replay idempotency + P2 audience cap)
+
+Addresses `audits/PR17_B2_AUDIT.md` (verdict NOT CLEAN at `ee0432e`). Rebased onto `origin/main` (billing #329 merged) — clean rebase, no conflicts. Touched ONLY `src/packages/package-push.service.ts`, `src/packages/package-contents.controller.ts`, `test/package-push.service.spec.ts`. `packages.module.ts` was NOT changed (see cycle note below). NO schema/migration change; NO new table or column.
+
+## P0 — `resend` replay is now a true no-op (no second `push_seq`, no double delivery)
+
+**Root cause (from the audit):** the resend target was `max(push_seq)+1` computed from MUTABLE latest-shipped state, and the `Idempotency-Key` was only logged. A replay after seq-1 fired saw seq-1 as shipped and minted seq-2 = a genuine second delivery; `createMany skipDuplicates` could not dedup a brand-new `(pair, seq-2)` key.
+
+**Fix — enforce the key at the request layer by REUSING the existing generic ledger (no schema change):**
+- The entire push mutation body (audience resolve + seq compute + seed + due-now materialise + notify) was extracted into `PackagePushService.runPush(...)` and wrapped in a request-level idempotency claim: `PackagePushService.claimAndRun<PushResult>(coachUserId, routeKey, idempotencyKey, () => runPush(...))` — `src/packages/package-push.service.ts:243` (call site) / `src/packages/package-push.service.ts:477` (helper).
+- `routeKey = \`package-push:${packageId}:${contentId}\`` (`src/packages/package-push.service.ts:242`) so the SAME key for a different content stays independent.
+- `claimAndRun` replicates the audited `WorkoutBuilderService.withIdempotency` claim/cache/release semantics and writes to the SAME existing generic ledger table `WorkoutBuilderIdempotencyKey` (`prisma/schema.prisma`, "Generic idempotency ledger", unique `(user_id, route_key, idempotency_key)`): atomic `create` with `status='in_progress'` → on P2002, a `completed` row returns the cached `response_json` and a still-`in_progress` row throws `ConflictException` (409); `op()` runs exactly once; the response is cached and flipped to `completed`; on `op()` failure the claim row is deleted so the key can be retried.
+
+**Why not inject `WorkoutBuilderService` directly (brief's preferred "straight reuse"):** doing so forms a real module cycle. `AssignableAssetResolversModule` (`@Global`) imports `WorkoutBuilderModule` (for the workout resolver), and `WorkoutBuilderModule` imports `PackagesModule` (`forwardRef`, for `DripTriggerService`). Making `PackagesModule` import `WorkoutBuilderModule` to inject `WorkoutBuilderService` into `PackagePushService` closes that loop. Per the brief's explicit fallback ("if injecting WorkoutBuilderService creates an awkward circular dependency, the ACCEPTABLE alternative — still NO schema change — is to factor the tiny claim/cache/release logic into a small shared helper that writes to the SAME existing table"), the claim/cache/release logic lives inline in `PackagePushService.claimAndRun` against the SAME `WorkoutBuilderIdempotencyKey` table. `packages.module.ts` therefore needs no wiring change.
+
+**Controller key validation (R19):** the POST push route now REQUIRES a UUID `Idempotency-Key` and rejects a missing/invalid (non-UUID) key with a 400 (`error: 'INVALID_IDEMPOTENCY_KEY'`) before any service work — `src/packages/package-contents.controller.ts:178`, using the exported `IDEMPOTENCY_KEY_UUID_RE` (`src/packages/package-push.service.ts:115`). The GET preview is a pure read and still needs no key.
+
+**Replay-no-op proof (test):** `a due-now resend replayed with the SAME key after seq-1 fired mints NO seq-2 and re-materialises NOTHING (cached result)` — first resend (due now) seeds seq-1 and materialises it inline (`status='fired'`, exactly 1 `resolvers.materialise` call); the replay with the same key returns the byte-identical cached `{scheduled,skipped}`, asserts the drop count is unchanged, asserts NO `push_seq===2` row exists, and asserts `resolvers.materialise` was still called exactly once (no second materialise).
+
+## P2 — synchronous audience cap
+
+`MAX_PUSH_AUDIENCE = 2000` — named, commented constant at `src/packages/package-push.service.ts:110`. After resolving the audience, a push whose resolved buyer count exceeds the cap is rejected with a 400 (`error: 'AUDIENCE_TOO_LARGE'`, message naming the cap and pointing to an operator/async path) at `src/packages/package-push.service.ts:284`, before the seed transaction opens.
+
+**Rationale (also in the service header):** all seed creation + re-read + due-now materialise run inside ONE interactive `$transaction`. The plan §6.2 watchpoint flagged 10k+ buyer `all`/`active` audiences as a statement/transaction-timeout risk. Bounding the synchronous audience at 2000 (× `CHUNK_SIZE=500` createMany batches + a bounded inline materialise) keeps that transaction comfortably within Postgres statement-timeout headroom; anything larger must go through an operator/async path rather than block a single interactive request.
+
+## New / changed tests
+
+Added to `test/package-push.service.spec.ts` (prisma stub extended with a `workoutBuilderIdempotencyKey` model — create/findUnique/update/delete — backing the generic ledger, and a real `Prisma.PrismaClientKnownRequestError` P2002 on duplicate claim):
+- `a replayed push_existing with the SAME idempotency key returns the CACHED result and inserts no new rows` (reworked from the prior deterministic-seq no-op case to the new request-level cached-result behavior; also asserts the audience is resolved exactly once).
+- `a due-now resend replayed with the SAME key after seq-1 fired mints NO seq-2 and re-materialises NOTHING (cached result)` — the direct P0 proof.
+- `a concurrent same-key push whose claim is still in_progress is rejected with a 409`.
+- `the same idempotency key for a DIFFERENT content is independent (distinct routeKey)`.
+- `rejects a push whose resolved audience exceeds MAX_PUSH_AUDIENCE with a 400 (AUDIENCE_TOO_LARGE)` and `an audience exactly AT the cap proceeds` (P2 boundary).
+- Controller `POST push Idempotency-Key validation` block (real controller method, stubbed `resolveEffectiveCoachId`): missing key → 400, non-UUID key → 400, valid UUID → schedules.
+
+## R2 verification (actual counts)
+
+| Gate | Command | Result |
+| --- | --- | --- |
+| Typecheck | `npx tsc --noEmit` | exit 0 — clean |
+| Lint | `npm run lint` | exit 0 — 0 errors, 17 pre-existing warnings (none in touched files) |
+| Targeted spec | `npx jest test/package-push.service.spec.ts` | **31 passed** (was 23: 1 reworked + 7 added; all original behaviors retained green) |
+| Packages spec | `npx jest packages` | **33 passed** (matches `test/packages.service.spec.ts`, per the audit's note on this Jest pattern) |
+
+## For the re-auditor
+
+- **PR:** #330 (vs `main`).
+- **Post-fix HEAD SHA (SHA-pinned re-audit):** `e60be1e6f3451bb017c4796e1bdb67306c20858c` on `pr17/b2-push-endpoint`.
+- This R2 record is a builder record, NOT a verdict (R1 §4). An independent auditor re-checks at the SHA above.
