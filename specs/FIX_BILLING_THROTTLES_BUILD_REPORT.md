@@ -118,3 +118,56 @@ Updated for B1 delegation:
    "trivial reuse" and "do NOT touch prisma/schema.prisma" guardrails.
 3. **B1 done as the full clean extraction** (brief's preferred option), not the minimal
    "ensure both identical" fallback.
+
+---
+
+## R2 — Audit remediation (P0 + P2)
+
+Re-audit of SHA `0c88ce3` returned NOT CLEAN with one P0 and one P2. Both are now
+fixed. Branch `fix/billing-throttles` was first rebased onto the new `origin/main`
+(which had moved to include B1 #328 + AI-gateway #327; branch was 2 behind). The
+rebase was clean — the branch's billing/connect/test files are disjoint from the
+merged work (R55 zero-conflict exception held).
+
+### P0 fix — NULL-safe idempotency in `applyPayoutFailed`
+- File/lines: `src/billing/billing.service.ts:1416-1437` (post-fix).
+- Before: a single `payoutSnapshot.updateMany({ where: { id: row.id, NOT: { last_payout_stripe_id: payout.id, last_payout_status: terminalStatus } } })` both recorded the failure AND decided whether to alert (handler returned when `updated.count === 0`). Both guarded columns are nullable (`prisma/schema.prisma:3666,3668`), so for an all-NULL (first-ever / no-prior-value) snapshot the SQL `NOT (col = ? AND col2 = ?)` evaluates to UNKNOWN (not TRUE) under three-valued logic → 0 rows matched → handler returned before the `COACH_ALERT` at `:1437` while the outer webhook still marked the event complete at `:506`. The failed bank payout was silently swallowed (the original B7 money bug).
+- After: idempotency is decided in TypeScript immediately after the `findFirst`:
+  ```ts
+  const alreadyTerminal =
+    row.last_payout_stripe_id === payout.id &&
+    row.last_payout_status === terminalStatus;
+  if (alreadyTerminal) return;           // true same-payout same-status replay no-op
+  await tx.payoutSnapshot.updateMany({   // update by { id } ONLY — no nullable NOT
+    where: { id: row.id },
+    data: { last_payout_stripe_id: payout.id, last_payout_status: terminalStatus,
+            last_payout_amount_cents: amountCents, last_payout_failure_message: failureReason },
+  });
+  // proceed to record + COACH_ALERT (count-gating removed)
+  ```
+  The PayoutSnapshot data fields written are unchanged. No happy-path / money-math change.
+
+### Idempotency proof
+- Genuine replay (same payout id, same terminal status): `alreadyTerminal === true` → early return → no second row mutation, no second alert. (Plus the outer `stripeProcessedEvent` dedup still short-circuits identical event ids at `:172-177`.)
+- Different payout, OR a first-ever NULL-snapshot failure: `alreadyTerminal === false` (NULL !== payout.id) → updates by `{ id }` → records + alerts exactly once. The NULL hazard is gone because the gating no longer depends on a nullable SQL predicate or on `updated.count`.
+
+### P2 fix — regression test that exercises the NULL-row path
+- File: `test/billing-payout-failed.spec.ts`.
+- The shared `updateMany` mock previously implemented the `NOT` guard with plain JS equality (`null === null` works in JS), which masked the SQL NULL bug. The mock now models Postgres three-valued logic for a `NOT` predicate: `col = ?` is UNKNOWN when `col` is NULL, so `NOT (a AND b)` cannot be TRUE → the row is NOT matched (`{ count: 0 }`), reproducing the auditor's Prisma 6.19.3 observation. A plain `where: { id }` matches and updates.
+- Two new regression tests:
+  1. "REGRESSION (P0): first failure on an all-NULL snapshot records + alerts exactly once" — all-NULL snapshot, asserts the failure is persisted on the snapshot and `COACH_ALERT` fires once.
+  2. "REGRESSION (P0): stubbed updateMany count:0 still records + alerts on first NULL-snapshot failure" — forces `updateMany` to return `{ count: 0 }` (the exact production symptom) and asserts the handler still alerts (it no longer count-gates).
+- Right-reason proof: with the fix reverted to the old `0c88ce3` logic (mock unchanged), the suite shows **6 failed / 1 passed** — both new regression tests fail plus the original record/replay tests. With the fix applied: **7 passed / 7**. The replay-no-op tests stay green in both the post-fix run.
+
+### Actual checks (post-fix, post-rebase HEAD)
+- Prisma client regenerated (`npx prisma generate`) after rebase because merged B1 #328 added `ScheduledDrop.push_seq` to the schema; the local generated client was stale. No schema/code edit — build artifact only.
+- `npx tsc --noEmit` → **0 errors**.
+- `npm run lint` → **0 errors, 17 warnings** (all in unrelated pre-existing files; matches the audit baseline). Targeted `eslint` on the two changed files → **0/0**.
+- `npx jest billing --runInBand` → **304 suites passed / 304**; **3646 passed / 20 skipped / 5 todo / 3671 total**.
+- Targeted `npx jest billing-payout-failed` → **7 passed / 7**.
+
+### Guardrails
+- Only `src/billing/billing.service.ts` and `test/billing-payout-failed.spec.ts` changed in this commit. No `src/packages/*`, `prisma/schema.prisma`, migrations, or `ai*` files touched. Verified-CLEAN parts (B2/B3/B8, B1, B4) untouched.
+
+### Final HEAD SHA
+- `fix/billing-throttles` HEAD = `0625f77302e45dcdf920b2c4e682a015246fe1bb` (pushed with `--force-with-lease`). Re-audit should SHA-pin to this commit.
