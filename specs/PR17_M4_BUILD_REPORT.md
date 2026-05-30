@@ -66,3 +66,45 @@ export interface PushConfirmModalProps {
 - picker `minimumDate` = start-of-today; past selection does not propagate; future selection propagates; `dismissed` ignored
 - notify toggle reflects `buyerNotify` and fires `onChangeBuyerNotify`
 - `onConfirm` fires when enabled, does NOT fire when disabled; `onCancel` fires
+
+---
+
+## R2 fix (past-date defence-in-depth at the confirm gate)
+
+**Context:** GPT-5.5 audit (`audits/PR17_M4_AUDIT.md`) raised one P1: a PAST `fireAt` supplied via props (e.g. M5 passing a stale/restored date, or a value crossing midnight) still enabled Confirm, because `canConfirm` only checked non-null `fireAt` + `audienceCount > 0` + `!submitting`. The picker's `minimumDate` only blocks picker-originated past dates, not prop-originated ones.
+
+### Gate change
+`src/screens/coach/payments/contents/PushConfirmModal.tsx` — `hasFireAt` (used by `canConfirm`, the preview line, and the date-row display) is now:
+
+```ts
+const hasFireAt = fireAt != null && fireAt.getTime() >= minimumDate.getTime();
+```
+
+`canConfirm` is otherwise unchanged: `hasAudience && hasFireAt && !submitting`. All existing gate conditions (non-null, `audienceCount > 0`, `!submitting`) are retained. A past `fireAt` now keeps Confirm disabled with the existing disabled styling; `handleConfirm` already early-returns (with `warningTap`) when `!canConfirm`, so `onConfirm` is never called.
+
+### Chosen now/today basis
+**"Today or later"** — `fireAt.getTime() >= minimumDate.getTime()`, where `minimumDate = startOfToday()` (local midnight, `setHours(0,0,0,0)`). This is the EXACT same basis the picker already uses for its `minimumDate`, so the gate and the picker agree precisely: any whole day from today onward is both selectable in the picker AND confirmable at the gate. This is a whole-day scheduling basis (NOT a "future instant" rule), matching the picker's `mode="date"` semantics. The chosen basis is documented in a code comment at the `hasFireAt` definition.
+
+### Props contract
+**Unchanged.** `PushConfirmModalProps` keeps the identical names/types (`visible`, `contentTitle`, `audienceCount`, `audienceLabel?`, `buyerNotify`, `onChangeBuyerNotify`, `fireAt`, `onChangeFireAt`, `onConfirm`, `onCancel`, `submitting?`). No new required props were added. Only `PushConfirmModal.tsx` and `PushConfirmModal.test.tsx` were touched — no other file.
+
+### New regression tests (`src/__tests__/PushConfirmModal.test.tsx`)
+Added 4 cases under the "confirm gating" describe block:
+- a PAST `fireAt` prop (yesterday) → Confirm DISABLED;
+- pressing Confirm with a PAST `fireAt` prop → `onConfirm` NOT called;
+- a future `fireAt` prop (a week out) → Confirm still ENABLED (guards against over-correction);
+- `fireAt` exactly equal to start-of-today → Confirm ENABLED (verifies the "today or later" boundary).
+
+All 14 pre-existing tests remain green.
+
+### Verification (run in worktree, post-fix)
+- `npx tsc --noEmit` → **0 errors**
+- `npx eslint src/screens/coach/payments/contents/PushConfirmModal.tsx src/__tests__/PushConfirmModal.test.tsx` → **0 errors / 0 warnings**
+- `npx jest src/__tests__/PushConfirmModal.test.tsx` → **18 passed / 18 total** (1 suite), 0 failures (14 original + 4 new)
+
+### Branch state
+- Rebased onto `origin/main` `34807cc` (M3's `PushPromptSheet.tsx` is disjoint — clean rebase), force-pushed-with-lease against prior `1a929ae`.
+- **Post-fix branch HEAD SHA: `989af6c641740ae6b06f6c193f395e0e95ec063c`** (`pr17/m4-push-confirm`).
+- Author: `Dynasia G <dynasia@trygrowthproject.com>`, no trailers/co-authors.
+
+This is a fixer record, not a verdict — an independent GPT-5.5 auditor re-checks at the post-fix SHA.
