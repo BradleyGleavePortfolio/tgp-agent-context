@@ -77,3 +77,35 @@ A coach content-authoring screen that LISTS package contents + ADD / EDIT / REMO
 - **PR:** #213
 - **HEAD SHA:** `00c214f06cc0cfffe158cd6bb3c5e6f87e40dc87`
 - **Branch:** `pr17/m2-contents-screen` (base `main`).
+
+---
+
+## R2 — Audit remediation (2× P1 in ContentAttachForm)
+
+Audited SHA `00c214f` was NOT CLEAN. Fixed both P1 findings. Touched ONLY `src/screens/coach/payments/contents/ContentAttachForm.tsx` and a NEW test `src/__tests__/ContentAttachForm.test.tsx`. Did NOT touch the parent screen (chose the in-child `useEffect` approach, not `key=` remount, so `CoachPackageContentsScreen.tsx` is untouched — M5 inherits it clean), did NOT modify `src/api/packageContentsApi.ts`, did NOT add the M4 datetimepicker dependency.
+
+### P1 #1 — edit-form state never re-synced (could corrupt metadata)
+- **Fix:** added a `useEffect` keyed on `content?.id`, `content?.updated_at`, and `visible` that re-seeds EVERY local form field from the current `content` (edit mode → row values) or to the safe defaults (`content` null → add mode), and clears any stale error. The parent keeps ONE `ContentAttachForm` instance mounted and only flips `content`/`visible`, so the prior `useState`-only initializers never re-ran; `handleSubmit` therefore patched from stale/default state and could wipe title/caption + reset cadence to `immediate`.
+- **File:line:** `src/screens/coach/payments/contents/ContentAttachForm.tsx:165` (the `useEffect`; deps at `:193`). Import of `useEffect` at `:27`.
+
+### P1 #2 — cadence picker exposed kinds that submit invalid empty payloads
+- **Approach chosen:** the PREFERRED minimal fix — collect the required field per exposed kind and validate it is present before submit (error-prevention, UI Bible), so every visible cadence option builds a backend-valid `cadence_payload`. No kinds hidden. No datetimepicker dependency added (M4 owns the rich picker; `fixed_calendar` uses a simple ISO/text entry with a `TODO(M4)` seam).
+- **Backend contract verified** against `growth-project-backend/src/packages/package-contents.dto.ts` `CADENCE_PAYLOAD_SCHEMAS` (all `.strict()`): `immediate` → `{}` (strict-empty, OK); `relative_to_purchase` → `{ offset_days }` int ≥0 (already collected); `fixed_calendar` → `{ release_at }` ISO 8601 **required**; `on_completion` → `{ depends_on_content_id? }` **optional** (so `{}` is valid); `on_milestone` → `{ milestone_key }` non-empty string **required**.
+- **Fix:** `buildCadencePayload` now builds `{ release_at }` for `fixed_calendar` (validates non-empty + `Date.parse` not NaN) and `{ milestone_key }` for `on_milestone` (validates non-empty); returns a null payload + inline message when missing so Save is blocked. `immediate`/`on_completion` keep `{}`. Added two new inputs in the advanced disclosure: `content-attach-release-at` (ISO text) and `content-attach-milestone-key`.
+- **File:line:** `buildCadencePayload` at `src/screens/coach/payments/contents/ContentAttachForm.tsx:195` (`fixed_calendar` branch `:217`, `on_milestone` branch `:228`); new inputs at `:478` and `:495`.
+
+### New tests
+`src/__tests__/ContentAttachForm.test.tsx` (9 cases, RTL, mounts the form directly):
+- P1 #1 (4): seeds fields from an existing row; patch body reflects EDITED (not stale) values; does NOT wipe untouched title/caption; add→edit→different-row→back-to-add all re-seed correctly on the SAME mounted instance.
+- P1 #2 (5): one per exposed cadence kind asserting a backend-valid `cadence_payload` is built — `immediate`→`{}`, `relative_to_purchase`→`{offset_days}`, `fixed_calendar`→`{release_at}` (and Save blocked + inline error when empty), `on_completion`→`{}`, `on_milestone`→`{milestone_key}` (and Save blocked + inline error when empty).
+
+### Verification (real, actual counts)
+- **Rebase:** `git fetch origin main && git rebase origin/main` → already up to date (`origin/main` = `7e20cff`), no conflicts.
+- **Typecheck:** `npx tsc --noEmit` → **0 errors** (exit 0).
+- **Lint:** `npx eslint src/screens/coach/payments/contents/ContentAttachForm.tsx src/__tests__/ContentAttachForm.test.tsx --max-warnings=99999` → **0 errors, 0 warnings** (exit 0).
+- **Tests:** `npx jest` on both M2 suites → **Test Suites: 2 passed; Tests: 20 passed, 0 failed** (11 existing kept green + 9 new). New suite alone: 9 passed. node_modules already present (no `npm ci` needed).
+
+### Final pointers for the SHA-pinned re-audit
+- **PR:** #213
+- **Branch:** `pr17/m2-contents-screen` (base `main`).
+- **Final HEAD SHA:** `79bc74925600767081127d07eb69e32623947ff9` (pushed; remote `git ls-remote` confirms `refs/heads/pr17/m2-contents-screen` = `79bc749`).
