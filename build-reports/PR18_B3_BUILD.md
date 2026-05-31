@@ -121,3 +121,59 @@ the exclusions cannot shadow `/p/...`.
   `{ok:false}` off-domain, preserves the service 429 throttle.
 - View custom-domain route records against the resolved page (fire-and-forget),
   always 200 off-domain with no write.
+
+## FIX NOTE — P0 resolved (custom-domain apex routing) — Dynasia G
+
+The independent GPT-5.5 audit returned **NOT-CLEAN** with one P0: the bare
+custom-domain routes (`GET /`, `GET /checkout`, `POST /leads`, `POST /view`)
+were registered behind the global `/api` prefix, so a verified custom domain
+hitting `/` never reached them — the feature was non-functional at the apex.
+The deployment note above (left for the route-mounting owner) is now actioned.
+
+**Files touched (exact write-set for this fix):**
+- `src/main.ts` — global-prefix config (authorized one-off outside the original
+  B3 write-set for this P0; confirmed no other in-flight unit modifies it).
+- `src/landing-pages/landing-pages.public.controller.ts` — comment/doc only
+  (routing-mechanism note updated; within original write-set).
+- `test/landing-pages.public.controller.spec.ts` — added a route-registration
+  test suite (within original write-set).
+
+**How root routing now works (and why it shadows nothing):**
+`main.ts` `setGlobalPrefix('api', { exclude: [...] })` now also excludes the
+four bare custom-domain paths using **method-scoped** `RouteInfo` entries:
+`{ path: '', method: GET }`, `{ path: 'checkout', method: GET }`,
+`{ path: 'leads', method: POST }`, `{ path: 'view', method: POST }`.
+These resolve at the bare host apex (`/`, `/checkout`, `/leads`, `/view`) —
+exactly the URL shape a verified custom domain hits.
+- **No `/api/...` route is shadowed:** an audit of every controller confirms
+  none declares a bare `/`, `checkout`, `leads`, or `view` route (checkout
+  lives at `v1/checkout`; leads/view otherwise exist only under
+  `p/:coachSlug/:pageSlug/...`). The exclude entries only strip the prefix for
+  the LandingPagePublicController's own root handlers.
+- **`/p/:coachSlug/:pageSlug[...]` is unaffected:** those are distinct paths,
+  still excluded and still served at the apex; they never gain or leak an
+  `/api` prefix.
+- **Canonical-host safety preserved:** canonical-host traffic to these bare
+  paths resolves to no verified custom domain and returns the shared
+  `no-store, max-age=0` 404 — it does not leak or hijack `/p/...`.
+
+**Test added (closes the audit P2):** a Nest `Test.createTestingModule`
+route-registration suite boots the app with the EXACT same prefix-exclude
+shape and asserts via the live Express router stack that `GET /`,
+`GET /checkout`, `POST /leads`, `POST /view` are registered at the apex (NOT
+under `/api`), that `/p/...` routes are not leaked under `/api`, and that
+method-mismatched paths (`POST /checkout`) are not registered.
+
+**Verification (COMPLETED green in worktree, this fix):**
+- **Typecheck:** `NODE_OPTIONS=--max-old-space-size=2048 npx tsc --noEmit --pretty false`
+  → **COMPLETED, exit 0** (the prior auditor's tsc was killed; now runs to
+  completion cleanly).
+- **Lint:** `npx eslint` on `src/main.ts`,
+  `landing-pages.public.controller.ts`, `landing-pages.public.service.ts`,
+  `test/landing-pages.public.controller.spec.ts` → **exit 0** (0 errors; one
+  pre-existing unused-var warning unrelated to this fix).
+- **Tests:** `npx jest test/landing-pages --runInBand` → **12 suites / 262
+  tests pass** (256 prior + 6 new route-registration cases).
+
+**Commit on branch `pr18/b3-custom-domain-host`:** `683c952a5659d67692cca4bccc99d5643576b138` (author Dynasia G,
+no trailers), pushed to origin.
