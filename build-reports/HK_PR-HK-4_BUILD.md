@@ -211,3 +211,109 @@ New tests: **69** (jest reports 121 total over `src/wearables` = PR-HK-0's 52 + 
    provides the canonical raw→label mapping (exercised by tests and available to
    callers) rather than forcibly recomputing from a raw float the model does not
    return.
+
+## R2 Fix Pass
+
+R2 fixer addressing the three blocking findings in `PR-HK-4_AUDIT_R1.md`
+(verdict FAIL). All work on branch `hk/PR-HK-4-ai-insights-foundation`.
+
+- **New head SHA:** `2563193466f22398e265eb1fa53ee89aef9722f5`
+- **Previous (audited) head:** `d21b999ffadddc6e6cbee2aec955f536825c544a`
+- **Commits (3, all `Dynasia G <dynasia@trygrowthproject.com>`, no trailers):**
+  - `a44a0f9` fix(wearables): PR-HK-4 — strict() on Coach/Client insight schemas
+  - `cf3546e` fix(wearables): PR-HK-4 — EmptyInsight union for fallback (no schema violation)
+  - `2563193` fix(wearables): PR-HK-4 — budget enforcement for wearable_insight.coach/client
+
+### Finding 1 — Budget enforcement not active (R1 #1)
+
+- **Root cause:** the gateway gates both its pre-call budget check
+  (`src/ai/gateway/ai-gateway.service.ts:188-217`) and its post-call atomic
+  `recordUsage` (`:285-309`) on
+  `COACH_AI_METERED_CAPABILITIES.has(req.capability)`. The two wearable
+  capability strings (`wearable_insight.coach`, `wearable_insight.client`)
+  were absent from that set, so real provider calls bypassed the gate.
+- **Fix:** added the two capability strings to
+  `COACH_AI_METERED_CAPABILITIES` in
+  `src/ai-credits/ai-credits.constants.ts:49-57` (additive declaration).
+  The gateway's existing `resolveBudgetCoachId` already routes both audiences
+  correctly: the client path resolves the subject student's `coach_id`
+  (`:459-469`), the coach path resolves `tenantCoachId` → head coach
+  (`:456-458`). No in-service defensive budget call was needed — the registry
+  extension activates the canonical, audited, atomic metering path (single
+  source of truth), which is cleaner than duplicating cost estimation in the
+  wearables service.
+- **Tests:** new `budget metering` describe in
+  `src/wearables/insights/wearable-insights.service.spec.ts:317-336` asserts
+  both capability strings are members of the metered set and pin the exact
+  strings the service hands the gateway (3 tests).
+
+### Finding 2 — Output schemas not strict exact-field (R1 #2)
+
+- **Fix:** appended `.strict()` to `CoachInsightSchema`
+  (`src/wearables/insights/insight-output.schema.ts:53-63`) and
+  `ClientInsightSchema` (`:73-88`). Unknown / cross-audience keys now hard-fail
+  validation instead of being silently stripped (prompt-injection defence).
+- **Tests:** new `src/wearables/insights/insight-output.schema.spec.ts`
+  proves the coach schema rejects an injected unknown key and client-only
+  fields (`norm_comparison`/`intervention`/`optional_cta`), and the client
+  schema rejects an unknown key and coach-only fields
+  (`hypothesis`/`suggested_action`/`suggested_message_draft`), plus exact-
+  payload acceptance and `source_metrics .min(1)` rejection.
+
+### Finding 3 — Empty fallback violates source_metrics .min(1) (R1 #3)
+
+- **Fix:** replaced the unsafe `emptyCoachInsight()`/`emptyClientInsight()`
+  casts (which set `source_metrics: []` against a `.min(1)` field) with a
+  dedicated strict `EmptyInsightSchema`
+  (`src/wearables/insights/insight-output.schema.ts:148-156`):
+  `{ observation: literal(EMPTY_OBSERVATION), confidence_level: literal('i_think'),
+  source_metrics: array().length(0), is_empty: literal(true) }`. Added
+  `CoachInsightResponseSchema`/`ClientInsightResponseSchema` unions
+  (`:162-172`), an `isEmptyInsight` guard (`:176-180`), and an `emptyInsight()`
+  factory (`:182-189`).
+- **Wiring:** `wearable-insights.service.ts` now returns
+  `Promise<T | EmptyInsight>` from `generate<T>` and uses `emptyInsight()` on
+  every degradation branch (timeout `:185-187`, repair-fail `:202-211`,
+  guardrail-reject `:224-225`); the unsafe casts are gone. The controller
+  validates the wire response via `CoachInsightResponseSchema.parse(...)` /
+  `ClientInsightResponseSchema.parse(...)`
+  (`wearable-insights.controller.ts:73-77`, `:91-94`) so BOTH the full-insight
+  and empty branches are schema-checked on the way out.
+- **Tests:** schema spec covers the empty schema literals, length-0 pin,
+  rejection of non-empty `source_metrics`, the response unions accepting both
+  branches, and a regression test proving the empty payload FAILS the full
+  schema but PASSES the union. Service spec asserts the degradation paths
+  return a validated empty state with no leaked coach/client fields. Controller
+  spec adds an empty-state pass-through test.
+
+### Write-set extension (justified)
+
+- **`COACH_AI_METERED_CAPABILITIES` registry WAS extended** in
+  `src/ai-credits/ai-credits.constants.ts` — a two-line additive declaration
+  (one entry per audience capability). This file is outside PR-HK-4's nominal
+  write-set (`src/ai-credits/`, `src/ai/`). The extension is accepted because:
+  (1) it is purely additive — no existing capability's behaviour changes;
+  (2) the registry is the single source of truth for the gateway's budget
+  predicate, so the idiomatic fix lives here rather than duplicating cost
+  logic in the wearables service; (3) no other `src/ai-credits/` or `src/ai/`
+  code was touched. No `src/ai/` files were modified.
+
+### Test count delta
+
+- R1 baseline (per audit): 121 tests / 8 suites on `--roots src/wearables`.
+- R2: **146 tests / 9 suites** pass (`npx jest --roots src/wearables
+  --runInBand`). Net **+25 tests, +1 suite** (new
+  `insight-output.schema.spec.ts` = 21 tests; +3 budget-metering tests and +1
+  controller empty-state test; the two `toBeDefined()` assertions flagged in
+  R1 #4 were also replaced with exact-value assertions while editing those
+  files).
+
+### Gates (all pass on head `2563193`)
+
+| Gate | Result |
+| --- | --- |
+| `prisma validate` | PASS — schema valid |
+| `prisma generate` | PASS — Prisma Client v6.19.3 |
+| `tsc --noEmit -p tsconfig.json` | PASS |
+| `eslint src/wearables/` | PASS |
+| `jest --roots src/wearables --runInBand` | PASS — 9 suites, 146 tests |
