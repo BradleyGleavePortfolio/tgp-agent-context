@@ -91,3 +91,33 @@ Added/updated coverage:
 - All display-order mutations (attach append, patch swap, reorder, soft-delete compaction) run under the
   existing per-package `pg_advisory_xact_lock`.
 - Pushed to `origin pr18/b2-content-scope-order`.
+
+## Fix pass — P2 (empty-order patch gap) — Dynasia G (Opus 4.8 FIXER)
+Independent GPT-5.5 audit returned NOT-CLEAN on one P2: `patch()` still accepted a
+`display_order` with zero active holders and wrote it directly, creating a gap (e.g.
+`0,1,2` → `1,2,5`), violating the B2 no-gaps/bijection requirement. The test suite also
+encoded that wrong behavior as accepted legacy behavior.
+
+**Implementation fix** (`src/packages/package-contents.service.ts`): inside the swap-aware
+patch block, when the requested order differs from the row's current order and
+`holders.length === 0` (no active row holds the target), REJECT with
+`BadRequestException { error: 'DISPLAY_ORDER_OUT_OF_RANGE' }` under the existing per-package
+advisory lock instead of writing a gap. Single-row patch now only ever transposes with an
+existing one-holder slot; multi-row moves remain on `/reorder`. Same-order patch is still a
+no-op; `>1`-holder ambiguous targets still reject `DISPLAY_ORDER_TAKEN`. Sub-coach attach
+guard and soft-delete compaction untouched.
+
+**Test fixes** (`test/package-contents.service.spec.ts`): rewrote the offending free-slot
+test to assert the empty-order patch is REJECTED with no gap created. Also updated the P2-c
+race/lock tests that had relied on free-slot moves (lock-acquisition, patch-vs-attach
+interleaving, two-concurrent-same-order, and soft-delete-collision) to use valid one-holder
+swap targets while preserving their original serialization / no-duplicate / no-gap intent.
+
+**Verification (real tooling, in worktree `wt-b2-content`, runs completed green):**
+- `npx tsc --noEmit` → PASS (exit 0, 0 errors).
+- `npx eslint` on the 3 changed files → PASS (exit 0, 0 errors/0 warnings).
+- `npx jest test/package-contents.service.spec.ts --runInBand` → **68 passed, 68 total (1 suite passed)**.
+
+Write-set unchanged (only controller/service/spec differ from origin/main; service + spec
+touched this pass). Committed as `Dynasia G` with NO trailers; pushed to
+`origin pr18/b2-content-scope-order` (branch HEAD `8991caf`).
