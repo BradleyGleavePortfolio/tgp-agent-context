@@ -1,0 +1,47 @@
+HEAD:
+e01018433e2e4bf09fcc5a3f15e5b916b77df7ca
+origin/main:
+8cfb44f6f8a8faed00c527c21481beb80e0ec761
+merge-base:
+8cfb44f6f8a8faed00c527c21481beb80e0ec761
+name-status:
+M	src/ai-credits/ai-credits.constants.ts
+A	src/wearables/insights/guardrails.spec.ts
+A	src/wearables/insights/guardrails.ts
+A	src/wearables/insights/insight-cache.service.spec.ts
+A	src/wearables/insights/insight-cache.service.ts
+A	src/wearables/insights/insight-output.schema.spec.ts
+A	src/wearables/insights/insight-output.schema.ts
+A	src/wearables/insights/insights.module.ts
+A	src/wearables/insights/norm-comparison.util.spec.ts
+A	src/wearables/insights/norm-comparison.util.ts
+A	src/wearables/insights/prompts/client-hf.prompt.ts
+A	src/wearables/insights/prompts/client-sr.prompt.ts
+A	src/wearables/insights/prompts/coach-hf.prompt.ts
+A	src/wearables/insights/prompts/coach-sr.prompt.ts
+A	src/wearables/insights/wearable-insights.controller.spec.ts
+A	src/wearables/insights/wearable-insights.controller.ts
+A	src/wearables/insights/wearable-insights.service.spec.ts
+A	src/wearables/insights/wearable-insights.service.ts
+M	src/wearables/wearables.module.ts
+stat:
+ src/ai-credits/ai-credits.constants.ts             |   9 +
+ src/wearables/insights/guardrails.spec.ts          | 149 +++++++
+ src/wearables/insights/guardrails.ts               | 153 +++++++
+ .../insights/insight-cache.service.spec.ts         | 157 +++++++
+ src/wearables/insights/insight-cache.service.ts    | 146 +++++++
+ .../insights/insight-output.schema.spec.ts         | 173 ++++++++
+ src/wearables/insights/insight-output.schema.ts    | 189 +++++++++
+ src/wearables/insights/insights.module.ts          |  37 ++
+ .../insights/norm-comparison.util.spec.ts          |  79 ++++
+ src/wearables/insights/norm-comparison.util.ts     | 217 ++++++++++
+ src/wearables/insights/prompts/client-hf.prompt.ts |  84 ++++
+ src/wearables/insights/prompts/client-sr.prompt.ts |  83 ++++
+ src/wearables/insights/prompts/coach-hf.prompt.ts  |  99 +++++
+ src/wearables/insights/prompts/coach-sr.prompt.ts  |  89 ++++
+ .../insights/wearable-insights.controller.spec.ts  | 206 +++++++++
+ .../insights/wearable-insights.controller.ts       | 113 +++++
+ .../insights/wearable-insights.service.spec.ts     | 366 ++++++++++++++++
+ .../insights/wearable-insights.service.ts          | 459 +++++++++++++++++++++
+ src/wearables/wearables.module.ts                  |  10 +-
+ 19 files changed, 2817 insertions(+), 1 deletion(-)
