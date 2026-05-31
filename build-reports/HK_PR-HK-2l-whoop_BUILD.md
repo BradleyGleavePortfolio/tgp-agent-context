@@ -121,3 +121,88 @@ OAuth token rotation, paged backfill following `next_token`.
   2. `ab69fc0` feat(wearables): PR-HK-2.l — WHOOP connector (OAuth + backfill + refresh)
   3. `ab87be0` feat(wearables): PR-HK-2.l — WHOOP webhook controller
   4. `35f66dd` feat(wearables): PR-HK-2.l — WHOOP module + connector definition export
+
+## R2 Fix Pass
+
+Addressed all three R1 audit findings (`audits/HK_wave/PR-HK-2l_AUDIT_R1.md`,
+verdict REQUEST CHANGES). Branch `hk/PR-HK-2l-whoop-connector`; base main
+`9c67444c`; pre-fix head `35f66dd0f87270d5e187cd6732e20a4705b3a0e5`.
+
+### Finding 1 (BLOCKER) — real `WearableConnection` token shape + KMS
+
+The connector read synthetic `conn.refreshToken` / `conn.accessToken` fields
+that do not exist on the Prisma model. Reworked the token handoff to the real
+KMS-wrapped columns, symmetric with the PR-HK-1 / Calendar
+(`google-oauth.service.ts`) persist pattern:
+
+- Injected `KmsService` (from `src/common/kms/kms.service.ts`, exported by the
+  `@Global` `KmsModule`) as the connector's second constructor dependency.
+- `refresh(conn)` now reads `conn.encrypted_refresh_token`, `kms.decrypt`s it
+  before the WHOOP call, and `kms.encrypt`s the rotated refresh + access
+  tokens BEFORE returning the `TokenSet` (so the caller persists ciphertext
+  straight into the `encrypted_*` columns — `TokenSet.refreshToken` is
+  documented "KMS-wrapped at rest"). Throws re-consent error when no stored
+  refresh token.
+- `backfill(conn, since)` resolves a usable plaintext access token via a new
+  `resolveAccessToken()`: uses `encrypted_access_token` when present and not
+  past `access_token_expires_at` (KMS-unwrapped); otherwise falls back to
+  `encrypted_refresh_token` + a (rotating) refresh to mint a fresh token;
+  fails loud when neither column exists. Plaintext tokens live only on the
+  stack and are never logged.
+- `refreshAccessToken(raw)` remains the low-level raw path (used by tests and
+  the backfill fallback) and returns plaintext rotated tokens.
+- Spec: added a `KmsService` test double (encrypt/decrypt jest.fns with an
+  `enc:` prefix round-trip) and updated fixtures to the real
+  `encrypted_access_token` / `encrypted_refresh_token` shape. New assertions:
+  refresh decrypts the stored token then encrypts both rotated tokens;
+  backfill decrypts the cached access token; backfill falls back to a refresh
+  when no cached access token; backfill re-mints when the cache is expired.
+
+### Finding 2 (HIGH) — Zod runtime validation on webhook payload
+
+- Added `WhoopWebhookEventSchema` (Zod) to `whoop.types.ts`: `id` UUID,
+  `type` enum over `WHOOP_WEBHOOK_TYPES` (the v2 event types), `user_id`
+  positive int, optional `trace_id`, `.strict()` to reject unknown keys.
+- `whoop-webhook.controller.ts` now `JSON.parse`s then
+  `WhoopWebhookEventSchema.parse()`s the verified body BEFORE any dedup /
+  revocation / logging. A non-JSON or schema-invalid (bad UUID, unknown type,
+  non-positive `user_id`, extra fields) body throws `BadRequestException`
+  (HTTP 400) — not a 200 no-op and not a 500.
+- Spec: replaced the old "non-JSON → 200" test with "non-JSON → 400"; added
+  negative tests for non-UUID id, unknown type, and non-positive `user_id`,
+  each asserting 400 + no dedup write. Valid-event fixtures updated to real
+  UUID event ids.
+
+### Finding 3 (MEDIUM) — remove PII (`user_id`) from logs
+
+- Removed `whoop_user_id: payload.user_id` from both the `webhook.accepted`
+  and `webhook.revoked` structured-log calls.
+- Replaced with a one-way salted `user_hash` (`sha256('whoop:<user_id>:<salt>')`
+  first 16 hex chars; salt from `WHOOP_WEBHOOK_SALT`, falling back to the
+  webhook/client secret) plus non-PII `provider_event_id` / `type` /
+  `trace_id` for ops correlation.
+- Spec: capture logger calls on both accepted + revoked paths and assert the
+  raw numeric id (e.g. `12345` / `67890`) and the `whoop_user_id` key are NOT
+  present in any log payload, while `user_hash` is.
+
+### Commits (R2, author Dynasia G, empty body, no trailers)
+
+1. `4a2430d` fix(wearables): PR-HK-2.l — KMS decrypt/encrypt token handling in WHOOP connector
+2. `71fc001` fix(wearables): PR-HK-2.l — Zod validation on webhook payload
+3. `bf17546` fix(wearables): PR-HK-2.l — remove PII (user_id) from webhook logs
+
+New head SHA: `bf17546`.
+
+### Gates (R2, in detached worktree on `bf17546`)
+
+| Gate | Result |
+| --- | --- |
+| `prisma validate` (dummy DATABASE_URL/DIRECT_URL) | PASS — schema valid |
+| `prisma generate` | PASS |
+| `tsc --noEmit -p tsconfig.json` | PASS — no output |
+| `eslint src/wearables/connectors/whoop/` | PASS — 0 errors, 0 warnings |
+| `jest --roots src/wearables --runInBand` | PASS — 6 suites, 95 tests (WHOOP subset now 43, was 34; +9 new) |
+
+Write-set unchanged from R1: only files under
+`src/wearables/connectors/whoop/` were touched (connector, types, webhook
+controller, and their specs). No shared module/registry edits.
