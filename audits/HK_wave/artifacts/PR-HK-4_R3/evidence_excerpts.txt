@@ -1,0 +1,419 @@
+=== HEAD ===
+2563193466f22398e265eb1fa53ee89aef9722f5
+=== diff stat ===
+ src/ai-credits/ai-credits.constants.ts             |   9 +
+ src/wearables/insights/guardrails.spec.ts          | 149 +++++++
+ src/wearables/insights/guardrails.ts               | 153 +++++++
+ .../insights/insight-cache.service.spec.ts         | 157 +++++++
+ src/wearables/insights/insight-cache.service.ts    | 146 +++++++
+ .../insights/insight-output.schema.spec.ts         | 173 ++++++++
+ src/wearables/insights/insight-output.schema.ts    | 189 +++++++++
+ src/wearables/insights/insights.module.ts          |  37 ++
+ .../insights/norm-comparison.util.spec.ts          |  79 ++++
+ src/wearables/insights/norm-comparison.util.ts     | 217 ++++++++++
+ src/wearables/insights/prompts/client-hf.prompt.ts |  84 ++++
+ src/wearables/insights/prompts/client-sr.prompt.ts |  83 ++++
+ src/wearables/insights/prompts/coach-hf.prompt.ts  |  99 +++++
+ src/wearables/insights/prompts/coach-sr.prompt.ts  |  89 ++++
+ .../insights/wearable-insights.controller.spec.ts  | 206 +++++++++
+ .../insights/wearable-insights.controller.ts       | 113 +++++
+ .../insights/wearable-insights.service.spec.ts     | 366 ++++++++++++++++
+ .../insights/wearable-insights.service.ts          | 459 +++++++++++++++++++++
+ src/wearables/wearables.module.ts                  |   8 +-
+ 19 files changed, 2815 insertions(+), 1 deletion(-)
+=== ai-credits constants lines 37-58 ===
+    37	/** Capabilities that count against the budget. The gateway consults this set
+    38	 *  on every invoke; capabilities not listed bypass the budget check. */
+    39	export const COACH_AI_METERED_CAPABILITIES: ReadonlySet<string> = new Set([
+    40	  'draft.coach_message',
+    41	  'client_path_summary',
+    42	  'check_in_summary',
+    43	  'food_log_explain',
+    44	  'coach_brief_draft',
+    45	  'workout_program',
+    46	  'meal_plan',
+    47	  'weekly_insight',
+    48	  'client_chat',
+    49	  // PR-HK-4 — wearable AI insight capabilities. Additive declarations so
+    50	  // the gateway's existing pre-call budget gate + atomic post-call
+    51	  // recordUsage path meters them like every other real LLM call. The
+    52	  // client-side insight resolves to the subject's coach budget via
+    53	  // AiGatewayService.resolveBudgetCoachId (student.coach_id), and the
+    54	  // coach-side resolves to the head-coach budget via tenantCoachId. No
+    55	  // behavioural change to any existing capability.
+    56	  'wearable_insight.coach',
+    57	  'wearable_insight.client',
+    58	]);
+=== gateway metered refs ===
+src/ai/gateway/ai-gateway.service.ts:38:  COACH_AI_METERED_CAPABILITIES,
+src/ai/gateway/ai-gateway.service.ts:192:      COACH_AI_METERED_CAPABILITIES.has(req.capability)
+src/ai/gateway/ai-gateway.service.ts:289:      COACH_AI_METERED_CAPABILITIES.has(req.capability) &&
+=== gateway budget lines 181-293 ===
+   181	    // Stream 1 — pre-call budget gate. Skip for capabilities not in the
+   182	    // metered set (e.g. internal admin probes) and when the gateway is
+   183	    // disabled (no real provider call will happen, so no Anthropic cost).
+   184	    // The head-coach resolution maps sub-coaches onto their head's budget.
+   185	    const budgetCoachId = this.budget
+   186	      ? await this.resolveBudgetCoachId(req)
+   187	      : null;
+   188	    if (
+   189	      this.budget &&
+   190	      budgetCoachId &&
+   191	      resolved.enabled &&
+   192	      COACH_AI_METERED_CAPABILITIES.has(req.capability)
+   193	    ) {
+   194	      // We don't know the exact cost of an Anthropic call until it
+   195	      // returns, but the pre-call gate's only job is to refuse when the
+   196	      // coach is already AT or OVER the cap. A zero-cost canCharge tells
+   197	      // us "is there ANY headroom left?" — enough to draw the 402 line.
+   198	      // The atomic post-call recordUsage closes the actual overshoot
+   199	      // window.
+   200	      const pre = await this.budget.canCharge(budgetCoachId, 0);
+   201	      if (pre.budget.actual_used_cents >= pre.budget.total_actual_available_cents) {
+   202	        const dto = await this.budget.getBudgetDto(budgetCoachId);
+   203	        throw new CoachAiBudgetExhaustedException({
+   204	          code: COACH_AI_BUDGET_EXHAUSTED_CODE,
+   205	          message: 'AI budget exhausted — top up to continue',
+   206	          pack_options_cents: dto.pack_options_cents,
+   207	          custom_pack_bounds_cents: dto.custom_pack_bounds_cents,
+   208	          budget: {
+   209	            period_end: dto.period_end,
+   210	            base_displayed_cents: dto.base_displayed_cents,
+   211	            pack_displayed_cents: dto.pack_displayed_cents,
+   212	            used_displayed_cents: dto.used_displayed_cents,
+   213	            remaining_displayed_cents: dto.remaining_displayed_cents,
+   214	          },
+   215	        });
+   216	      }
+   217	    }
+   218	
+   219	    // 1. Redact free-text inputs before they touch any provider client.
+   220	    const redacted = this.redaction.redact(req.userMessage ?? '');
+   221	    // A3 — role whitelist. Client-supplied conversation history can carry a
+   222	    // forged 'system' (or any other) role; passing it through verbatim is a
+   223	    // prompt-injection vector — a client could smuggle privileged
+   224	    // instructions to the provider. We narrow every history turn to the
+   225	    // 'user'/'assistant' pair: anything that is not 'assistant' is demoted
+   226	    // to 'user' so its CONTENT is preserved (no silent drop) but it can
+   227	    // never reach a provider with a privileged role. The trusted system
+   228	    // prompt is supplied separately by the gateway (req.systemPrompt).
+   229	    const redactedHistory: AiChatTurn[] = (req.conversationHistory ?? []).map(
+   230	      (t) => ({
+   231	        role: t.role === 'assistant' ? 'assistant' : 'user',
+   232	        content: this.redaction.redact(t.content).text,
+   233	      }),
+   234	    );
+   235	
+   236	    // 2. Build provider request. The system prompt is provided by the
+   237	    //    caller (already permission-scoped) and is NOT redacted — the
+   238	    //    structured CLIENT_CONTEXT block is built from sanitized fields.
+   239	    const turns: AiChatTurn[] = [
+   240	      ...redactedHistory,
+   241	      { role: 'user', content: redacted.text },
+   242	    ];
+   243	
+   244	    // 3. Hash inputs/outputs for the audit row. Real prompt/response
+   245	    //    bodies are intentionally NOT persisted.
+   246	    const promptHash = sha256(req.systemPrompt + '\n' + turns.map((t) => `${t.role}:${t.content}`).join('\n'));
+   247	
+   248	    let response: AiProviderResponse;
+   249	    let errorMsg: string | null = null;
+   250	    try {
+   251	      response = await adapter.complete({
+   252	        capability: req.capability,
+   253	        systemPrompt: req.systemPrompt,
+   254	        turns,
+   255	        maxTokens: req.maxTokens ?? 600,
+   256	        temperature: req.temperature ?? 0.7,
+   257	        requestId,
+   258	      });
+   259	    } catch (e) {
+   260	      errorMsg = e instanceof Error ? e.message : String(e);
+   261	      this.logger.warn(`Gateway provider call failed (${resolved.provider}): ${errorMsg}`);
+   262	      // Fail closed — return the stub even if a real provider blew up,
+   263	      // so the caller never sees a 500 from the AI surface.
+   264	      response = await this.providers.resolve('stub').complete({
+   265	        capability: req.capability,
+   266	        systemPrompt: req.systemPrompt,
+   267	        turns,
+   268	        maxTokens: req.maxTokens ?? 600,
+   269	        temperature: req.temperature ?? 0.7,
+   270	        requestId,
+   271	      });
+   272	    }
+   273	
+   274	    const responseHash = sha256(response.text);
+   275	    const provenance = req.provenance ?? [];
+   276	    const redactionSummary = redacted.summary;
+   277	
+   278	    // Stream 1 — post-call atomic usage recording. Runs ONLY when the
+   279	    // provider call actually executed (no recording on stub fallback —
+   280	    // that path didn't hit Anthropic and so has no cost) AND when the
+   281	    // capability is in the metered set. The actual cost is derived from
+   282	    // the provider's token estimates; we fall back to a conservative
+   283	    // default (5 cents) when the provider didn't return estimates so a
+   284	    // metering gap can't silently leak through.
+   285	    if (
+   286	      this.budget &&
+   287	      budgetCoachId &&
+   288	      response.enabled &&
+   289	      COACH_AI_METERED_CAPABILITIES.has(req.capability) &&
+   290	      !errorMsg
+   291	    ) {
+   292	      const actualCostCents = estimateAnthropicCostCents(response);
+   293	      try {
+=== service invoke/fallback lines ===
+   102	  async generateForCoach(
+   103	    coachId: string,
+   104	    clientId: string,
+   105	    bucket: WearableMetricBucket,
+   106	  ): Promise<CoachInsightResponse> {
+   107	    return this.generate<CoachInsight>({
+   108	      audience: 'coach',
+   109	      subjectUserId: clientId,
+   110	      requesterId: coachId,
+   111	      requesterRole: 'coach',
+   112	      tenantCoachId: coachId,
+   113	      bucket,
+   114	      schema: CoachInsightSchema,
+   115	      capability: COACH_INSIGHT_CAPABILITY,
+   116	      builder: bucket === WearableMetricBucket.HEALTH_FITNESS ? buildCoachHfPrompt : buildCoachSrPrompt,
+   117	      promptVersion:
+   118	        bucket === WearableMetricBucket.HEALTH_FITNESS ? COACH_HF_VERSION : COACH_SR_VERSION,
+   119	    });
+   120	  }
+   121	
+   122	  async generateForClient(
+   123	    userId: string,
+   124	    bucket: WearableMetricBucket,
+   125	  ): Promise<ClientInsightResponse> {
+   126	    return this.generate<ClientInsight>({
+   127	      audience: 'client',
+   128	      subjectUserId: userId,
+   129	      requesterId: userId,
+   130	      requesterRole: 'student',
+   131	      tenantCoachId: undefined,
+   132	      bucket,
+   133	      schema: ClientInsightSchema,
+   134	      capability: CLIENT_INSIGHT_CAPABILITY,
+   135	      builder:
+   136	        bucket === WearableMetricBucket.HEALTH_FITNESS ? buildClientHfPrompt : buildClientSrPrompt,
+   137	      promptVersion:
+   138	        bucket === WearableMetricBucket.HEALTH_FITNESS ? CLIENT_HF_VERSION : CLIENT_SR_VERSION,
+   139	    });
+   140	  }
+   175	    // 4. Call the LLM via the gateway, under a 30s timeout. On timeout we
+   176	    //    degrade gracefully to the last cached row (even if stale), else
+   177	    //    an explicit empty insight.
+   178	    let raw: string;
+   179	    try {
+   180	      raw = await this.invokeWithTimeout(opts, prompt, prompt.user);
+   181	    } catch (err) {
+   182	      this.logger.warn(
+   183	        `insight LLM call failed/timed out audience=${audience} user=${subjectUserId}: ${(err as Error).message}`,
+   184	      );
+   185	      const stale = (await this.cache.getEvenIfStale(audience, subjectUserId, bucket)) as T | null;
+   186	      if (stale) return stale;
+   187	      return emptyInsight();
+   188	    }
+   189	
+   190	    // 5. Validate the model JSON against the audience schema. On failure,
+   191	    //    retry ONCE with a repair prompt, then fail explicit (empty).
+   192	    let parsed = this.tryParse(opts.schema, raw);
+   193	    if (!parsed) {
+   194	      const repairUser = this.repairPrompt(prompt.user, raw);
+   195	      let repaired: string;
+   196	      try {
+   197	        repaired = await this.invokeWithTimeout(opts, prompt, repairUser);
+   198	      } catch (err) {
+   199	        this.logger.warn(
+   200	          `insight repair call failed audience=${audience}: ${(err as Error).message}`,
+   201	        );
+   202	        const stale = (await this.cache.getEvenIfStale(audience, subjectUserId, bucket)) as T | null;
+   203	        return stale ?? emptyInsight();
+   204	      }
+   205	      parsed = this.tryParse(opts.schema, repaired);
+   206	      if (!parsed) {
+   207	        this.logger.warn(
+   208	          `insight output invalid after repair audience=${audience} user=${subjectUserId} — failing explicit`,
+   209	        );
+   210	        const stale = (await this.cache.getEvenIfStale(audience, subjectUserId, bucket)) as T | null;
+   211	        return stale ?? emptyInsight();
+   212	      }
+   213	    }
+   214	
+   215	    // 6. Guardrails — reject medicalizing language across every text field.
+   216	    //    A rejection means the model produced unsafe copy; we do NOT ship
+   217	    //    it. We fall back to a stale cache if present, else an empty
+   218	    //    insight (never the rejected text).
+   219	    const guarded = this.enforceGuardrails(parsed);
+   220	    if (guarded.rejected) {
+   221	      this.logger.warn(
+   222	        `insight guardrail REJECT audience=${audience} user=${subjectUserId} reason=${guarded.reason}`,
+   223	      );
+   224	      const stale = (await this.cache.getEvenIfStale(audience, subjectUserId, bucket)) as T | null;
+   225	      return stale ?? emptyInsight();
+   226	    }
+   254	  private async invokeWithTimeout(
+   255	    opts: {
+   256	      audience: InsightAudience;
+   257	      subjectUserId: string;
+   258	      requesterId: string;
+   259	      requesterRole: string;
+   260	      tenantCoachId?: string;
+   261	      capability: string;
+   262	    },
+   263	    prompt: BuildPromptResult,
+   264	    userMessage: string,
+   265	  ): Promise<string> {
+   266	    const invocation = this.gateway.invoke({
+   267	      capability: opts.capability,
+   268	      requester: { id: opts.requesterId, role: opts.requesterRole },
+   269	      subjectUserId: opts.subjectUserId,
+   270	      tenantCoachId: opts.tenantCoachId,
+   271	      userMessage,
+   272	      systemPrompt: prompt.system,
+   273	      maxTokens: 700,
+   274	      temperature: 0.4,
+   275	    });
+=== schema lines ===
+    45	// ── Coach payload ──────────────────────────────────────────────────────
+    46	// observation → hypothesis → suggested_action + a ready-to-edit message
+    47	// draft. The draft is NEVER auto-sent (PR-HK-6 owns the approval loop).
+    48	// .strict() — exact-field validation. The model is contractually bound to
+    49	// the coach field set; any extra key (e.g. a client-only field, or a
+    50	// prompt-injection attempt that smuggles in an unexpected key) is a hard
+    51	// validation failure rather than being silently stripped (audit R1 #2,
+    52	// schema-isolation #5).
+    53	export const CoachInsightSchema = z
+    54	  .object({
+    55	    observation: z.string().min(1).max(280),
+    56	    hypothesis: z.string().min(1).max(280),
+    57	    suggested_action: z.string().min(1).max(280),
+    58	    suggested_message_draft: z.string().min(1).max(1000),
+    59	    confidence_level: ConfidenceLevelSchema,
+    60	    source_metrics: SourceMetricsSchema,
+    61	  })
+    62	  .strict();
+    63	export type CoachInsight = z.infer<typeof CoachInsightSchema>;
+    64	
+    65	// ── Client payload ─────────────────────────────────────────────────────
+    66	// observation → norm_comparison → intervention + an OPTIONAL CTA that
+    67	// deep-links into the app. The deep-link is constrained to the `tgp://`
+    68	// scheme so a model can never smuggle an http(s)/javascript link into a
+    69	// tappable affordance (defence-in-depth alongside the renderer).
+    70	// .strict() — exact-field validation, same rationale as the coach schema.
+    71	// A model response containing coach-only fields (hypothesis, etc.) on a
+    72	// client payload is rejected, never accepted-and-stripped.
+    73	export const ClientInsightSchema = z
+    74	  .object({
+    75	    observation: z.string().min(1).max(280),
+    76	    norm_comparison: z.string().min(1).max(280),
+    77	    intervention: z.string().min(1).max(280),
+    78	    optional_cta: z
+    79	      .object({
+    80	        label: z.string().min(1).max(40),
+    81	        deep_link: z.string().regex(/^tgp:\/\//),
+    82	      })
+    83	      .nullable(),
+    84	    confidence_level: ConfidenceLevelSchema,
+    85	    source_metrics: SourceMetricsSchema,
+    86	  })
+    87	  .strict();
+    88	export type ClientInsight = z.infer<typeof ClientInsightSchema>;
+   136	// ── Empty / "not enough data" state ────────────────────────────────────
+   137	// Returned when the LLM call times out / fails and there is no cache to
+   138	// fall back to (graceful degradation, audit criteria #35/#50). R1 #3:
+   139	// the old fallback cast `source_metrics: []` onto the full insight types,
+   140	// which violates the `.min(1)` contract and hid the breach from
+   141	// TypeScript. Instead we model the empty state as its OWN strict schema
+   142	// with an explicit `is_empty: true` discriminator and a `source_metrics`
+   143	// array pinned to length 0 — honest provenance (we cite nothing because
+   144	// we computed nothing) and a clean render hook for the "keep syncing"
+   145	// empty state in PR-HK-5a/b.
+   146	export const EMPTY_OBSERVATION = 'Not enough data yet — keep syncing.';
+   147	
+   148	export const EmptyInsightSchema = z
+   149	  .object({
+   150	    observation: z.literal(EMPTY_OBSERVATION),
+   151	    confidence_level: z.literal('i_think'),
+   152	    source_metrics: z.array(SourceMetricSchema).length(0),
+   153	    is_empty: z.literal(true),
+   154	  })
+   155	  .strict();
+   156	export type EmptyInsight = z.infer<typeof EmptyInsightSchema>;
+   157	
+   158	// Public response contracts: a controller/service may return EITHER a full
+   159	// audience insight OR the empty state. Both branches are schema-validated
+   160	// (no casts), so a controller can `.parse(payload)` and be certain the
+   161	// wire response honours the locked contract on every path.
+   162	export const CoachInsightResponseSchema = z.union([
+   163	  CoachInsightSchema,
+   164	  EmptyInsightSchema,
+   165	]);
+   166	export type CoachInsightResponse = z.infer<typeof CoachInsightResponseSchema>;
+   167	
+   168	export const ClientInsightResponseSchema = z.union([
+   169	  ClientInsightSchema,
+   170	  EmptyInsightSchema,
+   171	]);
+   172	export type ClientInsightResponse = z.infer<typeof ClientInsightResponseSchema>;
+   173	
+   174	// Type guard so callers can branch on the empty state without reaching for
+   175	// the `is_empty` literal directly.
+   176	export function isEmptyInsight(
+   177	  value: CoachInsightResponse | ClientInsightResponse,
+   178	): value is EmptyInsight {
+   179	  return (value as Partial<EmptyInsight>).is_empty === true;
+   180	}
+   181	
+   182	export function emptyInsight(): EmptyInsight {
+   183	  return {
+   184	    observation: EMPTY_OBSERVATION,
+   185	    confidence_level: 'i_think',
+   186	    source_metrics: [],
+   187	    is_empty: true,
+   188	  };
+   189	}
+=== controller parse lines ===
+    67	  async getCoachInsight(
+    68	    @Request() req: AuthedRequest,
+    69	    @Query() rawQuery: unknown,
+    70	  ): Promise<CoachInsightResponse> {
+    71	    const { clientId, bucket } = parseOrThrow(CoachQuerySchema, rawQuery);
+    72	    await this.svc.assertCoachOwnsClient(req.user.id, clientId, req.user.role);
+    73	    const payload = await this.svc.generateForCoach(req.user.id, clientId, bucket);
+    74	    // Validate the wire response against the locked union contract (full
+    75	    // coach insight OR the strict empty state). Both branches are exact-
+    76	    // field; an empty fallback can never leak a contract-violating shape.
+    77	    return CoachInsightResponseSchema.parse(payload);
+    78	  }
+    79	
+    80	  // Client-side self-coaching insight for the authenticated user + bucket.
+    81	  // Gated by JwtAuthGuard only (any authenticated user reads their OWN
+    82	  // insight — subjectUserId is always req.user.id, so there is no IDOR
+    83	  // surface). Throttled per user.
+    84	  @UseGuards(JwtAuthGuard)
+    85	  @Throttle({ [THROTTLER_NAMES.DEFAULT]: { ttl: 3_600_000, limit: 60 } })
+    86	  @Get('client')
+    87	  async getClientInsight(
+    88	    @Request() req: AuthedRequest,
+    89	    @Query() rawQuery: unknown,
+    90	  ): Promise<ClientInsightResponse> {
+    91	    const { bucket } = parseOrThrow(ClientQuerySchema, rawQuery);
+    92	    const payload = await this.svc.generateForClient(req.user.id, bucket);
+    93	    // Same locked-union validation as the coach path.
+    94	    return ClientInsightResponseSchema.parse(payload);
+    95	  }
+=== toBeDefined scan ===
+=== jest summary ===
+[95m[Nest] 57343  - [39m05/31/2026, 9:33:59 AM [95m  DEBUG[39m [38;5;3m[InsightCacheService] [39m[95mInvalidated 1 wearable insight cache row(s) for user 11111111-1111-1111-1111-111111111111[39m
+PASS src/wearables/insights/insight-cache.service.spec.ts
+PASS src/wearables/ingestion/dedup.util.spec.ts
+PASS src/wearables/insights/norm-comparison.util.spec.ts
+
+Test Suites: 9 passed, 9 total
+Tests:       146 passed, 146 total
+Snapshots:   0 total
+Time:        39.241 s
+Ran all test suites.
