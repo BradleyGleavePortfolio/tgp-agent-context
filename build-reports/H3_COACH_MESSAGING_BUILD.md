@@ -72,3 +72,37 @@ any other unit's files were touched.
 - RolesGuard: `src/auth/roles.guard.ts`
 - Roles decorator: `src/common/decorators/roles.decorator.ts`
 - Global APP_GUARD registration: `src/app.module.ts:387`
+
+---
+
+## FIX NOTE — Audit follow-up (NOT-CLEAN → resolved P2)
+
+The independent GPT-5.5 audit returned **NOT-CLEAN** on one P2: the required
+changed-files ESLint command failed because the focused spec used the banned
+`Function` type (`@typescript-eslint/no-unsafe-function-type`).
+
+### What was fixed
+- `test/coach-messaging-roles.spec.ts:15` — replaced `controllerClass: Function`
+  with the precise Nest `Type<unknown>` (imported from `@nestjs/common`). This is
+  the proper type for a controller class reference passed to `getClass()`.
+- `test/roles-enforced.spec.ts:207` — the audit noted the same rule also flagged
+  a PRE-EXISTING `instance.constructor as Function` in this meta-test (present in
+  base `19e51b0`, NOT introduced by H3). Because this file is already in the H3
+  write-set and is part of the changed-files lint gate that must pass clean, the
+  identical minimal, behavior-preserving type annotation was applied
+  (`as Type<unknown>`). No guard logic, role enforcement, or test behavior changed.
+
+### Verification (real tooling, completed green runs, in worktree wt-h3-msg)
+- **Typecheck:** `NODE_OPTIONS=--max-old-space-size=4096 npx tsc --noEmit --pretty false` → **PASS** (exit 0).
+- **Lint (the failed gate):** `npx eslint src/messaging/coach-messaging.controller.ts test/roles-enforced.spec.ts test/coach-messaging-roles.spec.ts` → **PASS** (exit 0, 0 errors, 0 warnings).
+- **Tests:**
+  - `npx jest test/coach-messaging-roles.spec.ts --runInBand` → **PASS** (5/5).
+  - `npx jest test/roles-enforced.spec.ts --runInBand --logHeapUsage` → **PASS** (2/2).
+
+### Enforcement integrity
+`@Roles('coach')` enforcement is unchanged and remains real (global `RolesGuard`
+APP_GUARD reads class-level metadata). No guard/role was weakened. Write-set
+respected: only `test/coach-messaging-roles.spec.ts` and `test/roles-enforced.spec.ts`
+were touched in this follow-up (type-only edits).
+
+Commit on `hygiene/coach-messaging-roles`: `572c423` (fix), authored Dynasia G, no trailers.
