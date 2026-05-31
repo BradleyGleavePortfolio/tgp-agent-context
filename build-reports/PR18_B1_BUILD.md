@@ -159,3 +159,97 @@ B1 combo copy:
 - Commit authored as `Dynasia G <dynasia@trygrowthproject.com>` (R4 STRICT),
   **no trailers** (verified — no Co-Authored-By / Signed-off-by / Generated-with).
 - Pushed to origin `pr18/b1-pricing-lock` (R61).
+
+---
+
+## FIX NOTE — audit P1 (Opus 4.8 FIXER, Dynasia G)
+**Fix commit:** `5f652e6` on `pr18/b1-pricing-lock`.
+
+### The P1 (from `audits/PR18_wave/B1_AUDIT.md`)
+`PackagesService.update()` locks only the `CoachPackage` row (`SELECT id ...
+FOR UPDATE`) and then counts active recurring `ClientPurchase` rows. But the
+webhook activation paths that flip an existing `ClientPurchase` to
+`entitlement_active=true` updated ONLY the `ClientPurchase` row and never took
+the `CoachPackage` row lock. Because the two transactions touched **disjoint
+rows**, the package `FOR UPDATE` did not serialize them: a concurrent
+recurring activation could commit in a window the pricing-edit count's MVCC
+snapshot did not include, so the count could read 0 active buyers and let a
+price/duration edit slip past the guard.
+
+### Expanded write-set (deliberate, parent-authorized)
+The minimal correct fix requires the activation path to take the same package
+lock, which lives OUTSIDE B1's strict write-set. Per the fixer task (parent
+authorized fixing the audit P1), the write-set was expanded to add the
+checkout-webhook-handler (NOT owned by any other in-flight unit) + its spec:
+
+- `src/checkout/checkout-webhook-handler.service.ts` *(expanded — fix)*
+- `test/checkout-webhook-handler.spec.ts` *(expanded — regression tests)*
+
+The original B1 write-set (`src/packages/packages.service.ts`,
+`test/packages.service.spec.ts`) was **not** re-touched by the fix. No
+file-disjoint units were touched (no `package-contents.*`,
+`drip-dispatcher.cron.ts`, `landing-pages.*`, `payment-ops.*`, `admin.*`,
+`storefront-public.*`, `real-meal-plans.*`, `coach-messaging.*`).
+
+### The fix
+A new private helper `activateUnderPackageLock(tx, packageId, activate)` runs
+the entitlement-activation write only AFTER taking the SAME
+`SELECT id FROM "CoachPackage" WHERE id = ${packageId} FOR UPDATE` row lock,
+inside the same transaction as the write:
+- When BillingService threads its outer `$transaction` through
+  `handle(event, tx)`, the lock + activation run on that outer `tx`.
+- When there is no outer tx (the `customer.subscription.updated` and
+  `invoice.paid` resync paths call `this.prisma` directly), the helper opens
+  its own short `$transaction` so the row lock is held across the write.
+
+Applied to every path that can set `entitlement_active=true`:
+- `applyCheckoutCompleted` (recurring → active; also one_time → paid, harmless)
+- `applySubscriptionUpdated` (active/trialing/past_due)
+- `applyInvoicePaid` (renewal resync → active/trialing/past_due)
+
+No Stripe HTTP runs inside the lock transaction (the `invoice.paid` Stripe
+`retrieveSubscription` call happens BEFORE the locked write).
+
+### Serialization argument (what locks what, in what order, no deadlock)
+- Both the pricing-edit tx (`PackagesService.update`) and every activation tx
+  acquire exactly ONE lock: the `CoachPackage` row keyed by `packageId`.
+  Neither acquires a second lock while holding the first → no lock-ordering
+  cycle → **no deadlock**.
+- Whichever tx acquires the package-row lock first runs to completion; the
+  other blocks on that row lock until the first commits, then proceeds against
+  the committed state:
+  - **Activation commits first:** the pricing-edit count (run under the same
+    row lock, so it observes the committed activation) sees the now-active
+    recurring buyer and throws `PACKAGE_PRICING_LOCKED`.
+  - **Pricing edit commits first:** the activation observes the already-edited
+    package row when it proceeds (price change fully committed before the
+    buyer becomes active).
+- Therefore the guard can **never** miss an entitlement activation that
+  commits before the price update commits — the exact race the audit flagged
+  is closed.
+
+### Regression tests added (`test/checkout-webhook-handler.spec.ts`)
+The shared prisma stub was extended with `$queryRaw` (records every locked
+package id) and an interactive `$transaction`. New tests assert:
+- `checkout.session.completed` (recurring) locks the package row, and the
+  `FOR UPDATE` fires BEFORE the entitlement-flip update (invocation order).
+- The same path locks on the OUTER tx when one is supplied (no nested
+  `$transaction` opened).
+- `customer.subscription.updated` locks the package row before flipping
+  entitlement.
+- `invoice.paid` locks the package row on renewal re-activation.
+
+### Verification (run in the worktree, COMPLETED green)
+- **Typecheck:** `NODE_OPTIONS=--max-old-space-size=2048 npx tsc --noEmit`
+  → exit 0 (no diagnostics).
+- **Lint:** `npx eslint` on all four changed files → exit 0 (only the 3
+  pre-existing P3 `no-unused-vars` warnings in the untouched
+  `packages.service.spec.ts` stub; none introduced by the fix).
+- **Tests:**
+  - `npx jest test/packages.service.spec.ts` → **52 passed, 52 total**.
+  - `npx jest test/checkout-webhook-handler.spec.ts` → **20 passed, 20 total**
+    (16 original + 4 new B1 serialization tests).
+
+### Final fix write-set
+- `src/checkout/checkout-webhook-handler.service.ts`
+- `test/checkout-webhook-handler.spec.ts`
