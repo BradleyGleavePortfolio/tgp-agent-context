@@ -1,0 +1,53 @@
+PASS src/wearables/connectors/whoop/whoop.connector.spec.ts (25.743 s)
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:02 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.exchangeCode] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:02 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:02 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.recovery] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.cycle] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.sleep] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.workout] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.recovery] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.recovery] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.cycle] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.sleep] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.workout] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.recovery] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.cycle] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.sleep] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:03 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.workout] attempt 1/4 succeeded (status=200)[39m
+[31m[Nest] 57513  - [39m05/31/2026, 9:34:04 AM [31m  ERROR[39m [38;5;3m[WhoopWebhookController] [39m[31mWHOOP webhook received without rawBody. Verify rawBody:true is set in main.ts.[39m
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:04 AM [32m    LOG[39m [38;5;3m[WhoopWebhookController] [39mObject(5) {
+  msg: [32m'wearables.whoop.webhook.accepted'[39m,
+  provider_event_id: [32m'11111111-1111-4111-8111-111111111111'[39m,
+  type: [32m'recovery.updated'[39m,
+  trace_id: [90mundefined[39m,
+  user_hash: [32m'88b9ffd7c602c8bd'[39m
+}
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:04 AM [32m    LOG[39m [38;5;3m[WhoopWebhookController] [39mObject(3) {
+  msg: [32m'wearables.whoop.webhook.duplicate'[39m,
+  provider_event_id: [32m'22222222-2222-4222-8222-222222222222'[39m,
+  type: [32m'workout.updated'[39m
+}
+[32m[Nest] 57513  - [39m05/31/2026, 9:34:04 AM [32m    LOG[39m [38;5;3m[WhoopWebhookController] [39mObject(6) {
+  msg: [32m'wearables.whoop.webhook.revoked'[39m,
+  provider_event_id: [32m'33333333-3333-4333-8333-333333333333'[39m,
+  type: [32m'user.deauthorized'[39m,
+  trace_id: [90mundefined[39m,
+  user_hash: [32m'88b9ffd7c602c8bd'[39m,
+  connections_disconnected: [33m1[39m
+}
+[33m[Nest] 57513  - [39m05/31/2026, 9:34:04 AM [33m   WARN[39m [38;5;3m[WhoopWebhookController] [39m[33mWHOOP webhook: rejected malformed payload — body was not valid JSON[39m
+[33m[Nest] 57513  - [39m05/31/2026, 9:34:04 AM [33m   WARN[39m [38;5;3m[WhoopWebhookController] [39m[33mWHOOP webhook: rejected malformed payload — schema validation failed[39m
+[33m[Nest] 57513  - [39m05/31/2026, 9:34:04 AM [33m   WARN[39m [38;5;3m[WhoopWebhookController] [39m[33mWHOOP webhook: rejected malformed payload — schema validation failed[39m
+[33m[Nest] 57513  - [39m05/31/2026, 9:34:04 AM [33m   WARN[39m [38;5;3m[WhoopWebhookController] [39m[33mWHOOP webhook: rejected malformed payload — schema validation failed[39m
+PASS src/wearables/connectors/whoop/whoop-webhook.controller.spec.ts
+PASS src/wearables/connectors/whoop/whoop.normalizer.spec.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       43 passed, 43 total
+Snapshots:   0 total
+Time:        29.024 s
+Ran all test suites.
