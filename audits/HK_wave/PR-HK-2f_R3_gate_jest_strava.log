@@ -1,0 +1,36 @@
+### npx jest --roots src/wearables/connectors/strava --no-cache --runInBand
+[31m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [31m  ERROR[39m [38;5;3m[StravaWebhookController] [39m[31mstrava.webhook.verify: verify token not configured[39m
+[31m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [31m  ERROR[39m [38;5;3m[StravaWebhookController] [39m[31m{"msg":"wearables.strava.webhook_misconfigured","reason":"STRAVA_WEBHOOK_SUBSCRIPTION_ID unset"}[39m
+PASS src/wearables/connectors/strava/strava-webhook.controller.spec.ts (7.784 s)
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.verify: rejected (mode/token mismatch)[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.verify: rejected (mode/token mismatch)[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[StravaWebhookController] [39m[32mstrava.webhook.event: duplicate activity:999:1700000000[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: blocked source ip=1.2.3.4[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: foreign subscription_id=99999[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — object_id: Expected number, received string[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — owner_id: Expected number, received string[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — aspect_type: Invalid enum value. Expected 'create' | 'update' | 'delete', received 'archive'[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — object_type: Invalid enum value. Expected 'activity' | 'athlete', received 'segment'[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — subscription_id: Required[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — object_id: Number must be greater than 0[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — (root): Unrecognized key(s) in object: 'injected'[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[StravaActivityFetchQueue] [39m[32mstrava.enqueueActivityFetch owner=42 activity=999 persisted=new work_id=strava:fetch:activity:999:42[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[StravaActivityFetchQueue] [39m[32mstrava.enqueueActivityFetch owner=42 activity=999 persisted=duplicate work_id=strava:fetch:activity:999:42[39m
+[31m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [31m  ERROR[39m [38;5;3m[ProviderHttpClient] [39m[31m[strava.exchangeCode] attempt 1/4 permanent failure (status=400)[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.exchangeCode] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.exchangeCode] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.backfill] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.backfill] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.backfill] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.backfill] attempt 1/4 succeeded (status=200)[39m
+[33m[Nest] 58174  - [39m05/31/2026, 9:35:22 AM [33m   WARN[39m [38;5;3m[StravaConnector] [39m[33mstrava.backfill: pausing at page 1 — approaching rate limit[39m
+PASS src/wearables/connectors/strava/strava.connector.spec.ts
+PASS src/wearables/connectors/strava/strava.normalizer.spec.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       53 passed, 53 total
+Snapshots:   0 total
+Time:        8.575 s
+Ran all test suites.
