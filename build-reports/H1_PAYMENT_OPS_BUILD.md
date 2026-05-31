@@ -102,3 +102,46 @@ Regression checks (untouched): `roles-enforced.spec.ts` (8) and
 ## Sources
 - Fix brief: `specs/HYGIENE_H1_PAYMENT_OPS_BRIEF.md`
 - Auditor bar: `specs/AUDITOR_BRIEF_COMMON.md`
+
+---
+
+## FIX NOTE — R2 (post-audit, GPT-5.5 NOT-CLEAN → addressed)
+
+Audited HEAD `bac3cc0` returned NOT-CLEAN with two P2 findings; both fixed in
+`72c54d9` on `hygiene/payment-ops-bounds`. Write-set unchanged (only
+`src/checkout/payment-ops.controller.ts`, `src/checkout/payment-ops.dto.ts`,
+`test/payment-ops.controller.spec.ts`). No guard/role weakened;
+`test/roles-enforced.spec.ts` untouched.
+
+**P2-1 — malformed partially-numeric `limit` silently coerced.**
+`coerceInt` in `payment-ops.dto.ts` used `parseInt`, so `"50abc"→50`,
+`"1.5"→1`, `"1e2"→1` passed validation. Replaced with strict base-10 coercion
+(`/^[+-]?\d+$/` + `Number.isSafeInteger`): only a clean integer string is
+converted to a number; anything else (decimal, exponent, hex, suffix,
+embedded space) is preserved as the raw string so `@IsInt`/`@Min`/`@Max`
+reject it with a clean 400 via the global `ValidationPipe`. Applied to the
+shared `CursorPageQueryDto.limit` used by both `purchases` and `earnings`.
+
+**P2-2 — `earnings/export.csv` silently truncated at 100,000 rows.**
+Removed the `maxRows = 100_000` ceiling in `exportEarningsCsv`. The bounded
+cursor-batch loop (500 rows/round-trip, id-stable `created_at`/`id` order)
+now continues until the payee ledger is fully drained, so the export
+genuinely covers the entire payee-scoped ledger. Per-query memory/DB pressure
+stays bounded; payee scope (`payee_user_id: req.user.id`) intact.
+
+**Tests added (36 → 51 passing).**
+- `CursorPageQueryDto.limit strict validation` describe block: clean-int
+  accepted+typed as number; `50abc`/`99x`/`100foo`/`1.5`/`1e2`/`0x10`/`abc`/
+  `" 50 0"` rejected; explicit `"50abc" !== 50` regression guard; over-max,
+  below-min, omitted-optional, malformed-UUID-cursor cases.
+- `B6: export.csv drains MULTIPLE cursor batches…`: seeds 1,250 rows (>2
+  batches), asserts header+1,250 rows present (first+last included) and that
+  `findMany` was called >1× (proves real multi-batch drain, no cap).
+
+**Verification (real tooling, completed green runs):**
+- `npx tsc --noEmit` → exit 0.
+- `npx eslint src/checkout/payment-ops.controller.ts src/checkout/payment-ops.dto.ts test/payment-ops.controller.spec.ts` → exit 0.
+- `node --max-old-space-size=2048 ./node_modules/.bin/jest --runTestsByPath test/payment-ops.controller.spec.ts --runInBand --no-cache` → 51 passed / 51 total.
+
+The earlier "Caveats" note about a defensive 100k cap no longer applies — the
+cap was removed; the export is now genuinely full-ledger.
