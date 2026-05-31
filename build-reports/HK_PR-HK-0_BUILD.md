@@ -190,3 +190,123 @@ on each row, distinct-connection `updateMany`, one `deleteMany` per distinct
    extracted verbatim from `migrate diff --to-schema-datamodel` (which passes),
    and table/index/FK definitions were spot-checked against the schema. Forward-
    apply correctness is established by review (gate 6).
+
+## R2 Fix Pass (R1 → CLEAN attempt)
+
+**New head SHA:** `2cc36d27142e708e8140b597d9a0fd4c8eaa7db5`
+**Base (unchanged):** main `a80013f`
+**Branch:** `hk/PR-HK-0-foundation` (PR #345)
+**Author (all commits):** `Dynasia G <dynasia@trygrowthproject.com>` — no trailers, empty bodies.
+
+Commits added on top of `66658ea`:
+- `9a231f3` fix(wearables): PR-HK-0 — column-level GRANTs + safe view for WearableConnection tokens
+- `2cc36d2` fix(wearables): PR-HK-0 — transactional ingest, error-path logging, resolveBest Date validation
+
+### R1 findings — how each was addressed
+
+**P1-#1 — WearableConnection RLS does not protect encrypted token columns**
+RLS filters rows, not columns, so `wc_client_all` / `wc_coach_select` would still
+admit a SELECT of `encrypted_refresh_token` / `encrypted_access_token`. Fixed at
+the migration level with column-level privilege hardening + a safe projection view:
+- `REVOKE SELECT ON public."WearableConnection" FROM authenticated, anon;`
+- `GRANT SELECT (<safe column subset>) ... TO authenticated;` — the subset OMITS
+  the four sensitive columns: `encrypted_refresh_token`, `encrypted_access_token`,
+  `credentials_secret_ref`, `webhook_secret_ref`. (anon left with no SELECT.)
+- `CREATE OR REPLACE VIEW public."WearableConnectionSafe" WITH (security_invoker = true)`
+  projecting only the safe columns; `GRANT SELECT` on the view to `authenticated`.
+  `security_invoker = true` (PG15+) keeps the underlying-table RLS row scoping intact.
+- File/lines: `prisma/migrations/20260531000000_wearables_foundation/migration.sql`
+  lines **420–459** (new section appended inside the existing BEGIN/COMMIT, before
+  the final `COMMIT;` at line 461 so it sequences after table create + RLS + policies).
+- Also added a SECURITY comment above `WearableConnection.encrypted_refresh_token`
+  in `prisma/schema.prisma` (around lines 5046–5055) documenting the service-role-only
+  posture and the safe view.
+- **Deviation from the task snippet (justified):** the illustrative snippet referenced
+  a non-existent `display_name` column and only the two `encrypted_*` columns. The
+  real table has no `display_name`; the safe column list was built from the actual
+  CREATE TABLE columns, and the two `*_secret_ref` pointer columns were ALSO excluded
+  (defense-in-depth — they point at secret-store entries). Net effect strictly
+  exceeds the audit requirement (no coach/client read of `encrypted_*`).
+
+**P1-#2 — IngestionService.ingest() not transactional**
+The insert + connection bump + cache invalidation now run inside a SINGLE
+`this.prisma.$transaction(async (tx) => { ... }, { timeout: 10_000, isolationLevel: ReadCommitted })`.
+All three writes use the `tx` client (`invalidateInsightCache` now accepts an optional
+`tx` defaulting to `this.prisma`). A mid-sequence failure rolls back atomically.
+- File/lines: `src/wearables/ingestion/ingestion.service.ts` (ingest body ~103–168;
+  `invalidateInsightCache` signature ~245–263).
+- **Note:** preserved the PR's REAL semantics (distinct-`connectionId` `updateMany`
+  + per-(user,bucket) `deleteMany`) rather than the task snippet's illustrative
+  `provider`/`updateMany`/cache-`updateMany` shape, which did not match the shipped code.
+
+**P1-#3 — Ingestion error paths not logged**
+- Transaction wrapped in try/catch: on success a redacted `wearables.ingest.success`
+  log (counts + provider + user_id only); on failure a redacted
+  `wearables.ingest.failure` `logger.error` (provider, user_id, submitted_count,
+  connection_count, error_code, error_message) BEFORE the fail-loud rethrow.
+- Zod-equivalent step: this service validates inline via `validateSample` (no separate
+  Zod call in PR-HK-0). Wrapped the `samples.forEach(validateSample)` loop in try/catch
+  emitting `wearables.ingest.validation_failure` (provider, user_id, submitted_count,
+  error_message) before rethrow.
+- No raw sample payloads are logged — only counts/provider/user_id/error metadata.
+- File/lines: `src/wearables/ingestion/ingestion.service.ts` ~65–79 (validation log),
+  ~146–168 (success/failure logs).
+
+**P2-#1 — resolveBest() invalid-Date validation**
+Added `Number.isNaN(getTime())` + `instanceof Date` guards for both `startAt` and
+`endAt` (throw `TypeError`) before building Prisma filters, matching `ingest()`'s
+stronger Date validation. File/lines: `src/wearables/ingestion/ingestion.service.ts` ~194–199.
+
+**P2-#2 — app.module.ts width** — left AS IS per auditor (explicitly acceptable).
+
+### Test coverage added
+`src/wearables/ingestion/ingestion.service.spec.ts`:
+- `$transaction` mock added to the Prisma mock (invokes callback with the same mock as `tx`).
+- New `transactional atomicity (P1-#2)` describe: asserts a single `$transaction` call
+  with `{ timeout: 10_000, isolationLevel: 'ReadCommitted' }`; asserts all three writes
+  run INSIDE the transaction boundaries; asserts a mid-tx failure propagates and cache
+  invalidation never runs.
+- New `error-path logging (P1-#3)` describe: success log; DB-failure error log THEN
+  rethrow; validation_failure log THEN rethrow (no DB write); PII-redaction assertion
+  (log keys are the redacted summary set; raw value `462` / `oura-rec-1` absent).
+- New `resolveBest` cases: invalid `startAt` Date and invalid `endAt` Date both throw
+  `TypeError` before any query.
+
+### Gate results (all pass) — run with project-local prisma 6.19.3
+- ① `prisma validate` → valid 🚀 (exit 0)
+- ② `prisma migrate diff --from-empty --to-schema-datamodel` → exit 0
+- ③ `prisma generate` + `tsc --noEmit -p tsconfig.json` → exit 0
+- ④ `eslint src/wearables/**/*.ts` → exit 0
+- ⑤ `jest --roots src/wearables --runInBand` → **52 passed / 52 total** (was 43; +9 new), 3 suites
+- ⑥ `git diff a80013f..HEAD --stat` → exactly the 13 PR-HK-0 files, 0 new files, 0 deletions outside the touched service
+
+### Migration SQL diff snippet (new lines 420–459, inside BEGIN/COMMIT before final COMMIT)
+```sql
+-- 7. TOKEN-COLUMN HARDENING — prevent non-service roles from SELECTing
+--    the encrypted token / secret-pointer columns of WearableConnection.
+--    (RLS filters ROWS, not COLUMNS — close the gap with column GRANTs + view.)
+REVOKE SELECT ON public."WearableConnection" FROM authenticated, anon;
+GRANT SELECT (
+  id, user_id, provider, external_account_id,
+  access_token_expires_at, scopes, webhook_subscription_id,
+  channel_expires_at, status, last_error, last_synced_at,
+  backfilled_until, disconnected_at, created_at, updated_at
+) ON public."WearableConnection" TO authenticated;
+
+CREATE OR REPLACE VIEW public."WearableConnectionSafe"
+WITH (security_invoker = true) AS
+SELECT
+  id, user_id, provider, external_account_id,
+  access_token_expires_at, scopes, webhook_subscription_id,
+  channel_expires_at, status, last_error, last_synced_at,
+  backfilled_until, disconnected_at, created_at, updated_at
+FROM public."WearableConnection";
+
+GRANT SELECT ON public."WearableConnectionSafe" TO authenticated;
+```
+
+### Deviations summary
+1. Safe-column list derived from the ACTUAL table (no `display_name`); additionally
+   excluded the two `*_secret_ref` columns (defense-in-depth). Exceeds the audit ask.
+2. Transaction body preserved the PR's real query semantics over the illustrative snippet.
+3. Validation logging hooks the existing inline `validateSample` (no separate Zod step exists in PR-HK-0).
