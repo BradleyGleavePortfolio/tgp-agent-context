@@ -83,3 +83,17 @@ M  test/payment-ops.controller.spec.ts
 - Typecheck: `NODE_OPTIONS=--max-old-space-size=4096 npx tsc --noEmit -p tsconfig.json` → exit 0.
 - Lint: `npx eslint src/checkout/payment-ops.controller.ts src/checkout/payment-ops.dto.ts test/payment-ops.controller.spec.ts` → 0 errors, 1 pre-existing warning (`chunk` unused in the older R3 disconnect mock at line 857 — not part of this change; the new test uses `_chunk`).
 - Tests: `yarn jest test/payment-ops.controller.spec.ts` → **57 passed / 57 total** (56 prior + 1 new).
+
+---
+
+## Addendum — Rebase onto main (978d4a3f)
+
+Rebased `hygiene/payment-ops-bounds` onto current backend main (`978d4a3f`) to restore a clean write-set boundary. Prior to rebase, `git diff origin/main..HEAD --name-only` showed 18 files due to B1/H2/H4 merges that landed in main after this branch was created. After rebase, write-set is exactly the 3 H1 files:
+
+- `src/checkout/payment-ops.controller.ts`
+- `src/checkout/payment-ops.dto.ts`
+- `test/payment-ops.controller.spec.ts`
+
+All gates re-verified post-rebase: TSC exit 0, ESLint 0 errors, Jest 57/57.
+
+New head SHA: `2030d5315f1e60cd67ab7f36cf3e5ed614624ce1`
