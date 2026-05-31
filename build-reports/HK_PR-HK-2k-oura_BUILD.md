@@ -184,3 +184,127 @@ string.
   `src/wearables/normalization/normalizer.types.ts`,
   `src/wearables/http/provider-http-client.ts`,
   `prisma/migrations/20260531000000_wearables_foundation/migration.sql`.
+
+## R2 Fix Pass
+
+R2 fixer addressing the three R1 audit findings (`audits/HK_wave/PR-HK-2k_AUDIT_R1.md`,
+verdict NOT CLEAN at `e9ef296`). Author: Dynasia G. Branch
+`hk/PR-HK-2k-oura-connector`. New head: `824916089020adabb1daf8c217e21c1c5784801d`.
+Write-set unchanged — all edits remain within `src/wearables/connectors/oura/`
+(7 of the 9 files touched; no new files, no edits to `wearables.module.ts` or
+`connector-registry.ts`).
+
+### Commits
+
+| SHA | Subject |
+| --- | --- |
+| `8d7a7449c38e3cee85e2d5abdd6dff36f3d38f2f` | `fix(wearables): PR-HK-2.k — webhook idempotency ordering (dedup after ingest)` |
+| `973edf70853cbf388aa8b64b3d0dbd83062c9ea9` | `fix(wearables): PR-HK-2.k — wire Oura sleep resource normalization (stages + HRV)` |
+| `824916089020adabb1daf8c217e21c1c5784801d` | `fix(wearables): PR-HK-2.k — mark connection error on backfill/refresh failure (redacted)` |
+
+### Finding 1 (Critical) — webhook idempotency ordering
+
+**Bug:** `WearableProcessedEvent` was inserted BEFORE fetch/ingest. A transient
+fetch/ingest failure left the dedup row in place, so Oura's redelivery hit the
+`findUnique` and 200-no-op'd — permanently dropping the event.
+
+**Fix** (`oura-webhook.controller.ts`): reordered to **check → process →
+commit**. `handle()` now (1) `findUnique` replay check, (2) resolve connection +
+`fetchChangedRecord` + `normalize` + `ingest`, and only (3) AFTER a successful
+ingest does it `create` the `WearableProcessedEvent` row (with
+`handler_completed_at` set in the same write). On fetch/ingest failure the
+method marks the connection `error` and rethrows WITHOUT writing the dedup row,
+so the retry reprocesses. The separate post-hoc `update(handler_completed_at)`
+is removed. Concurrency: two simultaneous deliveries of the same `event_id` may
+both fetch+ingest, but the PR-HK-0 sample `dedup_key` UNIQUE constraint —
+enforced via `IngestionService.createMany({ skipDuplicates: true })` (verified in
+`ingestion.service.spec.ts`) — guarantees no double-counted samples; the loser's
+processed-event `create` raises P2002 on the composite PK and is absorbed as a
+benign no-op (ON CONFLICT DO NOTHING semantics).
+- `oura-webhook.controller.ts:117-219` (replay check, ordered process, post-ingest commit, P2002 absorb).
+
+**Tests** (`oura-webhook.controller.spec.ts`): updated first-delivery test to
+assert the dedup row is created (with `handler_completed_at`) AFTER ingest
+(`invocationCallOrder`), and that no separate `update` runs. Updated the P2002
+test to assert fetch+ingest ran before the post-ingest commit. Added the
+required loss-scenario test: transient fetch failure → assert NO
+`processedEvent.create` occurred → retry with same event → assert fetch+ingest
+ran and the dedup row was finally written. Also asserted no dedup row is written
+on the connection-error path.
+
+### Finding 2 (High) — live Oura `sleep` stage/HRV ingestion not wired
+
+**Bug:** the connector fetched the long-form `sleep` records during backfill but
+the normalizer mapped `sleep` → `[]`; only synthetic `daily_sleep` records (which
+already carried stage fields in tests) produced sleep samples. Live backfill
+produced no `SLEEP_*`/`HRV_MS` samples.
+
+**Fix:** verified the Oura v2 `GET /v2/usercollection/sleep` shape against
+https://cloud.ouraring.com/v2/docs — the long-form sleep document carries
+`total_sleep_duration`, `rem/deep/light_sleep_duration`, `awake_time`,
+`efficiency`, `average_hrv` (all seconds for durations, ms for HRV) plus a
+5-minute `hrv.items` time series.
+- `oura.types.ts:73-121`: added `OuraSleep` + `OuraSleepTimeSeries` interfaces for the long-form document.
+- `oura.normalizer.ts`: extracted shared `sleepSeeds()` (used by both `daily_sleep` and `sleep`); added `normalizeSleep()` mapping stage durations (÷60 → minutes), `efficiency` → `SLEEP_EFFICIENCY_PCT`, and HRV → `HRV_MS` preferring `average_hrv` else the mean of `hrv.items` (off-wrist `null` entries skipped) via `averageSeries()`; routed `case 'sleep'` to `normalizeSleep` in `normalizeOuraRecord` (`oura.normalizer.ts:142-279, 372-384`).
+
+**Tests** (`oura.normalizer.spec.ts:265-363`): realistic live `sleep` payload →
+exact 7-sample output (golden vector below); `average_hrv` precedence; HRV
+derived from `hrv.items` mean when `average_hrv` absent; no HRV sample when
+neither present; canonical dedup_key re-derived via the shared `computeDedupKey`.
+
+Golden vector — `normalizeOuraRecord(collection='sleep')` for a 420-min night
+(`total=25200s, rem=6000s, deep=4200s, light=15000s, awake=900s, efficiency=89,
+average_hrv=58`, window = bedtime span):
+
+| metric | value | unit | bucket | startAt | endAt |
+| --- | --- | --- | --- | --- | --- |
+| SLEEP_TOTAL_MIN | 420 | min | SLEEP_RECOVERY | 2026-05-30T23:10:00.000Z | 2026-05-31T06:55:00.000Z |
+| SLEEP_REM_MIN | 100 | min | SLEEP_RECOVERY | 2026-05-30T23:10:00.000Z | 2026-05-31T06:55:00.000Z |
+| SLEEP_DEEP_MIN | 70 | min | SLEEP_RECOVERY | 2026-05-30T23:10:00.000Z | 2026-05-31T06:55:00.000Z |
+| SLEEP_LIGHT_MIN | 250 | min | SLEEP_RECOVERY | 2026-05-30T23:10:00.000Z | 2026-05-31T06:55:00.000Z |
+| SLEEP_AWAKE_MIN | 15 | min | SLEEP_RECOVERY | 2026-05-30T23:10:00.000Z | 2026-05-31T06:55:00.000Z |
+| SLEEP_EFFICIENCY_PCT | 89 | % | SLEEP_RECOVERY | 2026-05-30T23:10:00.000Z | 2026-05-31T06:55:00.000Z |
+| HRV_MS | 58 | ms | SLEEP_RECOVERY | 2026-05-30T23:10:00.000Z | 2026-05-31T06:55:00.000Z |
+
+(`sourceRecordId='sleep_period_abc123'` on every row.)
+
+### Finding 3 (Medium/High) — outage marking on backfill/refresh
+
+**Bug:** backfill/refresh provider failures only threw; the connection was never
+marked `error` outside webhook processing.
+
+**Fix** (`oura.connector.ts`): added an optional `PrismaService` constructor
+dependency (kept optional so the pure OAuth/normalize/verify unit tests still
+construct with just the HTTP client). `backfill()` and `refresh()` now delegate
+to private `backfillInner`/`refreshInner` and wrap them in try/catch; on failure
+`markConnectionError()` updates `WearableConnection` to
+`{ status: 'error', last_error: <redacted> }` (best-effort, never masks the
+original error) and rethrows (fail-loud). Added module-scoped
+`redactErrorMessage(err)` that strips `access_token=/refresh_token=/client_secret=/
+client_id=/token=/code=` values, `Authorization: <scheme> <token>` headers, and
+bare `Bearer`/`Basic` tokens, then caps at 500 chars. `createOuraConnector` now
+forwards an optional `prisma` arg.
+- `oura.connector.ts:63-113` (`redactErrorMessage`), `96-99` (ctor), `141-152` + `190-200` (refresh/backfill wrappers), `483-508` (`markConnectionError`), `559-565` (factory).
+
+**Tests** (`oura.connector.spec.ts:342-446`): backfill failure → asserts
+`wearableConnection.update` called with `status:'error'` and a `last_error` that
+contains `Bearer [REDACTED]` + `client_secret=[REDACTED]` and NOT the raw token/
+secret; refresh failure marks error with `refresh_token=[REDACTED]`; no-prisma
+construction still rethrows without crashing; dedicated `redactErrorMessage`
+unit tests for each secret pattern, bearer headers, non-Error inputs, and the
+500-char cap.
+
+### Gates (re-run at new head `8249160`, Prisma 6.19.3 via repo node_modules)
+
+| Gate | Result |
+| --- | --- |
+| `prisma validate` | PASS — schema valid |
+| `prisma generate` | PASS — client generated (v6.19.3) |
+| `tsc --noEmit -p tsconfig.json` | PASS — no compiler output |
+| `eslint src/wearables/connectors/oura/` | PASS — no lint output |
+| `jest --roots src/wearables --runInBand` | PASS — 6 suites / 107 tests (was 95; +12 new) |
+
+Oura connector suite alone: 3 suites / 55 tests (was 43; +12). New tests:
++1 webhook (loss/retry), +4 normalizer (sleep mapping, HRV-from-series,
+no-HRV, dedup_key), +7 connector (backfill/refresh outage marking ×3 + 4
+redaction units).
