@@ -74,3 +74,28 @@ weakened. `roles-enforced.spec.ts` still passes.
 ## Commits (Dynasia G, no trailers)
 - `738b554` hygiene(H2): validated admin query DTOs + cursor pagination + ApiOperation (#6/#2/#8)
 - `4bb77d2` hygiene(H2): type-safe mock-call access in admin hygiene spec
+
+## FIX PASS — P2 response-envelope caller (post GPT-5.5 audit NOT-CLEAN)
+Audit `audits/PR18_wave/H2_AUDIT.md` flagged one P2: the new
+`{ users, next_cursor }` / `{ coaches, next_cursor }` envelopes from
+`src/admin/admin.service.ts` broke the checked-in caller
+`scripts/admin-federation-smoke.ts`, which still asserted bare arrays
+(`body not array`) for `GET /admin/users` and `GET /admin/coaches`.
+
+**Fix (kept the pagination win):** migrated the smoke script's two checks to
+consume the envelope — assert `body.users` / `body.coaches` is an array and
+`next_cursor` is `string | null`. Updated the script header comments and the
+deploy runbook probes (`docs/deploy-runbook.md:418-419`) from "JSON array" to
+the envelope shape. A whole-tree grep confirmed the smoke script was the ONLY
+programmatic caller depending on the bare-array shape (all other matches are
+route docs/specs or unrelated header parsing); no other callers needed changes,
+so the envelope is retained as the better long-term API. Guards/owner role
+untouched; `test/roles-enforced.spec.ts` not modified.
+
+### Verification (real tooling, completed green runs)
+- **Typecheck**: `NODE_OPTIONS=--max-old-space-size=2048 npx tsc --noEmit -p tsconfig.json --pretty false` → **PASS** (exit 0, 0 errors).
+- **Lint**: `npx eslint scripts/admin-federation-smoke.ts` → **PASS** (0 problems).
+- **Tests**: `test/admin-controller-hygiene.spec.ts` → **52/52**; `test/roles-enforced.spec.ts` → **2/2**; `test/admin-federation-smoke.helpers.spec.ts` (smoke surface regression) → **6/6**. All run individually with bounded memory (combined runs SIGKILL in this env).
+
+### Fix commit (Dynasia G, no trailers) — branch hygiene/admin-controller
+- `c98cd12` hygiene(H2): migrate admin-federation-smoke to { users/coaches, next_cursor } envelope (P2)
