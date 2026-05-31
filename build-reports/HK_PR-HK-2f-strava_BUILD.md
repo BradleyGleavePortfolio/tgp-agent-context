@@ -133,3 +133,99 @@ and enqueue-on-first-activity (not on delete/athlete).
    observed AWS us-east-1 egress IPs, overridable via env (incl. `*` for trusted-proxy deployments).
    Documented in code.
 5. **Commit folding.** Two gate-driven fixes folded into commit 4 (same write-set) — see Commits note.
+
+---
+
+## R2 Fix Pass
+
+**Fixer:** Dynasia G <dynasia@trygrowthproject.com>
+**Branch:** `hk/PR-HK-2f-strava-connector`
+**Prior head (R1-audited):** `fbd0f5e84ac731e575ef482002553f3026848b53`
+**New head:** `10a11ee764599f66eacded3bfee8af52e9830423`
+**Audit addressed:** `audits/HK_wave/PR-HK-2f_AUDIT_R1.md` (3 findings: 1 Critical, 2 High)
+
+Write-set unchanged in scope — only 3 files under `src/wearables/connectors/strava/`
+were touched (`strava.types.ts`, `strava-webhook.controller.ts`,
+`strava-webhook.controller.spec.ts`). No schema/migration, no module/registry edits.
+
+### Commits (Dynasia G, empty bodies, no trailers/co-authors)
+
+1. `7332a81` fix(wearables): PR-HK-2.f — fail-closed subscription validation
+2. `6426976` fix(wearables): PR-HK-2.f — Zod validation on webhook payload
+3. `10a11ee` fix(wearables): PR-HK-2.f — durable fetch enqueue (or sync fetch fallback)
+
+### Finding 1 (CRITICAL) — POST subscription validation now FAILS CLOSED
+
+Previously the validator only rejected a mismatch when `STRAVA_WEBHOOK_SUBSCRIPTION_ID`
+was set; an unset env var let any syntactically valid event through (fail-open).
+
+Fix (`strava-webhook.controller.ts`, `handleEvent`):
+- Env var **unset** → log `wearables.strava.webhook_misconfigured` (error) and throw
+  `ServiceUnavailableException('strava_webhook_not_configured')` → **503**. No DB write,
+  no dedup, no enqueue.
+- Env var **set but mismatched** → `ForbiddenException('subscription_id_mismatch')` → **403**.
+- **Match** → continue.
+- Added `onModuleInit()` startup warning so ops sees the misconfiguration on deploy when
+  the subscription id is unset.
+
+Spec: env unset → 503; set+mismatch → 403; match → continue.
+
+### Finding 2 (HIGH) — Zod validation replaces ad-hoc typeof checks
+
+Added `StravaWebhookEventSchema` (Zod, `.strict()`) to `strava.types.ts` constraining
+`aspect_type`/`object_type` to their enums, `object_id`/`owner_id`/`subscription_id`/
+`event_time` to positive integers, and `updates` to an optional string-keyed record.
+The controller now accepts `@Body() rawBody: unknown`, runs `parseEvent()` →
+`safeParse`, and throws `BadRequestException` (**400**, never 500) on any violation —
+BEFORE any IP/subscription/dedup/enqueue side effect. `owner_id` is therefore guaranteed
+numeric before it reaches the enqueue (closes R1 §2 exactly). Unknown top-level keys are
+rejected via `.strict()`.
+
+### Finding 3 (HIGH) — durable fetch enqueue
+
+**Approach chosen: durable claimable work row in the existing `WearableProcessedEvent`
+model (no migration).**
+
+Rationale: the repo ships **no** BullMQ / `@nestjs/bull` (only `@nestjs/schedule`
+cron + "durable row" queues, cf. `LeadSyncQueue`). The `LeadSyncQueue` no-op pattern is
+safe only because the durable lead row *already exists* before the kick; the Strava
+webhook instead receives only an activity reference, so the previous log-only facade
+genuinely dropped work on restart (R1 was correct). A synchronous in-handler fetch was
+rejected because the webhook has no `WearableConnection`/OAuth token for the owner — it
+cannot call Strava itself; the connector's authenticated fetch path is PR-HK-3's worker.
+Adding a new Prisma model/migration would collide with the schema mutex (connector-scoped
+write-set).
+
+`StravaActivityFetchQueue.enqueueActivityFetch(ownerId, activityId)` now injects
+`PrismaService` and writes a PENDING work row:
+- `provider = STRAVA`
+- `provider_event_id = strava:fetch:activity:<activityId>:<ownerId>` (namespaced so it
+  never collides with a dedup row keyed `<object_type>:<object_id>:<event_time>`)
+- `type = 'strava.activity.fetch'` (`FETCH_WORK_TYPE` constant)
+- `handler_completed_at = NULL` (the indexed claim seam)
+
+The row is written via `createMany({ skipDuplicates: true })` and awaited inside the
+synchronous ACK path, so the activity reference is durable across crash/restart and the
+re-enqueue is idempotent. A future PR-HK-3 worker claims pending work with
+`WHERE provider = STRAVA AND type = 'strava.activity.fetch' AND handler_completed_at IS NULL`
+(covered by `@@index([handler_completed_at])`), fetches/normalizes, then stamps
+`handler_completed_at`. No schema change required.
+
+### Gates (R2)
+
+| Gate | Command | Result |
+| --- | --- | --- |
+| Prisma validate | `prisma validate` | ✅ valid |
+| Prisma generate | `prisma generate` | ✅ generated (v6.19.3) |
+| Types | `tsc --noEmit -p tsconfig.json` | ✅ exit 0 |
+| Lint | `eslint src/wearables/connectors/strava/` | ✅ 0 errors, 0 warnings |
+| Tests (Strava) | `jest --roots src/wearables/connectors/strava --runInBand` | ✅ **3 suites, 53/53** (was 44) |
+| Tests (wearables regression) | `jest --roots src/wearables --runInBand` | ✅ **6 suites, 105/105** (was 96) |
+
+**New tests (+9 over R1's 44):** Finding 1 — 503-on-unset (no DB touch) + onModuleInit
+startup-warning; Finding 2 — non-numeric `object_id`, non-numeric `owner_id`, invalid
+`aspect_type` enum, invalid `object_type` enum, missing required field, negative
+`object_id`, unknown extra key; Finding 3 — durable PENDING work-row persistence (real
+queue + Prisma mock, asserting namespaced `provider_event_id`, `type`, NULL
+`handler_completed_at`) + idempotent duplicate enqueue. The 403 foreign-subscription test
+was retained (now asserts `ForbiddenException` for the configured-mismatch path).
