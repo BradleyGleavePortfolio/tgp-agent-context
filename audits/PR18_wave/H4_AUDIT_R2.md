@@ -1,0 +1,38 @@
+# AUDIT — Hygiene H4 storefront join-token throttle R2 (PR #338)
+VERDICT: NOT CLEAN
+Pinned backend SHA: `ab73c91363d56ce2b2e199934fe4e53903bdc208`
+Auditor: independent GPT-5.5 re-audit
+
+Typecheck: pass — ran `NODE_OPTIONS=--max-old-space-size=2048 npx tsc --noEmit --pretty false` at `ab73c91363d56ce2b2e199934fe4e53903bdc208`; exit 0.
+Lint: pass — ran `npx eslint src/storefront/storefront-public.controller.ts src/throttler/throttler.config.ts test/storefront-public.controller.spec.ts`; exit 0. Also ran `npm run lint`; exit 0 with 16 pre-existing warnings / 0 errors.
+Tests: mixed — focused H4 gate passed (`npx jest test/storefront-public.controller.spec.ts test/rate-limit.spec.ts --runInBand`: 2 suites, 70/70 tests). Full Jest gate failed, not killed (`npx jest --runInBand`: 306 passed / 307 suites, 3762 passed / 3788 tests, 1 failing test in `test/purchase-fanout-real-body.spec.ts:331`). Independent runtime throttle verification failed because same-token traffic blocks at request 4, not request 21; details below.
+
+Finding counts: P0=0, P1=2, P2=1, P3=0.
+
+## P0 findings
+- None.
+
+## P1 findings
+- [src/storefront/storefront-public.controller.ts:201-210, src/throttler/throttler.config.ts:178-231, test/storefront-public.controller.spec.ts:740-859, test/storefront-public.controller.spec.ts:861-873] The route-level proof misses that **all** globally registered named throttlers still run on `GET join/:token`, so legitimate same-token traffic is not governed by the claimed 20/min composite bucket. The new route overrides only `default` and `storefront-join-ip`; the global table still includes unrelated low ceilings such as `auth-password-reset` at 3/hour, `auth-signup` at 5/hour, `auth-recent-auth` at 5/min, and `coach-ai-generation` at 10/hour. Because `UserThrottlerGuard.getTracker()` returns the same composite `storefront-join:<token>:<ip>` key for those named throttlers too, the 4th load of the same valid token from one IP is rejected by the 3/hour password-reset bucket before the intended 20/min composite bucket can ever bite. I verified this with a real `UserThrottlerGuard` runtime harness using the actual handler metadata and `THROTTLER_LIMITS`: 121 different tokens from one IP are blocked at request 121, but 21 same-token requests are blocked at request 4 (`/home/user/workspace/h4_throttle_runtime_verify_pinned.log`). This violates the brief’s “legitimate repeated load of ONE valid token within normal limits still succeeds” requirement and makes the controller comment’s 20/min per-(token,IP) fairness claim false. Fix by skipping all unrelated named throttlers on this handler (or by making each named throttler apply only to its target route), then add a real-guard test proving same token + same IP allows 20 requests and rejects the 21st while different tokens reject at the 121st.
+
+- [src/throttler/throttler.config.ts:246-310] Redis-backed throttling does not gracefully degrade when Redis is configured but unavailable. `buildThrottlerOptions()` constructs the Redis storage and returns it, but there is no fallback/circuit-breaker around storage operations; with `REDIS_URL=redis://127.0.0.1:1`, a storage `increment()` failed with `Stream isn't writeable and enableOfflineQueue options is false` (`/home/user/workspace/h4_redis_down_verify_pinned.log`). In production this means a Redis outage can turn the public join route (and every globally throttled route) into 5xx instead of a controlled fail-open/fail-local/fail-closed response with an explicit metric. Fix by adding a deliberate degradation policy (for example, bounded local emergency buckets plus a high-severity metric/log, or a documented fail-closed 503 path) and test the Redis-down path.
+
+## P2 findings
+- [specs/HYGIENE_H4_STOREFRONT_TOKEN_BRIEF.md:12-17, build-reports/H4_STOREFRONT_TOKEN_BUILD.md:100-106] P2 is only partially closed: the write-set amendment exists and the fix note explains the additional files, but the fix note does **not** state that the amendment was parent-authorized as required by this R2 audit brief. It says “Per the fixer directive” and “the brief’s write-set allowance was UPDATED,” which records fixer intent, not parent authorization. Fix by amending the build report/brief note to explicitly state the parent-authorized write-set amendment (or attach the parent authorization reference) so future auditors can distinguish approved scope expansion from a self-authorized write-set escape.
+
+## P3 (non-blocking)
+- None.
+
+## Verification of PR claims
+- Pinned SHA verified: backend checkout was reset to `ab73c91363d56ce2b2e199934fe4e53903bdc208` before final inspection and gates.
+- P1 IP-wide layer: verified present. `GET join/:token` carries a second named throttle `storefront-join-ip` with `ttl: 60_000`, `limit: THROTTLER_ROUTE_LIMITS.STOREFRONT_JOIN_IP_PER_MIN`, and a custom tracker at `src/storefront/storefront-public.controller.ts:201-210`; `STOREFRONT_JOIN_IP_PER_MIN` defaults to `120` at `src/throttler/throttler.config.ts:150-159`; the named throttler is registered at `src/throttler/throttler.config.ts:211-219`.
+- P1 121-different-token behavior: verified true in an independent real-guard harness at pinned SHA. Same IP across 121 different tokens blocks at request 121 (`differentTokensBlockedAt: 121`).
+- Composite `(token,IP)` tracker: verified present through `UserThrottlerGuard.getTracker()` for storefront join paths at `src/throttler/user-throttler.guard.ts:115-144`; same IP + different token produces different composite keys. However the **effective** same-token runtime ceiling is wrong because unrelated named throttlers also run (P1 above).
+- No bypass paths / trusted IP: the H4 IP-wide tracker prefers `fly-client-ip`, then the first `x-forwarded-for` hop, then `req.ip` / socket at `src/storefront/storefront-public.controller.ts:77-100`. The global composite tracker follows the same source order at `src/throttler/user-throttler.guard.ts:123-144`. `src/main.ts` does not set Express `trust proxy`; the throttling key therefore does not rely on Express `req.ip` for normal Fly/proxy traffic. Residual concern: if a request can reach the app without the trusted Fly edge setting `fly-client-ip`, raw `x-forwarded-for` is accepted as client identity.
+- Throttle storage: production refuses to boot without `REDIS_URL` (`src/throttler/throttler.config.ts:252-268`), and dev/test fall back to in-memory with a log that limits do not cross machines. Redis-down operation is **not** graceful (P1 above).
+- Observability: verified structured throttle-hit logging and a low-cardinality counter hook in `src/filters/throttler-exception.filter.ts:65-84`.
+- Write-set vs `9a8e210b`: verified only the amended H4 files changed — `src/storefront/storefront-public.controller.ts`, `src/throttler/throttler.config.ts`, and `test/storefront-public.controller.spec.ts`.
+- P2 write-set amendment record: amendment exists in the brief at `specs/HYGIENE_H4_STOREFRONT_TOKEN_BRIEF.md:12-17`, and the fix note explains the added spec/config files at `build-reports/H4_STOREFRONT_TOKEN_BUILD.md:100-106`; parent-authorization wording is missing (P2 above).
+
+## R0 review (Google lens)
+Google would not ship a per-(token,IP)-only throttle for token enumeration; the added IP-wide 120/min layer is the right layered-defense direction. Google also would not ship the current runtime behavior where unrelated named throttlers silently lower a public landing-page route to 3/hour for same-token reloads, nor a Redis-backed global throttle path whose storage outage behavior is untested and uncontrolled. The 429 filter’s structured log + metric hook is the right observability shape, but the storage and named-throttler interactions need correction before merge.
