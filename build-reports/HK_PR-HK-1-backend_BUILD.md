@@ -75,3 +75,34 @@ Injected into `src/wearables/connections/connections.service.ts` (constructor pa
 
 ## Connectors
 Registry **ships empty** in this PR. Connector definitions arrive in PR-HK-2.* and register via the `WEARABLE_CONNECTORS` token; `connector-registry.ts` is edited only here.
+
+## R2 Fix Pass
+**Auditor finding addressed:** R1 P1 — OAuth code-exchange failure logged the raw connector exception message (`(err as Error).message`), which can embed the OAuth `code`, `access_token`, `refresh_token`, or `client_secret`. The required Jest run demonstrated `token=leak` reaching the logs.
+
+**New head SHA:** `774a97302ec804ba0e02a9f3c5a08cb67294105b`
+(parent `c239dba8afb5fe58facf8562ea05c272081d6ea5`; base main `9c67444c` unchanged.)
+
+**Commits:**
+- `f9d55c4239597ee226a178ea83ff168bb1790b19` — `fix(wearables): PR-HK-1 — redact OAuth error logs (no token leakage)`
+- `774a97302ec804ba0e02a9f3c5a08cb67294105b` — `test(wearables): PR-HK-1 — leak repro for OAuth error redaction`
+
+**Lines changed (vs c239dba):**
+- `src/wearables/connections/connections.service.ts`
+  - L122–129: replaced the raw-message `logger.error(... ${(err as Error).message})` with `this.logger.error(this.sanitizeExchangeError(err, provider, userId))` (plus expanded redaction-rationale comment).
+  - L247–283: added private `sanitizeExchangeError(err, provider, userId)` returning `{ msg: 'wearables.oauth.exchange_failure', provider, user_id, error_code: err.code ?? 'unknown', error_class: err.constructor.name }`. No `err.message`, response data, bodies, headers, or query strings are ever logged.
+- `src/wearables/oauth/oauth-state.service.ts`
+  - L188–196: redacted the Redis-store-construction `logger.error` to log `error_class=<constructor name>` instead of `(err as Error).message` (an ioredis construction error can echo back `REDIS_URL` with credentials). Same redaction discipline as the exchange path.
+- `src/wearables/connections/connections.service.spec.ts`
+  - L1: import `Logger` from `@nestjs/common`.
+  - L244–296: new test `NEVER logs the raw connector error message/token material on exchange failure (R1 P1 leak repro)`. Mocks the connector to throw `Error('provider 500: token=leak123 refresh_token=secret_xyz client_secret=cs_999 code=auth_abc')`, spies on all `Logger.prototype` levels (`error/warn/log/debug/verbose`), and asserts `JSON.stringify(allCalls)` does NOT include `leak123`, `secret_xyz`, `cs_999`, or `auth_abc`. Also positively asserts the sanitized `wearables.oauth.exchange_failure` payload was logged with safe context only.
+
+**Test count delta:** 120 → **121** (+1 leak repro). 8 suites passing.
+
+**Gates (all PASS, run with the repo-pinned Prisma 6.19.3):**
+- `DATABASE_URL=… DIRECT_URL=… npx prisma validate` — PASS (schema valid).
+- `npx prisma generate` — PASS.
+- `NODE_OPTIONS=--max-old-space-size=4096 npx tsc --noEmit -p tsconfig.json` — PASS (0 errors).
+- `npx eslint src/wearables/` — PASS (exit 0).
+- `NODE_ENV=test npx jest --roots src/wearables --runInBand` — PASS, 8 suites / 121 tests.
+
+**Leak-repro confirmation:** The new test passes; a grep of the full Jest output for `leak123` / `secret_xyz` / `token=leak` returns **0 matches**. The old log line `OAuth code exchange failed for provider=… user=…: <raw err.message>` is gone; the only emitted log is the structured `{ msg: 'wearables.oauth.exchange_failure', provider, user_id, error_code, error_class }` object, which carries no connector/token material.
