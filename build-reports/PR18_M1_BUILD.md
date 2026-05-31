@@ -118,3 +118,37 @@ intentionally excluded):
 - Backend storefront contract: `growth-project-backend`
   `src/.../storefront-public.controller.ts`,
   `src/.../storefront.types.ts` (`PublicPackageData`, `billing_cycle` enum).
+
+---
+
+## FIX NOTE — audit NOT-CLEAN remediation (Dynasia G, fixer pass)
+
+GPT-5.5 audit (`audits/PR18_wave/M1_AUDIT.md`) returned NOT-CLEAN on one P0 and one P2. Both fixed on `pr18/m1-mobile-commerce-polish`.
+
+### Files touched
+- `src/api/packagesApi.ts` — checkout redirect URL constants + new `PACKAGE_CHECKOUT_RETURN_SCHEME` export.
+- `src/screens/client/PackageCheckoutScreen.tsx` — pass the matching `returnScheme` to `BrandedCheckoutWebView`.
+- `src/theme/tokens.ts` — AA-passing `textMuted` (light) and `textOnAccent` (dark) values.
+- `src/__tests__/BrandedCheckoutWebViewScreen.test.tsx` — P0 round-trip regression test (minted URL → parser).
+- `src/api/__tests__/paymentsApi.test.ts` — P0 URL-shape/scheme assertion.
+- `src/__tests__/scopedTokenGate.test.ts` — numeric WCAG AA contrast gate so ratios cannot drift.
+
+### P0 — return-URL alignment explanation
+Root cause: the public package buyer flow minted Stripe redirect URLs as `growthproject://checkout/return` / `growthproject://checkout/cancel` (defaults in `packagesApi.ts`) **and** opened the branded webview with `returnScheme: 'tgp'`. The webview parser `parseReturnDeepLink()` (and the OS-level `RootNavigator` deep-link config) only intercept `<scheme>://checkout/success` and `<scheme>://checkout/cancel`. So the minted URLs mismatched on **both** the scheme (`growthproject`/`tgp` vs the parsed scheme) **and** the path (`/return` vs `/success`). A completed Stripe payment redirected to a URL the webview never short-circuited → buyer stranded, never routed to `CheckoutReturn`, money flow completed with no confirmation.
+
+Constraint discovered: the backend allow-list (`growth-project-backend/src/checkout/checkout.controller.ts:30-38`, `CreateCheckoutDto` `@Matches`) accepts **only** `growthproject://`, `com.growthproject.app://`, `https://` — it **rejects `tgp://`**. So `tgp://` cannot be minted.
+
+Fix: mint the backend-accepted, parser-matching, app.json-registered deep links —
+`com.growthproject.app://checkout/success?session_id={CHECKOUT_SESSION_ID}` (Stripe interpolates the placeholder; parser reads `session_id`) and `com.growthproject.app://checkout/cancel` — and pass `returnScheme: PACKAGE_CHECKOUT_RETURN_SCHEME` (`'com.growthproject.app'`) to the webview. This now exactly matches the already-correct in-app `clientPaymentsApi.createCheckoutSession` path used by `ClientPackagesScreen`, so both checkout entry points use one scheme + path contract. Backend/`RootNavigator`/`BrandedCheckoutWebViewScreen` source unchanged (no other unit's files touched); the primary success path is the webview short-circuit, fully self-contained in the M1 write-set.
+
+### P2 — contrast ratios (WCAG 2.1 relative luminance; AA normal text = 4.5:1)
+- Light `textMuted` on cream `#F5EFE4`: `#78736E` = **4.10:1 (FAIL)** → `#6B675F` = **4.92:1 (PASS)**; on surface `#FFFDF8` = **5.54:1 (PASS)**.
+- Dark `textOnAccent` on dark accent `#B43C3C`: `#1A1714` = **3.10:1 (FAIL)** (even pure black tops out at 3.65:1, so a dark ink can never pass on this mid-tone red) → warm near-white `#FBF7F0` = **5.38:1 (PASS)**.
+- Unchanged, re-verified PASS: light `textOnAccent` `#FBF7F0` on `#4A0404` = 15.01:1; dark `textMuted` `#A09B94` on `#121110` = 6.84:1 / on `#1C1A18` = 6.29:1; `textPrimary` on cream = 15.23:1.
+Brand palette preserved (forest `#2C4A36`, oxblood accents). A numeric contrast gate was added to `scopedTokenGate.test.ts` so these pairs are asserted ≥ 4.5:1 on every run.
+
+### Verification (real tooling, completed green)
+- `npx tsc --noEmit` → **exit 0**.
+- `npx jest` on the 8 touched suites → **8 suites / 211 tests passing** (was 204; +7 from the new P0 round-trip + P2 contrast-gate tests).
+- Static grep gates on the 14 scoped source files → **PASS** (no raw hex literals, no `ThemeColors`; comments stripped before scan).
+- No regression to the public-route fix, preview-as-buyer, or lock-pricing UX (all covered suites still green). No feature flag, no emoji.
