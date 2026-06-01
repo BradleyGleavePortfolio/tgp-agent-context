@@ -1,0 +1,5 @@
+Full temporary log: /tmp/PR-HK-2d_R3_prisma.log
+Exit status: 0
+Command: npx prisma validate
+Prisma schema loaded from prisma/schema.prisma
+The schema at prisma/schema.prisma is valid 🚀

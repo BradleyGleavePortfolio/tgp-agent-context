@@ -1,0 +1,11 @@
+== fetch branch ==
+From https://git-agent-proxy.perplexity.ai/BradleyGleavePortfolio/growth-project-backend
+ * branch                hk/PR-HK-2.d-garmin -> FETCH_HEAD
+== remove existing worktree if registered? ==
+== add worktree pinned ==
+Preparing worktree (detached HEAD 25dd6791d)
+HEAD is now at 25dd6791d PR-HK-2.d: Garmin connector
+== verify HEAD ==
+25dd6791d3b1d2159f713fc2dcd29ef8a43d3393
+== status ==
+## HEAD (no branch)

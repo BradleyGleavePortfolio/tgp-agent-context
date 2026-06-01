@@ -1,0 +1,2837 @@
+diff --git a/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts b/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts
+new file mode 100644
+index 000000000..7b66ed044
+--- /dev/null
++++ b/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts
+@@ -0,0 +1,453 @@
++import { BadRequestException, UnauthorizedException } from '@nestjs/common';
++import type { RawBodyRequest } from '@nestjs/common';
++import type { Request } from 'express';
++import { KmsService } from '../../../common/kms/kms.service';
++import { ProviderHttpClient } from '../../http/provider-http-client';
++import { GarminConnector, hashGarminUserId } from './garmin.connector';
++import { GarminWebhookController } from './garmin-webhook.controller';
++import { GARMIN_PUSH_TOKEN_HEADER } from './garmin.types';
++
++const PUSH_TOKEN = 'garmin-push-token-abc';
++const GARMIN_USER = 'garmin-user-7';
++
++/** 2026-05-20T00:00:00Z epoch seconds — a parseable window for the normalizer. */
++const DAY_START_SEC = Math.floor(Date.parse('2026-05-20T00:00:00.000Z') / 1000);
++
++interface PrismaMock {
++  wearableProcessedEvent: {
++    findUnique: jest.Mock;
++    createMany: jest.Mock;
++  };
++  wearableConnection: {
++    findFirst: jest.Mock;
++    updateMany: jest.Mock;
++    update: jest.Mock;
++  };
++}
++
++function makePrisma(): PrismaMock {
++  return {
++    wearableProcessedEvent: {
++      findUnique: jest.fn().mockResolvedValue(null),
++      createMany: jest.fn().mockResolvedValue({ count: 1 }),
++    },
++    wearableConnection: {
++      findFirst: jest.fn().mockResolvedValue({
++        id: 'conn-uuid-1',
++        user_id: 'user-uuid-1',
++        provider: 'GARMIN',
++        external_account_id: GARMIN_USER,
++        disconnected_at: null,
++        status: 'connected',
++      }),
++      updateMany: jest.fn().mockResolvedValue({ count: 1 }),
++      update: jest.fn().mockResolvedValue({}),
++    },
++  };
++}
++
++interface IngestionMock {
++  ingest: jest.Mock;
++}
++
++function makeIngestion(): IngestionMock {
++  return { ingest: jest.fn().mockResolvedValue(undefined) };
++}
++
++/** Build a RawBodyRequest with rawBody Buffer + lower-cased header map. */
++function makeReq(
++  rawBody: Buffer,
++  headers: Record<string, string>,
++): RawBodyRequest<Request> {
++  return { rawBody, headers } as unknown as RawBodyRequest<Request>;
++}
++
++function pushHeaders(token = PUSH_TOKEN): Record<string, string> {
++  return { [GARMIN_PUSH_TOKEN_HEADER]: token };
++}
++
++/** A valid single-collection daily push envelope. */
++function dailyEnvelope(summaryId = 'daily-1'): Buffer {
++  return Buffer.from(
++    JSON.stringify({
++      dailies: [
++        {
++          summaryId,
++          userId: GARMIN_USER,
++          startTimeInSeconds: DAY_START_SEC,
++          startTimeOffsetInSeconds: 0,
++          durationInSeconds: 86_400,
++          steps: 8421,
++          activeKilocalories: 612,
++        },
++      ],
++    }),
++  );
++}
++
++describe('GarminWebhookController', () => {
++  let connector: GarminConnector;
++  let prisma: PrismaMock;
++  let ingestion: IngestionMock;
++  let controller: GarminWebhookController;
++
++  beforeEach(() => {
++    process.env.GARMIN_PUSH_TOKEN = PUSH_TOKEN;
++    process.env.GARMIN_WEBHOOK_SALT = 'salt-xyz';
++    connector = new GarminConnector(
++      new ProviderHttpClient({
++        fetchFn: jest.fn() as unknown as typeof fetch,
++        sleep: () => Promise.resolve(),
++        random: () => 1,
++      }),
++      // The webhook path never touches tokens; a no-op KMS double suffices.
++      {
++        decrypt: jest.fn((s: string) => s),
++        encrypt: jest.fn((s: string) => s),
++      } as unknown as KmsService,
++    );
++    prisma = makePrisma();
++    ingestion = makeIngestion();
++    controller = new GarminWebhookController(
++      connector,
++      prisma as unknown as import('../../../prisma.service').PrismaService,
++      ingestion as unknown as import('../../ingestion/ingestion.service').IngestionService,
++    );
++  });
++
++  afterEach(() => {
++    jest.restoreAllMocks();
++    delete process.env.GARMIN_PUSH_TOKEN;
++    delete process.env.GARMIN_WEBHOOK_SALT;
++  });
++
++  // ── (1) Valid push: verify → normalize → ingest → commit dedup row ──────
++
++  it('accepts a valid, token-verified daily push: ingests samples and commits the dedup row', async () => {
++    const rawBody = dailyEnvelope('daily-1');
++
++    const res = await controller.handle(makeReq(rawBody, pushHeaders()));
++
++    expect(res).toEqual({ ok: true, processed: 1, duplicate: 0 });
++    // Subject connection resolved by Garmin user id.
++    expect(prisma.wearableConnection.findFirst).toHaveBeenCalledTimes(1);
++    const findArg = prisma.wearableConnection.findFirst.mock.calls[0][0];
++    expect(findArg.where).toMatchObject({
++      provider: 'GARMIN',
++      external_account_id: GARMIN_USER,
++      disconnected_at: null,
++    });
++    // Samples were ingested (daily → STEPS + ACTIVE_ENERGY_KCAL = 2 samples).
++    expect(ingestion.ingest).toHaveBeenCalledTimes(1);
++    const samples = ingestion.ingest.mock.calls[0][0] as Array<{
++      userId: string;
++      connectionId: string;
++      metric: string;
++    }>;
++    expect(samples).toHaveLength(2);
++    // ctx threaded onto the samples from the resolved connection.
++    expect(samples.every((s) => s.userId === 'user-uuid-1')).toBe(true);
++    expect(samples.every((s) => s.connectionId === 'conn-uuid-1')).toBe(true);
++    // Dedup row committed AFTER ingest, with handler_completed_at + namespaced id.
++    expect(prisma.wearableProcessedEvent.createMany).toHaveBeenCalledTimes(1);
++    const createArg = prisma.wearableProcessedEvent.createMany.mock.calls[0][0];
++    expect(createArg.skipDuplicates).toBe(true);
++    expect(createArg.data[0]).toMatchObject({
++      provider: 'GARMIN',
++      provider_event_id: 'garmin:dailies:daily-1',
++      type: 'dailies',
++    });
++    expect(createArg.data[0].handler_completed_at).toBeInstanceOf(Date);
++    // ingest happened before the dedup-row commit (check → process → commit).
++    const ingestOrder = ingestion.ingest.mock.invocationCallOrder[0];
++    const commitOrder =
++      prisma.wearableProcessedEvent.createMany.mock.invocationCallOrder[0];
++    expect(ingestOrder).toBeLessThan(commitOrder);
++  });
++
++  // ── (2) Invalid push token → 401, body never interpreted ────────────────
++
++  it('rejects an invalid push token with 401 and never parses or ingests', async () => {
++    const rawBody = dailyEnvelope('daily-1');
++
++    await expect(
++      controller.handle(makeReq(rawBody, pushHeaders('wrong-token'))),
++    ).rejects.toBeInstanceOf(UnauthorizedException);
++
++    expect(prisma.wearableConnection.findFirst).not.toHaveBeenCalled();
++    expect(ingestion.ingest).not.toHaveBeenCalled();
++    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
++  });
++
++  it('fails closed (401) when GARMIN_PUSH_TOKEN is unset', async () => {
++    delete process.env.GARMIN_PUSH_TOKEN;
++    const rawBody = dailyEnvelope('daily-1');
++
++    await expect(
++      controller.handle(makeReq(rawBody, pushHeaders('anything'))),
++    ).rejects.toBeInstanceOf(UnauthorizedException);
++    expect(ingestion.ingest).not.toHaveBeenCalled();
++  });
++
++  it('rejects with 401 when the raw body is unavailable', async () => {
++    const req = { headers: pushHeaders() } as unknown as RawBodyRequest<Request>;
++    await expect(controller.handle(req)).rejects.toBeInstanceOf(
++      UnauthorizedException,
++    );
++    expect(ingestion.ingest).not.toHaveBeenCalled();
++  });
++
++  // ── (3) Duplicate event id → idempotency no-op ──────────────────────────
++
++  it('treats an already-processed record as a replay no-op (idempotency, no re-ingest)', async () => {
++    prisma.wearableProcessedEvent.findUnique.mockResolvedValueOnce({
++      provider: 'GARMIN',
++      provider_event_id: 'garmin:dailies:daily-1',
++      handler_completed_at: new Date(),
++    });
++    const rawBody = dailyEnvelope('daily-1');
++
++    const res = await controller.handle(makeReq(rawBody, pushHeaders()));
++
++    expect(res).toEqual({ ok: true, processed: 0, duplicate: 1 });
++    // The existing row short-circuits BEFORE connection resolve / ingest / commit.
++    expect(prisma.wearableConnection.findFirst).not.toHaveBeenCalled();
++    expect(ingestion.ingest).not.toHaveBeenCalled();
++    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
++  });
++
++  it('treats a lost commit race (createMany count 0) as a duplicate', async () => {
++    prisma.wearableProcessedEvent.createMany.mockResolvedValueOnce({ count: 0 });
++    const rawBody = dailyEnvelope('daily-1');
++
++    const res = await controller.handle(makeReq(rawBody, pushHeaders()));
++
++    expect(res).toEqual({ ok: true, processed: 0, duplicate: 1 });
++    // Ingest still ran (it precedes the commit), but the row was already there.
++    expect(ingestion.ingest).toHaveBeenCalledTimes(1);
++  });
++
++  // ── (4) Malformed payload → Zod reject → 400 ────────────────────────────
++
++  it('rejects a verified but non-JSON body with 400 and never ingests', async () => {
++    const rawBody = Buffer.from('not-json-at-all');
++
++    await expect(
++      controller.handle(makeReq(rawBody, pushHeaders())),
++    ).rejects.toBeInstanceOf(BadRequestException);
++    expect(ingestion.ingest).not.toHaveBeenCalled();
++    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
++  });
++
++  it('rejects a verified envelope with an unknown top-level collection (Zod .strict) with 400', async () => {
++    const rawBody = Buffer.from(
++      JSON.stringify({
++        // `forged` is not one of the five known summary kinds → .strict() rejects.
++        forged: [{ summaryId: 'x', userId: GARMIN_USER }],
++      }),
++    );
++
++    await expect(
++      controller.handle(makeReq(rawBody, pushHeaders())),
++    ).rejects.toBeInstanceOf(BadRequestException);
++    expect(ingestion.ingest).not.toHaveBeenCalled();
++  });
++
++  it('rejects a verified envelope whose record is missing summaryId with 400', async () => {
++    const rawBody = Buffer.from(
++      JSON.stringify({ dailies: [{ userId: GARMIN_USER, steps: 10 }] }),
++    );
++
++    await expect(
++      controller.handle(makeReq(rawBody, pushHeaders())),
++    ).rejects.toBeInstanceOf(BadRequestException);
++    expect(ingestion.ingest).not.toHaveBeenCalled();
++  });
++
++  // ── No-connection miss: no ingest, no dedup row (allows later re-link) ───
++
++  it('skips a record with no live connection: no ingest, no dedup row', async () => {
++    prisma.wearableConnection.findFirst.mockResolvedValueOnce(null);
++    const rawBody = dailyEnvelope('daily-1');
++
++    const res = await controller.handle(makeReq(rawBody, pushHeaders()));
++
++    expect(res).toEqual({ ok: true, processed: 0, duplicate: 0 });
++    expect(ingestion.ingest).not.toHaveBeenCalled();
++    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
++  });
++
++  // ── Ingest failure: mark connection error + rethrow, NO dedup row ───────
++
++  it('on ingest failure marks the connection error, rethrows, and writes NO dedup row', async () => {
++    ingestion.ingest.mockRejectedValueOnce(new Error('ingest exploded'));
++    const rawBody = dailyEnvelope('daily-1');
++
++    await expect(
++      controller.handle(makeReq(rawBody, pushHeaders())),
++    ).rejects.toThrow('ingest exploded');
++
++    expect(prisma.wearableConnection.update).toHaveBeenCalledTimes(1);
++    const updArg = prisma.wearableConnection.update.mock.calls[0][0];
++    expect(updArg.where).toEqual({ id: 'conn-uuid-1' });
++    expect(updArg.data.status).toBe('error');
++    expect(typeof updArg.data.last_error).toBe('string');
++    // No dedup row committed → Garmin redelivery reprocesses.
++    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
++  });
++
++  // ── Ingest-failure redaction: raw PII / tokens never reach logs or DB ────
++
++  it('redacts the Garmin userId and token-like fragments from the ingest-failure last_error and log', async () => {
++    // A realistic upstream error whose message embeds provider PII + secrets:
++    // the raw Garmin userId, a Bearer fragment, a labelled userAccessToken,
++    // and a long opaque secret — exactly the values that must never leak.
++    const BEARER = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9abcDEF';
++    const USER_ACCESS_TOKEN = 'a1b2c3d4e5f6g7h8i9j0klmnopqrstuv';
++    const LEAKY_MESSAGE =
++      `ingest failed for user ${GARMIN_USER}: ${BEARER} ` +
++      `userAccessToken=${USER_ACCESS_TOKEN} payload secret=${USER_ACCESS_TOKEN}`;
++    ingestion.ingest.mockRejectedValueOnce(new Error(LEAKY_MESSAGE));
++
++    const controllerLogger = (
++      controller as unknown as {
++        logger: { error: (...a: unknown[]) => void };
++      }
++    ).logger;
++    const errorSpy = jest
++      .spyOn(controllerLogger, 'error')
++      .mockImplementation(() => undefined);
++
++    const rawBody = dailyEnvelope('daily-1');
++    await expect(
++      controller.handle(makeReq(rawBody, pushHeaders())),
++    ).rejects.toThrow();
++
++    // 1) The persisted last_error must NOT contain any raw secret/PII value.
++    const updArg = prisma.wearableConnection.update.mock.calls[0][0];
++    const persisted: string = updArg.data.last_error;
++    expect(persisted).not.toContain(GARMIN_USER);
++    expect(persisted).not.toContain('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9');
++    expect(persisted).not.toContain(USER_ACCESS_TOKEN);
++    expect(persisted).toContain('[redacted');
++    expect(persisted.length).toBeLessThanOrEqual(500);
++
++    // 2) The emitted log object must be structured and equally scrubbed.
++    expect(errorSpy).toHaveBeenCalledTimes(1);
++    const logArg = errorSpy.mock.calls[0][0] as {
++      msg: string;
++      user_hash: string;
++      error_code: string;
++      error_class: string;
++      error_message: string;
++    };
++    expect(logArg.msg).toBe('wearables.garmin.webhook.ingest_failure');
++    expect(logArg.error_code).toBe('GARMIN_INGEST_FAILED');
++    expect(logArg.error_class).toBe('Error');
++    expect(logArg.user_hash).toBe(hashGarminUserId(GARMIN_USER));
++    // The hashed user id is present; the raw id and tokens are not.
++    expect(logArg.user_hash).not.toContain(GARMIN_USER);
++    const serializedLog = JSON.stringify(logArg);
++    expect(serializedLog).not.toContain(GARMIN_USER);
++    expect(serializedLog).not.toContain('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9');
++    expect(serializedLog).not.toContain(USER_ACCESS_TOKEN);
++  });
++
++  // ── (5) Deregistration → flips connection status to 'disconnected' ──────
++
++  it('on deregistration push soft-disconnects matching connection(s)', async () => {
++    const rawBody = Buffer.from(
++      JSON.stringify({
++        deregistrations: [{ userId: GARMIN_USER, userAccessToken: 'tok' }],
++      }),
++    );
++
++    const res = await controller.deregister(makeReq(rawBody, pushHeaders()));
++
++    expect(res).toEqual({ ok: true, disconnected: 1 });
++    expect(prisma.wearableConnection.updateMany).toHaveBeenCalledTimes(1);
++    const arg = prisma.wearableConnection.updateMany.mock.calls[0][0];
++    expect(arg.where).toMatchObject({
++      provider: 'GARMIN',
++      external_account_id: GARMIN_USER,
++    });
++    expect(arg.data.status).toBe('disconnected');
++    expect(arg.data.disconnected_at).toBeInstanceOf(Date);
++  });
++
++  it('rejects a deregistration push with an invalid token (401)', async () => {
++    const rawBody = Buffer.from(
++      JSON.stringify({ deregistrations: [{ userId: GARMIN_USER }] }),
++    );
++
++    await expect(
++      controller.deregister(makeReq(rawBody, pushHeaders('wrong'))),
++    ).rejects.toBeInstanceOf(UnauthorizedException);
++    expect(prisma.wearableConnection.updateMany).not.toHaveBeenCalled();
++  });
++
++  it('rejects a verified but malformed deregistration payload with 400', async () => {
++    // Empty deregistrations array fails the schema (.min(1)).
++    const rawBody = Buffer.from(JSON.stringify({ deregistrations: [] }));
++
++    await expect(
++      controller.deregister(makeReq(rawBody, pushHeaders())),
++    ).rejects.toBeInstanceOf(BadRequestException);
++    expect(prisma.wearableConnection.updateMany).not.toHaveBeenCalled();
++  });
++
++  // ── No PII in logs (audit pattern #3) ───────────────────────────────────
++
++  it('NEVER logs the raw Garmin user id on an accepted push (logs a salted user_hash)', async () => {
++    const logged: unknown[] = [];
++    jest
++      .spyOn(
++        (controller as unknown as { logger: { log: jest.Mock } }).logger,
++        'log',
++      )
++      .mockImplementation((arg: unknown) => {
++        logged.push(arg);
++      });
++
++    const rawBody = dailyEnvelope('daily-1');
++    await controller.handle(makeReq(rawBody, pushHeaders()));
++
++    expect(logged.length).toBeGreaterThan(0);
++    const dump = JSON.stringify(logged);
++    expect(dump).not.toContain(GARMIN_USER);
++    expect(dump).not.toContain('garmin-user');
++  });
++
++  it('NEVER logs the raw Garmin user id on a no-connection miss (logs user_hash)', async () => {
++    prisma.wearableConnection.findFirst.mockResolvedValueOnce(null);
++    const logged: unknown[] = [];
++    jest
++      .spyOn(
++        (controller as unknown as { logger: { warn: jest.Mock } }).logger,
++        'warn',
++      )
++      .mockImplementation((arg: unknown) => {
++        logged.push(arg);
++      });
++
++    const rawBody = dailyEnvelope('daily-1');
++    await controller.handle(makeReq(rawBody, pushHeaders()));
++
++    const dump = JSON.stringify(logged);
++    expect(dump).not.toContain(GARMIN_USER);
++    expect(dump).toContain(hashGarminUserId(GARMIN_USER));
++  });
++
++  // ── assertPushConfigured fail-closed guard (503) ────────────────────────
++
++  it('assertPushConfigured throws 503 when the push token is unset', () => {
++    delete process.env.GARMIN_PUSH_TOKEN;
++    expect(() => controller.assertPushConfigured()).toThrow(
++      /not configured/i,
++    );
++  });
++
++  it('assertPushConfigured passes when the push token is set', () => {
++    expect(() => controller.assertPushConfigured()).not.toThrow();
++  });
++});
+diff --git a/src/wearables/connectors/garmin/garmin-webhook.controller.ts b/src/wearables/connectors/garmin/garmin-webhook.controller.ts
+new file mode 100644
+index 000000000..2880bef8c
+--- /dev/null
++++ b/src/wearables/connectors/garmin/garmin-webhook.controller.ts
+@@ -0,0 +1,319 @@
++import {
++  BadRequestException,
++  Controller,
++  HttpCode,
++  HttpStatus,
++  Logger,
++  Post,
++  Req,
++  ServiceUnavailableException,
++  UnauthorizedException,
++} from '@nestjs/common';
++import type { RawBodyRequest } from '@nestjs/common';
++import { ApiOperation, ApiTags } from '@nestjs/swagger';
++import { Throttle } from '@nestjs/throttler';
++import type { Request } from 'express';
++import { WearableProvider } from '@prisma/client';
++import { Public } from '../../../common/decorators/public.decorator';
++import { PrismaService } from '../../../prisma.service';
++import { IngestionService } from '../../ingestion/ingestion.service';
++import {
++  GarminConnector,
++  hashGarminUserId,
++  redactGarminError,
++} from './garmin.connector';
++import {
++  GarminDeregistration,
++  GarminDeregistrationSchema,
++  GarminRawPayload,
++  GarminSummary,
++} from './garmin.types';
++
++/**
++ * PR-HK-2.d — Garmin Health API push ("ping/push") webhook receiver.
++ *
++ * `POST /v1/wearables/webhooks/garmin`          — summary push (data)
++ * `POST /v1/wearables/webhooks/garmin/deregistration` — user revoked access
++ *
++ * Garmin's push security model differs from the HMAC connectors
++ * (Oura/WHOOP) — the divergences are documented inline:
++ *
++ *  1. `@Public()` — Garmin is not a Supabase user; trust comes from the
++ *     partner-configured push token, NOT a JWT.
++ *  2. PUSH-TOKEN VERIFY FIRST — Garmin Health push carries NO per-event HMAC,
++ *     so the controller verifies the partner-configured `X-Garmin-Push-Token`
++ *     header against the RAW request bytes' headers BEFORE any JSON parse, via
++ *     a constant-time compare inside the connector. Missing config FAILS
++ *     CLOSED (the connector returns false → 401); a missing/mismatched token →
++ *     401 and the body is never interpreted (#5/#36).
++ *  3. Zod-validate the parsed envelope (`.strict()` on top-level keys —
++ *     audit pattern #4). A verified-but-malformed body → 400.
++ *  4. Per-RECORD idempotency / replay — each summary record's event id
++ *     (`garmin:<kind>:<summaryId>`) is checked against
++ *     {@link WearableProcessedEvent}; an already-processed record is skipped.
++ *     The dedup row is committed AFTER its samples are ingested
++ *     ("check → process → commit"), so a fetch/ingest failure leaves NO row
++ *     and Garmin's redelivery reprocesses rather than silently dropping work
++ *     (50-Failures #28/#29). The sample `dedup_key` UNIQUE constraint absorbs
++ *     the small concurrent-redelivery race (createMany skipDuplicates).
++ *  5. INLINE NORMALIZE+INGEST — Garmin pushes the FULL summary payload (not a
++ *     lean reference like WHOOP), so there is no follow-up fetch; the records
++ *     are normalized and batch-ingested via {@link IngestionService} (#21 no
++ *     N+1). Ingest failure → connection status='error' + redacted log +
++ *     rethrow (fail-explicit, #36/#50).
++ *  6. DEREGISTRATION — a Garmin de-registration push flips matching
++ *     connection(s) to `status='disconnected'` (soft-disconnect).
++ *
++ * NO PII IN LOGS (audit pattern #3): the raw Garmin `userId` is never logged —
++ * only a salted sha256 `user_hash` plus non-PII counts / kinds / event ids.
++ */
++@ApiTags('wearables-webhooks')
++@Controller('v1/wearables/webhooks')
++export class GarminWebhookController {
++  private readonly logger = new Logger(GarminWebhookController.name);
++
++  constructor(
++    private readonly connector: GarminConnector,
++    private readonly prisma: PrismaService,
++    private readonly ingestion: IngestionService,
++  ) {}
++
++  @Public()
++  @Throttle({ default: { ttl: 60_000, limit: 500 } })
++  @Post('garmin')
++  @HttpCode(HttpStatus.OK)
++  @ApiOperation({ summary: 'Receive a Garmin Health API summary push' })
++  async handle(
++    @Req() req: RawBodyRequest<Request>,
++  ): Promise<{ ok: true; processed: number; duplicate: number }> {
++    const rawBody = req.rawBody;
++    if (!Buffer.isBuffer(rawBody)) {
++      this.logger.error(
++        'Garmin webhook received without rawBody. Verify rawBody middleware is wired for /v1/wearables/webhooks/garmin in main.ts.',
++      );
++      // Cannot verify the partner token against headers/body — refuse.
++      throw new UnauthorizedException('Garmin webhook raw body unavailable');
++    }
++
++    // (2) PUSH-TOKEN VERIFY FIRST — fail closed on missing config / token.
++    const verified = this.connector.verifyWebhook({
++      rawBody,
++      headers: req.headers as Record<string, string | string[] | undefined>,
++    });
++    if (!verified) {
++      throw new UnauthorizedException('Invalid Garmin push token');
++    }
++
++    // (3) Parse + Zod-validate (strict envelope). parseWebhook returns []
++    // for malformed JSON / a schema-rejected envelope — a verified-but-
++    // malformed body is a contract violation → 400 (Garmin does not retry 4xx)
++    // rather than masking it as a 500.
++    const events = this.connector.parseWebhook({
++      rawBody,
++      headers: req.headers as Record<string, string | string[] | undefined>,
++    });
++    if (events.length === 0) {
++      this.logger.warn('Garmin webhook: rejected malformed/empty push payload');
++      throw new BadRequestException('Malformed Garmin push payload');
++    }
++
++    let processed = 0;
++    let duplicate = 0;
++
++    for (const event of events) {
++      const record = event.records[0];
++      const payload = record?.payload as GarminRawPayload | undefined;
++      const summary = payload?.data as GarminSummary | undefined;
++      if (!payload || !summary) {
++        continue;
++      }
++
++      // (4) Replay protection. A prior row for (GARMIN, providerEventId) means
++      // this record was FULLY processed (normalized + ingested + committed) →
++      // skip it. The row is written only AFTER ingest (below), so a present
++      // row proves completion (no half-processed state).
++      const existing = await this.prisma.wearableProcessedEvent.findUnique({
++        where: {
++          provider_provider_event_id: {
++            provider: WearableProvider.GARMIN,
++            provider_event_id: event.providerEventId,
++          },
++        },
++      });
++      if (existing) {
++        duplicate += 1;
++        continue;
++      }
++
++      // (5) Resolve the subject connection by Garmin user id, thread the
++      // subject/connection ctx onto the payload, normalize, and batch-ingest —
++      // BEFORE the dedup row is written.
++      const connection = await this.prisma.wearableConnection.findFirst({
++        where: {
++          provider: WearableProvider.GARMIN,
++          external_account_id: summary.userId,
++          disconnected_at: null,
++        },
++      });
++      if (!connection) {
++        // No live connection for this Garmin user — record nothing, log a
++        // redacted miss, and DO NOT write a dedup row (so a later connect +
++        // redelivery can still ingest). user_hash only — never the raw id.
++        this.logger.warn({
++          msg: 'wearables.garmin.webhook.no_connection',
++          provider: 'GARMIN',
++          type: event.type,
++          user_hash: hashGarminUserId(summary.userId),
++        });
++        continue;
++      }
++
++      payload.userId = connection.user_id;
++      payload.connectionId = connection.id;
++
++      try {
++        const samples = this.connector.normalize([record]);
++        if (samples.length > 0) {
++          await this.ingestion.ingest(samples);
++        }
++      } catch (err) {
++        // Fail-explicit: mark the connection in error, log redacted, rethrow
++        // so Garmin's redelivery reprocesses (no dedup row was written, no
++        // silent swallow — #36/#50).
++        //
++        // An upstream normalize/ingest/Prisma error can embed provider payload,
++        // the raw Garmin userId, or token-like fragments in its message. We
++        // NEVER persist or log that raw text: redactGarminError strips the
++        // user id + token/secret fragments and yields a structured, length-
++        // capped descriptor (Wave-2 audit pattern #3, PII/token redaction).
++        const redacted = redactGarminError(err, summary.userId);
++        await this.prisma.wearableConnection
++          .update({
++            where: { id: connection.id },
++            data: {
++              status: 'error',
++              last_error: redacted.redacted_message,
++            },
++          })
++          .catch(() => undefined);
++        this.logger.error({
++          msg: 'wearables.garmin.webhook.ingest_failure',
++          provider: 'GARMIN',
++          type: event.type,
++          user_hash: hashGarminUserId(summary.userId),
++          error_code: redacted.error_code,
++          error_class: redacted.error_class,
++          error_message: redacted.redacted_message,
++        });
++        throw err;
++      }
++
++      // (6) COMMIT the dedup row only after ingest succeeded.
++      // `handler_completed_at` is set in the same write so the row is never
++      // observed half-done. A concurrent delivery that already wrote it
++      // produces a benign P2002 we absorb (createMany skipDuplicates).
++      const { count } = await this.prisma.wearableProcessedEvent.createMany({
++        data: [
++          {
++            provider: WearableProvider.GARMIN,
++            provider_event_id: event.providerEventId,
++            type: event.type,
++            handler_completed_at: new Date(),
++          },
++        ],
++        skipDuplicates: true,
++      });
++      if (count === 0) {
++        // Lost the race — another worker committed first; treat as duplicate.
++        duplicate += 1;
++        continue;
++      }
++      processed += 1;
++    }
++
++    this.logger.log({
++      msg: 'wearables.garmin.webhook.handled',
++      provider: 'GARMIN',
++      processed,
++      duplicate,
++    });
++    return { ok: true, processed, duplicate };
++  }
++
++  /**
++   * Garmin de-registration push. Garmin delivers
++   * `{ "deregistrations": [ { userId, userAccessToken } ] }` to a separate
++   * callback when a user revokes access. We token-verify FIRST, Zod-validate
++   * (`.strict()`), then flip matching live connection(s) to
++   * `status='disconnected'` (soft-disconnect; audit survives a re-link).
++   */
++  @Public()
++  @Throttle({ default: { ttl: 60_000, limit: 200 } })
++  @Post('garmin/deregistration')
++  @HttpCode(HttpStatus.OK)
++  @ApiOperation({ summary: 'Receive a Garmin user de-registration push' })
++  async deregister(
++    @Req() req: RawBodyRequest<Request>,
++  ): Promise<{ ok: true; disconnected: number }> {
++    const rawBody = req.rawBody;
++    if (!Buffer.isBuffer(rawBody)) {
++      throw new UnauthorizedException('Garmin webhook raw body unavailable');
++    }
++    const verified = this.connector.verifyWebhook({
++      rawBody,
++      headers: req.headers as Record<string, string | string[] | undefined>,
++    });
++    if (!verified) {
++      throw new UnauthorizedException('Invalid Garmin push token');
++    }
++
++    let body: GarminDeregistration;
++    try {
++      const json: unknown = JSON.parse(rawBody.toString('utf8'));
++      body = GarminDeregistrationSchema.parse(json);
++    } catch {
++      this.logger.warn('Garmin deregistration: rejected malformed payload');
++      throw new BadRequestException('Malformed Garmin deregistration payload');
++    }
++
++    let disconnected = 0;
++    for (const dereg of body.deregistrations) {
++      const { count } = await this.prisma.wearableConnection.updateMany({
++        where: {
++          provider: WearableProvider.GARMIN,
++          external_account_id: dereg.userId,
++          status: { not: 'disconnected' },
++        },
++        data: {
++          status: 'disconnected',
++          disconnected_at: new Date(),
++          last_error: 'Garmin authorization revoked by user',
++        },
++      });
++      disconnected += count;
++      this.logger.log({
++        msg: 'wearables.garmin.webhook.deregistered',
++        provider: 'GARMIN',
++        user_hash: hashGarminUserId(dereg.userId),
++        connections_disconnected: count,
++      });
++    }
++    return { ok: true, disconnected };
++  }
++
++  /**
++   * Fail-closed guard surfaced as a method so misconfiguration is observable.
++   * The push token is required; if it is unset the data handler's
++   * {@link GarminConnector.verifyWebhook} already returns false (→ 401), but
++   * this helper lets the (future) subscription-management lane assert the
++   * receiver is wired before registering a Garmin push URL — returning 503 if
++   * not (never a silent success, #36).
++   */
++  assertPushConfigured(): void {
++    if (!this.connector.pushToken) {
++      throw new ServiceUnavailableException(
++        'Garmin push receiver not configured (GARMIN_PUSH_TOKEN unset)',
++      );
++    }
++  }
++}
+diff --git a/src/wearables/connectors/garmin/garmin.connector.spec.ts b/src/wearables/connectors/garmin/garmin.connector.spec.ts
+new file mode 100644
+index 000000000..488b099c9
+--- /dev/null
++++ b/src/wearables/connectors/garmin/garmin.connector.spec.ts
+@@ -0,0 +1,357 @@
++import { WearableConnection, WearableProvider } from '@prisma/client';
++import { KmsService } from '../../../common/kms/kms.service';
++import {
++  ProviderHttpClient,
++  ProviderHttpError,
++} from '../../http/provider-http-client';
++import { GarminConnector } from './garmin.connector';
++import { GARMIN_PUSH_TOKEN_HEADER } from './garmin.types';
++
++const PUSH_TOKEN = 'garmin-push-token-abc';
++
++function makeClient(fetchFn: jest.Mock): ProviderHttpClient {
++  return new ProviderHttpClient({
++    fetchFn: fetchFn as unknown as typeof fetch,
++    sleep: () => Promise.resolve(),
++    random: () => 1,
++  });
++}
++
++/**
++ * KMS test double: `decrypt` strips an `enc:` prefix and `encrypt` adds it, so
++ * specs assert the connector UNWRAPS stored tokens before Garmin calls AND
++ * RE-WRAPS rotated tokens before returning a TokenSet.
++ */
++function makeKms(): KmsService & { decrypt: jest.Mock; encrypt: jest.Mock } {
++  const decrypt = jest.fn((ct: string) =>
++    ct.startsWith('enc:') ? ct.slice(4) : ct,
++  );
++  const encrypt = jest.fn((pt: string) => `enc:${pt}`);
++  return { decrypt, encrypt } as unknown as KmsService & {
++    decrypt: jest.Mock;
++    encrypt: jest.Mock;
++  };
++}
++
++function makeConnector(fetchFn: jest.Mock) {
++  const kms = makeKms();
++  const connector = new GarminConnector(makeClient(fetchFn), kms);
++  return { connector, kms };
++}
++
++function jsonResponse(body: unknown, status = 200): Response {
++  return {
++    ok: status >= 200 && status < 300,
++    status,
++    json: async () => body,
++  } as unknown as Response;
++}
++
++function conn(overrides: Partial<WearableConnection> = {}): WearableConnection {
++  return {
++    id: 'conn-1',
++    user_id: 'user-1',
++    provider: WearableProvider.GARMIN,
++    external_account_id: 'garmin-99',
++    credentials_secret_ref: null,
++    encrypted_refresh_token: 'enc:refresh-token-1',
++    encrypted_access_token: null,
++    access_token_expires_at: null,
++    scopes: [],
++    webhook_subscription_id: null,
++    webhook_secret_ref: null,
++    channel_expires_at: null,
++    status: 'connected',
++    last_error: null,
++    last_synced_at: null,
++    backfilled_until: null,
++    disconnected_at: null,
++    created_at: new Date(),
++    updated_at: new Date(),
++    ...overrides,
++  } as WearableConnection;
++}
++
++describe('GarminConnector', () => {
++  const ORIGINAL_ENV = { ...process.env };
++
++  beforeEach(() => {
++    process.env.GARMIN_CLIENT_ID = 'client-123';
++    process.env.GARMIN_CLIENT_SECRET = 'client-secret';
++    process.env.GARMIN_REDIRECT_URI = 'https://app.example.com/oauth/garmin';
++    process.env.GARMIN_PUSH_TOKEN = PUSH_TOKEN;
++  });
++
++  afterEach(() => {
++    process.env = { ...ORIGINAL_ENV };
++    jest.restoreAllMocks();
++  });
++
++  describe('identity', () => {
++    it('exposes provider=GARMIN and authModel=oauth2', () => {
++      const { connector } = makeConnector(jest.fn());
++      expect(connector.provider).toBe(WearableProvider.GARMIN);
++      expect(connector.authModel).toBe('oauth2');
++    });
++  });
++
++  describe('buildAuthUrl', () => {
++    it('builds the Garmin auth URL with all scopes and the state round-trip', () => {
++      const { connector } = makeConnector(jest.fn());
++      const url = connector.buildAuthUrl('user-1', 'state-xyz');
++      expect(url).not.toBeNull();
++      const u = url as string;
++      expect(u).toContain('https://connect.garmin.com/oauth2Confirm');
++      expect(u).toContain('response_type=code');
++      expect(u).toContain('client_id=client-123');
++      expect(u).toContain('state=state-xyz');
++      const decoded = decodeURIComponent(u);
++      for (const scope of ['activities', 'dailies', 'sleeps', 'hrv', 'bodyComps']) {
++        expect(decoded).toContain(scope);
++      }
++    });
++  });
++
++  describe('exchangeCode', () => {
++    it('exchanges a code and KMS-wraps the returned tokens', async () => {
++      const fetchFn = jest.fn().mockResolvedValue(
++        jsonResponse({
++          access_token: 'access-1',
++          refresh_token: 'refresh-1',
++          expires_in: 3600,
++          scope: 'dailies sleeps',
++          user_id: 'garmin-99',
++        }),
++      );
++      const { connector, kms } = makeConnector(fetchFn);
++      const tokens = await connector.exchangeCode('auth-code');
++
++      expect(fetchFn).toHaveBeenCalledTimes(1);
++      // Tokens returned WRAPPED (enc: prefix from the kms double).
++      expect(tokens.refreshToken).toBe('enc:refresh-1');
++      expect(tokens.accessToken).toBe('enc:access-1');
++      expect(kms.encrypt).toHaveBeenCalledWith('refresh-1');
++      expect(kms.encrypt).toHaveBeenCalledWith('access-1');
++      expect(tokens.externalAccountId).toBe('garmin-99');
++      expect(tokens.scopes).toEqual(['dailies', 'sleeps']);
++      expect(tokens.accessTokenExpiresAt).toBeInstanceOf(Date);
++    });
++
++    it('throws (fail-loud) when the token response omits a refresh token', async () => {
++      const fetchFn = jest
++        .fn()
++        .mockResolvedValue(jsonResponse({ access_token: 'access-only' }));
++      const { connector } = makeConnector(fetchFn);
++      await expect(connector.exchangeCode('auth-code')).rejects.toThrow(
++        /missing refresh_token/,
++      );
++    });
++  });
++
++  describe('refresh', () => {
++    it('unwraps the stored refresh token, rotates, and re-wraps the new tokens', async () => {
++      const fetchFn = jest.fn().mockResolvedValue(
++        jsonResponse({
++          access_token: 'access-2',
++          refresh_token: 'refresh-2',
++          expires_in: 3600,
++        }),
++      );
++      const { connector, kms } = makeConnector(fetchFn);
++      const tokens = await connector.refresh(conn());
++
++      // Unwrapped the stored token before calling Garmin.
++      expect(kms.decrypt).toHaveBeenCalledWith('enc:refresh-token-1');
++      const sentBody = String(fetchFn.mock.calls[0][1].body);
++      expect(sentBody).toContain('grant_type=refresh_token');
++      expect(sentBody).toContain('refresh_token=refresh-token-1');
++      // Re-wrapped the rotated tokens.
++      expect(tokens.refreshToken).toBe('enc:refresh-2');
++      expect(tokens.accessToken).toBe('enc:access-2');
++    });
++
++    it('throws when the connection has no refresh token (re-consent required)', async () => {
++      const { connector } = makeConnector(jest.fn());
++      await expect(
++        connector.refresh(conn({ encrypted_refresh_token: null })),
++      ).rejects.toThrow(/no refresh token/);
++    });
++
++    it('propagates a 401 from Garmin as a ProviderHttpError so the connection layer can mark status=expired', async () => {
++      const fetchFn = jest
++        .fn()
++        .mockResolvedValue(jsonResponse({ error: 'invalid_grant' }, 401));
++      const { connector } = makeConnector(fetchFn);
++      const err = await connector.refresh(conn()).catch((e) => e);
++      expect(err).toBeInstanceOf(ProviderHttpError);
++      expect((err as ProviderHttpError).status).toBe(401);
++      // 401 is non-retryable: exactly one attempt, no silent success.
++      expect(fetchFn).toHaveBeenCalledTimes(1);
++    });
++  });
++
++  describe('backfill', () => {
++    it('pages all five collections by ≤24h windows and wraps records with ctx', async () => {
++      // 2 days window → 2 windows per collection × 5 collections = 10 calls.
++      const since = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
++      const fetchFn = jest.fn((url: string) => {
++        // Only the dailies endpoint returns a record; others are empty.
++        if (typeof url === 'string' && url.includes('/dailies')) {
++          return Promise.resolve(
++            jsonResponse([
++              {
++                summaryId: 'daily-1',
++                userId: 'garmin-99',
++                startTimeInSeconds: Math.floor(since.getTime() / 1000),
++                durationInSeconds: 86_400,
++                steps: 5000,
++                activeKilocalories: 400,
++              },
++            ]),
++          );
++        }
++        return Promise.resolve(jsonResponse([]));
++      });
++      const { connector } = makeConnector(
++        fetchFn as unknown as jest.Mock,
++      );
++      const records = await connector.backfill(
++        conn({
++          encrypted_access_token: 'enc:access-cached',
++          access_token_expires_at: new Date(Date.now() + 60 * 60 * 1000),
++        }),
++        since,
++      );
++
++      // dailies returns once per window (2 windows) → 2 raw records.
++      expect(records).toHaveLength(2);
++      expect(records[0].provider).toBe(WearableProvider.GARMIN);
++      const payload = records[0].payload as { kind: string; userId: string; connectionId: string };
++      expect(payload.kind).toBe('dailies');
++      expect(payload.userId).toBe('user-1');
++      expect(payload.connectionId).toBe('conn-1');
++      // The records normalize to STEPS + ACTIVE_ENERGY_KCAL.
++      const samples = connector.normalize(records);
++      expect(samples.length).toBe(4); // 2 records × 2 metrics
++    });
++
++    it('uses the cached access token when present and unexpired (no refresh call)', async () => {
++      const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
++      const fetchFn = jest.fn().mockResolvedValue(jsonResponse([]));
++      const { connector, kms } = makeConnector(fetchFn);
++      await connector.backfill(
++        conn({
++          encrypted_access_token: 'enc:cached-access',
++          access_token_expires_at: new Date(Date.now() + 3_600_000),
++        }),
++        since,
++      );
++      // Decrypted the cached access token, never the refresh token.
++      expect(kms.decrypt).toHaveBeenCalledWith('enc:cached-access');
++      const bearerCalls = fetchFn.mock.calls.filter((c) =>
++        String(c[1]?.headers?.Authorization ?? '').includes('cached-access'),
++      );
++      expect(bearerCalls.length).toBeGreaterThan(0);
++    });
++
++    it('propagates a provider outage (503) so the connection layer marks status=error', async () => {
++      const since = new Date(Date.now() - 24 * 60 * 60 * 1000);
++      const fetchFn = jest.fn().mockResolvedValue(jsonResponse({}, 503));
++      const { connector } = makeConnector(fetchFn);
++      await expect(
++        connector.backfill(
++          conn({
++            encrypted_access_token: 'enc:access',
++            access_token_expires_at: new Date(Date.now() + 3_600_000),
++          }),
++          since,
++        ),
++      ).rejects.toBeInstanceOf(ProviderHttpError);
++    });
++  });
++
++  describe('verifyWebhook', () => {
++    it('returns true for a matching push token (constant-time)', () => {
++      const { connector } = makeConnector(jest.fn());
++      const ok = connector.verifyWebhook({
++        rawBody: Buffer.from('{}'),
++        headers: { [GARMIN_PUSH_TOKEN_HEADER]: PUSH_TOKEN },
++      });
++      expect(ok).toBe(true);
++    });
++
++    it('returns false for a mismatched token', () => {
++      const { connector } = makeConnector(jest.fn());
++      const ok = connector.verifyWebhook({
++        rawBody: Buffer.from('{}'),
++        headers: { [GARMIN_PUSH_TOKEN_HEADER]: 'wrong-token' },
++      });
++      expect(ok).toBe(false);
++    });
++
++    it('fails closed when GARMIN_PUSH_TOKEN is unconfigured', () => {
++      delete process.env.GARMIN_PUSH_TOKEN;
++      const { connector } = makeConnector(jest.fn());
++      const ok = connector.verifyWebhook({
++        rawBody: Buffer.from('{}'),
++        headers: { [GARMIN_PUSH_TOKEN_HEADER]: 'anything' },
++      });
++      expect(ok).toBe(false);
++    });
++
++    it('returns false when the header is absent', () => {
++      const { connector } = makeConnector(jest.fn());
++      expect(
++        connector.verifyWebhook({ rawBody: Buffer.from('{}'), headers: {} }),
++      ).toBe(false);
++    });
++  });
++
++  describe('parseWebhook', () => {
++    it('emits one namespaced event per summary record across collections', () => {
++      const { connector } = makeConnector(jest.fn());
++      const body = JSON.stringify({
++        dailies: [
++          {
++            summaryId: 'd1',
++            userId: 'garmin-99',
++            startTimeInSeconds: 1_700_000_000,
++            steps: 100,
++          },
++        ],
++        hrv: [
++          {
++            summaryId: 'h1',
++            userId: 'garmin-99',
++            startTimeInSeconds: 1_700_000_000,
++            lastNightAvg: 45,
++          },
++        ],
++      });
++      const events = connector.parseWebhook({
++        rawBody: Buffer.from(body),
++        headers: {},
++      });
++      expect(events).toHaveLength(2);
++      const ids = events.map((e) => e.providerEventId).sort();
++      expect(ids).toEqual(['garmin:dailies:d1', 'garmin:hrv:h1']);
++      expect(events[0].records).toHaveLength(1);
++    });
++
++    it('returns [] for a malformed envelope (unknown top-level key — strict)', () => {
++      const { connector } = makeConnector(jest.fn());
++      const events = connector.parseWebhook({
++        rawBody: Buffer.from(JSON.stringify({ unknownCollection: [] })),
++        headers: {},
++      });
++      expect(events).toHaveLength(0);
++    });
++
++    it('returns [] for non-JSON', () => {
++      const { connector } = makeConnector(jest.fn());
++      expect(
++        connector.parseWebhook({ rawBody: Buffer.from('not json'), headers: {} }),
++      ).toHaveLength(0);
++    });
++  });
++});
+diff --git a/src/wearables/connectors/garmin/garmin.connector.ts b/src/wearables/connectors/garmin/garmin.connector.ts
+new file mode 100644
+index 000000000..a3afaf496
+--- /dev/null
++++ b/src/wearables/connectors/garmin/garmin.connector.ts
+@@ -0,0 +1,567 @@
++import { createHash, timingSafeEqual } from 'crypto';
++import { Injectable, Logger } from '@nestjs/common';
++import { WearableConnection, WearableProvider } from '@prisma/client';
++import { KmsService } from '../../../common/kms/kms.service';
++import {
++  NormalizedSample,
++  RawRecord,
++  TokenSet,
++} from '../../normalization/normalizer.types';
++import { ProviderHttpClient } from '../../http/provider-http-client';
++import {
++  ProviderEvent,
++  RawWebhookRequest,
++  WearableAuthModel,
++  WearableConnector,
++} from '../connector.interface';
++import { normalizeGarmin } from './garmin.normalizer';
++import {
++  GARMIN_PUSH_TOKEN_HEADER,
++  GARMIN_SUMMARY_KINDS,
++  GarminRawPayload,
++  GarminSummary,
++  GarminSummaryKind,
++  GarminTokenResponse,
++  GarminWebhookEnvelope,
++  GarminWebhookEnvelopeSchema,
++} from './garmin.types';
++
++/**
++ * PR-HK-2.d — Garmin Health API connector (partner OAuth + push + backfill).
++ *
++ * Implements the PR-HK-0 {@link WearableConnector} contract. Garmin differs
++ * from the OAuth2 reference connectors (Oura / WHOOP / Strava) in its AUTH and
++ * DELIVERY model — documented inline so the divergences are explicit:
++ *
++ *  1. AUTH — Garmin uses the partner OAuth model. The legacy Health API used
++ *     OAuth1.0a (signed requests); the modern Health API uses OAuth2 with PKCE.
++ *     This connector implements the OAuth2/PKCE flow (the model Garmin steers
++ *     new partners to) and reads `GARMIN_CLIENT_ID` / `GARMIN_CLIENT_SECRET` /
++ *     `GARMIN_REDIRECT_URI` from env — never hardcoded, never logged (#1/#12).
++ *     The `WearableAuthModel` enum in the foundation interface is
++ *     (`oauth2` | `sdk-native` | `on-device`); the Garmin partner-signed push
++ *     is an OAuth2-family flow, so `authModel = 'oauth2'`. The partner-signed
++ *     PUSH delivery security is handled in the webhook controller (token +
++ *     fail-closed), NOT via the auth model tag.
++ *
++ *  2. DELIVERY — Garmin pushes the ACTUAL summary payload (NOT a lean
++ *     reference like WHOOP) to a pre-registered HTTPS callback as
++ *     `{ "<kind>": [ …records… ] }`. There is NO per-event HMAC signature in
++ *     the Garmin Health push spec, so `verifyWebhook` checks a partner-
++ *     configured push token (`GARMIN_PUSH_TOKEN`) delivered on the
++ *     `X-Garmin-Push-Token` header with a constant-time compare. If the token
++ *     is unconfigured the verifier FAILS CLOSED (returns false) — Garmin pushes
++ *     are never trusted under misconfiguration (#36 fail-loud).
++ *
++ *  3. BACKFILL — on connect Garmin supports up to a 90-day historical
++ *     window. We clamp to {@link DEFAULT_SINCE_DAYS} and page each summary
++ *     collection by ≤24h time windows (Garmin's per-request span cap),
++ *     bounded by {@link MAX_WINDOWS_PER_COLLECTION} so a runaway range can
++ *     never wedge a worker (#21 no N+1 / no runaway paging). All calls route
++ *     through the shared {@link ProviderHttpClient} (timeout + capped jittered
++ *     backoff, #35/#50).
++ *
++ * Token handoff is symmetric with PR-HK-1 / the WHOOP connector: refresh +
++ * access tokens are stored KMS-wrapped via {@link KmsService}; this connector
++ * UNWRAPS before a provider call and RE-WRAPS rotated tokens before returning
++ * a {@link TokenSet} (plaintext tokens never leave a method, never logged).
++ *
++ * Source (verified May 2026): Garmin Health API — Summary + Backfill + Push,
++ *   https://developer.garmin.com/gc-developer-program/health-api/
++ */
++
++const GARMIN_API_BASE = 'https://apis.garmin.com';
++const GARMIN_WELLNESS_BASE = `${GARMIN_API_BASE}/wellness-api/rest`;
++const GARMIN_AUTH_URL = 'https://connect.garmin.com/oauth2Confirm';
++const GARMIN_TOKEN_URL = `${GARMIN_API_BASE}/oauth-service/oauth/token`;
++
++/** Granted scopes (AGENT_2_CODING_PLAN §3 — Garmin row). */
++const GARMIN_SCOPES = [
++  'activities',
++  'dailies',
++  'sleeps',
++  'hrv',
++  'bodyComps',
++] as const;
++
++/** Default backfill window (days). Garmin allows up to 90 on connect. */
++const DEFAULT_SINCE_DAYS = 90;
++/** Garmin caps a single summary request to a 24h span; we page by day. */
++const WINDOW_SECONDS = 24 * 60 * 60;
++/** Hard ceiling on windows per collection — defence against a runaway range. */
++const MAX_WINDOWS_PER_COLLECTION = 100;
++
++/**
++ * Maps a summary kind to its Garmin Health API summary endpoint. The query
++ * params are `uploadStartTimeInSeconds` / `uploadEndTimeInSeconds` (epoch
++ * seconds), the Garmin time-range contract for summary fetches.
++ */
++const SUMMARY_ENDPOINT: Record<GarminSummaryKind, string> = {
++  dailies: `${GARMIN_WELLNESS_BASE}/dailies`,
++  sleeps: `${GARMIN_WELLNESS_BASE}/sleeps`,
++  hrv: `${GARMIN_WELLNESS_BASE}/hrv`,
++  activities: `${GARMIN_WELLNESS_BASE}/activities`,
++  bodyComps: `${GARMIN_WELLNESS_BASE}/bodyComps`,
++};
++
++@Injectable()
++export class GarminConnector implements WearableConnector {
++  private readonly logger = new Logger(GarminConnector.name);
++
++  readonly provider: WearableProvider = WearableProvider.GARMIN;
++  // Garmin partner-signed push is an OAuth2-family flow; the foundation
++  // WearableAuthModel enum has no dedicated 'partner_signed' member, so we tag
++  // the OAuth2 model and enforce the partner-signed PUSH security in the
++  // webhook controller (token + fail-closed) — see class docstring (2).
++  readonly authModel: WearableAuthModel = 'oauth2';
++
++  constructor(
++    private readonly http: ProviderHttpClient,
++    private readonly kms: KmsService,
++  ) {}
++
++  // ── Config (env) ──────────────────────────────────────────────────────
++
++  private get clientId(): string {
++    return process.env.GARMIN_CLIENT_ID ?? '';
++  }
++  private get clientSecret(): string {
++    return process.env.GARMIN_CLIENT_SECRET ?? '';
++  }
++  private get redirectUri(): string {
++    return process.env.GARMIN_REDIRECT_URI ?? '';
++  }
++  /** Partner-configured push verification token (no per-event HMAC). */
++  get pushToken(): string {
++    return process.env.GARMIN_PUSH_TOKEN ?? '';
++  }
++
++  // ── OAuth ─────────────────────────────────────────────────────────────
++
++  /**
++   * Build the Garmin OAuth2 authorization URL. `state` is the server-minted
++   * CSRF/PKCE state (PR-HK-1 owns generation/validation). Scopes are
++   * space-delimited.
++   */
++  buildAuthUrl(_userId: string, state: string): string | null {
++    const params = new URLSearchParams({
++      response_type: 'code',
++      client_id: this.clientId,
++      redirect_uri: this.redirectUri,
++      scope: GARMIN_SCOPES.join(' '),
++      state,
++    });
++    return `${GARMIN_AUTH_URL}?${params.toString()}`;
++  }
++
++  /** Exchange an OAuth authorization code for a {@link TokenSet}. */
++  async exchangeCode(code: string): Promise<TokenSet> {
++    const body = new URLSearchParams({
++      grant_type: 'authorization_code',
++      code,
++      client_id: this.clientId,
++      client_secret: this.clientSecret,
++      redirect_uri: this.redirectUri,
++    });
++    const tokens = await this.tokenRequest(body, 'garmin.exchangeCode');
++    return this.encryptTokenSet(tokens);
++  }
++
++  /**
++   * Refresh an expiring access token using the connection's KMS-wrapped
++   * refresh token. Garmin rotates refresh tokens on the OAuth2 flow, so the
++   * response's new refresh token is re-wrapped and returned for the connection
++   * layer to persist (the old one is invalidated). A 401 from Garmin surfaces
++   * as a thrown {@link ProviderHttpError} so the connection layer flips
++   * status='expired' (re-consent required) — never a silent success (#36).
++   */
++  async refresh(conn: WearableConnection): Promise<TokenSet> {
++    if (!conn.encrypted_refresh_token) {
++      throw new Error(
++        'garmin.refresh: connection has no refresh token (re-consent required)',
++      );
++    }
++    const refreshToken = await this.kms.decrypt(conn.encrypted_refresh_token);
++    const rotated = await this.refreshAccessToken(refreshToken);
++    return this.encryptTokenSet(rotated);
++  }
++
++  /**
++   * Low-level refresh by raw (plaintext) refresh token (also used by
++   * {@link backfill} when the cached access token is stale/absent). The
++   * returned {@link TokenSet.refreshToken} is the NEW PLAINTEXT token —
++   * callers that persist it MUST KMS-wrap it first (see {@link refresh}).
++   */
++  async refreshAccessToken(refreshToken: string): Promise<TokenSet> {
++    const body = new URLSearchParams({
++      grant_type: 'refresh_token',
++      refresh_token: refreshToken,
++      client_id: this.clientId,
++      client_secret: this.clientSecret,
++    });
++    return this.tokenRequest(body, 'garmin.refresh');
++  }
++
++  /**
++   * KMS-wrap the token-bearing fields of a {@link TokenSet} so the returned
++   * shape can be persisted directly into the connection's `encrypted_*`
++   * columns. Mirrors the WHOOP connector contract.
++   */
++  private async encryptTokenSet(tokens: TokenSet): Promise<TokenSet> {
++    return {
++      ...tokens,
++      refreshToken: await this.kms.encrypt(tokens.refreshToken),
++      accessToken:
++        tokens.accessToken != null
++          ? await this.kms.encrypt(tokens.accessToken)
++          : tokens.accessToken,
++    };
++  }
++
++  /** Shared OAuth token endpoint call → {@link TokenSet}. */
++  private async tokenRequest(
++    body: URLSearchParams,
++    label: string,
++  ): Promise<TokenSet> {
++    const res = await this.http.request(GARMIN_TOKEN_URL, {
++      method: 'POST',
++      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
++      body: body.toString(),
++      label,
++    });
++    const json = (await res.json()) as GarminTokenResponse;
++    if (!json.refresh_token) {
++      // A Garmin OAuth2 token response MUST yield a refresh token; its absence
++      // is a config error (wrong client / missing scope) — fail loud (#36).
++      throw new Error(`${label}: token response missing refresh_token`);
++    }
++    return {
++      refreshToken: json.refresh_token,
++      accessToken: json.access_token,
++      accessTokenExpiresAt: json.expires_in
++        ? new Date(Date.now() + json.expires_in * 1000)
++        : undefined,
++      scopes: json.scope ? json.scope.split(' ').filter(Boolean) : undefined,
++      externalAccountId: json.user_id != null ? String(json.user_id) : undefined,
++    };
++  }
++
++  // ── Backfill ──────────────────────────────────────────────────────────
++
++  /**
++   * Pull Garmin history since `since` (clamped to {@link DEFAULT_SINCE_DAYS}).
++   * Pages each of the five summary collections by ≤24h windows (Garmin's
++   * per-request span cap), never exceeding {@link MAX_WINDOWS_PER_COLLECTION}.
++   * Records are wrapped as {@link RawRecord} carrying the subject + connection
++   * ids so the normalizer can build samples without re-resolving the
++   * connection.
++   */
++  async backfill(conn: WearableConnection, since: Date): Promise<RawRecord[]> {
++    const accessToken = await this.resolveAccessToken(conn);
++    const floor = new Date(
++      Date.now() - DEFAULT_SINCE_DAYS * 24 * 60 * 60 * 1000,
++    );
++    const start = since && since > floor ? since : floor;
++    const end = new Date();
++    const ctx = { userId: conn.user_id, connectionId: conn.id };
++
++    const startSec = Math.floor(start.getTime() / 1000);
++    const endSec = Math.floor(end.getTime() / 1000);
++
++    const results = await Promise.all(
++      GARMIN_SUMMARY_KINDS.map((kind) =>
++        this.pageCollection(kind, accessToken, startSec, endSec, ctx),
++      ),
++    );
++    return results.flat();
++  }
++
++  /**
++   * Resolve a usable PLAINTEXT access token for a backfill call:
++   *  - If `encrypted_access_token` is present and not expired, KMS-unwrap it.
++   *  - Else KMS-unwrap the refresh token and mint a fresh access token (NOT
++   *    persisted here — the connection layer persists via `refresh()`).
++   *  - Else re-consent is required → fail loud (#36).
++   * The plaintext token lives only on the stack; it is never logged (#1/#12).
++   */
++  private async resolveAccessToken(conn: WearableConnection): Promise<string> {
++    const expired =
++      conn.access_token_expires_at != null &&
++      conn.access_token_expires_at.getTime() <= Date.now();
++    if (conn.encrypted_access_token && !expired) {
++      return this.kms.decrypt(conn.encrypted_access_token);
++    }
++    if (conn.encrypted_refresh_token) {
++      const refreshToken = await this.kms.decrypt(conn.encrypted_refresh_token);
++      const rotated = await this.refreshAccessToken(refreshToken);
++      if (!rotated.accessToken) {
++        throw new Error('garmin.backfill: refresh returned no access token');
++      }
++      return rotated.accessToken;
++    }
++    throw new Error(
++      'garmin.backfill: connection has no access or refresh token (re-consent required)',
++    );
++  }
++
++  /**
++   * Page one Garmin summary collection across the [startSec, endSec] range in
++   * ≤24h windows. Each window is a single Garmin summary request; the records
++   * are wrapped as {@link RawRecord} with the kind discriminator + ctx threaded
++   * onto the payload. Bounded by {@link MAX_WINDOWS_PER_COLLECTION}.
++   */
++  private async pageCollection(
++    kind: GarminSummaryKind,
++    accessToken: string,
++    startSec: number,
++    endSec: number,
++    ctx: { userId: string; connectionId: string },
++  ): Promise<RawRecord[]> {
++    const out: RawRecord[] = [];
++    let windowStart = startSec;
++    let windows = 0;
++
++    while (windowStart < endSec && windows < MAX_WINDOWS_PER_COLLECTION) {
++      const windowEnd = Math.min(windowStart + WINDOW_SECONDS, endSec);
++      const params = new URLSearchParams({
++        uploadStartTimeInSeconds: String(windowStart),
++        uploadEndTimeInSeconds: String(windowEnd),
++      });
++      const res = await this.http.request(
++        `${SUMMARY_ENDPOINT[kind]}?${params.toString()}`,
++        {
++          method: 'GET',
++          headers: { Authorization: `Bearer ${accessToken}` },
++          label: `garmin.backfill.${kind}`,
++        },
++      );
++      const json = (await res.json()) as unknown;
++      const records = Array.isArray(json) ? (json as GarminSummary[]) : [];
++      for (const rec of records) {
++        out.push(this.wrapRecord(kind, rec, ctx));
++      }
++      windowStart = windowEnd;
++      windows += 1;
++    }
++    return out;
++  }
++
++  /** Wrap a Garmin summary record into a {@link RawRecord} with ctx + kind. */
++  private wrapRecord(
++    kind: GarminSummaryKind,
++    rec: GarminSummary,
++    ctx: { userId: string; connectionId: string },
++  ): RawRecord {
++    const payload: GarminRawPayload = {
++      kind,
++      data: rec,
++      userId: ctx.userId,
++      connectionId: ctx.connectionId,
++    };
++    return {
++      id: rec.summaryId,
++      provider: this.provider,
++      payload,
++    };
++  }
++
++  // ── Normalize ─────────────────────────────────────────────────────────
++
++  normalize(raw: RawRecord[]): NormalizedSample[] {
++    return normalizeGarmin(raw);
++  }
++
++  // ── Webhook (partner-signed push) ──────────────────────────────────────
++
++  /**
++   * Verify a Garmin push. Garmin Health push has NO per-event HMAC, so the
++   * partner-signed contract is a static push token the receiver checks
++   * constant-time. We require `GARMIN_PUSH_TOKEN` to be configured and the
++   * inbound `X-Garmin-Push-Token` header to match it. Missing config → FAIL
++   * CLOSED (return false) so a misconfigured receiver never trusts a push
++   * (#36 fail-loud). A missing/mismatched header → false (controller → 401).
++   */
++  verifyWebhook(req: RawWebhookRequest): boolean {
++    const expected = this.pushToken;
++    if (!expected) {
++      this.logger.error(
++        'garmin.verifyWebhook: no GARMIN_PUSH_TOKEN configured — failing closed',
++      );
++      return false;
++    }
++    const provided = headerValue(req.headers, GARMIN_PUSH_TOKEN_HEADER);
++    if (!provided) {
++      return false;
++    }
++    const expectedBuf = Buffer.from(expected, 'utf8');
++    const providedBuf = Buffer.from(provided, 'utf8');
++    if (expectedBuf.length !== providedBuf.length) {
++      return false;
++    }
++    return timingSafeEqual(expectedBuf, providedBuf);
++  }
++
++  /**
++   * Parse a (already-token-verified) Garmin push into provider events. Garmin
++   * pushes the actual summary payload keyed by collection; we Zod-validate the
++   * envelope (`.strict()`), then emit ONE {@link ProviderEvent} per summary
++   * record. The `providerEventId` is `garmin:<kind>:<summaryId>` (namespaced
++   * so two collections sharing a summaryId never collide on the dedup PK), the
++   * `type` is the kind, and each event carries the single wrapped
++   * {@link RawRecord} — ready to normalize without a follow-up fetch.
++   *
++   * Returns `[]` on malformed JSON or a schema-rejected envelope (the
++   * controller maps an empty parse on a verified-but-malformed body to 400).
++   */
++  parseWebhook(req: RawWebhookRequest): ProviderEvent[] {
++    let envelope: GarminWebhookEnvelope;
++    try {
++      const json: unknown = JSON.parse(req.rawBody.toString('utf8'));
++      envelope = GarminWebhookEnvelopeSchema.parse(json);
++    } catch {
++      return [];
++    }
++    const events: ProviderEvent[] = [];
++    for (const kind of GARMIN_SUMMARY_KINDS) {
++      const records = envelope[kind];
++      if (!records) continue;
++      for (const rec of records) {
++        const summary = rec as unknown as GarminSummary;
++        const payload: GarminRawPayload = { kind, data: summary };
++        events.push({
++          providerEventId: `garmin:${kind}:${summary.summaryId}`,
++          type: kind,
++          records: [
++            {
++              id: summary.summaryId,
++              provider: this.provider,
++              payload,
++            },
++          ],
++        });
++      }
++    }
++    return events;
++  }
++}
++
++/** Read a header case-insensitively from a lower-cased map (first value). */
++function headerValue(
++  headers: Record<string, string | string[] | undefined>,
++  name: string,
++): string | undefined {
++  const v = headers[name] ?? headers[name.toLowerCase()];
++  if (Array.isArray(v)) return v[0];
++  return v;
++}
++
++/**
++ * Test/utility helper: derive the constant-time push-token comparison a Garmin
++ * receiver expects. Kept next to the verifier so the contract lives in one
++ * place; not exported from the module index. (Garmin's token is opaque — this
++ * helper exists for symmetry with the other connectors' signing helpers and to
++ * keep the header-name contract close to the verifier.)
++ */
++export function garminPushTokenHeader(token: string): {
++  name: string;
++  value: string;
++} {
++  return { name: GARMIN_PUSH_TOKEN_HEADER, value: token };
++}
++
++/**
++ * Derive a NON-reversible, event-scoped correlation id from a Garmin user id
++ * for logs (no PII in logs — Wave-2 audit pattern #3). SHA-256 of a salted
++ * `garmin:<userId>:<salt>` truncated to 16 hex chars. Salt comes from
++ * `GARMIN_WEBHOOK_SALT` (falls back to the push token / client secret).
++ */
++export function hashGarminUserId(userId: string): string {
++  const salt =
++    process.env.GARMIN_WEBHOOK_SALT ??
++    process.env.GARMIN_PUSH_TOKEN ??
++    process.env.GARMIN_CLIENT_SECRET ??
++    '';
++  return createHash('sha256')
++    .update(`garmin:${userId}:${salt}`)
++    .digest('hex')
++    .slice(0, 16);
++}
++
++/**
++ * A structured, log-safe descriptor of a failure on the Garmin ingest path.
++ * NEVER carries raw provider PII (Garmin `userId`), OAuth/user-access tokens,
++ * bearer fragments, or provider payload values — only an error class name and
++ * a scrubbed, length-capped message. Persisted to `last_error` and emitted in
++ * the `ingest_failure` log (Wave-2 audit pattern #3, PII/token redaction).
++ */
++export interface RedactedGarminError {
++  /** Stable machine code for dashboards/alerting (e.g. `GARMIN_INGEST_FAILED`). */
++  error_code: string;
++  /** The error's constructor name (e.g. `PrismaClientKnownRequestError`). */
++  error_class: string;
++  /** Scrubbed, length-capped message safe for logs and DB. */
++  redacted_message: string;
++}
++
++/**
++ * Patterns for token/secret-like fragments that must never reach logs or the
++ * `last_error` column. Order matters: the most specific (labelled) patterns run
++ * first so their values are masked before the generic long-token sweep.
++ */
++const GARMIN_SECRET_PATTERNS: ReadonlyArray<RegExp> = [
++  // `Bearer <token>` / `bearer=<token>` style fragments.
++  /\b[Bb]earer[\s=:]+[A-Za-z0-9._-]+/g,
++  // Labelled token/secret/key/password fields (json or kv form).
++  /\b(?:user[_-]?access[_-]?token|access[_-]?token|refresh[_-]?token|token|secret|password|api[_-]?key|authorization)\b["']?\s*[:=]\s*["']?[A-Za-z0-9._-]+/gi,
++  // Generic long opaque tokens (>= 20 chars of token alphabet).
++  /\b[A-Za-z0-9._-]{20,}\b/g,
++];
++
++/**
++ * Build a {@link RedactedGarminError} from a thrown value and the in-scope
++ * Garmin `userId`. Removes the literal user id, masks token/secret-like
++ * fragments, collapses whitespace, and caps length. Returns a fully-populated
++ * descriptor for every input (including non-`Error` throws) — never throws,
++ * never returns the raw message.
++ */
++export function redactGarminError(
++  err: unknown,
++  userId: string | undefined,
++  errorCode = 'GARMIN_INGEST_FAILED',
++): RedactedGarminError {
++  const error_class =
++    err instanceof Error && typeof err.constructor?.name === 'string'
++      ? err.constructor.name
++      : typeof err;
++
++  const rawMessage =
++    err instanceof Error
++      ? err.message
++      : typeof err === 'string'
++        ? err
++        : (() => {
++            try {
++              return JSON.stringify(err);
++            } catch {
++              return String(err);
++            }
++          })();
++
++  let scrubbed = typeof rawMessage === 'string' ? rawMessage : String(rawMessage);
++
++  // 1) Remove every occurrence of the literal Garmin user id (PII).
++  if (userId && userId.length > 0) {
++    scrubbed = scrubbed.split(userId).join('[redacted-user]');
++  }
++  // 2) Mask token/secret-like fragments.
++  for (const pattern of GARMIN_SECRET_PATTERNS) {
++    scrubbed = scrubbed.replace(pattern, '[redacted]');
++  }
++  // 3) Collapse whitespace and cap length.
++  scrubbed = scrubbed.replace(/\s+/g, ' ').trim().slice(0, 500);
++  if (scrubbed.length === 0) {
++    scrubbed = 'unknown';
++  }
++
++  return { error_code: errorCode, error_class, redacted_message: scrubbed };
++}
+diff --git a/src/wearables/connectors/garmin/garmin.module.ts b/src/wearables/connectors/garmin/garmin.module.ts
+new file mode 100644
+index 000000000..186f23472
+--- /dev/null
++++ b/src/wearables/connectors/garmin/garmin.module.ts
+@@ -0,0 +1,33 @@
++import { Module } from '@nestjs/common';
++import { WearablesModule } from '../../wearables.module';
++import { GarminConnector } from './garmin.connector';
++import { GarminWebhookController } from './garmin-webhook.controller';
++
++/**
++ * PR-HK-2.d — Garmin connector module.
++ *
++ * Self-contained, file-disjoint provider module (same isolation pattern as
++ * Oura PR-HK-2.k / WHOOP PR-HK-2.l): it provides the {@link GarminConnector}
++ * and mounts the {@link GarminWebhookController}. It does NOT edit
++ * `wearables.module.ts` or a connector registry — those shared touches are out
++ * of this PR's write-set, so the connector PRs land in parallel without merge
++ * conflicts.
++ *
++ * Dependencies:
++ *  - {@link WearablesModule} exports {@link ProviderHttpClient} (the single
++ *    hardened HTTP client), {@link IngestionService}, and {@link KmsService}
++ *    wiring — imported so the connector + webhook controller can inject them.
++ *  - PrismaService is global (@Global PrismaModule) — the webhook controller
++ *    injects it directly for idempotency + revocation.
++ *
++ * Wiring this module into AppModule (and registering the connector in the
++ * registry) is a one-line shared edit performed by the integration PR, NOT
++ * here — keeping this PR's footprint inside `connectors/garmin/`.
++ */
++@Module({
++  imports: [WearablesModule],
++  controllers: [GarminWebhookController],
++  providers: [GarminConnector],
++  exports: [GarminConnector],
++})
++export class GarminModule {}
+diff --git a/src/wearables/connectors/garmin/garmin.normalizer.spec.ts b/src/wearables/connectors/garmin/garmin.normalizer.spec.ts
+new file mode 100644
+index 000000000..1c2756103
+--- /dev/null
++++ b/src/wearables/connectors/garmin/garmin.normalizer.spec.ts
+@@ -0,0 +1,326 @@
++import { WearableMetricType, WearableProvider } from '@prisma/client';
++import { RawRecord } from '../../normalization/normalizer.types';
++import { computeDedupKey } from '../../ingestion/dedup.util';
++import {
++  garminDedupKey,
++  normalizeGarmin,
++  offsetToSourceTz,
++} from './garmin.normalizer';
++import { GarminRawPayload, GarminSummaryKind } from './garmin.types';
++
++const USER = 'user-uuid-1';
++const CONN = 'conn-uuid-1';
++
++/** 2026-05-20T00:00:00Z in epoch seconds. */
++const DAY_START_SEC = Math.floor(Date.parse('2026-05-20T00:00:00.000Z') / 1000);
++
++function raw(
++  kind: GarminSummaryKind,
++  data: Record<string, unknown>,
++): RawRecord {
++  const payload: GarminRawPayload = {
++    kind,
++    data: data as never,
++    userId: USER,
++    connectionId: CONN,
++  };
++  return {
++    id: String(data.summaryId),
++    provider: WearableProvider.GARMIN,
++    payload,
++  };
++}
++
++function byMetric(samples: { metric: WearableMetricType }[]) {
++  return Object.fromEntries(samples.map((s) => [s.metric, s])) as Record<
++    WearableMetricType,
++    {
++      metric: WearableMetricType;
++      value: number;
++      unit: string;
++      bucket: string;
++      provider: string;
++      userId: string;
++      connectionId: string;
++      startAt: Date;
++      endAt: Date;
++      sourceTz?: string | null;
++    }
++  >;
++}
++
++describe('normalizeGarmin', () => {
++  it('maps a daily summary to STEPS and ACTIVE_ENERGY_KCAL (H&F) with exact values', () => {
++    const samples = normalizeGarmin([
++      raw('dailies', {
++        summaryId: 'daily-1',
++        userId: 'garmin-99',
++        startTimeInSeconds: DAY_START_SEC,
++        startTimeOffsetInSeconds: 3600, // UTC+01:00
++        durationInSeconds: 86_400,
++        steps: 8421,
++        activeKilocalories: 612,
++      }),
++    ]);
++
++    expect(samples).toHaveLength(2);
++    const m = byMetric(samples);
++    expect(m[WearableMetricType.STEPS]).toMatchObject({
++      value: 8421,
++      unit: 'steps',
++      bucket: 'HEALTH_FITNESS',
++      provider: 'GARMIN',
++      userId: USER,
++      connectionId: CONN,
++      sourceTz: 'UTC+01:00',
++    });
++    expect(m[WearableMetricType.ACTIVE_ENERGY_KCAL]).toMatchObject({
++      value: 612,
++      unit: 'kcal',
++      bucket: 'HEALTH_FITNESS',
++    });
++    expect(m[WearableMetricType.STEPS].startAt.toISOString()).toBe(
++      '2026-05-20T00:00:00.000Z',
++    );
++    expect(m[WearableMetricType.STEPS].endAt.toISOString()).toBe(
++      '2026-05-21T00:00:00.000Z',
++    );
++  });
++
++  it('maps a sleep summary to all stages, derived TOTAL + EFFICIENCY, and BODY_BATTERY (S&R)', () => {
++    // Stages in seconds: deep 1h, light 3h, rem 1.5h, awake 0.5h.
++    const samples = normalizeGarmin([
++      raw('sleeps', {
++        summaryId: 'sleep-1',
++        userId: 'garmin-99',
++        startTimeInSeconds: DAY_START_SEC,
++        startTimeOffsetInSeconds: 0,
++        durationInSeconds: 21_600, // 6h in bed
++        validation: 'ENHANCED_CONFIRMED',
++        deepSleepDurationInSeconds: 3600, // 60 min
++        lightSleepDurationInSeconds: 10_800, // 180 min
++        remSleepInSeconds: 5400, // 90 min
++        awakeDurationInSeconds: 1800, // 30 min
++        endingBodyBattery: 72,
++      }),
++    ]);
++
++    const m = byMetric(samples);
++    expect(m[WearableMetricType.SLEEP_DEEP_MIN]).toMatchObject({
++      value: 60,
++      unit: 'min',
++      bucket: 'SLEEP_RECOVERY',
++    });
++    expect(m[WearableMetricType.SLEEP_LIGHT_MIN].value).toBe(180);
++    expect(m[WearableMetricType.SLEEP_REM_MIN].value).toBe(90);
++    expect(m[WearableMetricType.SLEEP_AWAKE_MIN].value).toBe(30);
++    // TOTAL = sum of all stages = 60+180+90+30 = 360 min.
++    expect(m[WearableMetricType.SLEEP_TOTAL_MIN].value).toBe(360);
++    // EFFICIENCY = asleep / (asleep + awake) = 330 / 360 = 91.6667%.
++    expect(m[WearableMetricType.SLEEP_EFFICIENCY_PCT].unit).toBe('%');
++    expect(m[WearableMetricType.SLEEP_EFFICIENCY_PCT].value).toBeCloseTo(
++      91.6667,
++      3,
++    );
++    expect(m[WearableMetricType.BODY_BATTERY]).toMatchObject({
++      value: 72,
++      unit: 'score',
++      bucket: 'SLEEP_RECOVERY',
++    });
++  });
++
++  it('falls back to bodyBatteryChange when endingBodyBattery is absent', () => {
++    const samples = normalizeGarmin([
++      raw('sleeps', {
++        summaryId: 'sleep-2',
++        userId: 'garmin-99',
++        startTimeInSeconds: DAY_START_SEC,
++        durationInSeconds: 3600,
++        validation: 'ENHANCED_TENTATIVE',
++        deepSleepDurationInSeconds: 3600,
++        bodyBatteryChange: 18,
++      }),
++    ]);
++    const m = byMetric(samples);
++    expect(m[WearableMetricType.BODY_BATTERY].value).toBe(18);
++  });
++
++  it('skips non-enhanced (manual) sleep entries', () => {
++    const samples = normalizeGarmin([
++      raw('sleeps', {
++        summaryId: 'sleep-3',
++        userId: 'garmin-99',
++        startTimeInSeconds: DAY_START_SEC,
++        durationInSeconds: 3600,
++        validation: 'MANUAL',
++        deepSleepDurationInSeconds: 3600,
++      }),
++    ]);
++    expect(samples).toHaveLength(0);
++  });
++
++  it('maps an hrv summary to HRV_MS (S&R) with exact value', () => {
++    const samples = normalizeGarmin([
++      raw('hrv', {
++        summaryId: 'hrv-1',
++        userId: 'garmin-99',
++        startTimeInSeconds: DAY_START_SEC,
++        startTimeOffsetInSeconds: -18_000, // UTC-05:00
++        durationInSeconds: 28_800,
++        lastNightAvg: 47,
++        lastNight5MinHigh: 80,
++      }),
++    ]);
++    expect(samples).toHaveLength(1);
++    const m = byMetric(samples);
++    expect(m[WearableMetricType.HRV_MS]).toMatchObject({
++      value: 47,
++      unit: 'ms',
++      bucket: 'SLEEP_RECOVERY',
++      sourceTz: 'UTC-05:00',
++    });
++  });
++
++  it('maps an activity to WORKOUT_DURATION_MIN, WORKOUT_DISTANCE_M and TRAINING_LOAD (H&F)', () => {
++    const samples = normalizeGarmin([
++      raw('activities', {
++        summaryId: 'act-1',
++        userId: 'garmin-99',
++        startTimeInSeconds: DAY_START_SEC,
++        startTimeOffsetInSeconds: 0,
++        durationInSeconds: 1800, // 30 min
++        activityType: 'RUNNING',
++        distanceInMeters: 5200,
++        activityTrainingLoad: 137,
++      }),
++    ]);
++    const m = byMetric(samples);
++    expect(m[WearableMetricType.WORKOUT_DURATION_MIN]).toMatchObject({
++      value: 30,
++      unit: 'min',
++      bucket: 'HEALTH_FITNESS',
++    });
++    expect(m[WearableMetricType.WORKOUT_DISTANCE_M]).toMatchObject({
++      value: 5200,
++      unit: 'm',
++    });
++    expect(m[WearableMetricType.TRAINING_LOAD]).toMatchObject({
++      value: 137,
++      unit: 'score',
++    });
++  });
++
++  it('maps a body composition summary to BODY_WEIGHT_KG (g→kg) and BODY_FAT_PCT (H&F)', () => {
++    const samples = normalizeGarmin([
++      raw('bodyComps', {
++        summaryId: 'bc-1',
++        userId: 'garmin-99',
++        startTimeInSeconds: DAY_START_SEC,
++        durationInSeconds: 0,
++        weightInGrams: 80_500, // 80.5 kg
++        bodyFatInPercent: 18.4,
++      }),
++    ]);
++    const m = byMetric(samples);
++    expect(m[WearableMetricType.BODY_WEIGHT_KG]).toMatchObject({
++      value: 80.5,
++      unit: 'kg',
++      bucket: 'HEALTH_FITNESS',
++    });
++    expect(m[WearableMetricType.BODY_FAT_PCT]).toMatchObject({
++      value: 18.4,
++      unit: '%',
++    });
++    // Point-in-time (no duration): start == end.
++    expect(m[WearableMetricType.BODY_WEIGHT_KG].startAt.toISOString()).toBe(
++      m[WearableMetricType.BODY_WEIGHT_KG].endAt.toISOString(),
++    );
++  });
++
++  it('drops foreign-provider records and records with no ctx', () => {
++    const foreign: RawRecord = {
++      id: 'x',
++      provider: WearableProvider.WHOOP,
++      payload: { kind: 'dailies', data: { summaryId: 'x', userId: 'g' } },
++    };
++    const noCtx: RawRecord = {
++      id: 'y',
++      provider: WearableProvider.GARMIN,
++      payload: {
++        kind: 'dailies',
++        data: {
++          summaryId: 'y',
++          userId: 'g',
++          startTimeInSeconds: DAY_START_SEC,
++          steps: 100,
++        },
++      } as GarminRawPayload,
++    };
++    expect(normalizeGarmin([foreign, noCtx])).toHaveLength(0);
++  });
++
++  it('skips a daily with an unparseable window', () => {
++    const samples = normalizeGarmin([
++      raw('dailies', {
++        summaryId: 'daily-bad',
++        userId: 'garmin-99',
++        steps: 999, // no startTimeInSeconds → no window → skipped
++      }),
++    ]);
++    expect(samples).toHaveLength(0);
++  });
++});
++
++describe('offsetToSourceTz', () => {
++  it('renders positive, negative, and zero offsets', () => {
++    expect(offsetToSourceTz(3600)).toBe('UTC+01:00');
++    expect(offsetToSourceTz(-18_000)).toBe('UTC-05:00');
++    expect(offsetToSourceTz(0)).toBe('UTC+00:00');
++    expect(offsetToSourceTz(undefined)).toBe('UTC');
++  });
++});
++
++describe('garminDedupKey', () => {
++  it('is deterministic and value-sensitive (sha256 hex)', () => {
++    const at = new Date('2026-05-20T00:00:00.000Z');
++    const a = garminDedupKey({
++      userId: 'garmin-99',
++      metric: WearableMetricType.STEPS,
++      startAt: at,
++      value: 8421,
++    });
++    const b = garminDedupKey({
++      userId: 'garmin-99',
++      metric: WearableMetricType.STEPS,
++      startAt: at,
++      value: 8421,
++    });
++    const c = garminDedupKey({
++      userId: 'garmin-99',
++      metric: WearableMetricType.STEPS,
++      startAt: at,
++      value: 8422, // different value
++    });
++    expect(a).toMatch(/^[0-9a-f]{64}$/);
++    expect(a).toBe(b);
++    expect(a).not.toBe(c);
++  });
++
++  it('differs from the foundation row dedup_key (value is folded in)', () => {
++    const at = new Date('2026-05-20T00:00:00.000Z');
++    const connectorKey = garminDedupKey({
++      userId: USER,
++      metric: WearableMetricType.STEPS,
++      startAt: at,
++      value: 8421,
++    });
++    const rowKey = computeDedupKey({
++      userId: USER,
++      provider: WearableProvider.GARMIN,
++      metric: WearableMetricType.STEPS,
++      startAt: at,
++      endAt: at,
++    });
++    expect(connectorKey).not.toBe(rowKey);
++  });
++});
+diff --git a/src/wearables/connectors/garmin/garmin.normalizer.ts b/src/wearables/connectors/garmin/garmin.normalizer.ts
+new file mode 100644
+index 000000000..0e70667bf
+--- /dev/null
++++ b/src/wearables/connectors/garmin/garmin.normalizer.ts
+@@ -0,0 +1,437 @@
++import { createHash } from 'crypto';
++import {
++  WearableMetricBucket,
++  WearableMetricType,
++  WearableProvider,
++} from '@prisma/client';
++import {
++  NormalizedSample,
++  RawRecord,
++} from '../../normalization/normalizer.types';
++import {
++  GarminActivity,
++  GarminBodyComp,
++  GarminDaily,
++  GarminHrv,
++  GarminRawPayload,
++  GarminSleep,
++} from './garmin.types';
++
++/**
++ * PR-HK-2.d — Garmin Health API → canonical normalizer.
++ *
++ * Maps Garmin-native summaries to {@link NormalizedSample}[] EXACTLY per
++ * AGENT_2_CODING_PLAN §3.1 (anything unlisted is dropped — no speculative
++ * ingestion, guard #42):
++ *
++ *   dailies.steps                → STEPS                (H&F)
++ *   dailies.activeKilocalories   → ACTIVE_ENERGY_KCAL   (H&F)
++ *   sleeps.remSleepInSeconds              → SLEEP_REM_MIN        (S&R)
++ *   sleeps.deepSleepDurationInSeconds     → SLEEP_DEEP_MIN       (S&R)
++ *   sleeps.lightSleepDurationInSeconds    → SLEEP_LIGHT_MIN      (S&R)
++ *   sleeps.awakeDurationInSeconds         → SLEEP_AWAKE_MIN      (S&R)
++ *   (sum of stages)                       → SLEEP_TOTAL_MIN      (S&R)
++ *   (asleep / total in-bed)               → SLEEP_EFFICIENCY_PCT (S&R)
++ *   sleeps.endingBodyBattery|bodyBatteryChange → BODY_BATTERY    (S&R)
++ *   hrv.lastNightAvg             → HRV_MS               (S&R)
++ *   activities.durationInSeconds → WORKOUT_DURATION_MIN (H&F)
++ *   activities.distanceInMeters  → WORKOUT_DISTANCE_M   (H&F)
++ *   activities.activityTrainingLoad → TRAINING_LOAD     (H&F)
++ *   bodyComps.weightInGrams      → BODY_WEIGHT_KG       (H&F)
++ *   bodyComps.bodyFatInPercent   → BODY_FAT_PCT         (H&F)
++ *
++ * Invariants:
++ *  - Garmin durations are SECONDS — converted to minutes here (`sec / 60`).
++ *  - Garmin weight is GRAMS — converted to kilograms (`g / 1000`).
++ *  - Timestamps are epoch SECONDS; `startTimeInSeconds * 1000` builds the UTC
++ *    instant. `startTimeOffsetInSeconds` is rendered into an IANA-ish UTC
++ *    offset string on `sourceTz` (e.g. "UTC+01:00") so day-bucketing across
++ *    DST/travel is correct without losing the provider's reported local frame.
++ *  - The (user_id, metric, start_at, end_at)-derived DB dedup is implemented
++ *    in the foundation ingestion lane via `computeDedupKey`. The §-style
++ *    connector-level key is exposed by {@link garminDedupKey} for
++ *    connector-level idempotency / logging and asserted in the spec.
++ *  - Records with no resolvable subject/connection ctx, no parseable window,
++ *    or a missing metric value are skipped — no half-baked sample crosses the
++ *    ingestion boundary.
++ */
++
++const PROVIDER: WearableProvider = WearableProvider.GARMIN;
++const SEC_PER_MIN = 60;
++const GRAMS_PER_KG = 1000;
++
++const SR: WearableMetricBucket = WearableMetricBucket.SLEEP_RECOVERY;
++const HF: WearableMetricBucket = WearableMetricBucket.HEALTH_FITNESS;
++
++/** Canonical unit strings (match WearableMetricDef.unit seeded in PR-HK-0). */
++const UNIT = {
++  steps: 'steps',
++  kcal: 'kcal',
++  min: 'min',
++  pct: '%',
++  ms: 'ms',
++  m: 'm',
++  kg: 'kg',
++  score: 'score',
++} as const;
++
++/**
++ * The §3.1 connector-level dedup key:
++ *   sha256("garmin:" + user_id + ":" + metric + ":" + start_iso + ":" + value)
++ *
++ * Distinct from the foundation row dedup_key (which omits value and is the DB
++ * uniqueness key). This connector key folds in the value so a corrected
++ * re-push (same window, new value) is recognised as a *different* connector
++ * observation for logging/idempotency.
++ */
++export function garminDedupKey(input: {
++  userId: number | string;
++  metric: WearableMetricType;
++  startAt: Date;
++  value: number;
++}): string {
++  const canonical = [
++    'garmin',
++    String(input.userId),
++    input.metric,
++    input.startAt.toISOString(),
++    String(input.value),
++  ].join(':');
++  return createHash('sha256').update(canonical, 'utf8').digest('hex');
++}
++
++/**
++ * Render a Garmin UTC offset (seconds) into a stable `UTC±HH:MM` source-tz
++ * string. Garmin reports an offset, not an IANA zone; we preserve the offset
++ * so downstream day-bucketing can apply it deterministically (no zone DB
++ * lookup, no DST guessing).
++ */
++export function offsetToSourceTz(offsetSeconds?: number): string {
++  if (offsetSeconds == null || !Number.isFinite(offsetSeconds)) {
++    return 'UTC';
++  }
++  const sign = offsetSeconds < 0 ? '-' : '+';
++  const abs = Math.abs(offsetSeconds);
++  const hh = Math.floor(abs / 3600)
++    .toString()
++    .padStart(2, '0');
++  const mm = Math.floor((abs % 3600) / 60)
++    .toString()
++    .padStart(2, '0');
++  return `UTC${sign}${hh}:${mm}`;
++}
++
++/** Build the UTC [start,end] window from a Garmin summary's epoch seconds. */
++function resolveWindow(
++  startSec?: number,
++  durationSec?: number,
++): { start: Date; end: Date } | null {
++  if (startSec == null || !Number.isFinite(startSec)) {
++    return null;
++  }
++  const start = new Date(startSec * 1000);
++  if (Number.isNaN(start.getTime())) {
++    return null;
++  }
++  const dur = durationSec != null && durationSec > 0 ? durationSec : 0;
++  const end = new Date((startSec + dur) * 1000);
++  return { start, end: end < start ? start : end };
++}
++
++/**
++ * Normalize a batch of Garmin raw records. `userId`/`connectionId` are the
++ * subject-client + connection ids resolved by the connection/webhook layer;
++ * the connector threads them onto each payload. The batch-level `ctx` is a
++ * fallback when a record omits them.
++ */
++export function normalizeGarmin(
++  raw: RawRecord[],
++  ctx?: { userId: string; connectionId: string },
++): NormalizedSample[] {
++  const out: NormalizedSample[] = [];
++  for (const r of raw) {
++    if (r.provider !== PROVIDER) {
++      // Defensive: a foreign record must never be normalized as Garmin.
++      continue;
++    }
++    const payload = r.payload as GarminRawPayload | undefined;
++    if (!payload || typeof payload !== 'object' || !('kind' in payload)) {
++      continue;
++    }
++    const recCtx = {
++      userId: payload.userId ?? ctx?.userId,
++      connectionId: payload.connectionId ?? ctx?.connectionId,
++    };
++    if (!recCtx.userId || !recCtx.connectionId) {
++      continue;
++    }
++    const resolved = {
++      userId: recCtx.userId,
++      connectionId: recCtx.connectionId,
++    };
++    switch (payload.kind) {
++      case 'dailies':
++        pushDaily(out, payload.data as GarminDaily, resolved, r.id);
++        break;
++      case 'sleeps':
++        pushSleep(out, payload.data as GarminSleep, resolved, r.id);
++        break;
++      case 'hrv':
++        pushHrv(out, payload.data as GarminHrv, resolved, r.id);
++        break;
++      case 'activities':
++        pushActivity(out, payload.data as GarminActivity, resolved, r.id);
++        break;
++      case 'bodyComps':
++        pushBodyComp(out, payload.data as GarminBodyComp, resolved, r.id);
++        break;
++      default:
++        break;
++    }
++  }
++  return out;
++}
++
++type Ctx = { userId: string; connectionId: string };
++
++function pushDaily(
++  out: NormalizedSample[],
++  d: GarminDaily,
++  ctx: Ctx,
++  sourceRecordId?: string,
++): void {
++  const win = resolveWindow(d.startTimeInSeconds, d.durationInSeconds);
++  if (!win) return;
++  const base = {
++    userId: ctx.userId,
++    connectionId: ctx.connectionId,
++    provider: PROVIDER,
++    bucket: HF,
++    startAt: win.start,
++    endAt: win.end,
++    sourceTz: offsetToSourceTz(d.startTimeOffsetInSeconds),
++    sourceRecordId: sourceRecordId ?? d.summaryId ?? null,
++  };
++  if (typeof d.steps === 'number') {
++    out.push({
++      ...base,
++      metric: WearableMetricType.STEPS,
++      value: d.steps,
++      unit: UNIT.steps,
++    });
++  }
++  if (typeof d.activeKilocalories === 'number') {
++    out.push({
++      ...base,
++      metric: WearableMetricType.ACTIVE_ENERGY_KCAL,
++      value: d.activeKilocalories,
++      unit: UNIT.kcal,
++    });
++  }
++}
++
++function pushSleep(
++  out: NormalizedSample[],
++  s: GarminSleep,
++  ctx: Ctx,
++  sourceRecordId?: string,
++): void {
++  // Only ingest enhanced (auto-detected) sleep with stage data — manual /
++  // unconfirmed sleep entries lack reliable stage breakdowns.
++  if (s.validation && !s.validation.startsWith('ENHANCED')) return;
++  const win = resolveWindow(s.startTimeInSeconds, s.durationInSeconds);
++  if (!win) return;
++  const tz = offsetToSourceTz(s.startTimeOffsetInSeconds);
++  const base = {
++    userId: ctx.userId,
++    connectionId: ctx.connectionId,
++    provider: PROVIDER,
++    bucket: SR,
++    startAt: win.start,
++    endAt: win.end,
++    sourceTz: tz,
++    sourceRecordId: sourceRecordId ?? s.summaryId ?? null,
++  };
++  const min = (sec?: number): number | null =>
++    typeof sec === 'number' && Number.isFinite(sec) ? sec / SEC_PER_MIN : null;
++
++  const rem = min(s.remSleepInSeconds);
++  const deep = min(s.deepSleepDurationInSeconds);
++  const light = min(s.lightSleepDurationInSeconds);
++  const awake = min(s.awakeDurationInSeconds);
++
++  if (rem != null) {
++    out.push({ ...base, metric: WearableMetricType.SLEEP_REM_MIN, value: rem, unit: UNIT.min });
++  }
++  if (deep != null) {
++    out.push({ ...base, metric: WearableMetricType.SLEEP_DEEP_MIN, value: deep, unit: UNIT.min });
++  }
++  if (light != null) {
++    out.push({ ...base, metric: WearableMetricType.SLEEP_LIGHT_MIN, value: light, unit: UNIT.min });
++  }
++  if (awake != null) {
++    out.push({ ...base, metric: WearableMetricType.SLEEP_AWAKE_MIN, value: awake, unit: UNIT.min });
++  }
++
++  // SLEEP_TOTAL_MIN = sum of all reported stages (Garmin does not send a
++  // single "total sleep" field; we derive it from the stage durations).
++  const stages = [rem, deep, light, awake].filter(
++    (v): v is number => v != null,
++  );
++  if (stages.length > 0) {
++    const totalMin = stages.reduce((a, b) => a + b, 0);
++    out.push({
++      ...base,
++      metric: WearableMetricType.SLEEP_TOTAL_MIN,
++      value: totalMin,
++      unit: UNIT.min,
++    });
++    // SLEEP_EFFICIENCY_PCT = asleep / time-in-bed, where time-in-bed =
++    // asleep + awake. Only emitted when an awake figure is present so the
++    // denominator is meaningful; clamped to [0,100].
++    const asleep = (rem ?? 0) + (deep ?? 0) + (light ?? 0);
++    if (awake != null && asleep + awake > 0) {
++      const eff = Math.min(100, Math.max(0, (asleep / (asleep + awake)) * 100));
++      out.push({
++        ...base,
++        metric: WearableMetricType.SLEEP_EFFICIENCY_PCT,
++        value: eff,
++        unit: UNIT.pct,
++      });
++    }
++  }
++
++  // BODY_BATTERY — prefer the ending body battery; fall back to the change.
++  const battery =
++    typeof s.endingBodyBattery === 'number'
++      ? s.endingBodyBattery
++      : typeof s.bodyBatteryChange === 'number'
++        ? s.bodyBatteryChange
++        : null;
++  if (battery != null) {
++    out.push({
++      ...base,
++      metric: WearableMetricType.BODY_BATTERY,
++      value: battery,
++      unit: UNIT.score,
++    });
++  }
++}
++
++function pushHrv(
++  out: NormalizedSample[],
++  h: GarminHrv,
++  ctx: Ctx,
++  sourceRecordId?: string,
++): void {
++  if (typeof h.lastNightAvg !== 'number' || !Number.isFinite(h.lastNightAvg)) {
++    return;
++  }
++  const win = resolveWindow(h.startTimeInSeconds, h.durationInSeconds);
++  if (!win) return;
++  out.push({
++    userId: ctx.userId,
++    connectionId: ctx.connectionId,
++    provider: PROVIDER,
++    metric: WearableMetricType.HRV_MS,
++    bucket: SR,
++    value: h.lastNightAvg,
++    unit: UNIT.ms,
++    startAt: win.start,
++    endAt: win.end,
++    sourceTz: offsetToSourceTz(h.startTimeOffsetInSeconds),
++    sourceRecordId: sourceRecordId ?? h.summaryId ?? null,
++  });
++}
++
++function pushActivity(
++  out: NormalizedSample[],
++  a: GarminActivity,
++  ctx: Ctx,
++  sourceRecordId?: string,
++): void {
++  const win = resolveWindow(a.startTimeInSeconds, a.durationInSeconds);
++  if (!win) return;
++  const base = {
++    userId: ctx.userId,
++    connectionId: ctx.connectionId,
++    provider: PROVIDER,
++    bucket: HF,
++    startAt: win.start,
++    endAt: win.end,
++    sourceTz: offsetToSourceTz(a.startTimeOffsetInSeconds),
++    sourceRecordId: sourceRecordId ?? a.summaryId ?? null,
++  };
++  // WORKOUT_DURATION_MIN — from the activity duration (seconds → minutes).
++  if (typeof a.durationInSeconds === 'number' && a.durationInSeconds >= 0) {
++    out.push({
++      ...base,
++      metric: WearableMetricType.WORKOUT_DURATION_MIN,
++      value: a.durationInSeconds / SEC_PER_MIN,
++      unit: UNIT.min,
++    });
++  }
++  if (
++    typeof a.distanceInMeters === 'number' &&
++    Number.isFinite(a.distanceInMeters)
++  ) {
++    out.push({
++      ...base,
++      metric: WearableMetricType.WORKOUT_DISTANCE_M,
++      value: a.distanceInMeters,
++      unit: UNIT.m,
++    });
++  }
++  if (
++    typeof a.activityTrainingLoad === 'number' &&
++    Number.isFinite(a.activityTrainingLoad)
++  ) {
++    out.push({
++      ...base,
++      metric: WearableMetricType.TRAINING_LOAD,
++      value: a.activityTrainingLoad,
++      unit: UNIT.score,
++    });
++  }
++}
++
++function pushBodyComp(
++  out: NormalizedSample[],
++  b: GarminBodyComp,
++  ctx: Ctx,
++  sourceRecordId?: string,
++): void {
++  // Body comp is a point-in-time measurement; use the start instant as the
++  // window (start == end) when no duration is reported.
++  const win = resolveWindow(b.startTimeInSeconds, b.durationInSeconds);
++  if (!win) return;
++  const base = {
++    userId: ctx.userId,
++    connectionId: ctx.connectionId,
++    provider: PROVIDER,
++    bucket: HF,
++    startAt: win.start,
++    endAt: win.end,
++    sourceTz: offsetToSourceTz(b.startTimeOffsetInSeconds),
++    sourceRecordId: sourceRecordId ?? b.summaryId ?? null,
++  };
++  if (typeof b.weightInGrams === 'number' && b.weightInGrams > 0) {
++    out.push({
++      ...base,
++      metric: WearableMetricType.BODY_WEIGHT_KG,
++      value: b.weightInGrams / GRAMS_PER_KG,
++      unit: UNIT.kg,
++    });
++  }
++  if (
++    typeof b.bodyFatInPercent === 'number' &&
++    Number.isFinite(b.bodyFatInPercent)
++  ) {
++    out.push({
++      ...base,
++      metric: WearableMetricType.BODY_FAT_PCT,
++      value: b.bodyFatInPercent,
++      unit: UNIT.pct,
++    });
++  }
++}
+diff --git a/src/wearables/connectors/garmin/garmin.types.ts b/src/wearables/connectors/garmin/garmin.types.ts
+new file mode 100644
+index 000000000..fc2b8dff4
+--- /dev/null
++++ b/src/wearables/connectors/garmin/garmin.types.ts
+@@ -0,0 +1,271 @@
++/**
++ * PR-HK-2.d — Garmin Health API provider-native types.
++ *
++ * These describe the *exact* shapes the connector receives from the Garmin
++ * Health API push ("ping/push") notifications and backfill responses. They
++ * are scoped to the fields the normalizer maps (AGENT_2_CODING_PLAN §3.1)
++ * plus the structural fields needed for paging, dedup, idempotency, and
++ * webhook handling — nothing speculative (50-Failures #42).
++ *
++ * Garmin distinctives baked in here:
++ *  - Auth is the Garmin **partner** OAuth model. The legacy Health API used
++ *    OAuth1.0a; the modern Health API uses OAuth2 (PKCE). The push-notification
++ *    delivery is a Garmin-signed partner callback ("partner_signed") — Garmin
++ *    POSTs the *actual summary payload* (NOT a lean reference like WHOOP) to a
++ *    pre-registered HTTPS callback URL. The callback URL is registered with a
++ *    partner-configured push verification token; there is NO per-event HMAC
++ *    signature header in the Garmin Health push spec, so the controller defends
++ *    the POST fail-closed via a configured push token + optional IP allow-list
++ *    (the Strava-style model, since both lack per-event HMAC).
++ *  - Timestamps are **epoch seconds** (`startTimeInSeconds`,
++ *    `startTimeOffsetInSeconds`, `calendarDate`). The normalizer converts to UTC
++ *    `Date`s and threads the offset into `sourceTz` so DST/travel cannot
++ *    off-by-one the day bucket.
++ *  - Durations are **seconds** (`durationInSeconds`, `deepSleepDurationInSeconds`,
++ *    …); the normalizer converts to minutes. Distance is **meters**.
++ *  - Each summary carries a `summaryId` (provider-native record id, dedup +
++ *    event-id segment) and a `userAccessToken` / `userId` (the Garmin user
++ *    access token / Garmin user id — PII, never logged).
++ *
++ * Source (verified May 2026): Garmin Health API — Summary Push Service,
++ *   https://developer.garmin.com/gc-developer-program/health-api/  (dailies,
++ *   sleeps, hrv, activities, bodyComps summaries; epoch-second timestamps;
++ *   partner push callbacks).
++ */
++
++import { z } from 'zod';
++
++/** The Garmin summary collections this connector ingests (§3.1 Garmin row). */
++export type GarminSummaryKind =
++  | 'dailies'
++  | 'sleeps'
++  | 'hrv'
++  | 'activities'
++  | 'bodyComps';
++
++/** All summary kinds, drives the Zod webhook envelope keys. */
++export const GARMIN_SUMMARY_KINDS = [
++  'dailies',
++  'sleeps',
++  'hrv',
++  'activities',
++  'bodyComps',
++] as const satisfies readonly GarminSummaryKind[];
++
++/**
++ * Fields common to every Garmin summary record. `summaryId` is the
++ * provider-native record id (dedup + idempotency segment); `userId` is the
++ * Garmin user id (the connection's `external_account_id`); `userAccessToken`
++ * is the OAuth user access token Garmin echoes on the push (PII — never
++ * logged). `startTimeInSeconds` + `startTimeOffsetInSeconds` give the local
++ * window start; `durationInSeconds` the span.
++ */
++export interface GarminSummaryBase {
++  /** Provider-native summary id (dedup + event-id segment). */
++  summaryId: string;
++  /** Garmin user id — the connection external_account_id (PII). */
++  userId: string;
++  /** Garmin OAuth user access token echoed on the push (PII — never logged). */
++  userAccessToken?: string;
++  /** Window start, epoch SECONDS (UTC). */
++  startTimeInSeconds?: number;
++  /** Local-time offset from UTC, seconds (threaded into sourceTz). */
++  startTimeOffsetInSeconds?: number;
++  /** Window duration, seconds. */
++  durationInSeconds?: number;
++  /** Calendar date (YYYY-MM-DD) for day-bucketed summaries (dailies). */
++  calendarDate?: string;
++}
++
++/**
++ * Garmin Daily Summary (`dailies`). H&F. Maps `steps` → STEPS and
++ * `activeKilocalories` → ACTIVE_ENERGY_KCAL.
++ */
++export interface GarminDaily extends GarminSummaryBase {
++  /** Step count for the day → STEPS. */
++  steps?: number;
++  /** Active calories (kcal) for the day → ACTIVE_ENERGY_KCAL. */
++  activeKilocalories?: number;
++}
++
++/**
++ * Garmin Sleep Summary (`sleeps`). S&R. Stage durations are SECONDS; total is
++ * the sum of the stage durations Garmin reports. `bodyBattery*` feeds
++ * BODY_BATTERY.
++ */
++export interface GarminSleep extends GarminSummaryBase {
++  /** Deep sleep, seconds → SLEEP_DEEP_MIN. */
++  deepSleepDurationInSeconds?: number;
++  /** Light sleep, seconds → SLEEP_LIGHT_MIN. */
++  lightSleepDurationInSeconds?: number;
++  /** REM sleep, seconds → SLEEP_REM_MIN. */
++  remSleepInSeconds?: number;
++  /** Awake time, seconds → SLEEP_AWAKE_MIN. */
++  awakeDurationInSeconds?: number;
++  /**
++   * Validation flag. Garmin marks auto-detected vs manually-confirmed sleep;
++   * only `ENHANCED_CONFIRMED` / `ENHANCED_TENTATIVE` carry stage data worth
++   * ingesting. `MANUAL` / unset is skipped by the normalizer.
++   */
++  validation?: string;
++  /**
++   * Overnight Body Battery change. Garmin reports the dynamic min/max across
++   * the sleep; we surface the most-recent value (`bodyBatteryChange` when
++   * present, else `endingBodyBattery`) → BODY_BATTERY.
++   */
++  endingBodyBattery?: number;
++  bodyBatteryChange?: number;
++}
++
++/**
++ * Garmin HRV Summary (`hrv`). S&R. `lastNightAvg` is the overnight average
++ * HRV in **milliseconds** → HRV_MS.
++ */
++export interface GarminHrv extends GarminSummaryBase {
++  /** Overnight average HRV (ms) → HRV_MS. */
++  lastNightAvg?: number;
++  /** Highest 5-min HRV value overnight (ms); not ingested, kept for context. */
++  lastNight5MinHigh?: number;
++}
++
++/**
++ * Garmin Activity Summary (`activities`). H&F. `durationInSeconds` →
++ * WORKOUT_DURATION_MIN, `distanceInMeters` → WORKOUT_DISTANCE_M, and Garmin's
++ * `activityTrainingLoad` → TRAINING_LOAD.
++ */
++export interface GarminActivity extends GarminSummaryBase {
++  /** Activity type label (e.g. "RUNNING"); kept for context, not ingested. */
++  activityType?: string;
++  /** Distance in meters → WORKOUT_DISTANCE_M. */
++  distanceInMeters?: number;
++  /** Garmin training-load score for the activity → TRAINING_LOAD. */
++  activityTrainingLoad?: number;
++}
++
++/**
++ * Garmin Body Composition Summary (`bodyComps`). H&F. `weightInGrams` →
++ * BODY_WEIGHT_KG (converted), `bodyFatInPercent` → BODY_FAT_PCT.
++ */
++export interface GarminBodyComp extends GarminSummaryBase {
++  /** Body mass in GRAMS → BODY_WEIGHT_KG (÷ 1000). */
++  weightInGrams?: number;
++  /** Body fat percentage → BODY_FAT_PCT. */
++  bodyFatInPercent?: number;
++}
++
++/** Union of all Garmin summary record shapes. */
++export type GarminSummary =
++  | GarminDaily
++  | GarminSleep
++  | GarminHrv
++  | GarminActivity
++  | GarminBodyComp;
++
++/**
++ * The envelope the connector wraps every backfilled/pushed record in before
++ * handing it to `normalize()`. `kind` selects the mapper; `data` is the
++ * untouched Garmin record. `userId`/`connectionId` are the SUBJECT-client +
++ * connection ids (threaded by the connector / webhook controller so
++ * `normalize(raw)` can build samples without re-resolving the connection).
++ */
++export interface GarminRawPayload {
++  kind: GarminSummaryKind;
++  data: GarminSummary;
++  /** Subject-client User.id (threaded by connector/controller). */
++  userId?: string;
++  /** Connection id (threaded by connector/controller). */
++  connectionId?: string;
++}
++
++/**
++ * Garmin OAuth token endpoint response (Health API OAuth2/PKCE flow). The
++ * connector also supports the legacy OAuth1.0a partner flow, but the canonical
++ * {@link TokenSet} mapping reads the OAuth2 fields.
++ */
++export interface GarminTokenResponse {
++  access_token?: string;
++  refresh_token?: string;
++  expires_in?: number;
++  scope?: string;
++  /** Garmin user id (echoed on some token responses). */
++  user_id?: string;
++}
++
++// ── Webhook (push) validation ───────────────────────────────────────────────
++
++/**
++ * Garmin push summary records arrive as arrays keyed by collection. We
++ * validate each record with a permissive-but-strict-on-known-keys schema:
++ * the record MUST carry a `summaryId` + `userId`; numeric Garmin fields are
++ * optional numbers. `.passthrough()` is deliberately NOT used at the RECORD
++ * level — Garmin evolves summary fields, but the ENVELOPE is `.strict()` so a
++ * drifted top-level key (a forged extra collection) is rejected.
++ *
++ * NOTE on `.strict()` (Wave-2 audit pattern #4): the foundational guard is on
++ * the ENVELOPE — only the five known summary collections may appear. Record
++ * objects allow unknown keys (Garmin adds fields over time) but unknown
++ * TOP-LEVEL collections are rejected so a malformed/forged push cannot smuggle
++ * an unexpected collection past validation.
++ */
++const GarminSummaryRecordSchema = z
++  .object({
++    summaryId: z.string().min(1),
++    userId: z.string().min(1),
++    userAccessToken: z.string().optional(),
++    startTimeInSeconds: z.number().int().optional(),
++    startTimeOffsetInSeconds: z.number().int().optional(),
++    durationInSeconds: z.number().int().nonnegative().optional(),
++    calendarDate: z.string().optional(),
++  })
++  .passthrough();
++
++/**
++ * The Garmin push envelope. Garmin POSTs `{ "<kind>": [ {…record…}, … ] }`,
++ * possibly with several collections in one push. EVERY top-level key must be
++ * one of the five known summary kinds (`.strict()` rejects unknown keys —
++ * audit pattern #4) and each maps to an array of summary records.
++ */
++export const GarminWebhookEnvelopeSchema = z
++  .object({
++    dailies: z.array(GarminSummaryRecordSchema).optional(),
++    sleeps: z.array(GarminSummaryRecordSchema).optional(),
++    hrv: z.array(GarminSummaryRecordSchema).optional(),
++    activities: z.array(GarminSummaryRecordSchema).optional(),
++    bodyComps: z.array(GarminSummaryRecordSchema).optional(),
++  })
++  .strict();
++
++/** The validated push envelope. */
++export type GarminWebhookEnvelope = z.infer<typeof GarminWebhookEnvelopeSchema>;
++
++/**
++ * Garmin de-registration ("user permission revoked") notification. Garmin
++ * delivers deregistrations to a separate callback as
++ * `{ "deregistrations": [ { userId, userAccessToken } ] }`. We model it so the
++ * controller can flip the connection to `status='disconnected'`.
++ */
++export const GarminDeregistrationSchema = z
++  .object({
++    deregistrations: z
++      .array(
++        z
++          .object({
++            userId: z.string().min(1),
++            userAccessToken: z.string().optional(),
++          })
++          .passthrough(),
++      )
++      .min(1),
++  })
++  .strict();
++
++export type GarminDeregistration = z.infer<typeof GarminDeregistrationSchema>;
++
++/**
++ * Lower-cased Garmin push header carrying the partner-configured verification
++ * token. Garmin allows partners to set a static header on push delivery so the
++ * receiver can fail-closed reject pushes that do not carry the expected token
++ * (the connector's primary POST defense, since Garmin Health push has no
++ * per-event HMAC).
++ */
++export const GARMIN_PUSH_TOKEN_HEADER = 'x-garmin-push-token';
+diff --git a/src/wearables/connectors/garmin/index.ts b/src/wearables/connectors/garmin/index.ts
+new file mode 100644
+index 000000000..a0ef5d550
+--- /dev/null
++++ b/src/wearables/connectors/garmin/index.ts
+@@ -0,0 +1,20 @@
++/**
++ * PR-HK-2.d — Garmin connector public surface.
++ *
++ * Barrel export so the integration PR can wire Garmin with a single import
++ * (`import { GarminModule, GarminConnector } from './connectors/garmin'`)
++ * without reaching into individual files.
++ */
++export {
++  GarminConnector,
++  garminPushTokenHeader,
++  hashGarminUserId,
++} from './garmin.connector';
++export { GarminWebhookController } from './garmin-webhook.controller';
++export { GarminModule } from './garmin.module';
++export {
++  normalizeGarmin,
++  garminDedupKey,
++  offsetToSourceTz,
++} from './garmin.normalizer';
++export * from './garmin.types';

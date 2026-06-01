@@ -1,0 +1,31 @@
+== HEAD ==
+25dd6791d3b1d2159f713fc2dcd29ef8a43d3393
+== merge-base ==
+8cfb44f6f8a8faed00c527c21481beb80e0ec761
+== changed files ==
+src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts
+src/wearables/connectors/garmin/garmin-webhook.controller.ts
+src/wearables/connectors/garmin/garmin.connector.spec.ts
+src/wearables/connectors/garmin/garmin.connector.ts
+src/wearables/connectors/garmin/garmin.module.ts
+src/wearables/connectors/garmin/garmin.normalizer.spec.ts
+src/wearables/connectors/garmin/garmin.normalizer.ts
+src/wearables/connectors/garmin/garmin.types.ts
+src/wearables/connectors/garmin/index.ts
+== diff stat ==
+ .../garmin/garmin-webhook.controller.spec.ts       | 453 ++++++++++++++++
+ .../connectors/garmin/garmin-webhook.controller.ts | 319 ++++++++++++
+ .../connectors/garmin/garmin.connector.spec.ts     | 357 +++++++++++++
+ .../connectors/garmin/garmin.connector.ts          | 567 +++++++++++++++++++++
+ src/wearables/connectors/garmin/garmin.module.ts   |  33 ++
+ .../connectors/garmin/garmin.normalizer.spec.ts    | 326 ++++++++++++
+ .../connectors/garmin/garmin.normalizer.ts         | 437 ++++++++++++++++
+ src/wearables/connectors/garmin/garmin.types.ts    | 271 ++++++++++
+ src/wearables/connectors/garmin/index.ts           |  20 +
+ 9 files changed, 2783 insertions(+)
+== commits ==
+25dd6791d3b1d2159f713fc2dcd29ef8a43d3393
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.d: Garmin connector
+
+---END---

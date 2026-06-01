@@ -1,0 +1,3 @@
+Full temporary log: /tmp/PR-HK-2d_R3_nest_build.log
+Exit status: 0
+Command: npx nest build

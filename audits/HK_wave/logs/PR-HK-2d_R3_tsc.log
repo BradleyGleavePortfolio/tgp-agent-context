@@ -1,0 +1,3 @@
+Full temporary log: /tmp/PR-HK-2d_R3_tsc.log
+Exit status: 0
+Command: ./node_modules/.bin/tsc --noEmit

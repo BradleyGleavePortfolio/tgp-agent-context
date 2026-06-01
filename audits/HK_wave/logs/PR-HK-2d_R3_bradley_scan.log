@@ -1,0 +1,7 @@
+== TODO/XXX/Coming soon/stub literal ==
+== ts-ignore ==
+== as any ==
+== catch blocks ==
+/tmp/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:185:      const err = await connector.refresh(conn()).catch((e) => e);
+/tmp/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:179:      } catch (err) {
+/tmp/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:198:          .catch(() => undefined);
