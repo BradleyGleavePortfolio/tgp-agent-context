@@ -1,0 +1,22 @@
+PR-HK-2.c Samsung Health — R1 Gate Summary
+Head SHA: dcb9f8cae5f1625c444baa0b429a3b54c1dc2cb9 (dcb9f8c)
+Base: main @ 90c033df
+
+Gate 1 tsc --noEmit ............... PASS (exit 0, 0 errors)         -> PR-HK-2c_R1_tsc.log
+Gate 2 eslint <exact changed files> PASS (exit 0)                  -> PR-HK-2c_R1_eslint.log
+Gate 3 jest --runInBand ........... 1753/1754 pass; 1 PRE-EXISTING  -> PR-HK-2c_R1_jest.log
+        unrelated suite fail (quietLuxuryDoctrine: TODO in
+        coach/payments/ContentAttachForm.tsx, exists on main,
+        outside PR write-set). All 4 Samsung suites: 65/65 PASS.
+Gate 4 expo prebuild --clean --no-install --platform android PASS  -> PR-HK-2c_R1_prebuild_android.log
+        (exit 0; generated AndroidManifest contains Health Connect
+        read perms + Samsung READ_ADDITIONAL_HEALTH_DATA)
+
+eslint NOTE: exact changed-file list derived via
+  git diff main...HEAD --name-only -- '*.ts' '*.tsx'
+(fixes prior auditor's wrong path glob).
+
+Write-set: 11 files, +2156, 0 deletions, all within
+  src/services/health/samsungHealth/ + src/hooks/useSamsungHealthSync.ts
+Commit hygiene: 1 commit, author Dynasia G <dynasia@trygrowthproject.com>,
+  no trailers/co-authors. Body is non-empty (descriptive) — P3 note.

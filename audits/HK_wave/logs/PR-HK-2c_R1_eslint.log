@@ -1,0 +1,16 @@
+HEAD=dcb9f8cae5f1625c444baa0b429a3b54c1dc2cb9
+CMD: npx eslint <exact changed .ts/.tsx files>
+FILES:
+src/hooks/useSamsungHealthSync.test.tsx
+src/hooks/useSamsungHealthSync.ts
+src/services/health/samsungHealth/__tests__/samsungHealthClient.test.ts
+src/services/health/samsungHealth/__tests__/samsungHealthNormalizer.test.ts
+src/services/health/samsungHealth/__tests__/samsungHealthSyncService.test.ts
+src/services/health/samsungHealth/errors.ts
+src/services/health/samsungHealth/index.ts
+src/services/health/samsungHealth/samsungHealthClient.ts
+src/services/health/samsungHealth/samsungHealthNormalizer.ts
+src/services/health/samsungHealth/samsungHealthSyncService.ts
+src/services/health/samsungHealth/types.ts
+---
+EXIT=0

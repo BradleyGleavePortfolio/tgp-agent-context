@@ -1,0 +1,13 @@
+HEAD=dcb9f8cae5f1625c444baa0b429a3b54c1dc2cb9
+CMD: npx expo prebuild --clean --no-install --platform android
+- Clearing android
+✔ Cleared android code
+- Creating native directory (./android)
+✔ Created native directory
+- Updating package.json
+✔ Updated package.json
+- Running prebuild
+» android: userInterfaceStyle: Install expo-system-ui in your project to enable this feature.
+- Running prebuild
+✔ Finished prebuild
+EXIT=0
