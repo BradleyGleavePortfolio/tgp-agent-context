@@ -1,0 +1,10 @@
+ src/wearables/connectors/polar/index.ts            |  65 +++
+ .../polar/polar-webhook.controller.spec.ts         | 378 +++++++++++++
+ .../connectors/polar/polar-webhook.controller.ts   | 288 ++++++++++
+ .../connectors/polar/polar.connector.spec.ts       | 409 ++++++++++++++
+ src/wearables/connectors/polar/polar.connector.ts  | 629 +++++++++++++++++++++
+ src/wearables/connectors/polar/polar.module.ts     |  49 ++
+ .../connectors/polar/polar.normalizer.spec.ts      | 319 +++++++++++
+ src/wearables/connectors/polar/polar.normalizer.ts | 358 ++++++++++++
+ src/wearables/connectors/polar/polar.types.ts      | 156 +++++
+ 9 files changed, 2651 insertions(+)

@@ -1,0 +1,6 @@
+Mon Jun  1 23:37:20 UTC 2026
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn tar TAR_ENTRY_ERROR ENOSPC: no space left on device, write
+npm error A complete log of this run can be found in: /home/user/.npm/_logs/2026-06-01T23_37_20_982Z-debug-0.log
+npm_ci_exit=1

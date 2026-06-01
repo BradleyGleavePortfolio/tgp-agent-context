@@ -1,0 +1,14 @@
+Mon Jun  1 23:45:17 UTC 2026
+HEAD=a4e4e4ef00b11bc39d78cd0d3f9a03593f331e42
+origin_main=0a221893b2e0ce1808450afbe9776b5df8d80dc6
+merge_base=8cfb44f6f8a8faed00c527c21481beb80e0ec761
+changed_files:
+src/wearables/connectors/polar/index.ts
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts
+src/wearables/connectors/polar/polar-webhook.controller.ts
+src/wearables/connectors/polar/polar.connector.spec.ts
+src/wearables/connectors/polar/polar.connector.ts
+src/wearables/connectors/polar/polar.module.ts
+src/wearables/connectors/polar/polar.normalizer.spec.ts
+src/wearables/connectors/polar/polar.normalizer.ts
+src/wearables/connectors/polar/polar.types.ts

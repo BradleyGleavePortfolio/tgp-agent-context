@@ -1,0 +1,28 @@
+Mon Jun  1 23:45:18 UTC 2026
+a4e4e4ef00b11bc39d78cd0d3f9a03593f331e42
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.g: strict webhook schema, reservation-first idempotency, drop unapproved sleep efficiency metric
+
+---END---
+ef79c47ffe1a9a716fdd94a9960280321eab9d55
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.g: Polar AccessLink connector (OAuth2 + webhook + backfill)
+
+Add the file-disjoint Polar connector under src/wearables/connectors/polar/
+implementing the PR-HK-0 WearableConnector contract.
+
+- polar.connector.ts: OAuth2 (HTTP Basic token exchange, non-rotating
+  long-lived tokens), backfill (exercises list + per-date sleep /
+  nightly-recharge, clamped to 28d), Polar-Webhook-Signature HMAC-SHA256
+  raw-body verify (fail-closed), fetchChangedRecord with SSRF host guard,
+  redacted error logging.
+- polar.normalizer.ts: AGENT_2_CODING_PLAN 3.1 mapping — exercises ->
+  WORKOUT_DURATION_MIN/WORKOUT_DISTANCE_M/HEART_RATE_BPM; sleep ->
+  SLEEP_TOTAL/REM/DEEP/LIGHT/AWAKE_MIN + derived SLEEP_EFFICIENCY_PCT;
+  nightly-recharge -> RECOVERY_SCORE/HRV_MS. ISO-8601 duration parsing.
+- polar-webhook.controller.ts: Public HMAC-gated receiver, Zod validation,
+  PING ack, check-process-commit idempotency ordering, PII-free logs.
+- polar.types.ts, polar.module.ts, index.ts (registry contribution).
+- 51 connector/normalizer/webhook tests, real-value assertions.
+
+---END---

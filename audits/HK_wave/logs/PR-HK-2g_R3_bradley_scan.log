@@ -1,0 +1,21 @@
+=== TODO/stub literals ===
+src/wearables/connectors/polar/polar.connector.spec.ts:15: * `ProviderHttpClient` is stubbed so no real network is touched: `request`
+=== ts-ignore ===
+=== as any ===
+=== catch / .catch occurrences ===
+src/wearables/connectors/polar/polar-webhook.controller.ts:161:          } catch (err) {
+src/wearables/connectors/polar/polar-webhook.controller.ts:191:    } catch (err) {
+src/wearables/connectors/polar/polar.connector.ts:180:    } catch (err) {
+src/wearables/connectors/polar/polar.connector.ts:216:    } catch (err) {
+src/wearables/connectors/polar/polar.connector.ts:611:      .catch(() => undefined);
+=== passthrough / strict ===
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:19: *  - unknown top-level key    → 400 (strict schema, no passthrough)
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:161:  it('rejects an unknown top-level field with 400 (strict — no passthrough)', async () => {
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:167:          // Drifted/extra field that .strict() must reject rather than ignore.
+src/wearables/connectors/polar/polar-webhook.controller.ts:224:   * Strict Zod schema for the Polar webhook event payload. `.strict()` rejects
+src/wearables/connectors/polar/polar-webhook.controller.ts:250:      .strict()
+=== SLEEP_EFFICIENCY ===
+src/wearables/connectors/polar/polar.normalizer.spec.ts:188:    expect(byMetric.SLEEP_EFFICIENCY_PCT).toBeUndefined();
+src/wearables/connectors/polar/polar.normalizer.spec.ts:215:    expect(out.find((s) => s.metric === 'SLEEP_EFFICIENCY_PCT')).toBeUndefined();
+src/wearables/connectors/polar/polar.normalizer.spec.ts:222:    expect(out.find((s) => s.metric === 'SLEEP_EFFICIENCY_PCT')).toBeUndefined();
+src/wearables/connectors/polar/polar.normalizer.ts:40: * normalizer deliberately does NOT emit a derived SLEEP_EFFICIENCY_PCT sample.
