@@ -1,0 +1,6 @@
+ .../wahoo/wahoo-webhook.controller.spec.ts         | 118 +++++++++++++++++-
+ .../connectors/wahoo/wahoo-webhook.controller.ts   | 135 +++++++++++++--------
+ .../connectors/wahoo/wahoo.connector.spec.ts       |  24 ++++
+ src/wearables/connectors/wahoo/wahoo.connector.ts  |  31 +++--
+ 4 files changed, 244 insertions(+), 64 deletions(-)
+---

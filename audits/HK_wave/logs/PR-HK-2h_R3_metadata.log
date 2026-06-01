@@ -1,0 +1,41 @@
+HEAD
+adbccf33b30a7f08db154dab18dd559a2bb01d4d
+MERGE_BASE
+8cfb44f6f8a8faed00c527c21481beb80e0ec761
+DIFF_FILES
+src/wearables/connectors/wahoo/index.ts
+src/wearables/connectors/wahoo/wahoo-webhook.controller.spec.ts
+src/wearables/connectors/wahoo/wahoo-webhook.controller.ts
+src/wearables/connectors/wahoo/wahoo.connector.spec.ts
+src/wearables/connectors/wahoo/wahoo.connector.ts
+src/wearables/connectors/wahoo/wahoo.module.ts
+src/wearables/connectors/wahoo/wahoo.normalizer.spec.ts
+src/wearables/connectors/wahoo/wahoo.normalizer.ts
+src/wearables/connectors/wahoo/wahoo.types.ts
+DIFF_STAT
+ src/wearables/connectors/wahoo/index.ts            |  67 +++
+ .../wahoo/wahoo-webhook.controller.spec.ts         | 284 ++++++++++
+ .../connectors/wahoo/wahoo-webhook.controller.ts   | 275 ++++++++++
+ .../connectors/wahoo/wahoo.connector.spec.ts       | 423 +++++++++++++++
+ src/wearables/connectors/wahoo/wahoo.connector.ts  | 588 +++++++++++++++++++++
+ src/wearables/connectors/wahoo/wahoo.module.ts     |  46 ++
+ .../connectors/wahoo/wahoo.normalizer.spec.ts      | 154 ++++++
+ src/wearables/connectors/wahoo/wahoo.normalizer.ts | 164 ++++++
+ src/wearables/connectors/wahoo/wahoo.types.ts      | 123 +++++
+ 9 files changed, 2124 insertions(+)
+COMMIT_HYGIENE
+adbccf33b30a7f08db154dab18dd559a2bb01d4d
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.h: R2 fixes — webhook shared-token fails closed, strict workout schema, redacted ingest last_error
+
+---END---
+80ae203eef5af86f6b711db4d18c9345e0fc3408
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.h: fix webhook spec mock typing (tsc strict tuple) — all 5 gates green
+
+---END---
+c6682125575ddf95e2f33e93d74588668bc1964c
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.h: Wahoo connector — initial implementation (types, normalizer, connector, webhook, module, index, specs)
+
+---END---

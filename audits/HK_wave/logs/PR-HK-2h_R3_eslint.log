@@ -1,0 +1,2 @@
+$ npx eslint src/wearables/connectors/wahoo/
+EXIT_CODE=0

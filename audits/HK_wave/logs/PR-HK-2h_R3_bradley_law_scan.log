@@ -1,0 +1,15 @@
+Bradley Law scan: Coming soon/TODO/XXX/stub/@ts-ignore/as any
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo.connector.spec.ts:18: * stubbed so no real network is touched. OAuth env is set in beforeEach.
+Catch blocks
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo-webhook.controller.ts:141:      } catch (err) {
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo-webhook.controller.ts:157:          .catch(() => undefined);
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo-webhook.controller.ts:191:    } catch (err) {
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo.connector.ts:207:    } catch (err) {
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo.connector.ts:249:    } catch (err) {
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo.connector.ts:447:    } catch (err) {
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo.connector.ts:569:      .catch(() => undefined);
+HTTP OK returns
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo-webhook.controller.ts:75:  @HttpCode(HttpStatus.OK)
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo-webhook.controller.ts:121:      return { ok: true };
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo-webhook.controller.ts:198:        return { ok: true };
+/home/user/workspace/wahoo_r3_wt_adbccf33b/src/wearables/connectors/wahoo/wahoo-webhook.controller.ts:208:    return { ok: true };

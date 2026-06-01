@@ -1,0 +1,5 @@
+From https://git-agent-proxy.perplexity.ai/BradleyGleavePortfolio/growth-project-backend
+ * branch                hk/PR-HK-2.h-wahoo -> FETCH_HEAD
+Previous HEAD position was 80ae203ee PR-HK-2.h: fix webhook spec mock typing (tsc strict tuple) — all 5 gates green
+HEAD is now at adbccf33b PR-HK-2.h: R2 fixes — webhook shared-token fails closed, strict workout schema, redacted ingest last_error
+HEAD=adbccf33b30a7f08db154dab18dd559a2bb01d4d
