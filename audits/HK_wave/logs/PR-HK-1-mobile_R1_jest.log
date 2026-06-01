@@ -1,0 +1,146 @@
+=== jest PR write-set suites (run individually per documented OOM behavior) @ f7b544e ===
+
+### src/api/wearablesConnectionsApi.test.ts ###
+PASS src/api/wearablesConnectionsApi.test.ts
+  wearablesConnectionsApi.list
+    ✓ GETs /v1/wearables/connections and parses the array (7 ms)
+    ✓ accepts forward-compatible unknown status strings (free-form column)
+    ✓ throws (Zod) when a connection is missing a required field (9 ms)
+    ✓ throws (Zod) when provider is not a known enum value (1 ms)
+    ✓ throws (Zod) when the payload is not an array (1 ms)
+  wearablesConnectionsApi.startOauth
+    ✓ POSTs /oauth/start with { provider } and parses the result (7 ms)
+    ✓ rejects on-device providers WITHOUT hitting the network (7 ms)
+    ✓ throws (Zod) when authorizationUrl is not a valid URL (1 ms)
+    ✓ throws (Zod) when state is missing (1 ms)
+  wearablesConnectionsApi.disconnect
+    ✓ DELETEs /v1/wearables/connections/:provider and parses the result (1 ms)
+    ✓ throws (Zod) when success is not the literal true (1 ms)
+    ✓ throws (Zod) when provider is unknown in the response (1 ms)
+  provider config + auth-model registry
+    ✓ has a config entry for every provider in the enum (6 ms)
+    ✓ classifies the three on-device providers correctly
+
+Test Suites: 1 passed, 1 total
+Tests:       14 passed, 14 total
+Snapshots:   0 total
+Time:        1.312 s
+Ran all test suites matching /src\/api\/wearablesConnectionsApi.test.ts/i.
+EXIT(src/api/wearablesConnectionsApi.test.ts): 0
+
+### src/hooks/useWearableConnections.test.tsx ###
+  console.error
+    An update to HookContainer inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at forceStoreRerender (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5432:24)
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5417:11
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:73:11
+      at notifyFn (node_modules/@tanstack/query-core/src/notifyManager.ts:21:5)
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:44:13
+          at Array.forEach (<anonymous>)
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:43:25
+      at batchNotifyFn (node_modules/@tanstack/query-core/src/notifyManager.ts:24:5)
+      at Timeout._onTimeout (node_modules/@tanstack/query-core/src/notifyManager.ts:42:9)
+
+  console.error
+    An update to HookContainer inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at forceStoreRerender (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5432:24)
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5417:11
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:73:11
+      at notifyFn (node_modules/@tanstack/query-core/src/notifyManager.ts:21:5)
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:44:13
+          at Array.forEach (<anonymous>)
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:43:25
+      at batchNotifyFn (node_modules/@tanstack/query-core/src/notifyManager.ts:24:5)
+      at Timeout._onTimeout (node_modules/@tanstack/query-core/src/notifyManager.ts:42:9)
+
+  console.error
+    An update to HookContainer inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14402:19
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:14401:9)
+      at scheduleUpdateOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12086:9)
+      at forceStoreRerender (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5432:24)
+      at node_modules/react-test-renderer/cjs/react-test-renderer.development.js:5417:11
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:73:11
+      at notifyFn (node_modules/@tanstack/query-core/src/notifyManager.ts:21:5)
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:44:13
+          at Array.forEach (<anonymous>)
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:43:25
+      at batchNotifyFn (node_modules/@tanstack/query-core/src/notifyManager.ts:24:5)
+      at Timeout._onTimeout (node_modules/@tanstack/query-core/src/notifyManager.ts:42:9)
+
+PASS src/hooks/useWearableConnections.test.tsx
+  useWearableConnections
+    ✓ resolves to the connection array on the happy path (70 ms)
+    ✓ surfaces isError when the query rejects (54 ms)
+  useDisconnectProvider
+    ✓ invalidates the connections cache on a successful disconnect (30 ms)
+    ✓ does not invalidate when the disconnect fails (13 ms)
+
+A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due to improper teardown. Try running with --detectOpenHandles to find leaks. Active timers can also cause this, ensure that .unref() was called on them.
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        1.934 s
+Ran all test suites matching /src\/hooks\/useWearableConnections.test.tsx/i.
+EXIT(src/hooks/useWearableConnections.test.tsx): 0
+
+### src/screens/client/wearables/__tests__/ConnectionsScreen.test.tsx ###
+PASS src/screens/client/wearables/__tests__/ConnectionsScreen.test.tsx (5.042 s)
+  ConnectionsScreen — list + badges
+    ✓ renders a row for every provider in the catalog (2570 ms)
+    ✓ shows the Connected badge + relative sync time for a connected provider (27 ms)
+    ✓ shows the Expired badge + Reconnect action for an expired provider (32 ms)
+    ✓ shows the Error badge + Reconnect action for an errored provider (25 ms)
+    ✓ shows the Not connected badge + Connect action for an unconnected provider (29 ms)
+  ConnectionsScreen — interactions
+    ✓ opens the connect sheet with the tapped provider on Connect (50 ms)
+    ✓ calls the disconnect mutation when Disconnect is tapped (28 ms)
+  ConnectionsScreen — loading + error states
+    ✓ renders a loading indicator while fetching (46 ms)
+    ✓ renders an error state with a retry button (5 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        5.326 s
+Ran all test suites matching /src\/screens\/client\/wearables\/__tests__\/ConnectionsScreen.test.tsx/i.
+EXIT(src/screens/client/wearables/__tests__/ConnectionsScreen.test.tsx): 0
