@@ -1,0 +1,66 @@
+HEAD:
+037d4eb244c2a20e2a5259012fbf3f889baa93e5
+BASE_MERGE_BASE:
+8cfb44f6f8a8faed00c527c21481beb80e0ec761
+DIFF_NAME_ONLY:
+src/wearables/connectors/withings/index.ts
+src/wearables/connectors/withings/withings-webhook.controller.spec.ts
+src/wearables/connectors/withings/withings-webhook.controller.ts
+src/wearables/connectors/withings/withings.connector.spec.ts
+src/wearables/connectors/withings/withings.connector.ts
+src/wearables/connectors/withings/withings.module.ts
+src/wearables/connectors/withings/withings.normalizer.spec.ts
+src/wearables/connectors/withings/withings.normalizer.ts
+src/wearables/connectors/withings/withings.types.ts
+DIFF_STAT:
+ src/wearables/connectors/withings/index.ts         |  64 ++
+ .../withings/withings-webhook.controller.spec.ts   | 290 +++++++++
+ .../withings/withings-webhook.controller.ts        | 274 +++++++++
+ .../connectors/withings/withings.connector.spec.ts | 540 ++++++++++++++++
+ .../connectors/withings/withings.connector.ts      | 680 +++++++++++++++++++++
+ .../connectors/withings/withings.module.ts         |  49 ++
+ .../withings/withings.normalizer.spec.ts           | 306 ++++++++++
+ .../connectors/withings/withings.normalizer.ts     | 336 ++++++++++
+ .../connectors/withings/withings.types.ts          | 183 ++++++
+ 9 files changed, 2722 insertions(+)
+AUTHOR_CHECK_FORMATTED:
+Dynasia G <dynasia@trygrowthproject.com>
+Add Withings wearable connector (OAuth2, measure + sleep) with
+form-encoded webhook handling, fail-closed subscription validation,
+KMS-wrapped token storage, PII/secret log redaction, Zod-validated
+notifications, and idempotent process->commit ingestion.
+
+Files (src/wearables/connectors/withings/):
+- withings.types.ts: native envelope/token/measure/sleep shapes, scopes,
+  appli constants, strict Zod notify schema.
+- withings.normalizer.ts: measure decode (type1/6/9/10) and sleep summary
+  to NormalizedSample, per spec 3.1.
+- withings.connector.ts: OAuth authorize/token/refresh, backfill (<=90d),
+  webhook verify (fail-closed), event mapping, secret redaction.
+- withings-webhook.controller.ts: GET verify handshake, POST notify with
+  idempotency, fail-closed 503, Zod 400, durable dedup row.
+- withings.module.ts, index.ts: DI wiring + connector definition.
+- 3 spec files (52 tests).
+---COMMIT-END---
+AUTHOR_CHECK_WITH_SHA:
+037d4eb244c2a20e2a5259012fbf3f889baa93e5 Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.i: Withings connector
+
+Add Withings wearable connector (OAuth2, measure + sleep) with
+form-encoded webhook handling, fail-closed subscription validation,
+KMS-wrapped token storage, PII/secret log redaction, Zod-validated
+notifications, and idempotent process->commit ingestion.
+
+Files (src/wearables/connectors/withings/):
+- withings.types.ts: native envelope/token/measure/sleep shapes, scopes,
+  appli constants, strict Zod notify schema.
+- withings.normalizer.ts: measure decode (type1/6/9/10) and sleep summary
+  to NormalizedSample, per spec 3.1.
+- withings.connector.ts: OAuth authorize/token/refresh, backfill (<=90d),
+  webhook verify (fail-closed), event mapping, secret redaction.
+- withings-webhook.controller.ts: GET verify handshake, POST notify with
+  idempotency, fail-closed 503, Zod 400, durable dedup row.
+- withings.module.ts, index.ts: DI wiring + connector definition.
+- 3 spec files (52 tests).
+
+---COMMIT-END---

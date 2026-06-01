@@ -1,0 +1,5 @@
+COMMAND: npx nest build
+START: 2026-06-01T22:12:23Z
+ENV: DATABASE_URL/DIRECT_URL set to audit dummy Postgres URLs; NODE_OPTIONS=--max-old-space-size=2048
+END: 2026-06-01T22:13:54Z
+EXIT_CODE: 0

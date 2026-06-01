@@ -1,0 +1,5 @@
+COMMAND: npx eslint src/wearables/connectors/withings/
+START: 2026-06-01T22:03:08Z
+ENV: DATABASE_URL/DIRECT_URL set to audit dummy Postgres URLs for Prisma config validation
+END: 2026-06-01T22:03:19Z
+EXIT_CODE: 0

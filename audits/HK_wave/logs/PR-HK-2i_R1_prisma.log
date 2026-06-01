@@ -1,0 +1,7 @@
+COMMAND: npx prisma validate
+START: 2026-06-01T22:00:19Z
+ENV: DATABASE_URL/DIRECT_URL set to audit dummy Postgres URLs for Prisma config validation
+Prisma schema loaded from prisma/schema.prisma
+The schema at prisma/schema.prisma is valid 🚀
+END: 2026-06-01T22:00:31Z
+EXIT_CODE: 0
