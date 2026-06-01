@@ -1,0 +1,7 @@
+
+/home/user/workspace/wt-pr219-r3/jest.setup.js
+  0:0  warning  File ignored because of a matching ignore pattern. Use "--no-ignore" to override
+
+✖ 1 problem (0 errors, 1 warning)
+
+ESLINT_EXIT=0
