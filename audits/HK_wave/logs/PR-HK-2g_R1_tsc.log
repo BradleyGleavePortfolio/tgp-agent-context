@@ -1,0 +1,8 @@
+# Gate: tsc
+# Repo: /home/user/workspace/repos/growth-project-backend-polar-r1-audit (isolated audit worktree of growth-project-backend)
+# HEAD: ef79c47ffe1a9a716fdd94a9960280321eab9d55
+# Env: DATABASE_URL/DIRECT_URL set; NODE_OPTIONS=--max-old-space-size=4096
+# Command: npx tsc --noEmit
+# Started: 2026-06-01T22:07:07Z
+# Finished: process terminated by sandbox (signal: killed) before normal exit
+# Exit code: KILLED

@@ -1,0 +1,10 @@
+# Gate: prisma
+# Repo: /home/user/workspace/repos/growth-project-backend-polar-r1-audit (isolated audit worktree of growth-project-backend)
+# HEAD: ef79c47ffe1a9a716fdd94a9960280321eab9d55
+# Env: DATABASE_URL/DIRECT_URL set for Prisma schema validation (values redacted)
+# Command: npx prisma validate
+# Started: 2026-06-01T22:04:55Z
+Prisma schema loaded from prisma/schema.prisma
+The schema at prisma/schema.prisma is valid 🚀
+# Finished: 2026-06-01T22:05:06Z
+# Exit code: 0
