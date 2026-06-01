@@ -1,0 +1,10 @@
+ .../garmin/garmin-webhook.controller.spec.ts       | 396 +++++++++++++++++
+ .../connectors/garmin/garmin-webhook.controller.ts | 306 +++++++++++++
+ .../connectors/garmin/garmin.connector.spec.ts     | 357 +++++++++++++++
+ .../connectors/garmin/garmin.connector.ts          | 488 +++++++++++++++++++++
+ src/wearables/connectors/garmin/garmin.module.ts   |  33 ++
+ .../connectors/garmin/garmin.normalizer.spec.ts    | 326 ++++++++++++++
+ .../connectors/garmin/garmin.normalizer.ts         | 437 ++++++++++++++++++
+ src/wearables/connectors/garmin/garmin.types.ts    | 271 ++++++++++++
+ src/wearables/connectors/garmin/index.ts           |  20 +
+ 9 files changed, 2634 insertions(+)

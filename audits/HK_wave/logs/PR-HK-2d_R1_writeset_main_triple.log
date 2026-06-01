@@ -1,0 +1,9 @@
+src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts
+src/wearables/connectors/garmin/garmin-webhook.controller.ts
+src/wearables/connectors/garmin/garmin.connector.spec.ts
+src/wearables/connectors/garmin/garmin.connector.ts
+src/wearables/connectors/garmin/garmin.module.ts
+src/wearables/connectors/garmin/garmin.normalizer.spec.ts
+src/wearables/connectors/garmin/garmin.normalizer.ts
+src/wearables/connectors/garmin/garmin.types.ts
+src/wearables/connectors/garmin/index.ts

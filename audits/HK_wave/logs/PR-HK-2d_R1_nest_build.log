@@ -1,0 +1,369 @@
+## Gate nest_build
+Command: npx nest build
+Started: 2026-06-01T22:13:30Z
+
+[96msrc/account-deletion/account-deletion.controller.ts[0m:[93m27[0m:[93m49[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m27[0m import { IsOptional, IsString, MaxLength } from 'class-validator';
+[7m  [0m [91m                                                ~~~~~~~~~~~~~~~~~[0m
+[96msrc/admin/admin.dto.ts[0m:[93m12[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m12[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/admin/federation/federation-inbound.dto.ts[0m:[93m8[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m8[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/admin/ptm/admin-ptm.dto.ts[0m:[93m8[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m8[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/ai-credits/admin-coach-ai.controller.ts[0m:[93m23[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m23[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/ai-credits/credit-pack-checkout.dto.ts[0m:[93m2[0m:[93m58[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m2[0m import { IsIn, IsInt, IsOptional, IsUrl, Max, Min } from 'class-validator';
+[7m [0m [91m                                                         ~~~~~~~~~~~~~~~~~[0m
+[96msrc/ai/ai.dto.ts[0m:[93m10[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m10[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/ai/coach/coach-ai-execution.controller.ts[0m:[93m18[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m18[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/ai/coach/coach-ai.dto.ts[0m:[93m9[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m9[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/auth/auth.dto.ts[0m:[93m1[0m:[93m75[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsEmail, IsIn, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+[7m [0m [91m                                                                          ~~~~~~~~~~~~~~~~~[0m
+[96msrc/billing/start-subscription.dto.ts[0m:[93m1[0m:[93m51[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsIn, IsInt, IsOptional, Max, Min } from 'class-validator';
+[7m [0m [91m                                                  ~~~~~~~~~~~~~~~~~[0m
+[96msrc/bloodwork/bloodwork.dto.ts[0m:[93m16[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m16[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/build-week/build-week.dto.ts[0m:[93m10[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m10[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/check-ins/check-ins.dto.ts[0m:[93m11[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m11[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/checkout/checkout.controller.ts[0m:[93m16[0m:[93m66[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m16[0m import { IsOptional, IsString, IsUUID, Matches, MaxLength } from 'class-validator';
+[7m  [0m [91m                                                                 ~~~~~~~~~~~~~~~~~[0m
+[96msrc/checkout/payment-ops.dto.ts[0m:[93m2[0m:[93m53[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m2[0m import { IsInt, IsOptional, IsUUID, Max, Min } from 'class-validator';
+[7m [0m [91m                                                    ~~~~~~~~~~~~~~~~~[0m
+[96msrc/coach/brief/coach-brief.dto.ts[0m:[93m17[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m17[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/coach/command-center/churn-intervention.dto.ts[0m:[93m7[0m:[93m68[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m7[0m import { IsOptional, IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
+[7m [0m [91m                                                                   ~~~~~~~~~~~~~~~~~[0m
+[96msrc/common/cache-control.interceptor.ts[0m:[93m8[0m:[93m33[0m - [91merror[0m[90m TS2307: [0mCannot find module 'rxjs' or its corresponding type declarations.
+
+[7m8[0m import { Observable, tap } from 'rxjs';
+[7m [0m [91m                                ~~~~~~[0m
+[96msrc/common/interceptors/rls-context.interceptor.ts[0m:[93m8[0m:[93m28[0m - [91merror[0m[90m TS2307: [0mCannot find module 'rxjs' or its corresponding type declarations.
+
+[7m8[0m import { Observable } from 'rxjs';
+[7m [0m [91m                           ~~~~~~[0m
+[96msrc/common/validators/is-valid-timezone.validator.ts[0m:[93m9[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m9[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/community/community.dto.ts[0m:[93m1[0m:[93m55[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsString, MaxLength, IsIn, IsOptional } from 'class-validator';
+[7m [0m [91m                                                      ~~~~~~~~~~~~~~~~~[0m
+[96msrc/consent/consent.dto.ts[0m:[93m1[0m:[93m26[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsString } from 'class-validator';
+[7m [0m [91m                         ~~~~~~~~~~~~~~~~~[0m
+[96msrc/diagnostic/diagnostic.dto.ts[0m:[93m13[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m13[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/exercise-catalog/exercise-catalog.dto.ts[0m:[93m27[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m27[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/fasting/fasting.dto.ts[0m:[93m1[0m:[93m49[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsOptional, IsString, MaxLength } from 'class-validator';
+[7m [0m [91m                                                ~~~~~~~~~~~~~~~~~[0m
+[96msrc/filters/http-exception.filter.ts[0m:[93m62[0m:[93m25[0m - [91merror[0m[90m TS7006: [0mParameter 'scope' implicitly has an 'any' type.
+
+[7m62[0m       Sentry.withScope((scope) => {
+[7m  [0m [91m                        ~~~~~[0m
+[96msrc/first-win/first-win.dto.ts[0m:[93m1[0m:[93m22[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsIn } from 'class-validator';
+[7m [0m [91m                     ~~~~~~~~~~~~~~~~~[0m
+[96msrc/food/food.dto.ts[0m:[93m11[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m11[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/habits/habits.dto.ts[0m:[93m8[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m8[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/instrument.ts[0m:[93m26[0m:[93m5[0m - [91merror[0m[90m TS2353: [0mObject literal may only specify known properties, and 'dsn' does not exist in type 'BaseNodeOptions'.
+
+[7m26[0m     dsn,
+[7m  [0m [91m    ~~~[0m
+[96msrc/instrument.ts[0m:[93m32[0m:[93m16[0m - [91merror[0m[90m TS7006: [0mParameter 'event' implicitly has an 'any' type.
+
+[7m32[0m     beforeSend(event) {
+[7m  [0m [91m               ~~~~~[0m
+[96msrc/invite-codes/bulk-invite.dto.ts[0m:[93m11[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m11[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/invite-codes/dto/send-one-invite.dto.ts[0m:[93m1[0m:[93m58[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsEmail, IsOptional, IsString, MaxLength } from 'class-validator';
+[7m [0m [91m                                                         ~~~~~~~~~~~~~~~~~[0m
+[96msrc/invite-codes/invite-codes.dto.ts[0m:[93m1[0m:[93m91[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsDateString, IsInt, IsOptional, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
+[7m [0m [91m                                                                                          ~~~~~~~~~~~~~~~~~[0m
+[96msrc/landing-pages/custom-domain.controller.ts[0m:[93m29[0m:[93m48[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m29[0m import { IsString, MaxLength, MinLength } from 'class-validator';
+[7m  [0m [91m                                               ~~~~~~~~~~~~~~~~~[0m
+[96msrc/landing-pages/dto/create-landing-page.dto.ts[0m:[93m8[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m8[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/landing-pages/dto/lead-submit.dto.ts[0m:[93m1[0m:[93m58[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsEmail, IsOptional, IsString, MaxLength } from 'class-validator';
+[7m [0m [91m                                                         ~~~~~~~~~~~~~~~~~[0m
+[96msrc/landing-pages/dto/leads-query.dto.ts[0m:[93m1[0m:[93m55[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsOptional, IsString, IsInt, Min, Max } from 'class-validator';
+[7m [0m [91m                                                      ~~~~~~~~~~~~~~~~~[0m
+[96msrc/landing-pages/dto/update-landing-page.dto.ts[0m:[93m11[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m11[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/landing-pages/dto/view-event.dto.ts[0m:[93m1[0m:[93m66[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsOptional, IsInt, IsBoolean, IsString, Min, Max } from 'class-validator';
+[7m [0m [91m                                                                 ~~~~~~~~~~~~~~~~~[0m
+[96msrc/leaderboard/leaderboard.dto.ts[0m:[93m4[0m:[93m60[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m4[0m import { IsBoolean, IsOptional, IsString, MaxLength } from 'class-validator';
+[7m [0m [91m                                                           ~~~~~~~~~~~~~~~~~[0m
+[96msrc/lessons/lessons.dto.ts[0m:[93m10[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m10[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/lists/lists.dto.ts[0m:[93m9[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m9[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/log/log.dto.ts[0m:[93m10[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m10[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/macros/macros.dto.ts[0m:[93m10[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m10[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/meal-plans/meal-plans.dto.ts[0m:[93m14[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m14[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/messages-safety/dto/report-message.dto.ts[0m:[93m7[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m7[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/messaging/messaging.dto.ts[0m:[93m14[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m14[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/notifications/notifications.dto.ts[0m:[93m10[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m10[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/nudges/nudges.dto.ts[0m:[93m2[0m:[93m88[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m2[0m import { IsInt, IsISO8601, IsOptional, IsString, Max, MaxLength, Min, MinLength } from 'class-validator';
+[7m [0m [91m                                                                                       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/observability/logging.interceptor.ts[0m:[93m7[0m:[93m33[0m - [91merror[0m[90m TS2307: [0mCannot find module 'rxjs' or its corresponding type declarations.
+
+[7m7[0m import { Observable, tap } from 'rxjs';
+[7m [0m [91m                                ~~~~~~[0m
+[96msrc/packages/packages.dto.ts[0m:[93m9[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m9[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/profile/profile.dto.ts[0m:[93m12[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m12[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/real-meal-plans/real-meal-plans.dto.ts[0m:[93m15[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m15[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/recipes/recipes.dto.ts[0m:[93m11[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m11[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/scheduling/dto/scheduling.dto.ts[0m:[93m16[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m16[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/secrets/secrets.dto.ts[0m:[93m1[0m:[93m49[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsOptional, IsString, MaxLength } from 'class-validator';
+[7m [0m [91m                                                ~~~~~~~~~~~~~~~~~[0m
+[96msrc/storefront/storefront.dto.ts[0m:[93m9[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m9[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/sub-coach/dto/sub-coach.dto.ts[0m:[93m10[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m10[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/sub-coaches/sub-coaches.dto.ts[0m:[93m11[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m11[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/team-mode/team-mode.dto.ts[0m:[93m1[0m:[93m46[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsString, IsNotEmpty, IsUUID } from 'class-validator';
+[7m [0m [91m                                             ~~~~~~~~~~~~~~~~~[0m
+[96msrc/team/dto/update-revenue-sharing.dto.ts[0m:[93m1[0m:[93m38[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsBoolean, IsDefined } from 'class-validator';
+[7m [0m [91m                                     ~~~~~~~~~~~~~~~~~[0m
+[96msrc/team/team.dto.ts[0m:[93m1[0m:[93m60[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+[7m [0m [91m                                                           ~~~~~~~~~~~~~~~~~[0m
+[96msrc/users/dto/update-push-token.dto.ts[0m:[93m1[0m:[93m38[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsString, IsOptional } from 'class-validator';
+[7m [0m [91m                                     ~~~~~~~~~~~~~~~~~[0m
+[96msrc/v1/v1-coach.dto.ts[0m:[93m8[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m8[0m } from 'class-validator';
+[7m [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/water/water.dto.ts[0m:[93m1[0m:[93m62[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsNumber, IsOptional, IsDateString, Min, Max } from 'class-validator';
+[7m [0m [91m                                                             ~~~~~~~~~~~~~~~~~[0m
+[96msrc/wearables/connections/dto/connect-provider.dto.ts[0m:[93m1[0m:[93m24[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsEnum } from 'class-validator';
+[7m [0m [91m                       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/wearables/connections/dto/disconnect-provider.dto.ts[0m:[93m1[0m:[93m24[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsEnum } from 'class-validator';
+[7m [0m [91m                       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/wearables/connections/dto/oauth-callback.dto.ts[0m:[93m2[0m:[93m48[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m2[0m import { IsString, MaxLength, MinLength } from 'class-validator';
+[7m [0m [91m                                               ~~~~~~~~~~~~~~~~~[0m
+[96msrc/weight/weight.dto.ts[0m:[93m1[0m:[93m83[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m1[0m import { IsNumber, IsOptional, IsString, IsDateString, Min, Max, MaxLength } from 'class-validator';
+[7m [0m [91m                                                                                  ~~~~~~~~~~~~~~~~~[0m
+[96msrc/workout-builder/workout-builder.dto.ts[0m:[93m25[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m25[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+[96msrc/workout/workout.dto.ts[0m:[93m14[0m:[93m8[0m - [91merror[0m[90m TS7016: [0mCould not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+[7m14[0m } from 'class-validator';
+[7m  [0m [91m       ~~~~~~~~~~~~~~~~~[0m
+
+Found 73 error(s).
+
+
+Exit code: 1
+Finished: 2026-06-01T22:14:40Z

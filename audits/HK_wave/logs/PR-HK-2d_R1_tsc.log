@@ -1,0 +1,200 @@
+## Gate tsc
+Command: npx tsc --noEmit
+Started: 2026-06-01T22:09:13Z
+
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/TSubscriptionRef.ts(4,30): error TS2307: Cannot find module './Effect.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/TSubscriptionRef.ts(5,27): error TS2307: Cannot find module './internal/stm/tSubscriptionRef.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/TSubscriptionRef.ts(6,30): error TS2307: Cannot find module './Option.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/TSubscriptionRef.ts(7,29): error TS2307: Cannot find module './Scope.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/TSubscriptionRef.ts(8,27): error TS2307: Cannot find module './STM.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/TSubscriptionRef.ts(9,30): error TS2307: Cannot find module './Stream.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/TSubscriptionRef.ts(10,31): error TS2307: Cannot find module './TPubSub.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/TSubscriptionRef.ts(11,30): error TS2307: Cannot find module './TQueue.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/TSubscriptionRef.ts(12,28): error TS2307: Cannot find module './TRef.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/Tuple.ts(6,30): error TS2307: Cannot find module './Equivalence.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/Tuple.ts(7,22): error TS2307: Cannot find module './Function.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/Tuple.ts(8,33): error TS2307: Cannot find module './HKT.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/Tuple.ts(9,24): error TS2307: Cannot find module './Order.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/Tuple.ts(17,19): error TS2536: Type '"Out1"' cannot be used to index type 'this'.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/Tuple.ts(17,33): error TS2536: Type '"Target"' cannot be used to index type 'this'.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/Tuple.ts(483,8): error TS2307: Cannot find module './Predicate.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/Unify.ts(5,26): error TS2307: Cannot find module './Function.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/UpstreamPullRequest.ts(4,27): error TS2307: Cannot find module './internal/channel/upstreamPullRequest.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/UpstreamPullStrategy.ts(4,27): error TS2307: Cannot find module './internal/channel/upstreamPullStrategy.js' or its corresponding type declarations.
+node_modules.pr_hk_2d_r1_broken_20260601T220456Z/effect/src/UpstreamPullStrategy.ts(5,30): error TS2307: Cannot find module './Option.js' or its corresponding type declarations.
+src/account-deletion/account-deletion.controller.ts(27,49): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/admin/admin.dto.ts(12,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/admin/federation/federation-inbound.dto.ts(8,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/admin/ptm/admin-ptm.dto.ts(8,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/ai-credits/admin-coach-ai.controller.ts(23,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/ai-credits/credit-pack-checkout.dto.ts(2,58): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/ai/ai.dto.ts(10,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/ai/coach/coach-ai-execution.controller.ts(18,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/ai/coach/coach-ai.dto.ts(9,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/auth/auth.dto.ts(1,75): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/billing/start-subscription.dto.ts(1,51): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/bloodwork/bloodwork.dto.ts(16,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/build-week/build-week.dto.ts(10,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/check-ins/check-ins.dto.ts(11,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/checkout/checkout.controller.ts(16,66): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/checkout/payment-ops.dto.ts(2,53): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/coach/brief/coach-brief.dto.ts(17,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/coach/command-center/churn-intervention.dto.ts(7,68): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/common/cache-control.interceptor.ts(8,33): error TS2307: Cannot find module 'rxjs' or its corresponding type declarations.
+src/common/interceptors/rls-context.interceptor.ts(8,28): error TS2307: Cannot find module 'rxjs' or its corresponding type declarations.
+src/common/validators/is-valid-timezone.validator.ts(9,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/community/community.dto.ts(1,55): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/consent/consent.dto.ts(1,26): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/diagnostic/diagnostic.dto.ts(13,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/exercise-catalog/exercise-catalog.dto.ts(27,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/fasting/fasting.dto.ts(1,49): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/filters/http-exception.filter.ts(62,25): error TS7006: Parameter 'scope' implicitly has an 'any' type.
+src/first-win/first-win.dto.ts(1,22): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/food/food.dto.ts(11,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/habits/habits.dto.ts(8,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/instrument.ts(26,5): error TS2353: Object literal may only specify known properties, and 'dsn' does not exist in type 'BaseNodeOptions'.
+src/instrument.ts(32,16): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/invite-codes/bulk-invite.dto.ts(11,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/invite-codes/dto/send-one-invite.dto.ts(1,58): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/invite-codes/invite-codes.dto.ts(1,91): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/landing-pages/custom-domain.controller.ts(29,48): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/landing-pages/dto/create-landing-page.dto.ts(8,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/landing-pages/dto/lead-submit.dto.ts(1,58): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/landing-pages/dto/leads-query.dto.ts(1,55): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/landing-pages/dto/update-landing-page.dto.ts(11,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/landing-pages/dto/view-event.dto.ts(1,66): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/leaderboard/leaderboard.dto.ts(4,60): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/lessons/lessons.dto.ts(10,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/lists/lists.dto.ts(9,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/log/log.dto.ts(10,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/macros/macros.dto.ts(10,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/meal-plans/meal-plans.dto.ts(14,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/messages-safety/dto/report-message.dto.ts(7,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/messaging/messaging.dto.ts(14,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/notifications/notifications.dto.ts(10,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/nudges/nudges.dto.ts(2,88): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/observability/logging.interceptor.ts(7,33): error TS2307: Cannot find module 'rxjs' or its corresponding type declarations.
+src/packages/packages.dto.ts(9,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/profile/profile.dto.ts(12,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/real-meal-plans/real-meal-plans.dto.ts(15,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/recipes/recipes.dto.ts(11,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/scheduling/dto/scheduling.dto.ts(16,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/secrets/secrets.dto.ts(1,49): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/storefront/storefront.dto.ts(9,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/sub-coach/dto/sub-coach.dto.ts(10,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/sub-coaches/sub-coaches.dto.ts(11,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/team-mode/team-mode.dto.ts(1,46): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/team/dto/update-revenue-sharing.dto.ts(1,38): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/team/team.dto.ts(1,60): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/users/dto/update-push-token.dto.ts(1,38): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/v1/v1-coach.dto.ts(8,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/water/water.dto.ts(1,62): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/wearables/connections/connections.controller.spec.ts(3,26): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/wearables/connections/connections.controller.spec.ts(152,27): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/wearables/connections/connections.controller.spec.ts(161,27): error TS7006: Parameter 'e' implicitly has an 'any' type.
+src/wearables/connections/dto/connect-provider.dto.ts(1,24): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/wearables/connections/dto/disconnect-provider.dto.ts(1,24): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/wearables/connections/dto/oauth-callback.dto.ts(2,48): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/weight/weight.dto.ts(1,83): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/workout-builder/workout-builder.dto.ts(25,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+src/workout/workout.dto.ts(14,8): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+test/ai/ai-gateway-hardening.spec.ts(3,26): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+test/ai/ai-gateway-hardening.spec.ts(238,37): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/ai/ai-gateway-hardening.spec.ts(248,37): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/ai/ai-gateway-hardening.spec.ts(260,37): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/ai/ai-gateway-hardening.spec.ts(272,37): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/check-ins.dto.spec.ts(3,26): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+test/check-ins.dto.spec.ts(37,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/check-ins.dto.spec.ts(42,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/check-ins.dto.spec.ts(47,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/check-ins.dto.spec.ts(52,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/check-ins.dto.spec.ts(60,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/check-ins.dto.spec.ts(65,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/coach-brief.controller.spec.ts(10,26): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+test/coach-brief.controller.spec.ts(363,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/coach-brief.controller.spec.ts(370,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/coach-brief.controller.spec.ts(379,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/coach-brief.controller.spec.ts(394,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/coach-brief.controller.spec.ts(403,24): error TS7006: Parameter 'e' implicitly has an 'any' type.
+test/payment-ops.controller.spec.ts(4,26): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+test/start-subscription.dto.spec.ts(3,30): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+test/sub-coach.dto.spec.ts(3,30): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+test/team-revenue-sharing.spec.ts(16,30): error TS7016: Could not find a declaration file for module 'class-validator'. '/home/user/workspace/repos/growth-project-backend/node_modules/class-validator/cjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/class-validator` if it exists or add a new declaration (.d.ts) file containing `declare module 'class-validator';`
+
+Exit code: 2
+Finished: 2026-06-01T22:10:53Z

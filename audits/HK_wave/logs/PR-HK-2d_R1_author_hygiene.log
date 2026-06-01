@@ -1,0 +1,20 @@
+Dynasia G <dynasia@trygrowthproject.com>
+Add the Garmin Health API wearable connector under
+src/wearables/connectors/garmin/ implementing the PR-HK-0
+WearableConnector contract:
+
+- garmin.types.ts: provider-native summary types (dailies/sleeps/hrv/
+  activities/bodyComps), strict Zod push envelope + deregistration schema.
+- garmin.normalizer.ts: maps the five summary collections to the canonical
+  metrics (STEPS, ACTIVE_ENERGY_KCAL, SLEEP_*/EFFICIENCY, BODY_BATTERY,
+  HRV_MS, WORKOUT_DURATION_MIN/DISTANCE_M, TRAINING_LOAD, BODY_WEIGHT_KG,
+  BODY_FAT_PCT) with unit/bucket handling and offset->sourceTz.
+- garmin.connector.ts: OAuth2 buildAuthUrl/exchangeCode/refresh, KMS-wrapped
+  tokens, windowed 90-day backfill, constant-time push-token verifyWebhook
+  (fail-closed), parseWebhook (strict Zod) -> namespaced provider events.
+- garmin-webhook.controller.ts: partner-signed push receiver with
+  token-verify-first, per-record idempotency (check->process->commit),
+  inline normalize+ingest, deregistration soft-disconnect, no PII in logs.
+- garmin.module.ts + index.ts barrel.
+- Specs: normalizer (12), connector (17), webhook controller (18) = 47 tests.
+---END---
