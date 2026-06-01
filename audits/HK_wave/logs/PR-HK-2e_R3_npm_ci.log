@@ -1,0 +1,16 @@
+# Command: npm ci
+# CWD: /home/user/workspace/repos/growth-project-backend-pr353-fitbit-r3-5ce58bf
+# HEAD: 5ce58bf695c1c1026b20a1f28715d9105d835da7
+# Started: 2026-06-01T23:37:14Z
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated jpeg-exif@1.1.4: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+> growth-project-backend@1.0.0 postinstall
+> prisma generate
+
+Error: ENOSPC: no space left on device, copyfile '/home/user/.cache/prisma/master/c2990dca591cba766e3b7ef5d9e8a84796e47ab7/debian-openssl-3.0.x/libquery-engine' -> '/home/user/workspace/repos/growth-project-backend-pr353-fitbit-r3-5ce58bf/node_modules/@prisma/engines/libquery_engine-debian-openssl-3.0.x.so.node.tmp30006'
+npm error A complete log of this run can be found in: /home/user/.npm/_logs/2026-06-01T23_37_14_660Z-debug-0.log
