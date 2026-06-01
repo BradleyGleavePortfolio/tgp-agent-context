@@ -1,0 +1,9 @@
+## Gate: prisma
+## Worktree: /home/user/workspace/repos/growth-project-backend-withings-audit
+## Head: 976eac363c3f6d0a41915c380b302053aa1c758a
+## Command: npx prisma validate
+## Started: 2026-06-01T23:45:03Z
+Prisma schema loaded from prisma/schema.prisma
+The schema at prisma/schema.prisma is valid 🚀
+## Exit: 0
+## Finished: 2026-06-01T23:45:06Z
