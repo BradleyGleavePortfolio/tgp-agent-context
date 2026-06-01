@@ -1,0 +1,10 @@
+# Gate: prisma
+# Command: npx prisma validate
+# Worktree HEAD: 80ae203eef5af86f6b711db4d18c9345e0fc3408
+# Started: 2026-06-01T22:05:56Z
+
+Prisma schema loaded from prisma/schema.prisma
+The schema at prisma/schema.prisma is valid 🚀
+
+# Finished: 2026-06-01T22:06:10Z
+# Exit code: 0
