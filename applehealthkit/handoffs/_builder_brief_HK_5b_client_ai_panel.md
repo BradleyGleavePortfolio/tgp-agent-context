@@ -1,168 +1,146 @@
-# HK-5b — Client AI Panel (Mobile) — Builder Brief
+# HK-5b — Client AI Insight Panel (Mobile) — Builder Brief
 
-**PR target:** `BradleyGleavePortfolio/growth-project-mobile` — new PR
+**PR target:** `BradleyGleavePortfolio/growth-project-mobile`
 **Branch:** `hk/PR-HK-5b-client-ai-panel`
-**Base:** `main` (current head; soft-depends on HK-5a being merged for shared API client)
+**Base:** `main` (post-HK-5a merge — HK-5a's `wearableInsightsApi.ts` is on main when you start)
 **Model:** Opus 4.8 (builder)
 **Round:** R1
-**Depends-on:** HK-3a (merged), HK-3b (pending merge), HK-4 (merged backend), HK-5a (creates shared `wearableInsightsApi.ts` + `useWearableInsights.ts`)
-**Parallel-with:** HK-5a (file-disjoint except the shared API import)
+**Depends-on:** HK-3a, HK-3b, HK-4 backend, **HK-5a** (must be merged before HK-5b starts — HK-5b imports from HK-5a's API client)
+**Parallel-with:** HK-6 (different files)
 **Effort:** M
 
-## Bradley R0 LAW (decacorn)
-- NO "Coming soon", silent failures, `as any`, `@ts-ignore`, `catch(e){}`, `.catch(()=>undefined)`, spinner-only empty states.
-- Commit author: `Dynasia G <dynasia@trygrowthproject.com>` — title-only.
+## Bradley R0 LAW — same as HK-5a; banned phrases, no `as any`/`as unknown as`/`@ts-ignore`/`@ts-nocheck`/empty catches/silent failures. Title-only commits as `Dynasia G <dynasia@trygrowthproject.com>`.
+
+## Mandatory references (read first)
+- `/tmp/tgp-agent-context/quality-references/50_FAILURES_OF_AI_GENERATED_CODE.md`
+- `/tmp/tgp-agent-context/quality-references/MOBILE_APP_DESIGN_INTELLIGENCE.md`
+- `/tmp/tgp-agent-context/applehealthkit/AGENT_1_UX_PLAN.md` §5, §6 (client-side AI placement + CALM)
 
 ## Scope
 
-Client-side AI insight panel on:
-- `src/screens/client/wearables/HealthFitnessScreen.tsx` (HK-3a)
-- `src/screens/client/wearables/SleepRecoveryScreen.tsx` (HK-3b)
-- Metric Detail screen (if it exists post HK-3a — verify path)
+Client-side AI insight panel for the bucket overview screens, **owned by the client**. Placed in:
+- `src/screens/client/wearables/HealthFitnessScreen.tsx` (HK-3a) — below hero rings + primary cards
+- `src/screens/client/wearables/SleepRecoveryScreen.tsx` (HK-3b) — below recovery ring + cards; CALM tint
 
-Progressive disclosure. Observation → norm comparison → concrete intervention + optional CTA.
-
-**CALM treatment for S&R variant** (Mobile Design Intel + Agent 1 UX):
-- Reassurance copy BEFORE deficit number ("You're close — about 45 min under your sleep need")
-- Forward-hook closure renders after CTA completion ("We'll check your REM tomorrow morning")
-- Phantom CALM banner if data is incomplete
+Differs from HK-5a in:
+- **No** hypothesis / suggested_action / draft message / approve flow (those are coach-only).
+- Shows: `observation → norm_comparison → intervention → optional_cta (deep-link)`.
+- S&R variant: CALM treatment (cool low-saturation, slow reveal, copy reassures BEFORE informing).
+- Optional CTA, if present, is a deep-link button (validate `tgp://` scheme — handled by HK-5a's Zod schema already).
 
 ## Write-set (owned exclusively)
 
-1. **`src/screens/client/wearables/ClientInsightPanel.tsx`** (new — the panel)
-2. **`src/screens/client/wearables/__tests__/ClientInsightPanel.test.tsx`** (new)
-3. **`src/screens/client/wearables/HealthFitnessScreen.tsx`** (one-line add: `<ClientInsightPanel bucket="HEALTH_FITNESS" />`)
-4. **`src/screens/client/wearables/SleepRecoveryScreen.tsx`** (one-line add: `<ClientInsightPanel bucket="SLEEP_RECOVERY" />`)
+| # | File | Purpose |
+|---|------|---------|
+| 1 | `src/screens/client/wearables/ClientInsightPanel.tsx` (NEW) | Panel component (shared between H&F + S&R via `bucket` prop) |
+| 2 | `src/screens/client/wearables/__tests__/ClientInsightPanel.test.tsx` (NEW) | |
+| 3 | `src/screens/client/wearables/HealthFitnessScreen.tsx` (one-line add) | Mount `<ClientInsightPanel bucket="HEALTH_FITNESS" />` |
+| 4 | `src/screens/client/wearables/SleepRecoveryScreen.tsx` (one-line add) | Mount `<ClientInsightPanel bucket="SLEEP_RECOVERY" />` |
 
-**IMPORTS (read-only) from HK-5a:**
-- `src/api/wearableInsightsApi.ts`
-- `src/hooks/useWearableInsights.ts`
+**DO NOT touch:** `wearableInsightsApi.ts`, `useWearableInsight.ts` (HK-5a owns these — IMPORT only). Coach screens. Backend. Navigators. HK-3a/3b internals beyond the one-line mount.
 
-**DO NOT modify HK-5a files. DO NOT touch backend code. DO NOT touch navigator files.**
+## Imports from HK-5a
 
-## API contract (use the client-side response shape from HK-5a's `WearableInsightResponse`)
-
-Client request: `GET /api/wearables/insights?side=client&bucket=...&window_days=14`
-
-**Client response (validated server-side — coach-only fields absent):**
 ```ts
-{
-  status: 'ok' | 'insufficient_data' | 'error',
-  cached: boolean,
-  generated_at: string,
-  confidence_level: 'i_think' | 'fairly_sure' | 'confident' | 'certain' | 'verified',
-  confidence_pct: number,
-  bucket: 'HEALTH_FITNESS' | 'SLEEP_RECOVERY',
-  observation: string,
-  norm_comparison: string,        // "Your 7-day avg is 8% below typical for your age group" (client-friendly)
-  intervention: string,           // concrete, action-oriented ("Try a 20-min walk after lunch tomorrow")
-  cta: {
-    label: string,                // "Add 20-min walk to today's plan"
-    action: 'deep_link' | 'log_intent' | 'dismiss',
-    deep_link?: string,           // route name when action === 'deep_link'
-    intent_payload?: Record<string, unknown>
-  } | null,
-}
+import { useClientInsight } from '../../../hooks/useWearableInsight';
+import { isEmptyInsight, CONFIDENCE_LABEL, CONFIDENCE_PCT } from '../../../api/wearableInsightsApi';
+import type { ClientInsightResponse, ClientInsight, EmptyInsight } from '../../../api/wearableInsightsApi';
 ```
 
-Defensive runtime guard: if response contains coach-only fields (`hypothesis`, `suggested_action`, `draft_message`), this is a backend bug — render the panel WITHOUT those fields (DO NOT include them in UI). Log a `console.warn` (or `logger.warn` if available); do NOT throw. Test that this case renders cleanly.
+If any of these named exports are missing from HK-5a's merged file, STOP and report. Do not redeclare them locally.
 
-## Panel component (`ClientInsightPanel.tsx`)
+## Design requirements (UX plan §5, §6)
 
-**Props:**
-```ts
-type ClientInsightPanelProps = {
-  bucket: 'HEALTH_FITNESS' | 'SLEEP_RECOVERY';
-};
-```
+**Card shape:** identical chrome to HK-5a panel (consistency), with bucket-tint accent:
+- HEALTH_FITNESS → bucket-active warm token
+- SLEEP_RECOVERY → cool indigo→slate (CALM)
 
-**Layout:**
-- Collapsed by default: one-line observation + confidence chip + expand
-- Expanded: norm comparison + intervention + CTA button + dismiss tertiary
-- **S&R variant CALM treatment:** reorder content blocks — reassurance copy + intervention BEFORE any deficit number. Use the existing `PhantomCalmBanner` component from HK-3b if data is partial.
-- 44pt touch targets; contrast ≥ 4.5:1; bucket-tinted low-saturation
-- TestIDs: `client-insight-panel-{bucket}`, `client-insight-cta`, `client-insight-expand-toggle`, `client-insight-dismiss`
+**Progressive disclosure:**
+- Collapsed: single observation line + confidence chip on the right. Tap to expand.
+- Expanded:
+  - `observation` (one-liner, reassures first in S&R)
+  - `norm_comparison` (the cohort/personal-baseline framing)
+  - `intervention` (the concrete self-coaching action)
+  - `optional_cta` (button — only renders if present in response)
 
-**CTA fulfillment (≤3 taps from panel per Fogg ability):**
-- `action: 'deep_link'` → `navigation.navigate(deep_link)` to the indicated route (must be a typed route in the existing navigator — verify on build; if route doesn't exist yet, hide the CTA gracefully WITHOUT showing "Coming soon")
-- `action: 'log_intent'` → POST to `/api/wearables/insights/intent` (HK-5a may or may not implement; if 404/501, fall back to dismiss + local note "Logged for review"). Surface errors via toast/inline, not spinner.
-- `action: 'dismiss'` → close panel; cache dismissal locally so the same observation doesn't re-prompt for 24h (use MMKV `dismissed_insights` with `(bucket, observation_hash, dismissed_at)`)
+**S&R-specific CALM behaviors:**
+- Slow reveal on expand: 480ms ease (vs. 240ms for H&F).
+- Copy in S&R should reassure before informing. The backend already shapes the copy this way — DO NOT add additional client-side copy mutation. Render verbatim.
+- Cool accent stripe on the leading edge of the card (1.5pt) at low opacity. NEVER red, NEVER green-for-good.
 
 **States:**
-- Loading: skeleton + "Looking at your last 14 days…" (NOT spinner-only)
-- `insufficient_data`: gentle content empty state + CTA to connect more sources (deep-link to ConnectionsScreen)
-- `error`: small inline error + Retry; NOT spinner
+- Loading: skeleton (3 lines + chip placeholder). NOT spinner-only.
+- Empty (`isEmptyInsight(data)`): show the literal observation + secondary: "Sync a sleep or fitness source to get personalized insights." NO chip.
+- Error: sanitized copy + Retry CTA. NO message regurgitation. If status === 403, copy = "This insight isn't available right now." If 5xx, copy = "The server is taking a moment. Try again."
 
-**S&R CALM rules (from Agent 1 + Mobile Design Intel):**
-- NEVER red-color low values; use slate desaturation
-- Reassurance copy precedes any deficit number
-- Phantom CALM banner if incomplete sleep stages
+**Optional CTA:**
+- Render as a small secondary button under `intervention`.
+- `Linking.openURL(deep_link)` on press; the schema guarantees the link is `tgp://...`.
+- Wrap in try/catch; on failure, surface "Couldn't open this just now." inline — NEVER silent.
+- `accessibilityRole='link'`, `accessibilityLabel={optional_cta.label}`.
 
-**A11y:**
-- VoiceOver order: reassurance copy first, deficit/data second (S&R), action last
-- Confidence chip label includes level + percent
-- ErrorBoundary or equivalent
+**Forward hook (UX §5.3):**
+- After a CTA tap that succeeds (Linking resolved), the panel briefly shows a forward-looking line:
+  - H&F: `"You're a little closer to this week's targets."` (or use the CTA label as the hook)
+  - S&R: `"We'll check in on this tomorrow."`
+- After 4s the panel returns to the normal expanded state.
 
-## R65 50-Failures Sweep
-- silent failures: 0
-- `as any` / `@ts-ignore`: 0
-- `.catch(()=>undefined)` / `catch(e){}`: 0
-- spinner-only empty/loading/error: 0
-- "Coming soon" / "TODO: implement": 0
-- test titles: 0 banned phrases (specifically NO "silent")
-- coach-only field leak: defensive guard with test
-- AbortController on async work
-- MMKV dismissal write: encrypted-at-rest (MMKV default); no PII stored
-- Optimistic mutation rollback for log_intent if used
+**Accessibility:**
+- `accessibilityRole='button'` on root.
+- `accessibilityState={{ expanded }}`.
+- Reduce motion: skip 480ms slow-reveal when `useReduceMotion()` is true.
+- `accessibilityLabel` on card root: `"Personal insight, ${confidenceLabel}, ${observation}, tap to expand"`.
 
-## Tests (`ClientInsightPanel.test.tsx`)
+**Token usage:** Reuse HK-3a/3b tokens. NO hex literals.
 
-1. Collapsed renders observation + confidence
-2. Expanded shows norm + intervention + CTA
-3. `insufficient_data` → content empty state with connect CTA (not spinner)
-4. `error` → inline retry (not spinner)
-5. S&R variant orders reassurance BEFORE deficit
-6. CTA `deep_link` triggers navigation with correct route
-7. CTA `dismiss` writes to MMKV and hides panel
-8. Coach-only fields silently absent if backend leaks them (defensive)
-9. A11y: confidence chip label includes percent + level
-10. Re-mount within 24h after dismissal: panel does not re-render same observation
+## Tests
 
-Test titles plain English. No banned phrases.
+### `ClientInsightPanel.test.tsx`
+- Renders loading skeleton initially.
+- Expanded H&F: renders observation + norm_comparison + intervention; no CTA when `optional_cta === null`.
+- Expanded S&R: same fields + slow-reveal timing assertion (mock animations).
+- CTA path: tap calls `Linking.openURL` with the exact `deep_link`; success → forward hook shown.
+- CTA path: `Linking.openURL` rejects → inline error copy, NOT silent.
+- Empty: renders literal observation copy + secondary line.
+- Error 403: sanitized copy "isn't available right now"; 5xx: "taking a moment".
+- Confidence chip uses `CONFIDENCE_LABEL[level]` + percentage.
+- Reduce motion: no 480ms anim when `useReduceMotion()` mocked to true.
+- No banned strings.
 
 ## Gates
 
+```bash
+cd /tmp/wt-hk5b   # create: git worktree add /tmp/wt-hk5b -b hk/PR-HK-5b-client-ai-panel origin/main
+ln -sf /tmp/wt-hk3a-mobile-r4/node_modules /tmp/wt-hk5b/node_modules
+
+npx tsc --noEmit 2>&1 | tee /tmp/5b_tsc.log; echo "EXIT $?"
+npx eslint 'src/screens/client/wearables/ClientInsightPanel.tsx' 'src/screens/client/wearables/__tests__/ClientInsightPanel.test.tsx' 2>&1 | tee /tmp/5b_lint.log; echo "EXIT $?"
+npx jest --ci --testPathPattern='ClientInsightPanel' 2>&1 | tail -30
+npx expo prebuild --platform ios --no-install --clean 2>&1 | tail -5
+npx expo prebuild --platform android --no-install --clean 2>&1 | tail -5
+git checkout -- package.json && rm -rf ios android
+git diff origin/main..HEAD -- '*.ts' '*.tsx' | grep -niE 'coming soon|@ts-ignore|@ts-nocheck|as any|as unknown as|\.catch\(\(\) ?=> ?undefined\)|catch ?\(.\) ?\{\s*\}|catch ?\(\) ?\{\s*\}' && echo "R0 VIOLATIONS — STOP" || echo "R0 BANS: CLEAN"
 ```
-npx tsc --noEmit
-npm run lint
-npx jest --runInBand
-npx expo prebuild --platform ios --clean
-npx expo prebuild --platform android --clean
-rm -rf ios android; git checkout package.json
+
+## Commit + push + PR
+
+```bash
+git -c user.name="Dynasia G" -c user.email="dynasia@trygrowthproject.com" \
+  commit -am "PR-HK-5b: client AI insight panel (CALM in S&R, deep-link CTA, forward hook)"
+git push origin hk/PR-HK-5b-client-ai-panel
+gh pr create --repo BradleyGleavePortfolio/growth-project-mobile \
+  --base main --head hk/PR-HK-5b-client-ai-panel \
+  --title "PR-HK-5b: client AI insight panel" \
+  --body "Client-side AI insight panel on the bucket overview screens. Imports types + hooks from HK-5a. CALM treatment on S&R. Deep-link CTA opens via Linking (schema-restricted to tgp://). Forward hook after CTA success per UX §5.3."
 ```
+
+## Output
+
+Write a result report to `/home/user/workspace/_builder_result_HK_5b_client_ai_panel.md` with the same fields as HK-5a's result format. Verdict: `READY_FOR_AUDIT` or `BLOCKED`.
 
 ## Constraints
 
-- Touch only 4 files in write-set.
-- Imports from HK-5a's API client + hook ONLY. No edits to those files.
-- DO NOT touch backend.
-- Title-only commit: `PR-HK-5b: client AI panel with CALM treatment for S&R`
-- Push with `--force-with-lease`.
-
-## Coordination with HK-5a
-
-If HK-5a is still open when this builder runs:
-- Check if HK-5a head is merged or available on a feature branch.
-- If HK-5a is NOT yet merged to main: rebase this branch on top of `hk/PR-HK-5a-coach-ai-panel` instead of main. Document this in the result. When HK-5a merges, re-rebase on main.
-- If HK-5a IS merged to main: rebase on origin/main as usual.
-
-## Deliverable
-
-Write `/home/user/workspace/_builder_result_HK_5b.md`:
-- New head SHA (40-char) on `hk/PR-HK-5b-client-ai-panel`
-- PR URL
-- Base branch (main OR hk/PR-HK-5a-coach-ai-panel if HK-5a still open)
-- Files changed
-- Gate results
-- R65 sweep
-- Deviations / API contract gaps surfaced
+- DO NOT touch the API client or hooks (HK-5a owns).
+- DO NOT touch coach screens.
+- Keep the panel **small** — a chat-sized component, NOT a screen-dominating block.
+- If a token name doesn't resolve, grep the theme and adapt. Document deviations.
