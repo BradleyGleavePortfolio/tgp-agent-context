@@ -1,0 +1,8 @@
+CWD=/home/user/workspace/wt-fitbit-353
+HEAD=00d031f4f9b4ec4ab94d8b1c25efdb0ddf91a1b4
+COMMAND=npx prisma validate
+START=2026-06-02T00:20:07Z
+Prisma schema loaded from prisma/schema.prisma
+The schema at prisma/schema.prisma is valid 🚀
+END=2026-06-02T00:20:12Z
+EXIT_CODE=0

@@ -1,0 +1,544 @@
+CWD=/home/user/workspace/wt-fitbit-353
+HEAD=00d031f4f9b4ec4ab94d8b1c25efdb0ddf91a1b4
+COMMAND=npx jest --roots src/wearables --runInBand --no-cache
+START=2026-06-02T00:30:24Z
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(7) {
+  msg: [32m'wearables.ingest.failure'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m1[39m,
+  connection_count: [33m1[39m,
+  error_code: [32m'P2002'[39m,
+  error_message: [32m'connection bump failed'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(5) {
+  msg: [32m'wearables.ingest.validation_failure'[39m,
+  user_id: [32m''[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m1[39m,
+  error_message: [32m'ingest: invalid sample at index 0: missing userId'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(5) {
+  msg: [32m'wearables.ingest.validation_failure'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m1[39m,
+  error_message: [32m'ingest: invalid sample at index 0: missing connectionId'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(5) {
+  msg: [32m'wearables.ingest.validation_failure'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m1[39m,
+  error_message: [32m'ingest: invalid sample at index 0: value must be a finite number (got NaN)'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(5) {
+  msg: [32m'wearables.ingest.validation_failure'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m1[39m,
+  error_message: [32m'ingest: invalid sample at index 0: value must be a finite number (got Infinity)'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(5) {
+  msg: [32m'wearables.ingest.validation_failure'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m1[39m,
+  error_message: [32m'ingest: invalid sample at index 0: missing unit'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(5) {
+  msg: [32m'wearables.ingest.validation_failure'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m1[39m,
+  error_message: [32m'ingest: invalid sample at index 0: startAt must be a valid Date'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(5) {
+  msg: [32m'wearables.ingest.validation_failure'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m1[39m,
+  error_message: [32m'ingest: invalid sample at index 0: endAt must be a valid Date'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(5) {
+  msg: [32m'wearables.ingest.validation_failure'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m1[39m,
+  error_message: [32m'ingest: invalid sample at index 0: startAt must be <= endAt'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [31m  ERROR[39m [38;5;3m[IngestionService] [39mObject(5) {
+  msg: [32m'wearables.ingest.validation_failure'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  submitted_count: [33m2[39m,
+  error_message: [32m'ingest: invalid sample at index 1: value must be a finite number (got NaN)'[39m
+}
+PASS src/wearables/ingestion/ingestion.service.spec.ts (7.384 s)
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [32m    LOG[39m [38;5;3m[IngestionService] [39mObject(7) {
+  msg: [32m'wearables.ingest.success'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  inserted_count: [33m3[39m,
+  skipped_count: [33m0[39m,
+  submitted_count: [33m3[39m,
+  connection_count: [33m1[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [32m    LOG[39m [38;5;3m[IngestionService] [39mObject(7) {
+  msg: [32m'wearables.ingest.success'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  inserted_count: [33m1[39m,
+  skipped_count: [33m0[39m,
+  submitted_count: [33m1[39m,
+  connection_count: [33m1[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [32m    LOG[39m [38;5;3m[IngestionService] [39mObject(7) {
+  msg: [32m'wearables.ingest.success'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  inserted_count: [33m1[39m,
+  skipped_count: [33m1[39m,
+  submitted_count: [33m2[39m,
+  connection_count: [33m1[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [32m    LOG[39m [38;5;3m[IngestionService] [39mObject(7) {
+  msg: [32m'wearables.ingest.success'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  inserted_count: [33m3[39m,
+  skipped_count: [33m0[39m,
+  submitted_count: [33m3[39m,
+  connection_count: [33m2[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [32m    LOG[39m [38;5;3m[IngestionService] [39mObject(7) {
+  msg: [32m'wearables.ingest.success'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  inserted_count: [33m4[39m,
+  skipped_count: [33m0[39m,
+  submitted_count: [33m4[39m,
+  connection_count: [33m1[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [32m    LOG[39m [38;5;3m[IngestionService] [39mObject(7) {
+  msg: [32m'wearables.ingest.success'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  inserted_count: [33m1[39m,
+  skipped_count: [33m0[39m,
+  submitted_count: [33m1[39m,
+  connection_count: [33m1[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [32m    LOG[39m [38;5;3m[IngestionService] [39mObject(7) {
+  msg: [32m'wearables.ingest.success'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  inserted_count: [33m1[39m,
+  skipped_count: [33m0[39m,
+  submitted_count: [33m1[39m,
+  connection_count: [33m1[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:32 AM [32m    LOG[39m [38;5;3m[IngestionService] [39mObject(7) {
+  msg: [32m'wearables.ingest.success'[39m,
+  user_id: [32m'11111111-1111-1111-1111-111111111111'[39m,
+  provider: [32m'OURA'[39m,
+  inserted_count: [33m1[39m,
+  skipped_count: [33m0[39m,
+  submitted_count: [33m1[39m,
+  connection_count: [33m1[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:33 AM [31m  ERROR[39m [38;5;3m[FitbitConnector] [39mObject(4) {
+  msg: [32m'wearables.fitbit.connection_error'[39m,
+  op: [32m'fitbit.refresh'[39m,
+  provider: [32m'FITBIT'[39m,
+  error_message: [32m'fitbit.refresh: connection has no refresh token'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:33 AM [31m  ERROR[39m [38;5;3m[FitbitConnector] [39m[31mfitbit.verifyWebhook: FITBIT_CLIENT_SECRET not configured[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:33 AM [31m  ERROR[39m [38;5;3m[FitbitConnector] [39mObject(4) {
+  msg: [32m'wearables.fitbit.connection_error'[39m,
+  op: [32m'fitbit.backfill'[39m,
+  provider: [32m'FITBIT'[39m,
+  error_message: [32m'fitbit.backfill: connection has no access token'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:33 AM [31m  ERROR[39m [38;5;3m[FitbitConnector] [39mObject(4) {
+  msg: [32m'wearables.fitbit.connection_error'[39m,
+  op: [32m'fitbit.backfill'[39m,
+  provider: [32m'FITBIT'[39m,
+  error_message: [32m'fitbit.fetch.activities/steps: HTTP 502 for Authorization: Bearer [REDACTED] and client_secret=[REDACTED]'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:33 AM [31m  ERROR[39m [38;5;3m[FitbitConnector] [39mObject(4) {
+  msg: [32m'wearables.fitbit.connection_error'[39m,
+  op: [32m'fitbit.refresh'[39m,
+  provider: [32m'FITBIT'[39m,
+  error_message: [32m'fitbit.refresh: HTTP 400 invalid_grant refresh_token=[REDACTED]'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:33 AM [31m  ERROR[39m [38;5;3m[FitbitConnector] [39mObject(4) {
+  msg: [32m'wearables.fitbit.connection_error'[39m,
+  op: [32m'fitbit.backfill'[39m,
+  provider: [32m'FITBIT'[39m,
+  error_message: [32m'fitbit.fetch.activities/steps: HTTP 500'[39m
+}
+PASS src/wearables/connectors/fitbit/fitbit.connector.spec.ts
+PASS src/wearables/connectors/whoop/whoop.connector.spec.ts
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [31m  ERROR[39m [38;5;3m[ConnectionsService] [39mObject(5) {
+  msg: [32m'wearables.oauth.exchange_failure'[39m,
+  provider: [32m'OURA'[39m,
+  user_id: [32m'user-1'[39m,
+  error_code: [32m'unknown'[39m,
+  error_class: [32m'Error'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.exchangeCode] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.recovery] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.cycle] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.sleep] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.workout] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.recovery] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.recovery] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.cycle] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.sleep] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.workout] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.recovery] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.cycle] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.sleep] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[whoop.backfill.workout] attempt 1/4 succeeded (status=200)[39m
+PASS src/wearables/connections/connections.service.spec.ts
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [31m  ERROR[39m [38;5;3m[FitbitWebhookController] [39m[31mFitbit webhook received without rawBody. Verify rawBody middleware is wired for /v1/wearables/webhooks/fitbit in main.ts.[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [31m  ERROR[39m [38;5;3m[FitbitWebhookController] [39mObject(5) {
+  msg: [32m'wearables.fitbit.webhook.ingest_failure'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m,
+  error_message: [32m'upstream 503'[39m
+}
+PASS src/wearables/connectors/fitbit/fitbit-webhook.controller.spec.ts
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [31m  ERROR[39m [38;5;3m[OuraConnector] [39mObject(4) {
+  msg: [32m'wearables.oura.connection_error'[39m,
+  op: [32m'oura.refresh'[39m,
+  provider: [32m'OURA'[39m,
+  error_message: [32m'oura.refresh: connection has no refresh token'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [31m  ERROR[39m [38;5;3m[OuraConnector] [39m[31moura.verifyWebhook: OURA_CLIENT_SECRET not configured[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [31m  ERROR[39m [38;5;3m[OuraConnector] [39mObject(4) {
+  msg: [32m'wearables.oura.connection_error'[39m,
+  op: [32m'oura.backfill'[39m,
+  provider: [32m'OURA'[39m,
+  error_message: [32m'oura.backfill: connection has no access token'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [31m  ERROR[39m [38;5;3m[OuraConnector] [39mObject(4) {
+  msg: [32m'wearables.oura.connection_error'[39m,
+  op: [32m'oura.backfill'[39m,
+  provider: [32m'OURA'[39m,
+  error_message: [32m'oura.backfill.daily_sleep: HTTP 502 for Authorization: Bearer [REDACTED] and client_secret=[REDACTED]'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [31m  ERROR[39m [38;5;3m[OuraConnector] [39mObject(4) {
+  msg: [32m'wearables.oura.connection_error'[39m,
+  op: [32m'oura.refresh'[39m,
+  provider: [32m'OURA'[39m,
+  error_message: [32m'oura.refresh: HTTP 400 invalid_grant refresh_token=[REDACTED]'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [31m  ERROR[39m [38;5;3m[OuraConnector] [39mObject(4) {
+  msg: [32m'wearables.oura.connection_error'[39m,
+  op: [32m'oura.backfill'[39m,
+  provider: [32m'OURA'[39m,
+  error_message: [32m'oura.backfill.daily_sleep: HTTP 500'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.replay_noop'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.concurrent_commit_noop'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'activities'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'userRevokedAccess'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [33m   WARN[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.no_connection'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:34 AM [33m   WARN[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.invalid_payload'[39m,
+  provider: [32m'FITBIT'[39m,
+  invalid_fields: [32m'0.ownerId, 0.ownerType, 0.subscriptionId'[39m,
+  issue_count: [33m3[39m
+}
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.invalid_payload'[39m,
+  provider: [32m'FITBIT'[39m,
+  invalid_fields: [32m'0'[39m,
+  issue_count: [33m1[39m
+}
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.invalid_payload'[39m,
+  provider: [32m'FITBIT'[39m,
+  invalid_fields: [32m'(root)'[39m,
+  issue_count: [33m1[39m
+}
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.invalid_payload'[39m,
+  provider: [32m'FITBIT'[39m,
+  invalid_fields: [32m'0.collectionType'[39m,
+  issue_count: [33m1[39m
+}
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.invalid_payload'[39m,
+  provider: [32m'FITBIT'[39m,
+  invalid_fields: [32m'0.ownerType'[39m,
+  issue_count: [33m1[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'activities'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'body'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'foods'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'heart'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'br'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'spo2'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'userRevokedAccess'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+PASS src/wearables/connectors/oura/oura.connector.spec.ts
+PASS src/wearables/connectors/oura/oura.normalizer.spec.ts
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [31m  ERROR[39m [38;5;3m[StravaWebhookController] [39m[31mstrava.webhook.verify: verify token not configured[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [31m  ERROR[39m [38;5;3m[StravaWebhookController] [39m[31m{"msg":"wearables.strava.webhook_misconfigured","reason":"STRAVA_WEBHOOK_SUBSCRIPTION_ID unset"}[39m
+PASS src/wearables/connectors/strava/strava-webhook.controller.spec.ts
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.verify: rejected (mode/token mismatch)[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.verify: rejected (mode/token mismatch)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[StravaWebhookController] [39m[32mstrava.webhook.event: duplicate activity:999:1700000000[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: blocked source ip=1.2.3.4[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: foreign subscription_id=99999[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — object_id: Expected number, received string[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — owner_id: Expected number, received string[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — aspect_type: Invalid enum value. Expected 'create' | 'update' | 'delete', received 'archive'[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — object_type: Invalid enum value. Expected 'activity' | 'athlete', received 'segment'[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — subscription_id: Required[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — object_id: Number must be greater than 0[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [33m   WARN[39m [38;5;3m[StravaWebhookController] [39m[33mstrava.webhook.event: malformed payload — (root): Unrecognized key(s) in object: 'injected'[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[StravaActivityFetchQueue] [39m[32mstrava.enqueueActivityFetch owner=42 activity=999 persisted=new work_id=strava:fetch:activity:999:42[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:35 AM [32m    LOG[39m [38;5;3m[StravaActivityFetchQueue] [39m[32mstrava.enqueueActivityFetch owner=42 activity=999 persisted=duplicate work_id=strava:fetch:activity:999:42[39m
+PASS src/wearables/connectors/fitbit/fitbit.normalizer.spec.ts
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [31m  ERROR[39m [38;5;3m[OuraWebhookController] [39m[31mOura webhook received without rawBody. Verify rawBody middleware is wired for /v1/wearables/webhooks/oura in main.ts.[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [31m  ERROR[39m [38;5;3m[OuraWebhookController] [39mObject(4) {
+  msg: [32m'wearables.oura.webhook.ingest_failure'[39m,
+  provider: [32m'OURA'[39m,
+  data_type: [32m'daily_sleep'[39m,
+  error_message: [32m'transient upstream 503'[39m
+}
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [31m  ERROR[39m [38;5;3m[OuraWebhookController] [39mObject(4) {
+  msg: [32m'wearables.oura.webhook.ingest_failure'[39m,
+  provider: [32m'OURA'[39m,
+  data_type: [32m'daily_sleep'[39m,
+  error_message: [32m'upstream 500'[39m
+}
+PASS src/wearables/connectors/oura/oura-webhook.controller.spec.ts
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [32m    LOG[39m [38;5;3m[OuraWebhookController] [39mObject(4) {
+  msg: [32m'wearables.oura.webhook.replay_noop'[39m,
+  provider: [32m'OURA'[39m,
+  data_type: [32m'daily_sleep'[39m,
+  event_type: [32m'update'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [32m    LOG[39m [38;5;3m[OuraWebhookController] [39mObject(3) {
+  msg: [32m'wearables.oura.webhook.concurrent_commit_noop'[39m,
+  provider: [32m'OURA'[39m,
+  data_type: [32m'daily_sleep'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [32m    LOG[39m [38;5;3m[OuraWebhookController] [39mObject(4) {
+  msg: [32m'wearables.oura.webhook.handled'[39m,
+  provider: [32m'OURA'[39m,
+  data_type: [32m'daily_sleep'[39m,
+  event_type: [32m'update'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [32m    LOG[39m [38;5;3m[OuraWebhookController] [39mObject(4) {
+  msg: [32m'wearables.oura.webhook.handled'[39m,
+  provider: [32m'OURA'[39m,
+  data_type: [32m'daily_sleep'[39m,
+  event_type: [32m'delete'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [32m    LOG[39m [38;5;3m[OuraWebhookController] [39mObject(4) {
+  msg: [32m'wearables.oura.webhook.handled'[39m,
+  provider: [32m'OURA'[39m,
+  data_type: [32m'daily_sleep'[39m,
+  event_type: [32m'update'[39m
+}
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [33m   WARN[39m [38;5;3m[OuraWebhookController] [39mObject(3) {
+  msg: [32m'wearables.oura.webhook.no_connection'[39m,
+  provider: [32m'OURA'[39m,
+  data_type: [32m'daily_sleep'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [32m    LOG[39m [38;5;3m[OuraWebhookController] [39mObject(4) {
+  msg: [32m'wearables.oura.webhook.handled'[39m,
+  provider: [32m'OURA'[39m,
+  data_type: [32m'daily_sleep'[39m,
+  event_type: [32m'update'[39m
+}
+PASS src/wearables/connectors/whoop/whoop.normalizer.spec.ts
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [31m  ERROR[39m [38;5;3m[WhoopWebhookController] [39m[31mWHOOP webhook received without rawBody. Verify rawBody:true is set in main.ts.[39m
+PASS src/wearables/connectors/whoop/whoop-webhook.controller.spec.ts
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [31m  ERROR[39m [38;5;3m[ProviderHttpClient] [39m[31m[strava.exchangeCode] attempt 1/4 permanent failure (status=400)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [32m    LOG[39m [38;5;3m[WhoopWebhookController] [39mObject(5) {
+  msg: [32m'wearables.whoop.webhook.accepted'[39m,
+  provider_event_id: [32m'11111111-1111-4111-8111-111111111111'[39m,
+  type: [32m'recovery.updated'[39m,
+  trace_id: [90mundefined[39m,
+  user_hash: [32m'88b9ffd7c602c8bd'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [32m    LOG[39m [38;5;3m[WhoopWebhookController] [39mObject(3) {
+  msg: [32m'wearables.whoop.webhook.duplicate'[39m,
+  provider_event_id: [32m'22222222-2222-4222-8222-222222222222'[39m,
+  type: [32m'workout.updated'[39m
+}
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [32m    LOG[39m [38;5;3m[WhoopWebhookController] [39mObject(6) {
+  msg: [32m'wearables.whoop.webhook.revoked'[39m,
+  provider_event_id: [32m'33333333-3333-4333-8333-333333333333'[39m,
+  type: [32m'user.deauthorized'[39m,
+  trace_id: [90mundefined[39m,
+  user_hash: [32m'88b9ffd7c602c8bd'[39m,
+  connections_disconnected: [33m1[39m
+}
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [33m   WARN[39m [38;5;3m[WhoopWebhookController] [39m[33mWHOOP webhook: rejected malformed payload — body was not valid JSON[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [33m   WARN[39m [38;5;3m[WhoopWebhookController] [39m[33mWHOOP webhook: rejected malformed payload — schema validation failed[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [33m   WARN[39m [38;5;3m[WhoopWebhookController] [39m[33mWHOOP webhook: rejected malformed payload — schema validation failed[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:36 AM [33m   WARN[39m [38;5;3m[WhoopWebhookController] [39m[33mWHOOP webhook: rejected malformed payload — schema validation failed[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.exchangeCode] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.exchangeCode] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.refresh] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.backfill] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.backfill] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.backfill] attempt 1/4 succeeded (status=200)[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[strava.backfill] attempt 1/4 succeeded (status=200)[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:37 AM [33m   WARN[39m [38;5;3m[StravaConnector] [39m[33mstrava.backfill: pausing at page 1 — approaching rate limit[39m
+PASS src/wearables/connectors/strava/strava.connector.spec.ts
+PASS src/wearables/connectors/strava/strava.normalizer.spec.ts
+PASS src/wearables/connections/connections.controller.spec.ts
+PASS src/wearables/oauth/oauth-state.service.spec.ts
+PASS src/wearables/connector-registry.spec.ts
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [31m  ERROR[39m [38;5;3m[ProviderHttpClient] [39m[31m[oura.backfill] exhausted 4 attempts (lastStatus=429)[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [31m  ERROR[39m [38;5;3m[ProviderHttpClient] [39m[31m[provider-http] exhausted 4 attempts (lastStatus=503)[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [31m  ERROR[39m [38;5;3m[ProviderHttpClient] [39m[31m[provider-http] attempt 1/4 permanent failure (status=400)[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [31m  ERROR[39m [38;5;3m[ProviderHttpClient] [39m[31m[provider-http] attempt 1/4 permanent failure (status=401)[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [31m  ERROR[39m [38;5;3m[ProviderHttpClient] [39m[31m[provider-http] exhausted 4 attempts (lastStatus=none)[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [31m  ERROR[39m [38;5;3m[ProviderHttpClient] [39m[31m[provider-http] exhausted 4 attempts (lastStatus=429)[39m
+[31m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [31m  ERROR[39m [38;5;3m[ProviderHttpClient] [39m[31m[provider-http] exhausted 1 attempts (lastStatus=none)[39m
+PASS src/wearables/http/provider-http-client.spec.ts
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[provider-http] attempt 1/4 succeeded (status=200)[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[oura.backfill] attempt 1/4 transient failure (status=429)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[oura.backfill] backing off 250ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[oura.backfill] attempt 2/4 transient failure (status=429)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[oura.backfill] backing off 500ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[oura.backfill] attempt 3/4 transient failure (status=429)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[oura.backfill] backing off 1000ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[oura.backfill] attempt 4/4 transient failure (status=429)[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 1/4 transient failure (status=503)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 250ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 2/4 transient failure (status=503)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 500ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 3/4 transient failure (status=503)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 1000ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 4/4 transient failure (status=503)[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 1/4 transient failure (status=500)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 250ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 2/4 transient failure (status=429)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 500ms before retry[39m
+[32m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [32m    LOG[39m [38;5;3m[ProviderHttpClient] [39m[32m[provider-http] attempt 3/4 succeeded (status=200)[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 1/4 network/timeout error: ECONNRESET[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 250ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 2/4 network/timeout error: ECONNRESET[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 500ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 3/4 network/timeout error: ECONNRESET[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 1000ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 4/4 network/timeout error: ECONNRESET[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 1/4 transient failure (status=429)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 4000ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 2/4 transient failure (status=429)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 5000ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 3/4 transient failure (status=429)[39m
+[95m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [95m  DEBUG[39m [38;5;3m[ProviderHttpClient] [39m[95m[provider-http] backing off 5000ms before retry[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 4/4 transient failure (status=429)[39m
+[33m[Nest] 45237  - [39m06/02/2026, 12:30:38 AM [33m   WARN[39m [38;5;3m[ProviderHttpClient] [39m[33m[provider-http] attempt 1/1 network/timeout error: aborted[39m
+PASS src/wearables/ingestion/dedup.util.spec.ts
+PASS src/wearables/oauth/pkce.util.spec.ts
+
+Test Suites: 20 passed, 20 total
+Tests:       341 passed, 341 total
+Snapshots:   0 total
+Time:        13.496 s
+Ran all test suites.
+END=2026-06-02T00:30:38Z
+EXIT_CODE=0
