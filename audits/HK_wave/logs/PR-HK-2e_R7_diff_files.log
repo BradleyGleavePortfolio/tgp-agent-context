@@ -1,0 +1,9 @@
+src/wearables/connectors/fitbit/fitbit-webhook.controller.spec.ts
+src/wearables/connectors/fitbit/fitbit-webhook.controller.ts
+src/wearables/connectors/fitbit/fitbit.connector.spec.ts
+src/wearables/connectors/fitbit/fitbit.connector.ts
+src/wearables/connectors/fitbit/fitbit.module.ts
+src/wearables/connectors/fitbit/fitbit.normalizer.spec.ts
+src/wearables/connectors/fitbit/fitbit.normalizer.ts
+src/wearables/connectors/fitbit/fitbit.types.ts
+src/wearables/connectors/fitbit/index.ts

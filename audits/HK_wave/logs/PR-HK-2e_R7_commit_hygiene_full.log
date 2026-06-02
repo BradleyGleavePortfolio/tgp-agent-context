@@ -1,0 +1,25 @@
+41b7a3567aa75e38cc08972af01b738249d53c89
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.e: fail-closed date validation + release reservation on empty Fitbit fetch
+
+---END---
+00d031f4f9b4ec4ab94d8b1c25efdb0ddf91a1b4
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.e: surface error-status DB write failures (no silent .catch)
+
+---END---
+5ce58bf695c1c1026b20a1f28715d9105d835da7
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.e: strict Fitbit webhook envelope, HEART_RATE_BPM mapping, webhook error redaction
+
+---END---
+2e41a47c74df97d83063e024bb649291bc8053d4
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.e: lint cleanup (hoist crypto import, drop unused NotFoundException)
+
+---END---
+b558e675f76bda0fa62e69ee72375a0dd5f1b730
+Dynasia G <dynasia@trygrowthproject.com>
+PR-HK-2.e: Fitbit connector (types, normalizer, connector, webhook, module + specs)
+
+---END---

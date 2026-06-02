@@ -1,0 +1,196 @@
+### Mutation verification: current R7 webhook spec copied onto old 00d031f code
+### HEAD: 00d031f4f9b4ec4ab94d8b1c25efdb0ddf91a1b4
+### Command: npx jest --roots src/wearables/connectors/fitbit --runInBand --no-cache fitbit-webhook.controller.spec.ts
+
+[31m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [31m  ERROR[39m [38;5;3m[FitbitWebhookController] [39m[31mFitbit webhook received without rawBody. Verify rawBody middleware is wired for /v1/wearables/webhooks/fitbit in main.ts.[39m
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.replay_noop'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.concurrent_commit_noop'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'activities'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'userRevokedAccess'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[31m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [31m  ERROR[39m [38;5;3m[FitbitWebhookController] [39mObject(5) {
+  msg: [32m'wearables.fitbit.webhook.ingest_failure'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m,
+  error_message: [32m'upstream 503'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'userRevokedAccess'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'activities'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'body'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'foods'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'sleep'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'heart'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'br'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'spo2'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+[32m[Nest] 47285  - [39m06/02/2026, 12:46:38 AM [32m    LOG[39m [38;5;3m[FitbitWebhookController] [39mObject(4) {
+  msg: [32m'wearables.fitbit.webhook.handled'[39m,
+  provider: [32m'FITBIT'[39m,
+  collection_type: [32m'userRevokedAccess'[39m,
+  user_hash: [32m'62f950123ac0ddab'[39m
+}
+FAIL src/wearables/connectors/fitbit/fitbit-webhook.controller.spec.ts (8.446 s)
+  FitbitWebhookController — signature gate
+    ✓ rejects an invalid signature with 401 and never touches the DB (5 ms)
+    ✓ rejects a request without a raw body with 400 (1 ms)
+  FitbitWebhookController — idempotency / replay
+    ✓ no-ops for a previously-processed notification (no fetch, no ingest, no commit) (4 ms)
+    ✓ treats a concurrent unique-violation (P2002) on the post-ingest commit as a benign no-op (2 ms)
+  FitbitWebhookController — first delivery
+    ✓ records the event, fetches the changed records, and ingests normalized samples (2 ms)
+    ✓ processes every notification in a batch (1 ms)
+    ✓ does not fetch/ingest for a userRevokedAccess notification but still records it (2 ms)
+    ✓ does NOT write a processed-event row when fetch/ingest fails, marks connection error, then rethrows (23 ms)
+    ✓ logs (never swallows) a failed error-status DB write and still rethrows the original error (9 ms)
+    ✕ does NOT commit a dedup row when a data-bearing fetch returns [] (releases the reservation so a redelivery re-attempts) and logs empty_fetch (7 ms)
+    ✓ no-ops gracefully when no matching connection exists (still records) (2 ms)
+  FitbitWebhookController — payload validation
+    ✓ rejects a notification missing required fields with 400 (1 ms)
+    ✓ rejects a non-JSON body with 400
+    ✓ rejects a payload carrying an unknown extra field (.strict) with 400, before any fetch/ingest (1 ms)
+    ✓ rejects a bare singleton object (Fitbit always sends an array) with 400 (1 ms)
+    ✓ rejects an unknown collectionType with 400
+    ✓ rejects a non-`user` ownerType with 400
+    ✕ rejects a data-bearing notification missing `date` with 400, before any findUnique/fetch/ingest/create (1 ms)
+    ✓ rejects a data-bearing `activities` notification with an empty `date` with 400
+    ✓ accepts a userRevokedAccess notification WITHOUT a `date` and still records it (no fetch/ingest) (1 ms)
+    ✓ accepts every documented Fitbit collectionType (4 ms)
+  FitbitWebhookController — ingest-failure error redaction
+    ✓ redacts token-like secrets from the upstream error before it reaches last_error or logs (2 ms)
+  FitbitWebhookController — verification handshake
+    ✓ returns 204 for a matching verify code (1 ms)
+    ✓ returns 404 for a wrong verify code
+    ✓ fails closed with 404 when the code is unconfigured (1 ms)
+
+  ● FitbitWebhookController — first delivery › does NOT commit a dedup row when a data-bearing fetch returns [] (releases the reservation so a redelivery re-attempts) and logs empty_fetch
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: [{"bucket": "HEALTH_FITNESS", "connectionId": "conn-1", "endAt": 2026-06-02T00:46:38.499Z, "metric": "STEPS", "provider": "FITBIT", "startAt": 2026-06-02T00:46:38.499Z, "unit": "steps", "userId": "u", "value": 100}]
+
+      267 |     // No ingest (nothing to ingest) and CRUCIALLY no dedup row committed —
+      268 |     // the reservation is released so Fitbit's redelivery reprocesses.
+    > 269 |     expect(ingestion.ingest).not.toHaveBeenCalled();
+          |                                  ^
+      270 |     expect(processedEvent.create).not.toHaveBeenCalled();
+      271 |
+      272 |     // The empty fetch must be observable via a structured warning.
+
+      at Object.<anonymous> (src/wearables/connectors/fitbit/fitbit-webhook.controller.spec.ts:269:34)
+
+  ● FitbitWebhookController — payload validation › rejects a data-bearing notification missing `date` with 400, before any findUnique/fetch/ingest/create
+
+    expect(received).rejects.toBeInstanceOf()
+
+    Received promise resolved instead of rejected
+    Resolved to value: undefined
+
+      353 |     const { controller, processedEvent, connector, ingestion } = setup({});
+      354 |     const { date: _omit, ...noDate } = NOTIF;
+    > 355 |     await expect(
+          |           ^
+      356 |       controller.handle(makeReq([noDate])),
+      357 |     ).rejects.toBeInstanceOf(BadRequestException);
+      358 |     expect(processedEvent.findUnique).not.toHaveBeenCalled();
+
+      at expect (../repos/growth-project-backend/node_modules/expect/build/index.js:2116:15)
+      at Object.<anonymous> (src/wearables/connectors/fitbit/fitbit-webhook.controller.spec.ts:355:11)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 23 passed, 25 total
+Snapshots:   0 total
+Time:        8.686 s
+Ran all test suites matching fitbit-webhook.controller.spec.ts.
+### Exit: 1

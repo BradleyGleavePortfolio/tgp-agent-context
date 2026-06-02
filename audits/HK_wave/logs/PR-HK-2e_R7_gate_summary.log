@@ -1,0 +1,5 @@
+prisma_validate=0
+tsc_noEmit=0
+eslint_fitbit=0
+jest_wearables=0
+nest_build=0
