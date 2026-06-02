@@ -420,6 +420,10 @@ Things I noticed today that aren't yet in the rules but should bite you if you i
 | `WearableProcessedEvent` table grows unbounded | DB bloat over time | Cron prune for rows ≥14d (longest provider redelivery window) — still TODO post Wave-2 |
 | Apple Health `Beddit` provider | Beddit acquired by Apple, no public API | Decision pending — formal defer or v3 stub |
 | Cross-repo doc references break CI | Backend's CI doc-allowlist doesn't know about `tgp-agent-context/` paths | Add bare filename to backend `.agent-doc-allowlist` |
+| `.git/info/exclude` silently ignores files | Plain `git add` skips them; tests pass locally because files exist on disk; PR ships incomplete | Run `git ls-files --others --exclude-standard` AND `git check-ignore -v <new-file>` before commit. Use `git add -f` for force-include when needed. **HK-3a almost shipped without 8 files this way.** |
+| `expo prebuild` rewrites `package.json` scripts | Unrelated changes sneak into PR diff | After validation, `rm -rf ios android` AND `git checkout package.json` if scripts were touched |
+| `codebase` subagent type fails silently | All parallel `codebase` subagents exit with "Claude Code exited with no output" — no logs, no deliverable | Fall back to `general_purpose` subagent type with same objective; flag via `system_diagnostic`. Confirmed twice today. |
+| Test titles containing "Coming soon" | Bradley LAW applies even to test descriptions (CI output + screenshots) | Grep test files for `"Coming soon"` in describe/it blocks, not just UI strings |
 
 ---
 
