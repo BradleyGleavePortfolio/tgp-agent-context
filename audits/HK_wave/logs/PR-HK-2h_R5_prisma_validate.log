@@ -1,0 +1,7 @@
+=== COMMAND: npx prisma validate
+=== CWD: /home/user/workspace/wt_wahoo_r5_354
+=== START: 2026-06-02T00:21:23+00:00
+Prisma schema loaded from prisma/schema.prisma
+The schema at prisma/schema.prisma is valid 🚀
+=== EXIT: 0
+=== END: 2026-06-02T00:21:25+00:00

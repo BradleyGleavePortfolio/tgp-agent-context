@@ -1,0 +1,5 @@
+=== COMMAND: node --max-old-space-size=3072 ./node_modules/typescript/bin/tsc --noEmit
+=== CWD: /home/user/workspace/wt_wahoo_r5_354
+=== START: 2026-06-02T00:26:12+00:00
+=== EXIT: 0
+=== END: 2026-06-02T00:26:57+00:00

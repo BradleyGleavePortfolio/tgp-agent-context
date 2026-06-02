@@ -1,0 +1,5 @@
+=== COMMAND: NODE_OPTIONS=--max-old-space-size=2048 ./node_modules/.bin/nest build
+=== CWD: /home/user/workspace/wt_wahoo_r5_354
+=== START: 2026-06-02T00:25:11+00:00
+=== EXIT: 0
+=== END: 2026-06-02T00:26:03+00:00
