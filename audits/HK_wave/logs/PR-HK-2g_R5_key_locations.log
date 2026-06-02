@@ -1,0 +1,92 @@
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:56:    // Reservation-first: createMany returns count===1 when WE win the insert,
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:58:    createMany: jest.fn(async () => ({ count: opts.alreadyReserved ? 0 : 1 })),
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:78:    verifyWebhook: jest.fn(() => verify),
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:83:    fetchChangedRecord: jest.fn(async () => [
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:111:    expect(processedEvent.createMany).not.toHaveBeenCalled();
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:135:  it('rejects a non-PING event missing user_id with 400 (Zod superRefine)', async () => {
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:167:          // Drifted/extra field that .strict() must reject rather than ignore.
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:172:    expect(processedEvent.createMany).not.toHaveBeenCalled();
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:187:    expect(processedEvent.createMany).not.toHaveBeenCalled();
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:213:    expect(processedEvent.createMany).not.toHaveBeenCalled();
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:214:    expect(connector.fetchChangedRecord).not.toHaveBeenCalled();
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:227:    expect(processedEvent.createMany).toHaveBeenCalledTimes(1);
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:229:    expect(connector.fetchChangedRecord).not.toHaveBeenCalled();
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:236:    const reserveOrder = (processedEvent.createMany as jest.Mock).mock
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:238:    const fetchOrder = (connector.fetchChangedRecord as jest.Mock).mock
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:248:    // Shared mock prisma where the FIRST createMany wins (count===1) and the
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:250:    // INSERT ... ON CONFLICT DO NOTHING semantics of skipDuplicates.
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:253:      createMany: jest.fn(async () => {
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:273:      verifyWebhook: jest.fn(() => true),
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:275:      fetchChangedRecord: jest.fn(async () => [
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:290:    expect(processedEvent.createMany).toHaveBeenCalledTimes(2);
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:291:    expect(connector.fetchChangedRecord).toHaveBeenCalledTimes(1);
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:303:    expect(processedEvent.createMany).toHaveBeenCalledWith({
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:311:      skipDuplicates: true,
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:313:    expect(connector.fetchChangedRecord).toHaveBeenCalledTimes(1);
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:320:        handler_completed_at: null,
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:322:      data: { handler_completed_at: expect.any(Date) },
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:341:    (connector.fetchChangedRecord as jest.Mock).mockRejectedValueOnce(
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:353:        handler_completed_at: null,
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:371:    expect(connector.fetchChangedRecord).not.toHaveBeenCalled();
+src/wearables/connectors/polar/polar-webhook.controller.spec.ts:374:    expect(processedEvent.createMany).toHaveBeenCalledTimes(1);
+src/wearables/connectors/polar/polar-webhook.controller.ts:21:import { PolarConnector, redactErrorMessage } from './polar.connector';
+src/wearables/connectors/polar/polar-webhook.controller.ts:38: *  7. ONLY AFTER a successful fetch+ingest, STAMP `handler_completed_at` on the
+src/wearables/connectors/polar/polar-webhook.controller.ts:45: * `createMany({ skipDuplicates: true })` BEFORE any fetch/ingest work. The
+src/wearables/connectors/polar/polar-webhook.controller.ts:51: *    `handler_completed_at` to mark completion.
+src/wearables/connectors/polar/polar-webhook.controller.ts:84:    const verified = this.connector.verifyWebhook({
+src/wearables/connectors/polar/polar-webhook.controller.ts:105:    // fetch/ingest work. `createMany({ skipDuplicates: true })` is a single
+src/wearables/connectors/polar/polar-webhook.controller.ts:109:    // `handler_completed_at` is left NULL until processing completes (step 7).
+src/wearables/connectors/polar/polar-webhook.controller.ts:110:    const { count } = await this.prisma.wearableProcessedEvent.createMany({
+src/wearables/connectors/polar/polar-webhook.controller.ts:116:          // handler_completed_at left NULL → reserved, not yet completed.
+src/wearables/connectors/polar/polar-webhook.controller.ts:119:      skipDuplicates: true,
+src/wearables/connectors/polar/polar-webhook.controller.ts:153:            const raw = await this.connector.fetchChangedRecord(
+src/wearables/connectors/polar/polar-webhook.controller.ts:169:                last_error: redactErrorMessage(err),
+src/wearables/connectors/polar/polar-webhook.controller.ts:178:              error_message: redactErrorMessage(err),
+src/wearables/connectors/polar/polar-webhook.controller.ts:198:          handler_completed_at: null,
+src/wearables/connectors/polar/polar-webhook.controller.ts:204:    // (7) COMPLETE: processing succeeded. Stamp `handler_completed_at` so the
+src/wearables/connectors/polar/polar-webhook.controller.ts:210:        handler_completed_at: null,
+src/wearables/connectors/polar/polar-webhook.controller.ts:212:      data: { handler_completed_at: new Date() },
+src/wearables/connectors/polar/polar-webhook.controller.ts:224:   * Strict Zod schema for the Polar webhook event payload. `.strict()` rejects
+src/wearables/connectors/polar/polar-webhook.controller.ts:250:      .strict()
+src/wearables/connectors/polar/polar-webhook.controller.ts:251:      .superRefine((val, ctx) => {
+src/wearables/connectors/polar/polar.connector.spec.ts:5:  ProviderHttpClient,
+src/wearables/connectors/polar/polar.connector.spec.ts:8:import { PolarConnector, redactErrorMessage } from './polar.connector';
+src/wearables/connectors/polar/polar.connector.spec.ts:16: * `ProviderHttpClient` is stubbed so no real network is touched: `request`
+src/wearables/connectors/polar/polar.connector.spec.ts:32:  client: ProviderHttpClient;
+src/wearables/connectors/polar/polar.connector.spec.ts:46:  } as unknown as ProviderHttpClient;
+src/wearables/connectors/polar/polar.connector.spec.ts:173:describe('PolarConnector — verifyWebhook', () => {
+src/wearables/connectors/polar/polar.connector.spec.ts:186:      c.verifyWebhook({
+src/wearables/connectors/polar/polar.connector.spec.ts:199:      c.verifyWebhook({
+src/wearables/connectors/polar/polar.connector.spec.ts:209:      new PolarConnector(client).verifyWebhook({
+src/wearables/connectors/polar/polar.connector.spec.ts:219:      new PolarConnector(client).verifyWebhook({
+src/wearables/connectors/polar/polar.connector.spec.ts:230:      new PolarConnector(client).verifyWebhook({
+src/wearables/connectors/polar/polar.connector.spec.ts:238:describe('PolarConnector — backfill + fetchChangedRecord', () => {
+src/wearables/connectors/polar/polar.connector.spec.ts:350:            'wearables.polar.connection_error_persist_failed',
+src/wearables/connectors/polar/polar.connector.spec.ts:359:  it('fetchChangedRecord trusts the event url only for the AccessLink host', async () => {
+src/wearables/connectors/polar/polar.connector.spec.ts:369:    const out = await new PolarConnector(client).fetchChangedRecord(conn, event);
+src/wearables/connectors/polar/polar.connector.spec.ts:377:  it('fetchChangedRecord rejects a spoofed (non-AccessLink) url and reconstructs the path', async () => {
+src/wearables/connectors/polar/polar.connector.spec.ts:387:    await new PolarConnector(client).fetchChangedRecord(conn, event);
+src/wearables/connectors/polar/polar.connector.spec.ts:396:    const out = await new PolarConnector(client).fetchChangedRecord(conn, {
+src/wearables/connectors/polar/polar.connector.spec.ts:428:describe('redactErrorMessage', () => {
+src/wearables/connectors/polar/polar.connector.spec.ts:430:    const out = redactErrorMessage(
+src/wearables/connectors/polar/polar.connector.spec.ts:446:    expect(redactErrorMessage(new Error('x'.repeat(900))).length).toBe(500);
+src/wearables/connectors/polar/polar.connector.spec.ts:447:    expect(redactErrorMessage(new Error(''))).toBe('unknown');
+src/wearables/connectors/polar/polar.connector.ts:15:import { ProviderHttpClient } from '../../http/provider-http-client';
+src/wearables/connectors/polar/polar.connector.ts:31: * route through {@link ProviderHttpClient} so timeout + capped jittered
+src/wearables/connectors/polar/polar.connector.ts:74:export function redactErrorMessage(err: unknown): string {
+src/wearables/connectors/polar/polar.connector.ts:131:    private readonly http: ProviderHttpClient,
+src/wearables/connectors/polar/polar.connector.ts:181:      await this.markConnectionError(conn, err, 'polar.refresh');
+src/wearables/connectors/polar/polar.connector.ts:217:      await this.markConnectionError(conn, err, 'polar.backfill');
+src/wearables/connectors/polar/polar.connector.ts:292:  verifyWebhook(req: RawWebhookRequest): boolean {
+src/wearables/connectors/polar/polar.connector.ts:296:      this.logger.error('polar.verifyWebhook: POLAR_WEBHOOK_SECRET not configured');
+src/wearables/connectors/polar/polar.connector.ts:338:  async fetchChangedRecord(
+src/wearables/connectors/polar/polar.connector.ts:350:      'polar.fetchChangedRecord',
+src/wearables/connectors/polar/polar.connector.ts:458:   * this date") as `null` instead of an error. The ProviderHttpClient only
+src/wearables/connectors/polar/polar.connector.ts:590:  private async markConnectionError(
+src/wearables/connectors/polar/polar.connector.ts:595:    const message = redactErrorMessage(err);
+src/wearables/connectors/polar/polar.connector.ts:617:        msg: 'wearables.polar.connection_error_persist_failed',
+src/wearables/connectors/polar/polar.connector.ts:623:        error_message: redactErrorMessage(markErr),
+src/wearables/connectors/polar/polar.connector.ts:639:  http: ProviderHttpClient,
+src/wearables/connectors/polar/polar.module.ts:3:import { ProviderHttpClient } from '../../http/provider-http-client';
+src/wearables/connectors/polar/polar.module.ts:25: * Dependencies (`IngestionService`, `ProviderHttpClient`) are re-provided here
+src/wearables/connectors/polar/polar.module.ts:32:    ProviderHttpClient,

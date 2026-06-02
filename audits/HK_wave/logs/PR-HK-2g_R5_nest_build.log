@@ -1,0 +1,3 @@
+===== COMMAND: NODE_OPTIONS=--max-old-space-size=3072 npx nest build =====
+===== START: 2026-06-02T00:29:44Z =====
+===== END: 2026-06-02T00:30:16Z EXIT 0 =====

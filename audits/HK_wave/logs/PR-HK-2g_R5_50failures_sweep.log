@@ -1,0 +1,459 @@
+===== R65 hot-pattern grep against full diff =====
+-- #1 secret literals / env --
+32:+ * Multi-injection DI token for the connector registry. PR-HK-1 defines the
+33:+ * canonical token; until it lands, this `Symbol.for` provides a stable,
+36:+ * The integration PR aliases this to PR-HK-1's token if they differ.
+501:+ * Throttled (#6). Never logs raw payloads/ids/tokens — only redacted,
+773:+ * OAuth env is set in beforeEach so the URL/token-exchange paths are
+815:+  POLAR_CLIENT_SECRET: 'secret-xyz',
+857:+  it('POSTs the token endpoint with HTTP Basic auth and maps the response', async () => {
+861:+        access_token: 'at-1',
+862:+        token_type: 'bearer',
+869:+    expect(calls[0].url).toBe('https://polarremote.com/v2/oauth2/token');
+872:+    const expectedBasic = Buffer.from('client-abc:secret-xyz').toString('base64');
+873:+    expect(headers.Authorization).toBe(`Basic ${expectedBasic}`);
+878:+    // Polar issues no refresh token; the access token is the durable cred.
+885:+  it('propagates a ProviderHttpError on a token-endpoint failure', async () => {
+893:+  it('throws if the token response carries no access_token', async () => {
+895:+    enqueue(fakeResponse({ token_type: 'bearer' }));
+898:+    ).rejects.toThrow(/missing access_token/);
+905:+  it('re-presents the stored durable token (Polar tokens do not rotate)', async () => {
+916:+  it('marks the connection error and rethrows when no token is present', async () => {
+922:+    ).rejects.toThrow(/no stored token/);
+931:+  function sign(rawBody: Buffer, secret: string): string {
+932:+    return createHmac('sha256', secret).update(rawBody).digest('hex');
+1043:+  it('throws when the connection has no access token', async () => {
+1050:+    ).rejects.toThrow(/no access token/);
+1058:+        'polar.backfill.exercises: HTTP 503 for Authorization: Bearer at-live-SECRET and client_secret=secret-xyz',
+1069:+    expect(arg.data.last_error).toContain('Bearer [REDACTED]');
+1070:+    expect(arg.data.last_error).toContain('client_secret=[REDACTED]');
+1072:+    expect(arg.data.last_error).not.toContain('secret-xyz');
+1079:+        'prisma P1001 connect ECONNREFUSED for token=db-live-SECRET',
+1097:+    // dedicated message and a REDACTED error_message (no DB secret leak).
+1109:+    expect(persistFailLog?.error_message).toContain('token=[REDACTED]');
+1184:+  it('strips token/secret patterns and bearer tokens', () => {
+1187:+        'fail token=abc client_secret=shh access_token=AT Authorization: Bearer eyJ.signature keep=ok',
+1190:+    expect(out).toContain('token=[REDACTED]');
+1191:+    expect(out).toContain('client_secret=[REDACTED]');
+1192:+    expect(out).toContain('access_token=[REDACTED]');
+1193:+    expect(out).toContain('Bearer [REDACTED]');
+1248:+ *  - token      https://polarremote.com/v2/oauth2/token  (HTTP Basic auth)
+1251:+ * Token endpoint: Polar authenticates the token exchange with HTTP Basic
+1252:+ * (`Authorization: Basic base64(client_id:client_secret)`), NOT form-body
+1253:+ * client credentials. Polar access tokens are long-lived and the endpoint
+1254:+ * does not issue a refresh token; the access token itself is the durable
+1255:+ * credential, so {@link refresh} re-presents the stored token (no rotation).
+1258:+ * hex HMAC-SHA256 of the raw request body keyed by the webhook signing secret
+1265:+const POLAR_TOKEN_URL = 'https://polarremote.com/v2/oauth2/token';
+1278:+ * Strip token-like secrets from an error message before it is persisted to
+1300:+      /\b(access_token|refresh_token|client_secret|client_id|token|code)=[^&\s"',]+/gi,
+1304:+      /(authorization\s*[:=]\s*)(Bearer|Basic)\s+[^\s"',]+/gi,
+1307:+    .replace(/\bBearer\s+[A-Za-z0-9._-]+/g, 'Bearer [REDACTED]')
+1308:+    .replace(/\bBasic\s+[A-Za-z0-9+/=]+/g, 'Basic [REDACTED]')
+1310:+      /\b(authorization)(\s*[:=]\s*)(?!Bearer\b|Basic\b|\[REDACTED\])[^\s"',]+/gi,
+1376:+    const token = await this.postToken(body, 'polar.exchangeCode');
+1377:+    return this.toTokenSet(token);
+1381:+   * "Refresh" an access token. Polar access tokens are long-lived and the
+1382:+   * token endpoint issues no refresh token, so there is nothing to rotate:
+1383:+   * we re-present the stored credential as the current token set. Kept as a
+1384:+   * method (not a no-op throw) so PR-HK-1's token lane has a uniform contract
+1385:+   * across providers. On a missing token we fail explicit.
+1398:+      (conn as { refresh_token?: string }).refresh_token ??
+1404:+      throw new Error('polar.refresh: connection has no stored token');
+1406:+    // Polar tokens do not rotate via a refresh grant. The durable credential
+1407:+    // is re-presented unchanged; the access token equals the refresh token.
+1500:+   * single 401. Fails closed when the secret is unconfigured.
+1503:+    const secret = process.env.POLAR_WEBHOOK_SECRET;
+1504:+    if (!secret) {
+1505:+      // Fail closed: an unconfigured secret can never authenticate a request.
+1513:+    const expected = createHmac('sha256', secret)
+1639:+    const token =
+1644:+    if (!token) {
+1645:+      throw new Error(`${op}: connection has no access token`);
+1647:+    return token;
+1658:+        Authorization: `Bearer ${accessToken}`,
+1679:+        Authorization: `Bearer ${accessToken}`,
+1726:+        Authorization: `Basic ${basic}`,
+1734:+  private toTokenSet(token: PolarTokenResponse): TokenSet {
+1735:+    // Polar issues no refresh token; the access token is the durable
+1736:+    // credential. Persist it as BOTH so PR-HK-1's token layer always has a
+1737:+    // non-empty refresh token to KMS-wrap.
+1738:+    const durable = token.refresh_token ?? token.access_token;
+1740:+      throw new Error('polar: token response missing access_token');
+1744:+      accessToken: token.access_token,
+1746:+        typeof token.expires_in === 'number'
+1747:+          ? new Date(Date.now() + token.expires_in * 1000)
+1751:+        token.x_user_id != null ? String(token.x_user_id) : undefined,
+1881:+ * module's contribution through that token — no connector ever edits the
+2627:+/** Polar OAuth2 token endpoint response (`POST /v2/oauth2/token`). */
+2629:+  access_token: string;
+2631:+   * Polar AccessLink access tokens are long-lived and the token endpoint does
+2632:+   * NOT return a refresh token (the access token itself is the durable
+2634:+   * access token when no refresh token is present.
+2636:+  refresh_token?: string;
+2637:+  /** Access-token lifetime in seconds (Polar returns a large value). */
+2639:+  token_type: string;
+2640:+  /** Polar-native numeric user id granted with the token. */
+-- #5 IDOR / user ids --
+118:+  user_id: 475,
+119:+  entity_id: 'aQlC83',
+140:+    findFirst: jest.fn(async () =>
+141:+      'connection' in opts ? opts.connection : { id: 'conn-1', user_id: 'u' },
+158:+        `${e.event}:${e.user_id}:${e.entity_id ?? ''}:${e.timestamp}`,
+212:+  it('rejects a non-PING event missing user_id with 400 (Zod superRefine)', async () => {
+218:+          entity_id: 'x',
+231:+          user_id: 475,
+258:+          user_id: 475,
+273:+          user_id: 475,
+339:+      findFirst: jest.fn(async () => ({ id: 'conn-1', user_id: 'u' })),
+384:+          provider_event_id: 'EXERCISE:475:aQlC83:2026-05-31T08:00:00Z',
+394:+      where: {
+396:+        provider_event_id: 'EXERCISE:475:aQlC83:2026-05-31T08:00:00Z',
+406:+    expect(wearableConnection.findFirst).toHaveBeenCalledWith({
+407:+      where: {
+409:+        external_account_id: '475',
+427:+      where: {
+429:+        provider_event_id: 'EXERCISE:475:aQlC83:2026-05-31T08:00:00Z',
+437:+    expect(arg.where).toEqual({ id: 'conn-1' });
+497:+ *  6. Resolve the connection (by Polar user_id), fetch ONLY the just-changed
+575:+          provider_event_id: providerEventId,
+601:+        event.user_id != null ? String(event.user_id) : null;
+604:+        const connection = await this.prisma.wearableConnection.findFirst({
+605:+          where: {
+607:+            external_account_id: externalAccountId,
+627:+              where: { id: connection.id },
+637:+              user_id_hash: this.hash(externalAccountId),
+648:+            user_id_hash: this.hash(externalAccountId),
+656:+        where: {
+658:+          provider_event_id: providerEventId,
+668:+      where: {
+670:+        provider_event_id: providerEventId,
+691:+   * numeric `user_id` and either an `entity_id` or a `date`. A `PING` carries
+706:+        user_id: z.number().int().optional(),
+707:+        entity_id: z.string().min(1).optional(),
+716:+          if (val.user_id === undefined) {
+719:+              path: ['user_id'],
+864:+        x_user_id: 475,
+919:+    const conn = { id: 'conn-1', user_id: 'u' } as unknown as WearableConnection;
+997:+    id: 'conn-1',
+998:+    user_id: 'user-1',
+1010:+          id: 99,
+1047:+        { id: 'c', user_id: 'u' } as WearableConnection,
+1066:+    expect(arg.where).toEqual({ id: 'conn-1' });
+1116:+    enqueue(fakeResponse({ id: 5, 'start-time': '2026-05-31T06:00:00' }));
+1119:+      user_id: 475,
+1120:+      entity_id: 'aQlC83',
+1134:+    enqueue(fakeResponse({ id: 5, 'start-time': '2026-05-31T06:00:00' }));
+1137:+      user_id: 475,
+1138:+      entity_id: 'aQlC83',
+1164:+      user_id: 475,
+1165:+      entity_id: 'aQlC83',
+1175:+      user_id: 475,
+1252:+ * (`Authorization: Basic base64(client_id:client_secret)`), NOT form-body
+1358:+      client_id: clientId,
+1445:+      userId: conn.user_id,
+1571:+        { userId: conn.user_id, connectionId: conn.id, sourceTz: null },
+1579:+    // Polar events have no single id field; the (event, user_id,
+1583:+    const user = event.user_id != null ? String(event.user_id) : '';
+1708:+      id: id != null ? String(id) : undefined,
+1751:+        token.x_user_id != null ? String(token.x_user_id) : undefined,
+1810:+      user_id_hash: conn?.user_id ? userHash(conn.user_id) : undefined,
+1822:+        where: { id: conn.id },
+1830:+        user_id_hash: conn?.user_id ? userHash(conn.user_id) : undefined,
+1941:+    id: String((record as { id?: string })?.id ?? ''),
+1989:+    id: 1937529874,
+2039:+        id: 7,
+2051:+      wrap('exercises', { id: 1, duration: 'PT10M' })
+2641:+  x_user_id?: number;
+2658:+  id: number | string;
+2746:+  /** Polar-native numeric user id (maps to external_account_id as a string). */
+2747:+  user_id?: number;
+-- #8 validation / zod strict --
+96:+ *  - unknown top-level key    → 400 (strict schema, no passthrough)
+238:+  it('rejects an unknown top-level field with 400 (strict — no passthrough)', async () => {
+244:+          // Drifted/extra field that .strict() must reject rather than ignore.
+478:+import { z } from 'zod';
+555:+    const event = this.parseAndValidate(rawBody);
+685:+   * Strict Zod schema for the Polar webhook event payload. `.strict()` rejects
+694:+  private parseAndValidate(rawBody: Buffer): PolarWebhookEvent {
+697:+      json = JSON.parse(rawBody.toString('utf8'));
+704:+        event: z.enum(POLAR_WEBHOOK_EVENTS),
+705:+        timestamp: z.string().min(1),
+706:+        user_id: z.number().int().optional(),
+707:+        entity_id: z.string().min(1).optional(),
+708:+        date: z.string().min(1).optional(),
+709:+        url: z.string().url().optional(),
+711:+      .strict()
+718:+              code: z.ZodIssueCode.custom,
+725:+              code: z.ZodIssueCode.custom,
+733:+    const result = schema.safeParse(json);
+1528:+      parsed = JSON.parse(req.rawBody.toString('utf8')) as PolarWebhookEvent;
+1688:+      return JSON.parse(text) as T;
+-- #12 raw errors --
+439:+    expect(arg.data.last_error).toContain('transient upstream 503');
+482:+import { PolarConnector, redactErrorMessage } from './polar.connector';
+501:+ * Throttled (#6). Never logs raw payloads/ids/tokens — only redacted,
+623:+            // Fail-explicit: mark the connection in error (PII-free, redacted)
+630:+                last_error: redactErrorMessage(err),
+639:+              error_message: redactErrorMessage(err),
+763:+import { PolarConnector, redactErrorMessage } from './polar.connector';
+1053:+  it('marks the connection error with a REDACTED last_error on a backfill outage, then rethrows', async () => {
+1068:+    expect(arg.data.last_error).toContain('HTTP 503');
+1069:+    expect(arg.data.last_error).toContain('Bearer [REDACTED]');
+1070:+    expect(arg.data.last_error).toContain('client_secret=[REDACTED]');
+1071:+    expect(arg.data.last_error).not.toContain('at-live-SECRET');
+1072:+    expect(arg.data.last_error).not.toContain('secret-xyz');
+1075:+  it('logs a redacted persist-failure (never swallows) when the error-status write itself fails, and still rethrows the provider error', async () => {
+1183:+describe('redactErrorMessage', () => {
+1185:+    const out = redactErrorMessage(
+1201:+    expect(redactErrorMessage(new Error('x'.repeat(900))).length).toBe(500);
+1202:+    expect(redactErrorMessage(new Error(''))).toBe('unknown');
+1279:+ * `WearableConnection.last_error` or logged (audit pattern 7 / #1/#12).
+1281:+ * spec can unit-test the redaction. Redacts common credential patterns that
+1284:+export function redactErrorMessage(err: unknown): string {
+1287:+      ? err.message
+1298:+  const redacted = (raw ?? '')
+1314:+  return redacted.slice(0, 500) || 'unknown';
+1336:+   * the connection `status='error'` with a REDACTED `last_error` before
+1795:+   * Mark a connection `status='error'` with a redacted error message on a
+1798:+   * redacted, PII-free metadata (audit patterns 3 + 7).
+1805:+    const message = redactErrorMessage(err);
+1812:+      // Already redacted — safe to log.
+1823:+        data: { status: 'error', last_error: message },
+1833:+        error_message: redactErrorMessage(markErr),
+-- #17 weak assertions --
+1107:+    expect(persistFailLog).toBeTruthy();
+-- #28/#29 idempotency --
+133:+    // Reservation-first: createMany returns count===1 when WE win the insert,
+135:+    createMany: jest.fn(async () => ({ count: opts.alreadyReserved ? 0 : 1 })),
+137:+    deleteMany: jest.fn(async () => ({ count: 1 })),
+188:+    expect(processedEvent.createMany).not.toHaveBeenCalled();
+249:+    expect(processedEvent.createMany).not.toHaveBeenCalled();
+264:+    expect(processedEvent.createMany).not.toHaveBeenCalled();
+290:+    expect(processedEvent.createMany).not.toHaveBeenCalled();
+304:+    expect(processedEvent.createMany).toHaveBeenCalledTimes(1);
+313:+    const reserveOrder = (processedEvent.createMany as jest.Mock).mock
+325:+    // Shared mock prisma where the FIRST createMany wins (count===1) and the
+327:+    // INSERT ... ON CONFLICT DO NOTHING semantics of skipDuplicates.
+330:+      createMany: jest.fn(async () => {
+336:+      deleteMany: jest.fn(async () => ({ count: 1 })),
+367:+    expect(processedEvent.createMany).toHaveBeenCalledTimes(2);
+380:+    expect(processedEvent.createMany).toHaveBeenCalledWith({
+384:+          provider_event_id: 'EXERCISE:475:aQlC83:2026-05-31T08:00:00Z',
+388:+      skipDuplicates: true,
+396:+        provider_event_id: 'EXERCISE:475:aQlC83:2026-05-31T08:00:00Z',
+397:+        handler_completed_at: null,
+399:+      data: { handler_completed_at: expect.any(Date) },
+426:+    expect(processedEvent.deleteMany).toHaveBeenCalledWith({
+429:+        provider_event_id: 'EXERCISE:475:aQlC83:2026-05-31T08:00:00Z',
+430:+        handler_completed_at: null,
+451:+    expect(processedEvent.createMany).toHaveBeenCalledTimes(1);
+453:+    expect(processedEvent.deleteMany).not.toHaveBeenCalled();
+494:+ *  4. `PING` is acknowledged with a plain 200 — no fetch, no dedup row.
+496:+ *     provider_event_id) — RESERVE FIRST, then process (#28/#29).
+499:+ *  7. ONLY AFTER a successful fetch+ingest, STAMP `handler_completed_at` on the
+506:+ * `createMany({ skipDuplicates: true })` BEFORE any fetch/ingest work. The
+512:+ *    `handler_completed_at` to mark completion.
+566:+    // fetch/ingest work. `createMany({ skipDuplicates: true })` is a single
+568:+    // provider_event_id) PK, so exactly one concurrent delivery gets count===1
+570:+    // `handler_completed_at` is left NULL until processing completes (step 7).
+571:+    const { count } = await this.prisma.wearableProcessedEvent.createMany({
+575:+          provider_event_id: providerEventId,
+577:+          // handler_completed_at left NULL → reserved, not yet completed.
+580:+      skipDuplicates: true,
+654:+      // durably complete). Use deleteMany so a not-found row is not an error.
+655:+      await this.prisma.wearableProcessedEvent.deleteMany({
+658:+          provider_event_id: providerEventId,
+659:+          handler_completed_at: null,
+665:+    // (7) COMPLETE: processing succeeded. Stamp `handler_completed_at` so the
+666:+    // reservation row is now observably a durable, fully-processed dedup row.
+670:+        provider_event_id: providerEventId,
+671:+        handler_completed_at: null,
+673:+      data: { handler_completed_at: new Date() },
+1916:+import { computeDedupKey } from '../../ingestion/dedup.util';
+1929:+ * the deterministic dedup_key the ingestion lane will compute for that sample
+1953:+/** Re-derive the dedup_key the ingestion lane will assign to a sample. */
+1954:+function dedup(sample: {
+2057:+  it('produces the expected dedup_key for WORKOUT_DURATION_MIN', () => {
+2062:+    expect(dedup(dur)).toBe(
+2178:+  it('produces stable dedup_keys for both recharge metrics', () => {
+2184:+    expect(dedup(score)).toBe(
+2193:+    expect(dedup(hrv)).not.toBe(dedup(score));
+2283:+ * hashed into a garbage dedup key (#8 fail-safe at the boundary).
+2347:+ * for dedup.
+-- #34/#36 logs/catches --
+539:+      this.logger.error(
+559:+      this.logger.log({ msg: 'wearables.polar.webhook.ping', provider: 'POLAR' });
+586:+      this.logger.log({
+622:+          } catch (err) {
+624:+            // and rethrow. The outer catch releases our reservation so the
+633:+            this.logger.error({
+644:+          this.logger.warn({
+652:+    } catch (err) {
+676:+    this.logger.log({
+698:+    } catch {
+1105:+            'wearables.polar.connection_error_persist_failed',
+1293:+            } catch {
+1390:+    } catch (err) {
+1426:+    } catch (err) {
+1506:+      this.logger.error('polar.verifyWebhook: POLAR_WEBHOOK_SECRET not configured');
+1529:+    } catch {
+1619:+      } catch {
+1689:+    } catch {
+1806:+    this.logger.error({
+1825:+    } catch (markErr) {
+1826:+      this.logger.error({
+1827:+        msg: 'wearables.polar.connection_error_persist_failed',
+-- #35 HTTP timeout/raw fetch/axios --
+760:+  ProviderHttpClient,
+771:+ * `ProviderHttpClient` is stubbed so no real network is touched: `request`
+787:+  client: ProviderHttpClient;
+801:+  } as unknown as ProviderHttpClient;
+1225:+import { ProviderHttpClient } from '../../http/provider-http-client';
+1241:+ * route through {@link ProviderHttpClient} so timeout + capped jittered
+1341:+    private readonly http: ProviderHttpClient,
+1655:+    const res = await this.http.request(url, {
+1668:+   * this date") as `null` instead of an error. The ProviderHttpClient only
+1676:+    const res = await this.http.request(url, {
+1721:+    const res = await this.http.request(POLAR_TOKEN_URL, {
+1849:+  http: ProviderHttpClient,
+1862:+import { ProviderHttpClient } from '../../http/provider-http-client';
+1884:+ * Dependencies (`IngestionService`, `ProviderHttpClient`) are re-provided here
+1891:+    ProviderHttpClient,
+-- #44 transactions/multi-write --
+133:+    // Reservation-first: createMany returns count===1 when WE win the insert,
+135:+    createMany: jest.fn(async () => ({ count: opts.alreadyReserved ? 0 : 1 })),
+136:+    updateMany: jest.fn(async () => ({ count: 1 })),
+137:+    deleteMany: jest.fn(async () => ({ count: 1 })),
+188:+    expect(processedEvent.createMany).not.toHaveBeenCalled();
+189:+    expect(ingestion.ingest).not.toHaveBeenCalled();
+249:+    expect(processedEvent.createMany).not.toHaveBeenCalled();
+264:+    expect(processedEvent.createMany).not.toHaveBeenCalled();
+290:+    expect(processedEvent.createMany).not.toHaveBeenCalled();
+292:+    expect(ingestion.ingest).not.toHaveBeenCalled();
+304:+    expect(processedEvent.createMany).toHaveBeenCalledTimes(1);
+305:+    expect(processedEvent.updateMany).not.toHaveBeenCalled();
+307:+    expect(ingestion.ingest).not.toHaveBeenCalled();
+313:+    const reserveOrder = (processedEvent.createMany as jest.Mock).mock
+317:+    const ingestOrder = (ingestion.ingest as jest.Mock).mock
+325:+    // Shared mock prisma where the FIRST createMany wins (count===1) and the
+330:+      createMany: jest.fn(async () => {
+335:+      updateMany: jest.fn(async () => ({ count: 1 })),
+336:+      deleteMany: jest.fn(async () => ({ count: 1 })),
+367:+    expect(processedEvent.createMany).toHaveBeenCalledTimes(2);
+369:+    expect(processedEvent.updateMany).toHaveBeenCalledTimes(1);
+380:+    expect(processedEvent.createMany).toHaveBeenCalledWith({
+391:+    expect(ingestion.ingest).toHaveBeenCalledTimes(1);
+393:+    expect(processedEvent.updateMany).toHaveBeenCalledWith({
+401:+    const ingestOrder = (ingestion.ingest as jest.Mock).mock
+403:+    const completeOrder = (processedEvent.updateMany as jest.Mock).mock
+424:+    expect(ingestion.ingest).not.toHaveBeenCalled();
+426:+    expect(processedEvent.deleteMany).toHaveBeenCalledWith({
+434:+    expect(processedEvent.updateMany).not.toHaveBeenCalled();
+435:+    expect(wearableConnection.update).toHaveBeenCalledTimes(1);
+436:+    const arg = (wearableConnection.update as jest.Mock).mock.calls[0][0];
+449:+    expect(ingestion.ingest).not.toHaveBeenCalled();
+451:+    expect(processedEvent.createMany).toHaveBeenCalledTimes(1);
+452:+    expect(processedEvent.updateMany).toHaveBeenCalledTimes(1);
+453:+    expect(processedEvent.deleteMany).not.toHaveBeenCalled();
+506:+ * `createMany({ skipDuplicates: true })` BEFORE any fetch/ingest work. The
+566:+    // fetch/ingest work. `createMany({ skipDuplicates: true })` is a single
+571:+    const { count } = await this.prisma.wearableProcessedEvent.createMany({
+620:+              await this.ingestion.ingest(samples);
+626:+            await this.prisma.wearableConnection.update({
+654:+      // durably complete). Use deleteMany so a not-found row is not an error.
+655:+      await this.prisma.wearableProcessedEvent.deleteMany({
+667:+    await this.prisma.wearableProcessedEvent.updateMany({
+1821:+      await this.prisma.wearableConnection.update({
+-- #50 graceful degradation --
+102:+ *  - fetch/ingest failure    → reservation released, connection marked error,
+103:+ *                              rethrows (no silent swallow, no stuck barrier)
+415:+  it('RELEASES the reservation when fetch/ingest fails, marks connection error, rethrows', async () => {
+438:+    expect(arg.data.status).toBe('error');
+439:+    expect(arg.data.last_error).toContain('transient upstream 503');
+514:+ * rethrowing so Polar's redelivery can re-reserve and reprocess — there is no
+539:+      this.logger.error(
+542:+      throw new BadRequestException('Polar webhook raw body unavailable');
+551:+      throw new UnauthorizedException('Invalid Polar webhook signature');
+597:+    // rethrowing, so Polar's redelivery can re-reserve and reprocess instead of
+623:+            // Fail-explicit: mark the connection in error (PII-free, redacted)
+624:+            // and rethrow. The outer catch releases our reservation so the
+629:+                status: 'error',
+630:+                last_error: redactErrorMessage(err),
+633:+            this.logger.error({
+638:+              error_class: err instanceof Error ? err.name : 'unknown',
+639:+              error_message: redactErrorMessage(err),
+641:+            throw err;
+654:+      // durably complete). Use deleteMany so a not-found row is not an error.
+662:+      throw err;
+699:+      throw new BadRequestException('Polar webhook payload is not valid JSON');
+736:+      throw new BadRequestException(
+737:+        `Polar webhook payload failed validation: ${result.error.issues
+760:+  ProviderHttpClient,
+771:+ * `ProviderHttpClient` is stubbed so no real network is touched: `request`
+787:+  client: ProviderHttpClient;
+797:+      if (next instanceof Error) throw next;
+798:+      if (!next) throw new Error('no queued response');
+801:+  } as unknown as ProviderHttpClient;
+845:+  it('throws if POLAR_CLIENT_ID is not configured', () => {
+893:+  it('throws if the token response carries no access_token', async () => {
+916:+  it('marks the connection error and rethrows when no token is present', async () => {
+924:+    expect(update.mock.calls[0][0].data.status).toBe('error');
+1043:+  it('throws when the connection has no access token', async () => {
+1053:+  it('marks the connection error with a REDACTED last_error on a backfill outage, then rethrows', async () => {
+1067:+    expect(arg.data.status).toBe('error');
+1068:+    expect(arg.data.last_error).toContain('HTTP 503');
+1069:+    expect(arg.data.last_error).toContain('Bearer [REDACTED]');
+1070:+    expect(arg.data.last_error).toContain('client_secret=[REDACTED]');
+1071:+    expect(arg.data.last_error).not.toContain('at-live-SECRET');
+1072:+    expect(arg.data.last_error).not.toContain('secret-xyz');
+1075:+  it('logs a redacted persist-failure (never swallows) when the error-status write itself fails, and still rethrows the provider error', async () => {
+1078:+      throw new Error(
+1085:+    const errorSpy = jest
+1086:+      .spyOn(Logger.prototype, 'error')
+1091:+    // The ORIGINAL provider error must still propagate — the failed status
+1097:+    // dedicated message and a REDACTED error_message (no DB secret leak).
+1098:+    const persistFailLog = errorSpy.mock.calls
+1105:+            'wearables.polar.connection_error_persist_failed',
+1106:+      ) as { error_message?: string } | undefined;
+1108:+    expect(persistFailLog?.error_message).not.toContain('db-live-SECRET');
+1109:+    expect(persistFailLog?.error_message).toContain('token=[REDACTED]');
+1111:+    errorSpy.mockRestore();
+1225:+import { ProviderHttpClient } from '../../http/provider-http-client';
+1241:+ * route through {@link ProviderHttpClient} so timeout + capped jittered
+1242:+ * backoff are applied uniformly (#35/#50). OAuth client credentials are read
+1278:+ * Strip token-like secrets from an error message before it is persisted to
+1279:+ * `WearableConnection.last_error` or logged (audit pattern 7 / #1/#12).
+1282:+ * can leak into upstream HTTP error strings, then caps length.
+1336:+   * the connection `status='error'` with a REDACTED `last_error` before
+1337:+   * rethrowing (fail-loud + fail-explicit). When absent, the failure still
+1338:+   * rethrows — we simply skip the status write.
+1341:+    private readonly http: ProviderHttpClient,
+1384:+   * method (not a no-op throw) so PR-HK-1's token lane has a uniform contract
+1392:+      throw err;
+1404:+      throw new Error('polar.refresh: connection has no stored token');
+1428:+      throw err;
+1499:+   * throws) on any missing input or mismatch so the controller maps it to a
+1506:+      this.logger.error('polar.verifyWebhook: POLAR_WEBHOOK_SECRET not configured');
+1645:+      throw new Error(`${op}: connection has no access token`);
+1668:+   * this date") as `null` instead of an error. The ProviderHttpClient only
+1740:+      throw new Error('polar: token response missing access_token');
+1795:+   * Mark a connection `status='error'` with a redacted error message on a
+1796:+   * provider-side failure, best-effort (never masks the original error). No-op
+1806:+    this.logger.error({
+1807:+      msg: 'wearables.polar.connection_error',
+1811:+      error_class: err instanceof Error ? err.name : 'unknown',
+1813:+      error_message: message,
+1816:+    // Persist the error status — best-effort, but NEVER silent. If the write
+1818:+    // trust-indicator update is observable; the original provider error still
+1819:+    // rethrows at the call site (audit patterns #34/#36).
+1823:+        data: { status: 'error', last_error: message },
+1826:+      this.logger.error({
+1827:+        msg: 'wearables.polar.connection_error_persist_failed',
+1831:+        error_class: markErr instanceof Error ? markErr.name : 'unknown',
+1833:+        error_message: redactErrorMessage(markErr),
+1841:+      throw new Error(`polar: ${name} is not configured`);
+1849:+  http: ProviderHttpClient,
+1862:+import { ProviderHttpClient } from '../../http/provider-http-client';
+1884:+ * Dependencies (`IngestionService`, `ProviderHttpClient`) are re-provided here
+1891:+    ProviderHttpClient,
