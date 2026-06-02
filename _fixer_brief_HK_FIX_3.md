@@ -2,9 +2,10 @@
 
 **Builder model:** Opus 4.8 (R0 law — Sonnet 4.6 FORBIDDEN)
 **Repo:** `BradleyGleavePortfolio/growth-project-backend`
-**Branch from:** `origin/main` AFTER HK-FIX-1 (#358) merges
+**Branch from:** `origin/dynasia/pr-hk-fix-1-appmodule-graph` at SHA `6181b0815c9528be3475f83d46eb4c5b642f6551` (PR #358's rebased head). This is a STACKED PR — #358 and HK-FIX-3 will merge back-to-back so main never goes red. (Reason: #358's rebase exposed `roles-enforced.spec.ts` failing on the 8 ungated routes — this is exactly what HK-FIX-3 fixes, so stacking is the only way to keep main green through the merge sequence.)
 **Branch name:** `dynasia/pr-hk-fix-3-roles-decoration`
 **Worktree path:** create fresh — `/tmp/wt-hk-fix-3`
+**PR base branch when opening PR:** `dynasia/pr-hk-fix-1-appmodule-graph` (NOT `main`). Once #358 merges, GitHub will auto-retarget this PR's base to `main`.
 **Round:** R0 (new PR)
 **Commit author EVERY commit:** `Dynasia G <dynasia@trygrowthproject.com>` — title-only, NO `Co-Authored-By`, NO `Generated-By`
 
