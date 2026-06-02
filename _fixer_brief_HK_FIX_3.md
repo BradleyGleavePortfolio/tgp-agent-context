@@ -10,6 +10,26 @@
 
 ---
 
+## CRITICAL — role name in this codebase is `'student'`, NOT `'client'`
+
+Bradley's policy uses the word "client" to describe the end-user / trainee role in product-speak. **The codebase enum value for that role is the string literal `'student'`** (verified across `src/wearables/insights/wearable-insights.service.ts`, `src/users/users.controller.ts`, `src/team/team.service.ts`, `src/v1/v1-coach.service.ts`, etc.).
+
+All `@Roles(...)` decorations in this brief have already been translated to use `'student'`. Domain prose ("client account", "client-side", "assigned client", "Clients see…") is preserved because that matches Bradley's mental model — but every role **string literal** you write into source code must be `'student'`, not `'client'`.
+
+If you find any `'client'` token in your diff that is being passed to `@Roles()` or compared to a role field, that is a bug — replace with `'student'`.
+
+---
+
+## Target controller file paths (verified post-HK-FIX-1 rebase)
+
+- `src/wearables/connections/connections.controller.ts` — `startOauth` (line ~58 `@Post('oauth/start')`), `oauthCallback` (line ~75 `@Get('oauth/callback')`), `list` (line ~92 `@Get()`), `disconnect` (line ~104 `@Delete(':provider')`).
+- `src/wearables/insights/wearable-insights.controller.ts` — `getClientInsight` (line ~86 `@Get('client')`). Do **NOT** touch `@Get('coach')` (line ~66, already `@Roles('coach', 'owner')`).
+- `src/wearables/samples/wearable-samples.controller.ts` — `getSamples` (line ~54 `@Get()`).
+- `src/wearables/preferences/preferences.controller.ts` — `upsert` (line ~52 `@Post()`), `remove` (line ~96 `@Delete(':metric')`).
+- Roles decorator import: `src/common/decorators/roles.decorator.ts`. Use the exact import path the surrounding controllers already use (`grep -n "roles.decorator" src/wearables/insights/wearable-insights.controller.ts` for reference).
+
+---
+
 ## Context — why this PR is separate from HK-FIX-1
 
 HK-FIX-1 (#358) fixed three Nest DI reflection defects (A/B/C — bare-provider re-export + two interface-typed optional params missing `@Optional()`). Once those landed, the `roles-enforced.spec.ts` AppModule-graph test got far enough to walk every registered route handler and discovered **8 wearables route handlers that ship without `@Roles()` or `@Public()` decoration** — a security policy gap.
@@ -46,14 +66,14 @@ This PR adds the correct `@Roles(...)` decoration to each, per the role assignme
 
 | # | Controller.handler | Roles | Stakeholder rationale |
 |---|---|---|---|
-| 1 | `ConnectionsController.startOauth` | `@Roles('client')` | Coaches who want their own wearable data must use a separate client account. Coach role cannot initiate a connect flow. |
-| 2 | `ConnectionsController.oauthCallback` | `@Roles('client')` | Same — only a client account can complete a connect flow. |
-| 3 | `ConnectionsController.list` | `@Roles('client', 'coach')` | Clients see their own list; coaches see the connection list for each of their assigned clients (service-layer scopes by `req.user.id` for clients, by assignment relation for coaches). |
-| 4 | `ConnectionsController.disconnect` | `@Roles('client')` | Coaches cannot revoke a client's wearable connection. Client-only action. |
-| 5 | `WearableInsightsController.getClientInsight` | `@Roles('client')` | The *client-side* snapshot AI summary surfaced in the client's app. Coaches use their **own** AI summary tooling (different controller — `getCoachInsight` is already `@Roles('coach','owner')` on this controller). **Leave any existing caching/persistence behavior as-is** — Bradley explicitly approved not changing that in this PR. |
-| 6 | `WearableSamplesController.getSamples` | `@Roles('client', 'coach', 'owner')` | Clients see own data, coaches see assigned clients' data, owners see all. Per-role scoping enforced in the service layer (`SamplesService` — VERIFY before merge). |
-| 7 | `PreferencesController.upsert` | `@Roles('client', 'coach')` | Clients set their own preferences; coaches set preferences **on behalf of an assigned client** (Bradley confirmed option (ii) on 2026-06-02). The service/DTO must accept and validate the target client id when called by a coach, and reject if the target is not an assigned client. |
-| 8 | `PreferencesController.remove` | `@Roles('client', 'coach')` | Same model as #7. |
+| 1 | `ConnectionsController.startOauth` | `@Roles('student')` | Coaches who want their own wearable data must use a separate client account. Coach role cannot initiate a connect flow. |
+| 2 | `ConnectionsController.oauthCallback` | `@Roles('student')` | Same — only a client account can complete a connect flow. |
+| 3 | `ConnectionsController.list` | `@Roles('student', 'coach')` | Clients see their own list; coaches see the connection list for each of their assigned clients (service-layer scopes by `req.user.id` for clients, by assignment relation for coaches). |
+| 4 | `ConnectionsController.disconnect` | `@Roles('student')` | Coaches cannot revoke a client's wearable connection. Client-only action. |
+| 5 | `WearableInsightsController.getClientInsight` | `@Roles('student')` | The *client-side* snapshot AI summary surfaced in the client's app. Coaches use their **own** AI summary tooling (different controller — `getCoachInsight` is already `@Roles('coach','owner')` on this controller). **Leave any existing caching/persistence behavior as-is** — Bradley explicitly approved not changing that in this PR. |
+| 6 | `WearableSamplesController.getSamples` | `@Roles('student', 'coach', 'owner')` | Clients see own data, coaches see assigned clients' data, owners see all. Per-role scoping enforced in the service layer (`SamplesService` — VERIFY before merge). |
+| 7 | `PreferencesController.upsert` | `@Roles('student', 'coach')` | Clients set their own preferences; coaches set preferences **on behalf of an assigned client** (Bradley confirmed option (ii) on 2026-06-02). The service/DTO must accept and validate the target client id when called by a coach, and reject if the target is not an assigned client. |
+| 8 | `PreferencesController.remove` | `@Roles('student', 'coach')` | Same model as #7. |
 
 ---
 
@@ -66,23 +86,23 @@ Add the `@Roles(...)` import from the auth module (same import path other wearab
 Decorate each handler:
 ```ts
 @Post('oauth/start')
-@Roles('client')
+@Roles('student')
 @HttpCode(HttpStatus.OK)
 @Throttle({ default: { ttl: 60_000, limit: 10 } })
 async startOauth(...) { ... }
 
 @Get('oauth/callback')
-@Roles('client')
+@Roles('student')
 ...
 async oauthCallback(...) { ... }
 
 @Get()
-@Roles('client', 'coach')
+@Roles('student', 'coach')
 ...
 async list(...) { ... }
 
 @Delete(':provider')
-@Roles('client')
+@Roles('student')
 ...
 async disconnect(...) { ... }
 ```
@@ -94,7 +114,7 @@ async disconnect(...) { ... }
 Add to `getClientInsight`:
 ```ts
 @Get('client/:clientId')
-@Roles('client')
+@Roles('student')
 async getClientInsight(...) { ... }
 ```
 
@@ -104,12 +124,12 @@ async getClientInsight(...) { ... }
 
 ```ts
 @Get()
-@Roles('client', 'coach', 'owner')
+@Roles('student', 'coach', 'owner')
 async getSamples(...) { ... }
 ```
 
 **Before merging:** verify the service layer (`SamplesService` or equivalent) correctly scopes results:
-- `client` role → results limited to `req.user.id`
+- `student` role → results limited to `req.user.id`
 - `coach` role → results limited to clients assigned to `req.user.id` (check existing assignment relation pattern — likely `coach_id` foreign key on a `coach_client_assignments` table or similar)
 - `owner` role → no scoping
 
@@ -119,11 +139,11 @@ If the service does NOT already enforce this scoping, **STOP** and flag — the 
 
 ```ts
 @Post()
-@Roles('client', 'coach')
+@Roles('student', 'coach')
 async upsert(...) { ... }
 
 @Delete(':id')
-@Roles('client', 'coach')
+@Roles('student', 'coach')
 async remove(...) { ... }
 ```
 
@@ -235,14 +255,14 @@ unblocked the AppModule graph itself, this guard caught 8 wearables routes
 that shipped undecorated.
 
 Adds @Roles per the policy locked in by Bradley on 2026-06-02:
-- ConnectionsController.startOauth   → @Roles('client')
-- ConnectionsController.oauthCallback → @Roles('client')
-- ConnectionsController.list          → @Roles('client', 'coach')
-- ConnectionsController.disconnect    → @Roles('client')
-- WearableInsightsController.getClientInsight → @Roles('client')
-- WearableSamplesController.getSamples → @Roles('client', 'coach', 'owner')
-- PreferencesController.upsert        → @Roles('client', 'coach')
-- PreferencesController.remove        → @Roles('client', 'coach')
+- ConnectionsController.startOauth   → @Roles('student')
+- ConnectionsController.oauthCallback → @Roles('student')
+- ConnectionsController.list          → @Roles('student', 'coach')
+- ConnectionsController.disconnect    → @Roles('student')
+- WearableInsightsController.getClientInsight → @Roles('student')
+- WearableSamplesController.getSamples → @Roles('student', 'coach', 'owner')
+- PreferencesController.upsert        → @Roles('student', 'coach')
+- PreferencesController.remove        → @Roles('student', 'coach')
 
 Coaches who want their own wearable data must use a separate client
 account; coach role cannot initiate or complete the connect flow, cannot
@@ -279,14 +299,14 @@ in, which is why it lives in its own PR.
 
 | Route | Roles | Note |
 |---|---|---|
-| `POST /v1/wearables/connections/oauth/start` | `client` | Coaches must use a separate client account to connect their own wearables. |
-| `GET  /v1/wearables/connections/oauth/callback` | `client` | Same. |
-| `GET  /v1/wearables/connections` | `client`, `coach` | Coach sees per-assigned-client connection list. |
-| `DELETE /v1/wearables/connections/:provider` | `client` | Coaches cannot revoke. |
-| `GET  /v1/wearables/insights/client/:clientId` | `client` | Coaches use a separate AI tool. Snapshot-only; cache/persistence behavior preserved. |
-| `GET  /v1/wearables/samples` | `client`, `coach`, `owner` | Per-role scoping in service layer. |
-| `POST /v1/wearables/preferences` | `client`, `coach` | Coach can set on behalf of an assigned client. |
-| `DELETE /v1/wearables/preferences/:id` | `client`, `coach` | Same model. |
+| `POST /v1/wearables/connections/oauth/start` | `student` | Coaches must use a separate client account to connect their own wearables. |
+| `GET  /v1/wearables/connections/oauth/callback` | `student` | Same. |
+| `GET  /v1/wearables/connections` | `student`, `coach` | Coach sees per-assigned-client connection list. |
+| `DELETE /v1/wearables/connections/:provider` | `student` | Coaches cannot revoke. |
+| `GET  /v1/wearables/insights/client/:clientId` | `student` | Coaches use a separate AI tool. Snapshot-only; cache/persistence behavior preserved. |
+| `GET  /v1/wearables/samples` | `student`, `coach`, `owner` | Per-role scoping in service layer. |
+| `POST /v1/wearables/preferences` | `student`, `coach` | Coach can set on behalf of an assigned client. |
+| `DELETE /v1/wearables/preferences/:id` | `student`, `coach` | Same model. |
 
 ## Service-layer audit (IDOR guard)
 
