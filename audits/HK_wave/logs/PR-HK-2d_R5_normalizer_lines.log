@@ -1,0 +1,765 @@
+--- normalizer ---
+     1	import { createHash } from 'crypto';
+     2	import {
+     3	  WearableMetricBucket,
+     4	  WearableMetricType,
+     5	  WearableProvider,
+     6	} from '@prisma/client';
+     7	import {
+     8	  NormalizedSample,
+     9	  RawRecord,
+    10	} from '../../normalization/normalizer.types';
+    11	import {
+    12	  GarminActivity,
+    13	  GarminBodyComp,
+    14	  GarminDaily,
+    15	  GarminHrv,
+    16	  GarminRawPayload,
+    17	  GarminSleep,
+    18	} from './garmin.types';
+    19	
+    20	/**
+    21	 * PR-HK-2.d — Garmin Health API → canonical normalizer.
+    22	 *
+    23	 * Maps Garmin-native summaries to {@link NormalizedSample}[] EXACTLY per
+    24	 * AGENT_2_CODING_PLAN §3.1 (anything unlisted is dropped — no speculative
+    25	 * ingestion, guard #42):
+    26	 *
+    27	 *   dailies.steps                → STEPS                (H&F)
+    28	 *   dailies.activeKilocalories   → ACTIVE_ENERGY_KCAL   (H&F)
+    29	 *   sleeps.remSleepInSeconds              → SLEEP_REM_MIN        (S&R)
+    30	 *   sleeps.deepSleepDurationInSeconds     → SLEEP_DEEP_MIN       (S&R)
+    31	 *   sleeps.lightSleepDurationInSeconds    → SLEEP_LIGHT_MIN      (S&R)
+    32	 *   sleeps.awakeDurationInSeconds         → SLEEP_AWAKE_MIN      (S&R)
+    33	 *   (sum of stages)                       → SLEEP_TOTAL_MIN      (S&R)
+    34	 *   (asleep / total in-bed)               → SLEEP_EFFICIENCY_PCT (S&R)
+    35	 *   sleeps.endingBodyBattery|bodyBatteryChange → BODY_BATTERY    (S&R)
+    36	 *   hrv.lastNightAvg             → HRV_MS               (S&R)
+    37	 *   activities.durationInSeconds → WORKOUT_DURATION_MIN (H&F)
+    38	 *   activities.distanceInMeters  → WORKOUT_DISTANCE_M   (H&F)
+    39	 *   activities.activityTrainingLoad → TRAINING_LOAD     (H&F)
+    40	 *   bodyComps.weightInGrams      → BODY_WEIGHT_KG       (H&F)
+    41	 *   bodyComps.bodyFatInPercent   → BODY_FAT_PCT         (H&F)
+    42	 *
+    43	 * Invariants:
+    44	 *  - Garmin durations are SECONDS — converted to minutes here (`sec / 60`).
+    45	 *  - Garmin weight is GRAMS — converted to kilograms (`g / 1000`).
+    46	 *  - Timestamps are epoch SECONDS; `startTimeInSeconds * 1000` builds the UTC
+    47	 *    instant. `startTimeOffsetInSeconds` is rendered into an IANA-ish UTC
+    48	 *    offset string on `sourceTz` (e.g. "UTC+01:00") so day-bucketing across
+    49	 *    DST/travel is correct without losing the provider's reported local frame.
+    50	 *  - The (user_id, metric, start_at, end_at)-derived DB dedup is implemented
+    51	 *    in the foundation ingestion lane via `computeDedupKey`. The §-style
+    52	 *    connector-level key is exposed by {@link garminDedupKey} for
+    53	 *    connector-level idempotency / logging and asserted in the spec.
+    54	 *  - Records with no resolvable subject/connection ctx, no parseable window,
+    55	 *    or a missing metric value are skipped — no half-baked sample crosses the
+    56	 *    ingestion boundary.
+    57	 */
+    58	
+    59	const PROVIDER: WearableProvider = WearableProvider.GARMIN;
+    60	const SEC_PER_MIN = 60;
+    61	const GRAMS_PER_KG = 1000;
+    62	
+    63	const SR: WearableMetricBucket = WearableMetricBucket.SLEEP_RECOVERY;
+    64	const HF: WearableMetricBucket = WearableMetricBucket.HEALTH_FITNESS;
+    65	
+    66	/** Canonical unit strings (match WearableMetricDef.unit seeded in PR-HK-0). */
+    67	const UNIT = {
+    68	  steps: 'steps',
+    69	  kcal: 'kcal',
+    70	  min: 'min',
+    71	  pct: '%',
+    72	  ms: 'ms',
+    73	  m: 'm',
+    74	  kg: 'kg',
+    75	  score: 'score',
+    76	} as const;
+    77	
+    78	/**
+    79	 * The §3.1 connector-level dedup key:
+    80	 *   sha256("garmin:" + user_id + ":" + metric + ":" + start_iso + ":" + value)
+    81	 *
+    82	 * Distinct from the foundation row dedup_key (which omits value and is the DB
+    83	 * uniqueness key). This connector key folds in the value so a corrected
+    84	 * re-push (same window, new value) is recognised as a *different* connector
+    85	 * observation for logging/idempotency.
+    86	 */
+    87	export function garminDedupKey(input: {
+    88	  userId: number | string;
+    89	  metric: WearableMetricType;
+    90	  startAt: Date;
+    91	  value: number;
+    92	}): string {
+    93	  const canonical = [
+    94	    'garmin',
+    95	    String(input.userId),
+    96	    input.metric,
+    97	    input.startAt.toISOString(),
+    98	    String(input.value),
+    99	  ].join(':');
+   100	  return createHash('sha256').update(canonical, 'utf8').digest('hex');
+   101	}
+   102	
+   103	/**
+   104	 * Render a Garmin UTC offset (seconds) into a stable `UTC±HH:MM` source-tz
+   105	 * string. Garmin reports an offset, not an IANA zone; we preserve the offset
+   106	 * so downstream day-bucketing can apply it deterministically (no zone DB
+   107	 * lookup, no DST guessing).
+   108	 */
+   109	export function offsetToSourceTz(offsetSeconds?: number): string {
+   110	  if (offsetSeconds == null || !Number.isFinite(offsetSeconds)) {
+   111	    return 'UTC';
+   112	  }
+   113	  const sign = offsetSeconds < 0 ? '-' : '+';
+   114	  const abs = Math.abs(offsetSeconds);
+   115	  const hh = Math.floor(abs / 3600)
+   116	    .toString()
+   117	    .padStart(2, '0');
+   118	  const mm = Math.floor((abs % 3600) / 60)
+   119	    .toString()
+   120	    .padStart(2, '0');
+   121	  return `UTC${sign}${hh}:${mm}`;
+   122	}
+   123	
+   124	/** Build the UTC [start,end] window from a Garmin summary's epoch seconds. */
+   125	function resolveWindow(
+   126	  startSec?: number,
+   127	  durationSec?: number,
+   128	): { start: Date; end: Date } | null {
+   129	  if (startSec == null || !Number.isFinite(startSec)) {
+   130	    return null;
+   131	  }
+   132	  const start = new Date(startSec * 1000);
+   133	  if (Number.isNaN(start.getTime())) {
+   134	    return null;
+   135	  }
+   136	  const dur = durationSec != null && durationSec > 0 ? durationSec : 0;
+   137	  const end = new Date((startSec + dur) * 1000);
+   138	  return { start, end: end < start ? start : end };
+   139	}
+   140	
+   141	/**
+   142	 * Normalize a batch of Garmin raw records. `userId`/`connectionId` are the
+   143	 * subject-client + connection ids resolved by the connection/webhook layer;
+   144	 * the connector threads them onto each payload. The batch-level `ctx` is a
+   145	 * fallback when a record omits them.
+   146	 */
+   147	export function normalizeGarmin(
+   148	  raw: RawRecord[],
+   149	  ctx?: { userId: string; connectionId: string },
+   150	): NormalizedSample[] {
+   151	  const out: NormalizedSample[] = [];
+   152	  for (const r of raw) {
+   153	    if (r.provider !== PROVIDER) {
+   154	      // Defensive: a foreign record must never be normalized as Garmin.
+   155	      continue;
+   156	    }
+   157	    const payload = r.payload as GarminRawPayload | undefined;
+   158	    if (!payload || typeof payload !== 'object' || !('kind' in payload)) {
+   159	      continue;
+   160	    }
+   161	    const recCtx = {
+   162	      userId: payload.userId ?? ctx?.userId,
+   163	      connectionId: payload.connectionId ?? ctx?.connectionId,
+   164	    };
+   165	    if (!recCtx.userId || !recCtx.connectionId) {
+   166	      continue;
+   167	    }
+   168	    const resolved = {
+   169	      userId: recCtx.userId,
+   170	      connectionId: recCtx.connectionId,
+   171	    };
+   172	    switch (payload.kind) {
+   173	      case 'dailies':
+   174	        pushDaily(out, payload.data as GarminDaily, resolved, r.id);
+   175	        break;
+   176	      case 'sleeps':
+   177	        pushSleep(out, payload.data as GarminSleep, resolved, r.id);
+   178	        break;
+   179	      case 'hrv':
+   180	        pushHrv(out, payload.data as GarminHrv, resolved, r.id);
+   181	        break;
+   182	      case 'activities':
+   183	        pushActivity(out, payload.data as GarminActivity, resolved, r.id);
+   184	        break;
+   185	      case 'bodyComps':
+   186	        pushBodyComp(out, payload.data as GarminBodyComp, resolved, r.id);
+   187	        break;
+   188	      default:
+   189	        break;
+   190	    }
+   191	  }
+   192	  return out;
+   193	}
+   194	
+   195	type Ctx = { userId: string; connectionId: string };
+   196	
+   197	function pushDaily(
+   198	  out: NormalizedSample[],
+   199	  d: GarminDaily,
+   200	  ctx: Ctx,
+   201	  sourceRecordId?: string,
+   202	): void {
+   203	  const win = resolveWindow(d.startTimeInSeconds, d.durationInSeconds);
+   204	  if (!win) return;
+   205	  const base = {
+   206	    userId: ctx.userId,
+   207	    connectionId: ctx.connectionId,
+   208	    provider: PROVIDER,
+   209	    bucket: HF,
+   210	    startAt: win.start,
+   211	    endAt: win.end,
+   212	    sourceTz: offsetToSourceTz(d.startTimeOffsetInSeconds),
+   213	    sourceRecordId: sourceRecordId ?? d.summaryId ?? null,
+   214	  };
+   215	  if (typeof d.steps === 'number') {
+   216	    out.push({
+   217	      ...base,
+   218	      metric: WearableMetricType.STEPS,
+   219	      value: d.steps,
+   220	      unit: UNIT.steps,
+   221	    });
+   222	  }
+   223	  if (typeof d.activeKilocalories === 'number') {
+   224	    out.push({
+   225	      ...base,
+   226	      metric: WearableMetricType.ACTIVE_ENERGY_KCAL,
+   227	      value: d.activeKilocalories,
+   228	      unit: UNIT.kcal,
+   229	    });
+   230	  }
+   231	}
+   232	
+   233	function pushSleep(
+   234	  out: NormalizedSample[],
+   235	  s: GarminSleep,
+   236	  ctx: Ctx,
+   237	  sourceRecordId?: string,
+   238	): void {
+   239	  // Only ingest enhanced (auto-detected) sleep with stage data — manual /
+   240	  // unconfirmed sleep entries lack reliable stage breakdowns.
+   241	  if (s.validation && !s.validation.startsWith('ENHANCED')) return;
+   242	  const win = resolveWindow(s.startTimeInSeconds, s.durationInSeconds);
+   243	  if (!win) return;
+   244	  const tz = offsetToSourceTz(s.startTimeOffsetInSeconds);
+   245	  const base = {
+   246	    userId: ctx.userId,
+   247	    connectionId: ctx.connectionId,
+   248	    provider: PROVIDER,
+   249	    bucket: SR,
+   250	    startAt: win.start,
+   251	    endAt: win.end,
+   252	    sourceTz: tz,
+   253	    sourceRecordId: sourceRecordId ?? s.summaryId ?? null,
+   254	  };
+   255	  const min = (sec?: number): number | null =>
+   256	    typeof sec === 'number' && Number.isFinite(sec) ? sec / SEC_PER_MIN : null;
+   257	
+   258	  const rem = min(s.remSleepInSeconds);
+   259	  const deep = min(s.deepSleepDurationInSeconds);
+   260	  const light = min(s.lightSleepDurationInSeconds);
+   261	  const awake = min(s.awakeDurationInSeconds);
+   262	
+   263	  if (rem != null) {
+   264	    out.push({ ...base, metric: WearableMetricType.SLEEP_REM_MIN, value: rem, unit: UNIT.min });
+   265	  }
+   266	  if (deep != null) {
+   267	    out.push({ ...base, metric: WearableMetricType.SLEEP_DEEP_MIN, value: deep, unit: UNIT.min });
+   268	  }
+   269	  if (light != null) {
+   270	    out.push({ ...base, metric: WearableMetricType.SLEEP_LIGHT_MIN, value: light, unit: UNIT.min });
+   271	  }
+   272	  if (awake != null) {
+   273	    out.push({ ...base, metric: WearableMetricType.SLEEP_AWAKE_MIN, value: awake, unit: UNIT.min });
+   274	  }
+   275	
+   276	  // SLEEP_TOTAL_MIN = sum of all reported stages (Garmin does not send a
+   277	  // single "total sleep" field; we derive it from the stage durations).
+   278	  const stages = [rem, deep, light, awake].filter(
+   279	    (v): v is number => v != null,
+   280	  );
+   281	  if (stages.length > 0) {
+   282	    const totalMin = stages.reduce((a, b) => a + b, 0);
+   283	    out.push({
+   284	      ...base,
+   285	      metric: WearableMetricType.SLEEP_TOTAL_MIN,
+   286	      value: totalMin,
+   287	      unit: UNIT.min,
+   288	    });
+   289	    // SLEEP_EFFICIENCY_PCT = asleep / time-in-bed, where time-in-bed =
+   290	    // asleep + awake. Only emitted when an awake figure is present so the
+   291	    // denominator is meaningful; clamped to [0,100].
+   292	    const asleep = (rem ?? 0) + (deep ?? 0) + (light ?? 0);
+   293	    if (awake != null && asleep + awake > 0) {
+   294	      const eff = Math.min(100, Math.max(0, (asleep / (asleep + awake)) * 100));
+   295	      out.push({
+   296	        ...base,
+   297	        metric: WearableMetricType.SLEEP_EFFICIENCY_PCT,
+   298	        value: eff,
+   299	        unit: UNIT.pct,
+   300	      });
+   301	    }
+   302	  }
+   303	
+   304	  // BODY_BATTERY — prefer the ending body battery; fall back to the change.
+   305	  const battery =
+   306	    typeof s.endingBodyBattery === 'number'
+   307	      ? s.endingBodyBattery
+   308	      : typeof s.bodyBatteryChange === 'number'
+   309	        ? s.bodyBatteryChange
+   310	        : null;
+   311	  if (battery != null) {
+   312	    out.push({
+   313	      ...base,
+   314	      metric: WearableMetricType.BODY_BATTERY,
+   315	      value: battery,
+   316	      unit: UNIT.score,
+   317	    });
+   318	  }
+   319	}
+   320	
+   321	function pushHrv(
+   322	  out: NormalizedSample[],
+   323	  h: GarminHrv,
+   324	  ctx: Ctx,
+   325	  sourceRecordId?: string,
+   326	): void {
+   327	  if (typeof h.lastNightAvg !== 'number' || !Number.isFinite(h.lastNightAvg)) {
+   328	    return;
+   329	  }
+   330	  const win = resolveWindow(h.startTimeInSeconds, h.durationInSeconds);
+   331	  if (!win) return;
+   332	  out.push({
+   333	    userId: ctx.userId,
+   334	    connectionId: ctx.connectionId,
+   335	    provider: PROVIDER,
+   336	    metric: WearableMetricType.HRV_MS,
+   337	    bucket: SR,
+   338	    value: h.lastNightAvg,
+   339	    unit: UNIT.ms,
+   340	    startAt: win.start,
+   341	    endAt: win.end,
+   342	    sourceTz: offsetToSourceTz(h.startTimeOffsetInSeconds),
+   343	    sourceRecordId: sourceRecordId ?? h.summaryId ?? null,
+   344	  });
+   345	}
+   346	
+   347	function pushActivity(
+   348	  out: NormalizedSample[],
+   349	  a: GarminActivity,
+   350	  ctx: Ctx,
+   351	  sourceRecordId?: string,
+   352	): void {
+   353	  const win = resolveWindow(a.startTimeInSeconds, a.durationInSeconds);
+   354	  if (!win) return;
+   355	  const base = {
+   356	    userId: ctx.userId,
+   357	    connectionId: ctx.connectionId,
+   358	    provider: PROVIDER,
+   359	    bucket: HF,
+   360	    startAt: win.start,
+   361	    endAt: win.end,
+   362	    sourceTz: offsetToSourceTz(a.startTimeOffsetInSeconds),
+   363	    sourceRecordId: sourceRecordId ?? a.summaryId ?? null,
+   364	  };
+   365	  // WORKOUT_DURATION_MIN — from the activity duration (seconds → minutes).
+   366	  if (typeof a.durationInSeconds === 'number' && a.durationInSeconds >= 0) {
+   367	    out.push({
+   368	      ...base,
+   369	      metric: WearableMetricType.WORKOUT_DURATION_MIN,
+   370	      value: a.durationInSeconds / SEC_PER_MIN,
+   371	      unit: UNIT.min,
+   372	    });
+   373	  }
+   374	  if (
+   375	    typeof a.distanceInMeters === 'number' &&
+   376	    Number.isFinite(a.distanceInMeters)
+   377	  ) {
+   378	    out.push({
+   379	      ...base,
+   380	      metric: WearableMetricType.WORKOUT_DISTANCE_M,
+   381	      value: a.distanceInMeters,
+   382	      unit: UNIT.m,
+   383	    });
+   384	  }
+   385	  if (
+   386	    typeof a.activityTrainingLoad === 'number' &&
+   387	    Number.isFinite(a.activityTrainingLoad)
+   388	  ) {
+   389	    out.push({
+   390	      ...base,
+   391	      metric: WearableMetricType.TRAINING_LOAD,
+   392	      value: a.activityTrainingLoad,
+   393	      unit: UNIT.score,
+   394	    });
+   395	  }
+   396	}
+   397	
+   398	function pushBodyComp(
+   399	  out: NormalizedSample[],
+   400	  b: GarminBodyComp,
+   401	  ctx: Ctx,
+   402	  sourceRecordId?: string,
+   403	): void {
+   404	  // Body comp is a point-in-time measurement; use the start instant as the
+   405	  // window (start == end) when no duration is reported.
+   406	  const win = resolveWindow(b.startTimeInSeconds, b.durationInSeconds);
+   407	  if (!win) return;
+   408	  const base = {
+   409	    userId: ctx.userId,
+   410	    connectionId: ctx.connectionId,
+   411	    provider: PROVIDER,
+   412	    bucket: HF,
+   413	    startAt: win.start,
+   414	    endAt: win.end,
+   415	    sourceTz: offsetToSourceTz(b.startTimeOffsetInSeconds),
+   416	    sourceRecordId: sourceRecordId ?? b.summaryId ?? null,
+   417	  };
+   418	  if (typeof b.weightInGrams === 'number' && b.weightInGrams > 0) {
+   419	    out.push({
+   420	      ...base,
+   421	      metric: WearableMetricType.BODY_WEIGHT_KG,
+   422	      value: b.weightInGrams / GRAMS_PER_KG,
+   423	      unit: UNIT.kg,
+   424	    });
+   425	  }
+   426	  if (
+   427	    typeof b.bodyFatInPercent === 'number' &&
+   428	    Number.isFinite(b.bodyFatInPercent)
+   429	  ) {
+   430	    out.push({
+   431	      ...base,
+   432	      metric: WearableMetricType.BODY_FAT_PCT,
+   433	      value: b.bodyFatInPercent,
+   434	      unit: UNIT.pct,
+   435	    });
+   436	  }
+   437	}
+--- normalizer spec ---
+     1	import { WearableMetricType, WearableProvider } from '@prisma/client';
+     2	import { RawRecord } from '../../normalization/normalizer.types';
+     3	import { computeDedupKey } from '../../ingestion/dedup.util';
+     4	import {
+     5	  garminDedupKey,
+     6	  normalizeGarmin,
+     7	  offsetToSourceTz,
+     8	} from './garmin.normalizer';
+     9	import { GarminRawPayload, GarminSummaryKind } from './garmin.types';
+    10	
+    11	const USER = 'user-uuid-1';
+    12	const CONN = 'conn-uuid-1';
+    13	
+    14	/** 2026-05-20T00:00:00Z in epoch seconds. */
+    15	const DAY_START_SEC = Math.floor(Date.parse('2026-05-20T00:00:00.000Z') / 1000);
+    16	
+    17	function raw(
+    18	  kind: GarminSummaryKind,
+    19	  data: Record<string, unknown>,
+    20	): RawRecord {
+    21	  const payload: GarminRawPayload = {
+    22	    kind,
+    23	    data: data as never,
+    24	    userId: USER,
+    25	    connectionId: CONN,
+    26	  };
+    27	  return {
+    28	    id: String(data.summaryId),
+    29	    provider: WearableProvider.GARMIN,
+    30	    payload,
+    31	  };
+    32	}
+    33	
+    34	function byMetric(samples: { metric: WearableMetricType }[]) {
+    35	  return Object.fromEntries(samples.map((s) => [s.metric, s])) as Record<
+    36	    WearableMetricType,
+    37	    {
+    38	      metric: WearableMetricType;
+    39	      value: number;
+    40	      unit: string;
+    41	      bucket: string;
+    42	      provider: string;
+    43	      userId: string;
+    44	      connectionId: string;
+    45	      startAt: Date;
+    46	      endAt: Date;
+    47	      sourceTz?: string | null;
+    48	    }
+    49	  >;
+    50	}
+    51	
+    52	describe('normalizeGarmin', () => {
+    53	  it('maps a daily summary to STEPS and ACTIVE_ENERGY_KCAL (H&F) with exact values', () => {
+    54	    const samples = normalizeGarmin([
+    55	      raw('dailies', {
+    56	        summaryId: 'daily-1',
+    57	        userId: 'garmin-99',
+    58	        startTimeInSeconds: DAY_START_SEC,
+    59	        startTimeOffsetInSeconds: 3600, // UTC+01:00
+    60	        durationInSeconds: 86_400,
+    61	        steps: 8421,
+    62	        activeKilocalories: 612,
+    63	      }),
+    64	    ]);
+    65	
+    66	    expect(samples).toHaveLength(2);
+    67	    const m = byMetric(samples);
+    68	    expect(m[WearableMetricType.STEPS]).toMatchObject({
+    69	      value: 8421,
+    70	      unit: 'steps',
+    71	      bucket: 'HEALTH_FITNESS',
+    72	      provider: 'GARMIN',
+    73	      userId: USER,
+    74	      connectionId: CONN,
+    75	      sourceTz: 'UTC+01:00',
+    76	    });
+    77	    expect(m[WearableMetricType.ACTIVE_ENERGY_KCAL]).toMatchObject({
+    78	      value: 612,
+    79	      unit: 'kcal',
+    80	      bucket: 'HEALTH_FITNESS',
+    81	    });
+    82	    expect(m[WearableMetricType.STEPS].startAt.toISOString()).toBe(
+    83	      '2026-05-20T00:00:00.000Z',
+    84	    );
+    85	    expect(m[WearableMetricType.STEPS].endAt.toISOString()).toBe(
+    86	      '2026-05-21T00:00:00.000Z',
+    87	    );
+    88	  });
+    89	
+    90	  it('maps a sleep summary to all stages, derived TOTAL + EFFICIENCY, and BODY_BATTERY (S&R)', () => {
+    91	    // Stages in seconds: deep 1h, light 3h, rem 1.5h, awake 0.5h.
+    92	    const samples = normalizeGarmin([
+    93	      raw('sleeps', {
+    94	        summaryId: 'sleep-1',
+    95	        userId: 'garmin-99',
+    96	        startTimeInSeconds: DAY_START_SEC,
+    97	        startTimeOffsetInSeconds: 0,
+    98	        durationInSeconds: 21_600, // 6h in bed
+    99	        validation: 'ENHANCED_CONFIRMED',
+   100	        deepSleepDurationInSeconds: 3600, // 60 min
+   101	        lightSleepDurationInSeconds: 10_800, // 180 min
+   102	        remSleepInSeconds: 5400, // 90 min
+   103	        awakeDurationInSeconds: 1800, // 30 min
+   104	        endingBodyBattery: 72,
+   105	      }),
+   106	    ]);
+   107	
+   108	    const m = byMetric(samples);
+   109	    expect(m[WearableMetricType.SLEEP_DEEP_MIN]).toMatchObject({
+   110	      value: 60,
+   111	      unit: 'min',
+   112	      bucket: 'SLEEP_RECOVERY',
+   113	    });
+   114	    expect(m[WearableMetricType.SLEEP_LIGHT_MIN].value).toBe(180);
+   115	    expect(m[WearableMetricType.SLEEP_REM_MIN].value).toBe(90);
+   116	    expect(m[WearableMetricType.SLEEP_AWAKE_MIN].value).toBe(30);
+   117	    // TOTAL = sum of all stages = 60+180+90+30 = 360 min.
+   118	    expect(m[WearableMetricType.SLEEP_TOTAL_MIN].value).toBe(360);
+   119	    // EFFICIENCY = asleep / (asleep + awake) = 330 / 360 = 91.6667%.
+   120	    expect(m[WearableMetricType.SLEEP_EFFICIENCY_PCT].unit).toBe('%');
+   121	    expect(m[WearableMetricType.SLEEP_EFFICIENCY_PCT].value).toBeCloseTo(
+   122	      91.6667,
+   123	      3,
+   124	    );
+   125	    expect(m[WearableMetricType.BODY_BATTERY]).toMatchObject({
+   126	      value: 72,
+   127	      unit: 'score',
+   128	      bucket: 'SLEEP_RECOVERY',
+   129	    });
+   130	  });
+   131	
+   132	  it('falls back to bodyBatteryChange when endingBodyBattery is absent', () => {
+   133	    const samples = normalizeGarmin([
+   134	      raw('sleeps', {
+   135	        summaryId: 'sleep-2',
+   136	        userId: 'garmin-99',
+   137	        startTimeInSeconds: DAY_START_SEC,
+   138	        durationInSeconds: 3600,
+   139	        validation: 'ENHANCED_TENTATIVE',
+   140	        deepSleepDurationInSeconds: 3600,
+   141	        bodyBatteryChange: 18,
+   142	      }),
+   143	    ]);
+   144	    const m = byMetric(samples);
+   145	    expect(m[WearableMetricType.BODY_BATTERY].value).toBe(18);
+   146	  });
+   147	
+   148	  it('skips non-enhanced (manual) sleep entries', () => {
+   149	    const samples = normalizeGarmin([
+   150	      raw('sleeps', {
+   151	        summaryId: 'sleep-3',
+   152	        userId: 'garmin-99',
+   153	        startTimeInSeconds: DAY_START_SEC,
+   154	        durationInSeconds: 3600,
+   155	        validation: 'MANUAL',
+   156	        deepSleepDurationInSeconds: 3600,
+   157	      }),
+   158	    ]);
+   159	    expect(samples).toHaveLength(0);
+   160	  });
+   161	
+   162	  it('maps an hrv summary to HRV_MS (S&R) with exact value', () => {
+   163	    const samples = normalizeGarmin([
+   164	      raw('hrv', {
+   165	        summaryId: 'hrv-1',
+   166	        userId: 'garmin-99',
+   167	        startTimeInSeconds: DAY_START_SEC,
+   168	        startTimeOffsetInSeconds: -18_000, // UTC-05:00
+   169	        durationInSeconds: 28_800,
+   170	        lastNightAvg: 47,
+   171	        lastNight5MinHigh: 80,
+   172	      }),
+   173	    ]);
+   174	    expect(samples).toHaveLength(1);
+   175	    const m = byMetric(samples);
+   176	    expect(m[WearableMetricType.HRV_MS]).toMatchObject({
+   177	      value: 47,
+   178	      unit: 'ms',
+   179	      bucket: 'SLEEP_RECOVERY',
+   180	      sourceTz: 'UTC-05:00',
+   181	    });
+   182	  });
+   183	
+   184	  it('maps an activity to WORKOUT_DURATION_MIN, WORKOUT_DISTANCE_M and TRAINING_LOAD (H&F)', () => {
+   185	    const samples = normalizeGarmin([
+   186	      raw('activities', {
+   187	        summaryId: 'act-1',
+   188	        userId: 'garmin-99',
+   189	        startTimeInSeconds: DAY_START_SEC,
+   190	        startTimeOffsetInSeconds: 0,
+   191	        durationInSeconds: 1800, // 30 min
+   192	        activityType: 'RUNNING',
+   193	        distanceInMeters: 5200,
+   194	        activityTrainingLoad: 137,
+   195	      }),
+   196	    ]);
+   197	    const m = byMetric(samples);
+   198	    expect(m[WearableMetricType.WORKOUT_DURATION_MIN]).toMatchObject({
+   199	      value: 30,
+   200	      unit: 'min',
+   201	      bucket: 'HEALTH_FITNESS',
+   202	    });
+   203	    expect(m[WearableMetricType.WORKOUT_DISTANCE_M]).toMatchObject({
+   204	      value: 5200,
+   205	      unit: 'm',
+   206	    });
+   207	    expect(m[WearableMetricType.TRAINING_LOAD]).toMatchObject({
+   208	      value: 137,
+   209	      unit: 'score',
+   210	    });
+   211	  });
+   212	
+   213	  it('maps a body composition summary to BODY_WEIGHT_KG (g→kg) and BODY_FAT_PCT (H&F)', () => {
+   214	    const samples = normalizeGarmin([
+   215	      raw('bodyComps', {
+   216	        summaryId: 'bc-1',
+   217	        userId: 'garmin-99',
+   218	        startTimeInSeconds: DAY_START_SEC,
+   219	        durationInSeconds: 0,
+   220	        weightInGrams: 80_500, // 80.5 kg
+   221	        bodyFatInPercent: 18.4,
+   222	      }),
+   223	    ]);
+   224	    const m = byMetric(samples);
+   225	    expect(m[WearableMetricType.BODY_WEIGHT_KG]).toMatchObject({
+   226	      value: 80.5,
+   227	      unit: 'kg',
+   228	      bucket: 'HEALTH_FITNESS',
+   229	    });
+   230	    expect(m[WearableMetricType.BODY_FAT_PCT]).toMatchObject({
+   231	      value: 18.4,
+   232	      unit: '%',
+   233	    });
+   234	    // Point-in-time (no duration): start == end.
+   235	    expect(m[WearableMetricType.BODY_WEIGHT_KG].startAt.toISOString()).toBe(
+   236	      m[WearableMetricType.BODY_WEIGHT_KG].endAt.toISOString(),
+   237	    );
+   238	  });
+   239	
+   240	  it('drops foreign-provider records and records with no ctx', () => {
+   241	    const foreign: RawRecord = {
+   242	      id: 'x',
+   243	      provider: WearableProvider.WHOOP,
+   244	      payload: { kind: 'dailies', data: { summaryId: 'x', userId: 'g' } },
+   245	    };
+   246	    const noCtx: RawRecord = {
+   247	      id: 'y',
+   248	      provider: WearableProvider.GARMIN,
+   249	      payload: {
+   250	        kind: 'dailies',
+   251	        data: {
+   252	          summaryId: 'y',
+   253	          userId: 'g',
+   254	          startTimeInSeconds: DAY_START_SEC,
+   255	          steps: 100,
+   256	        },
+   257	      } as GarminRawPayload,
+   258	    };
+   259	    expect(normalizeGarmin([foreign, noCtx])).toHaveLength(0);
+   260	  });
+   261	
+   262	  it('skips a daily with an unparseable window', () => {
+   263	    const samples = normalizeGarmin([
+   264	      raw('dailies', {
+   265	        summaryId: 'daily-bad',
+   266	        userId: 'garmin-99',
+   267	        steps: 999, // no startTimeInSeconds → no window → skipped
+   268	      }),
+   269	    ]);
+   270	    expect(samples).toHaveLength(0);
+   271	  });
+   272	});
+   273	
+   274	describe('offsetToSourceTz', () => {
+   275	  it('renders positive, negative, and zero offsets', () => {
+   276	    expect(offsetToSourceTz(3600)).toBe('UTC+01:00');
+   277	    expect(offsetToSourceTz(-18_000)).toBe('UTC-05:00');
+   278	    expect(offsetToSourceTz(0)).toBe('UTC+00:00');
+   279	    expect(offsetToSourceTz(undefined)).toBe('UTC');
+   280	  });
+   281	});
+   282	
+   283	describe('garminDedupKey', () => {
+   284	  it('is deterministic and value-sensitive (sha256 hex)', () => {
+   285	    const at = new Date('2026-05-20T00:00:00.000Z');
+   286	    const a = garminDedupKey({
+   287	      userId: 'garmin-99',
+   288	      metric: WearableMetricType.STEPS,
+   289	      startAt: at,
+   290	      value: 8421,
+   291	    });
+   292	    const b = garminDedupKey({
+   293	      userId: 'garmin-99',
+   294	      metric: WearableMetricType.STEPS,
+   295	      startAt: at,
+   296	      value: 8421,
+   297	    });
+   298	    const c = garminDedupKey({
+   299	      userId: 'garmin-99',
+   300	      metric: WearableMetricType.STEPS,
+   301	      startAt: at,
+   302	      value: 8422, // different value
+   303	    });
+   304	    expect(a).toMatch(/^[0-9a-f]{64}$/);
+   305	    expect(a).toBe(b);
+   306	    expect(a).not.toBe(c);
+   307	  });
+   308	
+   309	  it('differs from the foundation row dedup_key (value is folded in)', () => {
+   310	    const at = new Date('2026-05-20T00:00:00.000Z');
+   311	    const connectorKey = garminDedupKey({
+   312	      userId: USER,
+   313	      metric: WearableMetricType.STEPS,
+   314	      startAt: at,
+   315	      value: 8421,
+   316	    });
+   317	    const rowKey = computeDedupKey({
+   318	      userId: USER,
+   319	      provider: WearableProvider.GARMIN,
+   320	      metric: WearableMetricType.STEPS,
+   321	      startAt: at,
+   322	      endAt: at,
+   323	    });
+   324	    expect(connectorKey).not.toBe(rowKey);
+   325	  });
+   326	});

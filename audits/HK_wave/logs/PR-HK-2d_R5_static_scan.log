@@ -1,0 +1,169 @@
+swallowed catches / undefined:
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:185:      const err = await connector.refresh(conn()).catch((e) => e);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:179:      } catch (err) {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:202:        } catch (markErr) {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:319:      .mockImplementation(() => undefined);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:361:    // secondary log is redacted, not raw. Against the old `.catch(() =>
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:376:      .mockImplementation(() => undefined);
+\nTODO/stub/as any/ts-ignore:
+\nraw SQL / secrets:
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:16: *    partner-configured push verification token; there is NO per-event HMAC
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:18: *    the POST fail-closed via a configured push token + optional IP allow-list
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:28: *    access token / Garmin user id — PII, never logged).
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:59: * is the OAuth user access token Garmin echoes on the push (PII — never
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:68:  /** Garmin OAuth user access token echoed on the push (PII — never logged). */
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:181: * Garmin OAuth token endpoint response (Health API OAuth2/PKCE flow). The
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:186:  access_token?: string;
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:187:  refresh_token?: string;
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:190:  /** Garmin user id (echoed on some token responses). */
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:266: * token. Garmin allows partners to set a static header on push delivery so the
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:267: * receiver can fail-closed reject pushes that do not carry the expected token
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.types.ts:271:export const GARMIN_PUSH_TOKEN_HEADER = 'x-garmin-push-token';
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:44: *     PUSH delivery security is handled in the webhook controller (token +
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:51: *     configured push token (`GARMIN_PUSH_TOKEN`) delivered on the
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:52: *     `X-Garmin-Push-Token` header with a constant-time compare. If the token
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:65: * access tokens are stored KMS-wrapped via {@link KmsService}; this connector
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:66: * UNWRAPS before a provider call and RE-WRAPS rotated tokens before returning
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:67: * a {@link TokenSet} (plaintext tokens never leave a method, never logged).
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:76:const GARMIN_TOKEN_URL = `${GARMIN_API_BASE}/oauth-service/oauth/token`;
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:115:  // webhook controller (token + fail-closed) — see class docstring (2).
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:134:  /** Partner-configured push verification token (no per-event HMAC). */
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:163:      client_secret: this.clientSecret,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:166:    const tokens = await this.tokenRequest(body, 'garmin.exchangeCode');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:167:    return this.encryptTokenSet(tokens);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:171:   * Refresh an expiring access token using the connection's KMS-wrapped
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:172:   * refresh token. Garmin rotates refresh tokens on the OAuth2 flow, so the
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:173:   * response's new refresh token is re-wrapped and returned for the connection
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:179:    if (!conn.encrypted_refresh_token) {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:181:        'garmin.refresh: connection has no refresh token (re-consent required)',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:184:    const refreshToken = await this.kms.decrypt(conn.encrypted_refresh_token);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:190:   * Low-level refresh by raw (plaintext) refresh token (also used by
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:191:   * {@link backfill} when the cached access token is stale/absent). The
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:192:   * returned {@link TokenSet.refreshToken} is the NEW PLAINTEXT token —
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:197:      grant_type: 'refresh_token',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:198:      refresh_token: refreshToken,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:200:      client_secret: this.clientSecret,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:202:    return this.tokenRequest(body, 'garmin.refresh');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:206:   * KMS-wrap the token-bearing fields of a {@link TokenSet} so the returned
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:210:  private async encryptTokenSet(tokens: TokenSet): Promise<TokenSet> {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:212:      ...tokens,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:213:      refreshToken: await this.kms.encrypt(tokens.refreshToken),
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:215:        tokens.accessToken != null
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:216:          ? await this.kms.encrypt(tokens.accessToken)
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:217:          : tokens.accessToken,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:221:  /** Shared OAuth token endpoint call → {@link TokenSet}. */
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:222:  private async tokenRequest(
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:233:    if (!json.refresh_token) {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:234:      // A Garmin OAuth2 token response MUST yield a refresh token; its absence
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:236:      throw new Error(`${label}: token response missing refresh_token`);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:239:      refreshToken: json.refresh_token,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:240:      accessToken: json.access_token,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:280:   * Resolve a usable PLAINTEXT access token for a backfill call:
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:281:   *  - If `encrypted_access_token` is present and not expired, KMS-unwrap it.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:282:   *  - Else KMS-unwrap the refresh token and mint a fresh access token (NOT
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:285:   * The plaintext token lives only on the stack; it is never logged (#1/#12).
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:289:      conn.access_token_expires_at != null &&
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:290:      conn.access_token_expires_at.getTime() <= Date.now();
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:291:    if (conn.encrypted_access_token && !expired) {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:292:      return this.kms.decrypt(conn.encrypted_access_token);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:294:    if (conn.encrypted_refresh_token) {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:295:      const refreshToken = await this.kms.decrypt(conn.encrypted_refresh_token);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:298:        throw new Error('garmin.backfill: refresh returned no access token');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:303:      'garmin.backfill: connection has no access or refresh token (re-consent required)',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:334:          headers: { Authorization: `Bearer ${accessToken}` },
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:378:   * partner-signed contract is a static push token the receiver checks
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:405:   * Parse a (already-token-verified) Garmin push into provider events. Garmin
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:459: * Test/utility helper: derive the constant-time push-token comparison a Garmin
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:461: * place; not exported from the module index. (Garmin's token is opaque — this
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:465:export function garminPushTokenHeader(token: string): {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:469:  return { name: GARMIN_PUSH_TOKEN_HEADER, value: token };
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:476: * `GARMIN_WEBHOOK_SALT` (falls back to the push token / client secret).
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:492: * NEVER carries raw provider PII (Garmin `userId`), OAuth/user-access tokens,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:495: * the `ingest_failure` log (Wave-2 audit pattern #3, PII/token redaction).
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:507: * Patterns for token/secret-like fragments that must never reach logs or the
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:509: * first so their values are masked before the generic long-token sweep.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:512:  // `Bearer <token>` / `bearer=<token>` style fragments.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:514:  // Labelled token/secret/key/password fields (json or kv form).
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:515:  /\b(?:user[_-]?access[_-]?token|access[_-]?token|refresh[_-]?token|token|secret|password|api[_-]?key|authorization)\b["']?\s*[:=]\s*["']?[A-Za-z0-9._-]+/gi,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:516:  // Generic long opaque tokens (>= 20 chars of token alphabet).
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:522: * Garmin `userId`. Removes the literal user id, masks token/secret-like
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:556:  // 2) Mask token/secret-like fragments.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:10:const PUSH_TOKEN = 'garmin-push-token-abc';
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:22: * specs assert the connector UNWRAPS stored tokens before Garmin calls AND
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:23: * RE-WRAPS rotated tokens before returning a TokenSet.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:56:    credentials_secret_ref: null,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:57:    encrypted_refresh_token: 'enc:refresh-token-1',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:58:    encrypted_access_token: null,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:59:    access_token_expires_at: null,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:62:    webhook_secret_ref: null,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:80:    process.env.GARMIN_CLIENT_SECRET = 'client-secret';
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:116:    it('exchanges a code and KMS-wraps the returned tokens', async () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:119:          access_token: 'access-1',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:120:          refresh_token: 'refresh-1',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:127:      const tokens = await connector.exchangeCode('auth-code');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:131:      expect(tokens.refreshToken).toBe('enc:refresh-1');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:132:      expect(tokens.accessToken).toBe('enc:access-1');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:135:      expect(tokens.externalAccountId).toBe('garmin-99');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:136:      expect(tokens.scopes).toEqual(['dailies', 'sleeps']);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:137:      expect(tokens.accessTokenExpiresAt).toBeInstanceOf(Date);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:140:    it('throws (fail-loud) when the token response omits a refresh token', async () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:143:        .mockResolvedValue(jsonResponse({ access_token: 'access-only' }));
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:146:        /missing refresh_token/,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:152:    it('unwraps the stored refresh token, rotates, and re-wraps the new tokens', async () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:155:          access_token: 'access-2',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:156:          refresh_token: 'refresh-2',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:161:      const tokens = await connector.refresh(conn());
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:163:      // Unwrapped the stored token before calling Garmin.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:164:      expect(kms.decrypt).toHaveBeenCalledWith('enc:refresh-token-1');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:166:      expect(sentBody).toContain('grant_type=refresh_token');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:167:      expect(sentBody).toContain('refresh_token=refresh-token-1');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:168:      // Re-wrapped the rotated tokens.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:169:      expect(tokens.refreshToken).toBe('enc:refresh-2');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:170:      expect(tokens.accessToken).toBe('enc:access-2');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:173:    it('throws when the connection has no refresh token (re-consent required)', async () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:176:        connector.refresh(conn({ encrypted_refresh_token: null })),
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:177:      ).rejects.toThrow(/no refresh token/);
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:220:          encrypted_access_token: 'enc:access-cached',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:221:          access_token_expires_at: new Date(Date.now() + 60 * 60 * 1000),
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:238:    it('uses the cached access token when present and unexpired (no refresh call)', async () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:244:          encrypted_access_token: 'enc:cached-access',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:245:          access_token_expires_at: new Date(Date.now() + 3_600_000),
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:249:      // Decrypted the cached access token, never the refresh token.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:252:        String(c[1]?.headers?.Authorization ?? '').includes('cached-access'),
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:264:            encrypted_access_token: 'enc:access',
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:265:            access_token_expires_at: new Date(Date.now() + 3_600_000),
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:274:    it('returns true for a matching push token (constant-time)', () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:283:    it('returns false for a mismatched token', () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:287:        headers: { [GARMIN_PUSH_TOKEN_HEADER]: 'wrong-token' },
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:42: *     partner-configured push token, NOT a JWT.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:47: *     CLOSED (the connector returns false → 401); a missing/mismatched token →
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:94:      // Cannot verify the partner token against headers/body — refuse.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:98:    // (2) PUSH-TOKEN VERIFY FIRST — fail closed on missing config / token.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:104:      throw new UnauthorizedException('Invalid Garmin push token');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:185:        // the raw Garmin userId, or token-like fragments in its message. We
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:187:        // user id + token/secret fragments and yields a structured, length-
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:188:        // capped descriptor (Wave-2 audit pattern #3, PII/token redaction).
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:192:        // (no PII/token text) so the failed status write stays observable; the
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:266:   * callback when a user revokes access. We token-verify FIRST, Zod-validate
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:287:      throw new UnauthorizedException('Invalid Garmin push token');
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:326:   * The push token is required; if it is unset the data handler's
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:10:const PUSH_TOKEN = 'garmin-push-token-abc';
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:65:function pushHeaders(token = PUSH_TOKEN): Record<string, string> {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:66:  return { [GARMIN_PUSH_TOKEN_HEADER]: token };
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:103:      // The webhook path never touches tokens; a no-op KMS double suffices.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:126:  it('accepts a valid, token-verified daily push: ingests samples and commits the dedup row', async () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:168:  // ── (2) Invalid push token → 401, body never interpreted ────────────────
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:170:  it('rejects an invalid push token with 401 and never parses or ingests', async () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:174:      controller.handle(makeReq(rawBody, pushHeaders('wrong-token'))),
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:299:  // ── Ingest-failure redaction: raw PII / tokens never reach logs or DB ────
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:301:  it('redacts the Garmin userId and token-like fragments from the ingest-failure last_error and log', async () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:302:    // A realistic upstream error whose message embeds provider PII + secrets:
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:303:    // the raw Garmin userId, a Bearer fragment, a labelled userAccessToken,
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:304:    // and a long opaque secret — exactly the values that must never leak.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:305:    const BEARER = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9abcDEF';
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:309:      `userAccessToken=${USER_ACCESS_TOKEN} payload secret=${USER_ACCESS_TOKEN}`;
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:326:    // 1) The persisted last_error must NOT contain any raw secret/PII value.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:348:    // The hashed user id is present; the raw id and tokens are not.
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:432:  it('rejects a deregistration push with an invalid token (401)', async () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:497:  it('assertPushConfigured throws 503 when the push token is unset', () => {
+/tmp/garmin-r4-fix-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:504:  it('assertPushConfigured passes when the push token is set', () => {

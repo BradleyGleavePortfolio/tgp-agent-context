@@ -1,0 +1,8 @@
+=== COMMAND: npx prisma validate
+=== CWD: /home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679
+=== HEAD: bc73eabbf78c5f4b45e8ca7c1fc53b0467d449ab
+=== START: 2026-06-02T00:24:52+00:00
+Prisma schema loaded from prisma/schema.prisma
+The schema at prisma/schema.prisma is valid 🚀
+=== EXIT: 0
+=== END: 2026-06-02T00:25:07+00:00

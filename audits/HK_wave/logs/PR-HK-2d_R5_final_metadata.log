@@ -1,0 +1,56 @@
+backend_head=bc73eabbf78c5f4b45e8ca7c1fc53b0467d449ab
+base=8cfb44f6f8a8faed00c527c21481beb80e0ec761
+build_report_commit=e4b7f94bb06427e24e7cfc21f2b65729c143c79e
+context_head=e14b8cbbf6efa604cf9a4e09f75b80f9f406478b
+context_status:
+## main...origin/main
+ M audits/HK_wave/logs/PR-HK-2b_R3_jest.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_commit_hygiene_full.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_diff_files.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_diff_stat.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_gate_summary.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_node_modules_backup.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_npm_ci.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_npm_ci_clean.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_npm_ci_retry.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_npm_install_repair.log
+?? audits/HK_wave/logs/PR-HK-2d_R1_prisma_generate.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_connector_lines.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_eslint_garmin.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_final_metadata.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_jest_wearables.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_nest_build.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_normalizer_lines.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_npm_ci_clean.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_npm_ci_clean_heartbeat.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_prisma_validate.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_r65_sweep.log
+?? audits/HK_wave/logs/PR-HK-2d_R5_tsc.log
+?? audits/HK_wave/logs/PR-HK-2g_R5_bradley_law_grep.log
+?? audits/HK_wave/logs/PR-HK-2g_R5_eslint_polar.log
+?? audits/HK_wave/logs/PR-HK-2g_R5_full_diff.patch
+?? audits/HK_wave/logs/PR-HK-2g_R5_git_checks.log
+?? audits/HK_wave/logs/PR-HK-2g_R5_jest_wearables.log
+?? audits/HK_wave/logs/PR-HK-2g_R5_key_locations.log
+?? audits/HK_wave/logs/PR-HK-2g_R5_npm_ci.log
+?? audits/HK_wave/logs/PR-HK-2g_R5_prisma_validate.log
+?? audits/HK_wave/logs/PR-HK-2g_R5_tsc_noEmit.log
+?? audits/HK_wave/logs/PR-HK-2h_R5_eslint.log
+?? audits/HK_wave/logs/PR-HK-2h_R5_jest_wearables.log
+?? audits/HK_wave/logs/PR-HK-2h_R5_nest_build.log
+?? audits/HK_wave/logs/PR-HK-2h_R5_prisma_validate.log
+?? audits/HK_wave/logs/PR-HK-2h_R5_tsc.log
+?? audits/HK_wave/logs/PR-HK-2i_R5_eslint.log
+?? audits/HK_wave/logs/PR-HK-2i_R5_jest.log
+?? audits/HK_wave/logs/PR-HK-2i_R5_nest_build.log
+?? audits/HK_wave/logs/PR-HK-2i_R5_prisma.log
+?? audits/HK_wave/logs/PR-HK-2i_R5_tsc.log
+gate exits:
+prisma_validate === EXIT: 0
+tsc === EXIT: 0
+eslint_garmin === EXIT: 0
+jest_wearables === EXIT: 0
+nest_build === EXIT: 0
+jest summary:
+Test Suites: 20 passed, 20 total
+Tests:       321 passed, 321 total

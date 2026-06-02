@@ -1,0 +1,105 @@
+HEAD
+bc73eabbf78c5f4b45e8ca7c1fc53b0467d449ab
+--- catch/Promise swallow patterns in PR diff files ---
+319:      .mockImplementation(() => undefined);
+361:    // secondary log is redacted, not raw. Against the old `.catch(() =>
+376:      .mockImplementation(() => undefined);
+179:      } catch (err) {
+202:        } catch (markErr) {
+185:      const err = await connector.refresh(conn()).catch((e) => e);
+130:    return null;
+134:    return null;
+--- external HTTP calls outside ProviderHttpClient ---
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:226:    const res = await this.http.request(GARMIN_TOKEN_URL, {
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:330:      const res = await this.http.request(
+--- database writes and reads in loops / transaction awareness ---
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:113:      prisma as unknown as import('../../../prisma.service').PrismaService,
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:133:    expect(prisma.wearableConnection.findFirst).toHaveBeenCalledTimes(1);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:134:    const findArg = prisma.wearableConnection.findFirst.mock.calls[0][0];
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:152:    expect(prisma.wearableProcessedEvent.createMany).toHaveBeenCalledTimes(1);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:153:    const createArg = prisma.wearableProcessedEvent.createMany.mock.calls[0][0];
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:164:      prisma.wearableProcessedEvent.createMany.mock.invocationCallOrder[0];
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:177:    expect(prisma.wearableConnection.findFirst).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:179:    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:203:    prisma.wearableProcessedEvent.findUnique.mockResolvedValueOnce({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:214:    expect(prisma.wearableConnection.findFirst).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:216:    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:220:    prisma.wearableProcessedEvent.createMany.mockResolvedValueOnce({ count: 0 });
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:239:    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:270:    prisma.wearableConnection.findFirst.mockResolvedValueOnce(null);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:277:    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:290:    expect(prisma.wearableConnection.update).toHaveBeenCalledTimes(1);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:291:    const updArg = prisma.wearableConnection.update.mock.calls[0][0];
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:296:    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:327:    const updArg = prisma.wearableConnection.update.mock.calls[0][0];
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:367:    prisma.wearableConnection.update.mockRejectedValueOnce(markFailure);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:387:      .map((c) => c[0] as { msg?: string })
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:407:    expect(prisma.wearableProcessedEvent.createMany).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:422:    expect(prisma.wearableConnection.updateMany).toHaveBeenCalledTimes(1);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:423:    const arg = prisma.wearableConnection.updateMany.mock.calls[0][0];
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:440:    expect(prisma.wearableConnection.updateMany).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:450:    expect(prisma.wearableConnection.updateMany).not.toHaveBeenCalled();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:476:    prisma.wearableConnection.findFirst.mockResolvedValueOnce(null);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:18:import { PrismaService } from '../../../prisma.service';
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:123:    for (const event of events) {
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:131:      // (4) Replay protection. A prior row for (GARMIN, providerEventId) means
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:135:      const existing = await this.prisma.wearableProcessedEvent.findUnique({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:151:      const connection = await this.prisma.wearableConnection.findFirst({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:195:          await this.prisma.wearableConnection.update({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:235:      const { count } = await this.prisma.wearableProcessedEvent.createMany({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:300:    for (const dereg of body.deregistrations) {
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:301:      const { count } = await this.prisma.wearableConnection.updateMany({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:109:      for (const scope of ['activities', 'dailies', 'sleeps', 'hrv', 'bodyComps']) {
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.spec.ts:336:      const ids = events.map((e) => e.providerEventId).sort();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:272:      GARMIN_SUMMARY_KINDS.map((kind) =>
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:340:      for (const rec of records) {
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:425:    for (const kind of GARMIN_SUMMARY_KINDS) {
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:428:      for (const rec of records) {
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:557:  for (const pattern of GARMIN_SECRET_PATTERNS) {
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.normalizer.spec.ts:35:  return Object.fromEntries(samples.map((s) => [s.metric, s])) as Record<
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.normalizer.ts:152:  for (const r of raw) {
+--- validation schemas strict/passthrough ---
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:14:const DAY_START_SEC = Math.floor(Date.parse('2026-05-20T00:00:00.000Z') / 1000);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.spec.ts:245:        // `forged` is not one of the five known summary kinds → .strict() rejects.
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:49: *  3. Zod-validate the parsed envelope (`.strict()` on top-level keys —
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:267:   * (`.strict()`), then flip matching live connection(s) to
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:292:      const json: unknown = JSON.parse(rawBody.toString('utf8'));
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:293:      body = GarminDeregistrationSchema.parse(json);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:407:   * envelope (`.strict()`), then emit ONE {@link ProviderEvent} per summary
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:419:      const json: unknown = JSON.parse(req.rawBody.toString('utf8'));
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:420:      envelope = GarminWebhookEnvelopeSchema.parse(json);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.normalizer.spec.ts:15:const DAY_START_SEC = Math.floor(Date.parse('2026-05-20T00:00:00.000Z') / 1000);
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:200: * optional numbers. `.passthrough()` is deliberately NOT used at the RECORD
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:201: * level — Garmin evolves summary fields, but the ENVELOPE is `.strict()` so a
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:204: * NOTE on `.strict()` (Wave-2 audit pattern #4): the foundational guard is on
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:212:    summaryId: z.string().min(1),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:213:    userId: z.string().min(1),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:214:    userAccessToken: z.string().optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:215:    startTimeInSeconds: z.number().int().optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:216:    startTimeOffsetInSeconds: z.number().int().optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:217:    durationInSeconds: z.number().int().nonnegative().optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:218:    calendarDate: z.string().optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:220:  .passthrough();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:225: * one of the five known summary kinds (`.strict()` rejects unknown keys —
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:230:    dailies: z.array(GarminSummaryRecordSchema).optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:231:    sleeps: z.array(GarminSummaryRecordSchema).optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:232:    hrv: z.array(GarminSummaryRecordSchema).optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:233:    activities: z.array(GarminSummaryRecordSchema).optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:234:    bodyComps: z.array(GarminSummaryRecordSchema).optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:236:  .strict();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:239:export type GarminWebhookEnvelope = z.infer<typeof GarminWebhookEnvelopeSchema>;
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:253:            userId: z.string().min(1),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:254:            userAccessToken: z.string().optional(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:256:          .passthrough(),
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:260:  .strict();
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.types.ts:262:export type GarminDeregistration = z.infer<typeof GarminDeregistrationSchema>;
+--- sensitive logging calls ---
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:91:      this.logger.error(
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:116:      this.logger.warn('Garmin webhook: rejected malformed/empty push payload');
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:162:        this.logger.warn({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:208:          this.logger.error({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:219:        this.logger.error({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:254:    this.logger.log({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:295:      this.logger.warn('Garmin deregistration: rejected malformed payload');
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin-webhook.controller.ts:314:      this.logger.log({
+/home/user/workspace/repos/growth-project-backend-garmin-r3-25dd679/src/wearables/connectors/garmin/garmin.connector.ts:387:      this.logger.error(
