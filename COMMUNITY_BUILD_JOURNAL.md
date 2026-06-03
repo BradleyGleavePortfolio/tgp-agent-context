@@ -26,13 +26,34 @@
 |---|---|---|---|---|---|---|---|
 | 1 | P0-0A | wearables: restore on-device ingest route | ✅ **MERGED** at `694291b9` | Opus 4.8 | GPT-5.5 (R2 PASS) | merged | `694291b9` |
 | 2 | P0-0B | wearables: register cloud connectors | ✅ **MERGED** at `0629d62c` | Opus 4.8 | GPT-5.5 (R2 NEEDS_R3 → R3 fix verified) | merged | `0629d62c` |
-| 3 | v1-1 | community: v1-1 schema workspace cohorts | BUILDER DISPATCHING | Opus 4.8 | — | `feature/community-v1-schema` | — |
+| 3 | v1-1 | community: v1-1 schema workspace cohorts | R1 BUILT → R1 audit dispatching | Opus 4.8 (builder done) | GPT-5.5 (dispatching) | `feature/community-v1-schema` | `cd811922` |
 | 4 | v1-2 | community: v1-2 backend services REST | queued | — | — | `feature/community-v1-services` | — |
 | 5 | v1-3 | community: v1-3 mobile community tab | queued | — | — | `feature/community-v1-mobile` | — |
 
 ---
 
 ## Event log (most recent first)
+
+### 2026-06-02 23:03 PT — v1-1 builder DONE; dispatching R1 audit
+
+**PR #365 opened** at SHA `cd811922d98107edecccbf6886870e180fe2a7a0` on `feature/community-v1-schema`. https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/365
+
+**Builder report:**
+- 11 Prisma models added (CommunityWorkspace, CommunityCohort, CommunityMembership, CommunityMessage, CommunityPost, CommunityReaction, CommunityEvent, CommunityEventRsvp, CommunityChallenge, CommunityChallengeParticipation, CommunityModerationAction).
+- ~25 RLS policies (coach-ALL, member-SELECT, author-write, own-row, moderation).
+- Monthly RANGE partitioning of `community_messages` by `created_at`.
+- `prisma validate` + `prisma generate` pass.
+- Schema spec: 17 passed / 6 skipped (live-gated, no Postgres in CI).
+- RLS spec: 7 passed / 5 skipped (live-gated).
+- Migration: `20261212000000_community_v1_1_schema`.
+- Feature flag: `FEATURE_COMMUNITY_SCHEMA` (no controllers; v1-1 is schema-only).
+- R0 sweep: **R0 clean on v1-1 diff** (also verified no empty catch blocks).
+- Commit author: `Dynasia G <dynasia@trygrowthproject.com>` (title-only).
+- The 86 "deletions" in `schema.prisma` are pure `prisma format` whitespace realignment (with `-w`: 460 insertions, 0 real deletions).
+
+**⚠️ Builder-flagged deviation (auditor must verify):** RLS uses repo's existing **`app.current_user_id()`** TEXT-based convention (from `prisma/migrations/rls_fitness_backend.sql`, set via `SET LOCAL`/`set_config`), **not** Supabase `auth.uid()`. Reason: the repo has no `auth.uid()` harness and `User.id` is TEXT while community `*_id` columns are `uuid`, so policies cast `uuid::text = app.current_user_id()`. Documented in the migration header, both spec headers, and the PR body. This is internally consistent with existing patterns but worth auditor confirmation that the casting and the `set_config` flow are correct.
+
+Next: dispatch fresh GPT-5.5 R1 auditor (R31 — not the builder, not the planner). Walk the 11 models, verify RLS coverage, partition strategy, FK cascade semantics, indexes, R0 sweep, and confirm the `app.current_user_id()` decision matches existing repo policy files.
 
 ### 2026-06-02 22:44 PT — Preflight COMPLETE; dispatching v1-1 community schema builder
 
@@ -155,9 +176,10 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
 
 - **Why:** Foundation for everything Community. 11 logical tables, partitioned messages table, full RLS plan.
 - **Scope:** backend Prisma + migrations + RLS spec tests, ~900 LOC.
-- **State:** BUILDER DISPATCHED (Opus 4.8 in `/tmp/build-v1-1`). Base: `0629d62c`. Branch: `feature/community-v1-schema`.
+- **State:** R1 built → R1 audit dispatching. SHA: `cd811922d98107edecccbf6886870e180fe2a7a0`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/365. Migration: `20261212000000_community_v1_1_schema`.
 - **Spec source:** `/home/user/workspace/_community_execution_plan.md` PR v1-1 section (lines 216-226), Prisma models (lines 492-770), partitioned messages SQL (lines 785+).
 - **Feature flag:** `FEATURE_COMMUNITY_SCHEMA` default true after staging migration; controllers stay hidden until `FEATURE_COMMUNITY_API` (v1-2).
+- **⚠️ Auditor flag:** RLS uses repo's `app.current_user_id()` TEXT convention with `uuid::text = ...` casts — not Supabase `auth.uid()`. Internally consistent with `prisma/migrations/rls_fitness_backend.sql`.
 
 ## v1-2 — community: v1-2 backend services REST
 
