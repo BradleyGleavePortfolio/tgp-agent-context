@@ -1,7 +1,7 @@
 # CLOSEOUT — HealthKit / Wearables Expansion
 
 **Author:** Dynasia G &lt;dynasia@trygrowthproject.com&gt;
-**Closeout date:** 2026-06-03 (UTC).
+**Closeout date:** 2026-06-03 (UTC). **HK Wearables Expansion: COMPLETE.**
 
 ---
 
