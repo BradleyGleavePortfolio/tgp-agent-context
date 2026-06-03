@@ -23,8 +23,8 @@
 
 | Order | PR ID | Title | State | Builder | Auditor | Branch | Last SHA |
 |---|---|---|---|---|---|---|---|
-| 1 | P0-0A | wearables: restore on-device ingest route | R1 NEEDS_R2 → fixer dispatching | Opus 4.8 | GPT-5.5 (R1 done) | `fix/wearables-samples-ingest-route` | `6fd951f5` |
-| 2 | P0-0B | wearables: register cloud connectors | R1 NEEDS_R2 → fixer dispatching | Opus 4.8 | GPT-5.5 (R1 done) | `fix/wearables-cloud-connector-wiring` | `8015d339` |
+| 1 | P0-0A | wearables: restore on-device ingest route | R2 BUILT → R2 audit dispatching | Opus 4.8 (R2 fixer done) | GPT-5.5 (R1 done) | `fix/wearables-samples-ingest-route` | `94080ae8` |
+| 2 | P0-0B | wearables: register cloud connectors | R2 BUILT → R2 audit dispatching | Opus 4.8 (R2 fixer done) | GPT-5.5 (R1 done) | `fix/wearables-cloud-connector-wiring` | `e696e122` |
 | 3 | v1-1 | community: v1-1 schema workspace cohorts | queued | — | — | `feature/community-v1-schema` | — |
 | 4 | v1-2 | community: v1-2 backend services REST | queued | — | — | `feature/community-v1-services` | — |
 | 5 | v1-3 | community: v1-3 mobile community tab | queued | — | — | `feature/community-v1-mobile` | — |
@@ -32,6 +32,27 @@
 ---
 
 ## Event log (most recent first)
+
+### 2026-06-02 21:30 PT — Both R2 fixers DONE; dispatching R2 audits
+
+**P0-0A R2 — SHA `94080ae8e18b2e783d76826a1fc8f861d5b04556`** (PR #363):
+- R0 sweep on R2 diff: clean (three `@ts-expect-error` directives w/ one-line justifications in test doubles — allowed).
+- `test/wearables/samples-ingest.spec.ts`: 30/30 passed.
+- Fix 1 (P0): Injected `PrismaService`; new `assertConnectionsOwnedByUser()` runs single user-scoped findMany, throws typed `ForbiddenException({ code: 'wearables_connection_forbidden' })` on missing/foreign/provider-mismatched/disconnected connections — enumeration-safe, `IngestionService` untouched.
+- Fix 2 (P1): Real runtime guard tests — actual `JwtAuthGuard` (no/empty bearer → 401) + real `RolesGuard` against actual handler. Repo lacks supertest, used direct `canActivate` pattern matching existing specs (`sprint-b-workout-builder-guard.spec.ts`).
+- Fix 3 (P2): Throttle now asserts exact metadata `limit: 20`, `ttl: 60000` via `THROTTLER:LIMITdefault` / `THROTTLER:TTLdefault` keys.
+- **⚠️ DEVIATION FOR BRADLEY'S DECISION:** Brief expected coach/owner JWT → 403 on `@Roles('student')`, but repo's `RolesGuard` enforces a documented `owner > coach > student` hierarchy — owner total bypass, coach inherits student routes. So **coach AND owner are admitted, not rejected**. Tests assert the real behavior with an explanatory comment. If product intent is truly student-only on-device ingest, that needs a dedicated student-only guard — outside R2 patch scope. Flagged for R2 auditor + Bradley.
+
+**P0-0B R2 — SHA `e696e1226493f4ee59a0d9e622841e595d14882b`** (PR #364):
+- R0 sweep on R2 diff: clean. Prior `as unknown as PrismaService` hit was replaced with a 2-line-justified `@ts-expect-error`; compiles cleanly (no unused-directive warning confirms genuine type mismatch).
+- Tests: `wearables-module.integration.spec.ts` 3/3, `connector-registry.spec.ts` + `module-graph.spec.ts` 51/51. Full suite (321 suites / 4106 tests) previously green; final edit only touched one spec.
+- Fix 1 (R0 cleanup): Banned phrases removed from `cloud-connectors.feature.ts` and `connector-registry.spec.ts`; rephrased to neutral wording.
+- Fix 2 (DI registration): New `@Global() WearablesCloudConnectorsGuardModule` (`src/wearables/cloud-connectors.module.ts`) provides+exports the guard, imported once in `wearables.module.ts` — covers all 8 connector modules + ConnectionsModule.
+- Fix 3 (real-module test): New `test/wearables/wearables-module.integration.spec.ts` boots actual `WearablesModule` using Node `http` (supertest not in devDeps), asserts 8-connector registry + route-level flag-OFF 503 on `POST /v1/wearables/connections/oauth/start` and Oura webhook.
+- Fix 4 (env hardening): Garmin + WHOOP OAuth URL builders now use fail-loud `requireEnv()` for `clientId`/`clientSecret`/`redirectUri`; missing-env tests added. Garmin `supportsPkce: false` confirmed correct via implementation review; comment corrected accordingly.
+- **Extra fixes the fixer caught:** Added `@Optional()` to Strava webhook controller's `env?` param (was causing AppModule boot failure); registered two `KNOWN_FORWARDREF_CYCLES` entries (Garmin↔Wearables, Wearables↔Whoop); split synthetic "all 8" registry test into 8 separate contribution modules so DiscoveryService doesn't collapse them.
+
+Next: dispatch GPT-5.5 R2 audits in parallel (fresh instances; R31/R32 enforced — R2 auditor != R1 auditor != fixer). Verify R2 fixes, sweep R0 again, walk 50-failures again. R64-push verdicts.
 
 ### 2026-06-02 20:59 PT — Both auditors returned NEEDS_R2 (R1 verdicts)
 
@@ -77,8 +98,10 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
   - `src/wearables/samples/dto/ingest-samples.dto.ts` — new Zod schema (`IngestSampleSchema`, `IngestSamplesBodySchema`)
   - `test/wearables/samples-ingest.e2e-spec.ts` — e2e tests (auth, cross-user denial, batch caps)
 - **Feature flag:** `FEATURE_WEARABLES_INGEST_POST`, default false in production.
-- **State:** R1 audit NEEDS_R2 → R2 fixer dispatching. SHA: `6fd951f51c82e08121943455ddb0b98e9602524b`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/363.
-- **R1 findings:** see audit report; key blocker is missing connection ownership/provider validation before write side effects.
+- **State:** R2 built → R2 audit dispatching. SHA: `94080ae8e18b2e783d76826a1fc8f861d5b04556`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/363.
+- **R1 findings:** see audit report; key blocker was missing connection ownership/provider validation.
+- **R2 fixes:** ownership/provider gate via PrismaService findMany; real `JwtAuthGuard`/`RolesGuard` runtime tests; exact throttle metadata assertions.
+- **⚠️ Open question for Bradley:** Repo `RolesGuard` admits coach + owner on `@Roles('student')` (documented `owner > coach > student` hierarchy). If on-device HK ingest should be student-only, a dedicated student-only guard is needed — outside R2 scope.
 
 ## P0-0B — wearables: register cloud connectors
 
@@ -90,8 +113,9 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
   - All 8 connector modules — align to canonical `WEARABLE_CONNECTORS` token + add registry binding where missing
   - `test/wearables/connector-registry.spec.ts` — assert all 8 discoverable, OAuth metadata returned, webhooks mounted
 - **Feature flag:** `FEATURE_WEARABLES_CLOUD_CONNECTORS`, default false.
-- **State:** R1 audit NEEDS_R2 → R2 fixer dispatching. SHA: `8015d339caca0b478c38b866c3c0c3601d39ef14`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/364.
-- **R1 findings:** R0 placeholder/broad-cast text added in comments/tests; cloud connectors guard decorated but not DI-registered; acceptance test does not boot `WearablesModule`.
+- **State:** R2 built → R2 audit dispatching. SHA: `e696e1226493f4ee59a0d9e622841e595d14882b`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/364.
+- **R1 findings:** R0 placeholder/broad-cast text added in comments/tests; cloud connectors guard decorated but not DI-registered; acceptance test did not boot `WearablesModule`.
+- **R2 fixes:** R0 banned phrases removed; new `@Global() WearablesCloudConnectorsGuardModule` provides/exports the guard; new integration spec boots real `WearablesModule` and asserts 8-connector registry + route-level 503 when flag off; Garmin/WHOOP OAuth env now fail-loud via `requireEnv()`; bonus fixes (Strava `@Optional()`, KNOWN_FORWARDREF_CYCLES registry entries, split synthetic registry test).
 
 ## v1-1 — community: v1-1 schema workspace cohorts
 
