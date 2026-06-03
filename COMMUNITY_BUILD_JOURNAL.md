@@ -8,6 +8,7 @@
 - `COMMUNITY_EXECUTION_PLAN.md`
 
 **Backend HEAD at plan time:** `659e0ccc74c47f9c985a26b582987253ec9fdb40`
+**Backend HEAD after preflight merges:** `0629d62cc1281c59abbbe33616b133c1f2ca1107` (P0-0A `694291b9` → P0-0B `0629d62c`)
 **Mobile HEAD at plan time:**  `4b7587e47694d1640b1484d1a2a38d40f307afac`
 
 **R0 reminder for every commit on every PR:**
@@ -24,14 +25,21 @@
 | Order | PR ID | Title | State | Builder | Auditor | Branch | Last SHA |
 |---|---|---|---|---|---|---|---|
 | 1 | P0-0A | wearables: restore on-device ingest route | ✅ **MERGED** at `694291b9` | Opus 4.8 | GPT-5.5 (R2 PASS) | merged | `694291b9` |
-| 2 | P0-0B | wearables: register cloud connectors | R3 micro-fixer running (relocate 2 spec files) | Opus 4.8 | GPT-5.5 (R2 NEEDS_R3) | `fix/wearables-cloud-connector-wiring` | `e696e122` |
-| 3 | v1-1 | community: v1-1 schema workspace cohorts | queued | — | — | `feature/community-v1-schema` | — |
+| 2 | P0-0B | wearables: register cloud connectors | ✅ **MERGED** at `0629d62c` | Opus 4.8 | GPT-5.5 (R2 NEEDS_R3 → R3 fix verified) | merged | `0629d62c` |
+| 3 | v1-1 | community: v1-1 schema workspace cohorts | BUILDER DISPATCHING | Opus 4.8 | — | `feature/community-v1-schema` | — |
 | 4 | v1-2 | community: v1-2 backend services REST | queued | — | — | `feature/community-v1-services` | — |
 | 5 | v1-3 | community: v1-3 mobile community tab | queued | — | — | `feature/community-v1-mobile` | — |
 
 ---
 
 ## Event log (most recent first)
+
+### 2026-06-02 22:44 PT — Preflight COMPLETE; dispatching v1-1 community schema builder
+
+- **PR #364 R3 done** at `28b0b8e796ee7bf0ccc1403d630588fa37d12036`: `git mv` of garmin/whoop connector specs into `test/wearables/connectors/{garmin,whoop}/`, 4 relative imports rewritten in each file to match repo convention. Jest now discovers both files in default config (`npx jest --listTests | grep` returns both paths). 41/41 tests pass. R0 clean on R3 diff.
+- **PR #364 MERGED** (squash) at backend SHA `0629d62cc1281c59abbbe33616b133c1f2ca1107`. Branch `fix/wearables-cloud-connector-wiring` deleted.
+- **🎯 Both preflights DONE.** Backend HEAD: `0629d62c`. The two HK landmines from Step 0 are closed: mobile HK ingest POST route is live, 8 cloud wearable connectors are registered.
+- **v1-1 community schema builder** dispatching against fresh `/tmp/build-v1-1` worktree (base `0629d62c`, branch `feature/community-v1-schema`). Builder follows planner spec at `/home/user/workspace/_community_execution_plan.md` lines 216-226 (PR scope) + lines 492-770 (Prisma models) + ~785+ (partitioned messages SQL).
 
 ### 2026-06-02 22:41 PT — PR #363 MERGED + R3 micro-fixer dispatched for #364
 
@@ -139,7 +147,7 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
   - All 8 connector modules — align to canonical `WEARABLE_CONNECTORS` token + add registry binding where missing
   - `test/wearables/connector-registry.spec.ts` — assert all 8 discoverable, OAuth metadata returned, webhooks mounted
 - **Feature flag:** `FEATURE_WEARABLES_CLOUD_CONNECTORS`, default false.
-- **State:** R3 micro-fixer running. SHA: `e696e1226493f4ee59a0d9e622841e595d14882b`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/364. R2 audit report: `/home/user/workspace/audit_p0-0b_r2.md`.
+- **State:** ✅ **MERGED** at backend SHA `0629d62cc1281c59abbbe33616b133c1f2ca1107` (squash). PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/364. R2 audit report: `/home/user/workspace/audit_p0-0b_r2.md`. R3 SHA: `28b0b8e7`.
 - **R2 fixes (all PASS):** R0 banned phrases removed; new `@Global() WearablesCloudConnectorsGuardModule` provides/exports the guard; new integration spec boots real `WearablesModule` and asserts 8-connector registry + route-level 503 when flag off; Garmin/WHOOP OAuth env now fail-loud via `requireEnv()`; bonus fixes (Strava `@Optional()`, KNOWN_FORWARDREF_CYCLES registry entries, split synthetic registry test).
 - **R3 scope (only blocker):** Move `src/wearables/connectors/garmin/garmin.connector.spec.ts` + `src/wearables/connectors/whoop/whoop.connector.spec.ts` to `test/wearables/connectors/garmin/` + `test/wearables/connectors/whoop/` (Jest roots are `['<rootDir>/test']`). Adjust imports if needed; re-run tests; push.
 
@@ -147,7 +155,9 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
 
 - **Why:** Foundation for everything Community. 11 logical tables, partitioned messages table, full RLS plan.
 - **Scope:** backend Prisma + migrations + RLS spec tests, ~900 LOC.
-- **State:** queued behind P0-0B.
+- **State:** BUILDER DISPATCHED (Opus 4.8 in `/tmp/build-v1-1`). Base: `0629d62c`. Branch: `feature/community-v1-schema`.
+- **Spec source:** `/home/user/workspace/_community_execution_plan.md` PR v1-1 section (lines 216-226), Prisma models (lines 492-770), partitioned messages SQL (lines 785+).
+- **Feature flag:** `FEATURE_COMMUNITY_SCHEMA` default true after staging migration; controllers stay hidden until `FEATURE_COMMUNITY_API` (v1-2).
 
 ## v1-2 — community: v1-2 backend services REST
 
