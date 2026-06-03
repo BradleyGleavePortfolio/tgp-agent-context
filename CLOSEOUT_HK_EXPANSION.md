@@ -14,11 +14,11 @@
 
 - Backend: PR-HK-3a samples + WearablesShell (#356); HK-FIX-1 Nest DI A+B+C (#358); FIX-2 scheduling clock pin (#359); HK-FIX-3 8-route `@Roles` decoration (#360); HK-6a approval endpoint + materialiser (#357).
 - Mobile: HK-5b client AI insight panel (#226); HK-6b stale-404 fallback removal (#227).
-- The **WearableProcessedEvent daily prune** cron PR was opened in this doc-batch (backend #362) — see the table; it fixes the unbounded growth of the webhook-idempotency ledger.
+- The **WearableProcessedEvent daily prune** cron PR was opened in this doc-batch and **merged** as backend #362 at `659e0ccc74c47f9c985a26b582987253ec9fdb40` — see the table; it fixes the unbounded growth of the webhook-idempotency ledger.
+- Backend HK-6b coach-on-behalf preferences (#361) — **MERGED at `c5724a83c4f2d1d33bd4dfe559074f1104e78893`** after R2 fix landed at `78b669415e4d98829ed41c88670e0a591475cb14`.
 
 **What didn't ship / still open:**
 
-- Backend HK-6b coach-on-behalf preferences (#361) — **MERGED at `c5724a83c4f2d1d33bd4dfe559074f1104e78893`** after R2 fix landed at `78b669415e4d98829ed41c88670e0a591475cb14`.
 - Four wearable provider integrations (Beddit, Peloton, Eight Sleep, MyFitnessPal) are **deferred** — see the `DEFERRAL_*.md` docs.
 - Coach `WearableInsightPanel.tsx` pre-R3 `toneTokens` signature — carry-forward (§6).
 - HK-FIX-1 Defect-D — known red, admin-merged; follow-up issue to file (§6).
@@ -28,10 +28,10 @@
 ## 2. Backend main HEAD at closeout
 
 ```
-c5724a83c4f2d1d33bd4dfe559074f1104e78893
+659e0ccc74c47f9c985a26b582987253ec9fdb40
 ```
 
-(Squash-merge commit of HK-6b backend #361 R2. Cron prune #362 is still in R2 fix — once it merges, this section + the table will be updated to point at #362's squash commit.)
+(Squash-merge commit of cron prune PR #362 R2. Last commit in the HK Wearables Expansion arc.)
 
 ## 3. Mobile main HEAD at closeout
 
@@ -55,7 +55,7 @@ c5724a83c4f2d1d33bd4dfe559074f1104e78893
 | [#360](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/360) | HK-FIX-3 (8-route @Roles) | hk-fix-3: gate 8 wearables routes with @Roles per locked role policy | `f2ff1dd2309527495e63ddd5d8521c6e59d2e7ab` (stacked) | `119e042bd6ddb1a43c7266f2aa8ba7a976cea293` | GPT-5.5 code R2 PASS (`_audit_HK_FIX_3_R2_GPT55.md`, P3 commit-body override documented); CI green, regular squash. |
 | [#357](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/357) | HK-6a (approval endpoint + materialiser) | PR-HK-6: approval endpoint + coach_wearable_message materialiser | `bf22c7476f26aca708b306446cffe9a56f724e9f` (rebased) | `650cea4c461f8f5249c201bb8a0955e9c24b4cdf` | GPT-5.5 code R2 audited; CI green, regular squash. |
 | [#361](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/361) | HK-6b (coach-on-behalf preferences) | HK-6b: preferences coach-on-behalf-of authorization (target_user_id + assertCoachOwnsClient) | `78b669415e4d98829ed41c88670e0a591475cb14` (R2) | `c5724a83c4f2d1d33bd4dfe559074f1104e78893` (squash) | R1 NEEDS_R2 (R65 #36 silent-failure) → R2 fix: narrows catch to `ForbiddenException` only; non-Forbidden propagates. GPT-5.5 R2 audit **PASS** (`_audit_HK_6b_backend_R2_GPT55.md`). |
-| [#362](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/362) | Cron prune (this batch) | HK: WearableProcessedEvent daily prune (unbounded growth fix) | `c1fb4252aaf3c4a8374767f3ff7b81dc611b75e4` (R1) | _open, R2 fixer in flight_ | R1 GPT-5.5 audit returned **NEEDS_R2**: 4 `as unknown as` in new test mocks (R0 violation) + targeted Jest gate `--testPathPatterns='wearables/maintenance'` matched 0 files (specs at `test/wearables/`, not `test/wearables/maintenance/`). Production logic PASSed audit. R2 fixer dispatched; closeout doc will be updated post-merge. |
+| [#362](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/362) | Cron prune | HK: WearableProcessedEvent daily prune (unbounded growth fix) | `52748ec40a231e88dc0b72c5bad63c9b55b20902` (R2) | `659e0ccc74c47f9c985a26b582987253ec9fdb40` (squash) | R1 NEEDS_R2 (4 `as unknown as` in test mocks + targeted Jest gate path mismatch) → R2 fix: replaced banned casts with Nest `Test.createTestingModule().overrideProvider(...).useValue(...)` DI; relocated specs to `test/wearables/maintenance/` (jest `roots` excludes `src/`). GPT-5.5 R2 audit **PASS** (`_audit_HK_cron_prune_R2_GPT55.md`); targeted Jest 12/12, full Jest 4036 passed / 0 failed (relocation, not net-new). **= backend main HEAD.** |
 
 ### Mobile (`growth-project-mobile`)
 
@@ -73,9 +73,10 @@ c5724a83c4f2d1d33bd4dfe559074f1104e78893
   - R2 head: `78b669415e4d98829ed41c88670e0a591475cb14`. R2 narrowed the catch to `if (err instanceof ForbiddenException)` and added POST + DELETE non-Forbidden propagation tests asserting `rejects.not.toBeInstanceOf(ForbiddenException)` and `svc.upsert/.remove` not called.
   - R2 GPT-5.5 audit (`_audit_HK_6b_backend_R2_GPT55.md`) returned **PASS**: R0 additions-only grep empty (vs `origin/main` and vs R1), authorship/trailers clean, tsc/eslint clean, focused 2 suites / 32 tests PASS, full suite 317 suites / 4042 passed / 20 skipped / 5 todo / 0 fail (`--runInBand`).
 
-- **WearableProcessedEvent cron prune** — [#362](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/362) — **OPEN, R2 fixer in flight at this writing.**
+- **WearableProcessedEvent cron prune** — [#362](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/362) — **MERGED 2026-06-03 01:25 UTC** at squash commit `659e0ccc74c47f9c985a26b582987253ec9fdb40`.
   - R1 head: `c1fb4252aaf3c4a8374767f3ff7b81dc611b75e4`. GPT-5.5 audit (`_audit_HK_cron_prune_GPT55.md`) returned **NEEDS_R2** on test-only blockers: 4 `as unknown as` in new mocks (R0 violation) and targeted Jest gate `--testPathPatterns='wearables/maintenance'` matched 0 files. Production service / scheduler / module / env-validation / .env.example PASSed audit unchanged.
-  - R2 fixer dispatched (Opus 4.8) with brief `_fixer_brief_HK_cron_prune_R2.md`. **Record the fixer's landed SHA + merge commit here when it merges** — this doc-batch is intentionally eventually-consistent on #362.
+  - R2 head: `52748ec40a231e88dc0b72c5bad63c9b55b20902`. R2 replaced 4 banned casts with Nest `Test.createTestingModule().overrideProvider(...).useValue({...})` DI pattern (mirrors `test/timeline.service.spec.ts` and `test/sub-coach-*.service.spec.ts` prior art). Relocated both specs to `test/wearables/maintenance/` because `jest.config.js` sets `roots: ['<rootDir>/test']` and excludes `src/`. Production code untouched (R1 production logic was PASS).
+  - R2 GPT-5.5 audit (`_audit_HK_cron_prune_R2_GPT55.md`) returned **PASS**: R0 additions-only grep vs merge-base `650cea4c` empty, authorship/trailers clean, tsc/eslint clean, targeted Jest 12/12 (2 suites), full Jest 4036 passed / 20 skipped / 5 todo / 0 fail (`--runInBand`). The 12 prune tests were already in the R1 4036 baseline (relocation, not net-new tests).
 
 ---
 
