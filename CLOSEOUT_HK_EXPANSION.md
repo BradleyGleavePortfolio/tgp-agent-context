@@ -18,7 +18,7 @@
 
 **What didn't ship / still open:**
 
-- Backend HK-6b coach-on-behalf preferences (#361) is **open, NEEDS_R2** — see §5.
+- Backend HK-6b coach-on-behalf preferences (#361) — **MERGED at `c5724a83c4f2d1d33bd4dfe559074f1104e78893`** after R2 fix landed at `78b669415e4d98829ed41c88670e0a591475cb14`.
 - Four wearable provider integrations (Beddit, Peloton, Eight Sleep, MyFitnessPal) are **deferred** — see the `DEFERRAL_*.md` docs.
 - Coach `WearableInsightPanel.tsx` pre-R3 `toneTokens` signature — carry-forward (§6).
 - HK-FIX-1 Defect-D — known red, admin-merged; follow-up issue to file (§6).
@@ -28,10 +28,10 @@
 ## 2. Backend main HEAD at closeout
 
 ```
-650cea4c461f8f5249c201bb8a0955e9c24b4cdf
+c5724a83c4f2d1d33bd4dfe559074f1104e78893
 ```
 
-(Captured via `gh api repos/BradleyGleavePortfolio/growth-project-backend/branches/main --jq .commit.sha`. This is the squash-merge commit of HK-6a #357. The cron prune PR #362 and HK-6b backend #361 are not yet merged, so they do not move main.)
+(Squash-merge commit of HK-6b backend #361 R2. Cron prune #362 is still in R2 fix — once it merges, this section + the table will be updated to point at #362's squash commit.)
 
 ## 3. Mobile main HEAD at closeout
 
@@ -53,8 +53,9 @@
 | [#358](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/358) | HK-FIX-1 (Nest DI A+B+C) | hk-fix-1: unblock AppModule graph — drop redundant WearablesModule re-export + @Optional on OauthStateService & ProviderHttpClient | `6181b0815c9528be3475f83d46eb4c5b642f6551` (rebased) | `12fa4f90039f37a654f733ba175331cbbf201bdf` | GPT-5.5 code R2 audited (`_audit_HK_FIX_1_R2_GPT55.md`); **admin-merged with one known Defect-D red** (see §6). Stacked atomically with #360. |
 | [#359](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/359) | FIX-2 (scheduling clock pin) | fix(scheduling-test): pin clock with jest.useFakeTimers so hard-coded fixtures don't rot | `8f6e40547dafdacabbf4e397fd4306a2e0259ca6` | `24015d1da7c2633bf722a20f40a75b731161c3da` | Merged; CI green. |
 | [#360](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/360) | HK-FIX-3 (8-route @Roles) | hk-fix-3: gate 8 wearables routes with @Roles per locked role policy | `f2ff1dd2309527495e63ddd5d8521c6e59d2e7ab` (stacked) | `119e042bd6ddb1a43c7266f2aa8ba7a976cea293` | GPT-5.5 code R2 PASS (`_audit_HK_FIX_3_R2_GPT55.md`, P3 commit-body override documented); CI green, regular squash. |
-| [#357](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/357) | HK-6a (approval endpoint + materialiser) | PR-HK-6: approval endpoint + coach_wearable_message materialiser | `bf22c7476f26aca708b306446cffe9a56f724e9f` (rebased) | `650cea4c461f8f5249c201bb8a0955e9c24b4cdf` | GPT-5.5 code R2 audited; CI green, regular squash. **= backend main HEAD.** |
-| [#362](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/362) | Cron prune (this batch) | HK: WearableProcessedEvent daily prune (unbounded growth fix) | `c1fb4252aaf3c4a8374767f3ff7b81dc611b75e4` | _open at doc-batch time_ | tsc/eslint clean; maintenance 12/12; full suite 319 suites / 4036 passed, 0 fail; R0 clean. Audit pending. |
+| [#357](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/357) | HK-6a (approval endpoint + materialiser) | PR-HK-6: approval endpoint + coach_wearable_message materialiser | `bf22c7476f26aca708b306446cffe9a56f724e9f` (rebased) | `650cea4c461f8f5249c201bb8a0955e9c24b4cdf` | GPT-5.5 code R2 audited; CI green, regular squash. |
+| [#361](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/361) | HK-6b (coach-on-behalf preferences) | HK-6b: preferences coach-on-behalf-of authorization (target_user_id + assertCoachOwnsClient) | `78b669415e4d98829ed41c88670e0a591475cb14` (R2) | `c5724a83c4f2d1d33bd4dfe559074f1104e78893` (squash) | R1 NEEDS_R2 (R65 #36 silent-failure) → R2 fix: narrows catch to `ForbiddenException` only; non-Forbidden propagates. GPT-5.5 R2 audit **PASS** (`_audit_HK_6b_backend_R2_GPT55.md`). |
+| [#362](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/362) | Cron prune (this batch) | HK: WearableProcessedEvent daily prune (unbounded growth fix) | `c1fb4252aaf3c4a8374767f3ff7b81dc611b75e4` (R1) | _open, R2 fixer in flight_ | R1 GPT-5.5 audit returned **NEEDS_R2**: 4 `as unknown as` in new test mocks (R0 violation) + targeted Jest gate `--testPathPatterns='wearables/maintenance'` matched 0 files (specs at `test/wearables/`, not `test/wearables/maintenance/`). Production logic PASSed audit. R2 fixer dispatched; closeout doc will be updated post-merge. |
 
 ### Mobile (`growth-project-mobile`)
 
@@ -67,11 +68,14 @@
 
 ## 5. Open R2 still in flight at doc-batch time
 
-- **HK-6b backend preferences coach-on-behalf** — [#361](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/361) — title *"HK-6b: preferences coach-on-behalf-of authorization (target_user_id + assertCoachOwnsClient)"*. **OPEN, NEEDS_R2.**
-  - Head SHA at audit: `e39cd8f99861ce7da9973a9431010813e5167309` (base `650cea4c…`).
-  - GPT-5.5 code audit (`_audit_HK_6b_backend_code_GPT55.md`) returned **NEEDS_R2** on one blocking finding: **R65 #36 silent-failure regression** — `resolveEffectiveUserId` wraps `assertCoachOwnsClient` in a bare `catch` and remaps *all* errors (including DB/programming failures) to the stable `WEARABLE_PREFERENCE_CROSS_USER_FORBIDDEN` 403, hiding real service failures. Only the expected unassigned-coach `ForbiddenException` should map to 403; other errors must propagate.
-  - Everything else PASSed: R0 grep clean, authorship/trailers clean, tsc/eslint clean, focused 2 suites / 30 tests, full suite 317 suites / 4040 passed / 20 skipped / 5 todo / 0 fail.
-  - **In flight at time of writing.** The R2 fixer will re-throw non-Forbidden errors from `assertCoachOwnsClient` and add a propagation test. **Record the fixer's landed SHA + merge commit here when it merges** — this doc-batch is intentionally eventually-consistent on #361. Its mobile counterpart (#227) already merged and is mobile main HEAD.
+- **HK-6b backend preferences coach-on-behalf** — [#361](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/361) — **MERGED 2026-06-03 01:01 UTC** at squash commit `c5724a83c4f2d1d33bd4dfe559074f1104e78893`.
+  - R1 head: `e39cd8f99861ce7da9973a9431010813e5167309`. R1 GPT-5.5 audit (`_audit_HK_6b_backend_code_GPT55.md`) flagged **R65 #36 silent-failure regression** — `resolveEffectiveUserId` wrapped `assertCoachOwnsClient` in a bare `catch` and remapped *all* errors (including DB/programming failures) to the stable `WEARABLE_PREFERENCE_CROSS_USER_FORBIDDEN` 403.
+  - R2 head: `78b669415e4d98829ed41c88670e0a591475cb14`. R2 narrowed the catch to `if (err instanceof ForbiddenException)` and added POST + DELETE non-Forbidden propagation tests asserting `rejects.not.toBeInstanceOf(ForbiddenException)` and `svc.upsert/.remove` not called.
+  - R2 GPT-5.5 audit (`_audit_HK_6b_backend_R2_GPT55.md`) returned **PASS**: R0 additions-only grep empty (vs `origin/main` and vs R1), authorship/trailers clean, tsc/eslint clean, focused 2 suites / 32 tests PASS, full suite 317 suites / 4042 passed / 20 skipped / 5 todo / 0 fail (`--runInBand`).
+
+- **WearableProcessedEvent cron prune** — [#362](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/362) — **OPEN, R2 fixer in flight at this writing.**
+  - R1 head: `c1fb4252aaf3c4a8374767f3ff7b81dc611b75e4`. GPT-5.5 audit (`_audit_HK_cron_prune_GPT55.md`) returned **NEEDS_R2** on test-only blockers: 4 `as unknown as` in new mocks (R0 violation) and targeted Jest gate `--testPathPatterns='wearables/maintenance'` matched 0 files. Production service / scheduler / module / env-validation / .env.example PASSed audit unchanged.
+  - R2 fixer dispatched (Opus 4.8) with brief `_fixer_brief_HK_cron_prune_R2.md`. **Record the fixer's landed SHA + merge commit here when it merges** — this doc-batch is intentionally eventually-consistent on #362.
 
 ---
 
