@@ -23,8 +23,8 @@
 
 | Order | PR ID | Title | State | Builder | Auditor | Branch | Last SHA |
 |---|---|---|---|---|---|---|---|
-| 1 | P0-0A | wearables: restore on-device ingest route | R2 BUILT → R2 audit dispatching | Opus 4.8 (R2 fixer done) | GPT-5.5 (R1 done) | `fix/wearables-samples-ingest-route` | `94080ae8` |
-| 2 | P0-0B | wearables: register cloud connectors | R2 BUILT → R2 audit dispatching | Opus 4.8 (R2 fixer done) | GPT-5.5 (R1 done) | `fix/wearables-cloud-connector-wiring` | `e696e122` |
+| 1 | P0-0A | wearables: restore on-device ingest route | **R2 PASS → MERGING** | Opus 4.8 (R2 fixer) | GPT-5.5 (R1+R2 PASS) | `fix/wearables-samples-ingest-route` | `94080ae8` |
+| 2 | P0-0B | wearables: register cloud connectors | R2 NEEDS_R3 (test discovery only) → R3 fixer | Opus 4.8 (R2 fixer) | GPT-5.5 (R1+R2 NEEDS_R3) | `fix/wearables-cloud-connector-wiring` | `e696e122` |
 | 3 | v1-1 | community: v1-1 schema workspace cohorts | queued | — | — | `feature/community-v1-schema` | — |
 | 4 | v1-2 | community: v1-2 backend services REST | queued | — | — | `feature/community-v1-services` | — |
 | 5 | v1-3 | community: v1-3 mobile community tab | queued | — | — | `feature/community-v1-mobile` | — |
@@ -32,6 +32,26 @@
 ---
 
 ## Event log (most recent first)
+
+### 2026-06-02 21:35 PT — R2 audit verdicts in
+
+**P0-0A → PASS.** R2 auditor (fresh GPT-5.5) confirmed:
+- R0 clean on R2 diff.
+- Ownership/provider gate works; `IngestionService` untouched.
+- RolesGuard deviation **confirmed** — fixer was right that repo enforces `owner > coach > student` hierarchy. Logged as OPEN_PRODUCT_QUESTION (not a blocker). Bradley needs to decide whether on-device HK ingest should be student-only (requires dedicated guard, follow-up PR).
+- Action: **merge PR #363** via GitHub connector with confirm_action.
+
+**P0-0B → NEEDS_R3** (narrow scope, not a code bug). R2 auditor confirmed:
+- R0 clean on R2 diff.
+- Production fixes all PASS: guard DI via `@Global()` module, real `WearablesModule` boots in HTTP integration test, route-level 503 flag-off proven for OAuth-start + Oura webhook, Garmin/WHOOP env now fail-loud via `requireEnv()`.
+- **One blocker:** new env-hardening tests live at `src/wearables/connectors/garmin/garmin.connector.spec.ts` + `src/wearables/connectors/whoop/whoop.connector.spec.ts`. `jest.config.js:4` sets `roots: ['<rootDir>/test']` — default `npm test` doesn't discover them. Forced `--roots src` runs pass, so code is correct; CI just won't catch regressions.
+- Required R3: move both `.spec.ts` files into `test/wearables/connectors/{garmin,whoop}/` (or update Jest `roots`). Trivial — ~5 minute fix.
+
+Next:
+1. Merge PR #363.
+2. R64-push merged SHA.
+3. Dispatch Opus 4.8 R3 micro-fixer for PR #364 (just move 2 spec files, run tests, push). Skip R3 audit — issue is mechanically verifiable by running `npx jest --listTests | grep garmin\\|whoop` after the move.
+4. Merge PR #364 once R3 verified.
 
 ### 2026-06-02 21:30 PT — Both R2 fixers DONE; dispatching R2 audits
 
@@ -98,10 +118,9 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
   - `src/wearables/samples/dto/ingest-samples.dto.ts` — new Zod schema (`IngestSampleSchema`, `IngestSamplesBodySchema`)
   - `test/wearables/samples-ingest.e2e-spec.ts` — e2e tests (auth, cross-user denial, batch caps)
 - **Feature flag:** `FEATURE_WEARABLES_INGEST_POST`, default false in production.
-- **State:** R2 built → R2 audit dispatching. SHA: `94080ae8e18b2e783d76826a1fc8f861d5b04556`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/363.
-- **R1 findings:** see audit report; key blocker was missing connection ownership/provider validation.
-- **R2 fixes:** ownership/provider gate via PrismaService findMany; real `JwtAuthGuard`/`RolesGuard` runtime tests; exact throttle metadata assertions.
-- **⚠️ Open question for Bradley:** Repo `RolesGuard` admits coach + owner on `@Roles('student')` (documented `owner > coach > student` hierarchy). If on-device HK ingest should be student-only, a dedicated student-only guard is needed — outside R2 scope.
+- **State:** **R2 PASS — merging.** SHA: `94080ae8e18b2e783d76826a1fc8f861d5b04556`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/363. R2 audit report: `/home/user/workspace/audit_p0-0a_r2.md`.
+- **R2 fixes:** ownership/provider gate via PrismaService findMany; real `JwtAuthGuard`/`RolesGuard` runtime tests; exact throttle metadata assertions. 30/30 tests pass.
+- **⚠️ Open question for Bradley (NOT blocking merge):** Repo `RolesGuard` admits coach + owner on `@Roles('student')` (documented `owner > coach > student` hierarchy). If on-device HK ingest should be student-only, a dedicated student-only guard is needed — follow-up PR.
 
 ## P0-0B — wearables: register cloud connectors
 
@@ -113,9 +132,9 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
   - All 8 connector modules — align to canonical `WEARABLE_CONNECTORS` token + add registry binding where missing
   - `test/wearables/connector-registry.spec.ts` — assert all 8 discoverable, OAuth metadata returned, webhooks mounted
 - **Feature flag:** `FEATURE_WEARABLES_CLOUD_CONNECTORS`, default false.
-- **State:** R2 built → R2 audit dispatching. SHA: `e696e1226493f4ee59a0d9e622841e595d14882b`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/364.
-- **R1 findings:** R0 placeholder/broad-cast text added in comments/tests; cloud connectors guard decorated but not DI-registered; acceptance test did not boot `WearablesModule`.
-- **R2 fixes:** R0 banned phrases removed; new `@Global() WearablesCloudConnectorsGuardModule` provides/exports the guard; new integration spec boots real `WearablesModule` and asserts 8-connector registry + route-level 503 when flag off; Garmin/WHOOP OAuth env now fail-loud via `requireEnv()`; bonus fixes (Strava `@Optional()`, KNOWN_FORWARDREF_CYCLES registry entries, split synthetic registry test).
+- **State:** R2 NEEDS_R3 → R3 micro-fixer dispatching. SHA: `e696e1226493f4ee59a0d9e622841e595d14882b`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/364. R2 audit report: `/home/user/workspace/audit_p0-0b_r2.md`.
+- **R2 fixes (all PASS):** R0 banned phrases removed; new `@Global() WearablesCloudConnectorsGuardModule` provides/exports the guard; new integration spec boots real `WearablesModule` and asserts 8-connector registry + route-level 503 when flag off; Garmin/WHOOP OAuth env now fail-loud via `requireEnv()`; bonus fixes (Strava `@Optional()`, KNOWN_FORWARDREF_CYCLES registry entries, split synthetic registry test).
+- **R3 scope (only blocker):** Move `src/wearables/connectors/garmin/garmin.connector.spec.ts` + `src/wearables/connectors/whoop/whoop.connector.spec.ts` to `test/wearables/connectors/garmin/` + `test/wearables/connectors/whoop/` (Jest roots are `['<rootDir>/test']`). Adjust imports if needed; re-run tests; push.
 
 ## v1-1 — community: v1-1 schema workspace cohorts
 
