@@ -23,8 +23,8 @@
 
 | Order | PR ID | Title | State | Builder | Auditor | Branch | Last SHA |
 |---|---|---|---|---|---|---|---|
-| 1 | P0-0A | wearables: restore on-device ingest route | **R2 PASS → MERGING** | Opus 4.8 (R2 fixer) | GPT-5.5 (R1+R2 PASS) | `fix/wearables-samples-ingest-route` | `94080ae8` |
-| 2 | P0-0B | wearables: register cloud connectors | R2 NEEDS_R3 (test discovery only) → R3 fixer | Opus 4.8 (R2 fixer) | GPT-5.5 (R1+R2 NEEDS_R3) | `fix/wearables-cloud-connector-wiring` | `e696e122` |
+| 1 | P0-0A | wearables: restore on-device ingest route | ✅ **MERGED** at `694291b9` | Opus 4.8 | GPT-5.5 (R2 PASS) | merged | `694291b9` |
+| 2 | P0-0B | wearables: register cloud connectors | R3 micro-fixer running (relocate 2 spec files) | Opus 4.8 | GPT-5.5 (R2 NEEDS_R3) | `fix/wearables-cloud-connector-wiring` | `e696e122` |
 | 3 | v1-1 | community: v1-1 schema workspace cohorts | queued | — | — | `feature/community-v1-schema` | — |
 | 4 | v1-2 | community: v1-2 backend services REST | queued | — | — | `feature/community-v1-services` | — |
 | 5 | v1-3 | community: v1-3 mobile community tab | queued | — | — | `feature/community-v1-mobile` | — |
@@ -32,6 +32,13 @@
 ---
 
 ## Event log (most recent first)
+
+### 2026-06-02 22:41 PT — PR #363 MERGED + R3 micro-fixer dispatched for #364
+
+- **PR #363 merged** (squash) at backend SHA `694291b9f9b957e83497bcdf7d56104f04fa6ffa` via `gh pr merge`. Branch `fix/wearables-samples-ingest-route` deleted. Backend HEAD advanced: `659e0ccc...` → `694291b9...`.
+- Bradley parked the RolesGuard open question: "I really dont care about the weird coach could upload their own health data for now". Tracked for later; not blocking anything.
+- **PR #364 R3 micro-fixer** dispatched (Opus 4.8) against fresh `/tmp/fix-p0-0b-r3` worktree. Sole task: `git mv src/wearables/connectors/{garmin,whoop}/<conn>.spec.ts → test/wearables/connectors/{garmin,whoop}/...` so `jest.config.js roots: ['<rootDir>/test']` discovers them in default CI. Fix relative imports, run targeted Jest, commit, push.
+- Next after #364 merges: dispatch **v1-1 builder** (community schema — ~900 LOC, blocks everything else).
 
 ### 2026-06-02 21:35 PT — R2 audit verdicts in
 
@@ -118,7 +125,7 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
   - `src/wearables/samples/dto/ingest-samples.dto.ts` — new Zod schema (`IngestSampleSchema`, `IngestSamplesBodySchema`)
   - `test/wearables/samples-ingest.e2e-spec.ts` — e2e tests (auth, cross-user denial, batch caps)
 - **Feature flag:** `FEATURE_WEARABLES_INGEST_POST`, default false in production.
-- **State:** **R2 PASS — merging.** SHA: `94080ae8e18b2e783d76826a1fc8f861d5b04556`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/363. R2 audit report: `/home/user/workspace/audit_p0-0a_r2.md`.
+- **State:** ✅ **MERGED** at backend SHA `694291b9f9b957e83497bcdf7d56104f04fa6ffa` (squash). PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/363. R2 audit report: `/home/user/workspace/audit_p0-0a_r2.md`.
 - **R2 fixes:** ownership/provider gate via PrismaService findMany; real `JwtAuthGuard`/`RolesGuard` runtime tests; exact throttle metadata assertions. 30/30 tests pass.
 - **⚠️ Open question for Bradley (NOT blocking merge):** Repo `RolesGuard` admits coach + owner on `@Roles('student')` (documented `owner > coach > student` hierarchy). If on-device HK ingest should be student-only, a dedicated student-only guard is needed — follow-up PR.
 
@@ -132,7 +139,7 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
   - All 8 connector modules — align to canonical `WEARABLE_CONNECTORS` token + add registry binding where missing
   - `test/wearables/connector-registry.spec.ts` — assert all 8 discoverable, OAuth metadata returned, webhooks mounted
 - **Feature flag:** `FEATURE_WEARABLES_CLOUD_CONNECTORS`, default false.
-- **State:** R2 NEEDS_R3 → R3 micro-fixer dispatching. SHA: `e696e1226493f4ee59a0d9e622841e595d14882b`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/364. R2 audit report: `/home/user/workspace/audit_p0-0b_r2.md`.
+- **State:** R3 micro-fixer running. SHA: `e696e1226493f4ee59a0d9e622841e595d14882b`. PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/364. R2 audit report: `/home/user/workspace/audit_p0-0b_r2.md`.
 - **R2 fixes (all PASS):** R0 banned phrases removed; new `@Global() WearablesCloudConnectorsGuardModule` provides/exports the guard; new integration spec boots real `WearablesModule` and asserts 8-connector registry + route-level 503 when flag off; Garmin/WHOOP OAuth env now fail-loud via `requireEnv()`; bonus fixes (Strava `@Optional()`, KNOWN_FORWARDREF_CYCLES registry entries, split synthetic registry test).
 - **R3 scope (only blocker):** Move `src/wearables/connectors/garmin/garmin.connector.spec.ts` + `src/wearables/connectors/whoop/whoop.connector.spec.ts` to `test/wearables/connectors/garmin/` + `test/wearables/connectors/whoop/` (Jest roots are `['<rootDir>/test']`). Adjust imports if needed; re-run tests; push.
 
