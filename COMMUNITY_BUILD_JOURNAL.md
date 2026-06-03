@@ -23,8 +23,8 @@
 
 | Order | PR ID | Title | State | Builder | Auditor | Branch | Last SHA |
 |---|---|---|---|---|---|---|---|
-| 1 | P0-0A | wearables: restore on-device ingest route | DISPATCHING builder | Opus 4.8 | pending | `fix/wearables-samples-ingest-route` | — |
-| 2 | P0-0B | wearables: register cloud connectors | queued | — | — | `fix/wearables-cloud-connector-wiring` | — |
+| 1 | P0-0A | wearables: restore on-device ingest route | BUILDER RUNNING | Opus 4.8 | pending | `fix/wearables-samples-ingest-route` | — |
+| 2 | P0-0B | wearables: register cloud connectors | BUILDER RUNNING | Opus 4.8 | pending | `fix/wearables-cloud-connector-wiring` | — |
 | 3 | v1-1 | community: v1-1 schema workspace cohorts | queued | — | — | `feature/community-v1-schema` | — |
 | 4 | v1-2 | community: v1-2 backend services REST | queued | — | — | `feature/community-v1-services` | — |
 | 5 | v1-3 | community: v1-3 mobile community tab | queued | — | — | `feature/community-v1-mobile` | — |
@@ -32,6 +32,14 @@
 ---
 
 ## Event log (most recent first)
+
+### 2026-06-02 20:35 PT — Wave 1 builders DISPATCHED in parallel (isolated worktrees)
+- Bradley picked execution shape **A** (Recommended): P0-0A + P0-0B parallel preflight, then v1-1 alone, then v1-2 + v1-4 + v1-6 parallel.
+- P0-0A builder (Opus 4.8) launched against `/tmp/build-p0-0a`, branch `fix/wearables-samples-ingest-route`, base `659e0cc`. Subagent id: `p0_0a_builder_hk_ingest_post_route_mpxikz9f`.
+- P0-0B builder (Opus 4.8) launched against `/tmp/build-p0-0b`, branch `fix/wearables-cloud-connector-wiring`, base `659e0cc`. Subagent id: `p0_0b_builder_cloud_connector_wiring_mpxilim2`.
+- Pre-dispatch collision audit: ZERO file overlap between the two PRs.
+- Both PRs include explicit feature flags (`FEATURE_WEARABLES_INGEST_POST`, `FEATURE_WEARABLES_CLOUD_CONNECTORS`) defaulted false in production, with typed disabled-error responses (not 404, not "Coming soon", not spinner-only).
+- Builders will commit, push, open PRs, then return SHA + PR# + R0 sweep + test results.
 
 ### 2026-06-02 19:44 PT — Journal created
 - Approved by Bradley to start preflight + v1-1/2/3 with R64 pushes after every state change.
@@ -49,13 +57,19 @@
   - `src/wearables/samples/dto/ingest-samples.dto.ts` — new Zod schema (`IngestSampleSchema`, `IngestSamplesBodySchema`)
   - `test/wearables/samples-ingest.e2e-spec.ts` — e2e tests (auth, cross-user denial, batch caps)
 - **Feature flag:** `FEATURE_WEARABLES_INGEST_POST`, default false in production.
-- **State:** DISPATCHING builder (Opus 4.8) → will return SHA / branch / files-changed summary.
+- **State:** BUILDER RUNNING (Opus 4.8 in `/tmp/build-p0-0a`).
 
 ## P0-0B — wearables: register cloud connectors
 
 - **Why:** 8 cloud connector modules (Oura/Fitbit/Garmin/WHOOP/Polar/Strava/Wahoo/Withings) exist in `src/wearables/connectors/*` but `WearablesModule` does not import them. Plus 3 sub-landmines the planner caught: circular imports on Garmin/WHOOP, registry token mismatch (local `WEARABLE_CONNECTORS` symbols), Strava doesn't bind to registry token.
 - **Scope:** backend only, ~140 LOC.
-- **State:** queued behind P0-0A.
+- **Files (planner spec):**
+  - `src/wearables/wearables.module.ts` — import 8 modules with `forwardRef` on Garmin & WHOOP
+  - `src/wearables/connectors/{garmin,whoop}/*.module.ts` — `forwardRef(() => WearablesModule)`
+  - All 8 connector modules — align to canonical `WEARABLE_CONNECTORS` token + add registry binding where missing
+  - `test/wearables/connector-registry.spec.ts` — assert all 8 discoverable, OAuth metadata returned, webhooks mounted
+- **Feature flag:** `FEATURE_WEARABLES_CLOUD_CONNECTORS`, default false.
+- **State:** BUILDER RUNNING (Opus 4.8 in `/tmp/build-p0-0b`).
 
 ## v1-1 — community: v1-1 schema workspace cohorts
 
