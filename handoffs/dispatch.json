@@ -7,7 +7,7 @@
     "base_sha": "6160fd8638dd99af1c8bd964338d379bba99d273",
     "branch": "agent/builder/v1-2/community-foundation",
     "brief_path": "/home/user/workspace/COMMUNITY_V1-2_BUILDER_BRIEF.md",
-    "pr_number": null,
+    "pr_number": 367,
     "task": "community v1-2 backend module foundation"
   }
 ]
