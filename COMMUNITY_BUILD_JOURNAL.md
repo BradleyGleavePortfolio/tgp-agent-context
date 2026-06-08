@@ -262,3 +262,38 @@ Per Bradley's standing rule "once an auditor has deemed CLEAN, always merge, no 
 - Base SHA for v1-2 worktree: `7e851d8a` (post-merge `main`).
 - Foundation-only scope: `community.{module,controller,service,repository}.ts` + 5 GET endpoints + foundation e2e spec. NO messages/posts/responses/DMs/events/challenges (v1-3+).
 
+
+---
+
+## R64 checkpoint — v1-2 builder DONE → R1 audit dispatched (2026-06-08 ~22:35 UTC)
+
+### State
+
+- v1-2 builder (Opus 4.8) completed PR #367 at SHA `bdbc154a7fe9a9b38ea97ba5e30e72f98e9b74d3`.
+- Branch: `agent/builder/v1-2/community-foundation` based on `main` at `6160fd86` (post R66-R70 docs).
+- LOC: 1057 new across 9 files; 1542 additions / 8 deletions / 15 files changed.
+- Builder report: 16/16 e2e cases pass live; 16 skip cleanly on no-DB; full suite 4241 ×2 idempotent.
+- CI: in progress (run 27171229866) at audit dispatch; mergeStateStatus UNSTABLE.
+
+### 5 builder-declared deviations (audit must verify)
+
+1. `/api` prefix (not `/v1`) — matches existing `setGlobalPrefix`.
+2. `.e2e.spec.ts` filename (dot form, not dash) — sibling specs use this.
+3. API role `client` vs schema `student` — gap G14 compliant.
+4. Derived default cohort + pinned post — no dedicated columns (schema frozen in v1-2).
+5. **`ClientEntitlementGuard` class→handler move — CROSS-DOMAIN.** Highest-risk; auditor mandated to grep every controller for handler-level coverage.
+
+### R1 audit dispatch
+
+- Auditor brief: `/home/user/workspace/COMMUNITY_V1-2_AUDITOR_BRIEF.md` (340 lines, 5 deviation verifications + 9 gates + verdict template).
+- Auditor: fresh GPT-5.5 (R31 builder ≠ auditor), subagent `v1_2_r1_audit_mq5skmtn`.
+- Working directory: `/tmp/wt-builder-v1-2`.
+- Verdict file: `/home/user/workspace/COMMUNITY_V1-2_R1_AUDIT_REPORT.md` (pending).
+- On CLEAN: squash-merge per Bradley's standing rule, no waiting.
+- On DIRTY: surgical Opus 4.8 fixer → fresh GPT-5.5 R2 auditor → iterate.
+
+### Files persisted this round
+
+- `/home/user/workspace/COMMUNITY_V1-2_BUILDER_BRIEF.md` (521 lines — contract)
+- `/home/user/workspace/COMMUNITY_V1-2_AUDITOR_BRIEF.md` (340 lines — audit gates)
+- `/home/user/workspace/COMMUNITY_PLANS_INTERNALIZATION_AND_V1-2_READINESS.md` (260 lines, 20 gaps + readiness)
