@@ -190,3 +190,14 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
 
 - **Why:** Mobile Community tab + The Lab + cohort feed + DM (18 screens).
 - **State:** queued behind v1-2 (can develop against schema mocks earlier).
+
+## R64 CHECKPOINT — Community v1-1 R2 (Path A doctrine-rename) — FIXER COMPLETE
+
+- Old SHA: cd811922 → New SHA: b78872cf2b313992e59036ba2fd1dd634ce968cf
+- Force-pushed to feature/community-v1-schema; remote == local verified via `git ls-remote`.
+- Renames applied: 40 across 5 files. Reaction-token count in prisma/schema.prisma post-rename: 0.
+- Emoji-roundtrip regression test added: test/community/rls/community-v1-emoji-roundtrip.spec.ts. ZWJ family emoji 👨‍👩‍👧‍👦 roundtrips byte-perfect via Prisma AND raw SQL.
+- Doctrine fail-fast: PASS. R0 grep: 0 matches. Full Jest: 4218/4218 PASS, 0 fail, 2 consecutive runs idempotent.
+- API URLs unchanged. Mobile client unchanged. User-facing emoji UX identical.
+- Test logs: /home/user/workspace/COMMUNITY_V1-1_R2_test_run1.log + _run2.log.
+- Awaiting fresh GPT-5.5 R2 auditor.
