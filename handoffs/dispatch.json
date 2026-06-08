@@ -1,7 +1,7 @@
 [
   {
     "ts": "2026-06-08T21:54:00Z",
-    "subagent_id": "PENDING",
+    "subagent_id": "builder-v1-2-community-foundation",
     "role": "builder",
     "worktree": "/tmp/wt-builder-v1-2",
     "base_sha": "6160fd8638dd99af1c8bd964338d379bba99d273",
