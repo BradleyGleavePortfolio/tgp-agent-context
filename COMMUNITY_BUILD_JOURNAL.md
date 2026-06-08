@@ -201,3 +201,64 @@ Next: dispatch Opus 4.8 fixers in parallel in fresh isolated `/tmp/fix-p0-0a` an
 - API URLs unchanged. Mobile client unchanged. User-facing emoji UX identical.
 - Test logs: /home/user/workspace/COMMUNITY_V1-1_R2_test_run1.log + _run2.log.
 - Awaiting fresh GPT-5.5 R2 auditor.
+
+## R64 CLOSEOUT — Community v1-1 (PR #365) — MERGED
+
+- **Final state:** PR #365 MERGED 2026-06-08 21:45 UTC. Squash commit on `main` at `7e851d8ad35f5e5939ab4925f56e26cd79ca5692`.
+- **Total cycle:** 1 builder (Opus 4.8, R1) → 1 R2 fixer (Opus 4.8, Path A rename) → 1 R2 auditor (GPT-5.5, DIRTY) → 1 R3 fixer (Opus 4.8, surgical) → 1 R3 auditor (GPT-5.5, CLEAN) → squash-merge.
+- **5-day blocker resolved:** PR had been red since 2026-06-03 on doctrine-cleanup token collision (`Reaction` model name vs PR #90's banned-token guard).
+
+### SHA progression
+
+| Round | SHA | Outcome |
+|---|---|---|
+| R1 build | `cd811922` | RED on CI: `doctrine-cleanup.spec.ts` flagged `Reaction` in schema:455 |
+| R2 fix (rename) | `b78872cf` | Local 4218/4218 ×2 idempotent. CI red on emoji spec (hardcoded DB URL → no skip-gate). R2 audit: DIRTY. |
+| R3 fix (surgical) | `525eba00` | Local 4219/4219 ×2. Emoji spec now uses `liveDbUrl() ? describe : describe.skip` sibling pattern. R3 audit: CLEAN. |
+| Merge to main | `7e851d8a` | Squash. Title-only. PR #365 closed/merged. |
+
+### What changed in this cycle (post-checkpoint)
+
+**R2 audit findings (GPT-5.5, full report at `/home/user/workspace/COMMUNITY_V1-1_R2_AUDIT_REPORT.md`):**
+- Gate G FAIL: `test/community/rls/community-v1-emoji-roundtrip.spec.ts` had no CI skip-gate. Hardcoded `DEFAULT_LIVE_DB_URL = 'postgresql://rls_tester:rls_tester_pw@localhost:5432/rls_fn_test'` and unconditional `describe(...)`. On DB-less CI runner: `beforeAll` crashed at `DROP SCHEMA IF EXISTS`. The fixer's report claim "live-Postgres-gated, exactly like sibling specs" was false.
+- Gate C partial: missing `❤️` (U+2764 U+FE0F) case; teardown DROP-only without explicit DELETE rows; not using `community-db.ts` helper.
+- Gates A/B/D/E/F/H all PASS. Rename itself was 100% correct.
+
+**R3 fix (Opus 4.8, surgical):**
+1. Imported `liveDbUrl` from `test/community/_support/community-db.ts`; deleted hardcoded `DEFAULT_LIVE_DB_URL` constant and `liveDbBaseUrl()` function.
+2. Wrapped describe in sibling pattern: `const itLive = liveDbUrl() ? describe : describe.skip;` + module-load `console.warn` for non-silent skip (R0: no silent failures).
+3. Added `❤️` to `EMOJI_CASES`. Now covers 4 cases: 👍 (4 bytes), 🔥 (4 bytes), 👨‍👩‍👧‍👦 (25 bytes / 7 codepoints), ❤️ (6 bytes / 2 codepoints incl. VS16).
+4. DELETE-scoped cleanup in `afterAll` (try) before DROP SCHEMA (finally).
+5. One Opus catch: deferred `baseUrl`/`schemaUrl` resolution into `beforeAll` to avoid null-URL crash at `describe.skip` collection time.
+6. Amended commit (single commit on PR), title-only, `Dynasia G <dynasia@trygrowthproject.com>`, force-push with `--force-with-lease`.
+
+**R3 audit (GPT-5.5, full report at `/home/user/workspace/COMMUNITY_V1-1_R3_AUDIT_REPORT.md`):**
+- All 9 gates (0, A–H) PASS.
+- Gate D: env unset → 7 skipped / 0 failed / exit 0 with non-silent warn (the R3 fix's whole purpose).
+- Gate F: 4219/4219 ×2 idempotent (+1 over R2 from new ❤️ assertions).
+- CI red (Gate H) is 100% environmental: 8 RLS-tier suites + JS-heap OOM exit 134. The emoji spec is provably ABSENT from the CI failure set (zero matches in job log). NOT charged to this fix.
+- Verdict: **CLEAN — safe to auto-merge.**
+
+### Per-standing-rule auto-merge
+
+Per Bradley's standing rule "once an auditor has deemed CLEAN, always merge, no waiting on me":
+- `gh pr merge 365 --squash --admin` executed immediately on CLEAN verdict.
+- Squash commit on `main`: `7e851d8a community: v1-1 schema workspace cohorts (11 models, partitioned messages, RLS) (#365)`
+- Author: BradleyGleavePortfolio (GitHub squash author = repo owner; original commit author `Dynasia G` preserved in squash body per GitHub convention).
+- mergedAt: `2026-06-08T21:45:43Z`. mergedBy: confirmed via `gh pr view 365`.
+
+### Carried-forward learnings (must propagate to v1-2 brief)
+
+1. **Live-DB-gated specs MUST use the sibling pattern** `const itLive = liveDbUrl() ? describe : describe.skip;` — not hardcoded fallbacks. Any new community spec touching live Postgres MUST be reviewed for this pattern before push.
+2. **describe.skip still evaluates the factory closure at collection time** — never deref nullable URLs at the top of a `.skip`-gated block. Defer to `beforeAll`.
+3. **Path A (rename internal models) was the right call.** Doctrine guards stay strong; user-facing UX unchanged; no precedent for weakening doctrine to accommodate a model name. Bradley's instinct ("this is literally renaming a feature that no users will see?") was correct.
+4. **R66 (full-suite-before-push) caught nothing this round** — but R67-R70 process rules are now overdue for codification (next PR).
+5. **R0 emoji preservation is now testable forever** via `community-v1-emoji-roundtrip.spec.ts`. Family ZWJ (25 octets) is the strongest property in the suite — if any future migration silently drops grapheme clusters, this catches it.
+
+### Open follow-ups for v1-2 builder brief
+
+- The 20 gaps from `/home/user/workspace/COMMUNITY_PLANS_INTERNALIZATION_AND_V1-2_READINESS.md` still stand.
+- v1-2 must reference R66–R70 once those land (in-flight docs PR after this entry).
+- Base SHA for v1-2 worktree: `7e851d8a` (post-merge `main`).
+- Foundation-only scope: `community.{module,controller,service,repository}.ts` + 5 GET endpoints + foundation e2e spec. NO messages/posts/responses/DMs/events/challenges (v1-3+).
+
