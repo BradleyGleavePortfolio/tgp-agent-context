@@ -297,3 +297,46 @@ Per Bradley's standing rule "once an auditor has deemed CLEAN, always merge, no 
 - `/home/user/workspace/COMMUNITY_V1-2_BUILDER_BRIEF.md` (521 lines — contract)
 - `/home/user/workspace/COMMUNITY_V1-2_AUDITOR_BRIEF.md` (340 lines — audit gates)
 - `/home/user/workspace/COMMUNITY_PLANS_INTERNALIZATION_AND_V1-2_READINESS.md` (260 lines, 20 gaps + readiness)
+
+---
+
+## R64 checkpoint — v1-2 R1 CLEAN → merged (2026-06-08 22:51 UTC)
+
+### Audit outcome
+
+- Auditor: fresh GPT-5.5 (R31), subagent `v1_2_r1_audit_mq5skmtn`.
+- Report: `/home/user/workspace/COMMUNITY_V1-2_R1_AUDIT_REPORT.md`.
+- **Verdict: CLEAN.** All 5 deviations PASS, all 9 gates PASS.
+
+### Deviation 5 (cross-domain entitlement) — confirmed safe
+
+- `src/common/guards/client-entitlement.guard.ts` byte-identical to base.
+- Only `community.controller.ts` touched among controllers in the PR.
+- All 13 other controllers retain their guards unchanged.
+- All 4 legacy community handlers (`getLeaderboard`, `getFeed`, `postWin`, `reactToWin`) re-applied the identical guard stack explicitly after the class→handler move.
+
+### Test counts
+
+- Fail-fast lane: 15/15.
+- Community foundation e2e: 16/16 live + 16 clean skips.
+- DM enabled resolver: 6/6.
+- Community service unit: 1/1.
+- Full suite: run1 = 4241 / run2 = 4241 (idempotent — R67 satisfied).
+- 543 failures = the 8 environmental `rls-*` suites (`PrismaClientInitializationError`, missing `test` DB role); byte-identical to base; fail identically on `main`; not chargeable.
+
+### Merge
+
+- Per Bradley's standing rule "once an auditor has deemed CLEAN, always merge, no waiting".
+- `gh pr merge 367 --squash --admin` executed.
+- Squash commit on `main`: `d84ceb2775156cffb77e9952560f3d84be6fe0ba` at 2026-06-08T22:51:04Z.
+- Title: `community: v1-2 backend module foundation (5 GET endpoints, kill switch, e2e spec) (#367)`.
+
+### Non-blocking follow-up (carry to v1-3 brief)
+
+Tighten `test/entitlement-guards-mounted.spec.ts` to pin each paid legacy community handler individually (`getLeaderboard`, `getFeed`, `postWin`) rather than only `getLeaderboard`. The class→handler repoint made that doctrine guard looser; no handler is currently unprotected, but the invariant should be stricter. This is a v1-3 doctrine-tightening line item, not a v1-2 fix.
+
+### State for v1-3
+
+- `main` at `d84ceb27` (post-v1-2 merge).
+- v1-3 scope: community messages controller (write path begins).
+- Use `/tmp/wt-builder-v1-2` as the template for the next worktree (golden node_modules symlink pattern is proven).
