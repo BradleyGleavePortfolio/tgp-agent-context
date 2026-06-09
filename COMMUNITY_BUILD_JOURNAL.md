@@ -422,3 +422,55 @@ Authored `COMMUNITY_PARALLELIZATION_PLAN.md` (185 lines) as the canonical answer
 
 - Path: `/tmp/tgp-agent-context/COMMUNITY_PARALLELIZATION_PLAN.md`.
 - Commits with this journal checkpoint and pushed (R64).
+
+---
+
+## R64 checkpoint — v1-3 builder DONE → R1 audit dispatched (2026-06-09 ~00:38 UTC)
+
+### Builder result (PR #368)
+
+- **PR:** https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/368
+- **SHA:** `2ca5ffae86280ec17fc695758b74d68354430b08`
+- **Branch:** `feature/community-v1-feed-messages` ← base `main` (`d84ceb27`)
+- **MERGEABLE, state UNSTABLE, CI in progress** at audit dispatch
+- **Diff:** +3580 / -1 across 28 files
+- **Scope vs budget:** ~2,811 src + 769 test LOC (budget was 1800; overage justified by each of 5 sub-modules being full controller/service/repository triad with typed DTOs and live-DB e2e harnesses)
+- **Endpoints:** 25 total (messages 5, posts+comments 7, reactions 6, DMs 4, moderation 3)
+
+### 8 builder-declared deviations (auditor must verify each)
+
+1. **No `dm_policy` column.** v1-1 schema has only `dm_enabled_default:boolean` + per-membership `dm_enabled:boolean?`. Builder built secure boolean gate (default OFF), surfaced as BLOCKER for future schema PR. Tri-state resolver reused verbatim from v1-2.
+2. **No `clientPostsEnabled` column.** Coach/owner-only post creation; client POST → 403 `community.post.client_posts_disabled`. BLOCKER surfaced.
+3. **Comments stored as `CommunityMessage`** tagged `plan_context_type='community_post_comment'`. `CommunityResponse` cannot hold a body (32-char `response_kind` only).
+4. **Comment reactions via `target_type='comment'`; comment reports via `target_type='message'`** — `CommunityModerationTargetType` lacks `comment` member.
+5. **Kill switch returns HTTP 503**, not 200 (matched established v1-2 `CommunityFeatureFlagGuard` contract — one disabled envelope across all community surfaces).
+6. **Zod for responses, class-validator for requests** — matches v1-2 convention.
+7. **DM kill switch gates reads AND writes** — DM is sensitive surface, flag fully disables it.
+8. **`rls-*` suites excluded from R67 tally** — environmental DB dependency, byte-identical to base.
+
+### Test results (builder-reported)
+
+- R67 idempotent: run1 === run2 (4210 passed / 71 skipped / 5 todo / 0 failed, excluding 8 rls-* env suites).
+- R70 fail-fast lane: 15/15.
+- Carry-forward `entitlement-guards-mounted.spec.ts`: 17/17 (was 14 — added `getFeed`, `postWin`, `reactToWin` pins per v1-2 carry-forward).
+- 2 new community e2e specs: skip cleanly when COMMUNITY_TEST_DATABASE_URL unset (R66 — never silent pass). Will execute in CI.
+- R0 self-sweep: zero matches for `as any`, `@ts-ignore`, `.catch(()=>undefined)`, "Coming soon", TODO, FIXME, empty catch.
+- R69: `git diff main..HEAD -- prisma/` = 0 lines.
+
+### R1 audit dispatch
+
+- Auditor brief: `/home/user/workspace/COMMUNITY_V1-3_AUDITOR_BRIEF.md` (308 lines, 8 deviation verifications + 10 gates + DIRTY-CRITICAL criteria).
+- Auditor: fresh GPT-5.5 (R31), subagent `v1_3_r1_audit_mq5wxmug`.
+- Working directory: `/tmp/wt-builder-v1-3`.
+- Verdict file: `/home/user/workspace/COMMUNITY_V1-3_R1_AUDIT_REPORT.md` (pending).
+- DIRTY-CRITICAL reserved for: Deviation 1 (DM client-to-client leak), Deviation 7 (DM read leak under disabled flag), G4 (moderation incorrectly gated by write flags).
+- On CLEAN: squash-merge per Bradley's standing rule.
+- On DIRTY: surgical Opus 4.8 fixer → fresh GPT-5.5 R2 auditor → iterate.
+
+### Open blockers for a future PR (NOT v1-3 fixer territory)
+
+Both require schema changes and a dedicated PR:
+1. Add `dm_policy:enum('coach_only','members','disabled')` to `CommunityWorkspace` — needed before the eventual tri-state release.
+2. Add `clientPostsEnabled:boolean` to `CommunityWorkspace` — needed before any coach wants to enable client-authored posts.
+
+Both have single relax points already named in the v1-3 code (`canDm()`, `authoriseDm()`, `canCreatePost()`) so the future schema PR is a controlled, mechanical change.
