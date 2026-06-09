@@ -179,7 +179,8 @@
     "task": "Fix PR #372 BUG-R3: two TS7006 implicit-any in test/packages-archive-guard.spec.ts:178,211",
     "worktree": "/home/user/workspace/tgp/backend-r3-fixer",
     "branch": "fix/bug-r3-package-archive-guard",
-    "status": "dispatched"
+    "status": "merged",
+    "merge_commit": "f9b3c05"
   },
   {
     "id": "b3-v2-respec",
@@ -198,5 +199,15 @@
     "worktree": "/home/user/workspace/tgp/agentctx-roman-integration",
     "branch": "spec/roman-avatar-integration",
     "status": "dispatched"
+  },
+  {
+    "id": "mobile-fcm-wire-pr228",
+    "ts": "2026-06-09T19:02:48Z",
+    "agent_model": "n/a (parent)",
+    "task": "Wire google-services.json for Android FCM push \u2014 repo root + app.json googleServicesFile + docs/PUSH_NOTIFICATIONS.md",
+    "worktree": "/home/user/workspace/tgp/mobile-fcm-wire",
+    "branch": "fix/android-push-google-services",
+    "status": "merged",
+    "merge_commit": "2883b22"
   }
 ]
