@@ -21,10 +21,11 @@ This is not aspirational. Every PR is audited by an adversarial third-party AI (
 
 - Stubs, mocks, or placeholder data left in non-test code
 - Silent failures (catch blocks that swallow, default `false` returns that hide errors)
-- Test skips without `console.warn` skip reasons (R66)
-- Schema mutations sneaked into non-schema PRs (R69)
+- Test skips without `SKIP-BECAUSE` annotation (R69)
+- Schema mutations sneaked into non-schema PRs (v1-3-scope rule, not R-numbered — see landmines)
 - Endpoint counts misstated by more than ±1
-- Test pass-count drift between two runs of the full suite (R67)
+- Builder/fixer pushing without running full `npx jest --runInBand` to completion (R66)
+- Dispatching a subagent without writing a row to `handoffs/dispatch.json` first (R67)
 - Any reference to Sonnet 4.6 (which is forbidden — see model policy below)
 - Customer-data isolation gaps (this is the **DIRTY-CRITICAL** category — instant rollback consideration)
 
@@ -149,11 +150,16 @@ gh pr merge <PR#> --repo BradleyGleavePortfolio/growth-project-backend \
    - **R31** — builder ≠ auditor ≠ fixer
    - **R61** — push every ~2 minutes (sandboxes die)
    - **R64** — persist state to `tgp-agent-context` at every state change
-   - **R66** — full suite must run before push; no silent test skips (use `itLive`/`describe.skip` with `console.warn` reason)
-   - **R67** — full suite must run twice with byte-identical pass counts
-   - **R68** — typed DTOs everywhere
-   - **R69** — zero schema mutation outside schema PRs (`git diff main..HEAD -- prisma/` must be empty)
-   - **R70** — fail-fast lane: `npx jest test/doctrine-cleanup.spec.ts test/invariants/locked_defaults.spec.ts test/diagnostic-prompt-doctrine.spec.ts --runInBand` must be 15/15 green at every checkpoint
+   - **R66** — Full-Suite-Before-PR: `npx jest --runInBand` to completion before force-push, logged to `/home/user/workspace/`. Pre-existing failures listed in `docs/PRE_EXISTING_TEST_FAILURES.md` may be excluded by name in log header.
+   - **R67** — Dispatch-State-Persisted: before waiting on any spawned subagent, push a row `{ts, subagent_id, role, worktree, base_sha, branch, brief_path}` to `handoffs/dispatch.json` in `tgp-agent-context`. Recovery breadcrumb if parent sandbox dies.
+   - **R68** — Doctrine-Decision-Of-Record: every doctrine/guard/banned-token/invariant/naming change MUST land as merged ADR under `docs/decisions/NNNN-<slug>.md`. No verbal/journal-only doctrine changes.
+   - **R69** — Skipped-Tests-Are-Red: any `it.skip`, `describe.skip`, `xit`, `xdescribe` needs `// SKIP-BECAUSE: <reason> — owner: <name> — expires: <YYYY-MM-DD>` immediately above. Env-gated skips (`liveDbUrl() ? describe : describe.skip`) are exempt but still need a comment block.
+   - **R70** — Fail-Fast Pre-Push Lane (<30s, run BEFORE R66 full suite):
+     ```
+     npx jest test/doctrine-cleanup.spec.ts test/invariants/locked_defaults.spec.ts \
+              test/diagnostic-prompt-doctrine.spec.ts --runInBand
+     ```
+     Must be 15/15 green. This is the lane that would have caught PR #365's `Reaction`-token regression in 6s instead of 26-min CI cycles. See `docs/REPO_DOCTRINE_GUARDS.md` for canonical guard-test index.
 7. **`docs/REPO_DOCTRINE_GUARDS.md`** — index of doctrine guard tests, R70 fail-fast lane at the top.
 8. **`docs/decisions/0001-community-v1-1-doctrine-collision-path-a.md`** — the v1-1 ADR. Sets precedent for how doctrine collisions get resolved.
 
@@ -362,7 +368,7 @@ Read `COMMUNITY_EXECUTION_PLAN.md` section "### PR v1-4" (line 252) for the auth
   - `community-push.e2e.spec.ts` — Expo push fan-out (mocked at the adapter boundary)
   - `community-telemetry.e2e.spec.ts` — event emission shapes
   - All `itLive`-gated with `console.warn` (R66)
-- **Schema:** zero mutation (R69). If you find yourself wanting a column, it goes in the schema PR queue (see Section 4 BLOCKERS).
+- **Schema:** zero mutation (v1-3-scope rule, enforced by auditor via `git diff main..HEAD -- prisma/` empty check — NOT R69). If you find yourself wanting a column, it goes in the schema PR queue (see Section 4 BLOCKERS).
 - **Entitlement guards carry-forward:** the next pin-set must extend `entitlement-guards-mounted.spec.ts` from **17/17** (current v1-3 state) to cover any new realtime/push endpoints. The auditor will check this count is monotonically increasing.
 
 ### Day-one dispatch sequence (literal steps)
@@ -407,8 +413,8 @@ Read `COMMUNITY_EXECUTION_PLAN.md` section "### PR v1-4" (line 252) for the auth
 ### Code patterns that get caught
 
 - ❌ Returning DM/post/message data without going through the per-workspace gate (this was the v1-3 R2 DIRTY-CRITICAL)
-- ❌ `it.skip(...)` without `console.warn` (R66 silent-skip violation)
-- ❌ Touching `prisma/**` in a non-schema PR (R69 instant DIRTY-CRITICAL)
+- ❌ `it.skip(...)` without `SKIP-BECAUSE` annotation comment (R69 violation)
+- ❌ Touching `prisma/**` in a non-schema PR (v1-3-scope DIRTY-CRITICAL — auditor greps `git diff main..HEAD -- prisma/`)
 - ❌ Mocking real services in non-test code "for now" (R0 no-stubs)
 - ❌ Catch blocks that swallow exceptions and return defaults
 - ❌ Hardcoding string literals that should be imported constants
@@ -448,12 +454,12 @@ itLive('community-X', () => {
 });
 ```
 
-The `console.warn` is REQUIRED by R66. The auditor will grep for `it.skip(` or `describe.skip(` without an adjacent `console.warn` and flag DIRTY.
+The `console.warn` is REQUIRED by R69 (the auditor accepts it as an inline SKIP-BECAUSE equivalent for `itLive`-gated specs). The auditor will grep for `it.skip(` or `describe.skip(` without an adjacent `console.warn` or `// SKIP-BECAUSE:` comment and flag DIRTY.
 
 ### Verification commands you'll run repeatedly
 
 ```bash
-# R69 — zero schema mutation
+# v1-3-scope — zero schema mutation (NOT R-numbered)
 git diff main..HEAD -- prisma/
 
 # R70 fail-fast lane (must be 15/15)
@@ -578,7 +584,7 @@ These came up during v1-1 through v1-3 and are settled:
 [ ] Read COMMUNITY_PRODUCT_PLAN.md (15 min)
 [ ] Read COMMUNITY_EXECUTION_PLAN.md sections "### PR v1-4" through "### PR v1-6" (10 min)
 [ ] Read COMMUNITY_PARALLELIZATION_PLAN.md doc-map + cycle schedule (10 min)
-[ ] Skim AGENT_RULES.md in backend repo (R0, R31, R61, R64, R66-R70) (5 min)
+[ ] Skim AGENT_RULES.md in backend repo — rules 1-14 standing + R31, R56-R61, R64, R66-R70 (10 min, see Section 14 verbatim)
 [ ] Verify backend main is at ed78bbef: gh api repos/BradleyGleavePortfolio/growth-project-backend/commits/main --jq .sha
 [ ] Set up /tmp/wt-builder-v1-4 worktree on a new branch off main
 [ ] Write COMMUNITY_V1-4_BUILDER_BRIEF.md modeled on V1-3
@@ -598,8 +604,10 @@ The R1 auditor on v1-4 will check (this is your forward-shaped self-test):
 - Push fan-out goes through Expo adapter, NOT direct to APN/FCM
 - Telemetry events have stable shapes, documented in a constants file
 - All 3 new feature flags are referenced by both controller guards AND a kill-switch e2e case
-- `git diff main..HEAD -- prisma/` empty (R69)
+- `git diff main..HEAD -- prisma/` empty (v1-3-scope rule)
 - R70 lane 15/15
+- `it.skip`/`describe.skip` either env-gated with `console.warn` or annotated with `// SKIP-BECAUSE:` (R69)
+- `handoffs/dispatch.json` updated for every subagent spawned this slice (R67)
 - `entitlement-guards-mounted.spec.ts` has new pins for v1-4 endpoints (count > 17)
 - Moderation broadcasts/pushes remain UP under content freeze
 - No silent test skips, no Sonnet refs, commit hygiene clean
@@ -616,3 +624,277 @@ The R1 auditor on v1-4 will check (this is your forward-shaped self-test):
 Good luck. Dynasia is precise, fast, and will catch sloppiness. The bar is high but the process is clear. Follow the cycle, trust the auditor, and ship.
 
 — Outgoing operator
+
+
+---
+
+## 14. Gaps audit — verbatim rules, landmines, inventory (added on operator handoff)
+
+This section was added after a final-pass gap audit of the handoff. It captures the
+material the prior sections referenced but did not enumerate: the 14 standing rules,
+the worktree discipline R56-R61, the full R66-R70 build discipline rules verbatim,
+every landmine carried forward from the execution plan, the existing `src/community/`
+module inventory you'll inherit, and the additional backend docs you should skim.
+
+### 14.1 Fourteen standing rules (verbatim from `AGENT_RULES.md:1-16`)
+
+1. EVERYTHING MUST BE BUILT TO DECACORN QUALITY.
+2. ALL NEW FEATURES MUST BE BUILT, AUDITED BY CHATGPT 5.5, FIXED PER THE AUDIT, AUDITED AGAIN, AND FIXED AGAIN UNTIL CLEAN.
+3. ASSUME THE OWNER HAS THE TECH KNOWLEDGE OF A 7TH GRADER. EXPLAIN CHOICES IN SIMPLE LANGUAGE.
+4. ASK QUESTIONS FOR CLARITY AT EVERY NEW FEATURE PROJECT.
+5. AVOID THE 50 DOCUMENTED PATTERN FAILURES OF AI CODING AT ENTERPRISE SCALE.
+6. NEVER KICK THE CAN. FIX ISSUES AT THE ROOT THE MOMENT THEY APPEAR.
+7. DECACORN QUALITY / DEPTH / ENTERPRISE GRADE / 99.99% UPTIME IS THE GOAL.
+8. CHECKOUT MUST FEEL IN-APP AND BRANDED — NEVER VISIBLY LEAVE THE APP.
+9. NO RAW ERROR CODES TO USERS. EVERY ERROR MUST BE STRUCTURED AND CLEAR.
+10. ALWAYS DEFAULT TO THE HIGHEST QUALITY, MOST THOROUGH PATH (DECACORN DEFAULT).
+11. NEVER DELETE FEATURES OR SHRINK FEATURE ABILITIES. ALWAYS BUILD OUTWARD.
+12. THE OWNER CANNOT CHECK FLY OR GCP VALUES DIRECTLY — DO NOT ASK.
+13. OAUTH CONSENT SCREEN MUST BE IN PRODUCTION MODE (LAUNCHING IN FRONT OF 800 PEOPLE).
+14. ALWAYS BUILD WITH THE LATEST VERSION OF ALL "PLUMBING" — DEPENDENCIES, LIBRARIES, SDKS, RUNTIMES, GITHUB ACTIONS, TOOLING. WHEN STARTING ANY NEW FEATURE OR PR, USE THE NEWEST STABLE VERSION OF EVERY DEPENDENCY IT TOUCHES. WHEN DEPENDABOT OPENS AN UPGRADE PR, "MERGE IT" IS THE DEFAULT OUTCOME. MAJOR-VERSION BREAKS GET THEIR OWN PR + AUDIT, NEVER DEFERRED INDEFINITELY. STALE PLUMBING IS TECH DEBT.
+
+### 14.2 Worktree discipline R56-R61 (verbatim)
+
+These were codified after the CHECKOUT-HARDENING trampling incident — parallel subagents
+in the same worktree ran independent `git checkout` operations and destroyed each
+other's uncommitted work. Plus a Claude Code runtime exit dropped 8 concurrent
+subagents at once, exposing that uncommitted sandbox work is unrecoverable.
+
+**R56 — One subagent per worktree, always.** Before spawning any code-writing subagent
+(codebase / general-purpose with file edits in a repo), the parent MUST create a
+dedicated `git worktree add` path. Subagent objective MUST contain the exact absolute
+path and the instruction "work ONLY in this directory; do not cd elsewhere."
+
+**R57 — `backend-main` and `mobile` are READ-ONLY for subagents.** They exist for
+inspecting current main and as a stable source of symlinkable `node_modules` /
+`prisma.config.ts`. No subagent ever writes there. If a subagent's objective directs
+work into backend-main or mobile, the objective is malformed and must be rejected
+before spawn.
+
+**R58 — Worktree naming convention.** Format:
+`/home/user/workspace/tgp/{repo}-{short-task-slug}`. Examples:
+`backend-272-fix`, `backend-checkout-hardening`, `backend-dunning`,
+`mobile-wb-fix`. Slug is short, lowercase, hyphenated, unique per concurrent task.
+Parent maintains a slug → subagent_id ledger.
+
+**R59 — Pre-flight worktree check.** Before spawning a code-writing subagent, run
+`ls /home/user/workspace/tgp/` and confirm target path doesn't already exist. If
+orphaned: reuse only if same branch and clean; otherwise `git worktree remove
+--force` then add fresh, or pick a new slug. Never silently overwrite.
+
+**R60 — Audits get worktrees too.** R31 audit subagents that checkout PR branches
+need isolated worktrees per R56. Use slug pattern `{repo}-{task}-audit` (e.g.
+`backend-wb-audit`).
+
+**R61 — Push to GitHub every 2 minutes, always.** Every active worktree with
+uncommitted or unpushed work must be force-pushed to GitHub at minimum every 2
+minutes. If the sandbox dies right now, all ongoing work must be preserved on the
+remote. The parent agent runs
+`git add -A && git -c user.email=... commit -m "wip-autopush: $(date -Iseconds)" && git push -u origin $BRANCH`
+for every active branch on every natural breakpoint (after spawning subagents,
+before waiting, after each completion). Uncommitted work on a sandbox is
+unrecoverable. Push first, push often.
+
+### 14.3 Build discipline R66-R70 (verbatim, supersedes Section 1's earlier paraphrases)
+
+Codified after the community v1-1 PR #365 unblock. The PR sat red for 5 days on a
+single `doctrine-cleanup` token collision; the round-1 auditor's sandbox died before
+completing, the dispatch state was lost, and the original builder shipped without
+running the full test suite locally. R66-R70 close those holes. See
+`docs/decisions/0001-community-v1-1-doctrine-collision-path-a.md` for the
+precipitating incident.
+
+**R66 — Full-Suite-Before-PR.** Every builder/fixer MUST run `npx jest --runInBand`
+to completion BEFORE force-pushing. Targeted subsets are fine for iteration, but
+the push itself is gated by a full green suite — recorded to a log file in
+`/home/user/workspace/`. No exceptions; partial runs hide cross-suite regressions
+(the class of failure that killed PR #365 in the first place). Pre-existing
+grandfathered failures are listed in `docs/PRE_EXISTING_TEST_FAILURES.md` and may
+be excluded ONLY by name in the log header.
+
+**R67 — Dispatch-State-Persisted.** When the parent agent dispatches any
+code-writing or auditing subagent, it MUST also push a row to
+`handoffs/dispatch.json` in `tgp-agent-context` BEFORE waiting:
+`{ts, subagent_id, role, worktree, base_sha, branch, brief_path}`. This is the
+recovery breadcrumb if the parent sandbox dies mid-flight. Dispatch-without-persist
+is forbidden; the next operator must be able to resume from `dispatch.json` alone.
+
+**R68 — Doctrine-Decision-Of-Record.** Every decision that affects a doctrine
+guard, a banned-token list, an invariant test, or a repo-wide naming convention
+MUST land in a merged Markdown file under `docs/decisions/NNNN-<slug>.md` (ADR
+format). The decision is not in force until that PR is merged. No verbal/Slack/
+journal-only doctrine changes — those vanish when sandboxes die. See
+`docs/decisions/0001-community-v1-1-doctrine-collision-path-a.md` for the template.
+
+**R69 — Skipped-Tests-Are-Red.** Any `it.skip`, `describe.skip`, `xit`, or
+`xdescribe` in a committed test file MUST be annotated with a
+`// SKIP-BECAUSE: <reason> — owner: <name> — expires: <YYYY-MM-DD>` comment on
+the line immediately above. CI rejects PRs where an unannotated skip appears.
+Environment-gated skips (`liveDbUrl() ? describe : describe.skip`) are exempt
+because the skip reason IS the gate expression — but the surrounding comment
+block must still say what the gate means.
+
+**R70 — Fail-Fast Pre-Push Lane.** Before the full R66 suite, builders MUST run
+the <30s doctrine fail-fast lane first:
+
+```
+npx jest test/doctrine-cleanup.spec.ts test/invariants/locked_defaults.spec.ts \
+         test/diagnostic-prompt-doctrine.spec.ts --runInBand
+```
+
+If the fast lane is red, fix BEFORE running the full suite. This is the lane that
+would have caught PR #365's `Reaction`-token regression in 6 seconds instead of
+26-minute CI cycles. See `docs/REPO_DOCTRINE_GUARDS.md` for the canonical
+guard-test index and recommended fail-fast lanes for other domains.
+
+### 14.4 R10 is RETIRED
+
+R10 (grandfathered failing tests on `main` allowed while domain ticket exists) is
+RETIRED as of 2026-05-26. The 3 remaining grandfathered failures turned out to be
+stale test-helper bugs (A1-C5-P1-1, A1-C5-P1-3, A1-C5-P1-4), all fixed in
+`chore/r10-cleanup-fix-stale-tests`. New CLEAN bar:
+**CI green + 0 P0 + 0 P1 + 0 P2** on `main` at all times. Old PRs/audits citing R10
+remain traceable but new work must not invoke it. See `docs/PRE_EXISTING_TEST_FAILURES.md`.
+
+### 14.5 Full landmines list (from `COMMUNITY_EXECUTION_PLAN.md`)
+
+Every Community PR must avoid copying these patterns or stumbling into these traps:
+
+**Code-pattern landmines (do NOT copy):**
+
+- `src/messaging/messaging.service.ts:614-623` uses a forbidden double-cast pattern around Supabase signed upload methods.
+- `src/coach-media/supabase-storage.provider.ts:82`, `:132`, `:176`, `:213` — forbidden double-cast around Supabase Storage methods.
+- `src/supabase/supabase.service.ts:21` — broad transport cast; avoid in new Community Realtime code.
+- `src/services/realtime.ts:78-96` (mobile) suppresses Realtime failures too quietly; Community handlers MUST log redacted diagnostics and fall back to polling.
+- `src/coach/brief/coach-brief.scheduler.ts:132` and `:166` use a forbidden scheduler cast; do not copy that test seam.
+
+**API/DTO mismatch landmines:**
+
+- `src/api/messagesApi.ts:137-150` (mobile) posts `parent_message_id` but backend `src/messaging/messaging.dto.ts:62-74` does not declare it; threaded replies fail under strict validation. Community DTOs must declare every field the mobile client sends.
+
+**Schema/migration landmines:**
+
+- Legacy `Message` and `CoachMessage` overlap semantically; the schema PR must keep them separate and introduce new `Community*` tables (Community PRs do NOT mutate either legacy table).
+
+**Naming landmines:**
+
+- Backend roles and schema use `student`, but Bradley wants UI-visible copy to say `client`. Mobile UI strings, push notification bodies, and DTO `displayName` fields go through the `student → client` swap. Backend column names stay `student`.
+- Banned placeholder launch wording exists in current mobile tests and comments. Do not add assertions, comments, or docblocks with that wording. The auditor greps for it.
+
+**Test infrastructure landmines (these will cost you hours if you forget):**
+
+- Backend Jest CLI filter is `--testPathPatterns` (plural). Mobile Jest CLI filter is `--testPathPattern` (singular). Same flag spelled different across the two repos.
+- Backend `jest.config.js:4` has `roots: ['<rootDir>/test']`, so any spec you put under `src/` will be silently invisible to Jest. All new specs go under `test/`. (R66 will pass and you'll still ship broken code if you forget this.)
+
+**Notification/UX landmines:**
+
+- Notification defaults must avoid Slack-style noise. Default cohort chatter push should be off or digest-only unless the user opts in.
+- Old preview wording and stub comments must be replaced with real loaded/empty/error/locked states BEFORE enabling flags.
+
+**Live-call/event landmines:**
+
+- Mux supports video/replay assets, but group live-call infrastructure is not present. Community events must support external links or Mux replay before any native live rooms.
+
+**Build-order landmines (sequencing constraints):**
+
+- Wearables preflight patches land BEFORE wearable-aware Community prompts are enabled.
+- Community schema + RLS land BEFORE any REST, Realtime, or mobile UI flags are enabled.
+
+**R0 landmines (will fail audit if copied):**
+
+- Current repos contain legacy forbidden cast, ignore, and swallowed-rejection patterns; every Community PR must fail review if it adds more.
+
+### 14.6 Existing `src/community/` module inventory (post-v1-3 state on `main` @ `ed78bbef`)
+
+When you check out a new v1-X worktree from `main`, this is the file tree you inherit.
+Do not delete or restructure these — extend them.
+
+```
+src/community/
+├── community-access.service.ts        # entitlement+role gating helper
+├── community-feature-flag.guard.ts    # read-flag guard (FEATURE_COMMUNITY_READ)
+├── community-schema.feature.ts        # schema-presence detector
+├── community-write-flag.guard.ts      # write-flag guard (FEATURE_COMMUNITY_WRITE)
+├── community.controller.ts            # main entry (cohorts, today, me, workspace)
+├── community.dto.ts                   # top-level DTOs re-export
+├── community.module.ts                # Nest module wiring
+├── community.repository.ts            # cohort/workspace data access
+├── community.service.ts               # cohort/workspace business logic
+├── dms/
+│   ├── community-dms.controller.ts
+│   ├── community-dms.repository.ts
+│   └── community-dms.service.ts
+├── dto/
+│   ├── community-cohort.dto.ts
+│   ├── community-dm.dto.ts
+│   ├── community-me.dto.ts
+│   ├── community-message.dto.ts
+│   ├── community-moderation.dto.ts
+│   ├── community-post.dto.ts
+│   ├── community-reaction.dto.ts
+│   ├── community-today.dto.ts
+│   ├── community-workspace.dto.ts
+│   └── disabled-response.dto.ts       # typed kill-switch response
+├── messages/
+│   ├── community-messages.controller.ts
+│   ├── community-messages.repository.ts
+│   └── community-messages.service.ts
+├── moderation/
+│   ├── community-moderation.controller.ts
+│   ├── community-moderation.repository.ts
+│   └── community-moderation.service.ts
+├── posts/
+│   ├── community-posts.controller.ts
+│   ├── community-posts.repository.ts
+│   └── community-posts.service.ts
+└── reactions/
+    ├── community-emoji.allowlist.ts   # canonical emoji set
+    ├── community-reactions.controller.ts
+    ├── community-reactions.repository.ts
+    └── community-reactions.service.ts
+```
+
+**Pattern rules carry-forward:**
+
+- Controllers stay thin; business logic lives in services; data access lives in repositories.
+- Every public endpoint goes through BOTH `CommunityFeatureFlagGuard` (read flag) and `CommunityWriteFlagGuard` (write flag) when the endpoint mutates. The auditor pins guard count in `test/community/entitlement-guards-mounted.spec.ts` — when v1-4 adds endpoints, the pin count goes up.
+- Every endpoint must return a typed `DisabledResponseDto` when its flag is off (no raw 404 / 503).
+- All DTOs use class-validator + class-transformer with strict mode; no `any`, no `as unknown as`.
+
+### 14.7 Additional backend docs the next operator should skim
+
+Beyond `AGENT_RULES.md` (already covered), these docs hold context the next operator
+will need at least once:
+
+- `docs/CONTEXT.md` — the standing "what is this repo" briefing.
+- `docs/HOUSE_RULES.md` — repo-specific style/architecture rules layered on top of AGENT_RULES.
+- `docs/PROJECT_STATE.md` — current launch readiness state, owned features, in-flight workstreams.
+- `docs/BACKLOG.md` — work not yet sequenced; useful when scoping v1-4+ to confirm nothing duplicates.
+- `docs/PRE_EXISTING_TEST_FAILURES.md` — the only failures R66 lets you exclude by name in the log header.
+- `docs/REPO_DOCTRINE_GUARDS.md` — canonical guard-test index, R70 fail-fast lane definition, recommended fail-fast lanes for other domains.
+- `docs/AI_MOBILE_PATCH_INSTRUCTIONS.md` — required reading before any mobile-touching slice (v1-5 onwards).
+- `docs/SPEC_coach_brief.md` — coach-brief spec; touched indirectly by v2-x Coach Console changes.
+- `docs/decisions/0001-community-v1-1-doctrine-collision-path-a.md` — the ADR that R66-R70 came from. Read this so the rules feel concrete, not abstract.
+
+### 14.8 Persistent context layout (`tgp-agent-context` repo)
+
+Everything in `/tmp/tgp-agent-context/` survives sandbox death because it's pushed to
+the `tgp-agent-context` GitHub repo. The next operator clones it and reads:
+
+- `HANDOFF_TGP_COMMUNITY_EXPANSION.md` (this file) — the entry point.
+- `COMMUNITY_PRODUCT_PLAN.md` — authoritative WHY (product vision).
+- `COMMUNITY_EXECUTION_PLAN.md` — authoritative WHAT for all 14 slices (read the slice you're about to ship in full).
+- `COMMUNITY_PARALLELIZATION_PLAN.md` — authoritative WHEN/CONCURRENCY (only v1-5 ∥ v1-6 are parallel).
+- `STEP0_COMMUNITY_INTEGRATIONS_AND_GAPS.md` — pre-flight inventory of integration gaps.
+- `COMMUNITY_BUILD_JOURNAL.md` — R64 live log of every slice round (READ THE LATEST ENTRY FIRST — it tells you what state v1-3 / v1-4 / etc landed in).
+- `handoffs/dispatch.json` — R67 dispatch breadcrumbs. If parent sandbox died mid-flight, this tells you what subagents were live.
+
+### 14.9 Final reminder on the bar
+
+Dynasia's bar is decacorn (Rule 1) and hectocorn-trajectory (Rule 7's spirit). Every
+PR you ship gets read by an operator who will be running it in front of 800 paying
+clients. R0 ("ALWAYS BUILD TO DECACORN QUALITY + LAUNCH READINESS, NEVER STUB DATA,
+NEVER SILENT FAILURES, NEVER QUICK PATCHES — DO THE WORK RIGHT!") is the rule that
+overrides every other shortcut you might be tempted to take. When in doubt, do more
+work, not less. The standing rule (CLEAN → merge → next slice, no asking between
+slices) is your trust contract — honor it by being right, not by being fast.
