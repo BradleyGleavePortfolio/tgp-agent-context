@@ -475,17 +475,19 @@ Signed JWT (HS256, dedicated secret `PAYMENT_RECOVERY_JWT_SECRET`, **not** the a
 3. **Lockout terminal status (§7.3).** When Day-10 fires, keep `status='active'` + `locked_out_at` set (so same-request recovery via `recordResolution` can clear it), or transition to a terminal `status` value? The shipped enum is `active | resolved | abandoned` only — there is no `locked_out` status. Default in this spec: keep `active` + use `locked_out_at` as the signal.
 4. **Recovery-link expiry window (§10.3).** Confirm `next_attempt_at + 24h`, or a flat 72h from mint.
 5. **Branding fallback (§10.4).** When `CoachProfile.branding_logo_url` is null — default to the TGP brand mark, or suppress the logo?
-6. **Roman voice on transactional email (Roman spec scope conflict).** The Roman identity spec (PR #1 §0, §4) lists **transactional email as out of scope** for Roman's voice. This respec requires Roman-styled **email** copy (Day 1/3/7 emails, §C). Confirm we are **extending** Roman's voice to dunning email, or whether email copy should stay in a neutral transactional voice while only push/in-app/lockout carry Roman.
-7. **Quip rate on high-stakes financial surfaces.** The Roman spec (§1.5, §6) flags ~1-in-8 may be too frequent on money surfaces. Confirm the dunning blocker/lockout quip budget — keep 1-in-8, or rarer (e.g. 1-in-12) given these are payment-failure screens.
+6. **Roman voice on transactional email — RESOLVED (Option 3, 2026-06-09).** The Roman identity spec (PR #1 §0, §4) had listed transactional email as out of scope. The operator locked **Option 3 — "Roman is the brand voice for the user-facing app"** (2026-06-09 12:06 PT), which **extends** Roman's voice to **all** dunning and transactional email. The Day-1/3/7 dunning emails in §C are therefore canonical Roman copy. See `ROMAN_VOICE_POLICY.md` §2.3 (email scope) and §10 (decision #10). No further sign-off required.
+7. **Quip rate on high-stakes financial surfaces — RESOLVED (Option 3, 2026-06-09).** Locked to the operator-set flags: **`roman_quip_rate_client = 0.125`** (~1-in-8) on client dunning surfaces and **`roman_quip_rate_coach = 0.083`** (~1-in-12) on the Day-7 coach notifications. "Never two quips in a row" is enforced locally; money/lockout surfaces may opt out of a quip on any given render regardless of assignment. See `ROMAN_VOICE_POLICY.md` §5 (locked flags) and §3.2 (quip rules). No further sign-off required.
 8. **Coach routing for team-owned clients.** Confirm `ClientPurchase.coach_user_id` is always the right coach to notify, vs head-coach/team routing for `TeamProfile`-owned clients.
 9. **In-app blocker re-present cadence (§8.2).** Confirm soft-dismiss re-presents on next foreground (default), vs once-per-day, vs once-per-step.
 10. **Coach-app LOCKED badge behaviour.** Confirm a locked-out client shows in the coach roster with a red "LOCKED" badge, cannot send messages, and cannot view past content — and whether the coach can trigger a manual recovery nudge from that row.
 
 ---
 
-## §C — Copy variants (Roman voice contract, PR #1)
+## §C — Copy variants (Roman brand voice, Option 3 — `ROMAN_VOICE_POLICY.md`)
 
-All copy authored against `strategy/AI_BUTLER_ROMAN_IDENTITY_SPEC.md` (branch `spec/roman-identity`). Rules applied: no emoji; **no contractions in the straight variant** ("you will," not "you'll"); **contractions permitted only in the dry-joke variant** (the softening is the delivery); short complete sentences; the dry quip is at the **situation's** expense, never the client's; rotate the dry variant at **~1-in-8 per session**, never two quips in a row. Tokens: `{firstName}`, `{coachName}`, `{clientName}`, `{amount}`, `{cardLast4}`, `{lockoutDate}`. Each item ships **≥2 variants** (straight + dry Roman) so the rotation has material.
+**Option 3 locked (2026-06-09).** Roman is the **brand voice** of the user-facing app, including **all dunning email** (the earlier transactional-email scope conflict is resolved in Roman's favour — see §11.6). All copy below is authored against the canonical **`ROMAN_VOICE_POLICY.md`** (repo root), which extends the original `strategy/AI_BUTLER_ROMAN_IDENTITY_SPEC.md` (PR #1, branch `spec/roman-identity`) to brand-voice scope.
+
+Rules applied (from `ROMAN_VOICE_POLICY.md` §3): no emoji; **no contractions in the straight variant** ("you will," not "you'll"); **contractions permitted only in the dry-joke variant** (the softening is the delivery); short complete sentences; formal-but-warm, never sycophantic, never American-casual; the dry quip is at the **situation's** expense, never the client's; **never two quips in a row**; max one honorific per message (prefer `{firstName}`); no weak apologies. Quip rate is operator-locked at **`roman_quip_rate_client = 0.125`** (~1-in-8) on client surfaces and **`roman_quip_rate_coach = 0.083`** (~1-in-12) on the Day-7 coach surfaces (§11.7). Money-failure surfaces (every variant below) **never** trigger the `smile` avatar — dunning is `neutral` throughout (`ROMAN_VOICE_POLICY.md` §4). Tokens: `{firstName}`, `{coachName}`, `{clientName}`, `{amount}`, `{cardLast4}`, `{lockoutDate}`, `{reason}`, `{dunningDetailDeeplink}` (see `ROMAN_VOICE_POLICY.md` §10b token glossary). Each item ships **≥2 variants** (straight + dry Roman) so the rotation has material; **34 variant strings total** (17 items × straight + dry).
 
 ### C.1 Day 0 — push (card decline)
 - **Straight:** "A small matter, {firstName}: your payment did not go through. I will try again tomorrow. You need do nothing for now."
@@ -594,9 +596,10 @@ All copy authored against `strategy/AI_BUTLER_ROMAN_IDENTITY_SPEC.md` (branch `s
   — Roman"
 
 ### C.6 Day 10 — lockout screen
-- **Straight:** "Your access is locked, {firstName}. Your payment of {amount} did not clear after several attempts. Update your card to restore everything at once. I will be here when it is done."
+Dignified, **never** condescending (`ROMAN_VOICE_POLICY.md` §3.5). Leads with the canonical "household ledger" stem.
+- **Straight:** "The household ledger remains unsettled, {firstName}. Your payment of {amount} did not clear after several attempts. Access will resume the moment billing is current. Update your card to restore everything at once; I will be here when it is done."
   Subline (error / still declined): "That card was declined as well. Try another, or contact support and I will see what can be arranged."
-- **Dry Roman:** "The door is locked, {firstName}. {amount} never did clear, despite my best efforts. Update your card and I'll have you back inside straight away."
+- **Dry Roman:** "The door is locked, {firstName}. The ledger never did balance — {amount} stayed outstanding despite my best efforts. Set it right with a fresh card and I'll have you back inside straight away."
   Subline (error / still declined): "That one declined too. We're nothing if not persistent. Try another card, or contact support."
 
 ### C.7 Recovery — expired link page
