@@ -24,7 +24,7 @@
   },
   {
     "ts": "2026-06-09T17:03:00Z",
-    "subagent_id": "pending",
+    "subagent_id": "v1_4_community_builder_mq6w5fwk",
     "role": "builder",
     "worktree": "/home/user/workspace/tgp/backend-community-v1-4",
     "base_sha": "ed78bbeface5044a2f1fd5be0dd47fd20a10d43c",
