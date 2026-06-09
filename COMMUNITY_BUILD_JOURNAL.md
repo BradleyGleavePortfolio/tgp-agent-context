@@ -474,3 +474,12 @@ Both require schema changes and a dedicated PR:
 2. Add `clientPostsEnabled:boolean` to `CommunityWorkspace` — needed before any coach wants to enable client-authored posts.
 
 Both have single relax points already named in the v1-3 code (`canDm()`, `authoriseDm()`, `canCreatePost()`) so the future schema PR is a controlled, mechanical change.
+
+## v1-3 R2 fixer dispatched — 2026-06-09T01:00Z
+
+- Subagent: v1_3_r2_fixer_mq5xlgo6 (Opus 4.8)
+- Brief: COMMUNITY_V1-3_R2_FIXER_BRIEF.md (4 fixes: comment-bleed isolation, 3 G9 e2e specs, rls/.github untouched verify, manifest+docblock honesty)
+- Worktree: /tmp/wt-builder-v1-3 at 2ca5ffae on feature/community-v1-feed-messages
+- PR: #368 open, CI red on env-pre-existing rls-* (admin-merge precedent from v1-2 PR #367)
+- R1 verdict was DIRTY (not CRITICAL) — D1/D7/G4 customer-data surfaces all PASSED
+- On CLEAN: gh pr merge 368 --squash --admin --subject "community: v1-3 posts messages reactions (#368)" --body ""
