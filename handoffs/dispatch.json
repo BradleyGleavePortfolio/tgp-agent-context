@@ -189,5 +189,14 @@
     "worktree": "/home/user/workspace/tgp/agentctx-b3-v2-respec",
     "branch": "spec/b3-smart-dunning-gaps",
     "status": "dispatched"
+  },
+  {
+    "id": "roman-avatar-integration-plan",
+    "ts": "2026-06-09T18:24:25Z",
+    "agent_model": "gpt-5.5",
+    "task": "Roman avatar implementation + integration plan \u2014 where each of 5 mascot crops gets used (chat avatar, hero, monogram, welcome card, full-body), CDN strategy, asset pipeline, React Native Image component usage, dark/light theme handling, accessibility (alt text + voiceover), preloading strategy, fallback when image fails, A/B variant infra for joke rotation, integration touchpoints (Roman chat surfaces in client+coach app per Roman spec PR #1)",
+    "worktree": "/home/user/workspace/tgp/agentctx-roman-integration",
+    "branch": "spec/roman-avatar-integration",
+    "status": "dispatched"
   }
 ]
