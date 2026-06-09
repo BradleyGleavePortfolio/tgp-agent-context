@@ -220,19 +220,72 @@
     "status": "dispatched"
   },
   {
-    "id": "operator-decision-roman-option3",
-    "ts": "2026-06-09T19:09:34Z",
-    "agent_model": "operator",
-    "task": "Operator locks Roman billing scope: Option 3 \u2014 Roman is the brand voice for the user-facing app. Closes 10/10 Roman decisions; unblocks B3 v2 copy + PR #8 integration scope expansion.",
-    "status": "decided"
-  },
-  {
     "id": "roman-voice-policy-option3-updater",
     "ts": "2026-06-09T19:09:34Z",
+    "completed_ts": "2026-06-09T19:40:00Z",
     "agent_model": "opus-4.8",
-    "task": "Unified updater: (1) create ROMAN_VOICE_POLICY.md in tgp-agent-context; (2) rewrite PR #6 B3 dunning 34 copy variants in Roman voice; (3) update PR #8 \u2014 lock 10/10 decisions, expand touchpoint table 20\u219230, replace 'billing scope PENDING' callout. Three PRs (one new = PR #9, two amendments).",
+    "role": "builder",
+    "task": "Unified updater: (1) create ROMAN_VOICE_POLICY.md in tgp-agent-context (PR #9); (2) rewrite PR #6 B3 dunning 34 copy variants in Roman voice (Option 3 locked); (3) update PR #8 - lock 10/10 decisions, expand touchpoint table 20->31, add 'BILLING SCOPE: LOCKED Option 3' callout. Three PRs (one new = PR #9, two amendments = PR #6 + PR #8).",
     "worktree": "/home/user/workspace/tgp/agentctx-voice-policy",
     "branch": "spec/roman-voice-policy-option3",
-    "status": "dispatched"
+    "status": "completed",
+    "r67": true,
+    "outputs": {
+      "pr_9_policy": {
+        "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/9",
+        "branch": "spec/roman-voice-policy-option3",
+        "head_sha": "ffc8624e8e0616ef4ff10c75c4201d879dbffbd1",
+        "file": "ROMAN_VOICE_POLICY.md",
+        "policy_lines": 346
+      },
+      "pr_6_b3_dunning": {
+        "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/6",
+        "branch": "spec/b3-smart-dunning-gaps",
+        "update_sha": "d194405bcf833a28d2c90c4e2231095edfcfe5a2",
+        "b3_variants_rewritten": 34
+      },
+      "pr_8_integration": {
+        "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/8",
+        "branch": "spec/roman-avatar-integration",
+        "update_sha": "4e93fdf37f40645d596b8591534cf7143e455e2d",
+        "touchpoint_rows": 31
+      }
+    },
+    "finishing_sha": "06cc6f7b96bcc475f0d49b6dcccdb146b5a9335f",
+    "notes": [
+      "R31 builder role (spec/copy only, no code touched)",
+      "R64 pushed at every state change (3 branch pushes)",
+      "Title-only commits, author Dynasia G <dynasia@trygrowthproject.com>, no body/emoji/trailers",
+      "No 'sonnet' references; no emoji in any Roman artifact",
+      "All 10 Roman decisions LOCKED; Option 3 = Roman is brand voice"
+    ]
+  },
+  {
+    "id": "v1-4-fixer-r3-pr370",
+    "ts": "2026-06-09T19:35:00Z",
+    "completed_ts": "2026-06-09T19:35:00Z",
+    "agent_model": "opus-4.8",
+    "role": "fixer",
+    "task": "R3 fixer PR #370 v1-4: reword two stale comment references in test/community/realtime/posthog-event-names.spec.ts so the orphan-digest removal sentinel (community.digest.queued|queueCommunityDigest|digestQueued) returns zero results across src test docs scripts. Resolves the single DIRTY-MINOR strict-gate finding from R2 audit (r2_audit_pr_370_mq70ek86, gpt-5.5). Comment-only change; no source/logic/import/dep changes.",
+    "worktree": "/home/user/workspace/tgp/backend-v1-4-fixer-r3",
+    "branch": "feature/community-v1-realtime-push",
+    "status": "completed",
+    "r67": true,
+    "base_sha": "aaa3d5204ba0a5ced792143be135cee5132fc012",
+    "fix_sha": "95d9f441104f64d7050130d1c3d8f70a3ce0be41",
+    "verification": {
+      "sentinel_check": "0 results (rg exit 1)",
+      "tsc": "pass",
+      "jest_spec": "pass (3 tests)",
+      "full_lane": "pass (330 suites passed, 6 skipped rls/openapi; 4265 tests passed)",
+      "r70": "SKIP-BECAUSE: scripts/r70-fail-fast.sh does not exist in repo (no r70/fail-fast script found anywhere in tree)"
+    },
+    "notes": [
+      "R31 fixer role, different agent + worktree from R2 auditor",
+      "R64 pushed immediately after commit (aaa3d52..95d9f44)",
+      "Title-only commit, author Dynasia G <dynasia@trygrowthproject.com>, no body/emoji/trailers",
+      "No 'sonnet' references in the edited file",
+      "Did NOT amend aaa3d52 \u2014 new commit on top"
+    ]
   }
 ]
