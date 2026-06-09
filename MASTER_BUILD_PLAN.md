@@ -18,7 +18,7 @@
 
 ```
 TIER 1 (community lane — never blocked, always in flight):
-  v1-4 → v1-5 → v1-6 → v2
+  v1-4 → v1-5 → v1-6 → v2-1 → v2-2 → v2-3 → v2-4 → v3-1 → v3-2 → v3-3 → v3-4
 
 TIER 2 (parallel, but second to Tier 1 when contention):
   Roman integration (Phase 1 chat MVP → Phase 2 in-app → Phase 3 push/email)
@@ -29,7 +29,7 @@ TIER 2 (parallel, but second to Tier 1 when contention):
   EW2 undo+autosave (sub-slice of MWB §5+§6)
   B5 digital contracts
 
-TIER 3 (after v2 ships — STRICT, no exceptions):
+TIER 3 (after v2-4 ships — Reading A LOCKED, runs in parallel with v3.x):
   CC32 voice-first logging ("Hey Roman" wake word + Whisper for workouts/food/check-ins)
 
 TIER 4 (queued — operator decision needed):
@@ -110,19 +110,37 @@ TIER 4 (queued — operator decision needed):
 
 ---
 
-### 2.4 v2 — PLAN-CONTEXT TAGS → ACK SIGNALS → EVENTS (3 sub-PRs)
+### 2.4 v2 cycle — 4 sub-PRs (plan tags → ack signals → events → AI triage)
 
-**Scope source of truth:** `COMMUNITY_EXECUTION_PLAN.md` §§"PR v2-1", "PR v2-2", "PR v2-3".
+**Scope source of truth:** `COMMUNITY_EXECUTION_PLAN.md` §§"PR v2-1" through "PR v2-4".
 
-v2 is **3 sequential PRs**, not one:
+v2 cycle is **4 sequential PRs**:
 
-| Sub-PR | Title | Scope | Flag |
+| Sub-PR | Title | LOC | Flag |
 |---|---|---|---|
-| **v2-1** | `community: v2-1 plan context tags` | Backend plan-context tagging + mobile UI chips. ~1000 LOC. | `FEATURE_COMMUNITY_PLAN_TAGS` |
-| **v2-2** | `community: v2-2 coach ack signals` | Backend ack/read SLA + mobile status UI (seen / acked / replied). ~850 LOC. | `FEATURE_COMMUNITY_ACKS` |
-| **v2-3** | `community: v2-3 event objects` | Backend event lifecycle + RSVP + mobile event screens. 5-state machine (scheduled / tomorrow / live / replay / reflected). ~1600 LOC. | `FEATURE_COMMUNITY_EVENTS`, `EXPO_PUBLIC_FF_COMMUNITY_EVENTS` |
+| **v2-1** | `community: v2-1 plan context tags` | ~1000 | `FEATURE_COMMUNITY_PLAN_TAGS` |
+| **v2-2** | `community: v2-2 coach ack signals` (seen / acked / replied + SLA timer) | ~850 | `FEATURE_COMMUNITY_ACKS` |
+| **v2-3** | `community: v2-3 event objects` (5-state machine: scheduled/tomorrow/live/replay/reflected) | ~1600 | `FEATURE_COMMUNITY_EVENTS`, `EXPO_PUBLIC_FF_COMMUNITY_EVENTS` |
+| **v2-4** | `community: v2-4 AI inbox triage` (coach AI aggregation; never autonomous) | ~1400 | `FEATURE_COMMUNITY_AI_TRIAGE` |
 
-**Tier 3 (CC32) unlocks only after v2-3 ships.**
+**Tier 3 (CC32) unlocks the moment v2-4 merges — Reading A LOCKED 2026-06-09.** v3 cycle continues Tier 1 in parallel with CC32 in Tier 2.
+
+---
+
+### 2.5 v3 cycle — 4 sub-PRs (challenges → classroom → voice notes → search+wearables)
+
+**Scope source of truth:** `COMMUNITY_EXECUTION_PLAN.md` §§"PR v3-1" through "PR v3-4".
+
+| Sub-PR | Title | LOC | Flag |
+|---|---|---|---|
+| **v3-1** | `community: v3-1 challenges` (cohort-scoped challenges, opt-in leaderboards) | ~1600 | `FEATURE_COMMUNITY_CHALLENGES`, `EXPO_PUBLIC_FF_COMMUNITY_CHALLENGES` |
+| **v3-2** | `community: v3-2 classroom posts` (media-backed posts, pinned lessons, release locks) | ~1500 | `FEATURE_COMMUNITY_CLASSROOM_POSTS` |
+| **v3-3** | `community: v3-3 voice notes` (community-scoped voice composer — distinct from CC32 voice-first logging) | ~1200 | `FEATURE_COMMUNITY_VOICE_NOTES`, `EXPO_PUBLIC_FF_COMMUNITY_VOICE_NOTES` |
+| **v3-4** | `community: v3-4 search + wearable prompts` (depends on v3-3, P0-0A, P0-0B) | ~1800 | `FEATURE_COMMUNITY_SEARCH`, `FEATURE_COMMUNITY_WEARABLE_PROMPTS` |
+
+**Community expansion ENDS at v3-4.** Total remaining LOC across the v1.x → v2.x → v3.x lane after v1-4: ~15,050.
+
+**Note: v3-3 voice notes ≠ CC32 voice-first logging.** v3-3 = attach an audio blob to a community post/DM (reuses Phase 6C upload pipeline). CC32 = transcribe "Hey Roman, 315 for 5" via Whisper and write a `WorkoutSetLog`. Different modules (`src/community/voice/**` vs `src/voice-logging/**`), different schemas, different telemetry. They coexist.
 
 ---
 
@@ -249,7 +267,7 @@ v2 is **3 sequential PRs**, not one:
 
 **Builders:** Opus 4.8 each phase. Auditors: GPT-5.5 R31.
 
-**Dispatch trigger:** v2 community PR merged + all in-flight Tier 1 work complete.
+**Dispatch trigger:** v2-4 merged (NOT waiting for v3.x). v3.x community PRs continue in Tier 1 alongside CC32 in Tier 2.
 
 ---
 
