@@ -391,3 +391,34 @@ Tighten `test/entitlement-guards-mounted.spec.ts` to pin each paid legacy commun
 | 10 | v2-1..v2-4 | community: v2-1..v2-4 extensions | future | — |
 | 11 | v3-1..v3-4 | community: v3-1..v3-4 phase-3 | future | — |
 
+
+---
+
+## R64 checkpoint — Parallelization plan committed (2026-06-09 ~00:20 UTC)
+
+### What
+
+Authored `COMMUNITY_PARALLELIZATION_PLAN.md` (185 lines) as the canonical answer to "which of the remaining 12 community PRs can safely run in parallel." Sits alongside `COMMUNITY_EXECUTION_PLAN.md` as a same-tier doc — execution plan defines WHAT we build; parallelization plan defines IN WHAT ORDER and WITH WHAT CONCURRENCY.
+
+### Key findings
+
+- **Phase A (cycles 1-2): strict serial.** v1-3 → v1-4. v1-4 broadcast contract genuinely needs v1-3 domain events; mobile cannot stub realtime channels cleanly.
+- **Phase B (cycle 3): v1-5 ∥ v1-6.** Declared linear in execution plan, but file ownership is fully disjoint (client screens vs coach screens + coach backend). Saves 1 cycle to launch.
+- **Phase D (cycle 4): v2-1 ∥ v2-3 ∥ v3-1.** Three-way parallel — plan tags, events, challenges all in disjoint sub-modules. Saves ~2 cycles.
+- **Phase E (cycle 5): serial v2-2 → v2-4.** Both touch `CoachCommunityInboxScreen.tsx`; must serialize.
+- **Phase F (cycle 6): v3-2 ∥ v3-3.** Classroom and voice disjoint.
+- **Phase G (cycle 7): v3-4 solo.** Reuses v3-3 voice extraction.
+
+### Cycle compression
+
+- Strict serial (plan as written): 4 cycles to launch (v1-6), 12 cycles to fully done (v3-4).
+- Proposed parallelism: **3 cycles to launch, 7 cycles to fully done.** ~25% saving on launch, ~42% on completion. No R0 sacrifice.
+
+### Proposed new rule for next docs PR
+
+**R71 (Parallel-PR file ownership):** Concurrent PRs must enumerate OWNED vs DO-NOT-TOUCH file lists. On merge collision, second-merger rebases, re-runs R70 fail-fast lane, re-attests R67 idempotency before re-push.
+
+### File
+
+- Path: `/tmp/tgp-agent-context/COMMUNITY_PARALLELIZATION_PLAN.md`.
+- Commits with this journal checkpoint and pushed (R64).
