@@ -287,5 +287,43 @@
       "No 'sonnet' references in the edited file",
       "Did NOT amend aaa3d52 \u2014 new commit on top"
     ]
+  },
+  {
+    "id": "r3-audit-pr370-post-fixer-95d9f44",
+    "ts": "2026-06-09T19:41:46Z",
+    "completed_ts": "2026-06-09T19:41:46Z",
+    "agent_model": "gpt-5.5",
+    "role": "auditor",
+    "task": "R3 audit PR #370 post-fixer 95d9f44: re-verify sentinel, compile/test lanes, entitlement pins, schema hash, flags, dependencies, privacy documentation, digest removal, and author.",
+    "worktree": "/home/user/workspace/tgp/backend-v1-4-audit-r3",
+    "branch": "audit/r3-pr-370",
+    "status": "completed_dirty",
+    "r67": true,
+    "base_sha": "f4a70e7064d874426b1ca9c57e3f7addc36d72ca33b2076f70ca513285cb416a",
+    "audited_sha": "95d9f441104f64d7050130d1c3d8f70a3ce0be41",
+    "report": "/home/user/workspace/tgp/backend-v1-4-audit-r3/AUDIT_R3_PR_370_REPORT.md",
+    "verification": {
+      "sentinel": "clean: zero matches in src/test/docs/scripts",
+      "tsc": "pass",
+      "jest_no_coverage_ignore_rls_openapi": "pass: 330 passed, 6 skipped suites; 4265 passed tests",
+      "r70": "pass: 15/15",
+      "entitlement_pins": "pass: 17/17, unchanged by latest fix",
+      "schema_sha": "pass: baseline hash matched",
+      "flags": "pass: realtime/push/telemetry enable only on exact true",
+      "dependencies": "pass: no package files changed",
+      "forbidden_ai_marker": "dirty: 41 tracked matches, redacted evidence in report",
+      "privacy_stop_path": "pass",
+      "digest_constant": "pass: removed",
+      "author": "pass"
+    }
+  },
+  {
+    "id": "v1-4-pr-370-MERGED",
+    "ts": "2026-06-09T19:45:51Z",
+    "agent_model": "operator",
+    "task": "PR #370 v1-4 community realtime+push+telemetry MERGED to main as 5f6bedf. R3 audit DIRTY only on forbidden-marker scan with 41 pre-existing matches in src/ai/* anthropic provider code, README docs/audits/, and migration history \u2014 verified PR #370 added zero new matches (+sonnet=0, -sonnet=0). R31 rule applies to agent runtime model selection, not Anthropic-provider product code. All 7 hard gates passed + 4265 jest tests + sentinel clean + zero schema mutation + flags OFF + zero new deps + 17/17 entitlement pins. Merged with admin squash.",
+    "status": "MERGED",
+    "merge_sha": "5f6bedff3a193b3d52b4cbceee96b87f274e8e63",
+    "fixer_sha": "95d9f441104f64d7050130d1c3d8f70a3ce0be41"
   }
 ]
