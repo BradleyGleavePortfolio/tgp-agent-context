@@ -385,6 +385,50 @@
     },
     "anti_scope_respected": "v1 dunning.service.ts untouched; v1 DEFAULT_DUNNING_CADENCE intact; no webhook routing changed (handlers only added); no 5th attempt; copy verbatim from spec; flag default OFF; no v1-4 community files touched",
     "note": "7 failing suites (openapi-spec + 6 rls-*) are pre-existing DB-infra integration tests requiring a live Postgres; zero dunning references in their errors. Consistent with prior audit's jest_no_coverage_ignore_rls_openapi lane."
+  },
+  {
+    "ts": "2026-06-09T20:50:00Z",
+    "event": "plan_update",
+    "branch": "plan/master-build-order",
+    "commit": "1b7d199",
+    "note": "Reading A locked: CC32 unlocks after v2-4 merges; v3 cycle continues Tier 1 in parallel"
+  },
+  {
+    "id": "r1-audit-pr-373-b3-smart-dunning-v2",
+    "ts": "2026-06-09T20:55:55Z",
+    "completed_ts": "2026-06-09T20:55:55Z",
+    "agent_model": "gpt-5.5",
+    "role": "auditor",
+    "audit_round": "R1",
+    "task": "R1 audit PR #373 B3 Smart Dunning v2",
+    "worktree": "/home/user/workspace/tgp/backend-b3-v2-audit",
+    "branch": "audit/r1-pr-373",
+    "audits_branch": "feature/b3-smart-dunning-v2",
+    "audits_pr": 373,
+    "audited_sha": "b922b57ca7913fc353d726569c03f25e55b70764",
+    "audit_branch_sha": "99cfc6f",
+    "status": "completed_clean",
+    "r67": true,
+    "report": "/home/user/workspace/tgp/backend-b3-v2-audit/AUDIT_R1_PR_373_REPORT.md",
+    "verification": {
+      "schema_additivity": "pass: existing added columns nullable/defaulted; migration additive-only",
+      "flag_default_off": "pass: strict true check and no-op entrypoints",
+      "v1_dunning": "pass: v1 service untouched; 26/26 v1 dunning tests pass",
+      "cadence_state_machine": "pass: [0,1,3,7] plus Day-10; transitions covered",
+      "lockout_guard": "pass: locked non-billing 403; allowed recovery/auth/health/Roman chat",
+      "roman_copy_stems": "pass: 8 stems verified against PR #6 local spec commit d194405b",
+      "ai_budget": "pass: no new AI billing; existing gateway metering retained",
+      "posthog_events": "pass: 8 locked event names present",
+      "dependencies": "pass: no package manifest changes",
+      "tsc": "pass",
+      "jest_no_coverage_ignore_rls_openapi": "pass: 332 suites passed, 6 skipped; 4307 passed tests",
+      "r70": "skip-because scripts/r70-fail-fast.sh absent",
+      "restricted_runtime_marker_diff": "pass: +0/-0",
+      "entitlement_pins": "pass: 17/17",
+      "author_commit_format": "pass",
+      "late_reversal_idempotency": "pass"
+    }
   }
 ]
-{"ts":"2026-06-09T20:50:00Z","event":"plan_update","branch":"plan/master-build-order","commit":"1b7d199","note":"Reading A locked: CC32 unlocks after v2-4 merges; v3 cycle continues Tier 1 in parallel"}
+{"ts":"2026-06-09T21:10:00Z","event":"merge","pr":373,"sha":"9322eeb","branch":"feature/b3-smart-dunning-v2","note":"B3 v2 smart dunning merged after rebase onto 5f6bedf; notification-kind.ts conflict resolved (both v1-4 community + dunning_blocker kept); 144/144 tests pass"}
+{"ts":"2026-06-09T21:10:00Z","event":"plan_update","branch":"plan/master-build-order","commit":"8d37095","note":"Tier 4 decisions resolved (AWS-SDK=core dep, StripeConnect=ctor inject, fee-penny=absorb, B5: HelloSign Embedded + agent-drafted + eIDAS v1.1); Tier 5 added (page reorg + web app, LAST)"}
