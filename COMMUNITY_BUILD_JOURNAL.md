@@ -340,3 +340,54 @@ Tighten `test/entitlement-guards-mounted.spec.ts` to pin each paid legacy commun
 - `main` at `d84ceb27` (post-v1-2 merge).
 - v1-3 scope: community messages controller (write path begins).
 - Use `/tmp/wt-builder-v1-2` as the template for the next worktree (golden node_modules symlink pattern is proven).
+
+---
+
+## R64 checkpoint — v1-3 builder dispatched (2026-06-09 ~00:05 UTC)
+
+### State
+
+- main at `d84ceb27` (post-v1-2 merge).
+- v1-3 worktree freshly cloned: `/tmp/wt-builder-v1-3` at `d84ceb27`.
+- Branch: `feature/community-v1-feed-messages` (per execution plan line 243).
+
+### Scope (per execution plan lines 240-250)
+
+- ~1800 LOC across 4 sub-modules: `src/community/{messages,posts,reactions,moderation}/**`.
+- 3 new feature flags, all default false: `FEATURE_COMMUNITY_MESSAGES`, `FEATURE_COMMUNITY_POSTS`, `FEATURE_COMMUNITY_DM`.
+- Kill switch: messages and posts become read-only with disabled-response 200; moderation remains enabled (incident-response need).
+- ~22 endpoints total (messages CRUD, posts CRUD + comments, DMs with workspace dmPolicy gate, reactions on messages/posts/comments with idempotency, moderation reports + items + actions).
+
+### Builder brief
+
+- File: `/home/user/workspace/COMMUNITY_V1-3_BUILDER_BRIEF.md` (312 lines).
+- Covers: scope wall (no schema mutation, no realtime/push, no mobile), endpoints contract, DM tri-state policy (coach_only / members / disabled), rate limits table, body length validation, RLS / cross-tenant leak tests, 6 plan-named test cases + 4 v1-2-pattern gates, R0 + R66-R70 compliance, carry-forward to tighten `test/entitlement-guards-mounted.spec.ts` for `getFeed` + `postWin`.
+
+### Dispatch
+
+- Builder: Opus 4.8, subagent `v1_3_builder_mq5vr89d`.
+- Working directory: `/tmp/wt-builder-v1-3`.
+- Final report destination: `/home/user/workspace/COMMUNITY_V1-3_BUILDER_REPORT.md`.
+
+### Path forward
+
+- On builder done → write `/home/user/workspace/COMMUNITY_V1-3_AUDITOR_BRIEF.md`, dispatch fresh GPT-5.5 R1 auditor (R31).
+- On CLEAN → squash-merge per Bradley's standing rule.
+- On DIRTY → surgical Opus 4.8 fixer → fresh GPT-5.5 R2 auditor → iterate.
+
+### Active queue snapshot (refreshed, replaces stale table from line 25 above)
+
+| Order | PR ID | Title | State | Last SHA |
+|---|---|---|---|---|
+| 1 | P0-0A | wearables: restore on-device ingest route | ✅ MERGED | `694291b9` |
+| 2 | P0-0B | wearables: register cloud connectors | ✅ MERGED | `0629d62c` |
+| 3 | v1-1 | community: v1-1 schema workspace cohorts | ✅ MERGED | `7e851d8a` |
+| 4 | R66-R70 | docs: R66-R70 build discipline + doctrine guards index | ✅ MERGED | `6160fd86` |
+| 5 | v1-2 | community: v1-2 backend module foundation | ✅ MERGED | `d84ceb27` |
+| 6 | v1-3 | community: v1-3 posts messages reactions | BUILDING (Opus 4.8) | pending |
+| 7 | v1-4 | community: v1-4 realtime push telemetry | queued | — |
+| 8 | v1-5 | community: v1-5 mobile client tab | queued | — |
+| 9 | v1-6 | community: v1-6 coach admin inbox | queued | — |
+| 10 | v2-1..v2-4 | community: v2-1..v2-4 extensions | future | — |
+| 11 | v3-1..v3-4 | community: v3-1..v3-4 phase-3 | future | — |
+
