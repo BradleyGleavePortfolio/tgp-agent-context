@@ -506,3 +506,14 @@ Both have single relax points already named in the v1-3 code (`canDm()`, `author
   - FIX 1: factor gateDmRead helper, gate listThreads, add e2e case 8
   - FIX 2: manifest wording correction (no code change)
 - Sandbox infra ticket filed: e2209543 ("Paused sandbox 019ea55f not found" — hit 3 consecutive dispatches today)
+
+## v1-3 R3 fixer DONE + R3 auditor dispatched — 2026-06-09T01:28Z
+
+- R3 fixer (Opus 4.8) completed
+- Head SHA advanced: 35b1b410 -> 15e50502
+- FIX 1 (critical DM leak): Option A taken — factored gateDmRead(membership, workspace) helper; refactored authoriseDm to reuse it (sender + recipient); added gateDmRead to listThreads before returning rows; e2e case 8 (default-OFF + null dm_enabled → 403) + 8b (dm_enabled=true negative control → 200)
+- FIX 2 (manifest honesty): no-op — PR body already says "25 endpoints" correctly; wrong "28" only existed in R2 fixer prose
+- Fixer self-verification all green: V1 prisma diff 0, V2 doctrine 15/15, V3 entitlement 17/17, V4 DM spec 9 cases skip cleanly with R66 warning, V5 all 4 DM routes traced to gate, V6 rls/.github empty, V7 commit hygiene clean, V8 push 15e50502, V9 tsc exit 0
+- R3 auditor: v1_3_r3_auditor_gpt_5_5_mq5yp4m3 (fresh GPT-5.5, general_purpose to avoid stuck codebase sandbox 019ea55f)
+- R3 auditor brief: COMMUNITY_V1-3_R3_AUDITOR_BRIEF.md — focused on S5 (all 4 DM routes gated) since that was the DIRTY-CRITICAL surface in R2
+- On CLEAN: gh pr merge 368 --squash --admin --subject "community: v1-3 posts messages reactions (#368)" --body ""
