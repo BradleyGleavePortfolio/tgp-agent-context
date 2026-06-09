@@ -251,7 +251,7 @@
         "touchpoint_rows": 31
       }
     },
-    "finishing_sha": "f20b275645894f16e93cc1c7aff9c4d93c8110dc",
+    "finishing_sha": "06cc6f7b96bcc475f0d49b6dcccdb146b5a9335f",
     "notes": [
       "R31 builder role (spec/copy only, no code touched)",
       "R64 pushed at every state change (3 branch pushes)",
