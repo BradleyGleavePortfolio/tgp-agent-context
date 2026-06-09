@@ -209,5 +209,14 @@
     "branch": "fix/android-push-google-services",
     "status": "merged",
     "merge_commit": "2883b22"
+  },
+  {
+    "id": "r2-audit-pr370",
+    "ts": "2026-06-09T19:04:10Z",
+    "agent_model": "gpt-5.5",
+    "task": "R2 audit PR #370 v1-4 community after fixer aaa3d52 \u2014 verify all 5 R1 findings resolved: lockscreenPrivacy STOP path (zero schema mutation), RLS 8 suites green per LOG, orphan digest removed, error_code enum, reaction kind glyph map. Full R1 gate re-verification.",
+    "worktree": "/home/user/workspace/tgp/backend-v1-4-audit-r2",
+    "branch": "feature/community-v1-realtime-push",
+    "status": "dispatched"
   }
 ]
