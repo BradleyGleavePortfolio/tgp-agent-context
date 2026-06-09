@@ -40,5 +40,44 @@
       "Zero schema mutation gate: git diff main..HEAD -- prisma/ must be empty",
       "DIRTY-CRITICAL: any user-authored body text in broadcast payloads, or any user content in push payloads when User.lockscreenPrivacy=true"
     ]
+  },
+  {
+    "ts": "2026-06-09T17:11:00Z",
+    "subagent_id": "pending",
+    "role": "fixer",
+    "worktree": "/home/user/workspace/tgp/backend-r2-meal-plan-dedup",
+    "base_sha": "ed78bbeface5044a2f1fd5be0dd47fd20a10d43c",
+    "branch": "fix/bug-r2-meal-plan-dedup",
+    "task": "BUG-R2 dedup legacy MealPlansModule routes to real-meal-plans canonical",
+    "model": "claude_opus_4_8",
+    "subagent_type": "general_purpose",
+    "file_scope": ["src/meal-plans/**", "src/real-meal-plans/**"],
+    "isolation_note": "NO overlap with v1-4 builder (community/notifications/supabase/analytics) or R3/R4-R5 fixers"
+  },
+  {
+    "ts": "2026-06-09T17:11:00Z",
+    "subagent_id": "pending",
+    "role": "fixer",
+    "worktree": "/home/user/workspace/tgp/backend-r3-package-archive-guard",
+    "base_sha": "ed78bbeface5044a2f1fd5be0dd47fd20a10d43c",
+    "branch": "fix/bug-r3-package-archive-guard",
+    "task": "BUG-R3 block archive of CoachPackage with active recurring subscribers",
+    "model": "claude_opus_4_8",
+    "subagent_type": "general_purpose",
+    "file_scope": ["src/packages/packages.service.ts"],
+    "isolation_note": "NO overlap with v1-4 builder or R2/R4-R5 fixers"
+  },
+  {
+    "ts": "2026-06-09T17:11:00Z",
+    "subagent_id": "pending",
+    "role": "fixer",
+    "worktree": "/home/user/workspace/tgp/backend-r4-r5-gdpr",
+    "base_sha": "ed78bbeface5044a2f1fd5be0dd47fd20a10d43c",
+    "branch": "fix/bug-r4-r5-gdpr-export-and-scrub",
+    "task": "BUG-R4 GDPR export S3 + BUG-R5 GDPR scrub cancels Stripe subs",
+    "model": "claude_opus_4_8",
+    "subagent_type": "general_purpose",
+    "file_scope": ["src/data-export/data-export.service.ts", "src/users/gdpr-scrub.service.ts"],
+    "isolation_note": "NO overlap with v1-4 builder or R2/R3 fixers"
   }
 ]
