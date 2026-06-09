@@ -218,5 +218,21 @@
     "worktree": "/home/user/workspace/tgp/backend-v1-4-audit-r2",
     "branch": "feature/community-v1-realtime-push",
     "status": "dispatched"
+  },
+  {
+    "id": "operator-decision-roman-option3",
+    "ts": "2026-06-09T19:09:34Z",
+    "agent_model": "operator",
+    "task": "Operator locks Roman billing scope: Option 3 \u2014 Roman is the brand voice for the user-facing app. Closes 10/10 Roman decisions; unblocks B3 v2 copy + PR #8 integration scope expansion.",
+    "status": "decided"
+  },
+  {
+    "id": "roman-voice-policy-option3-updater",
+    "ts": "2026-06-09T19:09:34Z",
+    "agent_model": "opus-4.8",
+    "task": "Unified updater: (1) create ROMAN_VOICE_POLICY.md in tgp-agent-context; (2) rewrite PR #6 B3 dunning 34 copy variants in Roman voice; (3) update PR #8 \u2014 lock 10/10 decisions, expand touchpoint table 20\u219230, replace 'billing scope PENDING' callout. Three PRs (one new = PR #9, two amendments).",
+    "worktree": "/home/user/workspace/tgp/agentctx-voice-policy",
+    "branch": "spec/roman-voice-policy-option3",
+    "status": "dispatched"
   }
 ]
