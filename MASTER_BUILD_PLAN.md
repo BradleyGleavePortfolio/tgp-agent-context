@@ -80,62 +80,49 @@ TIER 4 (queued — operator decision needed):
 
 ---
 
-### 2.2 v1-5 — COMMUNITY MODERATION + REPORT + BLOCK
+### 2.2 v1-5 — MOBILE CLIENT COMMUNITY TAB
 
-**Scope source of truth:** `tgp-agent-context/COMMUNITY_PRODUCT_PLAN.md` (v1-5 section). Brief gets drafted from there.
+**Scope source of truth:** `COMMUNITY_EXECUTION_PLAN.md` §"PR v1-5".
 
-**Expected scope (subject to spec confirmation):**
-- Report flow: client reports post/comment → server stores report → moderator queue.
-- Block flow: user blocks user → bi-directional filter at fanout + read paths.
-- Moderator queue UI (admin web or in-coach app — confirm in spec).
-- Soft-hide vs hard-delete distinction.
-- Telemetry: `community.report.created`, `community.report.actioned`, `community.user.blocked`, `community.user.unblocked`.
-- Feature flag: `FEATURE_COMMUNITY_MODERATION` default OFF.
+**Scope:** Mobile client surface consuming the v1-4 backend. 7 screens (CommunityTab, Today, Space, Thread, DmList, DmThread, Composer), shared `src/components/community/**`, typed `communityApi.ts`, 4 Expo flags default OFF, WebSocket subscription for unread badges, optimistic updates. Roman voice Option 3 Phase 1 scope = in-app empty states + onboarding only (NOT push/email — Phase 3).
 
-**Builder dispatch:** Opus 4.8, R31, fresh worktree `backend-community-v1-5`. Brief written the moment v1-4 merges; do not pre-dispatch.
+**Flags:** `EXPO_PUBLIC_FF_COMMUNITY_TAB`, `EXPO_PUBLIC_FF_COMMUNITY_HALL`, `EXPO_PUBLIC_FF_COMMUNITY_COHORTS`, `EXPO_PUBLIC_FF_COMMUNITY_DM` — all default false.
 
-**Audit:** GPT-5.5 R1; same R31 worktree split.
+**Builder dispatch:** Opus 4.8, R31, worktree `mobile-community-v1-5`. **IN FLIGHT.**
 
-**Hard gates:**
-- Zero schema mutation outside flag-gated code.
-- Entitlement-guards pin 17/17.
-- Re-use existing RLS pattern from v1-4; no schema additions without `FEATURE_COMMUNITY_MODERATION` flag.
-- Tests: report-creates-row, block-filters-fanout, block-filters-reads, idempotent report-twice.
+**Audit:** GPT-5.5 R1.
+
+**Hard gates:** flag-off route absence, no spinner-only empty states, no placeholder launch text, ≥44pt touch targets, standardize on `semanticColors`, optimistic updates with rollback, full Jest+RNTL coverage, TS strict, lint clean, no `sonnet` references, no new heavyweight deps.
 
 ---
 
-### 2.3 v1-6 — COMMUNITY PROFILES + FOLLOW + FEED
+### 2.3 v1-6 — COACH ADMIN INBOX + MODERATION
 
-**Expected scope:**
-- User profile page (avatar, bio, milestones, recent posts).
-- Follow / unfollow.
-- "Following" feed view (alongside global feed).
-- Suggested-to-follow (cold-start: coach + top milestone hitters).
-- Telemetry: `community.profile.viewed`, `community.follow.created`, `community.feed.viewed`.
-- Feature flag: `FEATURE_COMMUNITY_FOLLOWS` default OFF.
+**Scope source of truth:** `COMMUNITY_EXECUTION_PLAN.md` §"PR v1-6".
 
-**Builder dispatch:** Opus 4.8, R31, fresh worktree.
+**Scope:** Backend coach endpoints + mobile coach screens. `src/community/coach/**`, `CoachCommunityHomeScreen`, `CoachCommunityInboxScreen`, `CoachCommunityLabScreen`, `CoachCommunityCohortsScreen`, `CoachCommunityCohortDetailScreen`, `CoachCommunityModerationScreen`. ~1900 LOC.
 
-**Hard gates:** same template as v1-4/v1-5.
+**Flags:** `FEATURE_COMMUNITY_COACH_ADMIN`, `EXPO_PUBLIC_FF_COACH_COMMUNITY` — default false.
+
+**Hard gates:** destructive moderation actions require confirmation, no foreign-coach access, audit-log row for every moderation action, no `sonnet` references.
+
+**Tests:** coach creates cohort, coach invites/assigns clients, coach inbox aggregates unanswered items, moderator actions hide content.
 
 ---
 
-### 2.4 v2 — COMMUNITY EVENTS + CHALLENGES + LEADERBOARDS
+### 2.4 v2 — PLAN-CONTEXT TAGS → ACK SIGNALS → EVENTS (3 sub-PRs)
 
-**Expected scope:**
-- Time-bounded community events ("30-day squat challenge", "coach-led streak week").
-- Leaderboards (opt-in, anonymizable).
-- Event-scoped reactions / posts.
-- Event-creation flow (coach-only).
-- Push: event-start, leaderboard-position-change, event-end.
-- Telemetry: `community.event.created`, `community.event.joined`, `community.event.completed`, `community.leaderboard.viewed`.
-- Feature flag: `FEATURE_COMMUNITY_EVENTS` default OFF.
+**Scope source of truth:** `COMMUNITY_EXECUTION_PLAN.md` §§"PR v2-1", "PR v2-2", "PR v2-3".
 
-**Builder dispatch:** Opus 4.8, R31, fresh worktree.
+v2 is **3 sequential PRs**, not one:
 
-**Hard gates:** same template.
+| Sub-PR | Title | Scope | Flag |
+|---|---|---|---|
+| **v2-1** | `community: v2-1 plan context tags` | Backend plan-context tagging + mobile UI chips. ~1000 LOC. | `FEATURE_COMMUNITY_PLAN_TAGS` |
+| **v2-2** | `community: v2-2 coach ack signals` | Backend ack/read SLA + mobile status UI (seen / acked / replied). ~850 LOC. | `FEATURE_COMMUNITY_ACKS` |
+| **v2-3** | `community: v2-3 event objects` | Backend event lifecycle + RSVP + mobile event screens. 5-state machine (scheduled / tomorrow / live / replay / reflected). ~1600 LOC. | `FEATURE_COMMUNITY_EVENTS`, `EXPO_PUBLIC_FF_COMMUNITY_EVENTS` |
 
-**v2 ships → Tier 3 unlocks (CC32).**
+**Tier 3 (CC32) unlocks only after v2-3 ships.**
 
 ---
 
