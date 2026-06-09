@@ -493,3 +493,16 @@ Both have single relax points already named in the v1-3 code (`canDm()`, `author
 - R2 auditor dispatched: v1_3_r2_auditor_gpt_5_5_mq5y81sh (fresh GPT-5.5, R31)
 - Auditor brief: COMMUNITY_V1-3_R2_AUDITOR_BRIEF.md (S1-S6 surfaces + H1-H4 honesty + 4 fix verifications)
 - On CLEAN: gh pr merge 368 --squash --admin --subject "community: v1-3 posts messages reactions (#368)" --body ""
+
+## v1-3 R2 audit DIRTY-CRITICAL + R3 fixer dispatched — 2026-06-09T01:20Z
+
+- R2 auditor (GPT-5.5, general_purpose fallback after 2 codebase-subagent sandbox deaths) verdict: DIRTY-CRITICAL
+- Real customer-data leak: src/community/dms/community-dms.service.ts:196-223 listThreads bypasses per-workspace default-OFF DM gate
+  - With FEATURE_COMMUNITY_DM=true + workspace dm_enabled_default=false, member can list pre-existing DM thread metadata
+  - Other 3 DM service methods (openThread/send/listThread) correctly call authoriseDm
+- Secondary finding (blocking-minor): R2 fixer claimed "28 added endpoints" — actual decorator count is 25 added / 0 modified. "28A + 3M" is file manifest not decorators.
+- R2 passes: comment-bleed isolation FIX 1 (clean), rls/.github untouched, commit hygiene, R69 prisma diff 0, R70 lane 15/15, entitlement guards 17/17, no Sonnet refs
+- R3 fixer dispatched: v1_3_r3_fixer_dm_leak_mq5yfq74 (Opus 4.8)
+  - FIX 1: factor gateDmRead helper, gate listThreads, add e2e case 8
+  - FIX 2: manifest wording correction (no code change)
+- Sandbox infra ticket filed: e2209543 ("Paused sandbox 019ea55f not found" — hit 3 consecutive dispatches today)
