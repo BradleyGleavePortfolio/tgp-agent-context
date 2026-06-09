@@ -604,3 +604,24 @@ The R4-R5 fixer correctly invoked the STOP conditions defined in its brief. HEAD
 - Backlog markdown written to `audits/OPEN_ISSUES_2026-06-09.md` (down from 150 → ~70 items).
 - GitHub issue [#369](https://github.com/BradleyGleavePortfolio/growth-project-backend/issues/369) created with the pruned, actionable list.
 - Removed as merged: A.1–A.12 (PR-A), B.1–B.8 (all 8 RLS PRs merged: `3fa75ff`, `370a7ae`, `c94fa14`, …), AI gateway #327, payment-ops hardening, HK-2..HK-6 wearables through #364, plus most of the May-26 28-finding register.
+
+---
+
+## 2026-06-09T17:49Z — 3 PRs opened (v1-4 + R2 + R3 all functionally complete)
+
+All three subagents reported sandbox-snapshot infrastructure errors at the very end of their runs but had already committed + pushed their branches. Parent agent opened the PRs from the persisted branches.
+
+| Subagent | PR | HEAD | R66 status |
+|---|---|---|---|
+| `v1_4_community_builder_mq6w5fwk` | [#370](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/370) | `df520cf` | Run-1 clean; only env-gated RLS failures (no Postgres in sandbox). Run-2 byte-identical pending on CI. |
+| `bug_r2_meal_plan_dedup_mq6wh9rs` | [#371](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/371) | `b6760a1` | Run-1 sharded clean; same env-only failures. Run-2 byte-identical pending on CI. |
+| `bug_r3_package_archive_guard_mq6whvla` | [#372](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/372) | `ebb33d2` | Run-1 clean (4215 passed); 543 env-only failures (8 live-Postgres RLS suites). Run-2 byte-identical pending on CI. |
+
+**All three:** R70 fail-fast 15/15 green, zero prisma diff, zero new deps, zero "sonnet" string, R69 zero silent skips, title-only commits with Dynasia G author.
+
+**Next:** spawn fresh GPT-5.5 auditors per R31 + R60 (one auditor per PR, separate worktree each). Pending parent dispatch.
+
+## 2026-06-09T17:50Z — Roman identity spec PR open
+
+[tgp-agent-context PR #1](https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/1) — 382-line voice contract + 12-context sample copy + mascot direction brief. Subagent `roman_identity_spec_mq6xlbq9` (Opus 4.8) completed cleanly.
+
