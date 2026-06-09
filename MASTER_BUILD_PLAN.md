@@ -32,10 +32,17 @@ TIER 2 (parallel, but second to Tier 1 when contention):
 TIER 3 (after v2-4 ships — Reading A LOCKED, runs in parallel with v3.x):
   CC32 voice-first logging ("Hey Roman" wake word + Whisper for workouts/food/check-ins)
 
-TIER 4 (queued — operator decision needed):
-  BUG-R4 AWS SDK dep PR
-  BUG-R5 StripeConnect inject into GdprScrubService
-  $1 fee-formula reconcile in bank-payout spec
+TIER 4 (queued — operator decisions RESOLVED 2026-06-09):
+  BUG-R4 AWS SDK dep        — Option A: core dep (every install gets ACH support)
+  BUG-R5 StripeConnect inj  — Option A: constructor injection (fewer flaky tests forever)
+  Fee-formula penny delta   — Option A: platform absorbs (clean UX, slight margin hit)
+  B5 eIDAS Advanced (EU)    — defer to v1.1
+  B5 signature plan         — HelloSign Embedded (inline iframe, ~30% premium accepted)
+  B5 contract drafting      — agent-drafted with deep research; FEATURE_CONTRACTS_ENABLED stays OFF in prod until lawyer review
+
+TIER 5 (LAST — runs ONLY after every Tier 1-4 item ships):
+  PAGE REORGANIZATION (mobile IA cleanup)
+  WEB APP BUILD (browser-based dashboard for coaches — does NOT exist today)
 ```
 
 ---
@@ -271,15 +278,20 @@ v2 cycle is **4 sequential PRs**:
 
 ---
 
-## 5. Tier 4 — Queued operator decisions
+## 5. Tier 4 — Queued operator decisions (RESOLVED 2026-06-09)
 
-| Item | Blocker |
-|---|---|
-| BUG-R4 AWS SDK dep PR | Operator must approve adding `@aws-sdk/client-s3` to the dependency tree (zero-new-deps gate vs export need). |
-| BUG-R5 StripeConnect injection into GdprScrubService | Operator design call. |
-| $1 fee-formula reconcile in bank-payout spec $1k ACH example | Worked-example arithmetic typo. Formula correct (`2% + 50% × (card_cost - stripe_actual_cost)` → ~$32.15/$1k ACH). |
+| Item | Decision | Rationale (plain English) |
+|---|---|---|
+| BUG-R4 AWS SDK dep PR | **Option A — core dep** | Every coach who downloads the app gets ACH capability out of the box; no opt-in install step. |
+| BUG-R5 StripeConnect injection | **Option A — constructor injection** | Fewer flaky tests forever. Slightly more wiring boilerplate, but tests can inject fakes cleanly and no global service-locator state to leak between tests. |
+| Fee-formula $1 reconcile | **Option A — platform absorbs** | Clean UX. User ledger shows the clean computed number; platform eats the 1¢ delta as cost of business. No weird "Adjustment $0.01" lines for coaches to question. |
+| B5 provider | **HelloSign** (locked) | Best balance of legal weight, cost, UX, and integration effort. |
+| B5 default scope | **Two layers** | Layer 1: TGP↔Client liability waiver REQUIRED for every client (signed once); Layer 2: Coach↔Client service agreement OPT-IN per package. |
+| B5 contract drafting | **Agent-drafted** | Builder agent does deep live research per contract type. `FEATURE_CONTRACTS_ENABLED` stays OFF in prod as code-level invariant until lawyer review clears the wording. |
+| B5 eIDAS Advanced (EU) | **Defer to v1.1** | Ship US-grade signatures first; EU stronger-tier upgrade later. |
+| B5 HelloSign plan | **Embedded** | Inline iframe at checkout, no redirect — required for the inline-before-Stripe gate. ~30% per-envelope premium accepted. |
 
-These do NOT block any Tier 1 / 2 / 3 work.
+All Tier 4 items are now UNBLOCKED for dispatch (subject to Tier 1 capacity rules).
 
 ---
 
@@ -325,6 +337,35 @@ These are the **next dispatches** once v1-4 R3 audit returns CLEAN and v1-4 merg
 ```
 
 Bank-payout, B5, and EW3 dispatches inserted as gaps allow.
+
+---
+
+## 7B. Tier 5 — LAST track (page reorganization + web app)
+
+Locked 2026-06-09 as the absolute LAST items in the master plan. Dispatched ONLY after every Tier 1 / 2 / 3 / 4 item has shipped or been explicitly de-prioritized by the operator.
+
+### 7B.1 Page reorganization (mobile information architecture)
+
+Mobile-app navigation / IA cleanup. Scope to be specced when we reach this tier — current placeholder: rationalize tab structure, consolidate redundant screens, align surface-to-feature mapping with the post-MWB / post-CC32 / post-community feature set. Spec TBD.
+
+### 7B.2 Web app build (browser dashboard for coaches)
+
+**Status today (2026-06-09):** does NOT exist. There is no web app, no `trygrowthproject.com` dashboard, no browser-based coach surface. Everything is the mobile app (Expo / React Native).
+
+**Scope (placeholder):** browser-based coach dashboard. Likely Next.js + the existing NestJS backend, reusing the same auth/RLS layer. Surfaces:
+- Master Workout Builder web client (Cmd-Z + version drawer per EW2 §6)
+- Community admin inbox + moderation
+- Coach storefront editing
+- Analytics + revenue dashboards
+
+**Dependencies that MUST land first:**
+- All Tier 1 community PRs merged (v1-4 through v3-4)
+- All Roman phases (1, 2, 3) shipped
+- All Whisper / CC32 phases shipped
+- All MWB phases (MWB-1 through MWB-5) shipped
+- Page reorganization (§7B.1) complete
+
+**Spec:** TBD when we reach this tier. EW2 §6 already pre-plans the web-shared undo+autosave hooks for the day this exists.
 
 ---
 
