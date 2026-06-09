@@ -340,6 +340,38 @@ Bank-payout, B5, and EW3 dispatches inserted as gaps allow.
 
 ---
 
+## 7A. Coach onboarding — Phase A.1 (bank-connect parallel to Stripe)
+
+**Locked 2026-06-09** by operator: in the coach onboarding flow, add **Connect Bank Account** as a parallel CTA alongside Connect Stripe. Both paths are valid; coaches pick one (or both, additive).
+
+- **Backend:** already shipped in PR #374 (`f123ef1` — `FEATURE_BANK_PAYOUTS_V2` off by default).
+- **Mobile:** Phase A.1 builder dispatched only after v1-6 (coach admin inbox + moderation) merges, per the priority lane.
+- **Web:** N/A (no web app exists).
+- **Spec:** `specs/COACH_ONBOARDING_BANK_CONNECT_PHASE_A1_BRIEF.md`.
+- **Surfaces:** `PayoutSetupScreen` (onboarding) + `Settings → Payouts` (post-onboarding).
+- **Voice:** all surfaced copy runs through the Roman voice contract; no exclamation, no emoji, no "Oops".
+- **Flag:** mobile reads backend `FEATURE_BANK_PAYOUTS_V2` per-coach. Flag OFF → Stripe-only fallback.
+
+---
+
+## 7C. Anti-rebase sequencing rule (locked 2026-06-09)
+
+**Hard rule for parallel dispatch.** Before fan-out, the orchestrator MUST grep the file-surface list of every open PR. If two or more open PRs touch any of:
+
+- `prisma/schema.prisma`
+- `src/checkout/checkout.module.ts` or other shared bootstrap modules
+- `src/app.module.ts`
+- `package.json` / `package-lock.json`
+- any `src/<shared>/<entity>.service.ts` already touched by another open PR
+
+then the dispatches MUST be serialized — not parallelized. Only fan out when file surfaces are disjoint.
+
+**Rationale:** the PR #374/#375 dual-merge required a non-trivial rebase (kept both `PayoutsV2Module` + `ContractsModule` in `checkout.module.ts`, kept both `@aws-sdk/client-s3` + `@dropbox/sign` in `package.json`, regenerated `package-lock.json` via `npm install --package-lock-only`, ran `prisma generate` to refresh Prisma client). Avoidable if #374 had landed before #375 was dispatched.
+
+Dispatch journal entries for parallel dispatches MUST include a one-line `file_surface_overlap_check: PASS` line confirming the grep was run.
+
+---
+
 ## 7B. Tier 5 — LAST track (page reorganization + web app)
 
 Locked 2026-06-09 as the absolute LAST items in the master plan. Dispatched ONLY after every Tier 1 / 2 / 3 / 4 item has shipped or been explicitly de-prioritized by the operator.
