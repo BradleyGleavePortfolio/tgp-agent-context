@@ -574,3 +574,33 @@ Both have single relax points already named in the v1-3 code (`canDm()`, `author
 - Audit plan: R1 auditor will be fresh GPT-5.5 in a separate worktree (`backend-v1-4-audit` per R60), audit checklist per brief §10 + §11
 - Merge protocol on CLEAN: `gh pr merge <N> --squash --admin` with `api_credentials=["github"]`
 
+
+---
+
+## 2026-06-09T17:11Z — Round-3 Tier-1 parallel fixer dispatches (3 in parallel with v1-4 builder)
+
+Spawned three `general_purpose` subagents (Opus 4.8, isolated worktrees off `ed78bbeface5044a2f1fd5be0dd47fd20a10d43c`):
+
+- `bug_r2_meal_plan_dedup_mq6wh9rs` → `/home/user/workspace/tgp/backend-r2-meal-plan-dedup` → `fix/bug-r2-meal-plan-dedup` — file scope: `src/meal-plans/**`, `src/real-meal-plans/**`. Dedup legacy `MealPlansModule` routes onto `real-meal-plans` canonical via new alias method.
+- `bug_r3_package_archive_guard_mq6whvla` → `/home/user/workspace/tgp/backend-r3-package-archive-guard` → `fix/bug-r3-package-archive-guard` — file scope: `src/packages/packages.service.ts`. Block archive of `CoachPackage` with active recurring subscribers.
+- `bug_r4_r5_gdpr_fix_mq6wilno` → `/home/user/workspace/tgp/backend-r4-r5-gdpr` → `fix/bug-r4-r5-gdpr-export-and-scrub` — file scope: `src/data-export/data-export.service.ts`, `src/users/gdpr-scrub.service.ts`. GDPR export → S3 presigned URL + scrub cancels Stripe subs.
+
+Zero file-collision with v1-4 builder (community/notifications/supabase/analytics) verified before dispatch.
+
+## 2026-06-09T17:17Z — BUG-R4 + BUG-R5 fixer STOPPED (no code changes, parent decision required)
+
+The R4-R5 fixer correctly invoked the STOP conditions defined in its brief. HEAD unchanged. Report at `/home/user/workspace/tgp/backend-r4-r5-gdpr/BUG-R4-R5-STOP-REPORT.md`.
+
+- **R4 stop:** `@aws-sdk/client-s3` and `@aws-sdk/s3-request-presigner` are NOT in `package-lock.json` (0 matches). Brief said "if NOT present, STOP — adding a dep is a separate decision." → needs dependency PR before re-dispatch.
+- **R5 stop:** `StripeApiService.cancelSubscription` takes an object `{ subscriptionId, immediately?, idempotencyKey }` (mandatory idempotency key), not the bare string in the bug-register stub. `StripeApiService.deleteCustomer` does not exist (0 matches). The string-arg `cancelSubscription(subId: string)` lives on **`StripeConnectApiService`** at `src/connect/stripe-connect-api.service.ts:734` — which is what `dunning.service.ts` already uses. Switching to that service requires injecting it into `GdprScrubService` + `UsersModule` (wiring decision).
+- **dispatch.json patched** with `status: STOPPED_NEEDS_PARENT_DECISION`, `stop_reason`, `stop_report_path`.
+
+**Parent decisions queued for operator:**
+1. Approve `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner` dep PR for R4.
+2. Confirm using `StripeConnectApiService` for R5 (precedent: `dunning.service.ts`).
+
+## 2026-06-09T17:20Z — Backlog pruned to ~70 real items + pushed to GitHub
+
+- Backlog markdown written to `audits/OPEN_ISSUES_2026-06-09.md` (down from 150 → ~70 items).
+- GitHub issue [#369](https://github.com/BradleyGleavePortfolio/growth-project-backend/issues/369) created with the pruned, actionable list.
+- Removed as merged: A.1–A.12 (PR-A), B.1–B.8 (all 8 RLS PRs merged: `3fa75ff`, `370a7ae`, `c94fa14`, …), AI gateway #327, payment-ops hardening, HK-2..HK-6 wearables through #364, plus most of the May-26 28-finding register.
