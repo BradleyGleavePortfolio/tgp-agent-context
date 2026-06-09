@@ -517,3 +517,29 @@ Both have single relax points already named in the v1-3 code (`canDm()`, `author
 - R3 auditor: v1_3_r3_auditor_gpt_5_5_mq5yp4m3 (fresh GPT-5.5, general_purpose to avoid stuck codebase sandbox 019ea55f)
 - R3 auditor brief: COMMUNITY_V1-3_R3_AUDITOR_BRIEF.md — focused on S5 (all 4 DM routes gated) since that was the DIRTY-CRITICAL surface in R2
 - On CLEAN: gh pr merge 368 --squash --admin --subject "community: v1-3 posts messages reactions (#368)" --body ""
+
+## v1-3 R3 audit CLEAN + PR #368 MERGED — 2026-06-09T01:32Z
+
+- R3 auditor (fresh GPT-5.5, R31): VERDICT: CLEAN
+- All 4 DM controller routes traced to gateDmRead/authoriseDm before returning DM-shaped data
+- listThreads gate confirmed: workspace+membership existence check → gateDmRead → listThreadsForUser → return
+- gateDmRead helper at lines 113-120, uses resolveDmEnabled, throws ForbiddenException(DM_DISABLED)
+- All audit surfaces PASS: S1 prisma diff 0, S2 doctrine 15/15, S3 entitlement 17/17, S4 default-OFF, S5 all 4 DM gated, S6 moderation up under freeze
+- Case 8 + 8b verified test bodies
+- Endpoint count: 25 added / 0 modified (FIX 2 honesty confirmed)
+- Commit hygiene clean, no silent skips, no Sonnet refs
+
+- **PR #368 admin-squash-merged as ed78bbeface5044a2f1fd5be0dd47fd20a10d43c** at 2026-06-09T01:31:53Z
+- v1-3 SHIPPED: posts (7), messages (5), reactions (6), DMs (4), moderation (3) = 25 endpoint decorators
+- 3 BLOCKERS surfaced for future schema PR:
+  1. dm_policy:enum CommunityWorkspace (currently using dm_enabled_default boolean)
+  2. clientPostsEnabled:boolean CommunityWorkspace (currently coach/owner-only)
+  3. Comment storage as CommunityMessage tagged plan_context_type='community_post_comment' (future first-class CommunityComment)
+- Rounds taken: R1 audit DIRTY (4 fixes) → R2 fixer → R2 audit DIRTY-CRITICAL (DM listThreads leak) → R3 fixer → R3 audit CLEAN
+
+## Status board
+- v1-1 (workspaces/cohorts/memberships): SHIPPED
+- v1-2 (feed + win-posts + reactions seed): SHIPPED
+- v1-3 (posts + messages + reactions + DMs + moderation): **SHIPPED** ← just landed
+- v1-4 (realtime + push + telemetry): NEXT
+- 10 slices remaining to fully done per COMMUNITY_EXECUTION_PLAN.md
