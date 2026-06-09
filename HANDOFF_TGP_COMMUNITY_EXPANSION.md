@@ -202,16 +202,126 @@ d84ceb27 community: v1-2 backend module foundation (#367)
 | **v1-4** | **realtime + push + telemetry** | **🟡 NEXT — not yet dispatched** |
 | v1-5 | mobile client UI (parallel-eligible with v1-6) | ⚪ blocked on v1-4 |
 | v1-6 | mobile coach UI (parallel-eligible with v1-5) | ⚪ blocked on v1-4 |
-| v2-1 | scheduled posts | ⚪ blocked on v1-4 |
-| v2-2 | events + RSVPs | ⚪ blocked on v2-1 |
-| v2-3 | content scheduling | ⚪ blocked on v2-2 |
-| v2-4 | analytics + KPI surface | ⚪ blocked on v2-3 |
-| v3-1 | (requires product input) | ⚠️ PAUSE for Dynasia |
-| v3-2 | (requires product input) | ⚠️ PAUSE for Dynasia |
-| v3-3 | (requires product input) | ⚠️ PAUSE for Dynasia |
-| v3-4 | (requires product input) | ⚠️ PAUSE for Dynasia |
+| v2-1 | plan-context tags (chips on messages) | ⚪ blocked on v1-6 |
+| v2-2 | coach ack signals (seen/acked/replied) | ⚪ blocked on v2-1 |
+| v2-3 | event objects (5-state lifecycle + RSVP) | ⚪ blocked on v2-2 |
+| v2-4 | AI inbox triage (co-pilot, never autonomous) | ⚪ blocked on v2-3 |
+| v3-1 | challenges (opt-in, no public shame) | ⚪ blocked on v2-4 |
+| v3-2 | classroom posts (media + time-locks) | ⚪ blocked on v3-1 |
+| v3-3 | voice notes (signed upload + entitlement) | ⚪ blocked on v3-2 |
+| v3-4 | search + wearable-aware coach prompts | ⚪ blocked on v3-3, P0-0A, P0-0B |
 
-Per the parallelization plan: **3 cycles to launch-ready** (v1-1 → v1-2 → v1-3 → v1-4 → (v1-5 ∥ v1-6) → v2-1...), **7 cycles to fully done** (vs 12 strict-serial). The parallel pair v1-5 ∥ v1-6 unlocks after v1-4.
+Per the parallelization plan: **3 cycles to launch-ready** (v1-1 → v1-2 → v1-3 → v1-4 → (v1-5 ∥ v1-6) → v2-1...), **7 cycles to fully done** (vs 12 strict-serial). The parallel pair v1-5 ∥ v1-6 unlocks after v1-4. **All v2 and v3 slices are strict-serial** per the dependency declarations; the parallelization plan analyzed them and found no safe pair (each one touches files the next one extends).
+
+### The three phases — what each delivers
+
+The execution plan splits into three phases. The handoff above covered v1-1 → v1-3 (foundation shipped) and v1-4 (next). Here's what every remaining slice ships and what the platform looks like once each phase is in.
+
+#### Phase 1 — Foundation (v1-1 → v1-6) — "can a coach and client talk inside a workspace?"
+
+| Slice | Title | What it ships | Why it matters |
+|---|---|---|---|
+| v1-1 ✅ | schema + workspaces/cohorts/memberships | 11 Prisma models, partitioned messages table, RLS Tier 5 coverage | Foundation — every later slice writes against these tables |
+| v1-2 ✅ | feed + win-posts + reactions seed | 5 read endpoints, kill switch, entitlement guards | Read-only feed — coaches can see the surface exists |
+| v1-3 ✅ | posts + messages + reactions + DMs + moderation | 25 endpoints across 5 sub-modules, gateDmRead helper, comment isolation | Full write surface — clients can post, message, react, report |
+| **v1-4** 🟡 | **realtime + push + telemetry** | broadcast layer, Expo push fan-out, PostHog event names | The feed comes alive — no more REST polling |
+| v1-5 | mobile client tab (~2200 LOC) | `CommunityTabScreen`, `Today/Space/Thread/DM/Composer` screens, `communityApi.ts`, `ClientNavigator` wiring | Clients finally SEE Community in the app |
+| v1-6 | coach admin inbox (~1900 LOC) | `CoachCommunityHomeScreen`, `Inbox/Lab/Cohorts/Moderation` screens, cohort CRUD, moderator actions with audit-log rows | Coaches finally USE Community |
+
+**End of Phase 1 = launch-ready.** A coach onboards a cohort, clients join via invite, messages and posts flow, moderation works, realtime + push deliver, telemetry lands in PostHog. This is the minimum shippable product. Everything after is the moat.
+
+#### Phase 2 — Coaching Loop (v2-1 → v2-4) — "does this make coaches more effective?"
+
+This is where TGP stops being "a community feature" and becomes the coaching loop the product plan describes. Each slice ties messages back to the client's plan.
+
+- **v2-1 — plan-context tags (~1000 LOC)** — Every message can be tagged to a workout, meal, habit, or check-in. Renders as a chip on the message; filterable by plan tag. Backend verifies ownership before allowing a tag (no client trusts a plan ID coming from the client). Flag: `FEATURE_COMMUNITY_PLAN_TAGS`. Audit-critical: no client can tag a foreign plan item.
+- **v2-2 — coach ack signals (~850 LOC)** — Replaces full read receipts (which Slack research showed members hate) with a coach-only explicit signal: `seen`, `acked`, `replied`. SLA timer, badge state ordering, telemetry. Kill switch hides badges but keeps timestamps for analytics. Audit-critical: badges never imply medical or emergency support (this is a coaching product, not 911).
+- **v2-3 — event objects (~1600 LOC)** — First-class event with five states (`upcoming` → `tomorrow` → `live` → `replay attached` → `reflected`), RSVPs, scheduling integration. External video links validated (no native live-room until provider chosen). Kill switch renders events as read-only cards; write endpoints disabled.
+- **v2-4 — AI inbox triage (~1400 LOC)** — Aggregates a coach's unanswered messages, summarizes patterns ("3 clients flagged sleep this week"), suggests draft replies. **Critical:** AI never sends autonomously, source IDs always attached, prompt scoped to the coach's tenant only. Kill switch hides AI cards; human inbox stays. This is where the Coach AI vision lands.
+
+**End of Phase 2 = the coaching loop.** Messages aren't a chat blob — they're a timeline of the client's plan. Coaches don't grind through unread counts — they triage with AI assistance. Events aren't "@channel announcements" — they're objects with a lifecycle.
+
+#### Phase 3 — The Moat (v3-1 → v3-4) — "why would a coach leave Skool/Geneva for this?"
+
+These are the differentiators that no general-purpose community tool can replicate. They require the coaching context, the plan timeline, and (for v3-4) the wearable integration.
+
+- **v3-1 — challenges (~1600 LOC)** — Opt-in, cohort-only. Coach defines reward (free week, merch, 1:1 call) — platform never imposes. **No public ranking visible by default** (this is the explicit anti-shame design from the product plan). Members opt in to see leaderboard. Moderation extends to challenge comments.
+- **v3-2 — classroom posts (~1500 LOC)** — Media-backed posts with **release time locks** (no scrolling ahead through coach-released content). Signed upload via existing `coach-media` adapter, membership-gated access, pinned lessons, replay cards. Audit-critical: media URL access checks coach workspace AND cohort membership.
+- **v3-3 — voice notes (~1200 LOC)** — Voice composer with signed upload, bucket assertion, duration/size/MIME limits. Provider extraction from `messaging.service.ts` (avoids the forbidden double-cast pattern flagged in the execution plan landmines). Kill switch hides mic affordance; text send remains. Privacy copy explicitly states who can listen.
+- **v3-4 — search + wearable-aware coach prompts (~1800 LOC)** — Intent-driven search ("find" not "search" — see product plan §3.4). Plus **the moat**: wearable-aware coach prompts. "3 of you slept under 6h last night — take it easy on volume." Only generates for opted-in clients, prompt source sample IDs recorded, fallback when connector disabled. Depends on P0-0A + P0-0B (already shipped — that's why those preflights ran).
+
+**End of Phase 3 = full platform.** A coach can ship a 12-week cohort with media-locked lessons, voice notes, opt-in challenges, AI-triaged inbox, and biometric-aware prompts. No other tool on the market can do all of this in one place. This is the hectacorn pitch.
+
+---
+
+### Product vision — what the user feels at the end
+
+From `COMMUNITY_PRODUCT_PLAN.md` §0 (verbatim):
+
+> TGP Community = the place a client opens five times a day to feel seen, accountable, and forward-moving on their plan — without ever feeling like they are inside a Slack workspace or a noisy Facebook group. It is *not* a chat product. It is a **coaching loop with messaging primitives**, where every message, post, and reaction is a signal that informs the next coach action and the next client behavior.
+
+The **10 design pillars** (product plan §2 — internalize these; they constrain every PR):
+
+1. **Spaces, not channels** — 3 fixed types (`Lab`, `Cohort`, `Direct`). No arbitrary channels. Caps visible surface at ~5-15 items (vs Slack's 50+).
+2. **Messages live on the client's plan timeline**, not in a chat blob (v2-1 delivers this).
+3. **The Lab is a *post*, not a chat** — coach broadcast feed, one per coach.
+4. **Coach ack signals, not read receipts** (v2-2). Coach-only seen/acked/replied. No member shame.
+5. **Time-locked content** — coach-released, no scrolling ahead (v3-2).
+6. **The "Today" object** — universal home for everything happening for ME. `CommunityTodayScreen` ships in v1-5.
+7. **Opt-in challenges, never always-on leaderboards** (v3-1).
+8. **Wearable-aware coach prompts** (v3-4 — the moat).
+9. **Coach AI as a first-class community participant** — `@coachAI` tagging, auto-summary, draft assist. Never autonomously sends as the coach (v2-4).
+10. **No member-to-member DM by default in free programs** (v1-3 already ships this — `dm_enabled_default=false`).
+
+**Bottom-tab order in the client app once shipped:**
+1. Home (calm daily summary)
+2. Food (meal logging)
+3. Workout (workout tracking)
+4. Coach AI (Perplexity Sonar chat)
+5. **Community** ← this feature
+
+**Coach context mirrors this** with admin + member-health overlays.
+
+---
+
+### The aggregate surface — what ships when everything's done
+
+Once v3-4 lands, here's what exists:
+
+**Backend (`growth-project-backend/src/community/`):**
+- 11+ Prisma models (workspaces, memberships, cohorts, messages partitioned, posts, comments-as-messages, reactions, DMs, moderation, events, challenges, classroom assets, voice uploads, search index, wearable prompts)
+- ~15 sub-modules: `messages`, `posts`, `reactions`, `dms`, `moderation`, `realtime`, `notifications`, `telemetry`, `plan-context`, `ack`, `events`, `ai-triage`, `challenges`, `classroom`, `voice`, `search`, `wearable-prompts`
+- ~80+ endpoint decorators (v1-3 alone shipped 25; later slices add 4-15 each)
+- ~15+ feature flags, all default-OFF except `FEATURE_COMMUNITY_TELEMETRY` (default ON in staging)
+- Kill switches at every layer: global feature flag, per-workspace policy gate, per-membership override
+- RLS Tier 5 policies covering every table (already shipped in preflight)
+- 17+ entitlement guard pins (monotonically increasing across slices — auditor checks this stays monotonic)
+
+**Mobile (`growth-project-mobile/src/`):**
+- Client screens (~15): `CommunityTabScreen`, `CommunityTodayScreen`, `CommunitySpaceScreen`, `CommunityThreadScreen`, `CommunityDmListScreen`, `CommunityDmThreadScreen`, `CommunityComposerScreen`, `CommunityEventDetailScreen`, `CommunityChallengeDetailScreen`, `CommunityClassroomScreen`, `CommunityFindScreen`
+- Coach screens (~7): `CoachCommunityHomeScreen`, `CoachCommunityInboxScreen`, `CoachCommunityLabScreen`, `CoachCommunityCohortsScreen`, `CoachCommunityCohortDetailScreen`, `CoachCommunityModerationScreen`, `CoachCommunityEventsScreen`
+- Components: `PlanTagChip`, `CoachAckBadge`, `EventCard`, `AiTriageCard`, `ChallengeCard`, `ChallengeProgressSheet`, `LessonCard`, `VoiceNoteComposer`, `WearablePromptCard`, plus base components
+- Realtime client (`src/services/realtime.ts`) wired to the broadcast contract from v1-4
+- Push channels (`src/notifications/push-channels.ts`) — Expo push, no SMS
+- 9+ `EXPO_PUBLIC_FF_*` flags shadowing the backend ones
+
+**Telemetry (PostHog — already wired in the codebase):**
+- Event taxonomy lands in v1-4; every slice afterward emits to it
+- Coach-side: triage usage, ack SLA compliance, moderation actions, AI prompt acceptance rate
+- Client-side: session depth, prompt response rate, challenge participation, voice-note send rate
+- Privacy: no PII in event payloads; lock-screen privacy respected for push (no message body if user opted)
+
+**Total estimated LOC across all 14 slices:** ~17,000 LOC (backend + mobile combined). v1-1 → v1-3 alone shipped ~6,000+ LOC.
+
+### Three product questions outstanding for Dynasia (do NOT block v1-4 → v1-6 on these)
+
+From `COMMUNITY_PRODUCT_PLAN.md` §7 — these need product input before the related v2/v3 slice goes wide, but Phase 1 ships without them:
+
+1. **Voice notes scope (v3-3)** — only client→coach, only coach→client, or both? Default in execution plan is both, but product plan flags this as open.
+2. **Challenge reward types (v3-1)** — "free week, merch credit, 1:1 call" placeholder. Real reward catalog and fulfillment process needs Dynasia.
+3. **AI triage tone (v2-4)** — how directive should Coach AI suggestions be? Suggest-only vs draft-with-edit vs auto-draft-on-deadline. Defaults to suggest-only but the dial is exposed in the spec.
+
+These surface in the relevant slice's builder brief as explicit "please confirm product intent before going wide." If Dynasia doesn't answer in time, default-to-conservative (most restrictive option) is the rule.
 
 ### Carried-forward BLOCKERS for a future schema PR (not v1-4 territory)
 
