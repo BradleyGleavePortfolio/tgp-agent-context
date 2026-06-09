@@ -543,3 +543,34 @@ Both have single relax points already named in the v1-3 code (`canDm()`, `author
 - v1-3 (posts + messages + reactions + DMs + moderation): **SHIPPED** ← just landed
 - v1-4 (realtime + push + telemetry): NEXT
 - 10 slices remaining to fully done per COMMUNITY_EXECUTION_PLAN.md
+
+## v1-4 builder dispatched — 2026-06-09T17:03Z
+
+- Slice: `community: v1-4 realtime push telemetry` (≈1100 LOC)
+- Branch: `feature/community-v1-realtime-push` off `ed78bbeface5044a2f1fd5be0dd47fd20a10d43c` (v1-3 merge SHA)
+- Worktree: `/home/user/workspace/tgp/backend-community-v1-4` (R56–R60 compliant naming)
+- Brief: `/home/user/workspace/COMMUNITY_V1-4_BUILDER_BRIEF.md` (16 sections, 380 lines, 31886 bytes)
+- Model: **Opus 4.8** (Sonnet 4.6 forbidden — R31 auditor greps for "sonnet")
+- Subagent type: `general_purpose` (NOT `codebase` — broken per ticket e2209543, hit during v1-3 R2/R3)
+- R67 backfill: v1-3 dispatch row added to `handoffs/dispatch.json` (was absent — only v1-2 row existed)
+- R67 forward: v1-4 dispatch row pushed BEFORE builder spawn (subagent_id `pending` → patched post-spawn)
+- Schema baseline hash (zero-mutation gate): `f4a70e7064d874426b1ca9c57e3f7addc36d72ca33b2076f70ca513285cb416a` prisma/schema.prisma
+- Three flags introduced (all OFF in prod, telemetry ON in staging):
+  - `FEATURE_COMMUNITY_REALTIME`
+  - `FEATURE_COMMUNITY_PUSH`
+  - `FEATURE_COMMUNITY_TELEMETRY`
+- Architecture: four sub-modules — `realtime/` (Supabase broadcast), `push/` (Expo via NotificationsService), `telemetry/` (PostHog wrapper), shared `community-events.ts` (typed channel + event const map)
+- Six channels: user, cohort-sharded, hall, event, challenge, moderation
+- Nine broadcast events (zero user-authored body in payloads — IDs only, client refetches)
+- Seven NotificationKind values added (code-level defaults, no migration)
+- Seven PostHog events under `community.realtime.*` / `community.push.*` / `community.digest.*`
+- Zero new endpoints → `entitlement-guards-mounted.spec.ts` pin count stays 17/17
+- Zero new dependencies → already in lockfile: `@supabase/supabase-js`, `expo-server-sdk`, `posthog-node`
+- DIRTY-CRITICAL triggers documented in brief §11:
+  1. Any user-authored body in broadcast payload (must be ID-only refetch pattern)
+  2. Any user content in push payload when `User.lockscreenPrivacy === true` (must fall back to generic copy)
+  3. `git diff main..HEAD -- prisma/` non-empty (schema mutation banned)
+  4. Sonnet 4.6 reference anywhere in PR
+- Audit plan: R1 auditor will be fresh GPT-5.5 in a separate worktree (`backend-v1-4-audit` per R60), audit checklist per brief §10 + §11
+- Merge protocol on CLEAN: `gh pr merge <N> --squash --admin` with `api_credentials=["github"]`
+
