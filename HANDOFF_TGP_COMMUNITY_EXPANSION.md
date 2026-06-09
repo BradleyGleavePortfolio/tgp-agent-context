@@ -898,3 +898,197 @@ NEVER SILENT FAILURES, NEVER QUICK PATCHES — DO THE WORK RIGHT!") is the rule 
 overrides every other shortcut you might be tempted to take. When in doubt, do more
 work, not less. The standing rule (CLEAN → merge → next slice, no asking between
 slices) is your trust contract — honor it by being right, not by being fast.
+
+
+---
+
+## 15. Operational fine print (final gap-audit pass)
+
+The earlier sections cover **what** to do. This section covers the **how** that
+bites if you guess wrong — exact file shapes, known broken state, and where the
+authoritative source lives for each unanswered question.
+
+### 15.1 `handoffs/dispatch.json` — exact shape
+
+R67 references this file but never shows its schema. It's an **array of objects**
+at `tgp-agent-context/handoffs/dispatch.json`. Current content (as of handoff
+write) — note this is STALE and you should fix it as your first R67 act:
+
+```json
+[
+  {
+    "ts": "2026-06-08T21:54:00Z",
+    "subagent_id": "builder-v1-2-community-foundation",
+    "role": "builder",
+    "worktree": "/tmp/wt-builder-v1-2",
+    "base_sha": "6160fd8638dd99af1c8bd964338d379bba99d273",
+    "branch": "agent/builder/v1-2/community-foundation",
+    "brief_path": "/home/user/workspace/COMMUNITY_V1-2_BUILDER_BRIEF.md",
+    "pr_number": 367,
+    "task": "community v1-2 backend module foundation"
+  }
+]
+```
+
+**Known R67 violation to clean up:** v1-3's builder, auditor, fixer, and round-2
+auditor were all dispatched WITHOUT writing dispatch.json rows. The slice shipped
+fine (PR #368 → `ed78bbef`) but the breadcrumb trail is missing. Before
+dispatching v1-4, the next operator should either (a) backfill v1-3 rows
+post-hoc from `COMMUNITY_BUILD_JOURNAL.md`, or (b) leave a note in the journal
+acknowledging the gap and start clean from v1-4.
+
+**Required fields per row:** `ts` (ISO8601 UTC), `subagent_id`, `role`
+(`builder` | `auditor` | `fixer`), `worktree` (absolute path), `base_sha`
+(full SHA, not short), `branch`, `brief_path` (workspace absolute path).
+**Recommended extras:** `pr_number` (once PR is opened), `task` (one-line
+human summary), `parent_subagent_id` (when a fixer is responding to a
+specific auditor finding).
+
+**Push cadence:** append the row BEFORE calling `wait_for_subagents` —
+never after. The whole point is recovery if the parent dies mid-wait.
+
+### 15.2 Auditor briefs are a separate deliverable
+
+The handoff calls out builder briefs (`COMMUNITY_V1-X_BUILDER_BRIEF.md`) but
+not auditor briefs. Every v1-X slice produces **3-5 brief files** in
+`/home/user/workspace/` per round:
+
+- `COMMUNITY_V1-X_BUILDER_BRIEF.md` — scope, files, flags, tests, audit
+  rubric. Lives in workspace, referenced from `dispatch.json`.
+- `COMMUNITY_V1-X_R<N>_AUDITOR_BRIEF.md` — fresh per round (R31). Tells
+  the GPT-5.5 auditor what to grep for, what's in scope, what to ignore,
+  and the CLEAN/DIRTY/DIRTY-CRITICAL rubric.
+- `COMMUNITY_V1-X_R<N>_FIXER_BRIEF.md` — written only if previous round
+  was DIRTY. Lists the auditor findings with exact file:line targets.
+- `COMMUNITY_V1-X_R<N>_AUDITOR_REPORT.md` — auditor's verdict + findings.
+  Persisted to `tgp-agent-context/_audit_v1-X_R<N>_code_GPT55.md` after
+  each round.
+- `COMMUNITY_V1-X_R<N>_FIXER_REPORT.md` — fixer's response. Persisted
+  to `tgp-agent-context/_fixer_result_v1-X_R<N>.md`.
+
+The persistent copies under `tgp-agent-context/_audit_*` and `_fixer_*`
+are the durable trail. The workspace copies die with the sandbox.
+
+### 15.3 v1-4 quick-reference (so you don't have to grep)
+
+Pulled verbatim from `COMMUNITY_EXECUTION_PLAN.md:252-263`:
+
+- **Title:** `community: v1-4 realtime push telemetry`
+- **Branch:** `feature/community-v1-realtime-push`
+- **Scope:** backend + mobile infra, **~1100 LOC**
+- **Files:**
+  - `src/community/realtime/**` (new subdir)
+  - `src/community/notifications/**` (new subdir)
+  - `src/notifications/notification-category.enum.ts`
+  - `src/notifications/notification-kind.ts`
+  - `src/notifications/notifications.service.ts`
+  - mobile `src/services/realtime.ts` (touch — remember R57: mobile is
+    READ-ONLY for subagents UNLESS the slice's stated scope is mobile;
+    v1-4 *does* touch mobile, so spawn a separate `wt-builder-v1-4-mobile`
+    worktree if needed)
+  - `src/notifications/push-channels.ts`
+  - telemetry helpers (PostHog event constants file)
+- **Dependencies:** v1-3 (✅ shipped).
+- **Tests required:**
+  - Broadcast ping contract test
+  - No-PII-in-broadcast-payloads test (audit-critical)
+  - Push preference default test
+  - Digest route test
+  - PostHog event names pinned (constants file + spec)
+- **Feature flags (3 new):**
+  - `FEATURE_COMMUNITY_REALTIME` — default OFF
+  - `FEATURE_COMMUNITY_PUSH` — default OFF
+  - `FEATURE_COMMUNITY_TELEMETRY` — default OFF in prod, ON in staging
+- **Kill switch behavior:** disable Realtime and push while REST polling
+  continues to work. Polling is the floor — Realtime is the optimization.
+- **Audit-critical (DIRTY-CRITICAL if violated):** no message body content
+  in broadcast payloads or push payloads when lock-screen privacy is
+  enabled. Push body says "New message in {space}" — never the message text.
+- **entitlement-guards-mounted pin update:** count goes up; check
+  `test/community/entitlement-guards-mounted.spec.ts` for the current
+  pinned count and bump it by the number of new mounted endpoints v1-4 adds.
+
+### 15.4 Subagent infrastructure quirks (avoid repeating my mistakes)
+
+**`codebase` subagent type — broken on this sandbox lineage.**
+Three consecutive `codebase` subagent dispatches hit "Paused sandbox
+019ea55f-1fe1-7dd3-b426-eb8c674208aa not found" during v1-3. Engineering
+ticket `e2209543` is open. **Workaround:** use `general_purpose` subagent
+type with explicit worktree-reconstruction instructions in the objective:
+
+```
+The worktree at /tmp/wt-builder-v1-X may not exist if the sandbox was
+recycled. If you don't see it, reconstruct it:
+  cd /tmp && git clone https://github.com/BradleyGleavePortfolio/growth-project-backend.git wt-builder-v1-X
+  cd wt-builder-v1-X && git checkout -b <BRANCH> origin/main
+  npm ci --no-audit
+Then proceed with the task below.
+```
+
+**`github_mcp_direct` connector — present but DO NOT use.** It's listed in
+the connectors block but the standing rule is `gh` CLI with
+`api_credentials=["github"]` for ALL GitHub ops. The MCP version has hit
+intermittent auth-token rotation issues. CLI is the source of truth.
+
+**`browser_task` to GitHub — FORBIDDEN.** Even when GitHub is acting weird.
+The CLI has retries and is rate-limit aware; the browser session isn't.
+
+### 15.5 Owner context (what Dynasia can and cannot do for you)
+
+Rule 12 says the owner cannot check Fly or GCP values directly. Practical
+implications:
+
+- **Don't ask Dynasia to confirm an env var is set in Fly.** They can't see it.
+  If a flag isn't taking effect in staging, log it yourself via a temporary
+  diagnostic endpoint (and remove the endpoint in the same PR).
+- **Don't ask Dynasia to read a GCP secret value.** Same reason. If you need
+  to verify a secret is wired, write a test that asserts the secret name is
+  in the expected `process.env` lookup chain, not that the value matches.
+- **Do ask Dynasia for product decisions, prioritization, copy choices, and
+  scope tradeoffs.** They're fast and decisive on those.
+- **800-people launch context** (Rule 13): there is a live product demo /
+  launch in front of 800 people on the roadmap. Every PR you ship is being
+  trusted to not break that demo. When weighing "ship now or polish more,"
+  the answer is always polish more — Rule 1 (decacorn) and R0 supersede
+  velocity every time.
+
+### 15.6 What to do FIRST when you start
+
+In strict order, the first 30 minutes:
+
+1. `git clone https://github.com/BradleyGleavePortfolio/tgp-agent-context /tmp/tgp-agent-context`
+2. Read `tgp-agent-context/COMMUNITY_BUILD_JOURNAL.md` — the LAST entry. It
+   tells you exactly what state the expansion landed in.
+3. Read `tgp-agent-context/handoffs/dispatch.json` — see if any subagents
+   were dispatched and never closed out. If yes, those are zombie dispatches
+   you need to either resume or reconcile in the journal.
+4. Read this handoff doc end-to-end (it's ~900 lines but it's the map).
+5. `cd /tmp && git clone https://github.com/BradleyGleavePortfolio/growth-project-backend backend-main`
+6. `cd backend-main && git log --oneline -20` to confirm the journal's stated
+   `main` SHA matches reality.
+7. Skim `backend-main/AGENT_RULES.md` (the 133-line file) — Section 14 of this
+   handoff has the verbatim text but read the file once anyway, it's quick.
+8. Create your first v1-4 worktree per R56-R58 conventions.
+9. Write the v1-4 builder brief at `/home/user/workspace/COMMUNITY_V1-4_BUILDER_BRIEF.md`.
+10. **Push a row to `dispatch.json` BEFORE spawning the builder subagent (R67).**
+11. Dispatch Opus 4.8 builder. Standing rule kicks in from here — CLEAN → merge
+    → next slice, no asking between slices.
+
+### 15.7 One last thing — when in doubt, ask Dynasia ONCE
+
+The standing rule ("CLEAN → merge → next slice, no waiting on me") covers
+the build/audit/merge cycle. It does NOT cover:
+
+- **Scope questions** ("should v1-4 also touch X?") — ask once, lock the
+  answer in the builder brief.
+- **Product decisions** ("should push default be daily digest or real-time?")
+  — ask once. Don't guess on UX defaults that affect 800 launch users.
+- **Doctrine changes** ("R66 is too slow, can I skip the full suite?") — no.
+  Don't even ask. Doctrine changes go through R68 (ADR), not chat.
+- **Pause requests** ("should I stop here?") — never. The rule is explicit.
+
+The cadence is: one focused question at the start of a slice if scope is
+ambiguous, then heads-down until CLEAN+merged, then immediately next slice.
+That's the contract.
+
+— End of handoff.
