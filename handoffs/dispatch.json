@@ -387,3 +387,4 @@
     "note": "7 failing suites (openapi-spec + 6 rls-*) are pre-existing DB-infra integration tests requiring a live Postgres; zero dunning references in their errors. Consistent with prior audit's jest_no_coverage_ignore_rls_openapi lane."
   }
 ]
+{"ts":"2026-06-09T20:50:00Z","event":"plan_update","branch":"plan/master-build-order","commit":"1b7d199","note":"Reading A locked: CC32 unlocks after v2-4 merges; v3 cycle continues Tier 1 in parallel"}
