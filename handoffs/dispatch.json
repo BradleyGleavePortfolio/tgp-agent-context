@@ -162,5 +162,23 @@
       "R31 builder!=auditor",
       "R60 isolated worktree"
     ]
+  },
+  {
+    "id": "v1-4-fixer-pr370",
+    "ts": "2026-06-09T18:09:38Z",
+    "agent_model": "opus-4.8",
+    "task": "Fix PR #370 v1-4 community: lockscreenPrivacy gate, RLS suite per-file investigation (hectacorn quality, no bulk), remove orphan community.digest.queued + tests, sanitize PostHog error_code, fix reaction broadcast kind",
+    "worktree": "/home/user/workspace/tgp/backend-v1-4-fixer",
+    "branch": "feature/community-v1-realtime-push",
+    "status": "dispatched"
+  },
+  {
+    "id": "r3-fixer-pr372",
+    "ts": "2026-06-09T18:09:38Z",
+    "agent_model": "opus-4.8",
+    "task": "Fix PR #372 BUG-R3: two TS7006 implicit-any in test/packages-archive-guard.spec.ts:178,211",
+    "worktree": "/home/user/workspace/tgp/backend-r3-fixer",
+    "branch": "fix/bug-r3-package-archive-guard",
+    "status": "dispatched"
   }
 ]
