@@ -9,6 +9,44 @@
 
 ---
 
+## Where things live (doc map)
+
+All persistent planning + state lives in the `tgp-agent-context` repo (this repo). The workspace at `/home/user/workspace/` is sandbox-local and does NOT survive recycle — anything that needs to outlast a session goes here.
+
+### Build plans (persistent — `tgp-agent-context/`)
+
+| File | Role |
+|---|---|
+| `COMMUNITY_EXECUTION_PLAN.md` | **Authoritative WHAT.** Every PR's title, branch, scope, files, deps, tests, rollout flags, kill switch, audit checklist. v1-1 through v3-4 (14 slices total). |
+| `COMMUNITY_PARALLELIZATION_PLAN.md` | **Authoritative WHEN/CONCURRENCY** (this doc). Dispatch schedule by cycle, file-ownership rules for parallel pairs, R71 proposal. |
+| `COMMUNITY_PRODUCT_PLAN.md` | **Authoritative WHY.** Product vision, user surfaces, narrative behind the v1/v2/v3 phases. |
+| `STEP0_COMMUNITY_INTEGRATIONS_AND_GAPS.md` | **Pre-flight inventory.** What integrations are live, dead, or missing. Source for v1-3+ dependency decisions (e.g., "no SMS provider", "Expo push only"). |
+| `COMMUNITY_BUILD_JOURNAL.md` | **R64 live log.** Every state change for every PR (dispatch, audit outcome, merge SHA, blocker). Pushed at every state change so sandbox death does not lose work. |
+
+### Per-PR ephemeral artifacts (workspace, NOT persistent)
+
+These live at `/home/user/workspace/COMMUNITY_V<phase>-<slice>_<KIND>.md` while a PR is in flight. They are the contracts between phases of a single round. After merge they are summarized into `COMMUNITY_BUILD_JOURNAL.md` and the workspace originals are allowed to die with the sandbox.
+
+| Kind | Example | When created | When discarded |
+|---|---|---|---|
+| `BUILDER_BRIEF` | `COMMUNITY_V1-3_BUILDER_BRIEF.md` | Before builder dispatch | After merge (journal carries the summary) |
+| `BUILDER_REPORT` | `COMMUNITY_V1-3_BUILDER_REPORT.md` | Written by builder subagent at end of build | After audit verdict (journal carries verdict) |
+| `AUDITOR_BRIEF` | `COMMUNITY_V1-3_AUDITOR_BRIEF.md` | Before each audit round | After CLEAN verdict |
+| `R<n>_AUDIT_REPORT` | `COMMUNITY_V1-3_R1_AUDIT_REPORT.md` | Written by auditor subagent | After merge |
+| `R<n>_FIXER_BRIEF` | `COMMUNITY_V1-1_R3_FIXER_BRIEF.md` | Only when audit returns DIRTY | After next audit CLEAN |
+
+**Rule:** if you find yourself wanting to keep one of these around for the next session, copy the conclusion into `COMMUNITY_BUILD_JOURNAL.md` first. Do not depend on workspace files surviving across sessions.
+
+### Process rules (in the backend repo, not here)
+
+- `AGENT_RULES.md` (in `growth-project-backend`) — R0 through R70 (R71 pending the next docs PR).
+- `docs/REPO_DOCTRINE_GUARDS.md` (in `growth-project-backend`) — index of the doctrine guard tests, with the R70 fail-fast lane at the top.
+- `docs/decisions/0001-community-v1-1-doctrine-collision-path-a.md` — the v1-1 ADR.
+
+New rules go to the backend repo via a `docs:` PR (the R66-R70 PR #366 set the pattern). This doc proposes R71; landing it is a follow-up backend docs PR, not an edit here.
+
+---
+
 ## Dependency reality check
 
 Every PR in the execution plan declares the previous one as a dependency. But "declared" and "actually required" diverge once you read the file lists.
