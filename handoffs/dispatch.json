@@ -180,5 +180,14 @@
     "worktree": "/home/user/workspace/tgp/backend-r3-fixer",
     "branch": "fix/bug-r3-package-archive-guard",
     "status": "dispatched"
+  },
+  {
+    "id": "b3-v2-respec",
+    "ts": "2026-06-09T18:22:07Z",
+    "agent_model": "opus-4.8",
+    "task": "Revise PR #6 B3 spec: 4-attempt cadence [0,1,3,7] + Day-10 hard lockout + immediate-clear recovery + late-reversal handler with compressed cadence + Day-7 coach notify on all 3 channels + DunningEscalationClassifier rewrite (channel escalation not notify suppression) + new schema fields locked_out_at + reversal_count + lockout sweep cron + hard-lockout payment-update mobile screen spec + in-app blocker component spec Day-3/Day-7",
+    "worktree": "/home/user/workspace/tgp/agentctx-b3-v2-respec",
+    "branch": "spec/b3-smart-dunning-gaps",
+    "status": "dispatched"
   }
 ]
