@@ -325,5 +325,65 @@
     "status": "MERGED",
     "merge_sha": "5f6bedff3a193b3d52b4cbceee96b87f274e8e63",
     "fixer_sha": "95d9f441104f64d7050130d1c3d8f70a3ce0be41"
+  },
+  {
+    "id": "b3-smart-dunning-v2-builder-dispatch",
+    "ts": "2026-06-09T19:50:00Z",
+    "agent_model": "opus-4.8",
+    "role": "builder",
+    "task": "R31 builder: build B3 Smart Dunning v2 backend \u2014 4-attempt cadence [0,1,3,7] + Day-10 hard lockout + late-reversal handler (Option A immediate clear + compressed re-cadence) + Roman-voice copy (in-app/email/push) + PostHog telemetry, ALL behind FEATURE_DUNNING_V2 (default OFF). Fill gaps on v1 dunning (PR #281); do not rebuild.",
+    "worktree": "/home/user/workspace/tgp/backend-b3-v2-builder",
+    "branch": "feature/b3-smart-dunning-v2",
+    "status": "dispatched",
+    "r67": true,
+    "base_sha": "f9b3c050"
+  },
+  {
+    "id": "b3-smart-dunning-v2-builder-complete",
+    "ts": "2026-06-09T19:50:00Z",
+    "completed_ts": "2026-06-09T19:50:00Z",
+    "agent_model": "opus-4.8",
+    "role": "builder",
+    "task": "B3 Smart Dunning v2 backend build complete; PR #373 opened against main.",
+    "worktree": "/home/user/workspace/tgp/backend-b3-v2-builder",
+    "branch": "feature/b3-smart-dunning-v2",
+    "status": "completed",
+    "r67": true,
+    "pr_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/373",
+    "head_sha": "b922b57ca7913fc353d726569c03f25e55b70764",
+    "base_sha": "f9b3c050",
+    "deliverables": {
+      "files_changed": 22,
+      "tests_added": 101,
+      "schema_changed": true,
+      "additive_only": true,
+      "flag_default_off": true,
+      "roman_copy_stems_referenced": [
+        "household ledger",
+        "going to lose access",
+        "last chance before lockout",
+        "locked out in 3 days",
+        "last payment update failed",
+        "Links, like milk",
+        "A small matter",
+        "not yet on speaking terms"
+      ]
+    },
+    "verification": {
+      "tsc": "pass: 0 errors",
+      "jest_dunning_v2": "pass: 101/101 across 5 suites",
+      "jest_v1_dunning_no_regression": "pass: 26/26",
+      "jest_unit_lane_ignore_rls_openapi": "pass: 333 suites, 4314 tests, 0 failures",
+      "r66_gate1_schema_additive": "pass: zero removed schema lines; 2 nullable/defaulted cols + 1 new table",
+      "r66_gate2_entitlement_pins": "pass: 17/17 untouched, zero entitlement lines in diff",
+      "r66_gate3_cadence_state_machine": "pass: full transition coverage",
+      "r66_gate4_lockout_guard": "pass: non-billing 403 LOCKED, billing/auth/health/roman-chat allowed",
+      "r66_gate5_copy_stems_per_channel_day": "pass",
+      "r66_gate6_no_new_deps": "pass: zero package changes",
+      "r66_gate7_no_forbidden_runtime_model_refs": "pass: zero added",
+      "flag_off_proof": "pass: every v2 entry self-checks isDunningV2Enabled() and no-ops"
+    },
+    "anti_scope_respected": "v1 dunning.service.ts untouched; v1 DEFAULT_DUNNING_CADENCE intact; no webhook routing changed (handlers only added); no 5th attempt; copy verbatim from spec; flag default OFF; no v1-4 community files touched",
+    "note": "7 failing suites (openapi-spec + 6 rls-*) are pre-existing DB-infra integration tests requiring a live Postgres; zero dunning references in their errors. Consistent with prior audit's jest_no_coverage_ignore_rls_openapi lane."
   }
 ]
