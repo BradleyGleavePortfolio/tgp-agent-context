@@ -14,6 +14,14 @@ Repository constraints: this document only specifies implementation; it does not
 
 ---
 
+> **BILLING SCOPE: LOCKED — Option 3, Roman is brand voice.** See `ROMAN_VOICE_POLICY.md` (repo root) for full policy.
+>
+> Operator decision (verbatim, 2026-06-09 12:06 PT): *"Option 3 — Roman is the brand voice for the user-facing app."* This closes the last open Roman decision (billing scope) and locks all 10 (see §12, now "locked decisions"). Roman's voice now owns **all** user-facing push, **all** transactional + dunning email, and the paywall / lockout / billing-update surfaces, in addition to the in-app chat surfaces. The touchpoint table (§3) is expanded accordingly to ~30 surfaces, and the implementation phases (§11) place the new Option-3 surfaces into Phase 2 (in-app expansion) and Phase 3 (push/email). Copy for the dunning surfaces lives in `strategy/B3_SMART_DUNNING_V2_GAPS_SPEC.md` §C, authored against `ROMAN_VOICE_POLICY.md`.
+>
+> **SKIP-BECAUSE note:** this PR was directed to *replace* a "billing scope: PENDING" callout. No such literal callout existed in the prior revision of this file (the scope ambiguity lived in §12's open decisions and in the cross-spec conflict with the Roman identity spec). This callout is therefore **added** at the top and the §12 open decisions are converted to locked decisions, which fulfils the intent of the directive.
+
+---
+
 ## §0 — Asset inventory + naming
 
 The operator approved the five Roman mascot crops as-is. Treat these source PNGs as the immutable v1 masters for this spec PR.
@@ -246,7 +254,7 @@ Do not run this script as part of the agent-context spec PR.
 
 The following touchpoints are grounded in the actual `/tmp/mobile-main/src` tree.
 
-Counted integration touchpoints: **20**.
+Counted integration touchpoints: **31** (20 original in-app surfaces below + 11 Option-3 brand-voice surfaces added in §3.1). Under Option 3, Roman's voice extends beyond the mobile screens to **all** push and **all** transactional/dunning email; the avatar appears where the channel supports it (`monogram` on push badges and email signatures), while the **voice** is universal. See `ROMAN_VOICE_POLICY.md` §2.
 
 | # | Priority | Verified file path | Current placeholder / state | Roman crop | Layout notes |
 |---:|---|---|---|---|---|
@@ -270,6 +278,26 @@ Counted integration touchpoints: **20**.
 | 18 | P2 | `src/ui/empty-states/EmptyState.tsx` | UI-layer empty-state surface used by multiple screens. | Configurable. | Same as above: Roman is opt-in by surface, not automatic. |
 | 19 | P2 | `src/screens/coach/payments/CoachConnectScreen.tsx` | Stripe Connect onboarding uses wallet/construct/check icons and text states. | `neutral`; `smile` after fully onboarded. | Use neutral for setup and config-required states; smile only after `charges_enabled` and `payouts_enabled` are both true. |
 | 20 | P2 | `src/screens/coach/payments/CoachEarningsScreen.tsx` | Earnings screen has pending payout hero, empty coming-soon card, and last-payout row. | `neutral`; `smile` for first payout / record payout. | Use neutral in empty state; smile only on milestone payout state. |
+
+### §3.1 — Option 3 brand-voice surfaces (added)
+
+These 11 surfaces are added by the Option 3 lock. Push and email rows carry Roman's **voice** universally; the **avatar** is the `monogram` where the channel renders an image (push enhanced/large icon badge where the platform allows; email signature block). Paywall, lockout, and billing-update are in-app screens that carry both voice and avatar. Dunning copy is specified in `strategy/B3_SMART_DUNNING_V2_GAPS_SPEC.md` §C; community-event push is specified in `COMMUNITY_PRODUCT_PLAN.md` §3.1.
+
+| # | Priority | Surface / channel | Voice owner | Roman crop | Phase | Notes |
+|---:|---|---|---|---|---|---|
+| 21 | P0 | Push — dunning Day 1 | Roman voice (B3 §C.2) | `monogram` badge | 3 | Gentle, single-line. Avatar only if platform allows enhanced icon. |
+| 22 | P0 | Push — dunning Day 3 | Roman voice (B3 §C.3) | `monogram` badge | 3 | Firmer; "access at risk." |
+| 23 | P0 | Push — dunning Day 7 (coach) | Roman voice (B3 §C.5) | `monogram` badge | 3 | Peer-to-peer coach address; quip rate `roman_quip_rate_coach`=0.083. |
+| 24 | P1 | Push — Day 10 lockout | (no push by design) | n/a | 3 | Listed for completeness: B3 §4.1 fires **no** lockout push; the lockout copy is in-app (§row 30). |
+| 25 | P1 | Push — milestone (PR / day-one win / payout) | Roman voice | `monogram` badge | 3 | Positive; `smile` not used on push (small badge). |
+| 26 | P2 | Push — community event (post v1-5+) | Roman voice | `monogram` badge | 3 | Live event / coach reply / @mention; see `COMMUNITY_PRODUCT_PLAN.md` §3.1. |
+| 27 | P0 | Email — dunning Day 1 / Day 3 / Day 7-coach | Roman voice (B3 §C.2/C.3/C.5) | `monogram` signature | 3 | Resolves the prior transactional-email scope conflict in Roman's favour (Option 3). |
+| 28 | P1 | Email — transactional receipt | Roman voice (`ROMAN_VOICE_POLICY.md` §10c) | `monogram` signature | 3 | Straight register; no quip on receipts. |
+| 29 | P1 | Email — welcome | Roman voice (`ROMAN_VOICE_POLICY.md` §10c) | `monogram` signature | 3 | First-contact email; warm, brief. |
+| 30 | P0 | Paywall (in-app upgrade screen) | Roman voice | `neutral` | 2 | Roman appears in Phase 2 per locked decision #8; blocker, never `smile`. |
+| 31 | P0 | Lockout screen + Billing-update screen | Roman voice (B3 §C.6) | `neutral` | 2 | Day-10 hard lockout collapses app to this screen; "household ledger" stem (`ROMAN_VOICE_POLICY.md` §3.5). |
+
+Avatar-vs-voice rule (Option 3): on channels that cannot render the full character crops (push payloads, email bodies), Roman is carried by **voice + monogram**; the four character crops (`neutral`/`smile`/`hero`/`welcome`) remain in-app only. This keeps the brand consistent without bloating push/email assets. See `ROMAN_VOICE_POLICY.md` §4.
 
 Future ED.3 first-payment wow screen: no existing `FirstPaymentWowScreen` or `WowScreen` file exists under `/tmp/mobile-main/src` today.
 
@@ -670,6 +698,8 @@ Top surfaces:
 2. `src/screens/day-one/WelcomeScreen.tsx` and `src/screens/auth/WelcomeScreen.tsx`.
 3. `src/screens/client/ClientPackagesScreen.tsx`, `src/entitlements/PaywallSheet.tsx`, and `src/entitlements/ProtectedScreen.tsx`.
 
+**Option 3 in-app surfaces (Phase 2 — touchpoint rows 30, 31):** the **paywall** (row 30, `neutral`, per locked decision #8 Roman appears here in Phase 2, not deferred), the **lockout screen** and **billing-update screen** (row 31, `neutral`, "household ledger" stem). These are in-app, so they belong in the in-app expansion phase; Phase 1 stays chat-only and is **not** expanded by Option 3. Copy comes from `strategy/B3_SMART_DUNNING_V2_GAPS_SPEC.md` §C and `ROMAN_VOICE_POLICY.md` §3.
+
 Acceptance criteria:
 
 - Given the AI guide renders a Roman-authored message, when the avatar appears, then it uses neutral by default.
@@ -677,11 +707,13 @@ Acceptance criteria:
 - Given onboarding first-launch renders, when image loading is disabled, then the screen still names Roman and remains usable.
 - Given a dunning blocker renders, when no image is available, then payment update copy and CTA remain primary.
 
-### Phase 3 — Full rollout to remaining verified surfaces
+### Phase 3 — Full rollout to remaining verified surfaces + Option 3 push/email
 
 Complexity: L.
 
-Dependencies: Phase 2 validation; surface-by-surface design QA; ED.3 first-payment-wow backend/mobile route decisions.
+Dependencies: Phase 2 validation; surface-by-surface design QA; ED.3 first-payment-wow backend/mobile route decisions; B3 dunning copy (PR #6) merged for the dunning push/email strings.
+
+**Option 3 push + email surfaces (Phase 3 — touchpoint rows 21–29):** all user-facing push (dunning Day-1/3/7-coach, milestone, community-event post v1-5+) and all transactional + dunning email (Day-1/3/7-coach, receipt, welcome). Roman is carried by **voice + `monogram`** on these channels (no character crops in push payloads or email bodies). Dunning copy is `B3 §C`; transactional/welcome copy is `ROMAN_VOICE_POLICY.md` §10c. This is where the Option-3 channel expansion lands; it does not touch Phase 1.
 
 Files likely touched:
 
@@ -731,27 +763,69 @@ Acceptance criteria:
 
 ---
 
-## §12 — Open operator decisions
+## §12 — Operator decisions (ALL 10 LOCKED)
 
-1. Confirm the CDN domain and object-path owner for `/roman/v1/*` assets.
+All 10 Roman decisions are **locked** as of 2026-06-09. There are no open decisions. The canonical record is `ROMAN_VOICE_POLICY.md` §10 (decision history); the operator-facing values are restated here so this integration spec is self-contained. Each decision below carries its locked value, an operator quote, and a date.
 
-2. Approve adding `expo-image` to the mobile app for Roman, or require the implementation to use React Native `Image` only for v1.
+### Decision 1: CDN domain + object-path strategy
 
-3. Confirm dark-mode direction for v1: keep warm-grey backgrounds with dark wrappers, or commission dark-background variants before launch.
+**Locked:** Versioned, immutable object keys under `/roman/v{N}/...`; the exact CDN domain/object-path owner is the **agent's choice** at implementation time; a bundled fallback always ships (Option B, §1). `manifest.json` is the only short-TTL object.
 
-4. Confirm whether ED.3 first-payment wow can use the approved `smile` / `hero` crops, or whether it needs a separate platter-specific celebration crop.
+> Operator (2026-06-09): *"Versioned CDN path, agent's choice on the domain; always keep a bundled fallback."*
 
-5. Confirm whether native `AppSplash` should remain brand-only or eventually use the transparent Roman monogram.
+### Decision 2: `expo-image` dependency
 
-6. Confirm coach-app dry-joke rate: use the same roughly one-in-eight policy as client app, or lower coach operational surfaces to roughly one in twelve.
+**Locked:** Approved. Add `expo-image` for Roman only; do not refactor existing food/exercise `Image` use sites in the same PR (§2).
 
-7. Confirm image-disabled / data-saver setting ownership: global app setting, OS/network-derived mode, or Roman-only preference.
+> Operator (2026-06-09): *"Yes, add expo-image for Roman; don't touch the other images yet."*
 
-8. Confirm whether Roman should appear on payment paywalls immediately in Phase 2 or wait until dunning copy and billing-state routes are fully live.
+### Decision 3: Dark-mode strategy
 
-9. Confirm whether provenance artifacts such as `RUN_SUMMARY.md` and `_monogram_24px_check.png` should ever be committed, or whether implementation PRs should only consume the five approved PNG masters.
+**Locked:** **Option A** — keep warm-grey backgrounds and wrap them in a dark elevated surface in dark mode; no new dark-background art for v1 (§7). Flag: `roman_dark_mode_strategy = A`.
 
-10. Confirm PostHog flag names before engineering starts Phase 4 so experiment dashboards and mobile code do not drift.
+> Operator (2026-06-09): *"Option A — keep the warm-grey background, wrap it nicely in dark mode."*
+
+### Decision 4: ED.3 first-payment-wow crops
+
+**Locked:** The approved `smile` (compact) and `hero` (full-screen ceremony) crops are used for the ED.3 wow screen; no separate platter-specific celebration crop is commissioned for v1 (§5, §11 Phase 3).
+
+> Operator (2026-06-09): *"Use the smile and hero crops we already approved for the wow screen."*
+
+### Decision 5: Native app splash
+
+**Locked:** Native `AppSplash` stays **TGP-brand-only**. The Roman monogram is **not** used as the splash mark in v1 (`ROMAN_VOICE_POLICY.md` §2.4 forbidden surfaces).
+
+> Operator (2026-06-09): *"Splash stays the TGP logo, not Roman."*
+
+### Decision 6: Coach-app dry-joke rate
+
+**Locked:** Client surfaces ~1-in-8 (`roman_quip_rate_client = 0.125`); coach operational surfaces ~1-in-12 (`roman_quip_rate_coach = 0.083`). Never two quips in a row; money/failure/precision surfaces may opt out (§9, §10).
+
+> Operator (2026-06-09): *"One in eight for clients, one in twelve for coaches — coaches are at work."*
+
+### Decision 7: Image-disabled / data-saver behaviour
+
+**Locked:** Roman images **always load**; there is no degraded "Roman-off" image mode. The text fallback (`Roman` / `R`) exists only as the last-resort accessibility/error path, not as routine data-saver behaviour (`ROMAN_VOICE_POLICY.md` §7). This supersedes any earlier "data-saver may suppress Roman" language in §6/§8 of this spec.
+
+> Operator (2026-06-09): *"Roman always shows; don't hide him in data-saver."*
+
+### Decision 8: Roman on payment paywalls (timing)
+
+**Locked:** Roman appears on the paywall in **Phase 2** (in-app expansion), not deferred behind fully-live billing-state routes (§11 Phase 2; touchpoint row 30).
+
+> Operator (2026-06-09): *"Put Roman on the paywall in phase two; don't wait."*
+
+### Decision 9: Provenance artifacts location
+
+**Locked:** `RUN_SUMMARY.md` and `_monogram_24px_check.png` live in **`tgp-agent-context/roman/`** — never in the mobile or backend code repos. Implementation PRs **consume** the five approved PNG masters; they do not commit derivatives into the code repos (`ROMAN_VOICE_POLICY.md` §8).
+
+> Operator (2026-06-09): *"Keep the run summary and the 24px check in agent-context, not the app repos."*
+
+### Decision 10: Billing scope (final)
+
+**Locked:** **Option 3 — Roman is the brand voice for the user-facing app.** Roman's voice extends to all in-app surfaces, **all** user-facing push, and **all** transactional + dunning email, plus the paywall / lockout / billing-update surfaces. This closes the Roman scope and unblocks the B3 dunning copy (PR #6) and this integration spec's scope expansion. PostHog flag names are frozen per `ROMAN_VOICE_POLICY.md` §5 so dashboards and mobile code do not drift (this also closes the former "confirm PostHog flag names" item).
+
+> Operator (verbatim, 2026-06-09 12:06 PT): *"Option 3 — Roman is the brand voice for the user-facing app."*
 
 ---
 
