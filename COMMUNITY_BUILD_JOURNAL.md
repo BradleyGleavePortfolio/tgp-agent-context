@@ -483,3 +483,13 @@ Both have single relax points already named in the v1-3 code (`canDm()`, `author
 - PR: #368 open, CI red on env-pre-existing rls-* (admin-merge precedent from v1-2 PR #367)
 - R1 verdict was DIRTY (not CRITICAL) — D1/D7/G4 customer-data surfaces all PASSED
 - On CLEAN: gh pr merge 368 --squash --admin --subject "community: v1-3 posts messages reactions (#368)" --body ""
+
+## v1-3 R2 fixer DONE + R2 auditor dispatched — 2026-06-09T01:15Z
+
+- R2 fixer (Opus 4.8, retry after first sandbox death) completed all 4 fixes
+- Head SHA advanced: 2ca5ffae -> 28f9844f (FIX 1 comment-bleed) -> 35b1b410 (FIX 2+4)
+- Fixer self-verification: R69 prisma diff=0, R70 lane 15/15, carry-forward 17/17, full suite x2 byte-identical (4210/87/5/0)
+- Manifest correction: actual 28 added + 3 modified (R1 audit said 25, builder claimed 27)
+- R2 auditor dispatched: v1_3_r2_auditor_gpt_5_5_mq5y81sh (fresh GPT-5.5, R31)
+- Auditor brief: COMMUNITY_V1-3_R2_AUDITOR_BRIEF.md (S1-S6 surfaces + H1-H4 honesty + 4 fix verifications)
+- On CLEAN: gh pr merge 368 --squash --admin --subject "community: v1-3 posts messages reactions (#368)" --body ""
