@@ -20,7 +20,7 @@
     "brief_path": "/home/user/workspace/COMMUNITY_V1-3_BUILDER_BRIEF.md",
     "pr_number": 368,
     "task": "community v1-3 posts messages reactions",
-    "note": "R67 gap acknowledged — v1-3 shipped CLEAN at ed78bbef on 2026-06-09; dispatch row backfilled by v1-4 orchestrator"
+    "note": "R67 gap acknowledged \u2014 v1-3 shipped CLEAN at ed78bbef on 2026-06-09; dispatch row backfilled by v1-4 orchestrator"
   },
   {
     "ts": "2026-06-09T17:03:00Z",
@@ -31,7 +31,7 @@
     "head_sha": "df520cf75aba0fc547af9613dc2b7f3597aa380f",
     "status": "PR_OPEN_AWAITING_AUDIT",
     "r66_status": "run1_clean_8_env_gated_rls_failures_only",
-    "r66_run2_blocked_by": "sandbox snapshot lock — needs CI rerun",
+    "r66_run2_blocked_by": "sandbox snapshot lock \u2014 needs CI rerun",
     "completed_ts": "2026-06-09T17:49:00Z",
     "base_sha": "ed78bbeface5044a2f1fd5be0dd47fd20a10d43c",
     "branch": "feature/community-v1-realtime-push",
@@ -41,7 +41,7 @@
     "subagent_type": "general_purpose",
     "notes": [
       "Sonnet 4.6 FORBIDDEN (R31 auditor greps for 'sonnet')",
-      "codebase subagent type BROKEN (e2209543) — using general_purpose with explicit worktree",
+      "codebase subagent type BROKEN (e2209543) \u2014 using general_purpose with explicit worktree",
       "3 flags all OFF in prod: FEATURE_COMMUNITY_REALTIME, FEATURE_COMMUNITY_PUSH, FEATURE_COMMUNITY_TELEMETRY",
       "Zero schema mutation gate: git diff main..HEAD -- prisma/ must be empty",
       "DIRTY-CRITICAL: any user-authored body text in broadcast payloads, or any user content in push payloads when User.lockscreenPrivacy=true"
@@ -56,14 +56,17 @@
     "head_sha": "b6760a10c678bc0c006f127298bcb3cef228bc4b",
     "status": "PR_OPEN_AWAITING_AUDIT",
     "r66_status": "run1_sharded_clean_8_env_gated_rls_failures_only",
-    "r66_run2_blocked_by": "sandbox snapshot lock — needs CI rerun",
+    "r66_run2_blocked_by": "sandbox snapshot lock \u2014 needs CI rerun",
     "completed_ts": "2026-06-09T17:49:00Z",
     "base_sha": "ed78bbeface5044a2f1fd5be0dd47fd20a10d43c",
     "branch": "fix/bug-r2-meal-plan-dedup",
     "task": "BUG-R2 dedup legacy MealPlansModule routes to real-meal-plans canonical",
     "model": "claude_opus_4_8",
     "subagent_type": "general_purpose",
-    "file_scope": ["src/meal-plans/**", "src/real-meal-plans/**"],
+    "file_scope": [
+      "src/meal-plans/**",
+      "src/real-meal-plans/**"
+    ],
     "isolation_note": "NO overlap with v1-4 builder (community/notifications/supabase/analytics) or R3/R4-R5 fixers"
   },
   {
@@ -75,14 +78,16 @@
     "head_sha": "ebb33d2",
     "status": "PR_OPEN_AWAITING_AUDIT",
     "r66_status": "run1_clean_8_env_gated_rls_failures_only_4215_passed_543_env_failures",
-    "r66_run2_blocked_by": "sandbox snapshot lock — needs CI rerun",
+    "r66_run2_blocked_by": "sandbox snapshot lock \u2014 needs CI rerun",
     "completed_ts": "2026-06-09T17:49:00Z",
     "base_sha": "ed78bbeface5044a2f1fd5be0dd47fd20a10d43c",
     "branch": "fix/bug-r3-package-archive-guard",
     "task": "BUG-R3 block archive of CoachPackage with active recurring subscribers",
     "model": "claude_opus_4_8",
     "subagent_type": "general_purpose",
-    "file_scope": ["src/packages/packages.service.ts"],
+    "file_scope": [
+      "src/packages/packages.service.ts"
+    ],
     "isolation_note": "NO overlap with v1-4 builder or R2/R4-R5 fixers"
   },
   {
@@ -95,12 +100,67 @@
     "task": "BUG-R4 GDPR export S3 + BUG-R5 GDPR scrub cancels Stripe subs",
     "model": "claude_opus_4_8",
     "subagent_type": "general_purpose",
-    "file_scope": ["src/data-export/data-export.service.ts", "src/users/gdpr-scrub.service.ts"],
+    "file_scope": [
+      "src/data-export/data-export.service.ts",
+      "src/users/gdpr-scrub.service.ts"
+    ],
     "isolation_note": "NO overlap with v1-4 builder or R2/R3 fixers",
     "status": "STOPPED_NEEDS_PARENT_DECISION",
     "stop_reason": "R4: @aws-sdk/client-s3 not in package-lock.json (task says STOP if missing). R5: StripeApiService.cancelSubscription takes object not string; StripeApiService.deleteCustomer does not exist. Correct service is likely StripeConnectApiService (used by dunning.service.ts) but switching requires wiring decision beyond fixer mandate.",
     "stop_report_path": "/home/user/workspace/tgp/backend-r4-r5-gdpr/BUG-R4-R5-STOP-REPORT.md",
     "completed_ts": "2026-06-09T17:17:00Z",
     "head_unchanged": true
+  },
+  {
+    "ts": "2026-06-09T17:57:37Z",
+    "subagent_id": "pending",
+    "role": "auditor",
+    "audit_round": "R1",
+    "model": "gpt_5_5",
+    "subagent_type": "general_purpose",
+    "worktree": "/home/user/workspace/tgp/backend-v1-4-audit",
+    "audits_pr": 370,
+    "audits_branch": "feature/community-v1-realtime-push",
+    "audits_head_sha": "df520cf75aba0fc547af9613dc2b7f3597aa380f",
+    "task": "R1 audit of community v1-4 realtime push telemetry",
+    "notes": [
+      "R31 builder!=auditor",
+      "R60 isolated worktree",
+      "Sonnet 4.6 FORBIDDEN \u2014 auditor greps for it"
+    ]
+  },
+  {
+    "ts": "2026-06-09T17:57:37Z",
+    "subagent_id": "pending",
+    "role": "auditor",
+    "audit_round": "R1",
+    "model": "gpt_5_5",
+    "subagent_type": "general_purpose",
+    "worktree": "/home/user/workspace/tgp/backend-r2-audit",
+    "audits_pr": 371,
+    "audits_branch": "fix/bug-r2-meal-plan-dedup",
+    "audits_head_sha": "b6760a10c678bc0c006f127298bcb3cef228bc4b",
+    "task": "R1 audit of BUG-R2 meal-plan dedup",
+    "notes": [
+      "R31 builder!=auditor",
+      "R60 isolated worktree"
+    ]
+  },
+  {
+    "ts": "2026-06-09T17:57:37Z",
+    "subagent_id": "pending",
+    "role": "auditor",
+    "audit_round": "R1",
+    "model": "gpt_5_5",
+    "subagent_type": "general_purpose",
+    "worktree": "/home/user/workspace/tgp/backend-r3-audit",
+    "audits_pr": 372,
+    "audits_branch": "fix/bug-r3-package-archive-guard",
+    "audits_head_sha": "ebb33d2802167063f4af2dafa2f09c3089ee2424",
+    "task": "R1 audit of BUG-R3 package archive guard",
+    "notes": [
+      "R31 builder!=auditor",
+      "R60 isolated worktree"
+    ]
   }
 ]
