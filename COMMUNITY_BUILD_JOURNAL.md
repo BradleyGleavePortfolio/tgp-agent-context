@@ -625,3 +625,15 @@ All three subagents reported sandbox-snapshot infrastructure errors at the very 
 
 [tgp-agent-context PR #1](https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/1) — 382-line voice contract + 12-context sample copy + mascot direction brief. Subagent `roman_identity_spec_mq6xlbq9` (Opus 4.8) completed cleanly.
 
+
+## 2026-06-10T23:37Z — PR #378 Roman Phase 1 MERGED → backend main 2fa6b57e
+
+- PR #378 `feat/roman-phase-1-chat` admin-squash-merged
+- Merge commit: 2fa6b57e0494db4b560e14b63d3c6bafbf122b7f
+- HEAD at merge: 61f7d04d (final commit: "test(roman): align controller spec guard probe with RolesGuard addition")
+- CI green pre-merge: build-and-test ✅, rls-floor-guard ✅, rls-live-tests ✅
+- mergeStateStatus: CLEAN, mergeable: MERGEABLE, not draft
+- FEATURE_ROMAN_CHAT_ENABLED defaults OFF — no surface lit up
+- Per Dynasia's standing rule: PR was already-audited CLEAN by the prior operator's cycle, no new R1 audit needed
+- Final fix that unblocked CI: RolesGuard added to RomanController routes (@Roles('student','coach','owner')) + matching probe alignment in controller spec
+- v1-3-scope rule respected (no prisma diff), R56-R70 compliance verified by upstream CI gates
