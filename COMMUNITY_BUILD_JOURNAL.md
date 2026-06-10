@@ -637,3 +637,45 @@ All three subagents reported sandbox-snapshot infrastructure errors at the very 
 - Per Dynasia's standing rule: PR was already-audited CLEAN by the prior operator's cycle, no new R1 audit needed
 - Final fix that unblocked CI: RolesGuard added to RomanController routes (@Roles('student','coach','owner')) + matching probe alignment in controller spec
 - v1-3-scope rule respected (no prisma diff), R56-R70 compliance verified by upstream CI gates
+
+---
+
+## 2026-06-10T23:58Z — WAVE 1 PARALLEL DISPATCH (4 builders)
+
+**Orchestrator:** Sonnet 4.6 (manager-only, no code commits). All builders Opus 4.8. R31 will be enforced by spawning fresh GPT-5.5 auditors per PR.
+
+**Operator priority lane (verbatim, in force):** Tier 1 community (v1-6, v2-x) ALWAYS in flight; Tier 2 Roman + MWB run parallel but second to Tier 1 on contention.
+
+**Operator rule added 2026-06-10:** Roman's voice is never disembodied. Every Roman-voiced surface (in-app empty state, notification, dunning message, lockout, paywall, ED.3 wow, onboarding welcome) MUST render Roman's face alongside the copy. Backend emits `avatar_crop` in every Roman copy payload; mobile renders `<RomanAvatar />` on every empty state.
+
+**file_surface_overlap_check across 4 dispatches:** PASS
+
+| Agent | Repo | Owned surface | Conflicts |
+|---|---|---|---|
+| v1_6_mobile_coach_ui | growth-project-mobile | NEW src/screens/community/CoachCommunity*Screen.tsx ×6 + NEW src/components/community/coach/** + NEW src/api/coachCommunityApi.ts + navigator + featureFlags | NONE — fully isolated mobile |
+| v2_1_plan_context_backend | growth-project-backend | NEW src/community/plan-context/** + additive to src/community/messages/** | NONE with siblings — additive only |
+| mwb_2_templates | growth-project-backend | src/workout-builder/** + src/sub-coach-scope/** | NONE with siblings |
+| roman_p2_backend | growth-project-backend | src/billing/{dunning-v2,lockout,paywall,billing-update,first-payment}/** + src/notifications/** + src/onboarding/** + NEW src/roman/voice/** | NONE with siblings — does NOT touch src/roman/roman.{service,controller,prompts}.ts (Phase 1) |
+
+**Hard-flag-OFF defaults (all PRs):**
+- v1-6 mobile: `EXPO_PUBLIC_FF_COACH_COMMUNITY=false`
+- v2-1 backend: `FEATURE_COMMUNITY_PLAN_TAGS=false`
+- MWB-2 backend: `FEATURE_MWB_TEMPLATES=false`
+- Roman P2 backend: `FEATURE_ROMAN_COPY_V2=false` (legacy variant byte-equal preserved)
+
+**R69 schema mutation invariant:** ZERO. v2-1 brief includes pre-check: if `Message.plan_context_json` column absent, abort with `BLOCKED_R69_SCHEMA_MISSING`. MWB-1 schema (#376) covers MWB-2 needs. Roman P2 is constants/copy only.
+
+**Anti-rebase rule §7C compliance:** No two PRs touch `prisma/schema.prisma`, `package.json`, `package-lock.json`, `src/checkout/checkout.module.ts`, `src/app.module.ts`, or any single shared service file. Confirmed by grep across briefs.
+
+**Builder worktrees (R56-R61, never crossing):**
+- `/home/user/workspace/tgp/mobile-v1-6/`
+- `/home/user/workspace/tgp/backend-v2-1/`
+- `/home/user/workspace/tgp/backend-mwb-2/`
+- `/home/user/workspace/tgp/backend-roman-p2/`
+
+**Audit plan:** as each builder completes and PR opens, spawn fresh GPT-5.5 auditor (R31) on the PR diff. CLEAN verdict → merge per operator standing rule "always merge on CLEAN, no waiting".
+
+**Merge order (predicted by file overlap):**
+1. v1-6 mobile (no backend rebase risk) — merges independent of backend trio
+2. First of {v2-1, MWB-2, Roman P2} to return CLEAN merges as-is
+3. Subsequent backend PRs rebase on new main, re-run R70 fail-fast, re-attest R67, then merge
