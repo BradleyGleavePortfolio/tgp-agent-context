@@ -758,3 +758,17 @@ The UX brief poses the operator's literal questions: "Is this visually appealing
 - FU-2: Main-branch UX cleanup PRs (Report 03's 10 findings, ~2-3 sequential PRs).
 
 **Doctrine reference:** `/home/user/workspace/DESIGN_INTELLIGENCE_DOC_PLAINTEXT.md` (115KB, 1394 lines, operator-supplied 2026-06-10 17:34 PDT). Future sessions should re-attach.
+
+## 2026-06-11T01:42 — Wave 1 Turnaround Cycle 2: 4 parallel dispatches
+
+**Context:** Roman P2 fixer R1 returned CI-green at `ebb2854e`. MWB-2 fixer already green at `623cfdb5`. PR #382 v2-1 prereq merged → backend main now `db8633d8` (plan_context_payload column live). v1-6 dual audits returned DIRTY (code 4/13) + NEEDS_REVISION (UX).
+
+**Parallel dispatches (4):**
+1. **Roman P2 re-audit R2** — fresh GPT-5.5 on PR #380 @ `ebb2854e`. Worktree `/home/user/workspace/tgp/audit-roman-p2-r2`.
+2. **MWB-2 re-audit R2** — fresh GPT-5.5 on PR #381 @ `623cfdb5`. Worktree `/home/user/workspace/tgp/audit-mwb-2-r2`.
+3. **v2-1 plan-context backend re-dispatch** — fresh Opus 4.8 builder against new main `db8633d8` (original R69 abort cause cleared). Worktree `/home/user/workspace/tgp/backend-v2-1-r2`.
+4. **v1-6 mobile fixer R1** — fresh Opus 4.8 fixer on PR #231 + new backend PR for Roman empty-state endpoint. Lane-disjoint from #380/#381/v2-1. Worktree `/home/user/workspace/tgp/fix-mobile-v1-6/{mobile,backend}`.
+
+**§7C file_surface_overlap_check:** PASS — each dispatch owns disjoint files. The v1-6 fixer's backend lane (`src/roman/voice/voice-policy.constants.ts`, new `src/community/coach-inbox/community-coach-empty-states.controller.ts`) does NOT overlap with the Roman P2 PR #380 file set (already merged-ready; Roman P2 owns `voice-policy.service.ts` callsites in dunning/notifications, not the constants enum) or MWB-2 PR #381 (master-program clone path). Re-confirm in each fixer/builder report.
+
+**Rule basis:** R0 decacorn, R31 builder≠auditor≠fixer, R56 worktree-per-subagent, R64 journal-every-state-change, R66 full-suite-before-PR, R67 dispatch.json-before-wait, §7C anti-rebase disjoint lanes, FACE+VOICE contract (locked 2026-06-10).
