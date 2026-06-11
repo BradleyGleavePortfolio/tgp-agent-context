@@ -814,3 +814,11 @@ The UX brief poses the operator's literal questions: "Is this visually appealing
 - v3-1 mobile UX audit brief written (COMMUNITY_V3-1_MOBILE_R1_UX_AUDITOR_BRIEF.md, Part III gamification primary lens) — dispatches when a slot frees (5-lane cap, operator-set).
 
 **Re-audit policy:** v2-2 R2 = fresh auditors after both fixers land. v2-2 merges only on triple-CLEAN (backend code + mobile code + mobile UX), backend first.
+
+## 2026-06-11T22:32:00Z — WAVE 3 cycle 3: v2-2 backend FIXED → R2 audit; v3-1 backend DIRTY → fixer; #388 closed
+
+- Issue #388 (CRDT roadmap) CLOSED not-planned with operator-approved comment; MWB-4 promoted, queued for next free lane.
+- v2-2 backend fixer COMPLETE @ `d9f10692` (CI green): CAS stampAck + single-emission telemetry + concurrency test; ParseUUIDPipe ×3; byte-identical 404 non-leak (oracle gone); zero casts via typed fixtures; student-only eligibility via findSenderRole. Ack suites 37→56; test/community 15 suites/167 green. PR body authored. → dispatching FRESH R2 auditor (audit-v2-2-backend-r2, brief COMMUNITY_V2-2_BACKEND_R2_AUDITOR_BRIEF.md).
+- v3-1 backend R1: **DIRTY** — 3×P1 (challenge CommunityMessage rows bleed into message get/edit/delete + unread counts; progress read-modify-write race + dup completion emissions; no runtime UUID validation on any path param) + 2×P2 (`as unknown as User` in specs; reportComment not bound to challengeId). Leaderboard opt-in, flag gating, Zod strictness, lane containment all PASS. Report COMMUNITY_V3-1_BACKEND_R1_AUDIT_REPORT.md. → dispatching fixer (fixer-v3-1-backend, brief COMMUNITY_V3-1_BACKEND_FIXER_R1_BRIEF.md) with a narrow authorized exception: minimal plan_context_type exclusion filters in messages service + community repository (v2-2 lane is quiescent at d9f10692; no live overlap).
+- Lanes after dispatch (5): v2-3 builder (finishing mobile), v2-2 mobile fixer, v3-1 mobile code audit, v2-2 backend R2 audit, v3-1 backend fixer. Queued: v3-1 UX audit, v2-2 mobile R2, v2-3 audits ×3, MWB-4 builder, v2-4/v3-2/v3-3 builders.
+- Operator protocol: "check" = wakeup call meaning N agents done → act accordingly.
