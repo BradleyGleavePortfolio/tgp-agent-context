@@ -49,3 +49,12 @@ Append entries chronologically. Each entry: timestamp, what was audited, verdict
 **Open follow-ups (not yet dispatched):**
 - **FU-1** — PR #231 round-trip: fresh Opus 4.8 fixer to address both Report 01 and Report 02 findings in a single pass. Brief to be written when orchestrator returns to this thread.
 - **FU-2** — Main-branch UX cleanup (Report 03): the 10 findings span ~10 screens. Likely needs to be sequenced as 2-3 PRs (safe-area migration, IA cleanup, copy/visual polish). Awaiting operator triage.
+
+---
+
+## 2026-06-10 22:20 PDT — Operator-supplied teardown register added
+
+- New file: `reports/07_external_teardown_findings_register_2026-06-10.md` — structured row-by-row register of the same 35 findings already captured prose-form in `04_external_teardown_three_tier_2026-06-10.md`. Source: operator-supplied `growth_project_mobile_findings.docx`.
+- Use `07_` when scoping work / filing tickets (one row per finding with file/line/principle/issue/fix columns); use `04_` when reading for argument.
+- 13 Horrific (H1-H13), 12 Mid (M1-M12), 10 Dominate (D1-D10). No new findings introduced — this is a format companion, not an additional audit.
+- Highest-leverage recommended moves (operator-flagged): H1 + H2 + H10 (fix the navs, kill the stubs), then D5 (composite completion rings on Home).
