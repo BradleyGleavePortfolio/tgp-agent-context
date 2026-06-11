@@ -740,3 +740,21 @@ The UX brief poses the operator's literal questions: "Is this visually appealing
 - Zero overlap.
 
 **Next merge gates:** on CLEAN re-audit, merge order will be MWB-2 (#381) or Roman P2 (#380) — whichever fixer returns first. Then re-dispatch v2-1 plan-context builder against post-merge main.
+
+## 2026-06-11T01:32:13Z — NEW THREAD STARTED — ui-ux-findings/
+
+**Operator directive (2026-06-10):** Start a new thread under `tgp-agent-context` for UI/UX findings, seeded with three reports.
+
+**Location:** `ui-ux-findings/`
+- `README.md` — thread anchor + how-to
+- `THREAD_LOG.md` — running journal of every audit + doctrinal accretion
+- `reports/01_v1-6_mobile_UX_DESIGN_audit_PR-231.md` — verbatim UX audit, doctrine-driven, NEEDS_REVISION
+- `reports/02_v1-6_mobile_CODE_audit_PR-231.md` — verbatim code audit, DIRTY 4/13
+- `reports/03_external_audit_main_branch_2026-06-10.md` — verbatim external roast of currently-shipped coach screens, 6.5/10 with 10 specific findings
+- `inventory/SCREEN_INVENTORY.md` — 145 `*Screen.tsx` files on main (53 coach + 53 client + 37 auth/other + 2 entitlement wrappers), snapshotted at `growth-project-mobile@76b1a48a`
+
+**Open follow-ups (not dispatched in this turn — pending operator triage):**
+- FU-1: PR #231 fixer to address Reports 01 + 02 in a single pass.
+- FU-2: Main-branch UX cleanup PRs (Report 03's 10 findings, ~2-3 sequential PRs).
+
+**Doctrine reference:** `/home/user/workspace/DESIGN_INTELLIGENCE_DOC_PLAINTEXT.md` (115KB, 1394 lines, operator-supplied 2026-06-10 17:34 PDT). Future sessions should re-attach.
