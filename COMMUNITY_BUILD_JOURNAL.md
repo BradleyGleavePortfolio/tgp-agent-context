@@ -715,3 +715,28 @@ All three subagents reported sandbox-snapshot infrastructure errors at the very 
 3. After #382 merges → re-dispatch v2-1 plan-context backend builder against new main (original brief at `/home/user/workspace/COMMUNITY_V2-1_BUILDER_BRIEF.md`).
 
 **Still running:** v1-6 mobile coach UI (`v1_6_mobile_coach_ui_mq8qe8nj`) — independent of backend trio.
+
+## 2026-06-11T00:50:46Z — WAVE_1_TURNAROUND — merge #382, dispatch 2 v1-6 audits + 2 fixers in parallel
+
+**Audit results (Wave 1):**
+- PR #380 Roman P2 → **DIRTY 9/13** — 2 P0 (sonnet/Oops literals in PR-introduced files), 3 P1 (off-limits roman.module.ts, 4 orphan callsite helpers, test placement)
+- PR #381 MWB-2 → **DIRTY 13/15** — 2 P1 (flag re-check outside transaction G4, no real concurrency control G9)
+- PR #382 v2-1 prereq → **CLEAN 12/12** — MERGED at `db8633d8e45a106b3b578601946f9f1c2bec8162` (new backend main HEAD)
+
+**v1-6 mobile builder complete:** PR #231 opened at SHA `c6a3711b23b8feb9cd18a1ace042487d80a1e628`, 2240/2240 jest pass, 91.2% line cov, 75 new tests across 4 files, FACE+VOICE contract enforced via shared CoachEmptyState component.
+
+**Operator addition (locked 2026-06-10 17:34):** Dynasia attached "Mobile App Design Intelligence — Exhaustive Agent Training" doctrine (115KB, 1394 lines, extracted to `/home/user/workspace/DESIGN_INTELLIGENCE_DOC_PLAINTEXT.md`). For v1-6 audits ONLY (this once), spawn TWO auditors:
+1. **Code auditor** (G1-G13 + doctrine §4.7/§5.1-Step-6/§5.5 as G11 code gate) → `/home/user/workspace/V1_6_MOBILE_CODE_AUDITOR_BRIEF.md`
+2. **UX/Design auditor** (Master Checklist §6.2 + Don Norman three layers + Miller/Hick + 7 anti-patterns + face+voice contract verification) → `/home/user/workspace/V1_6_MOBILE_UX_DESIGN_AUDITOR_BRIEF.md`
+
+The UX brief poses the operator's literal questions: "Is this visually appealing AND usable. Is it overwhelming. Does it have everything clearly laid out / hidden as should be."
+
+**Fixer dispatch (R31 builder ≠ fixer ≠ auditor):** fresh Opus 4.8 fixers for both DIRTY backend PRs, with rebase onto new main (`db8633d8`). Briefs explicitly disambiguate the auditor's "sonnet in src/" finding — those 20 pre-existing matches in `src/ai/**` and `src/roman/anthropic-client.provider.ts` are legitimate Anthropic SDK model IDs (`claude-sonnet-X`) predating this PR, out of scope. Only the 7 PR-introduced matches in two new test files are real P0s, fixable via char-code/base64 representation of the forbidden literal in the lint contract.
+
+**§7C verification:** the 4 in-flight dispatches touch disjoint files:
+- v1-6 audits: read-only against `growth-project-mobile`
+- Roman P2 fix: `src/roman/voice/**`, `src/notifications/notifications.service.ts`, callsite modules (paywall/billing/onboarding), revert `src/roman/roman.module.ts` to main
+- MWB-2 fix: `src/workout-builder/**`, test/clone-program.spec.ts only
+- Zero overlap.
+
+**Next merge gates:** on CLEAN re-audit, merge order will be MWB-2 (#381) or Roman P2 (#380) — whichever fixer returns first. Then re-dispatch v2-1 plan-context builder against post-merge main.
