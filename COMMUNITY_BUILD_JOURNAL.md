@@ -795,3 +795,22 @@ The UX brief poses the operator's literal questions: "Is this visually appealing
 **Doctrine docs committed to `quality-references/`** (operator re-attached both 2026-06-11): FIFTY_FAILURES_PLAINTEXT.md + DESIGN_INTELLIGENCE_DOC_PLAINTEXT.md — future sessions no longer depend on re-attachment (R64).
 
 **Merge policy this wave:** standing rule — CLEAN ⇒ immediate `gh pr merge --squash --admin` (admin solely for pre-existing environmental rls-tier1). v2-2 requires ALL THREE verdicts clean (backend code + mobile code + mobile UX) before the pair merges, backend first.
+
+## 2026-06-11T21:42:00Z — WAVE 3 cycle 2: v2-2 R1 verdicts (all dirty) → fixers; v3-1 BUILD COMPLETE → R1 audits
+
+**v2-2 R1 verdicts (R31 fresh GPT-5.5):**
+- Backend #387: **DIRTY** — 3×P1 (stampAck unconditional update = double-stamp/double-telemetry race; no ParseUUIDPipe on messageId params; 403-vs-404 cross-tenant existence oracle in AckService.authorize, test locked the bad behavior) + 2×P2 (`as unknown as` in specs; no client-authored eligibility check). Report: COMMUNITY_V2-2_BACKEND_R1_AUDIT_REPORT.md.
+- Mobile #234 code: **DIRTY** — 4×P1 (contract drift `.passthrough()`+loose timestamps vs backend `.strict()`; reduced-motion not actually enforced (stale ref outside effect deps) and test doesn't catch it; 409 illegal_transition = silent rollback, no refetch/surface; flag-off invariance untested) + 1×P2 (`as unknown as`). Report: COMMUNITY_V2-2_MOBILE_R1_CODE_AUDIT_REPORT.md.
+- Mobile #234 UX: **NEEDS_REVISION** — 4×P1 (row cognitive load violates Miller/Hick — two ack-like actions; `none`+`within` badge wall; breached SLA doesn't out-shout peers; row a11y label omits ack/SLA so screen-reader coaches never hear "Overdue") + 2×P2 (Ack/Acked/Mark acked/Acknowledge vocabulary tax; under-invested closure). Report: COMMUNITY_V2-2_MOBILE_R1_UX_AUDIT_REPORT.md.
+- Audit cycle value: 11 chargeable findings on a CI-green pair. R1 did its job.
+
+**v3-1 BUILD COMPLETE (Opus 4.8):** backend PR #390 (`86eca1e1`, 29 tests, full test/community 204 green) + mobile PR #235 (`98e7b281`, 15 tests, tsc clean). Declared deviations: new communityChallengesApi.ts; reuse of threadEmpty Roman stem; CommunityMessage-row reuse for comments/opt-in (R69-driven). file_surface_overlap_check: PASS. NOTE: full 386-suite backend run OOMs sandbox (env limit, not code) — targeted+community suites are the verification bar this wave.
+
+**Cycle-2 dispatch (4 lanes + v2-3 builder still in flight = 5 concurrent):**
+1. v2-2 backend FIXER (Opus 4.8) → fixer-v2-2-backend, brief COMMUNITY_V2-2_BACKEND_FIXER_R1_BRIEF.md (all 5 findings + write the missing PR body).
+2. v2-2 mobile FIXER (Opus 4.8) → fixer-v2-2-mobile, brief COMMUNITY_V2-2_MOBILE_FIXER_R1_BRIEF.md (5 code + 4 UX P1s + 2 UX P2s; list re-ordering explicitly deferred to v2-4).
+3. v3-1 backend R1 code audit (GPT-5.5) → audit-v3-1-backend, brief COMMUNITY_V3-1_BACKEND_R1_AUDITOR_BRIEF.md (v2-2 lessons encoded: oracle check, pipes, races, strict Zod; CommunityMessage-reuse soundness is the headline question).
+4. v3-1 mobile R1 code audit (GPT-5.5) → audit-v3-1-mobile-code, brief COMMUNITY_V3-1_MOBILE_R1_CODE_AUDITOR_BRIEF.md (flag-off test REQUIRED, strict contracts, real reduced-motion).
+- v3-1 mobile UX audit brief written (COMMUNITY_V3-1_MOBILE_R1_UX_AUDITOR_BRIEF.md, Part III gamification primary lens) — dispatches when a slot frees (5-lane cap, operator-set).
+
+**Re-audit policy:** v2-2 R2 = fresh auditors after both fixers land. v2-2 merges only on triple-CLEAN (backend code + mobile code + mobile UX), backend first.
