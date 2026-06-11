@@ -772,3 +772,26 @@ The UX brief poses the operator's literal questions: "Is this visually appealing
 **§7C file_surface_overlap_check:** PASS — each dispatch owns disjoint files. The v1-6 fixer's backend lane (`src/roman/voice/voice-policy.constants.ts`, new `src/community/coach-inbox/community-coach-empty-states.controller.ts`) does NOT overlap with the Roman P2 PR #380 file set (already merged-ready; Roman P2 owns `voice-policy.service.ts` callsites in dunning/notifications, not the constants enum) or MWB-2 PR #381 (master-program clone path). Re-confirm in each fixer/builder report.
 
 **Rule basis:** R0 decacorn, R31 builder≠auditor≠fixer, R56 worktree-per-subagent, R64 journal-every-state-change, R66 full-suite-before-PR, R67 dispatch.json-before-wait, §7C anti-rebase disjoint lanes, FACE+VOICE contract (locked 2026-06-10).
+
+## 2026-06-11T20:05:00Z — WAVE 3: community full-speed — v2-2 R1 audits + v2-3 ∥ v3-1 builders (5 lanes)
+
+**Operator authorization (2026-06-11 13:01 PDT):** "start working through the community expansion, full speed ahead" + "Up to 5 PRs can go in flight at once, so long as you're VIGILANT with R64 — pushing all updates to github!" New orchestrator session (CPO mode) picked up v2-2 exactly where the cut-off sibling session left it.
+
+**v2-2 state verified:** backend PR #387 @ `b792abca` OPEN, CI green (build-and-test, rls-floor-guard, rls-live-tests), MERGEABLE; mobile PR #234 @ `f720bd83` OPEN, CI green, MERGEABLE. Backend PR body empty (session died before write-up) — orchestrator read full diffs: ack state machine (none→seen→acked→replied, monotonic, idempotent re-stamp, 409 regression guard), read-time SLA (24h/48h env-overridable, fat-finger-proof), IDs-only PostHog telemetry, 404-non-leak tenant doctrine. R69 pre-verified: zero prisma/ diff; ack columns pre-exist on main (schema ~5698).
+
+**Dispatch (R1 audits, R31 fresh GPT-5.5, zero builder context):**
+1. v2-2 backend code audit → brief `/home/user/workspace/COMMUNITY_V2-2_BACKEND_R1_AUDITOR_BRIEF.md`, worktree `tgp/audit-v2-2-backend`. Focus: stampAck concurrency (conditional update or P1), rate limiting, flag gating, telemetry PII.
+2. v2-2 mobile code audit → brief `..._MOBILE_R1_CODE_AUDITOR_BRIEF.md`, worktree `tgp/audit-v2-2-mobile-code`. Focus: contract cross-check vs #387 DTOs, optimistic-rollback (#30), flag-off invariance, FACE+VOICE.
+3. v2-2 mobile UX audit → brief `..._MOBILE_R1_UX_AUDITOR_BRIEF.md`, worktree `tgp/audit-v2-2-mobile-ux`, doctrine `quality-references/DESIGN_INTELLIGENCE_DOC_PLAINTEXT.md` (§6.2 + 7 anti-patterns + operator's 3 literal questions). Key risk flagged: none-state pill wall / inbox row cognitive load.
+
+**Dispatch (builders, Opus 4.8, R71 file-ownership briefs):**
+4. v2-3 event objects (backend+mobile) → brief `COMMUNITY_V2-3_BUILDER_BRIEF.md`, worktrees `tgp/{backend,mobile}-v2-3-builder`, base backend main `25dbc790` / mobile main `1ba30d86`. OWNS events/** + Event screens. No video provider → external links only (STEP0).
+5. v3-1 challenges (backend+mobile) → brief `COMMUNITY_V3-1_BUILDER_BRIEF.md`, worktrees `tgp/{backend,mobile}-v3-1-builder`, same bases. OWNS challenges/** + Challenge screens. Doctrine Part III gamification gates mandatory (S-curve ≤4, forgiveness, no shame).
+
+**§7C file_surface_overlap_check: PASS** — v2-2 lane owns ack/** + messages/** + InboxScreen; v2-3 owns events/** + Event screens; v3-1 owns challenges/** + Challenge screens. Shared-append only: community.module.ts, featureFlags.ts, .env.example, navigators — R71 second-merger-rebases rule in both builder briefs. Parallelization plan Phase D adapted: v2-1 already merged solo, so the fan-out is v2-3 ∥ v3-1 (+v2-2 audits); v2-4 stays serialized behind v2-2 (inbox screen conflict), v3-2 ∥ v3-3 next, v3-4 last.
+
+**R69 pre-flight for builders:** CommunityEvent (~5786), CommunityEventRsvp (~5817), CommunityChallenge (~5840), CommunityChallengeParticipation (~5870) all pre-exist on main schema → no schema mutation needed anywhere in this wave.
+
+**Doctrine docs committed to `quality-references/`** (operator re-attached both 2026-06-11): FIFTY_FAILURES_PLAINTEXT.md + DESIGN_INTELLIGENCE_DOC_PLAINTEXT.md — future sessions no longer depend on re-attachment (R64).
+
+**Merge policy this wave:** standing rule — CLEAN ⇒ immediate `gh pr merge --squash --admin` (admin solely for pre-existing environmental rls-tier1). v2-2 requires ALL THREE verdicts clean (backend code + mobile code + mobile UX) before the pair merges, backend first.
