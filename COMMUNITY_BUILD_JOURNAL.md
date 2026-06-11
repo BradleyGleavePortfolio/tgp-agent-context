@@ -694,3 +694,24 @@ All three subagents reported sandbox-snapshot infrastructure errors at the very 
 1. Prereq builder opens PR → fresh GPT-5.5 audit → CLEAN → merge.
 2. Re-dispatch v2-1 against new main (post-prereq SHA) with original brief unchanged (now passes R69 pre-check).
 3. v2-1 + (whichever sibling backend PRs already merged) ship in sequence per merge gate.
+
+## 2026-06-11T00:32:01Z — WAVE_1_AUDIT_FANOUT_3 — three GPT-5.5 auditors dispatched in parallel
+
+**Builders complete:**
+- PR #380 Roman P2 backend (Opus 4.8 builder `roman_phase_2_backend_mq8qesyt`) — SHA `20f93a790a703fec12ae5d1dfd9e16d6daadbe41`
+- PR #381 MWB-2 templates (Opus 4.8 builder `mwb_2_templates_mq8qemmg`) — SHA `aeb628e635fcf75afb2357b63d0eaf7e886ab834`
+- PR #382 v2-1 prereq migration (Opus 4.8 builder `v2_1_prereq_migration_mq8qmus4`) — SHA `bfe8e3ef7b4cd2ea452c3a5f84780f112b938948`
+
+**Auditor dispatch (R31 builder ≠ auditor, fresh gpt_5_5 each, no shared context):**
+1. Roman P2 backend audit → worktree `/home/user/workspace/tgp/audit-roman-p2/`
+2. MWB-2 templates audit → worktree `/home/user/workspace/tgp/audit-mwb-2/`
+3. v2-1 prereq migration audit → worktree `/home/user/workspace/tgp/audit-v2-1-prereq/`
+
+**§7C anti-rebase verification:** Auditors only READ; they do not push branches. Worktrees are read-only checkouts of each PR head. ZERO overlap.
+
+**Merge plan on CLEAN verdicts (operator standing rule "always merge on CLEAN"):**
+1. First CLEAN → `gh pr merge <num> --squash --admin`.
+2. Remaining open backend PRs auto-rebase via GitHub or via builder fast-forward if conflicts.
+3. After #382 merges → re-dispatch v2-1 plan-context backend builder against new main (original brief at `/home/user/workspace/COMMUNITY_V2-1_BUILDER_BRIEF.md`).
+
+**Still running:** v1-6 mobile coach UI (`v1_6_mobile_coach_ui_mq8qe8nj`) — independent of backend trio.
