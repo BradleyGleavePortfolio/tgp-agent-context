@@ -679,3 +679,18 @@ All three subagents reported sandbox-snapshot infrastructure errors at the very 
 1. v1-6 mobile (no backend rebase risk) — merges independent of backend trio
 2. First of {v2-1, MWB-2, Roman P2} to return CLEAN merges as-is
 3. Subsequent backend PRs rebase on new main, re-run R70 fail-fast, re-attest R67, then merge
+
+## 2026-06-11T00:05Z — v2-1 R69 ABORT + prereq migration dispatched
+
+**Event:** v2-1 plan-context backend builder hit `BLOCKED_R69_SCHEMA_MISSING` as designed. Builder verified `CommunityMessage` model has scalar `plan_context_type`/`plan_context_id`/`plan_week_start` columns (active use by inbox/posts/reactions for COMMENT_CONTEXT_TYPE discrimination) but no JSON column for v2-1's discriminated-union payload (week_index, day_index, exercise_id, meal_id, package_id, check_in_id). Per R69, did not invent a migration.
+
+**Operator decision (locked 2026-06-11):** Option A — ship tiny additive migration prereq, then re-dispatch v2-1. Quality bar R0 preserved (decacorn, never quick-patch).
+
+**Prereq dispatch:** `v2_1_prereq_migration` builder spawned. Scope = ONE line in `prisma/schema.prisma` + auto-generated migration SQL. ZERO service code, ZERO controllers, ZERO DTOs.
+
+**Anti-rebase §7C verification:** prereq touches `prisma/schema.prisma`. Sibling Wave 1 builders (v1-6 mobile, MWB-2, Roman P2) DO NOT touch schema per their briefs. Confirmed disjoint — safe to run in parallel with the 3 still-running siblings.
+
+**Flow forward:**
+1. Prereq builder opens PR → fresh GPT-5.5 audit → CLEAN → merge.
+2. Re-dispatch v2-1 against new main (post-prereq SHA) with original brief unchanged (now passes R69 pre-check).
+3. v2-1 + (whichever sibling backend PRs already merged) ship in sequence per merge gate.
