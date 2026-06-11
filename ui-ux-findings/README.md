@@ -12,7 +12,8 @@
   - `01_*` — v1-6 mobile coach community UX/design audit (PR #231, doctrine-driven)
   - `02_*` — v1-6 mobile coach community code audit (PR #231)
   - `03_*` — External audit of currently-shipped main-branch coach screens (10 findings)
-  - …future reports appended as `04_*`, `05_*`, etc.
+  - `04_*` — External three-tier teardown (whole-app, 35 findings across Tier 1 Horrific / Tier 2 Mid / Tier 3 Room-to-Dominate)
+  - …future reports appended as `05_*`, `06_*`, etc.
 - `inventory/SCREEN_INVENTORY.md` — full list of every `*Screen.tsx` on `growth-project-mobile` main, snapshotted on thread start so we can re-snapshot later and diff.
 - `THREAD_LOG.md` — running journal: who audited what, when, verdict, follow-up dispatches, fix PRs.
 

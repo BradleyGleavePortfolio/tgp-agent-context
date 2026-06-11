@@ -27,6 +27,17 @@ Append entries chronologically. Each entry: timestamp, what was audited, verdict
    - 🔴 High (3): hardcoded `paddingTop: 60` across 10+ screens, 9-tab horizontal scroll in `ClientDetailScreen`, 3 overlapping invite-flow screens in `SettingsScreen`
    - 🟡 Medium (5) / 🟠 Low-Med (2)
 
+**Added 2026-06-10 19:28 PDT — Report 04:**
+
+4. **`reports/04_external_teardown_three_tier_2026-06-10.md`** — Three-tier mobile teardown (operator-supplied)
+   - Source: external auditor (verbatim, Dynasia-supplied) — code-grounded audit against the Mobile App Design Intelligence framework (Miller, Hick, CALM, completion drive, polish-as-trust, 7 anti-patterns)
+   - Scope: `growth-project-mobile` whole-app surface (not just v1-6)
+   - Structure: 35 findings across 3 tiers, ranked worst → most aspirational
+     - **Tier 1 — Horrific (13):** actively harming product perception. Notably `MoreScreen.tsx:27-119` is a 13-item flat dump with two indistinguishable items ("Grocery List" vs "Shopping List" side-by-side), violating Miller AND Hick. Likely overlaps with Report 03's H1 finding.
+   - **Tier 2 — Mid / Uninspiring (12):** not broken, failing to differentiate.
+   - **Tier 3 — Room to Dominate (10):** foundations that, polished further, put the app in Revolut/Apple/Strava territory.
+   - **Status:** parked for prioritization. Many findings predate v1-6 and apply to shipped main-branch code; they will feed Wave 3+ UX polish dispatches (not Wave 1 community-expansion scope).
+
 **Validation notes (orchestrator):**
 - The 10 main-branch findings were spot-checked against the repo and confirmed real on main HEAD `76b1a48a`. PR #230 (safe-area pack, merged 2026-06-10 02:51 UTC) only added `StatusBarBand` + push-banner inset and did NOT migrate the `paddingTop: 60` literals.
 - Screen inventory captured at `inventory/SCREEN_INVENTORY.md` — 145 total `*Screen.tsx` on main (53 coach, 53 client, 37 auth/applicant/other, 2 entitlement wrappers).
