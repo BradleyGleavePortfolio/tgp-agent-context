@@ -609,3 +609,8 @@
 {"ts":"2026-06-12T22:47Z","cycle":13,"type":"dispatch","pr":242,"round":"R3","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_242_R3.md","head":"22b2d2d6"}
 {"ts":"2026-06-12T22:47Z","cycle":13,"type":"dispatch","pr":235,"round":"R6","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_235_R6.md","head":"932da9e1"}
 {"ts":"2026-06-12T22:47Z","cycle":13,"type":"dispatch","pr":392,"round":"R4","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_392_R4.md","head":"4cd04bea"}
+{"ts":"2026-06-12T23:10Z","cycle":14,"type":"merge","pr":392,"round":"R4","note":"AUDIT CLEAN; D-044 admin-squash-merge; CI failure provably runner-infra (jobs failed in 3s, 0 steps, no runner). Unblocks #235 flag-on."}
+{"ts":"2026-06-12T23:10Z","cycle":14,"type":"dispatch","pr":242,"round":"R4","role":"fixer","model":"opus-4.8","brief":"tgp/briefs/FIXER_BRIEF_242_ROMAN_P4_R4.md","head":"22b2d2d6"}
+{"ts":"2026-06-12T23:10Z","cycle":14,"type":"dispatch","pr":235,"round":"R7","role":"fixer","model":"opus-4.8","brief":"tgp/briefs/FIXER_BRIEF_235_V31_MOBILE_R7.md","head":"932da9e1"}
+{"ts":"2026-06-12T23:10Z","cycle":14,"type":"dispatch","pr":241,"round":"R5","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_241_R5.md","head":"b8ed756b"}
+{"ts":"2026-06-12T23:10Z","cycle":14,"type":"dispatch","pr":237,"round":"R8","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_237_R8.md","head":"5844f46e"}

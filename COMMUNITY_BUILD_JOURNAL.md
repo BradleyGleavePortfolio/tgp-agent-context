@@ -968,3 +968,21 @@ Merge gates pending: v2-3 = #389 R3 + #236 code+UX; v3-1 = #390 R4 + #235 code+U
 **Merge triggers armed:** v3-1 = #390 then #235 on code+UX CLEAN pair. v2-3 = #389 post-rebase R4 + #236 code+UX CLEAN. Roman #238 = re-audit pair CLEAN post-fixer.
 
 **Queue (in order):** v2-3 mobile R2 UX audit → MWB-4 R1 code+UX (#237 @ 77cd3b4a) → v2-4 R1 ×3 (#391 backend code; #239 mobile code+UX) → v2-3 backend R4 (post-rebase) → Roman re-audits (post-fix) → v3-2 ∥ v3-3 → v3-4.
+
+## Cycle 14 — 2026-06-12 ~4:10 PM PT — #392 MERGED; cycle-13 verdicts processed; 4 lanes dispatched
+
+**MERGED: PR #392 B-PAG-1 (backend pagination enforcement)** @ 4cd04beae8235f5a27c497157e99741e4dfa25f8 — R4 audit CLEAN (0 P0/P1/P2; 1 non-blocking P3 on boundary-test wording). D-044 satisfied: auditor-local tsc/eslint/jest exit 0, R0 grep clean, CI failure provably runner-infra (all 4 jobs "failed" in ~3s with 0 steps and empty runner_name = runner never picked up). Admin-squash-merged. Unblocks #235 flag-on sequencing.
+
+**Verdicts processed (cycle 13):**
+- #242 Roman P4 @ 22b2d2d6: R3 audit **DIRTY** — P1 first-payment proof still not authoritative (no status predicate on realtime INSERT or count; count<=1 treated as first; races), P2 dismissal latch not keyed per coach, P2 ED.4 PR commentary fires on bodyweight gain, P3 retry spam. Report AUDIT_242_R3_REPORT.md.
+- #235 v3-1 mobile @ 932da9e1: R6 audit **DIRTY** — P1 embedded CommunityTabScreen swallows /community/me errors into indefinite loading (self-owned route fixed, embedded path not), P2 composer can restore stale draft over newer pending draft, P2 page merges lack id dedupe, P2 no real infinite-query page-transition tests, P3 3 eslint warnings. Report AUDIT_235_R6_REPORT.md.
+- #241 Roman P3: R5 fixer **FIX COMPLETE** @ b8ed756b0f90aaa2f0e5ecd2082c10c515a4a1f2 (truthful-signal fixes for all 5 P2 surfaces + behavior tests; mergeable clean). Report FIXER_241_R5_REPORT.md.
+- #237 MWB-4: R8 fixer **FIX COMPLETE** @ 5844f46ed4d4ea134bbb46dee5f041b0c1c585b8 (replay gate held through 409-rebase-requeue until terminal; real regression test; doc fix). Report FIXER_237_R8_REPORT.md.
+
+**Dispatched (4 lanes; 5th lane slot freed by #392 merge):**
+1. #242 R4 fixer (opus) — brief FIXER_BRIEF_242_ROMAN_P4_R4.md — first-SUCCESSFUL-payment proof (status predicate + no-earlier-successful-row check, fail closed), per-coach latch, bodyweight PR gating, retry latch.
+2. #235 R7 fixer (opus) — brief FIXER_BRIEF_235_V31_MOBILE_R7.md — embedded prerequisite error threading, draft-restore-only-if-unchanged, shared dedupeById page merges, real page-transition tests, lint.
+3. #241 R5 audit (gpt-5.5) — brief AUDIT_BRIEF_241_R5.md @ b8ed756b — truthful-signal provenance scrutiny on all 5 surfaces + sweep of ALL Roman hosts for the proxy-signal class.
+4. #237 R8 audit (gpt-5.5) — brief AUDIT_BRIEF_237_R8.md @ 5844f46e — exhaustive gate-lifecycle path enumeration (premature clear AND gate leak AND infinite requeue), isReplay tag survival, real-test mutation check.
+
+**Merge triggers armed:** #241 and #237 merge on audit CLEAN per D-044. #235/#237 R71: whichever merges second rebases shared-append files (featureFlags.ts, .env.example). After all 5: v3-2 classroom posts ∥ v3-3 voice notes, then v3-4 (hard serial after v3-3).
