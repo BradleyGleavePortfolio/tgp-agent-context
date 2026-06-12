@@ -854,3 +854,22 @@ The UX brief poses the operator's literal questions: "Is this visually appealing
 - **MWB-4 BUILD COMPLETE** (Opus 4.8): **PR #237** (growth-project-mobile, feature/mwb-4-mobile-autosave). useAutosave hook (800ms debounce), AppState-background + beforeRemove force-flush, AsyncStorage offline mirror with kill/replay + idempotency keys, strict Zod wire layer, 409 fast-forward, save-state pill, flag EXPO_PUBLIC_FF_MWB_AUTOSAVE off. 38/38 targeted tests in standalone harness (screen test blocked by sandbox RN renderer — documented). 3 declared deviations incl. lock-token bootstrap 409 handshake. Report: MWB-4_BUILDER_REPORT.md. → R1 code + UX audits QUEUED (operator cap).
 - **v2-3 mobile code audit R1 dispatched** (GPT-5.5, brief COMMUNITY_V2-3_MOBILE_R1_CODE_AUDITOR_BRIEF.md, PR #236 @ 90b2526d, worktree tgp/audit-v2-3-mobile-code).
 - Lanes (5): v2-2 mobile fixer, v3-1 mobile fixer, v2-3 backend fixer, v3-1 backend fixer R2, v2-3 mobile code audit. Queued: v2-3 mobile UX audit, MWB-4 audits ×2, v2-2 mobile R2 ×2 (on fixer), v3-1 mobile R2 ×2 (on fixer), v3-1 backend R3 (on fixer), v2-3 backend R2 (on fixer), v2-4 builder (on v2-2 merge).
+
+## 2026-06-12T00:05:00Z — WAVE 3 cycle 8: all 5 lanes turned over; 3 fix_completes; v2-3 mobile code DIRTY-CRITICAL; 5 fresh dispatches (2 merge-gating)
+
+### State changes
+- **v2-2 mobile FIXED** @ `2f20a237` (PR #234): 11 fixes + fontWeight 700→600 quiet-luxury cap; 94 targeted tests; CI green. → R2 code + UX audits DISPATCHED (both MERGE-GATING; backend #387 already CLEAN R2 @ d9f10692).
+- **v2-3 backend FIXED** @ `c6799955` (PR #389): casPromoteState CAS, claimReminderRecipients atomic RETURNING, membership-scoped event list, 8 UUID pipes, created/rsvp_changed broadcasts. → R2 audit DISPATCHED.
+- **v3-1 backend FIXED (R2)** @ `c005b2ee` (PR #390): idempotent conditional completion UPDATE...RETURNING kills double-milestone-push; env-gated live-DB race test. → R3 audit QUEUED (lane cap).
+- **v3-1 mobile fixer STEP-LIMIT mid-fix** (PR #235): fixer self-caught a FABRICATED backend contract from its own earlier turn (invented getCommentsEmptyState endpoint + challenge_comments_empty surface key — neither exists on backend; v2-3 neutral-empty-state precedent applies). Corrections uncommitted in worktree. Parent pushed its 3 local commits (98e7b28→b069548) to origin per R64. RESUMED via message_subagent with finish plan (F1/F8 test rewrite, F2 drift tests vs backend @ c005b2ee, F4 navigator flag-off test, gates, REST-API PR body update).
+- **v2-3 mobile code R1 verdict: DIRTY-CRITICAL** (PR #236 @ 90b2526d): 2 P0 — flag-off routes registered unconditionally; Roman face leaks into client detail empty state via CommunityEmptyState stem="todayEmpty". 4 P1 — Linking.openURL without https guard; mutation errors unsurfaced + 409 unclassified; STATE_META[event.state] unknown-state crash; no drift tests. 2 P2 — reduced-motion absent on modals; as-unknown-as in test. → combined mobile fixer QUEUED on UX verdict.
+- **MWB-4 audits still QUEUED** (PR #237 @ 77cd3b4a) behind lane cap.
+
+### Lanes (5/5 live)
+v3-1 mobile fixer (resumed), v2-2 mobile R2 code audit, v2-2 mobile R2 UX audit, v2-3 mobile UX audit, v2-3 backend R2 audit.
+
+### Queue
+v3-1 backend R3 audit (verify c005b2ee exactly-once completion + comment literals), MWB-4 R1 code + UX audits, v3-1 mobile R2 ×2 (on fixer), v2-3 mobile combined fixer (on UX verdict), v2-4 builder (on v2-2 merge — inbox conflict), then v3-2 ∥ v3-3, v3-4 last.
+
+### Merge trigger armed
+If v2-2 mobile R2 code CLEAN + UX CLEAN → merge #387 then #234 (`gh pr merge --squash --admin`), journal SHAs, dispatch v2-4 builder.
