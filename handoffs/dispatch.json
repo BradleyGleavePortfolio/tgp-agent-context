@@ -600,3 +600,9 @@
 {"ts":"2026-06-12T21:52Z","cycle":12,"type":"ops","notes":"watchdog 3f68b80e cadence cut to 15min (7,22,37,52 UTC) with report-marker pre-check + hourly full-check fallback, per user"}
 {"ts":"2026-06-12T21:57Z","cycle":12,"type":"fix_complete","pr":392,"round":"R3","sha":"fbfe09a35d188b7f18d1d49755f1dcb038bb9151","notes":"visibility+consent predicates pushed into page+anchor queries; boundary tests; suite 5181/0"}
 {"ts":"2026-06-12T21:57Z","cycle":12,"type":"dispatch","pr":392,"round":"R3","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_392_R3.md","head":"fbfe09a3"}
+{"ts":"2026-06-12T22:22Z","cycle":12,"type":"audit_verdict","pr":241,"round":"R4","verdict":"DIRTY","findings":"P0/P1 cleared; 5 P2 semantic host-wiring (overdue-as-submitted, invented onboarding, streak bucketing, placeholder bank last4, history-as-completion) + 2 P3"}
+{"ts":"2026-06-12T22:22Z","cycle":12,"type":"audit_verdict","pr":392,"round":"R3","verdict":"DIRTY","findings":"R2 leaks closed; 1 P2 unbounded opt-in sentinel read (no take, missing workspace_id) pre-pagination + P3 boundary-test overclaim"}
+{"ts":"2026-06-12T22:22Z","cycle":12,"type":"audit_verdict","pr":237,"round":"R7","verdict":"DIRTY","findings":"1 P1 replay-409 clears Save gate before terminal (requeue path) + P2 mock-echo regression test + P3 doc wording"}
+{"ts":"2026-06-12T22:22Z","cycle":12,"type":"dispatch","pr":237,"round":"R8","role":"fixer","model":"opus-4.8","brief":"tgp/briefs/FIXER_BRIEF_237_MWB4_R8.md","head":"f760d44f"}
+{"ts":"2026-06-12T22:22Z","cycle":12,"type":"dispatch","pr":241,"round":"R5","role":"fixer","model":"opus-4.8","brief":"tgp/briefs/FIXER_BRIEF_241_ROMAN_P3_R5.md","head":"9fd99237"}
+{"ts":"2026-06-12T22:22Z","cycle":12,"type":"dispatch","pr":392,"round":"R4","role":"fixer","model":"opus-4.8","brief":"tgp/briefs/FIXER_BRIEF_392_B_PAG_1_R4.md","head":"fbfe09a3"}
