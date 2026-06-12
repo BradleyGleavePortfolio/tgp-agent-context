@@ -873,3 +873,12 @@ v3-1 backend R3 audit (verify c005b2ee exactly-once completion + comment literal
 
 ### Merge trigger armed
 If v2-2 mobile R2 code CLEAN + UX CLEAN → merge #387 then #234 (`gh pr merge --squash --admin`), journal SHAs, dispatch v2-4 builder.
+
+## 2026-06-12T00:12:00Z — WAVE 3 cycle 8b: v2-2 mobile UX CLEAN (merge gate on code only); v2-3 mobile UX NEEDS_REVISION -> combined fixer + v3-1 backend R3 dispatched
+
+- **v2-2 mobile R2 UX: CLEAN** (PR #234 @ 2f20a237). All 6 R1 UX findings verified fixed with file:line evidence; 1 new P2 polish only (settled rows: disabled "Acknowledged" button beside state pill; replied rows read weaker) — logged, non-blocking. **Triple-CLEAN merge gate now waits ONLY on v2-2 mobile R2 code audit** (backend #387 CLEAN @ d9f10692).
+- **v2-3 mobile UX R1: NEEDS_REVISION** (PR #236 @ 90b2526d). P1: events effectively unhosted (member Today card routes to Hall not detail; coach home has no Events entry). P2 ×7: RSVP three-equal-buttons no hierarchy/withdraw/confirmation, external-link copy not honest about leaving app, raw ISO timestamp input, "Live"/"Replay" labels not instant, Roman-voiced member empty state (matches code-audit P0), Reflect(close) unguarded, flag-off route-registration residue (matches code-audit P0).
+- **Combined v2-3 mobile fixer DISPATCHED** (Opus 4.8): F1–F14 brief merging code DIRTY-CRITICAL + UX findings — COMMUNITY_V2-3_MOBILE_FIXER_R1_BRIEF.md.
+- **v3-1 backend R3 audit DISPATCHED** (GPT-5.5): verify exactly-once completion at c005b2ee (adversarial probes on UPDATE...RETURNING gate + race test realness) + comment-literal grep (3rd-recurrence watch) — COMMUNITY_V3-1_BACKEND_R3_AUDITOR_BRIEF.md.
+- Lanes (5/5): v3-1 mobile fixer (resumed), v2-2 mobile R2 code audit, v2-3 backend R2 audit, v2-3 mobile combined fixer, v3-1 backend R3 audit.
+- Queue: MWB-4 R1 code + UX audits (PR #237 @ 77cd3b4a), v3-1 mobile R2 ×2 (on fixer), v2-4 builder (on v2-2 merge), v3-2 ∥ v3-3, v3-4 last.
