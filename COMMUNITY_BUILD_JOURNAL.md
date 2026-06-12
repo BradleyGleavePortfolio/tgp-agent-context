@@ -949,3 +949,22 @@ DISPATCHES (5/5 lanes):
 
 Queue: v2-3 mobile R2 code+UX audits (#236 @ 1c0cb3a), v3-1 mobile R2 code+UX audits (#235 @ c4f657a), MWB-4 R1 code+UX audits (#237 @ 77cd3b4a), then v3-2 ∥ v3-3, v3-4 last.
 Merge gates pending: v2-3 = #389 R3 + #236 code+UX; v3-1 = #390 R4 + #235 code+UX; Roman P1 = #238 code+UX CLEAN ⇒ merge per standing rule.
+
+## Cycle 11 — 2026-06-11 ~7:25 PM PT — Cycle-10 verdicts processed; full 5-lane wave dispatched
+
+**Verdicts processed (cycle 10):**
+- Roman P1 mobile #238 @ d72c02c7: code **DIRTY** (P0 role contract 'roman' vs 'assistant'; P0/P1 fabricated Idempotency-Key — backend never reads it; P1 red CI lint; P1 .env.example conflict vs moved main; P1 rollback bug useRomanChat.ts; P1/P2 SSE silent skip; P2 hardcoded interrupted copy; P2 featureFlags block) + UX **NEEDS_REVISION** (8-item checklist). Reports: ROMAN_P1_MOBILE_R1_{CODE,UX}_AUDIT_REPORT.md.
+- v2-3 backend #389 @ a3ec919: R3 **DIRTY** solely for community.module.ts merge conflict vs moved main 3f271b39; RSVP fix verified FIXED (adversarial mutation testing); CI green. Report: COMMUNITY_V2-3_BACKEND_R3_AUDIT_REPORT.md.
+- v3-1 backend #390 @ 6d97f46a: R4 **CLEAN** (verified substantive), mergeable vs new main, CI green — **HELD** for v3-1 mobile audit pair.
+- v2-4 builder: **BUILD COMPLETE** — #391 backend @ 23414c81 + #239 mobile @ 97954d25 (read-only ai-triage, R69 zero-Prisma, no-send proof, 44+25 tests). Report: COMMUNITY_V2-4_BUILDER_REPORT.md. Awaiting R1 audits ×3.
+
+**Dispatched (5 lanes full):**
+1. Roman P1 combined fixer R1 (opus) — agent roman_p1_combined_fixer_r1_mqab07uj — brief ROMAN_P1_COMBINED_FIXER_R1_BRIEF.md (F1–F8 code + U1–U8 UX, rebase onto 79c0a9be)
+2. v2-3 backend fixer R3 rebase-only (opus) — agent v2_3_backend_fixer_r3_rebase_mqab0b5q — brief COMMUNITY_V2-3_BACKEND_FIXER_R3_BRIEF.md
+3. v3-1 mobile R2 code audit (gpt-5.5) — agent v3_1_mobile_r2_code_audit_mqab0fv5 — brief COMMUNITY_V3-1_MOBILE_R2_CODE_AUDITOR_BRIEF.md — MERGE GATE
+4. v3-1 mobile R2 UX audit (gpt-5.5) — agent v3_1_mobile_r2_ux_audit_mqab0jh7 — brief COMMUNITY_V3-1_MOBILE_R2_UX_AUDITOR_BRIEF.md — MERGE GATE
+5. v2-3 mobile R2 code audit (gpt-5.5) — agent v2_3_mobile_r2_code_audit_mqab0nkd — brief COMMUNITY_V2-3_MOBILE_R2_CODE_AUDITOR_BRIEF.md
+
+**Merge triggers armed:** v3-1 = #390 then #235 on code+UX CLEAN pair. v2-3 = #389 post-rebase R4 + #236 code+UX CLEAN. Roman #238 = re-audit pair CLEAN post-fixer.
+
+**Queue (in order):** v2-3 mobile R2 UX audit → MWB-4 R1 code+UX (#237 @ 77cd3b4a) → v2-4 R1 ×3 (#391 backend code; #239 mobile code+UX) → v2-3 backend R4 (post-rebase) → Roman re-audits (post-fix) → v3-2 ∥ v3-3 → v3-4.
