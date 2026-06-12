@@ -556,3 +556,11 @@
 {"ts":"2026-06-11T18:05:00-07:00","cycle":"9b","agent":"v2_3_mobile_combined_fixer_r1_mqa661eh","role":"fixer","lane":"v2-3-mobile","pr":236,"status":"complete","head":"1c0cb3ae2ae437f3dcc218ba70bfccf2156af2ec"}
 {"ts":"2026-06-11T18:12:00-07:00","cycle":"9c","agent":"v2_2_mobile_fixer_r2_mqa7g50h","role":"fixer","lane":"v2-2-mobile","pr":234,"status":"complete","head":"f96cec824e909598dc0c67c7b97a0cb5ed8c3979"}
 {"ts":"2026-06-11T18:12:00-07:00","cycle":"9c","agent":"v2_2_mobile_r3_code_audit","role":"auditor","lane":"v2-2-mobile","pr":234,"status":"dispatched","head_under_audit":"f96cec824e909598dc0c67c7b97a0cb5ed8c3979","merge_gating":true}
+{"ts":"2026-06-11T18:55:00-07:00","cycle":10,"event":"merge","pr":387,"repo":"growth-project-backend","main":"3f271b3952d3c9c81e1540227c3a768c6a838a93"}
+{"ts":"2026-06-11T18:55:00-07:00","cycle":10,"event":"merge","pr":234,"repo":"growth-project-mobile","main":"79c0a9be7f9657c8c7a0d4fa336c2fa6ba359136"}
+{"ts":"2026-06-11T18:55:00-07:00","cycle":10,"agent":"roman_p1_mobile_chat_builder_mqa7fyqz","role":"builder","lane":"roman-p1-mobile","pr":238,"status":"complete","head":"d72c02c7e7c75878b1944a029cf0acfa69d700d7"}
+{"ts":"2026-06-11T18:55:00-07:00","cycle":10,"agent":"roman_p1_r1_code_audit_mqa9m4n5","role":"auditor","lane":"roman-p1-mobile","pr":238,"status":"dispatched"}
+{"ts":"2026-06-11T18:55:00-07:00","cycle":10,"agent":"roman_p1_r1_ux_audit_mqa9mb3r","role":"auditor-ux","lane":"roman-p1-mobile","pr":238,"status":"dispatched"}
+{"ts":"2026-06-11T18:55:00-07:00","cycle":10,"agent":"v2_4_ai_triage_builder_mqa9miq4","role":"builder","lane":"v2-4","pr":null,"status":"dispatched"}
+{"ts":"2026-06-11T18:55:00-07:00","cycle":10,"agent":"v2_3_backend_r3_audit_mqa9mo69","role":"auditor","lane":"v2-3-backend","pr":389,"status":"dispatched","head_under_audit":"a3ec919782ded8f30b7987562c27bd68a7274553"}
+{"ts":"2026-06-11T18:55:00-07:00","cycle":10,"agent":"v3_1_backend_r4_audit_mqa9mtcs","role":"auditor","lane":"v3-1-backend","pr":390,"status":"dispatched","head_under_audit":"6d97f46a8d717fc80a3e1d5a53ca1aa517904782"}
