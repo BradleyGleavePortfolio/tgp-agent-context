@@ -910,3 +910,15 @@ Dispatches (4 lanes refilled; v2-3 mobile combined fixer still running from cycl
 - v3_1_backend_fixer_r3_mqa7ggm3 — v3-1 backend fixer R3 (opus), #390, brief COMMUNITY_V3-1_BACKEND_FIXER_R3_BRIEF.md (F1-F2).
 
 Queue (in order): v3-1 mobile R2 code audit, v3-1 mobile R2 UX audit, MWB-4 R1 code+UX audits (#237 @ 77cd3b4a), v2-2 mobile R3 code audit (on fixer complete), v2-3 backend R3 audit, v3-1 backend R4 audit, v2-4 builder (on v2-2 merge), v3-2 ∥ v3-3, v3-4.
+
+## Cycle 9b — 2026-06-11 18:05 PT — 3 fix completions journaled; lanes held for v2-2 + Roman P1 per user directive
+
+Completions:
+- v3-1 backend fixer R3 (#390): FIX COMPLETE @ 6d97f46a8d717fc80a3e1d5a53ca1aa517904782 (c005b2ee..6d97f46a). F1 P1 kill-switch: CommunityChallengesEnabledGuard added to comment-report route; new reflection metadata test asserts ALL non-GET challenge routes carry the guard + flag-off 503 typed-body test with zero moderation side effects. F2 P2: completion→push at-most-once DECLARED (code comment at call site + PR-body "Declared deviations" incl. pg-driver CI note). Gates: targeted 66 pass, full bar 241 pass, R0/R69 clean. Awaiting R4 audit (QUEUED).
+- v2-3 backend fixer R2 (#389): FIX COMPLETE @ a3ec919782ded8f30b7987562c27bd68a7274553 (c6799955..a3ec919). F1 P2: assertRsvpEligible now resolves CommunityMembership per event scope (cohort vs workspace) and requires active student role; assistant/co_coach → byte-identical typed 403; 3 new tests. F2: PR body corrected (seven params; eligibility rule restated) via gh api PATCH. Gates: events 64 pass, full bar 239 pass, tsc 0, R0/R69 clean, 2 files +72/-1. Awaiting R3 audit (QUEUED).
+- v2-3 mobile combined fixer R1 (#236): FIX COMPLETE @ 1c0cb3ae2ae437f3dcc218ba70bfccf2156af2ec. All F1–F14 fixed across 5 title-only commits (d91d555, 5158f74, de12c77, d0106d2, 1c0cb3a): flag-gated routes both navigators, neutral empty state, RSVP hierarchy+withdraw, https-only link guard, DTO drift tests, reduced-motion hook, EventCard state fallback + lifecycle labels, date pickers, reflect confirm, conflict classification. Gates: tsc baseline-only, R0 clean (Roman test refs reworded to "mascot-voiced"), all suites green. PR body updated via gh api PATCH. Awaiting R2 code+UX audits (QUEUED).
+
+USER DIRECTIVE (2026-06-11 18:03 PT): after this wave, focus remaining processing on v2-2 and Roman P1. Re-audit dispatches for v2-3 (#389 R3, #236 R2 code+UX) and v3-1 (#390 R4, #235 R2 code+UX) are QUEUED BEHIND v2-2 merge-gate processing and Roman P1 audits.
+
+Still in flight (2): roman_p1_mobile_chat_builder_mqa7fyqz, v2_2_mobile_fixer_r2_mqa7g50h (MERGE-GATING).
+Priority queue: v2-2 mobile R3 code audit (on fixer complete) → v2-2 TRIPLE-CLEAN MERGE (#387 then #234) → Roman P1 audits (on build complete) → v2-4 builder → v2-3/v3-1 re-audits → MWB-4 R1 audits → v3-2 ∥ v3-3 → v3-4.
