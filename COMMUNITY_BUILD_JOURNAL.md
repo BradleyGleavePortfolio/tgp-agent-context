@@ -891,3 +891,22 @@ If v2-2 mobile R2 code CLEAN + UX CLEAN → merge #387 then #234 (`gh pr merge -
 - **Dispatch rule**: operator cap is 5 lanes; all 5 live. Roman P1 mobile builder takes the FIRST lane that frees (ahead of MWB-4 audits in queue per operator "we need to get this done").
 - Lanes (5/5): v3-1 mobile fixer (resumed), v2-2 mobile R2 code audit, v2-3 backend R2 audit, v2-3 mobile combined fixer, v3-1 backend R3 audit.
 - Queue (reordered): **Roman P1 mobile builder (NEXT)**, MWB-4 R1 code + UX audits, v3-1 mobile R2 ×2 (on fixer), v2-4 builder (on v2-2 merge), v3-2 ∥ v3-3, v3-4.
+
+## Cycle 9 — 2026-06-11 17:50 PT — wave: 4 verdicts processed, 4 lanes refilled (Roman P1 builder live)
+
+Completions processed:
+- v2-2 mobile R2 CODE audit (#234 @ 2f20a237): DIRTY — 3×P2: (1) banned literal `as unknown as` in comment useCoachAckActions.test.tsx:45-47 (3rd recurrence of comment-literal class); (2) ack DTO strict drift tests missing (AckStateSchema/CoachSlaSnapshotSchema/AckTransitionResponseSchema never imported by tests); (3) screen-level 409 conflict UI assertion missing. Runtime code itself sound; all R1 P1s verified fixed. Report: COMMUNITY_V2-2_MOBILE_R2_CODE_AUDIT_REPORT.md. UX R2 already CLEAN → this fixer round is the SOLE v2-2 merge gate.
+- v3-1 mobile fixer R1 (#235): FIX COMPLETE @ c4f657a6b0bc6bc03db046382edc9aa720e78fa4. Fabrication fully excised (getCommentsEmptyState / challenge_comments_empty confirmed nonexistent on backend; neutral non-Roman empty state kept). 37 tests / 5 suites pass, tsc clean, R0 clean. Awaiting R2 code+UX audits (queued behind lane cap).
+- v2-3 backend R2 audit (#389 @ c6799955): DIRTY — 1×P2: assertRsvpEligible ignores CommunityMembership.role → active assistant/co_coach with global student role can RSVP. All R1 P1s fixed (cohort scoping, UUID pipes, CAS reminders). PR-body inaccuracies noted (eight→seven params). Report: COMMUNITY_V2-3_BACKEND_R2_AUDIT_REPORT.md.
+- v3-1 backend R3 audit (#390 @ c005b2ee): DIRTY — 1×P1: POST .../comments/:commentId/report missing CommunityChallengesEnabledGuard (kill-switch bypass); 1×P2: completion→push at-most-once undeclared. Exactly-once completion claim itself verified real (conditional UPDATE…RETURNING). Report: COMMUNITY_V3-1_BACKEND_R3_AUDIT_REPORT.md.
+
+Decisions:
+- Roman avatar art: user reviewed likeness flag and directed SHIP AS-IS. Art in design/roman/ is final for P1. Flag closed.
+
+Dispatches (4 lanes refilled; v2-3 mobile combined fixer still running from cycle 8):
+- roman_p1_mobile_chat_builder_mqa7fyqz — Roman P1 mobile chat UI builder (opus), branch feat/roman-p1-mobile-chat, brief ROMAN_P1_MOBILE_BUILDER_BRIEF.md. QUEUE-JUMPED ahead of MWB-4 audits per user order.
+- v2_2_mobile_fixer_r2_mqa7g50h — v2-2 mobile fixer R2 (opus), #234, brief COMMUNITY_V2-2_MOBILE_FIXER_R2_BRIEF.md (F1-F3). MERGE-GATING.
+- v2_3_backend_fixer_r2_mqa7gatn — v2-3 backend fixer R2 (opus), #389, brief COMMUNITY_V2-3_BACKEND_FIXER_R2_BRIEF.md (F1-F2).
+- v3_1_backend_fixer_r3_mqa7ggm3 — v3-1 backend fixer R3 (opus), #390, brief COMMUNITY_V3-1_BACKEND_FIXER_R3_BRIEF.md (F1-F2).
+
+Queue (in order): v3-1 mobile R2 code audit, v3-1 mobile R2 UX audit, MWB-4 R1 code+UX audits (#237 @ 77cd3b4a), v2-2 mobile R3 code audit (on fixer complete), v2-3 backend R3 audit, v3-1 backend R4 audit, v2-4 builder (on v2-2 merge), v3-2 ∥ v3-3, v3-4.
