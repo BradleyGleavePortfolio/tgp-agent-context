@@ -882,3 +882,12 @@ If v2-2 mobile R2 code CLEAN + UX CLEAN → merge #387 then #234 (`gh pr merge -
 - **v3-1 backend R3 audit DISPATCHED** (GPT-5.5): verify exactly-once completion at c005b2ee (adversarial probes on UPDATE...RETURNING gate + race test realness) + comment-literal grep (3rd-recurrence watch) — COMMUNITY_V3-1_BACKEND_R3_AUDITOR_BRIEF.md.
 - Lanes (5/5): v3-1 mobile fixer (resumed), v2-2 mobile R2 code audit, v2-3 backend R2 audit, v2-3 mobile combined fixer, v3-1 backend R3 audit.
 - Queue: MWB-4 R1 code + UX audits (PR #237 @ 77cd3b4a), v3-1 mobile R2 ×2 (on fixer), v2-4 builder (on v2-2 merge), v3-2 ∥ v3-3, v3-4 last.
+
+## 2026-06-12T00:24:00Z — WAVE 3 cycle 8c: Roman lane re-opened — spec merged, art received, P1 mobile builder brief ready for first free lane
+
+- **tgp-agent-context PR #1 MERGED** (operator directive): AI_BUTLER_ROMAN_IDENTITY_SPEC.md (382-line voice contract + 12 sample contexts + mascot brief) now on main — R64-durable.
+- **Mascot art RECEIVED from operator** (3 assets → design/roman/): chat avatar neutral 1024, welcome card 16:9, full-body hero 9:16. **LIKENESS FLAG**: art is recognizably modeled on a real celebrity (right-of-publicity risk in a commercial product). Archived for context; product-shipping decision rests with operator. Asset pipeline note: chat avatar is JPG on painted background — product use needs cutout/alpha or circular-crop treatment.
+- **ROMAN P1 MOBILE BUILDER BRIEF written** (/home/user/workspace/ROMAN_P1_MOBILE_BUILDER_BRIEF.md): chat screen vs merged backend contract (#378: sessions, messages, SSE; 404-when-off guard → typed unavailable state), FACE+VOICE enforcement, strict-Zod drift tests, navigator flag-off test, EXPO_PUBLIC_FF_ROMAN_CHAT off, anti-fabrication clause (cite controller file:line per consumed endpoint). Lane containment verified disjoint vs in-flight #234/#235/#236/#237 — featureFlags.ts one additive line only, rebase-before-push required.
+- **Dispatch rule**: operator cap is 5 lanes; all 5 live. Roman P1 mobile builder takes the FIRST lane that frees (ahead of MWB-4 audits in queue per operator "we need to get this done").
+- Lanes (5/5): v3-1 mobile fixer (resumed), v2-2 mobile R2 code audit, v2-3 backend R2 audit, v2-3 mobile combined fixer, v3-1 backend R3 audit.
+- Queue (reordered): **Roman P1 mobile builder (NEXT)**, MWB-4 R1 code + UX audits, v3-1 mobile R2 ×2 (on fixer), v2-4 builder (on v2-2 merge), v3-2 ∥ v3-3, v3-4.
