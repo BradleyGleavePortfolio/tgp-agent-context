@@ -99,6 +99,12 @@ STAGE 4 — GYM-LEVEL EXPANSION (chunked, in this exact order)
       • Operator approves each target before any refactor PR opens
       • Pages refactored to bar before web buildout begins
 
+  4D-PREREQ. TEST-LIBRARY v14 MIGRATION (codebase-wide, gates 4D)
+      • Migrate every test off @testing-library/react-native v13 sync API
+      • async render/renderHook/fireEvent/act everywhere; remove UNSAFE_*
+      • Bump peers: React 19+, RN 0.78+, Node 22.13+
+      • Land in same sprint as 4D web responsive rewrite (same files touched)
+
   4D. FULL WEB APP BUILDOUT (every user type, every page)
       • Web parity for: coach, client, gym member, gym owner,
         manager, front desk, trainer
@@ -295,6 +301,37 @@ Each item ships as its own PR train with planner → builder → auditor → fix
 - Luxury-target renderings for each new gym-tier page. Attach in chat; I'll file under `tgp-agent-context/design-targets/gym/`.
 
 **Exit criteria:** Every page from 4A + 4B ships at the same bar as the existing Roman/MWB screens. No page that "works" but doesn't reach the bar is allowed to merge — known design debt must be tracked and closed before 4D begins.
+
+---
+
+### 4D-PREREQ. Test-library v14 migration (codebase-wide, gates 4D)
+
+**Why this is its own stage:** `@testing-library/react-native` v14 is a hard-break release — `render`/`renderHook`/`fireEvent`/`act` are now async-only, `UNSAFE_*` queries are removed, the React Test Renderer is swapped for a new Test Renderer package, and peer dependencies move to React 19 + RN 0.78 + Node 22.13. Dependabot PR #232 currently bundles this with safe patches; per operator decision **2026-06-13**, the v14 major was pinned with `@dependabot ignore @testing-library/react-native major version` so the other four bumps can land independently, and the v14 migration is scheduled here — immediately before 4D — so it lands in the same sprint as the web responsive rewrite (same files get touched).
+
+**Why right before 4D and not later:** 4D rewrites every screen for desktop/responsive layout; those rewrites will touch the same components that need their tests migrated. Doing v14 + 4D in a single sweep is one test rewrite, not two.
+
+**Scope:**
+- Every `render(<X />)` call site → `await render(<X />)` (Promise-based)
+- Every `renderHook(...)` → `await renderHook(...)`
+- Every `fireEvent.*` call → `await fireEvent.*`
+- Every `act(() => ...)` → `await act(async () => ...)`
+- Remove `UNSAFE_getByType` / `UNSAFE_getAllByType` / `UNSAFE_getByProps` / `UNSAFE_getAllByProps` / `UNSAFE_root` usages; replace with `container` / `root` / `within` / proper testID queries
+- Replace `update()` aliases with `rerender`
+- Replace `getQueriesForElement` with `within`
+- Remove `createNodeMock`, `concurrentRoot`, `unstable_validateStringsRenderedWithinText` render options
+- Drop explicit `renderAsync` / `renderHookAsync` / `fireEventAsync` (the regular ones are now async)
+- Bump peers in `package.json`: ensure React 19+ (already), RN 0.78+ if not there, Node 22.13+ in CI matrix and engines field
+- Re-enable the four safe bumps from #232 if Dependabot has not yet re-emitted them
+
+**Acceptance gates:**
+- `npx jest` runs to completion with full green suite on the new v14 API.
+- Zero `UNSAFE_*` query usages remain (`grep -rn "UNSAFE_" src` empty).
+- Zero sync `render` / `fireEvent` / `act` usages remain.
+- CI matrix updated to Node 22.13+; the CI workflow file's `node-version` matrix shows the new floor.
+- One umbrella PR titled `chore(testing): migrate to @testing-library/react-native v14` — no piecemeal merges.
+- R72 exhaustive audit + R65 sweep on the migration PR before it lands.
+
+**Sequencing:** This stage opens the moment 4C closes its exit gate. 4D PR work cannot start until this stage is merged.
 
 ---
 

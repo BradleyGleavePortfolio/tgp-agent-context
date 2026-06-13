@@ -1157,3 +1157,44 @@ Each brief frames closure verification against the SAME findings the prior audit
 **Lane status:** Lanes 1, 3, 4, 5 freed. Lane 2 carries #241 R13 fixer.
 
 **Cumulative merged this thread:** #235, #199, #311, #237.
+
+## Cycle 21 (2026-06-13 00:48 PDT) — #198 + #393 + #241 R13 fixer + #233 DIRTY
+
+**4 parallel subagents returned simultaneously:**
+- **#198 mobile react-navigation patch group** — R1 audit CLEAN. Admin-squash merged at `54581263d86a04ab2aaa6d1a354bf54a67e40064`. Branch deleted.
+- **#393 backend R71/R72/R73 docs** — R1 audit CLEAN (CI failures determined to be pre-existing flakes unrelated to docs). Admin-squash merged at `a9d29aaae87efffaaccaf5cf75ebf007b58c59f8`.
+- **#241 R13 fixer** — Opus 4.8 closed all 3 R12 findings (F1 exclamation removed + sessionBudget.ts deleted, F2 shared `_completionLogging.ts` extracted with normalizeError + buildCompletionLogBase, F3 stale comment). Final HEAD `f1f92b75a839cfcb98159cbcbfd1ffa0324f74bf`. Gates green: tsc 0, eslint 0, jest 14 suites 436 tests.
+- **#233 mobile expo group** — R1 audit DIRTY. Transitive `@expo/ws-tunnel 1.0.6→2.0.0` in lockfile; direct expo packages all stay on SDK 56. Per brief's broad "any Expo major" rule = DIRTY. **Deferred to operator decision.**
+
+## Cycle 22 (2026-06-13 00:50 PDT) — R14 audit dispatched
+
+**#241 R14 audit** — Fresh GPT-5.5 (R31) dispatched on worktree `/home/user/workspace/tgp/mobile-241-audit` reset to fixer HEAD `f1f92b75`. Brief at `AUDIT_BRIEF_241_R14.md`.
+
+**Lane status:** Lane 1 carries #241 R14 audit. Lanes 2-5 freed.
+
+## Cycle 23 (2026-06-13 00:54 PDT) — #305 MERGED + 3 new audits dispatched
+
+**#305 backend helmet 8.1→8.2** — R1 audit CLEAN. Auditor pulled the failing job log + the base-main job log + a sibling Dependabot PR log; all three exhibit the same `PrismaClientInitializationError: Can't reach database server at localhost:5432` + heap-OOM exit 134. Failure is pre-existing infra, not Helmet-related. Admin-squash merged at `c55d94f6fd500533c6a9ed78bf57dd042680d157`.
+
+**Refilled 3 backend lanes** with safe Dependabot bumps: #306 posthog-node 5.33→5.36 (minor-chain), #299 @nestjs/swagger 11.4.3→11.4.4 (patch), #302 @supabase/supabase-js 2.106.1→2.108.1 (minor, **auth-adjacent — extra scrutiny per operator's Apple-grade payments/auth standard**). All three audited in parallel using the #305 CI-investigation method.
+
+**Cumulative merged this thread:** #235, #199, #311, #237, #198, #393, #305 (7 PRs).
+
+## Cycle 24 (2026-06-13 00:55 PDT) — #241 R14 DIRTY → R15 fixer dispatched
+
+**#241 R14 audit** — Returned DIRTY with 5 findings (3 MAJOR, 2 MINOR):
+- F1 MAJOR: ActiveWorkoutScreen producer warn sites omit `buildCompletionLogBase` + `justCompletedId`.
+- F2 MAJOR: Three empty/comment-only catches in ActiveWorkoutScreen.tsx:267–271, 899–904 + ClientNavigator.tsx:321–326 (R69 violation).
+- F3 MAJOR: `as unknown as WeightLog[]` cast at ProgressScreen.tsx:198 (R69 violation).
+- F4 MINOR: Unused `restTotal` + unused Polyline/SvgLine/SvgText imports.
+- F5 MINOR: Stale exclamation-budget comments in copy.ts (6 sites).
+
+R15 Opus 4.8 fixer dispatched with brief `FIXER_BRIEF_241_R15.md`. Worktree `/home/user/workspace/tgp/mobile-241-fix` synced to `f1f92b75`.
+
+## Cycle 25 (2026-06-13 00:57 PDT) — #232 ignored + v14 migration scheduled
+
+**#232 mobile dev-dependencies group** — Per operator decision: posted `@dependabot ignore @testing-library/react-native major version` on PR (comment 4697930061). The other 4 bumps (@expo/metro-runtime 56.0.12→56.0.15, @react-native/jest-preset 0.85.3→0.86.0, jest-expo 56.0.4→56.0.5, react-dom 19.2.3→19.2.7) will be re-emitted by Dependabot. The v14 migration is now codified in `TGP-MASTER-EXPANSION-PLAN.md` as **Stage 4D-PREREQ**, scheduled to land in the same sprint as the 4D web responsive rewrite so the same files are touched once, not twice.
+
+**Lane status:** Lane 1 #241 R15 fixer (Opus 4.8), Lane 2 #306 audit, Lane 3 #299 audit, Lane 4 #302 audit, Lane 5 free.
+
+**Pending operator:** #233 transitive @expo/ws-tunnel major decision (recommend merge — direct expo all on SDK 56).
