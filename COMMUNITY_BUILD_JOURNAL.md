@@ -1213,3 +1213,17 @@ R15 Opus 4.8 fixer dispatched with brief `FIXER_BRIEF_241_R15.md`. Worktree `/ho
 R16 fresh GPT-5.5 audit dispatched. Worktree synced to `a19b90c`. Brief `AUDIT_BRIEF_241_R16.md` (8225 bytes).
 
 History: R10 → R11 → R12 DIRTY(3) → R13 fix → R14 DIRTY(5) → R15 fix → R16 in flight. Each audit catches new things because R72 is exhaustive and R31 is fresh-role.
+
+## Cycle 27 (2026-06-13 01:27 PDT) — #241 R16 DIRTY (narrow) → R17 fixer dispatched
+
+**#241 R16 audit** — Fresh GPT-5.5 returned DIRTY with 2 narrow MAJOR findings, both in ActiveWorkoutScreen.tsx:
+- F1 line 273: `start-fresh-clear` warn payload hand-rolled, omits canonical base fields.
+- F2 line 947: `cancel-clear` warn payload hand-rolled, omits canonical base fields.
+
+Both are non-completion clear paths the R15 fixer converted from empty catches but didn't migrate to `buildCompletionLogBase`. Fix is mechanical: spread `buildCompletionLogBase({ route, userRole, userKey, justCompletedId: 'unknown' })` and add `checkpoint` + `error: normalizeError(error)`.
+
+R17 Opus 4.8 fixer dispatched. Worktree synced to `a19b90c`. Brief `FIXER_BRIEF_241_R17.md`.
+
+History: R10 → R11 → R12 DIRTY(3) → R13 fix → R14 DIRTY(5) → R15 fix → R16 DIRTY(2 narrow) → R17 in flight.
+
+Backend audits #306/#299/#302 still in flight at ~33 min elapsed (within R72 normal window).
