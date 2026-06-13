@@ -1113,3 +1113,29 @@ Each brief frames closure verification against the SAME findings the prior audit
 **#242 R7 audit retry** (`audit_242_r7_retry_mqby7ifo`) still running on detached worktree at HEAD `82cd3f74`. First R7 attempt completed silently with empty body — retry was dispatched with explicit "must write > 3000 byte report ending in VERDICT" contract. Per operator's "never batch-wait" rule, will act on its verdict the instant it lands.
 
 **Status:** 1/4 PRs MERGED. 2 fixers in flight. 1 audit retry in flight. Loop continues per R31/R64/R65/R72.
+
+
+## Cycle 18b — 2026-06-12 23:13 PT — #242 R7 retry verdict: DIRTY-CRITICAL payment-correctness → fixer R8 dispatched instantly
+
+**#242 R7 (retry) audit result:** DIRTY-CRITICAL on HEAD `82cd3f74` (24,445 bytes, 159 lines, ended with `VERDICT: DIRTY-CRITICAL`).
+
+**Critical finding (architectural):** ED.3 first-payment celebration is implemented via direct Supabase client realtime subscription + history SELECT on the `ClientPurchase` table. Backend main marks ALL payment tables SERVER-ONLY:
+- `prisma/migrations/20260618000000_add_rls_payment_revenue_tables/migration.sql:12-22` — payment tables documented server-only
+- Same migration `:46-52` — RLS enabled and FORCED on `ClientPurchase`, policy `ClientPurchase_server_only FOR ALL USING (false)`
+
+**Impact:** Once `EXPO_PUBLIC_FF_ROMAN_FIRST_PAYMENT_WOW=true` flips in production, RLS denies BOTH the subscription and the history query. The hook fails closed (correct) but the feature silently never celebrates ANY first payment — total ED.3 contract failure (50-failure #36 silent failure, #2 broken authorization, #44 missing error state).
+
+**Secondary findings:**
+- P2: `romanFirstPaymentRequireBackendHistory` flag defined + documented but only referenced in a comment — dead/misleading wiring.
+- P3: stale INSERT wording remains in comments/tests after pending→paid UPDATE migration.
+
+**Fix strategy (no new backend in this PR):** Wire `romanFirstPaymentRequireBackendHistory` as the master runtime gate. Default false — when off the hook returns `unsupported_backend`, the host renders null, NO subscription / NO query attempted. When on, add a startup self-check that hits the history query once; on RLS-denied error (`code 42501`), self-disarm and log `roman.first_payment.rls_denied` for the session. Forward-compatible code path stays ready for whenever backend exposes a coach-scoped read policy + realtime publication.
+
+**Fixer R8 dispatched:**
+- `fixer_242_r8_<id>` Opus 4.8 on `/home/user/workspace/tgp/mobile-242-fix`
+- Brief: `/home/user/workspace/FIXER_BRIEF_242_R8.md`
+- Report target: `/home/user/workspace/FIXER_REPORT_242_R8.md`
+
+**Open backend follow-up (NOT in this PR):** When backend wants to truly enable ED.3, the right answer is either (a) add a coach-scoped SELECT policy on `ClientPurchase` referencing `app.current_user_id()` + register the table in Supabase Realtime publication, OR (b) emit a backend `first_payment` notification (already-existing notifications module) and have mobile poll/subscribe to that user-scoped notification stream. Either way, this is a future backend PR.
+
+**Status:** 3 fixers in flight (#237 R13, #241 R9, #242 R8). 1 PR merged (#235). Acting on each completion the instant it lands per operator rule.
