@@ -1245,3 +1245,18 @@ Backend audits #306/#299/#302 still in flight at ~33 min elapsed (within R72 nor
 
 **Lane status:** lanes 4 hot (R18, #306, #299, plus pending #302 decision); lane 5 free.
 
+
+---
+
+## Cycle 29 — 2026-06-13 01:44 PDT — Backend #306 + #299 BOTH CLEAN + MERGED
+
+**#306 (`posthog-node` 5.33→5.36) CLEAN + MERGED.** Audit `AUDIT_REPORT_306_R1.md`. Merge SHA `74db0106c3f351bd3ad5b462c00e936309b50c6f`. Squash-admin via gh CLI, branch deleted. CI logs preserved in `/home/user/workspace/ci_logs_306_R1/`.
+
+**#299 (`@nestjs/swagger` 11.4.3→11.4.4) CLEAN + MERGED.** Audit `AUDIT_REPORT_299_R1.md`. Initial merge attempt hit "base branch modified" race with #306; immediate retry succeeded. Merge SHA `bf6594fd63a2506c727b2b8729485fab955972d8`. Squash-admin, branch deleted. CI logs in `/home/user/workspace/audit_299_ci_logs/`.
+
+**Thread merge total: 9 PRs.** (#235, #199, #311, #237, #198, #393, #305, #306, #299)
+
+**Lane status:** Lanes 1, 2 free (after #306/#299 merged). Lane 3 hot (#241 R18 audit `audit_241_r18_mqc3w57r`). Lane 4 awaiting operator decision on #302 close-and-pin vs migrate-now. Lane 5 free.
+
+**Ready to refill:** Backend candidates next — #300, #304 (more nestjs siblings), #307 (zod), #308 (@nestjs/core). After operator answers #302, can scan + dispatch up to 3 more audits.
+
