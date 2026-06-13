@@ -1358,3 +1358,29 @@ Findings:
 
 **Next gate:** Operator review of both specs BEFORE any fixer touches code (Phase 4 decision gate).
 
+
+---
+
+## Cycle 36 — 2026-06-13 09:57 PDT — Supabase planner finished, original R1 audit verdict refuted, plan revised
+
+**Supabase planner COMPLETE.** Spec at `MIGRATION_PLAN_SUPABASE.md` (501 lines). Findings JSON at `MIGRATION_PLAN_SUPABASE_FINDINGS.json`.
+
+**EXECUTIVE FINDING — the original R1 DIRTY audit was wrong.** Empirical inspection of installed `@supabase/auth-js@2.108.1` typings shows every method our 15 call sites use is PRESENT:
+- `signUp` (GoTrueClient.d.ts:424), `signInWithPassword` (:557), `signInWithIdToken` (:988), `resetPasswordForEmail` (:2086), `getUser` (:1539)
+- `createUser` (GoTrueAdminApi.d.ts:335), `listUsers` (:361), `getUserById` (:435), `updateUserById` (:580), `deleteUser` (:613)
+
+Release notes for 2.107.0 / 2.108.0 / 2.108.1 explicitly say "no breaking changes." Independent confirmation in worktree: full tsc errors are 1,365 but all are pre-existing Prisma client gen + missing `@types/jest` issues — zero are Supabase-related.
+
+**Operator constraints (locked):**
+- Zero users today → forced-logout is a non-event; account-deletion can be cut.
+- Guest checkout = ABSOLUTELY NEEDED (core feature; preserve across all migrations).
+
+**Revised plan:**
+- Step 1: Dispatch fresh GPT-5.5 R31 R2 audit on #302 with explicit clean-install + tsc-diff-vs-main methodology to definitively refute or confirm R1's verdict.
+- Step 2: If R2 CLEAN, merge #302 with 10-min cooldown (zero users = lower stakes).
+- Step 3: RNTL v14 sprint proceeds independently (CI Node 22 prereq PR first, then migration PR).
+
+**Stale subagent handle cleanup:** `fix_241_r17_mqc3fcuu` was a zombie status indicator; #241 actually merged @ `b63089fd` 8 hours ago. Cancelled.
+
+**Step 1 executed:** `audit_302_r2_mqcln3z3` dispatched with brief `AUDIT_BRIEF_302_R2.md` (127 lines, includes the empirical tsc-diff-vs-main protocol).
+
