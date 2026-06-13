@@ -1274,3 +1274,19 @@ Findings (all NIT):
 
 **#241 R19 fixer dispatched.** Subagent `fix_241_r19_mqc44riy`. Opus 4.8 with surgical comment-only brief (`FIXER_BRIEF_241_R19.md`). One commit, no executable code change, all gates required.
 
+
+---
+
+## Cycle 31 — 2026-06-13 01:51 PDT — R19 fixer landed @75d3a0f → R20 audit dispatched
+
+**#241 R19 fixer COMPLETE.** HEAD `75d3a0f4d0a30355671afe690f6032bf9c3a691f`.
+- F1 closed: `src/lib/roman/copy.ts` FACE+VOICE invariant rewritten to document the `RomanErrorBanner surface='toast'` exception.
+- F2 closed: 6 Roman component headers (`RomanBriefCard`, `RomanCheckInNotice`, `RomanNewClientNotice`, `RomanPayoutNotice`, `RomanStreakCard`, `RomanVoiceLogReadback`) replaced brittle line-number claims with stable wording referencing the invariant in copy.ts.
+- F3 closed: 3 coach screen comments (`CoachBriefScreen.tsx:133`, `:285`, `CoachEarningsScreen.tsx:40`) replaced forbidden `FIXER_241_R5_REPORT.md` references with inline rationale matching the live code.
+- Single commit, comment-only scope, gates green (tsc 0, eslint 75 ≤ 75, jest 16 suites / 453 tests).
+- Fixer flagged but did NOT touch: `RomanWorkoutCompleteCard.tsx:4` has similar brittle line-number comment not in R18 findings. Correct call to respect scope; R20 auditor will catch if it's a real §38 issue.
+
+**#241 R20 audit dispatched.** Subagent `audit_241_r20_mqc494hw`. GPT-5.5 R31 fresh, brief `AUDIT_BRIEF_241_R20.md`, worktree synced to `75d3a0f4`.
+
+**Lane status:** Lane 1 hot (#241 R20 audit). Lanes 2/4/5 free. Lane 3 still awaiting operator on #302.
+
