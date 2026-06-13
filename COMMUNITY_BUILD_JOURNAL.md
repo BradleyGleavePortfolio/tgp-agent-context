@@ -1337,3 +1337,24 @@ Findings:
 
 **Lane status:** ALL lanes free except lane awaiting operator on #302. Ready to refill with backend Dependabot PRs (#300/#304/#307/#308).
 
+
+---
+
+## Cycle 35 — 2026-06-13 09:42 PDT — MIGRATION SPRINT KICKOFF: Supabase 2.108 + RNTL v14
+
+**Operator decision:** Choice 2 (cautious migration) on #302 Supabase. Bundle with #232 RNTL v14 since both are major-boundary migrations and parallelizable across repos. Do it now — "otherwise we might build more old shit."
+
+**Phase 1 — Snapshot tags pushed:**
+- Backend: `pre-supabase-2.108-migration` → `bf6594fd63a2506c727b2b8729485fab955972d8`
+- Mobile: `pre-rntl-v14-migration` → `b63089fd0d79fc43a1a467b1c242321d9cecb740`
+
+**Phase 2 — Migration worktrees + branches:**
+- Backend: `/home/user/workspace/tgp/backend-supabase-migrate` on `migrate/supabase-2.108` off `origin/main`
+- Mobile: `/home/user/workspace/tgp/mobile-rntl-migrate` on `migrate/rntl-v14` off `origin/main`
+
+**Phase 3 — Parallel planners dispatched (GPT-5.5 R31 fresh, spec-only, no code):**
+- `plan_supabase_migration_mqcl49f6` — brief `PLANNER_BRIEF_SUPABASE.md` (9 sections incl. per-call-site OLD→NEW, manual auth-flow smoke plan, risk register). Output → `MIGRATION_PLAN_SUPABASE.md`.
+- `plan_rntl_migration_mqcl4cl6` — brief `PLANNER_BRIEF_RNTL.md` (10 sections incl. codemod inventory, per-test rewrite candidates, breaking-change sweep beyond split-text). Output → `MIGRATION_PLAN_RNTL.md`.
+
+**Next gate:** Operator review of both specs BEFORE any fixer touches code (Phase 4 decision gate).
+
