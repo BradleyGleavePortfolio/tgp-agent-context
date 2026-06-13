@@ -3,6 +3,10 @@
 **Filed:** 2026-06-13
 **Pair:** `plan_asis.jpg` (today's build) vs. `plan_luxury.jpg` (the bar)
 
+> **THE LUXURY IMAGE SETS THE PAR, NOT THE EXACT LAYOUT.**
+> Operator directive: "The pages don't need to be EXACTLY that, but at the same par."
+> Match the quality bar, the restraint, the voice, and the decision-per-screen principle. Layout/copy/ordering may diverge with planner justification. See `../CATALOG.md` for the full rule.
+
 This pair is the first concrete reference for the **mobile page refactor** (stage 1 of `../../../roadmap/TGP-MASTER-EXPANSION-PLAN.md`).
 
 It is also the canonical example of the bar for **every** other mobile page that goes through the as-is → luxury workflow.

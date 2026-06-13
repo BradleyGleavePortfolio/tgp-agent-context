@@ -19,6 +19,7 @@ The expansion is staged so that at **every stage boundary** the product is still
 
 - **R0 decacorn quality.** Apple/Notion/Linear-tier polish or it doesn't merge.
 - **Mobile design doctrine** governs every mobile page.
+- **Luxury reference par, not blueprint.** Reference images filed under `./design-targets/mobile/` set the **quality bar** — the restraint, typographic discipline, voice, decision-per-screen focus. Refactor PRs do NOT have to replicate exact layout/copy/ordering. See `./design-targets/mobile/CATALOG.md` for the full rule.
 - **Website design doctrine** (`./doctrine-website-design.docx`) governs every web page where applicable, layered with the "general luxury" rules from the mobile doctrine.
 - **Persona-fit rule.** Every page must give its persona *exactly* what they want:
   - Front desk → fast, low-click, glanceable, forgiving under pressure.
