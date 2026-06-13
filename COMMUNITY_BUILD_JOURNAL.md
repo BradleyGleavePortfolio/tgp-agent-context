@@ -1018,3 +1018,31 @@ All 4 PRs have GitHub CI green (Typecheck, lint, test ✓) at the audited head.
 
 **Lane state:** 4/5 lanes active. 5th slot reserved for fixer dispatch on first DIRTY verdict.
 
+
+## Cycle 16 — 2026-06-12 21:38 PT — All 4 audits DIRTY → 4 Opus fixers dispatched
+
+**Audit verdicts (4/4 DIRTY, R72-exhaustive):**
+
+| PR | Audit head | Verdict | P1 count | P2 count | P3 count | Report |
+|---|---|---|---:|---:|---:|---|
+| #235 v3-1 mobile | f44e4241 | DIRTY | 3 | 1 | 0 | AUDIT_REPORT_235_R8.md |
+| #237 MWB-4 mobile | 97dd5522 | DIRTY | 3 | 1 | 0 | AUDIT_REPORT_237_R10.md |
+| #241 Roman P3 | 4e88e4de | DIRTY | 5 | 4 | 1 | AUDIT_REPORT_241_R6.md |
+| #242 Roman P4 | e04531f8 | DIRTY | 4 | 3 | 2 | AUDIT_REPORT_242_R5.md |
+
+**Headline blockers:**
+- **#235:** Hall/DM/Today screens still convert query errors into empty states (R65 #36/#44 silent-failure class). Progress sheet double-submit race.
+- **#237:** 409 path resends stale full-row ops before authoritative server-truth adoption (concurrent edits erased). Unbounded conflict retry — malformed 409 can spin. Explicit Save drops `weight_lbs`/`superset_group_id`. Sign-out mirror sweep gap.
+- **#241:** RomanBriefCard not flag-gated. One-shot completion card is a transient boolean, not a per-completion-id durable latch. Check-in/streak/voice-log surfaces consume mobile-only scaffolds or local-derived counts — proxy-signal class violations against backend-authority requirement. Static exclamation rationing isn't session-scoped.
+- **#242:** ED.3 fails OPEN on absent old status (UPDATE without authoritative prior status still fires). INSERT path still calls onFirstPayment for already-paid rows. No synchronous in-flight latch (can double-fire). Refunded/canceled→paid same-row replay not provable. ED.4 chart has no feature flag and 1500ms draw-in violates ≤300ms motion budget.
+
+**Fixer briefs written (R31 — surgical, per-finding, no scope creep):**
+- `/home/user/workspace/FIXER_BRIEF_235_R9.md`
+- `/home/user/workspace/FIXER_BRIEF_237_R11.md`
+- `/home/user/workspace/FIXER_BRIEF_241_R7.md`
+- `/home/user/workspace/FIXER_BRIEF_242_R6.md`
+
+**Fixer worktrees set up (R56):** `/home/user/workspace/tgp/mobile-{235,237,241,242}-fix` on respective feature branches, configured for `Dynasia G <dynasia@trygrowthproject.com>`.
+
+**Dispatching 4 parallel Opus 4.8 fixers next.** R31: builder≠auditor≠fixer; these are fresh fixer agents with NO audit context contamination beyond the audit report file and brief. After each pushes + CI green, fresh GPT-5.5 re-audit dispatched per R31. Loop continues until all 4 CLEAN → admin-squash-merge.
+
