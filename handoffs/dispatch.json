@@ -619,3 +619,7 @@
 {"ts":"2026-06-13T00:05:00Z","cycle":16,"type":"dispatch","pr":242,"round":"R4","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_242_R4.md","head":"d5313767"}
 {"ts":"2026-06-13T00:05:00Z","cycle":16,"type":"dispatch","pr":235,"round":"R7","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_235_R7.md","head":"9c31d8af"}
 {"ts":"2026-06-13T00:05:00Z","cycle":16,"type":"dispatch","pr":237,"round":"R9","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_237_R9.md","head":"4eb0ee0b"}
+{"ts":"2026-06-13T00:45:00Z","cycle":17,"type":"dispatch","pr":237,"round":"R10","role":"fixer","model":"opus-4.8","brief":"tgp/briefs/FIXER_BRIEF_237_MWB4_R10.md","head":"4eb0ee0b"}
+{"ts":"2026-06-13T00:45:00Z","cycle":17,"type":"dispatch","pr":242,"round":"R5","role":"fixer","model":"opus-4.8","brief":"tgp/briefs/FIXER_BRIEF_242_ROMAN_P4_R5.md","head":"d5313767"}
+{"ts":"2026-06-13T00:45:00Z","cycle":17,"type":"dispatch","pr":235,"round":"R8","role":"fixer","model":"opus-4.8","brief":"tgp/briefs/FIXER_BRIEF_235_V31_MOBILE_R8.md","head":"9c31d8af"}
+{"ts":"2026-06-13T00:45:00Z","cycle":17,"type":"dispatch","pr":241,"round":"R6","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_241_R6.md","head":"4e88e4de"}
