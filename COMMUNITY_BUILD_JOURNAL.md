@@ -1407,3 +1407,24 @@ Atomic prereq rationale (hyperscaler default locked Phase 4): keep migration PR 
 1. Dispatch GPT-5.5 R31 audit on #244 (mechanical bump but R0 demands every PR be audited; brief covers CI green check + no `.nvmrc`/engines drift)
 2. Once #244 CLEAN → merge → 10-min cooldown
 3. Then dispatch Opus 4.8 fixer on `migrate/rntl-v14` per `MIGRATION_PLAN_RNTL.md` (codemod commit + manual rewrites commit, single PR)
+
+
+---
+
+## Cycle 38 — 2026-06-13 11:00 PDT — #244 MERGED + dispatching RNTL v14 builder
+
+**#244 (CI setup-node 20 → 22.13) MERGED** @ `7f4e35f440065ba6acea0f6f5368a85e25bfb42e`. Squash-admin, branch deleted.
+
+R1 audit DIRTY was a documentation-style false positive — auditor literalized "no other lines touched" in the brief and flagged 3 explanatory YAML comment lines. Amended commit to drop the comments, force-pushed `51af84b`. R2 audit CLEAN on the exact one-line diff with CI green on Node 22.13. Merged.
+
+**Mobile lane status:** 4 lanes free, ready for RNTL v14 migration.
+
+**Migration branch rebased:** `migrate/rntl-v14` rebased clean onto post-#244 main (`7f4e35f4`). Pushed to origin. Fixer starts from a base where CI already runs on Node 22.13.
+
+**Dispatching Opus 4.8 builder** on `migrate/rntl-v14` per `MIGRATION_PLAN_RNTL.md`. Brief: `/home/user/workspace/BUILDER_BRIEF_RNTL_V14.md`. Required commit structure: TWO commits in ONE PR — (1) codemod baseline (deps + async-functions), (2) manual rewrites + UNSAFE removal. This separation is non-negotiable so the auditor can review codemod scope cleanly.
+
+**Hyperscaler defaults reaffirmed in brief:**
+- Tests-only changes; zero production source edits without operator approval
+- No new `.skip`/`as unknown as`/`@ts-ignore` etc
+- Snapshots updated only with per-file human-readable certification (R3 from Phase 4 doctrine)
+- Baseline 16 suites / 453 tests must be preserved or exceeded
