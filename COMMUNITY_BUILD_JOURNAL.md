@@ -1046,3 +1046,33 @@ All 4 PRs have GitHub CI green (Typecheck, lint, test ✓) at the audited head.
 
 **Dispatching 4 parallel Opus 4.8 fixers next.** R31: builder≠auditor≠fixer; these are fresh fixer agents with NO audit context contamination beyond the audit report file and brief. After each pushes + CI green, fresh GPT-5.5 re-audit dispatched per R31. Loop continues until all 4 CLEAN → admin-squash-merge.
 
+
+## Cycle 17 — 2026-06-12 22:58 PT — All 4 fixers COMPLETE + CI green → 4 fresh re-audits dispatching
+
+**Fixer outcomes (4/4 FIXER STATUS: COMPLETE; all CI green; all MERGEABLE):**
+
+| PR | Old head | New head | Commits | CI | Reports |
+|---|---|---|---:|---|---|
+| #235 v3-1 | f44e4241 | 8cacf28b | 2 | green (1m58s) | FIXER_REPORT_235_R9.md |
+| #237 MWB-4 | 97dd5522 | 4a99ca30 | 1 | green (2m02s) | FIXER_REPORT_237_R11.md |
+| #241 Roman P3 | 4e88e4de | 55f54121 | 6 | green | FIXER_REPORT_241_R7.md |
+| #242 Roman P4 | e04531f8 | 82cd3f74 | 5 | green (2m00s) | FIXER_REPORT_242_R6.md |
+
+**Fixer highlights:**
+- **#235:** All 4 R8 findings closed surgically. Hall/DM/Today error branches split from empty state with refetch retry; ChallengeProgressSheet has synchronous `submittingRef` set before `onSubmit`. 25/25 targeted tests pass.
+- **#237:** 409 path now awaits authoritative server-truth adoption from screen before re-pumping (deterministic Promise chain). Conflict-retry budget added; malformed 409 non-auto-retriable. Explicit Save now includes `weight_lbs`/`superset_group_id`. Mirror prefix added to sign-out sweep. 8 suites / 90 tests pass.
+- **#241:** Big surface area. RomanBriefCard gated on `featureFlags.romanChat` with fallback. New flags `romanCheckInBackendLive` + `romanStreakBackendLive` (both default false) hide proxy-signal surfaces until backend support lands. Voice-log copy stripped of "Recorded." claim. Durable completion-id AsyncStorage latch keyed by user/coach + id. Session-scoped exclamation budget singleton (`src/lib/roman/sessionBudget.ts`). New P3 flag-off test suite. Neutral copy for empty surfaced-clients. Structured logger.warn for completion-flow catches. 404/404 targeted tests pass.
+- **#242:** ED.3 fail-CLOSED on absent old status. INSERT celebration path removed (test inverted). Synchronous `firedLatchRef` for exactly-once. Same-row prior-success replay guard. New `romanFirstPaymentBodyweightPolish` flag (default false) gating ED.4 with legacy fallback. Motion durations brought under budget (chart 1500→280ms, particle 1400→500ms, mascot 700+500→300+200ms). 5 ED.3 scenarios + flag-off + exactly-once tests.
+
+**Audit worktrees reset onto new heads** at `/home/user/workspace/tgp/mobile-{235,237,241,242}-audit`.
+
+**Audit briefs written (R31 fresh GPT-5.5 — zero builder/fixer context):**
+- `/home/user/workspace/AUDIT_BRIEF_235_R10.md`
+- `/home/user/workspace/AUDIT_BRIEF_237_R12.md`
+- `/home/user/workspace/AUDIT_BRIEF_241_R8.md`
+- `/home/user/workspace/AUDIT_BRIEF_242_R7.md`
+
+Each brief frames closure verification against the SAME findings the prior auditor surfaced (without exposing the auditor's reasoning) plus a full R72 sweep on the rest of the diff for regressions, R65 50-failures sweep, R0 banned-token sweep, R69 hygiene, anti-fabrication backend cross-check, CI/mergeability verification.
+
+**Dispatching 4 parallel GPT-5.5 auditors next.** Per operator authorization: any CLEAN verdict → immediate admin-squash-merge with no waiting. DIRTY → fresh Opus 4.8 fixer dispatched same loop.
+
