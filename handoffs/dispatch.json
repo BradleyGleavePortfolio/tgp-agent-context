@@ -1,66 +1,38 @@
 {
-  "cycle": 16,
-  "timestamp_pt": "2026-06-12T21:38:00-07:00",
-  "phase": "fixer_wave",
+  "cycle": 17,
+  "timestamp_pt": "2026-06-12T22:58:00-07:00",
+  "phase": "re_audit_wave",
   "active_lanes": [
     {
-      "lane": 1,
-      "pr": 235,
-      "repo": "growth-project-mobile",
-      "branch": "feature/community-v3-challenges-mobile",
-      "round": "R9 fixer",
-      "agent_model": "claude_opus_4_8",
-      "worktree": "/home/user/workspace/tgp/mobile-235-fix",
-      "brief": "/home/user/workspace/FIXER_BRIEF_235_R9.md",
-      "audit_report": "/home/user/workspace/AUDIT_REPORT_235_R8.md",
-      "audit_verdict": "DIRTY",
-      "p1_count": 3,
-      "p2_count": 1
+      "lane": 1, "pr": 235, "round": "R10 audit", "agent_model": "gpt_5_5",
+      "worktree": "/home/user/workspace/tgp/mobile-235-audit",
+      "head": "8cacf28b",
+      "brief": "/home/user/workspace/AUDIT_BRIEF_235_R10.md",
+      "ci": "green", "mergeable": "MERGEABLE"
     },
     {
-      "lane": 2,
-      "pr": 237,
-      "repo": "growth-project-mobile",
-      "branch": "feature/mwb-4-mobile-autosave",
-      "round": "R11 fixer",
-      "agent_model": "claude_opus_4_8",
-      "worktree": "/home/user/workspace/tgp/mobile-237-fix",
-      "brief": "/home/user/workspace/FIXER_BRIEF_237_R11.md",
-      "audit_report": "/home/user/workspace/AUDIT_REPORT_237_R10.md",
-      "audit_verdict": "DIRTY",
-      "p1_count": 3,
-      "p2_count": 1
+      "lane": 2, "pr": 237, "round": "R12 audit", "agent_model": "gpt_5_5",
+      "worktree": "/home/user/workspace/tgp/mobile-237-audit",
+      "head": "4a99ca30",
+      "brief": "/home/user/workspace/AUDIT_BRIEF_237_R12.md",
+      "ci": "green", "mergeable": "MERGEABLE"
     },
     {
-      "lane": 3,
-      "pr": 241,
-      "repo": "growth-project-mobile",
-      "branch": "feature/roman-p3-voice-expansion",
-      "round": "R7 fixer",
-      "agent_model": "claude_opus_4_8",
-      "worktree": "/home/user/workspace/tgp/mobile-241-fix",
-      "brief": "/home/user/workspace/FIXER_BRIEF_241_R7.md",
-      "audit_report": "/home/user/workspace/AUDIT_REPORT_241_R6.md",
-      "audit_verdict": "DIRTY",
-      "p1_count": 5,
-      "p2_count": 4
+      "lane": 3, "pr": 241, "round": "R8 audit", "agent_model": "gpt_5_5",
+      "worktree": "/home/user/workspace/tgp/mobile-241-audit",
+      "head": "55f54121",
+      "brief": "/home/user/workspace/AUDIT_BRIEF_241_R8.md",
+      "ci": "green", "mergeable": "MERGEABLE"
     },
     {
-      "lane": 4,
-      "pr": 242,
-      "repo": "growth-project-mobile",
-      "branch": "feature/roman-p4-ed3-ed4-showpieces",
-      "round": "R6 fixer",
-      "agent_model": "claude_opus_4_8",
-      "worktree": "/home/user/workspace/tgp/mobile-242-fix",
-      "brief": "/home/user/workspace/FIXER_BRIEF_242_R6.md",
-      "audit_report": "/home/user/workspace/AUDIT_REPORT_242_R5.md",
-      "audit_verdict": "DIRTY",
-      "p1_count": 4,
-      "p2_count": 3
+      "lane": 4, "pr": 242, "round": "R7 audit", "agent_model": "gpt_5_5",
+      "worktree": "/home/user/workspace/tgp/mobile-242-audit",
+      "head": "82cd3f74",
+      "brief": "/home/user/workspace/AUDIT_BRIEF_242_R7.md",
+      "ci": "green", "mergeable": "MERGEABLE"
     }
   ],
   "merge_policy": "admin-squash-merge on CLEAN, no waiting",
-  "next_step_after_fixers": "fresh GPT-5.5 re-audit per lane",
+  "next_step_after_audits": "for each CLEAN -> merge + journal; for each DIRTY -> fresh Opus 4.8 fixer",
   "loop_terminates_when": "all 4 PRs merged"
 }
