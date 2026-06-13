@@ -1227,3 +1227,21 @@ R17 Opus 4.8 fixer dispatched. Worktree synced to `a19b90c`. Brief `FIXER_BRIEF_
 History: R10 → R11 → R12 DIRTY(3) → R13 fix → R14 DIRTY(5) → R15 fix → R16 DIRTY(2 narrow) → R17 in flight.
 
 Backend audits #306/#299/#302 still in flight at ~33 min elapsed (within R72 normal window).
+
+---
+
+## Cycle 28 — 2026-06-13 01:40 PDT — R17 fixer COMPLETE + #302 DIRTY (auth break) + R18 dispatched
+
+**#241 R17 fixer landed.** HEAD `0e2b980b54064290a106453822ccfe0c295a9d49`.
+- F1 (start-fresh-clear) closed: now spreads `...buildCompletionLogBase({route, userRole, userKey, justCompletedId: 'unknown'})` + `checkpoint: 'start-fresh-clear'` + `error: normalizeError(error)`.
+- F2 (cancel-clear) closed: same shape, `checkpoint: 'cancel-clear'`.
+- Single file changed: `src/screens/client/ActiveWorkoutScreen.tsx` (+16/-4).
+- Gates: tsc 0, eslint 0 (75 warnings ≤ 75 baseline, 0 in touched file), jest 16 suites / 453 tests green.
+- Commit identity clean; no AI trailers.
+
+**#241 R18 audit dispatched.** Fresh GPT-5.5 R31, brief `AUDIT_BRIEF_241_R18.md`, worktree `/home/user/workspace/tgp/mobile-241-audit` synced to `0e2b980b`. Subagent `audit_241_r18_mqc3w57r`.
+
+**#302 (`@supabase/supabase-js` 2.106.1→2.108.1) DIRTY — auth-adjacent block.** Audit report `AUDIT_REPORT_302_R1.md`. The 2.108.1 typings drop `signUp`, `signInWithPassword`, `getUser`, `signInWithIdToken`, `resetPasswordForEmail`, and `auth.admin.*` from `SupabaseAuthClient` at 13+ call sites in `src/auth/auth.service.ts`, `src/account-deletion/account-deletion.service.ts`, `src/storefront/guest-checkout.service.ts`. This is not a fixer-grade issue — this is Supabase restructuring their auth client API surface. Per operator rule "Payments + auth = #1 quality bar" and rule 3 (no architectural decisions), this is being surfaced as a Stage-prerequisite decision, similar to #232 testing-library v14 pin.
+
+**Lane status:** lanes 4 hot (R18, #306, #299, plus pending #302 decision); lane 5 free.
+
