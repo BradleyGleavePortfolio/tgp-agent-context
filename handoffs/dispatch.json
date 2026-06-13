@@ -1,14 +1,14 @@
 {
-  "cycle": 21,
-  "ts": "2026-06-13T00:22-07:00",
+  "cycle": 22,
+  "ts": "2026-06-13T00:39-07:00",
   "lanes": {
-    "1": {"pr": null, "stage": "freed-by-#237-merge"},
-    "2": {"pr": 241, "stage": "fixer-R13", "worktree": "/home/user/workspace/tgp/mobile-241-fix", "head": "fbee358", "model": "claude_opus_4_8", "subagent": "fixer_241_r13_mqc12tiz"},
-    "3": {"pr": null, "stage": "available"},
-    "4": {"pr": null, "stage": "available"},
-    "5": {"pr": null, "stage": "available"}
+    "1": {"pr": 198, "stage": "audit-R1", "repo": "mobile", "kind": "dependabot-group-react-navigation"},
+    "2": {"pr": 241, "stage": "fixer-R13", "worktree": "/home/user/workspace/tgp/mobile-241-fix", "model": "claude_opus_4_8", "subagent": "fixer_241_r13_mqc12tiz"},
+    "3": {"pr": 393, "stage": "audit-R1", "repo": "backend", "kind": "docs-r73-with-failing-ci"},
+    "4": {"pr": 305, "stage": "audit-R1", "repo": "backend", "kind": "dependabot-helmet-8.1-to-8.2"},
+    "5": {"pr": 233, "stage": "audit-R1", "repo": "mobile", "kind": "dependabot-group-expo"}
   },
   "merged_this_thread": ["#235@0ac5cab0", "#199@e5e3af66", "#311@a755abe5", "#237@9c752e86"],
   "deferred": ["#195"],
-  "open_non_audit": ["#242 (Option C plan)", "#393 (R73 docs)"]
+  "open_non_audit": ["#242 (Option C plan)"]
 }
