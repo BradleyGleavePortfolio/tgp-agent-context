@@ -986,3 +986,35 @@ Merge gates pending: v2-3 = #389 R3 + #236 code+UX; v3-1 = #390 R4 + #235 code+U
 4. #237 R8 audit (gpt-5.5) — brief AUDIT_BRIEF_237_R8.md @ 5844f46e — exhaustive gate-lifecycle path enumeration (premature clear AND gate leak AND infinite requeue), isReplay tag survival, real-test mutation check.
 
 **Merge triggers armed:** #241 and #237 merge on audit CLEAN per D-044. #235/#237 R71: whichever merges second rebases shared-append files (featureFlags.ts, .env.example). After all 5: v3-2 classroom posts ∥ v3-3 voice notes, then v3-4 (hard serial after v3-3).
+
+## Cycle 15 — 2026-06-12 21:25 PT — Mid-cycle PR finishing wave: 4 audits dispatched in parallel
+
+**Context:** New operator session (Perplexity Computer parent). Prior sandbox died after cycle 14. Ground-truth check vs GitHub revealed all backend community PRs (#387, #389, #390, #391) + Roman P2 (#380) ALREADY MERGED. Only 4 mobile PRs remain in flight, all CI-green, all advanced past where cycle 14 left them.
+
+**In-flight PRs (mobile repo, ground-truth from GitHub):**
+
+| PR | Title | Head SHA | Round needed | Notes |
+|---|---|---|---|---|
+| #235 | community: v3-1 challenges mobile | `f44e4241` | R8 audit | R6/R7/R8 fixer commits shipped post-cycle-14 |
+| #237 | MWB-4 mobile autosave | `97dd5522` | R10 audit | R8/R9/R10 fixer commits shipped; replay-gate lifecycle is the historical risk class |
+| #241 | Roman P3 voice expansion §2.3-§2.12 | `4e88e4de` | R6 audit | R5/R6 fixer commits shipped; proxy-signal class is risk |
+| #242 | Roman P4 ED.3 + ED.4 | `e04531f8` | R5 audit | R4/R5 fixer commits shipped; first-payment proof is risk |
+
+All 4 PRs have GitHub CI green (Typecheck, lint, test ✓) at the audited head.
+
+**R67 dispatch.json pushed.** R56/R58/R60 worktrees set up at `/home/user/workspace/tgp/mobile-{235,237,241,242}-audit` on the correct head SHAs.
+
+**Audit briefs written** under `/home/user/workspace/AUDIT_BRIEF_{235_R8,237_R10,241_R6,242_R5}.md` — all 4 are exhaustive per R72, include R65 50-failures sweep, R0 banned-token sweep, R69 skipped-test sweep, anti-fabrication backend-cross-check, Roman voice contract enforcement (for #241/#242), and headline risk classes from prior rounds.
+
+**Dispatched (4 parallel lanes, GPT-5.5 fresh auditors per R31):**
+1. audit_235_r8_mqbuw956 — #235 v3-1 challenges R8 code+UX
+2. audit_237_r10_mqbuwgyb — #237 MWB-4 R10 code+UX
+3. audit_241_r6_mqbuwop9 — #241 Roman P3 R6 code+UX+voice
+4. audit_242_r5_mqbuwwwh — #242 Roman P4 R5 code+UX+voice
+
+**Merge policy this wave:** Operator authorization granted — admin-squash-merge on every CLEAN verdict, no waiting. DIRTY → fresh Opus 4.8 fixer dispatched same loop. Loop continues until all 4 merged.
+
+**Operator-acknowledged gap:** The lost R1–R55 rule definitions are STILL missing from rules/ (R64 violation persisting since 2026-05-28). Auditors this wave work from R0, R31, R56–R72, the 14 standing rules, R65 50-failures sweep, and per-PR brief. Operator chose "proceed without them" for this wave.
+
+**Lane state:** 4/5 lanes active. 5th slot reserved for fixer dispatch on first DIRTY verdict.
+

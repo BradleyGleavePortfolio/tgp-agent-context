@@ -3,9 +3,9 @@
   "operator": "Perplexity Computer (parent)",
   "lane_cap": 5,
   "dispatches": [
-    {"ts":"2026-06-13T04:29:12+00:00","subagent_id":"pending_audit_235_r8","role":"code+ux auditor","worktree":"/home/user/workspace/tgp/mobile-235-audit","base_sha":"f44e4241","branch":"feature/community-v3-challenges-mobile","brief_path":"/home/user/workspace/AUDIT_BRIEF_235_R8.md","model":"gpt_5_5"},
-    {"ts":"2026-06-13T04:29:12+00:00","subagent_id":"pending_audit_237_r10","role":"code+ux auditor","worktree":"/home/user/workspace/tgp/mobile-237-audit","base_sha":"97dd5522","branch":"feature/mwb-4-mobile-autosave","brief_path":"/home/user/workspace/AUDIT_BRIEF_237_R10.md","model":"gpt_5_5"},
-    {"ts":"2026-06-13T04:29:12+00:00","subagent_id":"pending_audit_241_r6","role":"code+ux+voice auditor","worktree":"/home/user/workspace/tgp/mobile-241-audit","base_sha":"4e88e4de","branch":"feature/roman-p3-voice-expansion","brief_path":"/home/user/workspace/AUDIT_BRIEF_241_R6.md","model":"gpt_5_5"},
-    {"ts":"2026-06-13T04:29:12+00:00","subagent_id":"pending_audit_242_r5","role":"code+ux+voice auditor","worktree":"/home/user/workspace/tgp/mobile-242-audit","base_sha":"e04531f8","branch":"feature/roman-p4-ed3-ed4-showpieces","brief_path":"/home/user/workspace/AUDIT_BRIEF_242_R5.md","model":"gpt_5_5"}
+    {"ts":"2026-06-13T04:31:07+00:00","subagent_id":"audit_235_r8_mqbuw956","role":"code+ux auditor","worktree":"/home/user/workspace/tgp/mobile-235-audit","base_sha":"f44e4241","branch":"feature/community-v3-challenges-mobile","brief_path":"/home/user/workspace/AUDIT_BRIEF_235_R8.md","model":"gpt_5_5","pr":"growth-project-mobile#235"},
+    {"ts":"2026-06-13T04:31:07+00:00","subagent_id":"audit_237_r10_mqbuwgyb","role":"code+ux auditor","worktree":"/home/user/workspace/tgp/mobile-237-audit","base_sha":"97dd5522","branch":"feature/mwb-4-mobile-autosave","brief_path":"/home/user/workspace/AUDIT_BRIEF_237_R10.md","model":"gpt_5_5","pr":"growth-project-mobile#237"},
+    {"ts":"2026-06-13T04:31:07+00:00","subagent_id":"audit_241_r6_mqbuwop9","role":"code+ux+voice auditor","worktree":"/home/user/workspace/tgp/mobile-241-audit","base_sha":"4e88e4de","branch":"feature/roman-p3-voice-expansion","brief_path":"/home/user/workspace/AUDIT_BRIEF_241_R6.md","model":"gpt_5_5","pr":"growth-project-mobile#241"},
+    {"ts":"2026-06-13T04:31:07+00:00","subagent_id":"audit_242_r5_mqbuwwwh","role":"code+ux+voice auditor","worktree":"/home/user/workspace/tgp/mobile-242-audit","base_sha":"e04531f8","branch":"feature/roman-p4-ed3-ed4-showpieces","brief_path":"/home/user/workspace/AUDIT_BRIEF_242_R5.md","model":"gpt_5_5","pr":"growth-project-mobile#242"}
   ]
 }
