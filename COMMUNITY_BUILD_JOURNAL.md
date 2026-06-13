@@ -1290,3 +1290,18 @@ Findings (all NIT):
 
 **Lane status:** Lane 1 hot (#241 R20 audit). Lanes 2/4/5 free. Lane 3 still awaiting operator on #302.
 
+
+---
+
+## Cycle 32 — 2026-06-13 01:55 PDT — R20 DIRTY (2 MINOR §38) → R21 fixer with proactive sweep
+
+**#241 R20 audit DIRTY.** Verdict line `VERDICT: DIRTY`, but again all findings are §38 stale-comment NITs. Gates green: tsc 0, eslint 75 ≤ 75, jest 16/453.
+
+Findings:
+- F1 MINOR: `src/lib/roman/__tests__/copy.test.ts` lines 30/54/77/183/248 — test titles still say "no exclamation (rationed to §2.7 30-day)"; voice rule is zero exclamations including 30-day.
+- F2 MINOR: `src/screens/coach/__tests__/CoachBriefScreenRoman.test.tsx:8` — file header says celebration on clear roster, but live behavior is neutral default for empty surfaced-client list.
+
+**Decision:** to stop ping-ponging on §38 nits, dispatched R21 with a **broader proactive sweep** brief — close F1+F2 AND grep all PR-touched files for remaining stale comments / brittle line-number refs / fixer-report references / stale test titles. Specifically includes `RomanWorkoutCompleteCard.tsx:4` which R19 fixer correctly flagged but didn't touch.
+
+**#241 R21 fixer dispatched.** Subagent `fix_241_r21_mqc4f6ex`. Opus 4.8, brief `FIXER_BRIEF_241_R21.md`. Comment-only scope.
+
