@@ -1428,3 +1428,28 @@ R1 audit DIRTY was a documentation-style false positive — auditor literalized 
 - No new `.skip`/`as unknown as`/`@ts-ignore` etc
 - Snapshots updated only with per-file human-readable certification (R3 from Phase 4 doctrine)
 - Baseline 16 suites / 453 tests must be preserved or exceeded
+
+
+---
+
+## Cycle 39 — 2026-06-13 12:00 PDT — RNTL v14 builder R1 STOPPED on baseline mismatch; operator confirmed whole-repo scope; R2 dispatched
+
+**Builder R1 (`rntl_v14_builder_mqcnx7c6`) STOPPED correctly** before touching any files. Diagnostic at `/home/user/workspace/RNTL_V14_BASELINE_DISCREPANCY_REPORT.md`.
+
+**Foundational discrepancy:** Spec asserted baseline of 16 suites / 453 tests. Reality at `migrate/rntl-v14` HEAD `7f4e35f4`: **248 suites / 2983 tests, all green**. Planner had measured a subset (or stale snapshot) when authoring the spec.
+
+**Verification (builder R1 confirmed empirically):**
+- Git: HEAD `7f4e35f4`, branch `migrate/rntl-v14`, clean working tree ✓
+- 247 `*.test.ts(x)` files under `src/**` + `App.test.tsx` = 248 suites ✓
+- 116 test files import `@testing-library/react-native` (consistent with spec's "200+ call sites / 14 breaking changes")
+- Spec §6 named files (3 UNSAFE_*/ReactTestInstance files) are exactly the only 3 such files in the repo — spec accuracy on that front is intact
+- v13 install state confirmed: RNTL 13.3.3, react-test-renderer 19.2.3, React 19.2.3, RN 0.85.3, jest-expo 56.0.4, jest 29.7.0
+
+**Environment prep done by R1:**
+- Node 22.13.1 installed locally at `/home/user/workspace/node22` (sandbox default is 20.20.1, which RNTL v14 forbids — `^22.13.0 || >=24`)
+- Clean `npm ci` ran successfully; 248/2983 baseline verified green under Node 22.13.1
+- Disk is tight (~1GB free after clearing npm cache); flagged for monitoring
+
+**Operator decision:** Whole-repo migration. "yes, otherwise we might build more old shit" + Apple/Notion/Stripe-grade default = finish the migration, don't ship a partial. Success bar updated to **248+ suites / 2983+ tests green, zero regressions**.
+
+**Builder R2 (`rntl_v14_builder_r2_mqcq1lmz`) dispatched** with the corrected brief. Same Opus 4.8 R31-fresh role. Same two-commit-one-PR structure. Same hyperscaler defaults. Uses Node 22.13.1 install + existing node_modules state.
