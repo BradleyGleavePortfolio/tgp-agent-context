@@ -1,8 +1,8 @@
 {
-  "cycle": 18,
-  "timestamp_pt": "2026-06-12T23:10:00-07:00",
-  "phase": "post_reaudit_mixed_state",
-  "merged_this_cycle": [
+  "cycle": 19,
+  "timestamp_pt": "2026-06-12T23:30:00-07:00",
+  "phase": "fixer_complete_rebased_re-audit",
+  "merged_so_far": [
     {
       "pr": 235,
       "merge_sha": "0ac5cab0",
@@ -12,38 +12,49 @@
   ],
   "active_lanes": [
     {
-      "lane": 1, "pr": 237, "round": "R13 fixer", "agent_model": "claude_opus_4_8",
-      "subagent_id": "fixer_237_r13_mqbyiuep",
-      "worktree": "/home/user/workspace/tgp/mobile-237-fix",
-      "head_in": "4a99ca30",
-      "brief": "/home/user/workspace/FIXER_BRIEF_237_R13.md",
-      "audit_source": "/home/user/workspace/AUDIT_REPORT_237_R12.md",
-      "report_target": "/home/user/workspace/FIXER_REPORT_237_R13.md",
-      "verdict_in": "DIRTY-CRITICAL"
+      "lane": 1, "pr": 237, "round": "R14 audit", "agent_model": "gpt_5_5",
+      "worktree": "/home/user/workspace/tgp/mobile-237-audit",
+      "head": "76b7b7d6954862124ad2cda72f2c6f286c7b3041",
+      "rebased_onto_main": true,
+      "base_main_sha": "0ac5cab0",
+      "fixer_report": "/home/user/workspace/FIXER_REPORT_237_R13.md",
+      "audit_brief_target": "/home/user/workspace/AUDIT_BRIEF_237_R14.md",
+      "report_target": "/home/user/workspace/AUDIT_REPORT_237_R14.md",
+      "pr_mergeable": "MERGEABLE (UNSTABLE awaiting CI)"
     },
     {
-      "lane": 2, "pr": 241, "round": "R9 fixer", "agent_model": "claude_opus_4_8",
-      "subagent_id": "fixer_241_r9_mqbyj0lv",
-      "worktree": "/home/user/workspace/tgp/mobile-241-fix",
-      "head_in": "55f54121",
-      "brief": "/home/user/workspace/FIXER_BRIEF_241_R9.md",
-      "audit_source": "/home/user/workspace/AUDIT_REPORT_241_R8.md",
-      "report_target": "/home/user/workspace/FIXER_REPORT_241_R9.md",
-      "verdict_in": "DIRTY"
+      "lane": 2, "pr": 241, "round": "R10 audit", "agent_model": "gpt_5_5",
+      "worktree": "/home/user/workspace/tgp/mobile-241-audit",
+      "head": "da8d8c44b80fae0c1bcbf0dc6a2f8e24ad9fe982",
+      "rebased_onto_main": true,
+      "base_main_sha": "0ac5cab0",
+      "fixer_report": "expected at /home/user/workspace/FIXER_REPORT_241_R9.md (subagent fixer_241_r9_mqbyj0lv pushed 3 commits, awaiting return)",
+      "audit_brief_target": "/home/user/workspace/AUDIT_BRIEF_241_R10.md",
+      "report_target": "/home/user/workspace/AUDIT_REPORT_241_R10.md",
+      "ci_latest_run": "27458322519 SUCCESS 2m5s"
     },
     {
-      "lane": 3, "pr": 242, "round": "R7 audit retry", "agent_model": "gpt_5_5",
-      "subagent_id": "audit_242_r7_retry_mqby7ifo",
-      "worktree": "/home/user/workspace/tgp/mobile-242-audit",
+      "lane": 3, "pr": 242, "round": "pending Option C rewrite (operator-approved)",
+      "agent_model": "claude_opus_4_8 (builder, future)",
+      "worktree": "/home/user/workspace/tgp/mobile-242-fix",
       "head": "82cd3f74",
-      "brief": "/home/user/workspace/AUDIT_BRIEF_242_R7.md",
-      "report_target": "/home/user/workspace/AUDIT_REPORT_242_R7.md",
-      "reason_for_retry": "first R7 attempt completed silently with empty body"
+      "plan_doc": "/home/user/workspace/tgp-agent-context/ROMAN_ED3_REWRITE_PLAN.md (to be written)",
+      "split_action": "ED.4 polish (ProgressChartCard + detectPersonalRecord + ProgressScreen chart wiring) splits into own mobile PR for fast clean win"
+    },
+    {
+      "lane": 4, "pr": "R73 docs (backend)", "round": "PR not yet opened",
+      "worktree": "/home/user/workspace/tgp/backend-r73-docs",
+      "branch": "docs/r71-r72-r73-mobile-planner-gate",
+      "commit": "bfc0744"
     }
   ],
   "merge_policy": "admin-squash-merge on any CLEAN, NEVER batch-wait, act on each verdict instantly",
-  "next_step_after_fixers": "fresh GPT-5.5 re-audit (R31) on each fixer's new head",
-  "next_step_after_242_audit": "if CLEAN -> admin-squash-merge immediately; if DIRTY -> Opus 4.8 fixer dispatched immediately",
-  "loop_terminates_when": "PRs 237/241/242 all merged",
-  "remaining_prs_to_merge": [237, 241, 242]
+  "rules_now_codified": ["R71 parallel discipline", "R72 exhaustive audits", "R73 mobile planner gate"],
+  "remaining_prs_to_merge": [237, 241, 242],
+  "still_owed_to_operator": [
+    "comment on PR #242 explaining Option C rewrite plan",
+    "split ED.4 polish into its own mobile PR",
+    "open R73 docs PR on backend",
+    "write ROMAN_ED3_REWRITE_PLAN.md"
+  ]
 }
