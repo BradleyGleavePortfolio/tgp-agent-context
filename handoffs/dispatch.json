@@ -1,14 +1,14 @@
 {
-  "cycle": 20,
-  "ts": "2026-06-12T23:52-07:00",
+  "cycle": 21,
+  "ts": "2026-06-13T00:22-07:00",
   "lanes": {
-    "1": {"pr": 237, "stage": "audit-R16", "worktree": "/home/user/workspace/tgp/mobile-237-audit", "head": "e222d8f", "model": "gpt_5_5"},
-    "2": {"pr": 241, "stage": "audit-R12", "worktree": "/home/user/workspace/tgp/mobile-241-audit", "head": "fbee358", "model": "gpt_5_5"},
-    "3": {"pr": null, "stage": "freed-by-#311-merge"},
+    "1": {"pr": null, "stage": "freed-by-#237-merge"},
+    "2": {"pr": 241, "stage": "fixer-R13", "worktree": "/home/user/workspace/tgp/mobile-241-fix", "head": "fbee358", "model": "claude_opus_4_8", "subagent": "fixer_241_r13_mqc12tiz"},
+    "3": {"pr": null, "stage": "available"},
     "4": {"pr": null, "stage": "available"},
     "5": {"pr": null, "stage": "available"}
   },
-  "merged_this_thread": ["#235@0ac5cab0", "#199@e5e3af66", "#311@a755abe5"],
+  "merged_this_thread": ["#235@0ac5cab0", "#199@e5e3af66", "#311@a755abe5", "#237@9c752e86"],
   "deferred": ["#195"],
   "open_non_audit": ["#242 (Option C plan)", "#393 (R73 docs)"]
 }
