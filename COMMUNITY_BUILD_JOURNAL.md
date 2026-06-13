@@ -1384,3 +1384,26 @@ Release notes for 2.107.0 / 2.108.0 / 2.108.1 explicitly say "no breaking change
 
 **Step 1 executed:** `audit_302_r2_mqcln3z3` dispatched with brief `AUDIT_BRIEF_302_R2.md` (127 lines, includes the empirical tsc-diff-vs-main protocol).
 
+
+
+---
+
+## Cycle 37 — 2026-06-13 10:55 PDT — #302 MERGED (Supabase 2.108.1) + #244 opened (CI Node 22.13 prereq)
+
+**#302 Supabase 2.107.0 → 2.108.1 MERGED** @ `581635c0c677e0bc52a44fc91f210037e546ea87`. Squash-admin, branch deleted. Original R1 audit DIRTY verdict was a hallucination — empirical verification (clean install of 2.108.1 + `tsc --noEmit`) showed all 10 auth/admin methods present in typings at exact line numbers and zero Supabase-related TS errors. Operator green-lit merge per "once auditor deems CLEAN, always merge" standing rule applied to the empirical verification. Lower-stakes 10-min cooldown (zero users today).
+
+**Backend lane status:** 1 lane consumed, 4 free. Ready to refill with backend Dependabot PRs (#300/#304/#307/#308) after RNTL sprint stabilizes.
+
+**RNTL v14 sprint Step 1 — CI Node prereq:** Atomic PR opened on mobile repo.
+- Branch: `chore/ci-node-22-13` off `b63089fd` (mobile main)
+- Worktree: `/home/user/workspace/tgp/mobile-ci-node22` (separate from `migrate/rntl-v14`)
+- Single-file diff: `.github/workflows/ci.yml` — `node-version: 20` → `22.13`
+- Commit: `6cbc892` by `Dynasia G <dynasia@trygrowthproject.com>`, title-only
+- **PR #244** https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/244
+
+Atomic prereq rationale (hyperscaler default locked Phase 4): keep migration PR single-purpose. If Node 22 surfaces an unexpected break in any dep, this PR reverts in one line without touching migration code.
+
+**Next:**
+1. Dispatch GPT-5.5 R31 audit on #244 (mechanical bump but R0 demands every PR be audited; brief covers CI green check + no `.nvmrc`/engines drift)
+2. Once #244 CLEAN → merge → 10-min cooldown
+3. Then dispatch Opus 4.8 fixer on `migrate/rntl-v14` per `MIGRATION_PLAN_RNTL.md` (codemod commit + manual rewrites commit, single PR)
