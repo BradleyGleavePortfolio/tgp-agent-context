@@ -1076,3 +1076,40 @@ Each brief frames closure verification against the SAME findings the prior audit
 
 **Dispatching 4 parallel GPT-5.5 auditors next.** Per operator authorization: any CLEAN verdict → immediate admin-squash-merge with no waiting. DIRTY → fresh Opus 4.8 fixer dispatched same loop.
 
+
+
+## Cycle 18 — 2026-06-12 23:10 PT — Re-audit results: 1 CLEAN merged, 2 DIRTY → fixers dispatched, 1 retry running
+
+**Re-audit verdicts as they landed (acting per-verdict, no batch wait):**
+
+| PR | Audit head | Verdict | Action taken | Report |
+|---|---|---|---|---|
+| #235 v3-1 mobile | 8cacf28b | **CLEAN** | **MERGED** squash `0ac5cab0` (2026-06-13 06:08:14Z) | AUDIT_REPORT_235_R10.md |
+| #237 MWB-4 mobile | 4a99ca30 | **DIRTY-CRITICAL** (2 data-loss paths) | Fixer R13 dispatched (Opus 4.8) | AUDIT_REPORT_237_R12.md |
+| #241 Roman P3 mobile | 55f54121 | **DIRTY** (1 P1 + 2 P2 + 1 P3) | Fixer R9 dispatched (Opus 4.8) | AUDIT_REPORT_241_R8.md |
+| #242 Roman P4 mobile | 82cd3f74 | pending | R7 retry audit running (silent-fail mitigation) | (forthcoming) |
+
+**Merge action:** #235 v3-1 challenges mobile admin-squash-merged at `0ac5cab0`. Verified CLEAN R72-exhaustive + full 50-failures sweep. Operator's standing rule: any CLEAN → merge, no waiting.
+
+**#237 DIRTY-CRITICAL findings (data loss blockers):**
+- **D-001:** First-ever 409 `autosave_lock_stale` skips `onConflict` and rebases from stale baseline → erases concurrent server edits.
+- **D-002:** Queued edit (`pendingNextRef !== null`) makes awaited `rebaselineTo(serverTruth)` no-op → still clobbers. Need `rebaselineToConflict` that captures queued delta, replaces baseline, recomputes batch + pendingNext.
+- **D-003 P3:** `😀` emoji literal at `workoutAutosaveApi.test.ts:390` — must use Unicode escape.
+
+**#241 DIRTY findings:**
+- **P1-CODE-01:** `useJustCompletedOneShot` calls `clearParam()` BEFORE async `AsyncStorage.getItem` resolves → focus-effect cleanup runs (`cancelled=true`) → Roman completion card never renders.
+- **P2-CODE-01:** Raw `console.warn` remains at `ActiveWorkoutScreen.tsx:649-650` — must use `logger.warn('mwb.completion.local-write', { error })`.
+- **P2-TEST-01:** Flag-off suite (`romanP3FlagOff.test.tsx`) only mounts CoachBrief at runtime; other 4 hosts covered by regex only (#17 Fake Test Coverage). Convert to runtime renders.
+- **P3-HYGIENE-01:** Stale `spec-exact`, FIXER_241_R5_REPORT references, "settlement-window" remain in comments.
+
+**Fixer briefs written (R31 — fixer has only the brief, not the auditor report):**
+- `/home/user/workspace/FIXER_BRIEF_237_R13.md`
+- `/home/user/workspace/FIXER_BRIEF_241_R9.md`
+
+**Fixers dispatched in parallel (Opus 4.8, per-PR fix worktrees):**
+- `fixer_237_r13_mqbyiuep` on `/home/user/workspace/tgp/mobile-237-fix`
+- `fixer_241_r9_mqbyj0lv` on `/home/user/workspace/tgp/mobile-241-fix`
+
+**#242 R7 audit retry** (`audit_242_r7_retry_mqby7ifo`) still running on detached worktree at HEAD `82cd3f74`. First R7 attempt completed silently with empty body — retry was dispatched with explicit "must write > 3000 byte report ending in VERDICT" contract. Per operator's "never batch-wait" rule, will act on its verdict the instant it lands.
+
+**Status:** 1/4 PRs MERGED. 2 fixers in flight. 1 audit retry in flight. Loop continues per R31/R64/R65/R72.
