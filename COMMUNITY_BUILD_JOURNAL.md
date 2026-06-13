@@ -1139,3 +1139,11 @@ Each brief frames closure verification against the SAME findings the prior audit
 **Open backend follow-up (NOT in this PR):** When backend wants to truly enable ED.3, the right answer is either (a) add a coach-scoped SELECT policy on `ClientPurchase` referencing `app.current_user_id()` + register the table in Supabase Realtime publication, OR (b) emit a backend `first_payment` notification (already-existing notifications module) and have mobile poll/subscribe to that user-scoped notification stream. Either way, this is a future backend PR.
 
 **Status:** 3 fixers in flight (#237 R13, #241 R9, #242 R8). 1 PR merged (#235). Acting on each completion the instant it lands per operator rule.
+
+## Cycle 19 (2026-06-12 23:48 PDT) — #311 MERGED
+
+**#311 backend dead-route cleanup** — R2 audit by GPT-5.5 returned CLEAN. Verified all 50 failure-modes pass on a deletion-only chore (dead `GET /users/me/badges` controller method + OpenAPI block + role-gating doc line). Admin-squash merged at `a755abe50d1de6edaad55295d6602dba238595ce`. Branch deleted.
+
+**Lane status:** Lane 3 freed. Fixer #241 R11 + Fixer #237 R15 still running on lanes 1 and 2. Lanes 4 and 5 idle.
+
+**Cumulative merged this thread:** #235, #199, #311.
