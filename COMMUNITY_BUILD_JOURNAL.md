@@ -1453,3 +1453,28 @@ R1 audit DIRTY was a documentation-style false positive — auditor literalized 
 **Operator decision:** Whole-repo migration. "yes, otherwise we might build more old shit" + Apple/Notion/Stripe-grade default = finish the migration, don't ship a partial. Success bar updated to **248+ suites / 2983+ tests green, zero regressions**.
 
 **Builder R2 (`rntl_v14_builder_r2_mqcq1lmz`) dispatched** with the corrected brief. Same Opus 4.8 R31-fresh role. Same two-commit-one-PR structure. Same hyperscaler defaults. Uses Node 22.13.1 install + existing node_modules state.
+
+
+---
+
+## Cycle 40 — 2026-06-13 13:15 PDT — RNTL v14 builder R2 90% done, R3 continuation dispatched
+
+**R2 (`rntl_v14_builder_r2_mqcq1lmz`) ran out of steps mid-Commit-2.** Substantial progress, clean handoff.
+
+**Landed by R2:**
+- **Commit 1:** `9662f7f` `test(rntl-v14): apply codemods (deps + async APIs)` — RNTL bumped 13.3.3 → 14.0.0, `test-renderer@1.2.0` installed, `react-test-renderer` removed
+- **6 of 11 failing suites fixed** (1 verified green, 5 applied not re-run)
+- **22 test files modified in working tree** (Commit 2 in-progress)
+- **tsc:** 0 errors. **lint:** 0 errors / 75 pre-existing warnings (no new)
+- **All failures diagnosed as v14 test-harness semantics** — ZERO production component bugs needed
+
+**5 unfinished suites:**
+- `CoachPackageContentsScreen.test.tsx` — same never-resolving `await fireEvent.press` pattern as already-fixed coachTeamP0Blockers
+- `TimelineScreen.test.tsx` — risk_score snapshot/tree mismatch
+- `useAutosave.test.tsx` — 3 conflict-adoption timing tests (post-async re-render flush)
+- `ClientMessagesScreen.integration.test.tsx` — investigate
+- `useMacroTargets.test.ts` — **JUDGMENT-CALL FLAG**: test asserts synchronous `result.current === null` after user-change rerender as a cross-user data-leak prevention contract. R3 has explicit decision tree: if v14 just changed flush timing, wrap in `waitFor`; if v14 batches in a way that would expose user A's macros to user B's UI, STOP and report — that's a real leak.
+
+**R3 (`rntl_v14_builder_r3_continue_mqcsoevp`) dispatched** to finish Commit 2, push, and open the PR. Brief at `/home/user/workspace/BUILDER_BRIEF_RNTL_V14_CONTINUE.md`. Same Opus 4.8 R31-fresh role.
+
+**No PR opened yet on mobile repo. #232 PR slot remains open for this migration.**
