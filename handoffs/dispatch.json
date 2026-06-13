@@ -627,3 +627,4 @@
 {"ts":"2026-06-13T01:02:04Z","cycle":18,"type":"dispatch","pr":242,"round":"R5","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_242_R5.md","head":"e04531f8"}
 {"ts":"2026-06-13T01:02:04Z","cycle":18,"type":"dispatch","pr":235,"round":"R8","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_235_R8.md","head":"f44e4241"}
 {"ts":"2026-06-13T01:02:04Z","cycle":18,"type":"dispatch","pr":237,"round":"R10","role":"auditor","model":"gpt-5.5","brief":"tgp/briefs/AUDIT_BRIEF_237_R10.md","head":"97dd5522"}
+{"ts":"2026-06-13T01:13:59Z","cycle":19,"type":"dispatch","pr":237,"round":"R11","role":"fixer","model":"opus-4.8","brief":"tgp/briefs/FIXER_BRIEF_237_MWB4_R11.md","head":"97dd5522"}
