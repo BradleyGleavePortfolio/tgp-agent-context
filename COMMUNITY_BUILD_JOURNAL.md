@@ -1198,3 +1198,18 @@ R15 Opus 4.8 fixer dispatched with brief `FIXER_BRIEF_241_R15.md`. Worktree `/ho
 **Lane status:** Lane 1 #241 R15 fixer (Opus 4.8), Lane 2 #306 audit, Lane 3 #299 audit, Lane 4 #302 audit, Lane 5 free.
 
 **Pending operator:** #233 transitive @expo/ws-tunnel major decision (recommend merge — direct expo all on SDK 56).
+
+## Cycle 26 (2026-06-13 01:15 PDT) — #241 R15 fixer COMPLETE → R16 audit dispatched
+
+**#241 R15 fixer** — Opus 4.8 closed all 5 R14 findings in one commit `a19b90c41a01fdac2f85f8c92161a78952baab25`. Final stats:
+- F1 producer obs: 6 warn sites in ActiveWorkoutScreen.tsx now use `buildCompletionLogBase`; `serverId` hoisted to provide real `justCompletedId` everywhere except pre-server-write and onError re-save (literal `'unknown'` string, documented).
+- F2 empty catches: 3 sites converted to `catch (error) { logger.warn({ route, action, error: normalizeError(error) }) }`.
+- F3 ProgressScreen `as unknown as WeightLog[]` replaced with typed `parseWeightLogRow` mapper + `.filter` guard (Zod not in deps).
+- F4 dead code: `restTotal`, `Polyline`, `SvgLine`, `SvgText` removed.
+- F5 stale exclamation-budget comments: all 6 sites in copy.ts replaced with single consistent statement.
+
+**Gates:** tsc 0, eslint 0 warn count 75 (−4 from 79 baseline, zero new in touched files), jest 16 suites / 453 tests green. Scope: 4 files. Author/committer `Dynasia G <dynasia@trygrowthproject.com>`, no AI/co-author trailers.
+
+R16 fresh GPT-5.5 audit dispatched. Worktree synced to `a19b90c`. Brief `AUDIT_BRIEF_241_R16.md` (8225 bytes).
+
+History: R10 → R11 → R12 DIRTY(3) → R13 fix → R14 DIRTY(5) → R15 fix → R16 in flight. Each audit catches new things because R72 is exhaustive and R31 is fresh-role.

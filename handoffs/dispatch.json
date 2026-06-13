@@ -1,15 +1,16 @@
 {
-  "cycle": 24,
-  "ts": "2026-06-13T00:55-07:00",
+  "cycle": 26,
+  "ts": "2026-06-13T01:15-07:00",
   "lanes": {
-    "1": {"pr": 241, "stage": "fixer-R15", "worktree": "/home/user/workspace/tgp/mobile-241-fix", "model": "claude_opus_4_8", "kind": "5-findings-3MAJ-2MIN"},
-    "2": {"pr": 306, "stage": "audit-R1", "worktree": "/home/user/workspace/tgp/backend-306-audit", "model": "gpt_5_5", "kind": "dependabot-posthog-node-5.33-to-5.36"},
-    "3": {"pr": 299, "stage": "audit-R1", "worktree": "/home/user/workspace/tgp/backend-299-audit", "model": "gpt_5_5", "kind": "dependabot-nestjs-swagger-patch"},
-    "4": {"pr": 302, "stage": "audit-R1", "worktree": "/home/user/workspace/tgp/backend-302-audit", "model": "gpt_5_5", "kind": "dependabot-supabase-js-2.106-to-2.108-AUTH-ADJACENT"},
+    "1": {"pr": 241, "stage": "audit-R16", "worktree": "/home/user/workspace/tgp/mobile-241-audit", "head": "a19b90c41a01fdac2f85f8c92161a78952baab25", "model": "gpt_5_5", "subagent": "audit_241_r16_mqc30gcj"},
+    "2": {"pr": 306, "stage": "audit-R1-in-flight", "worktree": "/home/user/workspace/tgp/backend-306-audit", "model": "gpt_5_5", "subagent": "audit_306_r1_mqc244xh"},
+    "3": {"pr": 299, "stage": "audit-R1-in-flight", "worktree": "/home/user/workspace/tgp/backend-299-audit", "model": "gpt_5_5", "subagent": "audit_299_r1_mqc24aqj"},
+    "4": {"pr": 302, "stage": "audit-R1-in-flight", "worktree": "/home/user/workspace/tgp/backend-302-audit", "model": "gpt_5_5", "subagent": "audit_302_r1_mqc24ict", "note": "auth-adjacent"},
     "5": {"pr": null, "stage": "free"}
   },
   "merged_this_thread": ["#235@0ac5cab0", "#199@e5e3af66", "#311@a755abe5", "#237@9c752e86", "#198@54581263", "#393@a9d29aaa", "#305@c55d94f6"],
-  "deferred": ["#195", "#232 (testing-library v14 major — defer to Stage 1 migration sprint)"],
-  "dirty_pending_operator": ["#233 (transitive @expo/ws-tunnel major in lockfile)"],
-  "open_non_audit": ["#242 (Option C plan)", "ED.4 split (staged, not opened)"]
+  "deferred": ["#195", "#232 (testing-library v14 major — pinned, scheduled as Stage 4D-PREREQ)"],
+  "dirty_pending_operator": ["#233 (transitive @expo/ws-tunnel)"],
+  "open_non_audit": ["#242 (Option C plan)", "ED.4 split (staged, not opened)"],
+  "history_241": "R10→R11→R12 DIRTY 3→R13 fix→R14 DIRTY 5→R15 fix→R16 in flight"
 }
