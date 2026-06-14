@@ -100,3 +100,39 @@ These were files in the prior operator's `/home/user/workspace/` that the build 
 ---
 
 — Snapshot taken 2026-06-13 21:42 PT by the new operator session. Next action: kick off the Stage 0 closeout work (Dependabot CLEAN merges first, then Roman P4 backend emitter PR, then surface remaining stale PRs to operator).
+
+---
+
+## Update — 2026-06-13 22:00 PDT — Dependabot close-out wave 2
+
+**Operator green-lit (C):** merge clean Dependabots + write bump plans in parallel.
+
+### Merged this wave
+
+| PR | Title | SHA |
+|---|---|---|
+| backend #301 | @anthropic-ai/sdk 0.96→0.104 (post-rebase) | `91d8500e` |
+| backend #304 | @nestjs/testing 11.1.23→11.1.26 (post-rebase) | `09f827f6` |
+| mobile #233 | expo group bump (10 updates) | `52342e1f` |
+
+### Bump plans authored (all in `plans/`)
+
+| File | Coverage |
+|---|---|
+| `plans/BUMP_PLAN_ZOD_4.md` | zod 3→4 (#307), 18+ sites, fixer-required |
+| `plans/BUMP_PLAN_ASYNC_STORAGE_3.md` | async-storage 2→3 (#200), 6 sites, fixer-required |
+| `plans/BUMP_PLAN_RN_JEST_PRESET_086.md` | dev-deps (#246), upstream-blocked, CLOSE decision |
+| `plans/PARALLEL_LANE_PLAN_2026-06-13.md` | 5-lane parallel dispatch plan, R71-clean |
+
+### Diagnostics established
+
+- Backend #301/#304 prior failures were RLS infra blocker — fixed on main at commit `cb929e1` (2026-06-09) which excluded `test/rls-.*\.spec\.ts` from default jest run. Older PR base predated this fix → Dependabot rebase pulled the fix in, both went CLEAN.
+- Mobile #200 (async-storage) is a real breaking API change: `multiRemove`/`multiGet`/`multiSet` → `removeMany`/`getMany`/`setMany`.
+- Mobile #246 (dev-deps) is upstream-blocked by jest-expo peer constraint — even jest-expo 57.0.0-canary still pins `@react-native/jest-preset: ^0.85.0`.
+- Backend #307 (zod 3→4) has a larger surface than the prior snapshot suggested: 18 `z.nativeEnum` sites + `.errors`→`.issues` + verification of `z.record()` 2-arg.
+
+### Still pending
+
+- Roman P4 Option C plain-English explanation owed to operator
+- Awaiting operator confirmation on `plans/PARALLEL_LANE_PLAN_2026-06-13.md` before dispatching the 5-lane fixer/builder wave
+- #246 close + dependabot.yml ignore-rule patch (operator action per plan)
