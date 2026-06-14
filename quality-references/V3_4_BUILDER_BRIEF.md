@@ -206,6 +206,30 @@ Listed in Backend + Mobile sections. `community.module.ts` rebase from post-v3-3
 - **L1-L6 lanes** — all should be merged by the time v3-4 dispatches
 - **Existing community RLS migrations** — only add NEW RLS for new tables
 
+### R78 — Pinned telemetry table MUST update in same slice PR
+
+If this slice adds ANY `community.*` PostHog telemetry event to
+`src/community/community-events.ts` → `COMMUNITY_TELEMETRY_EVENTS`, you MUST
+update the pinned event-name test in the SAME PR:
+
+```
+test/community/realtime/posthog-event-names.spec.ts
+```
+
+The pin uses `expect(COMMUNITY_TELEMETRY_EVENTS).toEqual({...})` plus a
+`toHaveLength(N)` check. Both must be updated when events are added.
+
+Baseline progression: 6 (v1-4) → 9 (after v3-2) → (v3-3 may bump). Confirm the
+current count by reading the file on `main` before edits.
+
+Run locally before opening PR:
+```
+npm test -- --testPathPattern=posthog-event-names
+```
+
+MUST be green. Skipping this step caused L7 v3-2 PR #396 build-and-test
+failure (see R78 in `rules/`).
+
 ## Workflow
 
 1. Verify dependencies on main:

@@ -111,6 +111,25 @@ git diff origin/main..HEAD -- '**/*.test.*' '**/__tests__/**' | grep '^+' | \
   grep -niE 'coming soon'
 ```
 
+### Gate 1b — Pinned tables (R78)
+
+If your slice adds or removes any entry in a pinned table-shape test
+(e.g. `test/community/realtime/posthog-event-names.spec.ts` for community
+telemetry events), update the pin in the SAME PR. Pins use
+`expect(CONST).toEqual({...})` + `toHaveLength(N)`. Both must be updated.
+
+Run locally first:
+```
+npm test -- --testPathPattern=<pin-name>
+```
+
+Known pins (non-exhaustive — grep `toHaveLength.*Object.keys` in `test/` for
+the full list):
+- `posthog-event-names.spec.ts` — `COMMUNITY_TELEMETRY_EVENTS`
+- (others as introduced)
+
+See `rules/R78_PINNED_TELEMETRY_TABLE_UPDATE.md`.
+
 ### Gate 2 — Build + lint + test gates (all must pass for the affected scope)
 
 ```bash

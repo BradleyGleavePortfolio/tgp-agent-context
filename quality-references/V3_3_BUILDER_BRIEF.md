@@ -149,6 +149,31 @@ Listed in Backend + Mobile sections. `community.module.ts` edit must REBASE from
 - **prisma/schema.prisma** existing models — only ADD `CommunityVoiceNote`
 - **`src/community/posts/**`, `src/community/dms/**`, `src/community/events/**`** — do not refactor, only consume
 
+### R78 — Pinned telemetry table MUST update in same slice PR
+
+If this slice adds ANY `community.*` PostHog telemetry event to
+`src/community/community-events.ts` → `COMMUNITY_TELEMETRY_EVENTS`, you MUST
+update the pinned event-name test in the SAME PR:
+
+```
+test/community/realtime/posthog-event-names.spec.ts
+```
+
+The pin uses `expect(COMMUNITY_TELEMETRY_EVENTS).toEqual({...})` plus a
+`toHaveLength(N)` check. Both must be updated when events are added.
+
+Current baseline (after v3-2): **9 events** (6 v1-4 + 3 v3-2 classroom).
+If v3-3 voice notes adds events (e.g. `voiceNotePublished`,
+`voicePublishFailed`), bump to 10/11/whatever the new total is.
+
+Run locally before opening PR:
+```
+npm test -- --testPathPattern=posthog-event-names
+```
+
+MUST be green. Skipping this step caused L7 v3-2 PR #396 build-and-test
+failure (see R78 in `rules/`).
+
 ### `community.module.ts` rebase protocol
 
 v3-3 starts AFTER v3-2 has merged to main. Builder:
