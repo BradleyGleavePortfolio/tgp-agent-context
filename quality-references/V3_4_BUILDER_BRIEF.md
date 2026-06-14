@@ -71,10 +71,10 @@ Two paired capabilities:
 - `src/community/wearable-prompts/wearable-prompts.dto.ts`
 - `src/community/wearable-prompts/wearable-prompts-flag.guard.ts`
 - `src/community/wearable-prompts/prompt-generator.service.ts`
-- `src/community/wearable-prompts/disabled-connector-fallback.service.ts`
+- `src/community/wearable-prompts/degraded-connector-fallback.service.ts` (was `disabled-connector-fallback.service.ts` in earlier draft — see `V3_4_PREFLIGHT_NOTES.md`; the actual lifecycle states are CONNECTED/EXPIRED/ERROR/DISCONNECTED, no `disabled`)
 - `src/community/wearable-prompts/__tests__/wearable-prompts.service.spec.ts`
 - `src/community/wearable-prompts/__tests__/prompt-generator.spec.ts`
-- `src/community/wearable-prompts/__tests__/disabled-connector-fallback.spec.ts`
+- `src/community/wearable-prompts/__tests__/degraded-connector-fallback.spec.ts`
 - `test/community/wearable-prompts/wearable-prompts.e2e.spec.ts`
 
 **Shared:**
@@ -169,7 +169,7 @@ RLS on all three. Search: row visible only if requester is member of `cohortId` 
 2. **Search soft-delete** — `softDeletedAt IS NULL` filter on every query
 3. **Wearable prompt consent** — prompt generated ONLY for clients with `wearable_insights_consent=true`
 4. **Sample source IDs recorded** — every `CommunityWearablePrompt` has ≥1 `CommunityWearablePromptSource` linking to real `WearableSample.id`
-5. **Disabled connector fallback** — if client's wearable connector is in `disabled` state, prompt generator MUST skip (no stale data), fallback service emits telemetry
+5. **Degraded connector fallback** — if client's wearable connector is in any non-CONNECTED state (`EXPIRED` / `ERROR` / `DISCONNECTED` per `WearableConnectionStatus` enum at `src/wearables/connections/types.ts`), prompt generator MUST skip (no stale data), fallback service emits telemetry. There is **no** `disabled` state in the actual enum — the brief's earlier wording was a defect caught by R76 pre-flight.
 6. **No PHI leak** — search results MUST NOT include wearable metric values; wearable prompts MUST NOT be returned to clients
 7. **Indexer idempotency** — re-indexing same target id is a no-op (use `@@unique([workspaceId, kind, targetId])`)
 
@@ -201,7 +201,7 @@ Listed in Backend + Mobile sections. `community.module.ts` rebase from post-v3-3
 ## DO NOT TOUCH
 
 - **v3-2 + v3-3 files** (must already be merged): classroom and voice modules
-- **`src/wearables/**`** — CONSUME only (read `WearableSample`, `WearableInsight` via existing services). Do NOT modify wearable internals.
+- **`src/wearables/**`** — CONSUME only via the exported services: `WearableSamplesService` (from `samples/samples.module.ts`) and `WearableInsightsService` (from `insights/insights.module.ts`). The cached-insights Prisma model is `WearableInsightCache` (NOT `WearableInsight` — brief defect caught by R76 pre-flight). Do NOT modify wearable internals.
 - **`src/community/posts/**`, `src/community/messages/**`, `src/community/events/**`** — CONSUME for search-indexer listener; do NOT modify
 - **L1-L6 lanes** — all should be merged by the time v3-4 dispatches
 - **Existing community RLS migrations** — only add NEW RLS for new tables
@@ -279,7 +279,7 @@ Critical categories for this lane:
 - **PHI leakage** — search MUST NOT return wearable values; wearable prompts MUST NOT reach client UI
 - **RLS gap on new tables** — every new table has policies + spec coverage
 - **N+1 on search** — search indexer cannot loop per-target fetches
-- **Stale data in prompts** — disabled connector fallback MUST short-circuit before generation
+- **Stale data in prompts** — degraded-connector fallback (non-CONNECTED state) MUST short-circuit before generation
 - **Prompt cooldown bypass** — 24h cooldown enforced via unique index, not application-level check alone
 - **Consent re-check** — consent state checked AT PROMPT GENERATION TIME, not cached from prior insight
 - **Sample id integrity** — every prompt source row references an existing `WearableSample.id` (FK or assert in test)
