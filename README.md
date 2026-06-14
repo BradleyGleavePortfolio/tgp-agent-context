@@ -51,24 +51,22 @@ tgp-agent-context/
 
 ## Status: STRANDED DOC RESCUE BACKLOG
 
-These docs were referenced in the most recent CPO handoffs but were lost when the prior operator's sandbox died. They need to be re-uploaded here (in priority order):
+Updated 2026-06-13 by operator (Bradley Gleave) — see `rules/LOST_FOREVER_2026-06-13.md`. The canonical rule files below were declared **lost forever** by the operator and are no longer on the rescue backlog. Their operational intent has been re-codified under `rules/` where possible (see the successors table in `LOST_FOREVER_2026-06-13.md`).
 
-### Highest priority — referenced by everything
-- [ ] `rules/RULES.md` — the canonical R1–R6X enumeration
+### Declared LOST FOREVER 2026-06-13 (do not attempt rescue)
+- ❌ `rules/RULES.md` — R1–R6X canonical enumeration (intent split across product-repo `AGENT_RULES.md` + new `rules/R5*–R7*` files)
+- ❌ `rules/R36_TO_R45_OPERATOR_RULES.md`
+- ❌ `rules/AUDIT_MANDATE.md` (superseded by R65 + R72)
+- ❌ `rules/HOUSE_RULES.md` (superseded by backend `AGENT_RULES.md` standing rules)
+- ❌ `rules/50_FAILURES.md` (superseded by `quality-references/50_FAILURES_OF_AI_GENERATED_CODE.md` + R65)
+
+### Still on the rescue backlog (operator may yet provide)
 - [ ] `handoffs/CPO_MASTER_HANDOFF.md` — Part 1 (R1, doctrine, 166 TODOs)
 - [x] `handoffs/CPO_MASTER_HANDOFF_PART_2.md` — rescued 2026-05-26
 - [x] `handoffs/CPO_BRIEFING.md` — rescued 2026-05-26
-- [ ] `rules/R36_TO_R45_OPERATOR_RULES.md` (or merged into `rules/RULES.md`)
-
-### High priority — active work depends on them
 - [ ] `strategy/SUPABASE_RLS_CRISIS.md` — Cycle B work queue
 - [ ] `strategy/CYCLE_B_RLS_PLAN.md`
 - [ ] `strategy/COMPETITIVE_INTEL.md`
-- [ ] `rules/AUDIT_MANDATE.md`
-- [ ] `rules/50_FAILURES.md`
-- [ ] `rules/HOUSE_RULES.md`
-
-### Medium priority — referenced but not blocking
 - [ ] `handoffs/operator-handoffs/NEXT_OPERATOR_MEGA_PROMPT.md`
 - [ ] `handoffs/operator-handoffs/OPERATOR_HANDOFF_2026-05-26.md`
 - [ ] `operator-meta/BACKLOG_DEDUP_2026-05-26.md`
