@@ -4,7 +4,9 @@
 **Created:** 2026-06-13
 **PR:** https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/246 (replaced closed #243)
 **Branch:** `dependabot/npm_and_yarn/dev-dependencies-1562e56c1d`
-**Decision:** **CLOSE — UPSTREAM BLOCKED**
+**Decision:** **IGNORE jest-preset specifically via Dependabot comment — keep other 2 bumps**
+
+**Revised 2026-06-13 22:18 PDT** — after inspecting the actual diff, #246 also bumps `jest-expo: ~56.0.4 → ~56.0.5` (safe patch) and `react-dom: 19.2.3 → 19.2.7` (safe patch). CLOSING the PR would throw those away. Better: tell Dependabot to ignore jest-preset only; the group PR rebuilds without it and lands the other 2 bumps cleanly.
 
 ## Why this bump cannot land today
 
@@ -29,17 +31,29 @@ CI fails with `ERESOLVE` at `npm install` because the project's repo also pins j
 
 ## Decision
 
-**CLOSE PR #246 with a comment explaining the upstream block, and add `@react-native/jest-preset` to the Dependabot ignore list until the jest-expo peer is relaxed.**
+**Comment `@dependabot ignore this dependency` on PR #246 targeting `@react-native/jest-preset` only.** Dependabot will rebuild the group PR without the blocked dependency, and the other 2 safe bumps land in the rebuilt PR.
+
+Also patch `.github/dependabot.yml` to make the ignore durable across future Dependabot cycles.
+
+## What #246 actually bumps (verified via `gh pr diff`)
+
+| Dep | From | To | Status |
+|---|---|---|---|
+| `@react-native/jest-preset` | ^0.85.3 | ^0.86.0 | **BLOCKED** (peer conflict) — must be excluded |
+| `jest-expo` | ~56.0.4 | ~56.0.5 | SAFE patch |
+| `react-dom` | 19.2.3 | 19.2.7 | SAFE patch |
 
 ## Action items
 
 1. Comment on #246:
 
-   > Closing — upstream blocked. `jest-expo@56` (and all 57.0.0 canaries to date) still declare `@react-native/jest-preset` peer as `^0.85.0`. Bumping to 0.86 fails `npm install` with ERESOLVE. Will reopen automatically when jest-expo releases a version with a relaxed peer constraint. Tracked in `plans/BUMP_PLAN_RN_JEST_PRESET_086.md`.
+   > `@dependabot ignore @react-native/jest-preset`
+   >
+   > Blocked upstream — `jest-expo@~56.0.5` (and 57.0.0-canary) still pins `peer @react-native/jest-preset: ^0.85.0`. Reopens automatically when jest-expo relaxes peer. Plan: `plans/BUMP_PLAN_RN_JEST_PRESET_086.md`. Other group bumps (jest-expo patch, react-dom patch) should land in the rebuilt PR.
 
-2. Close PR #246 via `gh pr close 246 --repo BradleyGleavePortfolio/growth-project-mobile --comment "<above>"`.
+2. After Dependabot rebuilds, the new PR should be a clean 2-dep bump — audit and merge per standing rule.
 
-3. Update `.github/dependabot.yml` in `growth-project-mobile` to add an ignore rule for `@react-native/jest-preset` until peer is unblocked:
+3. Patch `.github/dependabot.yml` in `growth-project-mobile` to add a durable ignore rule:
 
    ```yaml
    updates:
@@ -52,19 +66,17 @@ CI fails with `ERESOLVE` at `npm install` because the project's repo also pins j
            versions: [">=0.86.0"]
    ```
 
-4. After landing the dependabot.yml update, the OTHER three dev-deps in the group (`@expo/metro-runtime`, `babel-preset-expo`, `react-dom`) will need to be re-evaluated. Dependabot will auto-reopen a smaller group PR within 24h.
-
 ## Re-evaluation trigger
 
-Re-open this PR (or wait for Dependabot's next attempt) when EITHER:
+Remove the ignore rule from `dependabot.yml` when EITHER:
 
 - `jest-expo` publishes a version with `@react-native/jest-preset` peer relaxed to `^0.85 || ^0.86`, OR
 - Project upgrades Expo SDK to a version that ships compatible jest-expo (Expo SDK 57+ likely, watch SDK release notes).
 
 ## Lane safety
 
-- **NO lane impact.** Closing the PR removes a CI-broken branch from the inventory; it does not touch any source code.
-- **NO subagent needed.** This is a pure operator action.
+- **NO subagent needed.** Operator-driven comment + small dependabot.yml patch.
+- **NO source code touched.** Doesn't conflict with any of the 5 parallel lanes.
 
 ## Parallelization
 

@@ -56,12 +56,19 @@ All lanes run TODAY in parallel under R52 (plan-before-parallelize completed via
 
 ## Lane conflict resolution
 
-### L2 + L3 share `src/services/__tests__/queryClient.persister.test.ts`
+### L2 + L3 — VERIFIED ZERO OVERLAP (2026-06-13 22:30 PDT)
 
-This is the only shared file. Sequence:
-1. **L2 lands first** (smaller surface, ~6 sites, plan is more mechanical).
-2. **L3 (RNTL v14)** rebases onto post-L2 main and picks up the renamed mock (`removeMany` instead of `multiRemove`) automatically.
-3. L3 builder brief must include a R71 note: "If `queryClient.persister.test.ts` differs from your starting point by an `async-storage v3 mock rename`, KEEP THE NEW MOCK SHAPE and update your v14 test-harness changes on top of it."
+Initial concern about `src/services/__tests__/queryClient.persister.test.ts` was a false alarm. The actual cycle-40 codemod commit `9662f7f` does NOT touch any of L2's 5 owned files (`queryClient.ts`, `authActions.ts`, `mmkv.ts`, `queryClient.persister.test.ts`, `queryClient.signout.test.ts`). Confirmed via direct GitHub API diff inspection of all 116 files in `9662f7f`.
+
+The partial Commit-2 work that DID touch `queryClient.persister.test.ts` died with the cycle-40 sandbox (never pushed). New L3 builder starts from the dangling commit AND must respect L2 as MUST-NOT-TOUCH.
+
+### L3 — DANGLING COMMIT RECOVERED
+
+Cycle-40 commit `9662f7f` (codemod Commit 1) was a dangling commit — no branch ref pointed to it. **Recovered 2026-06-13 22:30 PDT** by creating `refs/heads/migrate/rntl-v14` pointing to `9662f7f`. The commit is now permanently safe. The lost-forever portion is the 22-file working tree the prior R3 builder had in flight when its sandbox died — that work is gone and the new L3 builder restarts Commit 2 from the codemod baseline.
+
+### L3 ↔ L5 — VERIFIED ZERO OVERLAP
+
+L5 (Roman #242 mobile) has 9 test files. None of them appear in the cycle-40 codemod's 116-file changeset. Many of L5's files (the FirstPaymentWow* tests) did not exist when the codemod was applied. Subsequent L3 Commit 2 work targets a known 5-suite list (CoachPackageContentsScreen, TimelineScreen, useAutosave, ClientMessagesScreen.integration, useMacroTargets) — none overlap L5.
 
 ### Operator-only lane (parallel to all 5)
 
@@ -71,8 +78,13 @@ The operator (or a future agent turn) executes the #246 close action directly �
 
 For each Lane 1-5:
 
-- [ ] Plan doc exists and is committed to `BradleyGleavePortfolio/tgp-agent-context`
+- [x] Plan doc exists and is committed to `BradleyGleavePortfolio/tgp-agent-context`
 - [ ] Branch is rebased onto latest main (or `@dependabot rebase` for Dependabot branches)
+  - L1 #307: needs `@dependabot rebase` (was based on pre-#301/#304 main)
+  - L2 #200: needs `@dependabot rebase` (was based on pre-merges main)
+  - L3 `migrate/rntl-v14`: branch just recreated at `9662f7f` (parent `7f4e35f4` is post-#244 main; needs rebase onto post-#301/#304 main but the codemod was test-only so conflicts unlikely)
+  - L4 NEW backend branch: created fresh from main
+  - L5 #242: needs Roman P4 plan refactor; branch already in flight
 - [ ] R31 fresh — Builder, Auditor, Fixer are SEPARATE model instances
 - [ ] R61 push-every-2-min explicitly in the brief
 - [ ] R65 50-failures sweep included in auditor brief
@@ -91,4 +103,19 @@ The operator approving this document = approval for all 5 lanes simultaneously, 
 
 - Each lane has its own branch — a bad lane kills only its own branch.
 - Each lane's PR runs CI independently — no shared CI failure cascade.
-- Lane 3 (RNTL v14) is the only lane with a rebase dependency on another lane (L2). If L2 fails, L3 still proceeds and resolves the persister test conflict at its own audit cycle.
+- **Zero rebase dependencies between lanes** — verified via direct GitHub diff inspection of all file changesets on 2026-06-13 22:30 PDT.
+
+## Verified overlap matrix (2026-06-13 22:30 PDT)
+
+| Pair | Files in common | Verdict |
+|---|---|---|
+| L1 ↔ L2 | 0 (different repos) | SAFE |
+| L1 ↔ L3 | 0 (different repos) | SAFE |
+| L1 ↔ L4 | 0 (`src/wearables`,`src/landing-pages` vs `src/notifications`,`src/payments`) | SAFE |
+| L1 ↔ L5 | 0 (different repos) | SAFE |
+| L2 ↔ L3 | 0 (codemod did NOT touch queryClient/authActions/mmkv — verified all 116 files) | SAFE |
+| L2 ↔ L4 | 0 (different repos) | SAFE |
+| L2 ↔ L5 | 0 (`src/services`,`src/storage` vs `src/screens/coach/ed`,`src/screens/client/progress`) | SAFE |
+| L3 ↔ L4 | 0 (different repos) | SAFE |
+| L3 ↔ L5 | 0 (codemod 116 files vs Roman #242 22 files — no intersection) | SAFE |
+| L4 ↔ L5 | DB + notification protocol (intentional contract) | SAFE — no code-file overlap |
