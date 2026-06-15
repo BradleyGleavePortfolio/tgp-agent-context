@@ -133,10 +133,18 @@ R81 is tied with R0 at top priority per operator directive 2026-06-14 8:40 PM PD
 - **Audit trail:** `audits/PR401_AUDIT_2026-06-14.md` (original) → `audits/PR403_REAUDIT_2026-06-14.md` (CHANGES_REQUESTED) → fixer commit `e8fef8c6` (raised openapi-spec timeout to 60_000, added throttle metadata regression test) → `audits/PR403_REAUDIT_FINAL_2026-06-14.md` (CLEAN_NO_FINDINGS)
 - **Operator decisions locked:** D1=A (break cycle via BillingPrimitivesModule), D2=A (coach-only RLS, no client_id), D3=A (tx + P2002-catch, no upsert)
 
+### ✅ PR #399 / PR #405 — CLEAN_NO_FINDINGS, MERGEABLE (DO NOT MERGE YET)
+
+- **Original PR:** [#399 community search + wearable prompts](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/399) — closed by superseding fix PR
+- **Fix PR:** [#405 fix(pr399): R81 cleanup](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/405) — OPEN, all 4 CI checks GREEN at head `b36799cf`, mergeStateStatus=CLEAN
+- **Status:** Mergeable under R81. Holding for dependency-ordered merge wave.
+- **Audit trail:** `audits/PR399_AUDIT_2026-06-14.md` (original, 6 findings) → fixer #405 (head `fa992a72`) → `audits/PR405_REAUDIT_2026-06-14.md` (CHANGES_REQUESTED, 4 new findings N1-N4) → follow-up fixer commits `51efba5c`+`9bf84b9b`+`b36799cf` (migration preflight, clock injection, Zod UUID schemas, PR body `Refs #404`) → `audits/PR405_REAUDIT_FINAL_2026-06-15.md` (CLEAN_NO_FINDINGS)
+- **Operator decisions locked:** D8=A (cuid→UUID DROP+RECREATE since tables empty pre-launch), D9=A (24h cooldown two-gate with service clock injection)
+- **R82 tracking:** Issue [#404](https://github.com/BradleyGleavePortfolio/growth-project-backend/issues/404) remains OPEN (non-empty-env backfill path, referenced by `Refs #404` not `Fixes`)
+
 ### Fixer queue — next up
-1. **PR #399** community search + wearable prompts (cuid→UUID per D8, 24h cooldown two-gate per D9, 4× P2, 1× P3) — IN FLIGHT
-2. PR #253 MWB undo (canonical delete-set refactor per D7B — biggest scope expansion)
-3. PR #326 push-to-existing (dispatcher race)
+1. PR #253 MWB undo (canonical delete-set refactor per D7B — biggest scope expansion) — NEXT
+2. PR #326 push-to-existing (dispatcher race)
 4. PR #251 community v3-4 (`CommunityVoiceNoteDetail` build per D4B, server-side filter per D5B with γ pattern, tracking issue #255 filed)
 5. PR #398 ED.6 backend
 6. PR #400 ED.2 backend (composite index, Zod envelope, throttle, cache prune)
