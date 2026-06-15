@@ -120,3 +120,28 @@ Every PR — old or new — must follow:
 6. Only then `gh pr merge --squash --delete-branch`
 
 R81 is tied with R0 at top priority per operator directive 2026-06-14 8:40 PM PDT: "RULE 81 stays above all else with R0 / MAKE IT ABOVE ALL WITH R0".
+
+---
+
+## R81 CYCLE STATUS UPDATE — 2026-06-15 07:48 UTC
+
+### ✅ PR #401 / PR #403 — CLEAN_NO_FINDINGS, MERGEABLE (DO NOT MERGE YET)
+
+- **Original PR:** [#401 F2: Named Regimes + Partial Refund Decision](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/401) — OPEN, CI-red at audit time
+- **Fix PR:** [#403 fix(pr401): R81 cleanup](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/403) — OPEN, all 4 CI checks GREEN at head `e8fef8c6`
+- **Status:** Mergeable under R81. Holding for dependency-ordered merge wave.
+- **Audit trail:** `audits/PR401_AUDIT_2026-06-14.md` (original) → `audits/PR403_REAUDIT_2026-06-14.md` (CHANGES_REQUESTED) → fixer commit `e8fef8c6` (raised openapi-spec timeout to 60_000, added throttle metadata regression test) → `audits/PR403_REAUDIT_FINAL_2026-06-14.md` (CLEAN_NO_FINDINGS)
+- **Operator decisions locked:** D1=A (break cycle via BillingPrimitivesModule), D2=A (coach-only RLS, no client_id), D3=A (tx + P2002-catch, no upsert)
+
+### Fixer queue — next up
+1. **PR #399** community search + wearable prompts (cuid→UUID per D8, 24h cooldown two-gate per D9, 4× P2, 1× P3) — IN FLIGHT
+2. PR #253 MWB undo (canonical delete-set refactor per D7B — biggest scope expansion)
+3. PR #326 push-to-existing (dispatcher race)
+4. PR #251 community v3-4 (`CommunityVoiceNoteDetail` build per D4B, server-side filter per D5B with γ pattern, tracking issue #255 filed)
+5. PR #398 ED.6 backend
+6. PR #400 ED.2 backend (composite index, Zod envelope, throttle, cache prune)
+7. PR #250 ED.6 mobile (companion polish)
+8. PR #252 onboarding polish (wire StripeConnectCard + PermanenceMarker per D6B)
+9. PR #254 three-arc widget (P3-only)
+10. PR #249 community voice mobile (P2/P3 only)
+
