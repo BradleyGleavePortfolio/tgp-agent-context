@@ -27,14 +27,17 @@ Client opens profile → sees available packages → THREE paths:
 2. **Message in-app** — start a conversation with the coach.
 3. **Book an appointment in-app** — ONLY if the coach has enabled calendar booking (incl. pre-purchase booking if the coach allows it).
 
-### 2.3 "TGP Certified" badge tiers (decisions A + B)
-Three named, **revocable** stamps. **Admin-gifted for now**; criteria stored so auto-gating can switch on later WITHOUT rebuild.
-| Badge | Earning criteria (for future auto-gating) | Today |
+### 2.3 "TGP Certified" badge tiers (decisions A + B) — AUTOMATIC (operator changed 2026-06-16)
+Three named, **revocable** stamps. **Certified & Elite are AUTO-AWARDED** the instant a coach meets criteria (no admin step). **Sponsored stays admin/commercial.**
+| Badge | Criteria | Award mechanism |
 |---|---|---|
-| **Certified** | 300+ unique clients helped AND ≥4.0★ rating | Admin grants manually |
-| **Elite** | 1,500+ unique clients helped AND ≥4.3★ rating AND $150k+ processed on TGP | Admin grants manually |
+| **Certified** | 300+ unique clients helped AND ≥4.0★ rating | **AUTO-flips on** when criteria met |
+| **Elite** | 1,500+ unique clients helped AND ≥4.3★ rating AND $150k+ processed on TGP | **AUTO-flips on** when criteria met |
 | **Sponsored** | Pure admin discretion — **paid promotion / search-bump tier** (commercial, NOT merit) | Admin grants; powers paid rail (2.8) |
 Badges render as quiet approval seals (luxury doctrine: competence signal, not vanity/badge-theater).
+
+**Auto-award celebration moment (NEW):** when a coach crosses a badge threshold, the system AUTOMATICALLY: (1) flips the badge on (real-time on profile, both mobile + web), (2) fires a **rewarding notification**, and (3) shows an in-app **and** on-web **popup with Roman**: e.g. *"Great job — you've been deemed a [BADGE] coach now. Everyone will notice in the marketplace!"* This is an Apple-Watch-rings-style earned celebration (design-doc §3.6/competence feedback, NOT badge theater — it lands because it's genuinely earned). Revocation (drop below floor) does NOT celebrate — it quietly removes the badge.
+**Engineering implications:** badge eligibility must be evaluated on the events that move the criteria (new unique client, new review affecting rating, payment processed crossing the $ threshold) — an event-driven evaluator + idempotent award (never double-celebrate). Criteria thresholds are config so they can be tuned without redeploy.
 
 ### 2.4 Reviews (decision D) — relationship-gated
 Only **verified clients** who actually trained with / purchased from the coach can review. Each review shows a "✓ Verified client" mark. Profile aggregates: rating, review count, tenure on TGP, unique clients served — plus the cert tier and full client reviews.
@@ -77,8 +80,9 @@ Free-text search ("build muscle at home") OR stacked filters (online + hypertrop
 4. **Coaches at your gym (auto-suggested, when applicable)** — for clients with a gym membership, a pinned group of coaches under their gym's control, shown ABOVE the other rails. Couples to the A2 `app.current_gym_ids()` RLS spine.
 Faceted filters: specialization, modality, goal, and coach attributes (e.g. woman-led).
 
-### 2.9 Web / SEO surface (idea #5)
-Marketplace pages + coach profiles render as SEO-indexable web UI. City/location landing pages ("Best Personal Trainers in Seattle" → pre-filtered Seattle marketplace). schema.org structured data (Person / LocalBusiness). Consumes the same marketplace API as mobile. Likely its own web lane (SSR / Next.js) on top of the shared API.
+### 2.9 Web parity + SEO surface (idea #5 + operator addition 2026-06-16)
+**EVERY mobile screen gets a corresponding web page, at full parity** — not just SEO landing pages. Coach profile, marketplace browse/scroll, search/filters, package purchase, booking, messaging entry, review submission, the badge-celebration popup, etc. Web is a first-class surface (Airbnb model): a user can discover, evaluate, and transact entirely on web OR entirely in-app, no mobile-only dead-ends. Consumes the same marketplace API as mobile (SSR / Next.js web lane).
+SEO is a subset: city/location landing pages ("Best Personal Trainers in Seattle" → pre-filtered Seattle marketplace), schema.org structured data (Person / LocalBusiness). **Each mobile PR in the build chain pairs with a web PR for the same surface.**
 
 ## 3. Open architecture questions (for the next planner stage, NOT product decisions)
 - One unified marketplace product with the talent pipeline as a secondary surface? → **RESOLVED: NO. Two separate marketplaces sharing infrastructure.**

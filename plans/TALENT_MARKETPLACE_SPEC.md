@@ -72,6 +72,9 @@ NOT out of TGP's hands. The sub-coach relationship runs on the **already-built**
 ### 3.10 Calendar / interview (decision n)
 - **Reuse the existing calendar engine** ("anyone can book onto Tom's calendar"). No separate or rebuilt booking system. The "invite to a call" step uses this engine.
 
+### 3.11 Web parity — EVERY page has a web equivalent (operator addition 2026-06-16)
+**Every mobile screen in the talent marketplace gets a corresponding web page, at full parity** — job listing, listings browse/scroll, the apply flow + applicant profile, application-status tracking, the hirer's applicant-tracking pipeline, candidate detail, etc. Web is first-class (Airbnb model): a job-hunter can discover a listing on Google, build their applicant profile, and apply entirely on web OR in-app; a hirer can post and screen on web OR in-app. SEO job listings (§3.2, schema.org JobPosting) are a subset of this broader web-parity requirement. **Each mobile PR pairs with a web PR for the same surface.** Consumes the same talent-marketplace API (SSR / Next.js web lane).
+
 ## 4. Shared foundation (both marketplaces)
 Coach/Connect identity (REUSE existing `/coach/connect/*`), RLS spine (A1–A4), revocable badge engine, calendar engine, reviews-as-signal, faceted search. Profiles are SEPARATE per marketplace but a coach is one underlying identity.
 
