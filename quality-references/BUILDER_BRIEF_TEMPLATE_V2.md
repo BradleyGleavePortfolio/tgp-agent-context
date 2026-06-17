@@ -79,15 +79,31 @@ npx tsc --noEmit 2>&1 | tee /tmp/{{PR_ID}}_baseline_tsc.txt
 npm test 2>&1 | tee /tmp/{{PR_ID}}_baseline_tests.txt
 ```
 
-Build in logical commits. After each commit that compiles clean, push:
+### 🛟 PUSH-EARLY-WIP — MANDATORY (R52 / sandbox-failure survival)
 
-```bash
-git -c user.name='Bradley Gleave' -c user.email='bradley@bradleytgpcoaching.com' \
-  commit -m "{{type}}({{scope}}): {{message}}"
-git push
-```
+**Codified 2026-06-17 by operator (Bradley Gleave) after repeated sandbox resets wiped end-of-task-only work.** The sandbox is EPHEMERAL and has failed mid-task multiple times. The pushed branch on GitHub is the ONLY durable copy of your work. An agent that does all its work and pushes once at the end LOSES EVERYTHING if the sandbox dies first. TM-10 #431 survived a fatal sandbox crash *because it had already pushed* — that is the standard.
 
-**Never push a commit that breaks `tsc --noEmit` for the affected scope.** R52: don't lose work; R-quality: don't broadcast broken work either.
+**Rules (non-negotiable):**
+
+1. **Push a WIP commit as SOON as you have anything that compiles** — a skeleton service, a DTO file, even a single passing test. Do NOT wait for the feature to be "done."
+2. **Push again after every logical commit thereafter.** Target: never hold more than ~20-30 min of un-pushed work. Treat each push as a savepoint against a blackout.
+3. **Open the PR EARLY** (as soon as the branch has its first pushed commit) so the work is visible + recoverable even if you die before "done." Mark it `[WIP]` in the title if not finished; the operator/auditor knows WIP ≠ ready-to-merge.
+4. **Never push a commit that breaks `tsc --noEmit` for the affected scope.** Compile-clean WIP only. R52: don't lose work; R-quality: don't broadcast broken work either. If you can't get a clean compile yet, commit the smallest compiling subset and keep the rest staged.
+5. **First push command:**
+   ```bash
+   git -c user.name='Bradley Gleave' -c user.email='bradley@bradleytgpcoaching.com' \
+     commit -m "{{type}}({{scope}}): WIP scaffold — {{message}}"
+   git push -u origin {{BRANCH_NAME}}
+   # then immediately: gh pr create --draft (or [WIP] title) so it's recoverable
+   ```
+6. **Subsequent pushes:**
+   ```bash
+   git -c user.name='Bradley Gleave' -c user.email='bradley@bradleytgpcoaching.com' \
+     commit -m "{{type}}({{scope}}): {{message}}"
+   git push
+   ```
+
+**Recovery contract:** if a sandbox failure kills you mid-task, the operator re-dispatches from your LAST PUSHED commit on GitHub — not from zero. The more often you pushed, the less is re-done. Push-early is how a blackout costs seconds instead of the whole task.
 
 ---
 
