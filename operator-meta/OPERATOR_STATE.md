@@ -18,7 +18,7 @@
 
 ## Last sweep
 
-- **When:** 2026-06-17 ~20:22 UTC (13:22 PDT)
+- **When:** 2026-06-17 ~20:33 UTC (13:33 PDT)
 - **Sandbox health:** DEGRADED — 3+ resets this session; operator shell hit instant-timeouts ~19:45 UTC. Re-dispatching CONSERVATIVELY (small batches) until infra stabilizes.
 - **backend main:** `7a2ff424` (after TM-4 #430 merge)
 
@@ -40,7 +40,7 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 | TM-7 | admin moderation (≤210) | ⏳ later wave | — | — |
 | TM-8 | applicant tracking (≤?) | ⏳ later wave — PII gate | — | — |
 | TM-9 | job-hunter tooling | ⏳ later wave | — | — |
-| TM-10 | Connect reuse adapter, append-only (≤210) | 🟢 BUILT — survived sandbox crash via push-early; awaiting dual audit | #431 | `336cc672` MERGEABLE/CLEAN |
+| TM-10 | Connect reuse adapter, append-only (202 LOC) | 🟡 dual audit done (A=1×P2+2×P3, B=1×LOW; NO P0/P1; 10/10 tests pass); FIXER dispatched (log redaction + error-code union + honest correlation key) → re-audit → merge | #431 | `336cc672` |
 | TM-11..15 | calendar / auto-flip / revenue / webhook / RLS live | ⏳ later (TM-12/13 PII gates) | — | — |
 
 ## LANE A (mobile-paired backend custom-exercise stack)
