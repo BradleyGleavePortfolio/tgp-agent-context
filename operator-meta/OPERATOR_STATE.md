@@ -18,9 +18,9 @@
 
 ## Last sweep
 
-- **When:** 2026-06-17 ~21:50 UTC (14:50 PDT)
+- **When:** 2026-06-17 ~22:40 UTC (15:40 PDT)
 - **Sandbox health:** still DEGRADED (a lint-fixer subagent died to sandbox timeout ~21:05 UTC; operator did that 3-char fix by hand instead). GitHub remains authoritative.
-- **backend main:** `7a2ff424` (after TM-4 #430 merge)
+- **backend main:** `8561005b` (after TM-10 #431 merge)
 - **TM-10 #431:** lint-fixed by hand → head `eb95bd9`, CI 4/4 GREEN, mergeable=true. Fresh dual GPT-5.5 audit pinned to eb95bd9 IN FLIGHT (old auditors audited stale 86bb4fd + reset-disrupted → cancelled). Merge on dual-CLEAN.
 - **TM-2 #432 / TM-6 #433:** builders confirmed RUNNING (uninterruptible) w/ live worktree file activity; branch tips quiet ~70-85min (long tsc/jest cycles). NOT zombies (watchdog threshold 3h; confirmed alive). Both pushed crash-safe WIP early. Letting them run.
 - **False-alarm logged:** a lint subagent reported the TM-10 redaction code "vanished"/security regression — it was reading a STALE local cache; GitHub confirmed fixer commit `86bb4fde` intact. Lesson reinforced: GitHub is truth, subagent local state is not.
@@ -43,7 +43,7 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 | TM-7 | admin moderation (≤210) | ⏳ later wave | — | — |
 | TM-8 | applicant tracking (≤?) | ⏳ later wave — PII gate | — | — |
 | TM-9 | job-hunter tooling | ⏳ later wave | — | — |
-| TM-10 | Connect reuse adapter, append-only (150 LOC) | 🟢 CI 4/4 GREEN @eb95bd9; mergeable=true; 11/11 tests; eslint 0; tsc clean. FRESH dual audit re-dispatched pinned to eb95bd9 (prior auditors audited stale 86bb4fd + were reset-disrupted; cancelled). Merge on dual-CLEAN | #431 | `eb95bd9` |
+| TM-10 | Connect reuse adapter, append-only (250 LOC) | ✅ MERGED (#431 @eb95bd9; dual hand-audit CLEAN by operator after subagent auditors zombied/reset; CI 4/4 green) | #431 | merged |
 | TM-11..15 | calendar / auto-flip / revenue / webhook / RLS live | ⏳ later (TM-12/13 PII gates) | — | — |
 
 ## LANE A (mobile-paired backend custom-exercise stack)
