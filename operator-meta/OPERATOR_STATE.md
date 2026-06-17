@@ -18,9 +18,9 @@
 
 ## Last sweep
 
-- **When:** 2026-06-17 ~20:08 UTC (13:08 PDT)
+- **When:** 2026-06-17 ~20:22 UTC (13:22 PDT)
 - **Sandbox health:** DEGRADED — 3+ resets this session; operator shell hit instant-timeouts ~19:45 UTC. Re-dispatching CONSERVATIVELY (small batches) until infra stabilizes.
-- **backend main:** `544291a2` (after TM-1 #425 merge)
+- **backend main:** `7a2ff424` (after TM-4 #430 merge)
 
 ---
 
@@ -34,7 +34,7 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 | TM-1 | schema + RLS foundation (serial gate) | ✅ MERGED | #425 → main `544291a2` | merged |
 | TM-2 | listing CRUD + publish (≤360) | 🔵 BUILDING (batch 2, push-early) | `feat/tm-2-listing-crud` | none yet |
 | TM-3 | public browse + SEO API (≤300) | ⏳ Wave 3 (after TM-2) | — | — |
-| TM-4 | idempotency ledger + TTL sweep (≤190) | 🟡 FIXER PUSHED `814c88cd` (fencing+in_flight F1/F2/F3); needs MANDATORY re-audit → merge on dual-CLEAN | #430 | `814c88cd` |
+| TM-4 | idempotency ledger + TTL sweep + fencing token (278 LOC) | ✅ MERGED (#430 → main `7a2ff424`); dual GPT-5.5 re-audit CLEAN on `5b196ee`, CI green | #430 | merged |
 | TM-5 | apply + pre-coach account (≤390) | ⏳ Wave 3 (after TM-4+TM-6) — PII gate, operator sign-off | — | — |
 | TM-6 | anti-bot gate, in-house default (≤340) | 🔵 BUILDING (batch 2, push-early) | `feat/tm-6-anti-bot` | none yet |
 | TM-7 | admin moderation (≤210) | ⏳ later wave | — | — |
