@@ -18,7 +18,7 @@
 
 ## Last sweep
 
-- **When:** 2026-06-17 ~19:55 UTC (12:55 PDT)
+- **When:** 2026-06-17 ~20:08 UTC (13:08 PDT)
 - **Sandbox health:** DEGRADED — 3+ resets this session; operator shell hit instant-timeouts ~19:45 UTC. Re-dispatching CONSERVATIVELY (small batches) until infra stabilizes.
 - **backend main:** `544291a2` (after TM-1 #425 merge)
 
@@ -32,11 +32,11 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 |---|---|---|---|---|
 | TM-0 | ADR, closes #183 | ✅ MERGED | #423 | merged |
 | TM-1 | schema + RLS foundation (serial gate) | ✅ MERGED | #425 → main `544291a2` | merged |
-| TM-2 | listing CRUD + publish (≤360) | 🔴 LOST to sandbox reset — RE-DISPATCH | `feat/tm-2-listing-crud` | none pushed |
+| TM-2 | listing CRUD + publish (≤360) | 🔵 BUILDING (batch 2, push-early) | `feat/tm-2-listing-crud` | none yet |
 | TM-3 | public browse + SEO API (≤300) | ⏳ Wave 3 (after TM-2) | — | — |
-| TM-4 | idempotency ledger + TTL sweep (≤190) | 🟡 BUILT, dual-audited (A=2×P1, B=1×P2); FIXER LOST to reset — RE-DISPATCH fixer | #430 | `e6a2f6f9` |
+| TM-4 | idempotency ledger + TTL sweep (≤190) | 🟡 FIXER PUSHED `814c88cd` (fencing+in_flight F1/F2/F3); needs MANDATORY re-audit → merge on dual-CLEAN | #430 | `814c88cd` |
 | TM-5 | apply + pre-coach account (≤390) | ⏳ Wave 3 (after TM-4+TM-6) — PII gate, operator sign-off | — | — |
-| TM-6 | anti-bot gate, in-house default (≤340) | 🔴 LOST to sandbox reset — RE-DISPATCH | `feat/tm-6-anti-bot` | none pushed |
+| TM-6 | anti-bot gate, in-house default (≤340) | 🔵 BUILDING (batch 2, push-early) | `feat/tm-6-anti-bot` | none yet |
 | TM-7 | admin moderation (≤210) | ⏳ later wave | — | — |
 | TM-8 | applicant tracking (≤?) | ⏳ later wave — PII gate | — | — |
 | TM-9 | job-hunter tooling | ⏳ later wave | — | — |
@@ -47,7 +47,7 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 
 | Item | Status | PR | Head |
 |---|---|---|---|
-| #427 storage layer | 🔴 rebase + migration re-date LOST to reset — RE-DISPATCH | #427 | `95abb975` (migration `20261220000000_coach_custom_exercises` STILL COLLIDES with TM-1; must re-date → `...0001`) |
+| #427 storage layer | ✅ REBASED onto main + migration re-dated `...0001`; MERGEABLE/CLEAN | #427 | `bafa2b25` (migration now `20261220000001_coach_custom_exercises`, collision GONE) |
 | #428 API layer | open, stacked on #427 | #428 | `988517ad` |
 
 ## Mobile (growth-project-mobile, main `0e6a127b`)
