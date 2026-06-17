@@ -40,7 +40,7 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 | TM-7 | admin moderation (≤210) | ⏳ later wave | — | — |
 | TM-8 | applicant tracking (≤?) | ⏳ later wave — PII gate | — | — |
 | TM-9 | job-hunter tooling | ⏳ later wave | — | — |
-| TM-10 | Connect reuse adapter, append-only (150 LOC) | 🟡 fixer LANDED (all 4 findings fixed: P2-1 redact()/logServerError, P3-1 correlation_key rename, P3-2 race doc, LOW-1 error-code union); 11/11 tests; tsc clean. DUAL re-audit IN FLIGHT @ head — merge on dual-CLEAN | #431 | `86bb4fd` |
+| TM-10 | Connect reuse adapter, append-only (150 LOC) | 🟡 fixer + lint-fix LANDED (4 findings fixed + useless-escape lint cleared); 11/11 tests; eslint 0; tsc clean; mergeable=true. CI re-running @eb95bd9. DUAL re-audit verdict pending (audited 86bb4fd; head eb95bd9 = escape-only diff, logic identical) | #431 | `eb95bd9` |
 | TM-11..15 | calendar / auto-flip / revenue / webhook / RLS live | ⏳ later (TM-12/13 PII gates) | — | — |
 
 ## LANE A (mobile-paired backend custom-exercise stack)
