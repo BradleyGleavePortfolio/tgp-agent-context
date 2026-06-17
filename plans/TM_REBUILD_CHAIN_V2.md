@@ -1,5 +1,43 @@
 # TM Rebuild Chain V2 — Re-Planned Against the Two-Sided Job-Board Spec
 
+---
+
+## ⚡ LIVE STATUS — last updated 2026-06-17 11:30 PDT (Agent 46, operator)
+
+> **Read this first.** Live execution state layered on top of the plan below. The plan body is unchanged; this header is the durable handoff truth so the next operator is not flying blind. (Source of truth = GitHub, not any sandbox workspace — sandbox was reset twice on 2026-06-17 and all scratch files were lost; only GitHub + this repo persist.)
+
+**Repos:** backend `BradleyGleavePortfolio/growth-project-backend` · mobile `BradleyGleavePortfolio/growth-project-mobile`
+**Backend `main` head:** `544291a2` (after TM-1 merge, 2026-06-17 08:35 UTC).
+
+### TM ladder status
+| TM | What | Status | PR |
+|----|------|--------|----|
+| TM-0 | ADR / decisions, closes #183 | ✅ MERGED | #423 |
+| TM-1 | Schema + RLS foundation (serial slab) | ✅ MERGED | #425 |
+| TM-2 | Listing CRUD + publish | 🔵 BUILDING (Wave 2) | branch `feat/tm-2-listing-crud` |
+| TM-4 | Idempotency ledger + TTL sweep (fixes P1-8) | 🔵 BUILDING (Wave 2) | branch `feat/tm-4-idempotency-ledger` |
+| TM-6 | Anti-bot / abuse gate (in-house default, pluggable) | 🔵 BUILDING (Wave 2) | branch `feat/tm-6-anti-bot` |
+| TM-10 | Connect reuse adapter (append-only) | 🔵 BUILDING (Wave 2) | branch `feat/tm-10-connect-adapter` |
+| TM-3,5,7,8,9,11,12,13,14,15 | Waves 3–6 (see §2) | ⚪ NOT STARTED | — |
+
+**Each TM PR is hard ≤400 PRODUCTION LOC** (tests + migrations excluded). All TM PRs are post-400-rule = no grandfather. Targets: TM-2 ≤360, TM-4 ≤190, TM-6 ≤340, TM-10 ≤210. Over-cap builds get split (precedent: original Lane A backend 628 LOC #426 split into #427+#428).
+
+### Cross-stream (Lane A — custom workout authoring, #262 vision) — runs alongside the TM rebuild
+- Backend #427 (`feat/coach-custom-exercise-data`) + #428 (`feat/coach-custom-exercise-api`): audited clean modulo a migration collision with TM-1 (both were `20261220000000`). **Resolution in flight:** rebase #427 on new main + re-date its migration `20261220000000_coach_custom_exercises → 20261220000001_coach_custom_exercises` (R76 §6). After green → merge #427 → #428.
+- Mobile #264 → #265 (custom-exercise data layer + composer): audited 2×P3 only (tracked as mobile issues #271, #272). BLOCKED behind #262 (`fix/pr253-r81-rebuild`, the undo rebuild) which is CONFLICTING vs main and must rebase + merge first.
+- Mobile dependabot: #247 merged, #246 closed. New open dependabot PRs #266–#270 pending triage.
+
+### Open operator gates (do NOT silently decide — see §4)
+- **#1 Talent-side background check: in-house vs Checkr/Stripe Identity** — gates TM-12b. (Consumer-side ruling was in-house; talent side has in-person trainers = higher bar.)
+- **#2 Anti-bot provider** — TM-6 builds in-house-default + pluggable adapter; a production default still needs operator pick.
+- **PII/RLS/auth operator-approval gate** applies before merging TM-1 (done, operator-gated), TM-5, TM-8, TM-12, TM-13.
+- Tracked deferral issues: backend #429 (migration-guard hardening, P3), backend #424 (R82 TM umbrella), mobile #271/#272 (Lane A audit P3s).
+
+### Doctrine (binding)
+Builder/Fixer/Planner = Opus 4.8; Auditors = DUAL GPT-5.5 (A=correctness/security/RLS, B=tests/contracts). Re-audit MANDATORY after any fixer (audited SHA must == merged SHA). Auto-merge pre-authorized only on true dual-CLEAN (zero P0–P3). R74 commits: `-c user.name='Bradley Gleave' -c user.email='bradley@bradleytgpcoaching.com'`, NO co-author trailer. Banned in src/ (incl __tests__) = P0: `@ts-ignore`, `as any`, `as unknown as`, `as never`, `.catch(()=>undefined)`, "Coming soon" (`@ts-expect-error` sanctioned). Fly Deploy CI failure = suppressed paused-staging infra, NOT a code gate. Every subagent runs in its OWN isolated worktree.
+
+---
+
 **Planner:** Opus 4.8 (PLAN-ONLY — no code, no PRs, no branch mutation; R68 ADR discipline)
 **Date:** 2026-06-16
 **Authoritative inputs:** `TALENT_MARKETPLACE_SPEC.md` (operator-LOCKED) supersedes the `TALENT_MARKETPLACE_PLAN_183.md` §2 TM-0…TM-10 chain. Old-branch IP confirmed by reading `BradleyGleavePortfolio/growth-project-backend` src at ref `714a69af`.
