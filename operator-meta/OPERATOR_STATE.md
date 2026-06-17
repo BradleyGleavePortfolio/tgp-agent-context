@@ -18,9 +18,12 @@
 
 ## Last sweep
 
-- **When:** 2026-06-17 ~20:33 UTC (13:33 PDT)
-- **Sandbox health:** DEGRADED — 3+ resets this session; operator shell hit instant-timeouts ~19:45 UTC. Re-dispatching CONSERVATIVELY (small batches) until infra stabilizes.
+- **When:** 2026-06-17 ~21:50 UTC (14:50 PDT)
+- **Sandbox health:** still DEGRADED (a lint-fixer subagent died to sandbox timeout ~21:05 UTC; operator did that 3-char fix by hand instead). GitHub remains authoritative.
 - **backend main:** `7a2ff424` (after TM-4 #430 merge)
+- **TM-10 #431:** lint-fixed by hand → head `eb95bd9`, CI 4/4 GREEN, mergeable=true. Fresh dual GPT-5.5 audit pinned to eb95bd9 IN FLIGHT (old auditors audited stale 86bb4fd + reset-disrupted → cancelled). Merge on dual-CLEAN.
+- **TM-2 #432 / TM-6 #433:** builders confirmed RUNNING (uninterruptible) w/ live worktree file activity; branch tips quiet ~70-85min (long tsc/jest cycles). NOT zombies (watchdog threshold 3h; confirmed alive). Both pushed crash-safe WIP early. Letting them run.
+- **False-alarm logged:** a lint subagent reported the TM-10 redaction code "vanished"/security regression — it was reading a STALE local cache; GitHub confirmed fixer commit `86bb4fde` intact. Lesson reinforced: GitHub is truth, subagent local state is not.
 
 ---
 
