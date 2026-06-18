@@ -51,13 +51,18 @@
       "pr": 436,
       "branch": "feat/tm-14-connect-account-updated-webhook",
       "head": "5bbe163d",
-      "stage": "MERGE-ELIGIBLE — dual-CLEAN_NO_FINDINGS + CI green + SHA stable 28+ min",
+      "stage": "MERGED",
+      "merge_commit": "96d7f464f50ad0af19004c1c5e125ec80b395032",
+      "merged_at": "2026-06-18T08:03:45Z",
+      "merge_method": "squash",
       "auto_merge_on_dual_clean": true,
-      "merge_action_pending": "auto-merge per R81 + cycle-28 plan",
-      "previous_merge_attempt": "DENIED by operator (first cycle-28 attempt before re-audit). Re-audit now CLEAN; operator denial cleared."
+      "merge_authorization": "operator EXPLICIT auto-merge permission (this session) + dual-CLEAN + CI green + SHA stable + R74-clean identity + merge-dependency check passed",
+      "branch_deleted": true
     }
   },
-  "backend_main_sha": "d04f0c7c21a3e6bcf19e00b762701fc6f71573b8",
+  "backend_main_sha": "96d7f464f50ad0af19004c1c5e125ec80b395032",
+  "backend_main_sha_prev": "d04f0c7c21a3e6bcf19e00b762701fc6f71573b8",
+  "next_pr_train_after_current": "per operator: continue to NEXT 3 planned PRs after TM-3/TM-5/TM-14 all merge. After all 6 PRs merge (current 3 + next 3), continue through EXPANSION PRs — talent marketplace documentation on GitHub + build plans. To discover next-3 identities, read operator-meta/OPERATOR_STATE.md wave-3 lane list.",
   "models": {
     "fixer": "claude_opus_4_8",
     "auditor": "gpt_5_5",
