@@ -1,68 +1,63 @@
 {
-  "cycle": 27,
-  "ts": "2026-06-17T20:42-07:00",
-  "wave": "TGP Wave 3 — TM finisher dispatch",
+  "cycle": 28,
+  "ts": "2026-06-17T21:40-07:00",
+  "wave": "TGP Wave 3 — TM finisher RE-DISPATCH (V2 briefs after sandbox-loss cascade)",
   "agent": "Agent 47",
-  "doctrine": "R64 (builder → dual GPT-5.5 audit → fixer → mandatory re-audit) + R0 HECTACORN/HYPERSCALER quality bars",
+  "doctrine": "R64 (builder → dual GPT-5.5 audit → fixer → mandatory re-audit) + R0 HECTACORN/HYPERSCALER quality bars + V2 RESILIENCE: 5-min first-push rule",
+  "previous_cycle_outcome": "cycle 27 lost — all 3 builders (TM-3, TM-5, TM-14) crashed with 'no workspace' (parent sandbox restart cascade). ZERO pushes from any builder. Total work lost ≈ 165 builder-minutes.",
+  "v2_resilience_clause": "Every V2 brief mandates: (1) FIRST push within 5 minutes of starting work, (2) subsequent pushes every ~5 min or per logical chunk, (3) final push after full suite green. Visible WIP beats black-box final commit. Sandbox loss is a known failure mode — push first, then proceed.",
   "lanes": {
     "TM-3": {
       "pr": 434,
       "branch": "feat/tm-3-public-browse",
       "snapshot_head": "54c84ea78427fe3d67f7703c339f50a7911c076f",
-      "stage": "builder-dispatch",
+      "stage": "builder-redispatch",
       "worktree": "/home/user/workspace/tgp/backend-tm-3-finish",
       "model": "claude_opus_4_8",
       "loc_cap": 300,
-      "p0_fix": "src/talent-marketplace/__tests__/job-posting-jsonld.spec.ts:75 — replace over-strict not.toContain('applicant') with PII-field-name assertions (applicantEmail/applicantName/hirerEmail/hirerName)",
+      "p0_fix": "src/talent-marketplace/__tests__/job-posting-jsonld.spec.ts:75 — replace over-strict not.toContain('applicant') with PII-field-name assertions (applicantEmail/applicantName/hirerEmail/hirerName/hirer_id/owner_id)",
       "auto_merge": true,
       "blockers": [],
-      "brief": "/home/user/workspace/briefs/TM-3_BUILDER_BRIEF.md"
+      "brief": "/home/user/workspace/briefs/TM-3_BUILDER_BRIEF_V2.md",
+      "previous_subagent_lost": "tm_3_finisher_mqiylidz"
     },
     "TM-5": {
       "pr": null,
       "branch": "feat/tm-5-apply-precoach",
       "snapshot_head": "af118f6679f3a7c5a86953a52daeb0fc44b9eb14",
-      "stage": "builder-dispatch",
+      "stage": "builder-redispatch",
       "worktree": "/home/user/workspace/tgp/backend-tm-5-finish",
       "model": "claude_opus_4_8",
       "loc_cap": 390,
       "auto_merge": false,
       "blockers": ["operator-pii-sign-off"],
-      "brief": "/home/user/workspace/briefs/TM-5_BUILDER_BRIEF.md"
+      "brief": "/home/user/workspace/briefs/TM-5_BUILDER_BRIEF_V2.md",
+      "previous_subagent_lost": "tm_5_finisher_mqiyls4c"
     },
     "TM-14": {
       "pr": null,
       "branch": "feat/tm-14-connect-account-updated-webhook",
       "snapshot_head": "d6d5672d67c19eb0ef4f1b85e888eae4b098ac1f",
-      "stage": "builder-dispatch",
+      "stage": "builder-redispatch",
       "worktree": "/home/user/workspace/tgp/backend-tm-14-finish",
       "model": "claude_opus_4_8",
       "loc_cap": 170,
       "auto_merge": true,
       "blockers": [],
-      "brief": "/home/user/workspace/briefs/TM-14_BUILDER_BRIEF.md"
+      "brief": "/home/user/workspace/briefs/TM-14_BUILDER_BRIEF_V2.md",
+      "previous_subagent_lost": "tm_14_finisher_mqiym3fx"
     }
   },
   "tm3_red_diagnosis": {
     "classification": "spec-bug-over-strict-assertion",
     "regression": false,
-    "safe_to_dispatch": true,
-    "file": "src/talent-marketplace/__tests__/job-posting-jsonld.spec.ts",
-    "line": 75,
-    "current_assertion": "expect(serialized).not.toContain('applicant')",
-    "cause": "buildJobPostingJsonLd correctly emits applicantLocationRequirements (standard schema.org JobPosting field, country name only, NOT PII). Substring match wrongly fails.",
-    "fix_owner": "TM-3 finisher (in scope per R71)",
-    "ci_run_failed": "https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/27730973668/job/82037762789",
-    "test_totals": "1 failed, 151 skipped, 5675 passed, 5832 total"
+    "safe_to_dispatch": true
   },
   "backend_main_sha": "d04f0c7c21a3e6bcf19e00b762701fc6f71573b8",
-  "merged_this_thread": [],
-  "deferred": [],
-  "open_non_audit": ["#427 (MERGEABLE, green)", "#428 (CONFLICTING, FAILED, needs rebase)", "#266 mobile", "#429 P3", "#424 R82 umbrella", "#422 R82 grandfather"],
   "operator_gates": [
     "TM-5 PII sign-off (required even on dual-CLEAN)",
-    "TM-12 background-check provider (in-house build, no third-party)",
-    "TM-6 anti-bot provider (in-house default; prod TBD)",
+    "TM-12 background-check provider (in-house build)",
+    "TM-6 anti-bot provider (in-house default)",
     "TM-8 / TM-12 / TM-13 PII/RLS approval before ship"
   ]
 }
