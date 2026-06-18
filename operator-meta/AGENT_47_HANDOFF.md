@@ -1,3 +1,38 @@
+# ⭐ START HERE — Ordered Read-List (get context-rich, fast)
+
+Read in this order. Tiers 1–4 are in the context repo `BradleyGleavePortfolio/tgp-agent-context`
+(one `git clone` gets all of it). Tier 5 lives at the root of the backend repo once you clone it.
+The context repo also holds a large HISTORICAL archive (`SESSION_LOG_*`, `COMMUNITY_*`, `_audit_*`/
+`_fixer_*` artifacts, `DEFERRAL_*`) — NOT needed to be Wave-3 work-ready. Skip it unless researching history.
+
+**Tier 1 — Read first (orientation, ~10 min)**
+1. `operator-meta/AGENT_47_HANDOFF.md` — THIS doc (current state, snapshotted SHAs, next actions).
+2. `operator-meta/OPERATOR_STATE.md` — live lane board / source of truth (read at start of every sweep).
+3. `operator-meta/R81_OPERATING_DOCTRINE.md` — core operating doctrine (R0+R81).
+4. `operator-meta/AUTONOMY_CONTRACT.md` — what the operator is authorized to do autonomously.
+
+**Tier 2 — Doctrine & rules (internalize before touching code)**
+5. `operator-meta/ZOMBIE_AGENT_PROTOCOL.md` — stall detection + snapshot-before-cancel.
+6. `quality-references/RUNNER_RESILIENCE_DOCTRINE.md` — canary-before-fanout + work-loss-prevention.
+7. `quality-references/BUILDER_BRIEF_TEMPLATE_V2.md` — builder brief template (incl. PUSH-EARLY-WIP).
+8. `quality-references/FIXER_BRIEF_TEMPLATE_50FAILURES_AWARE.md` — fixer brief template.
+9. `quality-references/50_FAILURES_OF_AI_GENERATED_CODE.md` — banned-pattern / quality bible auditors enforce.
+
+**Tier 3 — Current work plan (what to build next)**
+10. `plans/TM_REBUILD_CHAIN_V2.md` — canonical wave plan (Wave 3 = TM-3 ∥ TM-5 ∥ TM-14 ∥ TM-W2; critical path).
+11. `plans/TALENT_MARKETPLACE_SPEC.md` — full marketplace spec the TM lanes implement.
+12. `plans/CONSUMER_MARKETPLACE_SPEC.md` — consumer-side spec (context for TM-3 public browse).
+
+**Tier 4 — Mobile luxury doctrine (bind into EVERY mobile-facing brief + backend payload contract)**
+13. `quality-references/MOBILE_APP_DESIGN_INTELLIGENCE.md` — luxury doctrine (§5.1 7-step screen protocol).
+
+**Tier 5 — In-repo engineering rules (root of `growth-project-backend` after you clone it)**
+14. `AGENT_RULES.md` + `ENGINEERING_RULES.md` — repo-specific coding rules.
+15. `RLS_INVESTIGATION_LOG.md` — RLS context (critical for TM-5's PII/RLS gate).
+16. `BACKLOG.md` + `CHANGELOG.md` — what's done / what's queued.
+
+---
+
 # AGENT 47 HANDOFF — Emergency Snapshot @ 2026-06-17 18:34 PDT
 
 You are **Agent 47**, Bradley Gleave's operator for **TGP / The Growth Project**, running **R0+R81 doctrine**.
