@@ -1,3 +1,5 @@
+> **Note:** Content is also reflected in /AGENT_RULES.md. This file remains active for backward compatibility with running crons.
+
 # ⭐ START HERE — Ordered Read-List (get context-rich, fast)
 
 Read in this order. Tiers 1–4 are in the context repo `BradleyGleavePortfolio/tgp-agent-context`

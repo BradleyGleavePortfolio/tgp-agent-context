@@ -2,6 +2,8 @@
 
 **Single source of truth for all TGP agent canonical context.**
 
+> **⚠ ALL RULES LIVE IN `/AGENT_RULES.md` (the TGP Master Doctrine — R1–R99).** The `rules/` and `operator-meta/R*.md` files are deprecated redirect stubs. A small set of `operator-meta/` files (`ZOMBIE_AGENT_PROTOCOL.md`, `AUTONOMY_CONTRACT.md`, `R100_AUDIT_CHECKLIST_TEMPLATE.md`, `BRIEF_PREAMBLE_R100.md`, `AGENT_47_HANDOFF.md`, `OPERATOR_STATE.md`) remain in place for backward compatibility with running overnight crons. Read `AGENT_RULES.md` first — there is no other rules file. Changes to it require a signed operator commit and a DECISION_LOG entry.
+
 This repo is the home for everything that crosses repo boundaries: rules, handoffs, audits, briefings, strategy docs, and design bibles. If a doc is referenced in more than one product repo — or by multiple agents — it belongs here, not in a product repo.
 
 Created in response to **R15** (`growth-project-backend/AGENT_RULES.md` rule 15 / `growth-project-mobile` rule 34): GitHub is the only source of truth, and canonical agent context must never live in a sandbox.

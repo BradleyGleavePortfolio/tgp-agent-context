@@ -1,3 +1,5 @@
+> **Note:** Content is also reflected in /AGENT_RULES.md. This file remains active for backward compatibility with running crons.
+
 # R100 Audit Checklist Template
 
 Auditors paste this skeleton into every report and fill it in. Each rule gets one row.

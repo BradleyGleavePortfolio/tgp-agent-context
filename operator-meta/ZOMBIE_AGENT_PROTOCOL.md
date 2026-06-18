@@ -1,3 +1,5 @@
+> **Note:** Content is also reflected in /AGENT_RULES.md. This file remains active for backward compatibility with running crons.
+
 # Zombie Agent Protocol — R81 Operating Doctrine §X
 
 **Owner:** Bradley Gleave

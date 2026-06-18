@@ -1,3 +1,5 @@
+> **Note:** Content is also reflected in /AGENT_RULES.md. This file remains active for backward compatibility with running crons.
+
 # AUTONOMY CONTRACT — one-page extract
 
 **This is the §4 of `R81_OPERATING_DOCTRINE.md`, extracted for fast reference.**

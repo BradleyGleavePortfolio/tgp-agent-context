@@ -1,3 +1,5 @@
+> **Note:** Content is also reflected in /AGENT_RULES.md. This file remains active for backward compatibility with running crons.
+
 # OPERATOR STATE — durable, reset-proof
 
 **THIS FILE IS THE OPERATOR'S DURABLE STATE.** The sandbox/workspace is EPHEMERAL and has failed mid-session multiple times (2026-06-17: 3+ resets). The old heartbeat state file lived in `/home/user/workspace/cron_tracking/` and was WIPED on every reset. This file lives in the **context repo on GitHub** so it survives any sandbox failure. Every operator sweep MUST update this file and commit it (R74 authorship) so the next operator — or the same operator after a reset — can recover the full lane board from GitHub alone.
