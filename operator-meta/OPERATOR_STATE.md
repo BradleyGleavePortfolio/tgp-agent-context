@@ -247,3 +247,18 @@ All 4 → cancel subagent to clear state, proceed. (Memory key: `work.subagents.
 - `ba50785d` firing every 15 min (in-conversation), task="check — heartbeat fire..."
 - Tracking log: `/home/user/workspace/cron_tracking/ba50785d/heartbeat.log`
 - Has fired 9 times so far this cycle; will keep firing through the night.
+
+---
+
+## 2026-06-18 19:32 UTC — R86 LOC SOFT CAP codified
+
+Hard 400 cap replaced by soft cap + structured P1 exception review.
+
+- Soft cap stays at 400 prod LOC.
+- Over-cap auto-becomes a P1 finding from every auditor (template in `BRIEF_PREAMBLE_R86.md`).
+- Builders/fixers write `R86 EXCEPTION REQUESTED` in PR body with item-by-item no-waste defense, tag `r86-exception-requested`.
+- Operator approves with `r86-exception-approved` label when bloat assessment shows structurally necessary.
+- Operator (agent 47) runs LOC count BEFORE every audit dispatch on green-CI PRs and pre-pins the exception ask if relevant.
+- All future briefs MUST embed the BRIEF_PREAMBLE_R86 snippet.
+
+Rationale: 3 splits in 1 wave (TM-7, TM-9, TM-8) signals the hard cap is over-rigid. Hyperscaler intent is "no waste," not arbitrary line counts. Soft cap + structured review captures intent without forcing splits when work genuinely cannot be smaller. See `R86_LOC_SOFT_CAP.md`.
