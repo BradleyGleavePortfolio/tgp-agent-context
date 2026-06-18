@@ -3,7 +3,7 @@
 **THIS FILE IS THE OPERATOR'S DURABLE STATE.** The sandbox/workspace is EPHEMERAL and has failed mid-session multiple times (2026-06-17: 3+ resets). The old heartbeat state file lived in `/home/user/workspace/cron_tracking/` and was WIPED on every reset. This file lives in the **context repo on GitHub** so it survives any sandbox failure. Every operator sweep MUST update this file and commit it (R74 authorship) so the next operator — or the same operator after a reset — can recover the full lane board from GitHub alone.
 
 **Codified:** 2026-06-17 by operator (Bradley Gleave) after repeated sandbox resets.
-**Rule lineage:** R52 (never lose operator work), R64 (never lose anything), R75 (subagent push monitoring), R81 (auditor gate).
+**Rule lineage:** R52 (never lose operator work), R64 (never lose anything), R75 (subagent push monitoring), R81 (auditor gate), **R85 (durability mandate — every 2 min push to wip ref; see `operator-meta/R85_DURABILITY_MANDATE.md`)**.
 
 ---
 
@@ -18,7 +18,15 @@
 
 ## Last sweep
 
-- **When:** 2026-06-18 08:29 PDT (15:29 UTC) — **WAVE 3 FULLY MERGED; WAVE 4 DISPATCHED**
+- **When:** 2026-06-18 11:10 PDT (18:10 UTC) — **WAVE 4 IN SPLIT REFACTOR + TM-8 FIX**
+  - **TM-DOCS** #437 ✅ MERGED → main `e972b4fb`
+  - **TM-7** #448 (admin moderation, 476 LOC, blew 400 hard cap) → **SPLITTING** into TM-7a (admin listings) + TM-7b (admin applications); fixer in flight (`tm_7_split_fixer_7a_7b_mqjrq64k`) since 10:24 PDT
+  - **TM-9** #450 (job-hunter, 586 LOC, blew 400 hard cap + Lens A returned FINDINGS: P0×2 banned tokens in tests, P1 alerts-prefs crash, P2×3, P3×1) → **SPLITTING** into TM-9a (dashboard) + TM-9b (specialty alerts); fixer in flight (`tm_9_split_fixer_9a_9b_mqjt7o1c`) since 11:03 PDT
+  - **TM-8** #449 (applicant tracking, PII gate, 4 TS errors in spec file blocking CI) → fixer attempt #3 in flight (`tm_8_fixer_3_spec_ts_errors_mqjt8xd7`) since 11:04 PDT (attempts #1 zombied, #2 died at dispatch on paused-sandbox glitch)
+  - **Audit zombie casualties this session:** TM-7 Lens A, TM-7 Lens B (verbal findings only), TM-9 Lens B, TM-8 fixer #1 — all cancelled, ~3 hours of agent work lost with nothing salvageable
+  - **R85 codified** this sweep: every subagent must push WIP to a safety ref every 2 min; full doctrine at `operator-meta/R85_DURABILITY_MANDATE.md`; canonical brief preamble at `operator-meta/BRIEF_PREAMBLE_R85.md`
+
+- **Prior sweep:** 2026-06-18 08:29 PDT (15:29 UTC) — **WAVE 3 FULLY MERGED; WAVE 4 DISPATCHED**
 - **Wave 3 COMPLETE — all 3 backend PRs merged, plus TM-DOCS open for review:**
   - **TM-14** #436 ✅ MERGED (squash `96d7f464`) — Connect `account.updated` webhook
   - **TM-3** #434 ✅ MERGED (squash `bdd709e8`) — public browse + SEO API
@@ -58,9 +66,9 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 | TM-4 | idempotency ledger + TTL sweep + fencing token (278 LOC) | ✅ MERGED (#430 → main `7a2ff424`); dual GPT-5.5 re-audit CLEAN on `5b196ee`, CI green | #430 | merged |
 | TM-5 | apply + pre-coach account (≤390) | ✅ MERGED (#435 → main `918191ce`; dual GPT-5.5 CLEAN @8e221964; **operator PII sign-off received**) | #435 | merged |
 | TM-6 | anti-bot gate, in-house default (321 code LOC) | ✅ MERGED (#433 @506e2981; dual hand-audit CLEAN; CI 4/4 incl rls-floor-guard; sha256-hashed PII, fail-open, pluggable provider) | #433 | merged |
-| TM-7 | admin moderation (≤210) | 🔵 Wave 4 BUILDING | `feat/tm-7-admin-moderation` | none yet |
-| TM-8 | applicant tracking (~400) | 🔵 Wave 4 BUILDING — **PII operator-approval gate** | `feat/tm-8-applicant-tracking` | none yet |
-| TM-9 | job-hunter tooling (~340) | 🔵 Wave 4 BUILDING | `feat/tm-9-job-hunter-tooling` | none yet |
+| TM-7 | admin moderation (≤210) | 🟡 SPLITTING — 476 LOC blew 400 hard cap; fixer in flight to carve TM-7a (listings) + TM-7b (applications); Lens B verbal findings (P0×2 missing tests, P1 idem-key bypass, P3 NaN gap) baked into fix | #448 OPEN (will close), 7a/7b PRs pending | `6a376a3b` (about to close) |
+| TM-8 | applicant tracking (~400) | 🔴 BUILD-FAIL — 4 TS errors in spec file, fixer attempt #3 in flight (attempts 1+2 lost to zombies/paused-sandbox); **PII operator-approval gate** still binding | #449 | `9e122b56` (red) |
+| TM-9 | job-hunter tooling (~340) | 🟡 SPLITTING — 586 LOC blew 400 hard cap + Lens A FINDINGS (P0×2 banned tokens in tests, P1 alerts crash, P2×3, P3×1); fixer in flight to carve TM-9a (dashboard) + TM-9b (alerts) with all fixes baked in | #450 OPEN (will close), 9a/9b PRs pending | `6b60982d` (about to close) |
 | TM-10 | Connect reuse adapter, append-only (250 LOC) | ✅ MERGED (#431 @eb95bd9; dual hand-audit CLEAN by operator after subagent auditors zombied/reset; CI 4/4 green) | #431 | merged |
 | TM-11..15 | calendar / auto-flip / revenue / webhook / RLS live | ⏳ later (TM-12/13 PII gates) | — | — |
 
