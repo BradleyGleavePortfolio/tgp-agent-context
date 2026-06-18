@@ -9,7 +9,7 @@
 This document is the single canonical constitution for every TGP operator, builder,
 fixer, auditor, architect, and scheduler. It consolidates every prior R-rule, the
 R100 Hyperscaler Quality Mandate (55 rules), and 20 new hyperscaler-grade rules into
-one continuous, gap-free enumeration (R1 → R99). Navigate R1 to R99 in order; you will
+one continuous, gap-free enumeration (R1 → R107). Navigate R1 to R107 in order; you will
 never hit a missing number.
 
 **Reading convention.** Each rule carries: a one-line **headline**; a verbatim
@@ -942,6 +942,155 @@ Per operator declaration 2026-06-13 ("**Lost rules are truly forever lost**"), t
 | `operator-meta/AUTONOMY_CONTRACT.md` | R9 (kept in place) |
 | `operator-meta/BRIEF_PREAMBLE_R85/R86/R100.md` | Appendix A (consolidated) |
 | `operator-meta/R100_AUDIT_CHECKLIST_TEMPLATE.md` | Appendix B (kept in place) |
+
+
+## §11 — DEPLOY READINESS & ENFORCEMENT INFRA (R100–R107)
+
+Added 2026-06-18 PM. §7 + §9 codified WHAT hyperscaler quality means; §11 codifies the
+machine-enforced gates that make those rules unbypassable. Where §7/§9 say "every
+mutation has an idempotency key," §11 says "and the pre-commit hook + CI workflow
++ pre-deploy board all enforce it."
+
+R1 quality bar requires *both* layers: rules without enforcement are vibes; enforcement
+without rules is bureaucracy. Both, together, every PR.
+
+---
+
+### R100 — PROD READINESS BOARD: one test, every stub + every switch, no exceptions
+*(operator-invented 2026-06-18 PM; flagship of §11)*
+
+**Headline:** A single end-to-end test — `test:deploy-readiness` — scans the entire codebase, env, and Supabase config and prints a deploy-readiness board listing every stub value, every production switch and its state, and every OAuth/integration wiring. Red lines block deploy. No human tracks this manually.
+
+**Operator quote (verbatim, 2026-06-18 4:08 PM PDT):**
+> **"a test that flags and clearly states all STUB values and prod switches flipped OFF. Easy to spot when an API key or OAuth flow isn't flipped on and wired pre-launch, keeps us from having to keep track - just one test at end, wire it all up, done."**
+
+**Why.** Pre-launch checklists carried in human memory fail. A hyperscaler never asks an engineer "did you remember to flip live mode on Stripe?" — the deploy pipeline asks, and refuses to deploy if the answer is no. The cost of forgetting one switch (sandbox Stripe in prod, demo OAuth client, mock Mux token, hardcoded admin email) ranges from embarrassing to catastrophic. One test, run every PR, eliminates the entire failure mode.
+
+**How to comply.** Ship `test/deploy-readiness.spec.ts` (or equivalent) that scans for and prints:
+
+1. **STUB VALUES.** Grep the entire `src/` + `supabase/` + `.env.example` tree for: `STUB`, `MOCK`, `FAKE`, `PLACEHOLDER`, `TODO_BEFORE_PROD`, `_test_PLACEHOLDER`, `example.com`, `localhost:`, `127.0.0.1`, `pk_test_`, `sk_test_`, `whsec_test`. Any hit in production-bound code is a ❌. Each hit prints `file:line` and the matched token.
+2. **PROD SWITCHES.** Read a registered list of feature flags / env vars that must be `true` (or set) in production: `STRIPE_LIVE_MODE`, `SENTRY_ENABLED`, `FEATURE_PII_REDACTION`, `RATE_LIMIT_ENABLED`, `EMAIL_PROVIDER` (≠ sandbox), `SUPABASE_RLS_ENFORCED`, etc. The list lives in `test/prod-readiness.config.ts` and grows over time. Each row prints actual value + expected value + ✅/❌/⚠️.
+3. **OAUTH / INTEGRATION WIRING.** For each registered integration (Google, Apple, Stripe, Mux, SendGrid, Twilio, Dropbox Sign…), assert that every required secret is set, every redirect URL matches the prod host, and every webhook endpoint is registered with the provider. Print provider + status + the specific missing piece if red.
+4. **EXIT CODE.** Non-zero exit if any ❌ exists. Print summary `EXIT: <N> STUB + <N> PROD SWITCHES WRONG + <N> WIRING GAPS → DO NOT DEPLOY` or `EXIT: ALL CLEAR → SAFE TO DEPLOY`.
+5. **OUTPUT FORMAT.** Plain-text board, human-readable, copy-pasteable into a Slack message or PR comment. No JSON-only output.
+6. **CI INTEGRATION.** Runs on every PR (informational; warn-only) and as a *required* check on the `production` deploy workflow (hard-blocks deploy). The `pre-deploy` Fly hook also runs it.
+7. **REGISTRATION DISCIPLINE.** When any builder adds a new integration, secret, or feature flag, they MUST add it to `test/prod-readiness.config.ts` in the same PR. R10/R11 auditors enforce this — a new integration without a readiness entry is a P0.
+
+**Failure mode.** Without R100, the only thing standing between sandbox Stripe and a prod deploy is human memory. Memory fails. Real-world cost: customer charges that don't go through (sandbox `pk_test_`), demo OAuth clients leaking to prod (auth flow appears to work, then breaks for every real user), test webhook endpoints firing on prod traffic (silent data loss).
+
+**Evidence.** Operator instruction 2026-06-18 4:08 PM PDT. Implementation: Wave H4 (single PR, dedicated audit cycle).
+
+---
+
+### R101 — PR template mirrors the R100/R104 checklist
+
+**Headline:** `.github/PULL_REQUEST_TEMPLATE.md` is a checkbox surface that lists every R-rule the PR must satisfy — builder, auditor, and operator all read the same form.
+
+**Why.** Brief credits today re-explain the audit surface every PR. A template fixes the surface once: auditor and operator see identical checkboxes, brief credits drop, drift eliminated. Operator's words: "simplifies audit briefing and saves credits forever."
+
+**How to comply.** Template contains: linked plan/brief; LOC count vs R23 cap; lane-scope assertion (R18); R100 prod-readiness result; banned-cast token count (R75); test:src ratio (R74); RLS impact statement; PII statement (R98); migration safety statement (R82); feature-flag presence (R83); SLO/latency target (R86); idempotency key support (R90). Each is a checkbox the builder ticks; the auditor verifies. If a checkbox is N/A, it's checked with a one-line justification.
+
+**Failure mode.** Auditor and operator re-derive the same checklist from scratch every PR, burning credits and producing inconsistent verdicts.
+
+---
+
+### R102 — Branch protection enforces R14 in machine, not vibes
+
+**Headline:** `main` is protected: required status checks (CI, `r100-quality-gate`, `test:deploy-readiness`, CodeQL), required signed commits, required linear history, no force-push, no admin bypass.
+
+**Why.** R14 (Merge Gate) says no PR merges without the audit cycle. Today that's enforced by *the parent agent*. At 2 AM, with the operator asleep, a runaway agent could merge without the cycle. Branch protection makes the cycle the only path that physically works.
+
+**How to comply.** GitHub branch-protection rules on `main` and all release branches: (a) require PR before merge; (b) require these checks to pass: `ci`, `r100-quality-gate`, `test:deploy-readiness`, `codeql`; (c) require signed commits with the R3 identity; (d) require linear history (squash-merge only); (e) restrict who can push to maintainers; (f) NO admin bypass — operator overrides go through a documented `R102-override` issue + temporary unprotect + re-protect within the same session.
+
+**Failure mode.** Any agent or human can merge unaudited code; R14 becomes aspirational.
+
+---
+
+### R103 — CodeQL on every PR, no exceptions
+
+**Headline:** GitHub's CodeQL workflow runs on every PR and on a weekly schedule against `main`.
+
+**Why.** §7 codifies the 50 failure modes; CodeQL catches a meaningful slice of them (SQLi, prototype pollution, ReDoS, hardcoded secrets, unsafe regex, path traversal) *automatically* with zero ongoing maintenance. Free for private repos. There is no excuse to not run it.
+
+**How to comply.** `.github/workflows/codeql.yml` running `security-and-quality` queryset for `javascript-typescript`. Required status check via R102. Any finding is treated as a P0 (or documented exception via R104 exception process).
+
+**Failure mode.** Class-of-defect bugs ship to prod that a free, off-the-shelf scanner would have caught.
+
+---
+
+### R104 — Pre-commit hooks block the bare-minimum lazy patterns at the source
+
+**Headline:** A pre-commit hook (lefthook) runs the banned-cast-token grep, the prod-readiness scan, the 50-failures sweep, lint, and type-check **before** the commit is created.
+
+**Operator quote (verbatim, 2026-06-18 4:08 PM PDT):**
+> **"get rid of as any, any, any weak lazy shit - goal is BUILD IT RIGHT, not bare minimum"**
+
+**Why.** R75 (banned cast tokens) currently catches violations in CI — *after* the commit, *after* the push, *after* the auditor reads them. Pre-commit catches them in the builder's terminal, in the same second they typed `as any`. Cheaper, faster, less embarrassing.
+
+**How to comply.** `.lefthook.yml` (or husky equivalent) wires: (a) grep for R75 banned cast tokens on staged files — fail commit if any net additions; (b) `tsc --noEmit` on staged files; (c) `eslint --max-warnings 0` on staged files; (d) format check (Prettier); (e) `test:deploy-readiness` in `--quick` mode (stub-scan only). All hooks are local but the CI re-runs the same checks (defense in depth).
+
+**Failure mode.** The R75 violations Wave 4 is currently triaging (`as never` +119%, `as unknown as` +68%) keep showing up because they're caught too late to be embarrassing.
+
+---
+
+### R105 — PR size labeler enforces R23 LOC cap automatically
+
+**Headline:** Every PR is auto-labeled `size/XS|S|M|L|XL` based on diff LOC. `size/XL` (>400 LOC net) blocks merge unless the PR carries a `r23-override` label applied by the operator.
+
+**Why.** R23 (LOC soft cap) is currently enforced by auditor judgment — and Wave 4 still has 72% of PRs >400 LOC. Machine enforcement removes the judgment call.
+
+**How to comply.** `.github/workflows/pr-size-labeler.yml` using `pascalgn/size-label-action` or equivalent. Thresholds: XS<50, S<150, M<300, L<400, XL≥400. XL PRs require a documented split plan in the PR body (R23 already requires this — now it's checked).
+
+**Failure mode.** Large unsplittable PRs keep landing, defeating R23.
+
+---
+
+### R106 — Migration up + down dry-run in CI proves R82
+
+**Headline:** Every PR that touches `supabase/migrations/` runs a CI step that spins up a fresh Postgres, applies all migrations forward, then applies all `down` migrations in reverse, then re-applies forward. CI fails if any step errors.
+
+**Why.** R82 (migration safety, expand-contract) is aspirational unless reversibility is *proved*, not asserted. Stripe and Linear both do this.
+
+**How to comply.** `.github/workflows/migration-dry-run.yml`: service container `postgres:15`, run `supabase db push` or equivalent, then run a generated reverse script, then re-apply forward. Fail on any non-zero exit. Triggered only on diffs touching `supabase/migrations/`.
+
+**Failure mode.** A migration that's silently irreversible ships, the next release rollback fails, the operator is woken up at 3 AM.
+
+---
+
+### R107 — Audit log table for every PII-touching mutation
+
+**Headline:** A single `audit_log(id, actor_id, action, target_table, target_id, old_jsonb, new_jsonb, at)` table; every mutation that touches PII (per R98 classification) writes a row.
+
+**Why.** R98 (PII handling) says "classify, encrypt, redact, retain." When a customer asks "who changed my address on June 12th?" you need an answer in seconds, not a database forensics project. Stripe, Linear, and every healthcare/finance hyperscaler have this. Cost: one table + a `withAuditLog()` wrapper.
+
+**How to comply.** Single migration adds the table with appropriate indexes (`actor_id`, `target_table+target_id`, `at`). A `withAuditLog(action, target, fn)` helper wraps every PII-touching service method. R10/R11 auditors check that every mutation in a PII-classified service goes through the wrapper — missing = P0.
+
+**Failure mode.** No forensic trail when PII changes; GDPR "who accessed my data" requests become weeks of work; the first regulator inquiry is a five-alarm fire.
+
+---
+
+## §12 — INFRA-AS-DOCTRINE
+
+The following infra components, while not numbered rules, are mandated as part of the
+hyperscaler-quality stack. Their presence is checked by R100 (prod readiness) and their
+absence is a P1 finding by R10/R11 auditors. Listed here so the next operator inherits
+them as table-stakes, not as nice-to-haves.
+
+- **Renovate** (replaces / augments Dependabot): `renovate.json` with grouped PRs, auto-merge on patch+minor, lockfile maintenance, weekly schedule. Wave H1.
+- **`.editorconfig` + Prettier**: never fight whitespace. Wave H1.
+- **`.well-known/security.txt`** (RFC 9116): security disclosure contact. Wave H1.
+- **SBOM generation in CI** (`syft` or GitHub native): required for enterprise sales; runs on every build. Wave H2.
+- **Release-please / changesets**: auto-CHANGELOG, auto-versioning from conventional commits. Required by R81 (SemVer). Wave H2.
+- **`gh pr checks --watch` workflow**: CI-flake vs true-fail distinguishing comment on every PR. Wave H2.
+- **Per-route latency histograms → Grafana Cloud free tier (or Honeycomb free tier)**: gives R85 + R86 SLOs real numerators. Wave H3.
+- **`pg_stat_statements` + weekly slow-query report**: catches N+1s and missing indexes before users do. Wave H3.
+- **Sentry release tagging with git SHA + source-map upload**: every error ties to a release in one click. Wave H3 (extends existing `sentry-upload-sourcemaps.sh`).
+- **Persistent staging environment** (separate Fly app + Supabase project): smoke tests run against real staging, not ephemeral. Wave H5.
+- **Circuit breakers on Stripe/Mux/external calls** (`opossum`): cascade-failure prevention. Wave H6.
+- **`/.well-known/ai.txt`**: AI-training opt-out declaration. Wave H1.
+
+---
+
 
 ---
 
