@@ -18,6 +18,19 @@
 
 ## Last sweep
 
+- **When:** 2026-06-17 ~17:45 PDT (00:45 UTC Jun 18) — **WAVE 3 DISPATCHED**
+- **Wave 2 COMPLETE; Wave 3 (3-wide backend) IN FLIGHT off main `d04f0c7c`:**
+  - **TM-3** public browse + SEO API (≤300) — `feat/tm-3-public-browse`, Opus 4.8, keyset tuple pagination + PublicListingDto PII-omission allow-list + JobPosting JSON-LD builder + luxury compact-card payload contract. Builder id `tm_3_public_browse_seo_api_mqiroe17`. Report → TM3_REPORT.md.
+  - **TM-5** Apply + pre-coach account (≤390) — `feat/tm-5-apply-precoach`, Opus 4.8, behind TM-6 anti-bot + TM-4 ledger idempotency, PII allow-list DTOs, two-way fit, luxury emotional-confirmation payload contract. ⚠️ **PII OPERATOR-SIGN-OFF GATE before merge.** Builder id `tm_5_apply_pre_coach_account_mqirp0k4`. Report → TM5_REPORT.md.
+  - **TM-14** Connect `account.updated` webhook (≤170) — `feat/tm-14-connect-account-updated-webhook`, Opus 4.8, append-only on shared webhook router, sig-verify + event-id idempotency, reuses TM-10 adapter. (First dispatch failed on transient clone error — re-dispatched.) Report → TM14_REPORT.md.
+  - **TM-W2** (SEO web page, ≤380, dep TM-3) — NOT YET dispatched; slots in AFTER TM-3 greens.
+- **Per-build gate:** dual GPT-5.5 audit (A=correctness/security/RLS, B=tests/contracts) pinned to head SHA → Opus 4.8 fixer on findings → MANDATORY re-audit (audited SHA==head) → merge on dual-CLEAN + CI green. TM-5 also needs operator PII sign-off.
+- **All builders carry:** push-early-WIP preamble + fetch guard (prevents stale-cache false alarms).
+
+---
+
+## Prior sweep
+
 - **When:** 2026-06-17 ~17:30 PDT (00:30 UTC Jun 18)
 - **Sandbox health:** still DEGRADED (a lint-fixer subagent died to sandbox timeout ~21:05 UTC; operator did that 3-char fix by hand instead). GitHub remains authoritative.
 - **backend main:** `d04f0c7c` (after TM-2 #432 + TM-6 #433 merges)
