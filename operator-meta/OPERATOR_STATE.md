@@ -176,3 +176,61 @@ All 4 → cancel subagent to clear state, proceed. (Memory key: `work.subagents.
 - R72/R81: auditors are dual GPT-5.5 in parallel (Lens A exhaustive, Lens B cycle), never Sonnet.
 
 **Codified by operator (Bradley Gleave) via Agent 47 — 2026-06-17 23:55 PDT during Wave 3 cycle 28.**
+
+---
+
+## Sweep — 2026-06-18 ~03:40 PDT (10:40 UTC) — Agent 47 — Wave 3 COMPLETE except TM-5 PII gate
+
+- **TM-3 #434 MERGED** — squash `bdd709e85885c7f00c966078a60079a62a95c18b` (10:02 UTC)
+  - Dual-CLEAN at 92627118 (Lens A + Lens B both 0/0/0/0)
+  - Rebased on TM-14-merged main; 4-lane module.ts conflict resolved as additive union
+  - Cross-lane envelope convergence with TM-5 byte-identical
+  - Audit reports: `handoffs/audit-reports/TM-3-re-audit-{A,B}-92627118.md`
+- **TM-14 #436 MERGED** — squash `96d7f464f50ad0af19004c1c5e125ec80b395032` (08:03 UTC)
+  - Dual-CLEAN at 5bbe163d; reports persisted
+- **TM-5 #435 DUAL-CLEAN, MERGE-READY** — head `8e221964da18928355757ef277edf6911d4464f9`
+  - Lens A + Lens B both CLEAN_NO_FINDINGS at 8e221964
+  - All 4 required CI checks green; mergeStateStatus CLEAN
+  - Rebased on post-TM-3-merge main (`bdd709e8`); 4-lane module.ts additive union (TM-2 + TM-5 + TM-14 + TM-3)
+  - Cross-lane envelope byte-identical with TM-3 at filter boundary
+  - **BLOCKED: operator PII sign-off (binding gate even on dual-CLEAN)**
+  - Suggested sign-off language: "Anonymous apply mints unverified-email pre-coach accounts; gated by anti-bot. TM-12 link must re-verify identity before promoting."
+  - Merge command (ready, hold for sign-off):
+    ```
+    gh pr merge 435 --repo BradleyGleavePortfolio/growth-project-backend --squash --delete-branch \
+      --subject "TM-5: Apply + pre-coach account (#435)" \
+      --body-file <R74-clean body>
+    ```
+  - Audit reports: `handoffs/audit-reports/TM-5-re-audit-{A,B}-8e221964.md`
+
+## Updated lane board
+
+| TM | Scope | Status | PR / branch | Head SHA |
+|---|---|---|---|---|
+| TM-0 | ADR | ✅ MERGED | #423 | merged |
+| TM-1 | schema + RLS | ✅ MERGED | #425 | merged |
+| TM-2 | listing CRUD | ✅ MERGED | #432 | merged |
+| TM-3 | public browse + SEO API | ✅ **MERGED 2026-06-18** | #434 → main `bdd709e8` | merged |
+| TM-4 | idempotency ledger | ✅ MERGED | #430 | merged |
+| TM-5 | apply + pre-coach | 🟡 **DUAL-CLEAN, awaiting operator PII sign-off** | #435 `feat/tm-5-apply-precoach` | `8e221964` |
+| TM-6 | anti-bot gate | ✅ MERGED | #433 | merged |
+| TM-7 | admin moderation | ⏳ Wave 4 (after TM-5) | — | — |
+| TM-8 | applicant tracking | ⏳ Wave 4 (after TM-5, PII gate) | — | — |
+| TM-9 | job-hunter tooling | ⏳ Wave 4 (after TM-5) | — | — |
+| TM-10 | Connect reuse adapter | ✅ MERGED | #431 | merged |
+| TM-11..13 | calendar / flip / revenue | ⏳ later waves | — | — |
+| TM-14 | Connect account.updated webhook | ✅ **MERGED 2026-06-18** | #436 → main `96d7f464` | merged |
+| TM-15 | RLS live tests | ⏳ later wave | — | — |
+| TM-W2 | SEO web (Next.js) | ⏳ READY NOW (TM-3 merged), not yet dispatched — different repo | — | — |
+
+## Wave 3 → Wave 4 sequencing decision (Agent 47 reasoning)
+
+- **TM-7/8/9 cannot start before TM-5 merges** — they all depend on TM-5 service code. Pre-dispatching them would force a rebase storm once TM-5 lands.
+- **TM-5 is gated on operator PII sign-off** — binding even on dual-CLEAN.
+- **Operator authorization in effect:** "if you finish all 6 PR's, just keep moving through the expansion PR's (documentation of talent marketplace on github + build plans)."
+- **Decision:** Wave 4 dispatch HELD until TM-5 merges. Agent 47 proceeds to expansion work (talent marketplace documentation + build plans on GitHub) per operator authorization, leaving TM-5 staged.
+
+## Heartbeat status
+- `ba50785d` firing every 15 min (in-conversation), task="check — heartbeat fire..."
+- Tracking log: `/home/user/workspace/cron_tracking/ba50785d/heartbeat.log`
+- Has fired 9 times so far this cycle; will keep firing through the night.
