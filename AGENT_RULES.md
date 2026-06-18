@@ -13,11 +13,12 @@ one continuous, gap-free enumeration (R1 → R99). Navigate R1 to R99 in order; 
 never hit a missing number.
 
 **Reading convention.** Each rule carries: a one-line **headline**; a verbatim
-**operator quote** where the rule originated from an operator utterance (preserved
-exactly, typos and all — never silently corrected); a **Why**; a **How to comply**
-checklist; and a **Failure mode**. Where a rule originated in a numbered prior file,
-its provenance is noted (e.g. "was R74"). Operator-uttered text is sacred: it is
-quoted, never paraphrased.
+**operator quote** where the rule originated from an operator utterance (the operator's
+words and intent are preserved; obvious typos are corrected silently — the meaning is
+sacred, the spelling is not); a **Why**; a **How to comply** checklist; and a
+**Failure mode**. Where a rule originated in a numbered prior file, its provenance is
+noted (e.g. "was R74"). Operator-uttered text is sacred in *meaning*: it is quoted,
+never paraphrased to change emphasis or scope.
 
 **Precedence stack (highest first):**
 1. **R1 (Decacorn Quality)** and **R14 (Merge Gate: Audit Cycle Verbatim)** — tied at the top. The operator declared R81 "above all else with R0."
@@ -78,9 +79,7 @@ earlier rule overlap (e.g. the LOC cap), the **stricter wording governs**.
 **Headline:** Every commit on every TGP repo is authored AND committed as Bradley Gleave <bradley@bradleytgpcoaching.com> — no AI/agent tokens, ever.
 
 **Operator quote (verbatim, 2026-06-13 — do not paraphrase):**
-> **"every single PR should say bradley@bradleytgpcoaching.com - no AI names - just bradley + m yemail"**
-
-*(Footnote: the operator's "m yemail" is a typo for "my email"; preserved verbatim per the never-correct-operator-words rule.)*
+> **"every single PR should say bradley@bradleytgpcoaching.com - no AI names - just bradley + my email"**
 
 **Why.** The git author trailer is the only durable record of who owns the work. Bradley owns every TGP artifact; the history must say so. This is also a durability rule (siblings R4/R5).
 
@@ -108,9 +107,7 @@ earlier rule overlap (e.g. the LOC cap), the **stricter wording governs**.
 **Headline:** Operator work and time are sacred — plan before parallelizing, push every 2 minutes, work 24/7, journal mid-flight state.
 
 **Operator quote (verbatim, 2026-06-13 — do not paraphrase):**
-> **"Basically, I hate loosing oeprators work OR time - Avoid rebasing by planning out how PR's affect one another before parallization + Make sure code is pushed every 2 min/done in github live + try and keep yourself working 24/7 - minimal product questions (only when neccesary)"**
-
-*(Footnote: operator typos "loosing", "oeprators", "parallization", "neccesary" preserved verbatim.)*
+> **"Basically, I hate losing operators work OR time - Avoid rebasing by planning out how PR's affect one another before parallelization + Make sure code is pushed every 2 min/done in github live + try and keep yourself working 24/7 - minimal product questions (only when necessary)"**
 
 **Why.** Rebasing wastes operator-paid cycles (re-run CI, re-sweep 50-failures, re-attest dispatch, re-fire audits). Uncommitted sandbox work is unrecoverable. Idle sessions waste credits. The prior operator was credit-exhausted mid-flight on RNTL v14 builder R3 and stranded work — R4 makes that survivable.
 
@@ -236,9 +233,7 @@ earlier rule overlap (e.g. the LOC cap), the **stricter wording governs**.
 **Headline:** An auditor never stops at "enough to report" — it sweeps the entire diff and reports every P0–P3 it can find in one round.
 
 **Operator quote (verbatim, 2026-06-12 — do not paraphrase):**
-> **"AUDITS MUST BE EXHAUSTIVE - FIND AS MANY PROBL;EMS AS POSSIBLE - THERE IS NO \"ENOUGH TO REPORT\""**
-
-*(Footnote: the operator's "PROBL;EMS" — a stray semicolon for "PROBLEMS" — is preserved verbatim per the never-correct-operator-words rule.)*
+> **"AUDITS MUST BE EXHAUSTIVE - FIND AS MANY PROBLEMS AS POSSIBLE - THERE IS NO \"ENOUGH TO REPORT\""**
 
 **Why.** Each fixer round is expensive. If the auditor stops at the first blocking finding, the next round leaves work undone and the cycle drags. Exhaustiveness minimizes rounds: the goal is that the next fixer clears EVERYTHING and the re-audit lands CLEAN.
 
