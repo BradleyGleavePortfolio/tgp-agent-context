@@ -123,3 +123,15 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
   - Module: `src/talent-marketplace/talent-marketplace.module.ts`.
 - **TM-14 build plan (hand):** new `talent-marketplace/connect-webhook.controller.ts` (@Public, mirror payouts-v2 sig gate) + thin handler that on `account.updated` calls TalentConnectAdapter/CoachConnect status → persists onboarding_completed; event-id idempotency via TM-4 ledger; append-only (do not touch payouts-v2/billing routers). Tests: sig reject, persist-on-complete, redelivery idempotent.
 - **OPEN DECISION:** operator asked "what's with outages" + earlier 3-way choice (wait / hand-build all / hybrid). Recommendation: hybrid — hand-finish TM-3 (#434, already 4/4 green) + hand-build TM-14 (small, ≤170, fully recon'd); hold TM-5 (390 LOC PII lane) for the proper dual-GPT-5.5-audited builder workflow once spawner recovers.
+
+---
+
+## Spawner RECOVERED (2026-06-17 ~18:25 PDT) — Wave 3 re-dispatched (audited workflow resumed)
+
+- **9th attempt = read-only canary SURVIVED + reported** (HEAD d04f0c7c). Dispatcher recovered after ~8 consecutive provisioning failures. Confirmed user's infra diagnosis: ephemeral-container lifecycle flakes (mount race os-error-2 / egress drop on clone / orchestrator state-desync "paused sandbox not found") — stage-correlated at boot, NOT workload-correlated (TM-3, the heaviest, was the survivor).
+- **Re-dispatched all 3 Wave 3 lanes as proper audited Opus 4.8 builders:**
+  - TM-3 FINISH #434 (resume from feat/tm-3-public-browse @ 7e01bd77, skeleton 4/4 green) — builder `tm_3_finish_434_mqithl3h`.
+  - TM-5 Apply+pre-coach (feat/tm-5-apply-precoach, PII gate) — builder `tm_5_apply_pre_coach_account_mqiti1p6`.
+  - TM-14 Connect account.updated webhook (feat/tm-14-...) — builder `tm_14_connect_webhook_mqitie9x`.
+- **Gate per lane:** dual GPT-5.5 audit (A=correctness/security/RLS, B=tests/contracts) pinned to head SHA → Opus fixer on findings → mandatory re-audit (audited SHA==head) → merge on dual-CLEAN + CI green. **TM-5 also needs operator PII sign-off.**
+- **Resilience working:** OPERATOR_STATE.md (this file) + push-early-WIP = pre-baked context handoff; a dropped box loses seconds not the task (TM-3 proved it). If flakes recur mid-run, re-dispatch only the dropped lane from its branch.
