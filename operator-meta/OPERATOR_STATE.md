@@ -18,9 +18,9 @@
 
 ## Last sweep
 
-- **When:** 2026-06-17 ~22:40 UTC (15:40 PDT)
+- **When:** 2026-06-17 ~17:30 PDT (00:30 UTC Jun 18)
 - **Sandbox health:** still DEGRADED (a lint-fixer subagent died to sandbox timeout ~21:05 UTC; operator did that 3-char fix by hand instead). GitHub remains authoritative.
-- **backend main:** `8561005b` (after TM-10 #431 merge)
+- **backend main:** `d04f0c7c` (after TM-2 #432 + TM-6 #433 merges)
 - **TM-10 #431:** lint-fixed by hand → head `eb95bd9`, CI 4/4 GREEN, mergeable=true. Fresh dual GPT-5.5 audit pinned to eb95bd9 IN FLIGHT (old auditors audited stale 86bb4fd + reset-disrupted → cancelled). Merge on dual-CLEAN.
 - **TM-2 #432 / TM-6 #433:** builders confirmed RUNNING (uninterruptible) w/ live worktree file activity; branch tips quiet ~70-85min (long tsc/jest cycles). NOT zombies (watchdog threshold 3h; confirmed alive). Both pushed crash-safe WIP early. Letting them run.
 - **False-alarm logged:** a lint subagent reported the TM-10 redaction code "vanished"/security regression — it was reading a STALE local cache; GitHub confirmed fixer commit `86bb4fde` intact. Lesson reinforced: GitHub is truth, subagent local state is not.
@@ -39,7 +39,7 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 | TM-3 | public browse + SEO API (≤300) | ⏳ Wave 3 (after TM-2) | — | — |
 | TM-4 | idempotency ledger + TTL sweep + fencing token (278 LOC) | ✅ MERGED (#430 → main `7a2ff424`); dual GPT-5.5 re-audit CLEAN on `5b196ee`, CI green | #430 | merged |
 | TM-5 | apply + pre-coach account (≤390) | ⏳ Wave 3 (after TM-4+TM-6) — PII gate, operator sign-off | — | — |
-| TM-6 | anti-bot gate, in-house default (≤340) | 🔵 BUILDING (batch 2, push-early) | `feat/tm-6-anti-bot` | none yet |
+| TM-6 | anti-bot gate, in-house default (321 code LOC) | ✅ MERGED (#433 @506e2981; dual hand-audit CLEAN; CI 4/4 incl rls-floor-guard; sha256-hashed PII, fail-open, pluggable provider) | #433 | merged |
 | TM-7 | admin moderation (≤210) | ⏳ later wave | — | — |
 | TM-8 | applicant tracking (≤?) | ⏳ later wave — PII gate | — | — |
 | TM-9 | job-hunter tooling | ⏳ later wave | — | — |
