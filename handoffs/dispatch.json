@@ -1,36 +1,46 @@
 {
   "cycle": 28,
-  "subcycle": "post-audit-pass-1",
-  "ts": "2026-06-18T00:53-07:00",
-  "wave": "TGP Wave 3 — Cycle 28 post first re-audit: TM-14 merge-ready, TM-3 fixer-pass-2 dispatch, TM-5 first audit dispatch",
+  "subcycle": "post-audit-pass-2-tm5",
+  "ts": "2026-06-18T01:17-07:00",
+  "wave": "TGP Wave 3 — Cycle 28: TM-14 MERGED, TM-3 R2 fixer commits landed (await CI), TM-5 first audit returned with findings (P2+P3) -> fixer-pass-1 brief written",
   "agent": "Agent 47",
   "doctrine": "R0 + R64 + R72 + R74 + R75 + R81",
   "operating_contract": "Per-lane: fixer formal-return → CI green → SHA stable ≥5 min → dual GPT-5.5 audit → fixer loop if any P0-P3 → merge ONLY on dual-CLEAN_NO_FINDINGS + CI green + (TM-5) operator PII sign-off.",
-  "audit_results_pass_1": {
+  "audit_results_pass_2": {
     "TM-3": {
-      "head": "1f9778da",
-      "lens_a": {"verdict": "CLEAN_NO_FINDINGS", "counts": {"p0":0,"p1":0,"p2":0,"p3":0}, "report": "handoffs/audit-reports/TM-3-re-audit-A-1f9778da.md"},
-      "lens_b": {"verdict": "FINDINGS_PRESENT",  "counts": {"p0":0,"p1":0,"p2":1,"p3":2}, "report": "handoffs/audit-reports/TM-3-re-audit-B-1f9778da.md"},
-      "dual_status": "FIXER_NEEDED (1 P2 + 2 P3 from Lens B)"
-    },
-    "TM-14": {
-      "head": "5bbe163d",
-      "lens_a": {"verdict": "CLEAN_NO_FINDINGS", "counts": {"p0":0,"p1":0,"p2":0,"p3":0}, "report": "handoffs/audit-reports/TM-14-re-audit-A-5bbe163d.md"},
-      "lens_b": {"verdict": "CLEAN_NO_FINDINGS", "counts": {"p0":0,"p1":0,"p2":0,"p3":0}, "report": "handoffs/audit-reports/TM-14-re-audit-B-5bbe163d.md"},
-      "dual_status": "DUAL-CLEAN_NO_FINDINGS — MERGE-ELIGIBLE per R81"
+      "head_at_R2_fixer": "1f9778da",
+      "head_after_R2_fixer_push": "d2b3dd2f499ebce983286bc9944cd4175e8a94d5",
+      "r2_commits": [
+        "d488c60b TM-3: align 404 envelope to {error,message,code} + warn on unset cursor secret in prod",
+        "d2b3dd2f TM-3: pin 404 wire envelope, cursor-secret prod warn, and cta_listing_id===id"
+      ],
+      "ci_at_d2b3dd2f": "not yet reported (just pushed); also branch now CONFLICTING with main (96d7f464) due to talent-marketplace.module.ts and needs rebase before audit"
     },
     "TM-5": {
       "head": "c7298ae1",
-      "audit_status": "not yet dispatched — CI now green + SHA stable ≥5 min (22 min). Dual GPT-5.5 audit dispatched this turn."
+      "lens_a": {"verdict": "FINDINGS_PRESENT", "counts": {"p0":0,"p1":0,"p2":2,"p3":3}, "report": "handoffs/audit-reports/TM-5-audit-A-c7298ae1.md"},
+      "lens_b": {"verdict": "CLEAN_NO_FINDINGS",  "counts": {"p0":0,"p1":0,"p2":0,"p3":0}, "report": "handoffs/audit-reports/TM-5-audit-B-c7298ae1.md"},
+      "dual_status": "FIXER_NEEDED (Lens A: 2 P2 + 3 P3; Lens B clean. Findings are real per R81 \u00a7Severity: any P3 must be fixed before merge.)",
+      "fixer_brief": "handoffs/wave3-briefs/TM-5_FIXER_BRIEF_R1.md",
+      "p2_summary": [
+        "P2-1: NotFoundException/ConflictException bodies use {kind:...} at 6 sites; global HttpExceptionFilter drops kind. Same defect class as TM-3 B-CYCLE-P2-1.",
+        "P2-2: No @@unique([applicant_user_id, listing_id]) on Application; distinct client idempotency keys can create duplicate Applications for same (account, listing)."
+      ],
+      "p3_summary": [
+        "P3-1: unsigned base64url cursor (vs TM-3 HMAC) — owner-scoped, no IDOR; defer to post-TM-3-merge hoist (NO CODE in this fixer).",
+        "P3-2: anonymous apply mints unverified-email pre-coach User; operator PII sign-off concern, anti-bot is the agreed control (NO CODE).",
+        "P3-3: updateOwnProfile/runApply trim names but not headline/bio/array fields — trim parity fix."
+      ]
     }
   },
   "lanes": {
     "TM-3": {
       "pr": 434,
       "branch": "feat/tm-3-public-browse",
-      "head": "1f9778da",
-      "stage": "fixer-pass-2-pending (Opus 4.8 fixer dispatched for Lens B's 1 P2 + 2 P3)",
+      "head": "d2b3dd2f499ebce983286bc9944cd4175e8a94d5",
+      "stage": "R2 fixer commits landed; awaiting fixer formal return + CI on d2b3dd2f; then will need rebase on main (96d7f464) due to talent-marketplace.module.ts conflict; then dual GPT-5.5 re-audit",
       "fixer_brief": "handoffs/wave3-briefs/TM-3_FIXER_BRIEF_R2.md",
+      "merge_state": "CONFLICTING (DIRTY) — needs rebase on 96d7f464",
       "auto_merge_on_dual_clean": true,
       "blockers": []
     },
@@ -38,12 +48,9 @@
       "pr": 435,
       "branch": "feat/tm-5-apply-precoach",
       "head": "c7298ae1",
-      "stage": "first-audit-pending (dual GPT-5.5 dispatched this turn — CI green, SHA stable 22 min)",
-      "ci_status": "all green",
-      "fixer_commits_landed": [
-        "0e0d033c @Roles('student') decorator on 4 ApplyController routes (CI-red fix)",
-        "c7298ae1 apply auth-boundary + anonymous-confirmation PII contract specs"
-      ],
+      "stage": "fixer-pass-1-pending (Opus 4.8 fixer brief written; will dispatch after TM-3 R2 returns to avoid concurrent worktree contention)",
+      "fixer_brief": "handoffs/wave3-briefs/TM-5_FIXER_BRIEF_R1.md",
+      "ci_status": "green at c7298ae1 (pre-fix)",
       "auto_merge_on_dual_clean": false,
       "blockers": ["operator-pii-sign-off (binding even on dual-CLEAN)"]
     },
@@ -55,14 +62,13 @@
       "merge_commit": "96d7f464f50ad0af19004c1c5e125ec80b395032",
       "merged_at": "2026-06-18T08:03:45Z",
       "merge_method": "squash",
-      "auto_merge_on_dual_clean": true,
-      "merge_authorization": "operator EXPLICIT auto-merge permission (this session) + dual-CLEAN + CI green + SHA stable + R74-clean identity + merge-dependency check passed",
       "branch_deleted": true
     }
   },
   "backend_main_sha": "96d7f464f50ad0af19004c1c5e125ec80b395032",
   "backend_main_sha_prev": "d04f0c7c21a3e6bcf19e00b762701fc6f71573b8",
   "next_pr_train_after_current": "per operator: continue to NEXT 3 planned PRs after TM-3/TM-5/TM-14 all merge. After all 6 PRs merge (current 3 + next 3), continue through EXPANSION PRs — talent marketplace documentation on GitHub + build plans. To discover next-3 identities, read operator-meta/OPERATOR_STATE.md wave-3 lane list.",
+  "heartbeat": {"cron_id": "ba50785d", "cadence": "*/15 * * * *", "exact": true, "background": false, "purpose": "MAXIMUM PRIORITY wake-up to advance Wave 3 train through the night."},
   "models": {
     "fixer": "claude_opus_4_8",
     "auditor": "gpt_5_5",
@@ -75,7 +81,7 @@
     "mwb-3-live-tests"
   ],
   "previous_subcycle_archived": {
-    "subcycle": "re-audit-pass-1",
-    "outcome": "TM-3 + TM-14 first re-audited at post-fixer SHAs. TM-14 dual-CLEAN, TM-3 has 1 P2 + 2 P3 from Lens B (cycle-lens identified HTTP-envelope drift on the new 404 path, parity nits on prod-secret warn + cta_listing_id pin test). TM-3 Lens A respawned after sandbox eviction on first attempt — also CLEAN."
+    "subcycle": "post-audit-pass-1",
+    "outcome": "TM-14 merged. TM-3 R2 fixer landed both envelope + cta_listing_id pin + cursor-secret-warn commits. TM-5 dual audit returned split — Lens A found 2 P2 (envelope drop / no composite unique) + 3 P3 (cursor sign / anon-email mint / trim parity); Lens B clean. TM-5 fixer-pass-1 brief authored for the 2 P2 + 1 P3 (P3-1 + P3-2 deferred to follow-up / operator sign-off per brief)."
   }
 }
