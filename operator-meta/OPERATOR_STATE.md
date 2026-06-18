@@ -135,3 +135,12 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
   - TM-14 Connect account.updated webhook (feat/tm-14-...) — builder `tm_14_connect_webhook_mqitie9x`.
 - **Gate per lane:** dual GPT-5.5 audit (A=correctness/security/RLS, B=tests/contracts) pinned to head SHA → Opus fixer on findings → mandatory re-audit (audited SHA==head) → merge on dual-CLEAN + CI green. **TM-5 also needs operator PII sign-off.**
 - **Resilience working:** OPERATOR_STATE.md (this file) + push-early-WIP = pre-baked context handoff; a dropped box loses seconds not the task (TM-3 proved it). If flakes recur mid-run, re-dispatch only the dropped lane from its branch.
+
+---
+## EMERGENCY SNAPSHOT — 2026-06-17 18:34 PDT (Agent 46 sandbox loss)
+Wave 3 builders cancelled; ALL in-progress work snapshotted + pushed BEFORE cancel (no loss):
+- TM-5  feat/tm-5-apply-precoach @ af118f6  (was UNPUSHED — apply controller/service/dto/fit/cursor + module) — NO PR yet, PII sign-off gate
+- TM-14 feat/tm-14-connect-account-updated-webhook @ d6d5672 (was UNPUSHED — webhook controller/service + migration 20261220000030 + schema/adapter) — NO PR yet
+- TM-3  feat/tm-3-public-browse @ 54c84ea (skeleton + 3 test specs) — PR #434 WIP
+Next operator = Agent 47. Full handoff: operator-meta/AGENT_47_HANDOFF.md
+New doctrine added: quality-references/RUNNER_RESILIENCE_DOCTRINE.md (canary-before-fanout + work-loss stack)
