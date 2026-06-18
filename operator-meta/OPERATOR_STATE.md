@@ -88,3 +88,13 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 - ✅ **This file** — operator state now durable in GitHub, survives resets.
 - ✅ **Push-early-WIP** — added as MANDATORY section to `quality-references/BUILDER_BRIEF_TEMPLATE_V2.md`. Every builder pushes a compiling WIP commit + opens PR early so a sandbox crash costs seconds, not the task. (Proven by TM-10 #431 surviving a fatal crash.)
 - ⏳ **Conservative re-dispatch** — small batches (1-2 lanes) while infra is degraded, instead of 5-wide.
+
+---
+
+## Wave 3 dispatch log (2026-06-17 ~17:55 PDT) — infra flaky, push-early saving us
+
+- **Sandbox/spawner DEGRADED:** Wave 3 builders dropped repeatedly at startup (clone-fail x2 TM-14; "paused sandbox not found" TM-5; sandbox-timeout TM-3/TM-5 first round). OUR main sandbox is healthy (cloned repo in 1.4s, github 200 in 43ms) — root cause = subagent PROVISIONING layer, intermittent. NOT disk/RAM/network/auth.
+- **TM-3:** ✅ survived + pushed WIP skeleton `7e01bd77` → **PR #434 open** (`feat/tm-3-public-browse`). Push-early proven again. Building on.
+- **TM-14:** running (`feat/tm-14-...`, builder `tm_14_connect_webhook_mqisgw1l`), no push yet.
+- **TM-5:** dropped twice, RE-DISPATCHED (`tm_5_apply_pre_coach_account_retry_mqishsdo`). PII gate — operator sign-off before merge.
+- **Strategy:** dispatch → let survivors push durable savepoints → re-fire only the dropped lane. Hand-build fallback available (own sandbox confirmed healthy) if spawner fully fails.
