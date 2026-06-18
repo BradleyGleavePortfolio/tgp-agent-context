@@ -18,16 +18,21 @@
 
 ## Last sweep
 
-- **When:** 2026-06-17 ~17:45 PDT (00:45 UTC Jun 18) — **WAVE 3 DISPATCHED**
-- **Wave 2 COMPLETE; Wave 3 (3-wide backend) IN FLIGHT off main `d04f0c7c`:**
-  - **TM-3** public browse + SEO API (≤300) — `feat/tm-3-public-browse`, Opus 4.8, keyset tuple pagination + PublicListingDto PII-omission allow-list + JobPosting JSON-LD builder + luxury compact-card payload contract. Builder id `tm_3_public_browse_seo_api_mqiroe17`. Report → TM3_REPORT.md.
-  - **TM-5** Apply + pre-coach account (≤390) — `feat/tm-5-apply-precoach`, Opus 4.8, behind TM-6 anti-bot + TM-4 ledger idempotency, PII allow-list DTOs, two-way fit, luxury emotional-confirmation payload contract. ⚠️ **PII OPERATOR-SIGN-OFF GATE before merge.** Builder id `tm_5_apply_pre_coach_account_mqirp0k4`. Report → TM5_REPORT.md.
-  - **TM-14** Connect `account.updated` webhook (≤170) — `feat/tm-14-connect-account-updated-webhook`, Opus 4.8, append-only on shared webhook router, sig-verify + event-id idempotency, reuses TM-10 adapter. (First dispatch failed on transient clone error — re-dispatched.) Report → TM14_REPORT.md.
-  - **TM-W2** (SEO web page, ≤380, dep TM-3) — NOT YET dispatched; slots in AFTER TM-3 greens.
-- **Per-build gate:** dual GPT-5.5 audit (A=correctness/security/RLS, B=tests/contracts) pinned to head SHA → Opus 4.8 fixer on findings → MANDATORY re-audit (audited SHA==head) → merge on dual-CLEAN + CI green. TM-5 also needs operator PII sign-off.
+- **When:** 2026-06-18 08:29 PDT (15:29 UTC) — **WAVE 3 FULLY MERGED; WAVE 4 DISPATCHED**
+- **Wave 3 COMPLETE — all 3 backend PRs merged, plus TM-DOCS open for review:**
+  - **TM-14** #436 ✅ MERGED (squash `96d7f464`) — Connect `account.updated` webhook
+  - **TM-3** #434 ✅ MERGED (squash `bdd709e8`) — public browse + SEO API
+  - **TM-5** #435 ✅ MERGED (squash `918191ce`) — Apply + pre-coach; **operator PII sign-off received and applied**
+  - **TM-DOCS** #437 — OPEN, awaiting operator review (no auto-merge per scope)
+- **backend main:** `918191ce` (post-TM-5).
+- **Wave 4 (4-wide, off `918191ce`) DISPATCHED:**
+  - **TM-7** admin moderation (~210), Opus 4.8 — `feat/tm-7-admin-moderation`
+  - **TM-8** applicant tracking (~400, split 8a/8b possible), Opus 4.8, **PII operator-approval gate** — `feat/tm-8-applicant-tracking`
+  - **TM-9** job-hunter tooling (~340), Opus 4.8 — `feat/tm-9-job-hunter-tooling`
+  - **TM-W2** SEO web (~380, different repo: growth-project-mobile/web) — deferred (separate repo dispatch)
+- **Per-build gate:** dual GPT-5.5 audit (Lens A correctness/security/RLS, Lens B tests/contracts/cycle) pinned to head SHA → Opus 4.8 fixer on findings → MANDATORY re-audit (audited SHA==head) → merge on dual-CLEAN + 4 CI green + R74 identity. TM-8 also needs operator PII sign-off.
 - **All builders carry:** push-early-WIP preamble + fetch guard (prevents stale-cache false alarms).
 
----
 
 ## Prior sweep
 
@@ -49,13 +54,13 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 | TM-0 | ADR, closes #183 | ✅ MERGED | #423 | merged |
 | TM-1 | schema + RLS foundation (serial gate) | ✅ MERGED | #425 → main `544291a2` | merged |
 | TM-2 | listing CRUD + publish (≤360) | 🔵 BUILDING (batch 2, push-early) | `feat/tm-2-listing-crud` | none yet |
-| TM-3 | public browse + SEO API (≤300) | ⏳ Wave 3 (after TM-2) | — | — |
+| TM-3 | public browse + SEO API (≤300) | ✅ MERGED (#434 → main `bdd709e8`; dual GPT-5.5 CLEAN @92627118) | #434 | merged |
 | TM-4 | idempotency ledger + TTL sweep + fencing token (278 LOC) | ✅ MERGED (#430 → main `7a2ff424`); dual GPT-5.5 re-audit CLEAN on `5b196ee`, CI green | #430 | merged |
-| TM-5 | apply + pre-coach account (≤390) | ⏳ Wave 3 (after TM-4+TM-6) — PII gate, operator sign-off | — | — |
+| TM-5 | apply + pre-coach account (≤390) | ✅ MERGED (#435 → main `918191ce`; dual GPT-5.5 CLEAN @8e221964; **operator PII sign-off received**) | #435 | merged |
 | TM-6 | anti-bot gate, in-house default (321 code LOC) | ✅ MERGED (#433 @506e2981; dual hand-audit CLEAN; CI 4/4 incl rls-floor-guard; sha256-hashed PII, fail-open, pluggable provider) | #433 | merged |
-| TM-7 | admin moderation (≤210) | ⏳ later wave | — | — |
-| TM-8 | applicant tracking (≤?) | ⏳ later wave — PII gate | — | — |
-| TM-9 | job-hunter tooling | ⏳ later wave | — | — |
+| TM-7 | admin moderation (≤210) | 🔵 Wave 4 BUILDING | `feat/tm-7-admin-moderation` | none yet |
+| TM-8 | applicant tracking (~400) | 🔵 Wave 4 BUILDING — **PII operator-approval gate** | `feat/tm-8-applicant-tracking` | none yet |
+| TM-9 | job-hunter tooling (~340) | 🔵 Wave 4 BUILDING | `feat/tm-9-job-hunter-tooling` | none yet |
 | TM-10 | Connect reuse adapter, append-only (250 LOC) | ✅ MERGED (#431 @eb95bd9; dual hand-audit CLEAN by operator after subagent auditors zombied/reset; CI 4/4 green) | #431 | merged |
 | TM-11..15 | calendar / auto-flip / revenue / webhook / RLS live | ⏳ later (TM-12/13 PII gates) | — | — |
 
