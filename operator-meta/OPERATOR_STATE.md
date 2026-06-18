@@ -109,3 +109,17 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 - **NOTHING pushed:** TM-5, TM-14 branches empty — died before first savepoint. Nothing to snapshot (failed, not zombied).
 - **main:** clean @ `d04f0c7c`. No corruption.
 - **DECISION PENDING (operator):** (A) wait for spawner recovery then re-dispatch all 3 (TM-3 resumes from #434); or (B) hand-build in operator's healthy sandbox (slower, unblocked now). Stopped auto-retrying per doctrine (don't brute-force degraded infra).
+
+---
+
+## Hand-build recon done (2026-06-17 ~18:18 PDT) — spawner STILL down (8th fail)
+
+- **8th spawner failure:** TM-14 recovery canary died instantly ("paused sandbox not found"). Dispatcher NOT recovered.
+- **TM-3 #434 update:** WIP skeleton now **4/4 CI GREEN + mergeState CLEAN** (build-and-test finished server-side post-crash). Still WIP (skeleton only, not feature-complete).
+- **Switched to hand-build fallback.** Cloned backend into operator sandbox @ d04f0c7c (healthy). Repo recon complete:
+  - Webhook convention: `src/payouts-v2/payouts-v2-webhook.controller.ts` (@Public, `verifyStripeSignature` from `src/billing/stripe-signature.ts` → `resolveStripeWebhookSecrets`; rawBody gate; 400 on bad/missing sig BEFORE any handler; delegates to a routing service). MIRROR THIS for TM-14.
+  - TM-10 adapter: `src/talent-marketplace/connect-adapter.service.ts` (`TalentConnectAdapter.getStatus` → `mapStatus` collapses charges_enabled && payouts_enabled → `onboarded`). TM-14 reuses this, does NOT re-interpret Connect fields.
+  - Idempotency: TM-4 `src/talent-marketplace/marketplace-idempotency.service.ts` (claimOrReplay/markCompleted/releaseClaim) — use for event-id dedup.
+  - Module: `src/talent-marketplace/talent-marketplace.module.ts`.
+- **TM-14 build plan (hand):** new `talent-marketplace/connect-webhook.controller.ts` (@Public, mirror payouts-v2 sig gate) + thin handler that on `account.updated` calls TalentConnectAdapter/CoachConnect status → persists onboarding_completed; event-id idempotency via TM-4 ledger; append-only (do not touch payouts-v2/billing routers). Tests: sig reject, persist-on-complete, redelivery idempotent.
+- **OPEN DECISION:** operator asked "what's with outages" + earlier 3-way choice (wait / hand-build all / hybrid). Recommendation: hybrid — hand-finish TM-3 (#434, already 4/4 green) + hand-build TM-14 (small, ≤170, fully recon'd); hold TM-5 (390 LOC PII lane) for the proper dual-GPT-5.5-audited builder workflow once spawner recovers.
