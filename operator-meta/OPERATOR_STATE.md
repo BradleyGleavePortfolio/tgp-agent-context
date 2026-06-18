@@ -144,3 +144,35 @@ Wave 3 builders cancelled; ALL in-progress work snapshotted + pushed BEFORE canc
 - TM-3  feat/tm-3-public-browse @ 54c84ea (skeleton + 3 test specs) — PR #434 WIP
 Next operator = Agent 47. Full handoff: operator-meta/AGENT_47_HANDOFF.md
 New doctrine added: quality-references/RUNNER_RESILIENCE_DOCTRINE.md (canary-before-fanout + work-loss stack)
+
+---
+## DOCTRINE RECONCILIATION — 2026-06-17 23:55 PDT (Agent 47 — supersedes 23:42 draft)
+
+The Agent-47 draft of R64-STRICT / R83 / R84 published at 23:42 PDT is **WITHDRAWN**. The intent of all three is already canonical in the operator-published rules R0–R82. Pinning them as new rule numbers risks doctrine drift; the canonical references below are binding.
+
+### Reconciliation map (Agent-47 draft → canonical rule on disk)
+- **"R64-STRICT" sequencing (no audit while builder running)** → **R81 §step 1** ("ALWAYS wait for fixers/builders to finish before audits") + **R64** (audit cycle definition) + **R75** (operator must verify builder activity/liveness before audit dispatch). Strict per-lane serialization (formal return → CI green → SHA stable ≥5 min → audit) is the operating contract; it is not a new rule, it is R64 + R81 + R75 read verbatim.
+- **"R83" zero-findings merge bar** → **R81 §Severity inclusion** ("P3 ... MUST be fixed before merge"). Dual-CLEAN_NO_FINDINGS across P0/P1/P2/P3 is what R81 already says. No new rule needed.
+- **"R84" active liveness probing** → **R75** (operator obligation to check builder activity/liveness) + the codified phantom-subagent diagnostic (memory: `work.subagents.stuck_diagnostic`). R75 already requires this; the diagnostic is operational guidance, not a new rule.
+
+### Operator corrections this cycle (all already canonical)
+1. "from now on, ALWAYS wait for fixers/builders to finish before audits" → **R81 §step 1** (canonical).
+2. "we dont merge until we are clear of P0-P3's entirely" → **R81 §Severity inclusion** (canonical).
+3. "builders haven't pushed in nearly 2 hours, so audits are running against truly final code — I ASKED YOU TO CHECK THEIR ACTIVITY AND LIVELYHOOD" → **R75** (canonical).
+4. "you read ALL rules, r0-r85 right? YOU SHOULD BE FOLLOWING THEM VERBATIM ALWAYS" → **R0** + universal binding of R0–R82.
+
+### Phantom-subagent diagnostic (operational, not a rule)
+When a codebase subagent shows `status: running` with no remote push ≥30 min, check 4 signals before assuming alive:
+1. Last commit is polish/finalization message + CI green → work likely landed.
+2. Child worktree gone from `/home/user/workspace/tgp/<lane>/` → subagent torn down.
+3. No fresh `coding_session_*.jsonl` traceable to subagent ID → nothing executing.
+4. Auditors already ran successfully against SHA + reported `SHA STABLE` → no work in flight.
+All 4 → cancel subagent to clear state, proceed. (Memory key: `work.subagents.stuck_diagnostic`.)
+
+### Operating contract (Wave 3 cycle 28 forward)
+- Per-lane serialization: fixer formal-return → CI green → SHA stable ≥5 min → dual GPT-5.5 audit → fixer loop if any P0/P1/P2/P3 finding → re-audit at new head SHA → merge ONLY on dual-CLEAN_NO_FINDINGS + CI green + (TM-5) operator PII sign-off.
+- R74 identity on every commit/PR: `bradley@bradleytgpcoaching.com`, name `Bradley Gleave`. No AI names.
+- R67: dispatch rows persisted to `handoffs/dispatch.json` BEFORE any subagent dispatch.
+- R72/R81: auditors are dual GPT-5.5 in parallel (Lens A exhaustive, Lens B cycle), never Sonnet.
+
+**Codified by operator (Bradley Gleave) via Agent 47 — 2026-06-17 23:55 PDT during Wave 3 cycle 28.**

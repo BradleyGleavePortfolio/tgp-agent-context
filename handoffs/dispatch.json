@@ -1,63 +1,91 @@
 {
   "cycle": 28,
-  "ts": "2026-06-17T21:40-07:00",
-  "wave": "TGP Wave 3 — TM finisher RE-DISPATCH (V2 briefs after sandbox-loss cascade)",
+  "subcycle": "fixer-pass-1",
+  "ts": "2026-06-17T23:55-07:00",
+  "wave": "TGP Wave 3 — Cycle 28 fixer dispatch (3 Opus 4.8 fixers parallel, per-lane serialization)",
   "agent": "Agent 47",
-  "doctrine": "R64 (builder → dual GPT-5.5 audit → fixer → mandatory re-audit) + R0 HECTACORN/HYPERSCALER quality bars + V2 RESILIENCE: 5-min first-push rule",
-  "previous_cycle_outcome": "cycle 27 lost — all 3 builders (TM-3, TM-5, TM-14) crashed with 'no workspace' (parent sandbox restart cascade). ZERO pushes from any builder. Total work lost ≈ 165 builder-minutes.",
-  "v2_resilience_clause": "Every V2 brief mandates: (1) FIRST push within 5 minutes of starting work, (2) subsequent pushes every ~5 min or per logical chunk, (3) final push after full suite green. Visible WIP beats black-box final commit. Sandbox loss is a known failure mode — push first, then proceed.",
+  "doctrine": "R0 + R64 (audit cycle) + R72 (dual GPT-5.5 lenses) + R74 (Bradley identity) + R75 (operator liveness probe) + R77 (preflight) + R81 (zero P0-P3 merge bar, serialized fixer→audit)",
+  "operating_contract": "Per-lane: fixer formal-return → CI green → SHA stable ≥5 min → dual GPT-5.5 audit (Lens A exhaustive, Lens B cycle) → repeat if any P0/P1/P2/P3 → merge ONLY on dual-CLEAN_NO_FINDINGS + CI green + (TM-5) operator PII sign-off.",
+  "phantom_subagents_cancelled_this_cycle": [
+    {"id": "tm_3_finisher_v2_mqj0m0v1",  "lane": "TM-3",  "final_head_pushed": "1846b04a", "ci": "green"},
+    {"id": "tm_5_finisher_v2_mqj0mb2g",  "lane": "TM-5",  "final_head_pushed": "15c64ae8", "ci": "red (roles-enforced.spec)"},
+    {"id": "tm_14_finisher_v2_mqj0mkdl", "lane": "TM-14", "final_head_pushed": "d5a611d9", "ci": "green"}
+  ],
   "lanes": {
     "TM-3": {
       "pr": 434,
       "branch": "feat/tm-3-public-browse",
-      "snapshot_head": "54c84ea78427fe3d67f7703c339f50a7911c076f",
-      "stage": "builder-redispatch",
-      "worktree": "/home/user/workspace/tgp/backend-tm-3-finish",
+      "audited_head": "1846b04a",
+      "stage": "fixer-dispatch-pending",
+      "worktree": "/home/user/workspace/tgp/backend-tm-3-fix",
       "model": "claude_opus_4_8",
-      "loc_cap": 300,
-      "p0_fix": "src/talent-marketplace/__tests__/job-posting-jsonld.spec.ts:75 — replace over-strict not.toContain('applicant') with PII-field-name assertions (applicantEmail/applicantName/hirerEmail/hirerName/hirer_id/owner_id)",
-      "auto_merge": true,
-      "blockers": [],
-      "brief": "/home/user/workspace/briefs/TM-3_BUILDER_BRIEF_V2.md",
-      "previous_subagent_lost": "tm_3_finisher_mqiylidz"
+      "findings_count": {"p0": 0, "p1": 0, "p2": 5, "p3": 6},
+      "audit_reports": [
+        "audit-reports/TM-3-audit-A-1846b04.md",
+        "audit-reports/TM-3-audit-B-1846b04.md"
+      ],
+      "brief": "handoffs/wave3-briefs/TM-3_FIXER_BRIEF.md",
+      "auto_merge_on_dual_clean": true,
+      "blockers": []
     },
     "TM-5": {
-      "pr": null,
+      "pr": 435,
       "branch": "feat/tm-5-apply-precoach",
-      "snapshot_head": "af118f6679f3a7c5a86953a52daeb0fc44b9eb14",
-      "stage": "builder-redispatch",
-      "worktree": "/home/user/workspace/tgp/backend-tm-5-finish",
+      "audited_head": null,
+      "current_head": "15c64ae8",
+      "stage": "fixer-dispatch-pending (CI red — fixer must first turn build-and-test green)",
+      "worktree": "/home/user/workspace/tgp/backend-tm-5-fix",
       "model": "claude_opus_4_8",
-      "loc_cap": 390,
-      "auto_merge": false,
-      "blockers": ["operator-pii-sign-off"],
-      "brief": "/home/user/workspace/briefs/TM-5_BUILDER_BRIEF_V2.md",
-      "previous_subagent_lost": "tm_5_finisher_mqiyls4c"
+      "ci_red_root_cause": "test/roles-enforced.spec.ts — 4 ApplyController routes missing @Roles('student'): applyToListing, getMyProfile, updateMyProfile, myApplications. Doctrine pin trip per R79.",
+      "post_ci_green_audit_required": true,
+      "brief": "handoffs/wave3-briefs/TM-5_FIXER_BRIEF.md",
+      "auto_merge_on_dual_clean": false,
+      "blockers": ["operator-pii-sign-off (binding even on dual-CLEAN)"]
     },
     "TM-14": {
-      "pr": null,
+      "pr": 436,
       "branch": "feat/tm-14-connect-account-updated-webhook",
-      "snapshot_head": "d6d5672d67c19eb0ef4f1b85e888eae4b098ac1f",
-      "stage": "builder-redispatch",
-      "worktree": "/home/user/workspace/tgp/backend-tm-14-finish",
+      "audited_head": "d5a611d9",
+      "stage": "fixer-dispatch-pending",
+      "worktree": "/home/user/workspace/tgp/backend-tm-14-fix",
       "model": "claude_opus_4_8",
-      "loc_cap": 170,
-      "auto_merge": true,
-      "blockers": [],
-      "brief": "/home/user/workspace/briefs/TM-14_BUILDER_BRIEF_V2.md",
-      "previous_subagent_lost": "tm_14_finisher_mqiym3fx"
+      "findings_count": {"p0": 0, "p1": 0, "p2": 3, "p3": 3},
+      "audit_reports": [
+        "audit-reports/TM-14-audit-A-d5a611d.md",
+        "audit-reports/TM-14-audit-B-d5a611d.md"
+      ],
+      "brief": "handoffs/wave3-briefs/TM-14_FIXER_BRIEF.md",
+      "operator_decision_required": {
+        "finding": "B-P2-2 (payload jsonb storage of full Stripe event)",
+        "default_decision": "decline raw payload storage — write BLOCKERS.md + ADR docs/decisions/2026-06-17-tm-14-no-raw-payload-storage.md",
+        "rationale": "PII/secret blast radius vs. observability gain; idempotency key + minimal projected fields already sufficient"
+      },
+      "auto_merge_on_dual_clean": true,
+      "previous_merge_attempt": "DENIED by operator (cycle 28 first attempt) — must re-audit after fix"
     }
   },
-  "tm3_red_diagnosis": {
-    "classification": "spec-bug-over-strict-assertion",
-    "regression": false,
-    "safe_to_dispatch": true
-  },
   "backend_main_sha": "d04f0c7c21a3e6bcf19e00b762701fc6f71573b8",
-  "operator_gates": [
-    "TM-5 PII sign-off (required even on dual-CLEAN)",
-    "TM-12 background-check provider (in-house build)",
-    "TM-6 anti-bot provider (in-house default)",
-    "TM-8 / TM-12 / TM-13 PII/RLS approval before ship"
-  ]
+  "models": {
+    "fixer": "claude_opus_4_8",
+    "auditor": "gpt_5_5",
+    "subagent_type": "codebase"
+  },
+  "banned_tokens_src_and_tests": [
+    "@ts-ignore",
+    "as any",
+    "as unknown as",
+    "as never",
+    ".catch(()=>undefined)",
+    "Coming soon"
+  ],
+  "required_ci_checks": [
+    "build-and-test",
+    "rls-floor-guard",
+    "rls-live-tests",
+    "mwb-3-live-tests"
+  ],
+  "previous_subcycle_archived": {
+    "subcycle": "builder-redispatch-v2",
+    "outcome": "all 3 finisher V2 builders pushed final code then went phantom (done-but-persistent). Cancelled this turn. See cancelled subagent IDs above."
+  }
 }
