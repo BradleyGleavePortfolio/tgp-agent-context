@@ -98,3 +98,14 @@ Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 aut
 - **TM-14:** running (`feat/tm-14-...`, builder `tm_14_connect_webhook_mqisgw1l`), no push yet.
 - **TM-5:** dropped twice, RE-DISPATCHED (`tm_5_apply_pre_coach_account_retry_mqishsdo`). PII gate — operator sign-off before merge.
 - **Strategy:** dispatch → let survivors push durable savepoints → re-fire only the dropped lane. Hand-build fallback available (own sandbox confirmed healthy) if spawner fully fails.
+
+---
+
+## ⛔ SUBAGENT-SPAWNER OUTAGE (2026-06-17 ~18:01 PDT) — Wave 3 blocked on infra
+
+- **ALL Wave 3 builders killed by sandbox-provisioning faults** (7 failures / 5 dispatches): TM-5 x3 (clone-fail x2 + "paused sandbox not found"), TM-14 x3 (clone-fail x2 + sandbox-timeout), TM-3 x1 sandbox-timeout AFTER pushing WIP.
+- **Root cause = subagent provisioning/spawner layer, sustained.** Verified NOT us: our main sandbox clones repo in ~1s, github HTTP 200 43ms, disk 53%/RAM 7.6G free. The flaky layer is the per-builder fresh-sandbox minting + sparse checkout.
+- **SURVIVED (push-early WIN):** TM-3 PR **#434** `feat/tm-3-public-browse` @ `7e01bd77` — WIP skeleton, 3/4 CI gates GREEN (rls-floor-guard, rls-live-tests, mwb-3-live-tests SUCCESS; build-and-test in-progress at death). RESUMABLE from this branch.
+- **NOTHING pushed:** TM-5, TM-14 branches empty — died before first savepoint. Nothing to snapshot (failed, not zombied).
+- **main:** clean @ `d04f0c7c`. No corruption.
+- **DECISION PENDING (operator):** (A) wait for spawner recovery then re-dispatch all 3 (TM-3 resumes from #434); or (B) hand-build in operator's healthy sandbox (slower, unblocked now). Stopped auto-retrying per doctrine (don't brute-force degraded infra).
