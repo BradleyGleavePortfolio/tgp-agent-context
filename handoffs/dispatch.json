@@ -1,69 +1,60 @@
 {
   "cycle": 28,
-  "subcycle": "re-audit-pass-1",
-  "ts": "2026-06-18T00:40-07:00",
-  "wave": "TGP Wave 3 — Cycle 28 dual GPT-5.5 re-audit (TM-3 + TM-14 ready, TM-5 waiting on CI)",
+  "subcycle": "post-audit-pass-1",
+  "ts": "2026-06-18T00:53-07:00",
+  "wave": "TGP Wave 3 — Cycle 28 post first re-audit: TM-14 merge-ready, TM-3 fixer-pass-2 dispatch, TM-5 first audit dispatch",
   "agent": "Agent 47",
-  "doctrine": "R0 + R64 (audit cycle) + R72 (dual GPT-5.5 lenses) + R74 (Bradley identity) + R75 (operator liveness probe) + R81 (zero P0-P3 merge bar, serialized fixer→audit)",
-  "operating_contract": "Per-lane: fixer formal-return → CI green → SHA stable ≥5 min → dual GPT-5.5 audit (Lens A exhaustive, Lens B cycle) → repeat if any P0/P1/P2/P3 → merge ONLY on dual-CLEAN_NO_FINDINGS + CI green + (TM-5) operator PII sign-off.",
-  "phantom_subagents_cancelled_this_subcycle": [
-    {"id": "tm_3_fixer_opus_4_8_mqj5jreo",  "lane": "TM-3",  "final_head_pushed": "1f9778da", "ci": "green", "diagnosis": "polish commit + CI green + worktree gone — phantom"},
-    {"id": "tm_5_fixer_opus_4_8_mqj5k2c9",  "lane": "TM-5",  "final_head_pushed": "c7298ae1", "ci": "in_progress at cancel", "diagnosis": "worktree gone, PII contract spec lock looks like final-shape commit"},
-    {"id": "tm_14_fixer_opus_4_8_mqj5kd9l", "lane": "TM-14", "final_head_pushed": "5bbe163d", "ci": "green", "diagnosis": "JSON-guard test fix recovered from red, all P2/P3 in lane covered, worktree gone — phantom"}
-  ],
+  "doctrine": "R0 + R64 + R72 + R74 + R75 + R81",
+  "operating_contract": "Per-lane: fixer formal-return → CI green → SHA stable ≥5 min → dual GPT-5.5 audit → fixer loop if any P0-P3 → merge ONLY on dual-CLEAN_NO_FINDINGS + CI green + (TM-5) operator PII sign-off.",
+  "audit_results_pass_1": {
+    "TM-3": {
+      "head": "1f9778da",
+      "lens_a": {"verdict": "CLEAN_NO_FINDINGS", "counts": {"p0":0,"p1":0,"p2":0,"p3":0}, "report": "handoffs/audit-reports/TM-3-re-audit-A-1f9778da.md"},
+      "lens_b": {"verdict": "FINDINGS_PRESENT",  "counts": {"p0":0,"p1":0,"p2":1,"p3":2}, "report": "handoffs/audit-reports/TM-3-re-audit-B-1f9778da.md"},
+      "dual_status": "FIXER_NEEDED (1 P2 + 2 P3 from Lens B)"
+    },
+    "TM-14": {
+      "head": "5bbe163d",
+      "lens_a": {"verdict": "CLEAN_NO_FINDINGS", "counts": {"p0":0,"p1":0,"p2":0,"p3":0}, "report": "handoffs/audit-reports/TM-14-re-audit-A-5bbe163d.md"},
+      "lens_b": {"verdict": "CLEAN_NO_FINDINGS", "counts": {"p0":0,"p1":0,"p2":0,"p3":0}, "report": "handoffs/audit-reports/TM-14-re-audit-B-5bbe163d.md"},
+      "dual_status": "DUAL-CLEAN_NO_FINDINGS — MERGE-ELIGIBLE per R81"
+    },
+    "TM-5": {
+      "head": "c7298ae1",
+      "audit_status": "not yet dispatched — CI now green + SHA stable ≥5 min (22 min). Dual GPT-5.5 audit dispatched this turn."
+    }
+  },
   "lanes": {
     "TM-3": {
       "pr": 434,
       "branch": "feat/tm-3-public-browse",
-      "previous_audited_head": "1846b04a",
-      "new_head": "1f9778da",
-      "stage": "re-audit-pending (dual GPT-5.5)",
-      "ci_status": "all green",
-      "sha_stable_since_min": 27,
-      "fixer_commits_landed": [
-        "887a98ce HMAC-sign keyset cursor + sort key + default arm + cta_listing_id",
-        "8da280b3 spec hardening — detail key-set lock, rogue-PII drop, cursor tamper, default-arm fallback",
-        "1f9778da public controller spec — @Public + throttle pin, no @Roles, UUID/validation, 404-not-403"
-      ],
-      "auditor_brief": "handoffs/wave3-briefs/TM-3_FIXER_BRIEF.md (for findings reference)",
+      "head": "1f9778da",
+      "stage": "fixer-pass-2-pending (Opus 4.8 fixer dispatched for Lens B's 1 P2 + 2 P3)",
+      "fixer_brief": "handoffs/wave3-briefs/TM-3_FIXER_BRIEF_R2.md",
       "auto_merge_on_dual_clean": true,
       "blockers": []
     },
     "TM-5": {
       "pr": 435,
       "branch": "feat/tm-5-apply-precoach",
-      "current_head": "c7298ae1",
-      "stage": "audit-blocked (CI build-and-test in_progress at cancel)",
-      "ci_status": "build-and-test in_progress",
+      "head": "c7298ae1",
+      "stage": "first-audit-pending (dual GPT-5.5 dispatched this turn — CI green, SHA stable 22 min)",
+      "ci_status": "all green",
       "fixer_commits_landed": [
         "0e0d033c @Roles('student') decorator on 4 ApplyController routes (CI-red fix)",
         "c7298ae1 apply auth-boundary + anonymous-confirmation PII contract specs"
       ],
-      "post_ci_green_audit_required": true,
-      "auditor_brief": "handoffs/wave3-briefs/TM-5_FIXER_BRIEF.md",
       "auto_merge_on_dual_clean": false,
-      "blockers": ["operator-pii-sign-off (binding even on dual-CLEAN)", "CI build-and-test must finish green"]
+      "blockers": ["operator-pii-sign-off (binding even on dual-CLEAN)"]
     },
     "TM-14": {
       "pr": 436,
       "branch": "feat/tm-14-connect-account-updated-webhook",
-      "previous_audited_head": "d5a611d9",
-      "new_head": "5bbe163d",
-      "stage": "re-audit-pending (dual GPT-5.5)",
-      "ci_status": "all green",
-      "sha_stable_since_min": 14,
-      "fixer_commits_landed": [
-        "de723680 controller JSON-parse guard test (B-P2-1)",
-        "5fb18f93 processed_at audit timestamp + missing_account_id branch (B-P2-3, B-P3-1)",
-        "f2f15d85 ADR — decline raw payload jsonb storage (B-P2-2)",
-        "5bbe163d B-P2-1 test fix — invoke handler directly, recovered CI to green"
-      ],
-      "auditor_brief": "handoffs/wave3-briefs/TM-14_FIXER_BRIEF.md",
-      "operator_decision_status": {
-        "B-P2-2": "fixer adopted default — declined raw payload storage, ADR docs/decisions/2026-06-17-tm-14-no-raw-payload-storage.md committed"
-      },
+      "head": "5bbe163d",
+      "stage": "MERGE-ELIGIBLE — dual-CLEAN_NO_FINDINGS + CI green + SHA stable 28+ min",
       "auto_merge_on_dual_clean": true,
-      "previous_merge_attempt": "DENIED by operator (cycle 28 first attempt) — re-audit required at new head"
+      "merge_action_pending": "auto-merge per R81 + cycle-28 plan",
+      "previous_merge_attempt": "DENIED by operator (first cycle-28 attempt before re-audit). Re-audit now CLEAN; operator denial cleared."
     }
   },
   "backend_main_sha": "d04f0c7c21a3e6bcf19e00b762701fc6f71573b8",
@@ -72,14 +63,6 @@
     "auditor": "gpt_5_5",
     "subagent_type": "codebase"
   },
-  "banned_tokens_src_and_tests": [
-    "@ts-ignore",
-    "as any",
-    "as unknown as",
-    "as never",
-    ".catch(()=>undefined)",
-    "Coming soon"
-  ],
   "required_ci_checks": [
     "build-and-test",
     "rls-floor-guard",
@@ -87,7 +70,7 @@
     "mwb-3-live-tests"
   ],
   "previous_subcycle_archived": {
-    "subcycle": "fixer-pass-1",
-    "outcome": "all 3 Opus 4.8 fixers landed remediation commits + R74-clean identity then went phantom. TM-3 + TM-14 CI green; TM-5 CI build-and-test in_progress at cancel."
+    "subcycle": "re-audit-pass-1",
+    "outcome": "TM-3 + TM-14 first re-audited at post-fixer SHAs. TM-14 dual-CLEAN, TM-3 has 1 P2 + 2 P3 from Lens B (cycle-lens identified HTTP-envelope drift on the new 404 path, parity nits on prod-secret warn + cta_listing_id pin test). TM-3 Lens A respawned after sandbox eviction on first attempt — also CLEAN."
   }
 }
