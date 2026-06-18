@@ -1,16 +1,68 @@
 {
-  "cycle": 26,
-  "ts": "2026-06-13T01:15-07:00",
+  "cycle": 27,
+  "ts": "2026-06-17T20:42-07:00",
+  "wave": "TGP Wave 3 — TM finisher dispatch",
+  "agent": "Agent 47",
+  "doctrine": "R64 (builder → dual GPT-5.5 audit → fixer → mandatory re-audit) + R0 HECTACORN/HYPERSCALER quality bars",
   "lanes": {
-    "1": {"pr": 241, "stage": "audit-R16", "worktree": "/home/user/workspace/tgp/mobile-241-audit", "head": "a19b90c41a01fdac2f85f8c92161a78952baab25", "model": "gpt_5_5", "subagent": "audit_241_r16_mqc30gcj"},
-    "2": {"pr": 306, "stage": "audit-R1-in-flight", "worktree": "/home/user/workspace/tgp/backend-306-audit", "model": "gpt_5_5", "subagent": "audit_306_r1_mqc244xh"},
-    "3": {"pr": 299, "stage": "audit-R1-in-flight", "worktree": "/home/user/workspace/tgp/backend-299-audit", "model": "gpt_5_5", "subagent": "audit_299_r1_mqc24aqj"},
-    "4": {"pr": 302, "stage": "audit-R1-in-flight", "worktree": "/home/user/workspace/tgp/backend-302-audit", "model": "gpt_5_5", "subagent": "audit_302_r1_mqc24ict", "note": "auth-adjacent"},
-    "5": {"pr": null, "stage": "free"}
+    "TM-3": {
+      "pr": 434,
+      "branch": "feat/tm-3-public-browse",
+      "snapshot_head": "54c84ea78427fe3d67f7703c339f50a7911c076f",
+      "stage": "builder-dispatch",
+      "worktree": "/home/user/workspace/tgp/backend-tm-3-finish",
+      "model": "claude_opus_4_8",
+      "loc_cap": 300,
+      "p0_fix": "src/talent-marketplace/__tests__/job-posting-jsonld.spec.ts:75 — replace over-strict not.toContain('applicant') with PII-field-name assertions (applicantEmail/applicantName/hirerEmail/hirerName)",
+      "auto_merge": true,
+      "blockers": [],
+      "brief": "/home/user/workspace/briefs/TM-3_BUILDER_BRIEF.md"
+    },
+    "TM-5": {
+      "pr": null,
+      "branch": "feat/tm-5-apply-precoach",
+      "snapshot_head": "af118f6679f3a7c5a86953a52daeb0fc44b9eb14",
+      "stage": "builder-dispatch",
+      "worktree": "/home/user/workspace/tgp/backend-tm-5-finish",
+      "model": "claude_opus_4_8",
+      "loc_cap": 390,
+      "auto_merge": false,
+      "blockers": ["operator-pii-sign-off"],
+      "brief": "/home/user/workspace/briefs/TM-5_BUILDER_BRIEF.md"
+    },
+    "TM-14": {
+      "pr": null,
+      "branch": "feat/tm-14-connect-account-updated-webhook",
+      "snapshot_head": "d6d5672d67c19eb0ef4f1b85e888eae4b098ac1f",
+      "stage": "builder-dispatch",
+      "worktree": "/home/user/workspace/tgp/backend-tm-14-finish",
+      "model": "claude_opus_4_8",
+      "loc_cap": 170,
+      "auto_merge": true,
+      "blockers": [],
+      "brief": "/home/user/workspace/briefs/TM-14_BUILDER_BRIEF.md"
+    }
   },
-  "merged_this_thread": ["#235@0ac5cab0", "#199@e5e3af66", "#311@a755abe5", "#237@9c752e86", "#198@54581263", "#393@a9d29aaa", "#305@c55d94f6"],
-  "deferred": ["#195", "#232 (testing-library v14 major — pinned, scheduled as Stage 4D-PREREQ)"],
-  "dirty_pending_operator": ["#233 (transitive @expo/ws-tunnel)"],
-  "open_non_audit": ["#242 (Option C plan)", "ED.4 split (staged, not opened)"],
-  "history_241": "R10→R11→R12 DIRTY 3→R13 fix→R14 DIRTY 5→R15 fix→R16 in flight"
+  "tm3_red_diagnosis": {
+    "classification": "spec-bug-over-strict-assertion",
+    "regression": false,
+    "safe_to_dispatch": true,
+    "file": "src/talent-marketplace/__tests__/job-posting-jsonld.spec.ts",
+    "line": 75,
+    "current_assertion": "expect(serialized).not.toContain('applicant')",
+    "cause": "buildJobPostingJsonLd correctly emits applicantLocationRequirements (standard schema.org JobPosting field, country name only, NOT PII). Substring match wrongly fails.",
+    "fix_owner": "TM-3 finisher (in scope per R71)",
+    "ci_run_failed": "https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/27730973668/job/82037762789",
+    "test_totals": "1 failed, 151 skipped, 5675 passed, 5832 total"
+  },
+  "backend_main_sha": "d04f0c7c21a3e6bcf19e00b762701fc6f71573b8",
+  "merged_this_thread": [],
+  "deferred": [],
+  "open_non_audit": ["#427 (MERGEABLE, green)", "#428 (CONFLICTING, FAILED, needs rebase)", "#266 mobile", "#429 P3", "#424 R82 umbrella", "#422 R82 grandfather"],
+  "operator_gates": [
+    "TM-5 PII sign-off (required even on dual-CLEAN)",
+    "TM-12 background-check provider (in-house build, no third-party)",
+    "TM-6 anti-bot provider (in-house default; prod TBD)",
+    "TM-8 / TM-12 / TM-13 PII/RLS approval before ship"
+  ]
 }
