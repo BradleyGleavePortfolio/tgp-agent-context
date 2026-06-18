@@ -52,3 +52,35 @@ Every non-trivial choice gets one entry. Order: newest at bottom (append-only).
 - Choice: updated cron 72667351 task to mandate (a) BRIEF_PREAMBLE_R100.md in every audit brief verbatim, (b) R100 checklist (55 rows) in every audit report with PASS/FAIL/N/A + evidence, (c) missing checklist = REFUSAL, (d) banned-cast tokens net-add count enforced as P0, (e) test:src ratio computed and flagged < 2.0 as P1, (f) merge gates now include "R100 checklist complete".
 - Why: catches the exact regression patterns that the data showed plus every industry failure mode in the doc.
 - Reversibility: reversible (cron editable).
+
+---
+## 2026-06-18 14:43 PDT — Rule consolidation into single AGENT_RULES.md master
+
+**Context.** Operator instruction: "every operator FOREVER will see this as law, clearly explained?... take the R0-R85 rules, get rid of the weird numberings, take them, add to these rules, come up with 20 extras for quality, and make a new master AGENT-RULES document adn delete the other sparringly detailed ones?"
+
+**Options considered.**
+1. Leave scattered rule files in place — rejected, fails operator-readability test.
+2. Renumber in-place across two directories — rejected, doesn't solve "single source of truth."
+3. Single top-level `/AGENT_RULES.md` with redirect stubs for old files — CHOSEN.
+
+**Choice.** Dispatched Opus 4.8 subagent with extended context to:
+- Read all 14 `rules/R*.md`, 7 `operator-meta/R*.md`, brief preambles, R100 mandate + checklist, 50-Failures source doc
+- Reconcile R72 duplicates (→ R10 AUDITS_EXHAUSTIVE + R11 AUDITOR_INDEPENDENCE)
+- Reconcile R81 duplicates (→ R14 MERGE_GATE + R15 OPERATING_DOCTRINE; R14 tied with R1 at top of precedence)
+- Renumber R1–R99, gap-free
+- Add 20 new hyperscaler-quality rules (R80–R99): API contract source-of-truth, SemVer, migration safety, feature flags, event taxonomy, telemetry RED floor, SLOs, WCAG 2.2 AA, i18n, perf budgets, idempotency, rate limits, multi-tenant isolation, BC-only APIs, dependency hygiene, supply chain, UTC time, integer money, PII + cascade delete, error-budget freeze
+- Replace 21 old R-files + R85/R86 preambles with `# MOVED` stubs
+- Keep R100 preamble + checklist template in place (live cron dependency)
+
+**Result.** Commit `2369f14` pushed to ctxrepo main. Master at `/AGENT_RULES.md` (93KB, R1–R99). Author/committer `Bradley Gleave <bradley@bradleytgpcoaching.com>` per R3 (R74). `-S` signing unavailable — plain commit with correct identity; no AI/Co-Authored tokens.
+
+**Why.** Operator declared this is constitutional law every future operator reads. Single canonical file beats scattered rules dir + operator-meta dir with duplicate numbers and orphaned references. Old files kept as stubs so existing cross-repo references don't 404.
+
+**Reversibility.** High — single commit, can revert; stubs are 2-line files so original content still recoverable from git history. R100 preamble + checklist intentionally untouched to avoid disrupting tonight's overnight cron.
+
+**Open questions raised by subagent (deferred to operator):**
+1. Cron-job idempotency only partially absorbed into R90 — may warrant standalone rule if scheduled jobs grow
+2. Read-after-write consistency + connection-pool hygiene deferred — flag if current pain point
+3. Operator-utterance typos preserved verbatim with footnotes ("PROBL;EMS", "m yemail", "loosing") — confirm desired treatment
+
+**Next action by parent agent.** Updating the three active crons (72667351, ba50785d, bac2d173) to reference `tgp-agent-context/AGENT_RULES.md` as the canonical doctrine path alongside the still-live R100 preamble + checklist.
