@@ -1,40 +1,44 @@
-# BRIEF PREAMBLE — R85 durability snippet
+# BRIEF PREAMBLE — R85 v3 checkpoint pushes
 
-Embed this verbatim at the TOP of every builder/fixer/auditor brief (after the "you are X" line, before the procedure):
+Embed verbatim in every builder/fixer/auditor brief.
 
 ---
 
-## ⚠️ R85 DURABILITY MANDATE — APPLY FROM MINUTE 1
+## R85 v3 — CHECKPOINT-DRIVEN PUSHES (BINDING)
 
-You MUST push your work-in-progress to a safety ref on GitHub every 2 minutes AND before every long-running command (any `npm test`, `tsc`, doctrine sweep, large `npm install`). Sandboxes have died mid-work multiple times; this protects against total work loss.
+Push your work-in-progress at named checkpoints, foreground only. **No daemon.**
+**No timer loop.** **No auto-push of unreviewed content.**
 
-**For builders/fixers (use a WIP ref — does NOT affect PRs):**
+### Required checkpoints (AUDITORS)
+1. After clone + setup → push empty stub
+2. After banned-token sweep → push partial
+3. After reading diff + measuring LOC → push partial with findings draft
+4. BEFORE any tsc / jest / doctrine-sweep / npm-install → push pre-build snapshot
+5. After build/test → push results
+6. Final report → push to `handoffs/audit-reports/TM-<N>-<X>-<SHA8>.md`
+
+### Required checkpoints (BUILDERS/FIXERS)
+1. After scaffold → push WIP + open PR
+2. After each file changed (or every 5 min)
+3. BEFORE any long command
+4. Before marking ready-for-audit
+
+### Push command (foreground)
 ```bash
-git add -A
+cd /tmp/ctxrepo  # or your worktree
+git add <files>
 git -c user.email=bradley@bradleytgpcoaching.com -c user.name=bradley \
-    commit -m "wip: <lane> snapshot" --allow-empty
-git push --force-with-lease origin HEAD:wip/<your-branch>-snapshot
-```
-WIP ref name: `wip/<feat-branch-name>-snapshot` (e.g., `wip/tm-7a-admin-listings-snapshot`).
-
-**For auditors (use the context repo `in-progress/` dir):**
-```bash
-cd /tmp/ctxrepo || git clone https://git-agent-proxy.perplexity.ai/BradleyGleavePortfolio/tgp-agent-context.git /tmp/ctxrepo && cd /tmp/ctxrepo
-mkdir -p handoffs/audit-reports/in-progress
-cp <your-report.md> handoffs/audit-reports/in-progress/TM-<N>-<lens>-<SHA8>.md
-git add handoffs/audit-reports/in-progress/ && \
-  git -c user.email=bradley@bradleytgpcoaching.com -c user.name=bradley commit -m "wip: TM-<N> Lens <X> audit snapshot" --allow-empty && \
-  git push origin main
+    commit -m "wip: <lane> @ <checkpoint-name>"
+git push origin main  # auditors → ctxrepo main
+# or
+git push --force-with-lease origin HEAD:wip/<lane>-snapshot  # builders/fixers
 ```
 
-**Cadence:**
-- Every 2 min during normal work
-- BEFORE every long command (tsc, jest, doctrine sweep, npm install)
-- AFTER any meaningful code change
-- BEFORE opening a PR
+### Identity (R74)
+Every commit: `bradley@bradleytgpcoaching.com`. No AI/Claude/Computer/Agent/
+Co-Authored tokens anywhere.
 
-**Identity:** R74 still applies to wip commits — never use AI/Claude/Computer/Agent/Co-Authored tokens. Always commit with `-c user.email=bradley@bradleytgpcoaching.com -c user.name=bradley`.
-
-**Verification at return:** Operator will check `gh api repos/BradleyGleavePortfolio/growth-project-backend/git/ref/heads/wip/<branch>-snapshot` exists and is fresh. Missing or stale = R85 violation.
-
----
+### What you DO NOT do
+- DO NOT launch `tools/r85_background_pusher.sh` — DEPRECATED.
+- DO NOT run any timed push loop in the background.
+- DO NOT push files you have not just inspected (`cat` your report before push).

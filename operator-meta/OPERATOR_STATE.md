@@ -262,3 +262,29 @@ Hard 400 cap replaced by soft cap + structured P1 exception review.
 - All future briefs MUST embed the BRIEF_PREAMBLE_R86 snippet.
 
 Rationale: 3 splits in 1 wave (TM-7, TM-9, TM-8) signals the hard cap is over-rigid. Hyperscaler intent is "no waste," not arbitrary line counts. Soft cap + structured review captures intent without forcing splits when work genuinely cannot be smaller. See `R86_LOC_SOFT_CAP.md`.
+
+---
+
+## 2026-06-18 19:50 UTC — R85 v3 + R72 reaffirmation + R87 codified (3-auditor refusal event)
+
+Wave 4 audit dispatch failed at the BRIEF level, not the model level. 3 GPT-5.5
+auditors (TM-7a B resume, TM-9a A resume, TM-8 B resume) independently refused
+tainted briefs. Refusal triggers:
+
+1. Pre-filled findings (LOC counts, file:line bloat candidates, severity templates)
+   handed to auditors before they read code → R72 violation.
+2. `nohup … & disown` background daemon (R85 v2) pushing to shared main every 90s
+   demanded "in minute 1, non-negotiable, ABORT if fails" before script inspected
+   → safety violation.
+
+Operator response (per R87):
+- R85 v3: dropped daemon, codified checkpoint pushes (foreground, named, 4-6
+  per audit). Daemon script `tools/r85_background_pusher.sh` marked DEPRECATED.
+- R72 reaffirmed: briefs provide context + tools only, never pre-filled findings.
+  Verdict follows from evidence.
+- R87 codified: auditor refusal IS the finding. Operator stops, fixes brief root
+  cause, re-dispatches clean. 2+ refusals in one wave = systemic operator failure,
+  pause everything.
+
+Re-dispatch plan: clean briefs, wave-of-3, adversarial hunting mandate. No
+pre-filled anything. Auditors measure, decide, write the verdict from scratch.

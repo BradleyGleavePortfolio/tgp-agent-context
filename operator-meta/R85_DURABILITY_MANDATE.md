@@ -1,112 +1,103 @@
-# R85 — DURABILITY MANDATE (v2: background pusher mandatory)
+# R85 — DURABILITY MANDATE (v3: checkpoint-driven foreground pushes)
 
-**Status:** BINDING. v2 supersedes manual-push-every-2-min language.
+**Status:** BINDING. v3 supersedes v2 (background daemon) which was incorrect.
 
-## The problem v1 didn't solve
+## Why v2 was wrong
 
-Manual "push every 2 min" instructions fail under load. Once an agent enters a
-long-running operation (`npm install`, `jest`, `tsc --noEmit`, doctrine sweep),
-foreground push cadence breaks because the agent is blocked. Wave 4 audits
-(2026-06-18) showed pushes stretching from the mandated 90-120s to 200-300s
-once builds started.
+v2 mandated a `nohup … & disown` background daemon pushing to shared `main`
+every 90s. Three independent GPT-5.5 auditors (Wave 4, 2026-06-18) refused to
+launch it on principle. They were correct. Four stacked problems:
 
-## v2 rule — background pusher process
+1. **Irreversible** — commits on shared `main` are pulled by every other client
+2. **Shared-state collision risk** — parallel auditors rebase over each other
+3. **Unattended loop** — detached, no health-check on what's pushed, runs after
+   foreground crash
+4. **Hardcoded identity** — every push signs as the operator without operator
+   inspection
 
-Every builder, fixer, and auditor MUST start the R85 background pusher in
-**minute 1**, BEFORE any other work, as a detached bash background process.
+The daemon also solved the wrong problem: Wave 4 zombies died in minute 1
+(sandbox-not-found before any work ran), not at the 90s push-gap interval.
 
-The pusher runs independently of the agent's foreground work and pushes every
-90 seconds regardless of what the agent is doing.
+## v3 rule — checkpoint pushes, foreground only
 
-Script: `tools/r85_background_pusher.sh` in `tgp-agent-context` repo (this repo).
+Every builder, fixer, and auditor MUST push at named checkpoints:
 
-## Required minute-1 sequence for AUDITORS
+### AUDITORS — required checkpoints
 
+1. **After clone + setup** (within first 3 min) — push empty stub report
+2. **After banned-token sweep** — push partial with sweep results
+3. **After reading PR diff + coverage map** — push partial with measured LOC
+4. **BEFORE any long-running command** (`npx tsc`, `npm test`, doctrine sweep,
+   `npm install`) — push pre-build snapshot
+5. **After build/test completes** — push results
+6. **Final report** — push to `handoffs/audit-reports/TM-<N>-<X>-<SHA8>.md`
+   (NOT `in-progress/`) with conclusive verdict
+
+Push command (foreground, intentional):
 ```bash
-# 1. Clone or refresh context repo
-cd /tmp/ctxrepo || git clone https://git-agent-proxy.perplexity.ai/BradleyGleavePortfolio/tgp-agent-context.git /tmp/ctxrepo
-cd /tmp/ctxrepo && git fetch origin main && git reset --hard origin/main
-
-# 2. Create empty report stub immediately
+cd /tmp/ctxrepo
 mkdir -p handoffs/audit-reports/in-progress
-REPORT=/tmp/audit-report.md
-cat > $REPORT <<MD
-# TM-<N> Lens <X> audit @ <SHA8> (IN PROGRESS)
-Started: $(date -u)
-MD
-
-# 3. Initial push (proves we got here)
-cp $REPORT handoffs/audit-reports/in-progress/TM-<N>-<X>-<SHA8>.md
+cp /tmp/audit-report.md handoffs/audit-reports/in-progress/TM-<N>-<X>-<SHA8>.md
+git fetch origin main && git reset --soft origin/main 2>/dev/null
 git add handoffs/audit-reports/in-progress/
-git -c user.email=bradley@bradleytgpcoaching.com -c user.name=bradley commit -m "wip: TM-<N> Lens <X> audit started" --allow-empty
-git push origin main
-
-# 4. Start background pusher
-export R85_MODE=auditor
-export R85_CTXREPO=/tmp/ctxrepo
-export R85_REPORT_FILE=$REPORT
-export R85_DEST_NAME=TM-<N>-<X>-<SHA8>.md
-export R85_INTERVAL=90
-nohup bash tools/r85_background_pusher.sh > /tmp/r85-pusher.log 2>&1 &
-disown
-echo "R85 pusher PID: $!"
-
-# 5. Now do the actual audit work, writing to $REPORT as you go
+git -c user.email=bradley@bradleytgpcoaching.com -c user.name=bradley \
+    commit -m "wip: TM-<N> Lens <X> audit @ <checkpoint-name>"
+# Retry on non-fast-forward (other auditors push too):
+for attempt in 1 2 3; do
+  git push origin main && break
+  git fetch origin main && git rebase origin/main || git rebase --abort
+done
 ```
 
-## Required minute-1 sequence for BUILDERS/FIXERS
+### BUILDERS/FIXERS — required checkpoints
 
+1. **After branch creation + initial scaffold** — push empty WIP commit + open PR
+2. **After each file added/modified** (or every 5 min, whichever first)
+3. **BEFORE any long-running command**
+4. **Before opening the final PR or marking ready-for-audit**
+
+Push command:
 ```bash
-# 1. Set up worktree
 cd /home/user/workspace/tgp/<lane>
-git checkout -b feat/<lane> origin/main || git checkout feat/<lane>
-
-# 2. Initial commit (even empty) + push to wip ref
-git -c user.email=bradley@bradleytgpcoaching.com -c user.name=bradley commit -m "wip: <lane> started" --allow-empty
-git push --force-with-lease origin HEAD:wip/<lane>-snapshot
-
-# 3. Clone ctxrepo for the pusher script
-[ -d /tmp/ctxrepo ] || git clone https://git-agent-proxy.perplexity.ai/BradleyGleavePortfolio/tgp-agent-context.git /tmp/ctxrepo
-
-# 4. Start background pusher
-export R85_MODE=builder
-export R85_BRANCH=feat/<lane>
-export R85_WIP_REF=wip/<lane>-snapshot
-export R85_WORKTREE=/home/user/workspace/tgp/<lane>
-export R85_INTERVAL=90
-nohup bash /tmp/ctxrepo/tools/r85_background_pusher.sh > /tmp/r85-pusher.log 2>&1 &
-disown
-echo "R85 pusher PID: $!"
-
-# 5. Now do the actual work
+git add -A
+git -c user.email=bradley@bradleytgpcoaching.com -c user.name=bradley \
+    commit -m "wip: <lane> @ <checkpoint>" --allow-empty
+git push --force-with-lease origin "HEAD:wip/<lane>-snapshot"
 ```
+
+## What v3 explicitly DOES NOT do
+
+- **No background daemon**. No `nohup`, no `disown`, no `&` push loops.
+- **No timer-based pushes**. All pushes are at named checkpoints the agent
+  consciously reaches.
+- **No auto-push of unreviewed content**. The agent must `cat` its own report
+  file at each checkpoint (mental review) before pushing.
 
 ## Identity (R74 carries through)
 
-The pusher script is hardcoded to use `bradley@bradleytgpcoaching.com`. Do NOT
-override `GIT_AUTHOR_EMAIL` / `GIT_COMMITTER_EMAIL` anywhere.
+Every commit signed `bradley@bradleytgpcoaching.com`. No AI/Claude/Computer/
+Agent/Co-Authored tokens.
 
 ## Verification at return
 
 When an agent returns, operator checks:
 
-1. `gh api repos/.../git/ref/heads/<wip-or-in-progress>` exists
-2. Last commit on that ref is < 3 min old when the agent reported completion
-3. At least 3 wip commits exist (proves the pusher actually ran, not just a single push)
-
-If only 1 push exists or last push > 5 min before reported completion → R85 v2
-violation, agent flagged.
-
-## Background pusher safety features
-
-- `R85_MAX_MIN` env var (default 60) — pusher auto-exits after that many minutes
-- 3-retry push loop with rebase on non-fast-forward (handles parallel auditors)
-- Empty-commit allowance so HEAD timestamp refreshes even when no diff
-- Logs to `/tmp/r85-pusher.log` for post-mortem
+1. At least 3 wip commits exist for that lane (proves checkpoints fired)
+2. Each commit message names a checkpoint (e.g., "post-sweep", "pre-build",
+   "post-jest")
+3. Final report path matches `handoffs/audit-reports/TM-<N>-<X>-<SHA8>.md`
+   (NOT in-progress/)
+4. R74 identity on every commit
 
 ## Why this is hyperscaler
 
-Apple/Google/Notion don't trust their foreground work to checkpoint itself
-under load. They run sidecar daemons (think Datadog agent, OTEL collector,
-chaos monkey) that operate independently of the application thread. R85 v2
-is the same pattern at the agent level.
+Apple/Google/Notion don't run unattended sidecars that sign in your name.
+They run **structured checkpoints with named gates**. CI pipelines do this.
+Database transactions do this. The agent equivalent is named-checkpoint
+foreground pushes — bounded, reviewable, intentional.
+
+## Tracked by
+
+- `operator-meta/R85_DURABILITY_MANDATE.md` (this file)
+- `operator-meta/BRIEF_PREAMBLE_R85.md` (canonical snippet for briefs)
+- `tools/r85_background_pusher.sh` — DEPRECATED, do not invoke

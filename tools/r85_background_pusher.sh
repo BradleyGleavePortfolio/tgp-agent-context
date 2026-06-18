@@ -1,3 +1,6 @@
+# DEPRECATED 2026-06-18 19:50 UTC — see R85 v3. Do not invoke.
+# Kept for historical reference only.
+
 #!/bin/bash
 # R85 BACKGROUND PUSHER — runs independently of foreground agent work.
 # Pushes the in-progress audit report to GitHub every 90 seconds.
