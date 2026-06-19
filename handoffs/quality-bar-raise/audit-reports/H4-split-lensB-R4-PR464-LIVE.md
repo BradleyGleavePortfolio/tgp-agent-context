@@ -1,6 +1,6 @@
 # H4 Split Lens B R4 — PR #464 LIVE
 
-STATUS: IN PROGRESS — sweep started 2026-06-19T20:18:49Z
+STATUS: PASS 1 COMPLETE — sweep started 2026-06-19T20:18:49Z
 
 ## BUILD MATRIX (R124)
 - main pre-work from brief: 8467c6f568a51337a7acbfb14f72ac85b996d605
@@ -30,7 +30,7 @@ STATUS: IN PROGRESS — sweep started 2026-06-19T20:18:49Z
 | 2 | AST identifier resolution | Function parameter shadows file const key | `const K="OUTER_SECRET"; function f(K){ process.env[K] }` | Dynamic parameter must not resolve to outer const | Probe returned `["OUTER_SECRET"]` because binding count only counts `VariableDeclaration`, not parameters | FAIL |
 
 ## DOCTRINE RULE COVERAGE (R1–R126)
-Pending exhaustive table in final pass.
+Pass 1 complete at 2026-06-19T20:25:39Z; final R1-R126 table will be written after pass 2.
 
 ## NEW FINDINGS
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
