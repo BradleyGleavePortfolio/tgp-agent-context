@@ -28,7 +28,6 @@ STATUS: IN PROGRESS — sweep started 2026-06-19T17:36:16Z
 ## R2 EXHAUSTIVE ADVERSARIAL SWEEP
 | # | Category | Probe | Input | Expected | Observed | Status |
 |---|---|---|---|---|---|---|
-| F001 | P2 | R31/R36/R40 | test/prod-readiness/provider-wiring.ts:145-156,234-310 | The Supabase service-role validator only checks `^eyJ...\....\....$`; probes #20/#22 accepted non-JSON/non-JWT-like strings such as `eyJbad.abc.def`, and probe #26 classified Supabase as WIRED when that malformed value was supplied with a URL. | Parse the JWT segments with base64url decoding, require valid JSON header/payload, require plausible Supabase service-role claims/issuer/audience as far as offline validation permits, and classify malformed tokens as STUB with tests for malformed-but-regex-shaped inputs. |
 | 1 | validator/stripe | secret length 23 | `sk_live_aaaaaaaaaaaaaaaaaaaaaaa` | False | False | PASS |
 | 2 | validator/stripe | secret length 24 | `sk_live_aaaaaaaaaaaaaaaaaaaaaaaa` | True | True | PASS |
 | 3 | validator/stripe | secret length 25 | `sk_live_aaaaaaaaaaaaaaaaaaaaaaaaa` | True | True | PASS |
@@ -110,6 +109,7 @@ Pending full R1-R126 table.
 ## NEW FINDINGS
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
 |---|---|---|---|---|---|
+| F001 | P2 | R31/R36/R40 | test/prod-readiness/provider-wiring.ts:145-156,234-310 | The Supabase service-role validator only checks `^eyJ...\....\....$`; probes #20/#22 accepted non-JSON/non-JWT-like strings such as `eyJbad.abc.def`, and probe #26 classified Supabase as WIRED when that malformed value was supplied with a URL. | Parse the JWT segments with base64url decoding, require valid JSON header/payload, require plausible Supabase service-role claims/issuer/audience as far as offline validation permits, and classify malformed tokens as STUB with tests for malformed-but-regex-shaped inputs. |
 
 ## VERDICT
 Pending.
