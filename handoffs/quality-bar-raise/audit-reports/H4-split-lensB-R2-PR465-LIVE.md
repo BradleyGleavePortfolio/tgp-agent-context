@@ -110,6 +110,7 @@ Pending full R1-R126 table.
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
 |---|---|---|---|---|---|
 | F001 | P2 | R31/R36/R40 | test/prod-readiness/provider-wiring.ts:145-156,234-310 | The Supabase service-role validator only checks `^eyJ...\....\....$`; probes #20/#22 accepted non-JSON/non-JWT-like strings such as `eyJbad.abc.def`, and probe #26 classified Supabase as WIRED when that malformed value was supplied with a URL. | Parse the JWT segments with base64url decoding, require valid JSON header/payload, require plausible Supabase service-role claims/issuer/audience as far as offline validation permits, and classify malformed tokens as STUB with tests for malformed-but-regex-shaped inputs. |
+| F002 | P2 | R31/R40/R59 | test/prod-readiness/provider-wiring.ts:348-356,217-219 | `collectFileEvidence` uses `fs.existsSync` only, so a directory or other non-regular path satisfies `AWS_WEB_IDENTITY_TOKEN_FILE_EXISTS`; probes #48-49 passed a directory path and observed AWS S3 classified as WIRED instead of STUB. | Replace existence-only evidence with `fs.statSync`/`lstatSync` plus `isFile()` and readable-access checks, handle errors explicitly, and report a diagnostic for non-file credential paths. |
 
 ## VERDICT
 Pending.
