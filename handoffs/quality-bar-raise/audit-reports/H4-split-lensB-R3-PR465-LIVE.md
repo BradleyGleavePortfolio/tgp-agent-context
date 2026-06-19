@@ -1,6 +1,6 @@
 # H4 Split Lens B R3 Live Audit - PR 465
 
-STATUS: PASS 1 COMPLETE
+STATUS: PASS 2 IN PROGRESS
 
 ## BUILD MATRIX (R124)
 - main pre-work: 8467c6f568a51337a7acbfb14f72ac85b996d605
