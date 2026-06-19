@@ -57,13 +57,25 @@ STATUS: IN PROGRESS — sweep started 2026-06-19T20:30:00Z
 | 29 | error | registry load failure | bad yaml | wrapped RegistryParseError | re-throws wrapped (no swallow) | PASS |
 | 30 | typing | banned casts in src | grep diff | 0 net | tsc compiles clean; CI banned-cast green | PASS |
 
+## ADDITIONAL PASS-2 PROBES
+- ENV_RULES AST: plain / as-const / satisfies / reordered / shorthand-skip / other-array / bad-name all correct; property-order independent; rejects non-ENV_VAR_NAME; ignores non-ENV_RULES arrays.
+- tests: 204 expect across 157 it/test; 1 weak-only; 0 .skip (R40/R117/R123 PASS).
+- diff tokens: 0 net banned-cast, 0 TODO/FIXME (R75/R39 PASS).
+- decl-after-use `process.env[K];const K` resolves FOO (static; acceptable, over-discovery is the safe direction).
+
 ## DOCTRINE RULE COVERAGE (R1–R126)
-(populated after sweep — see final report)
+Every applicable rule covered; full table in combined report H4-split-lensA-halfB-R4.md. Highlights:
+- R3 PASS (Bradley on all 4 prod commits). R10/R11 PASS (full diff, re-derived via live AST execution). R74 PASS (2.21). R75 PASS (0 net). R76 PASS (net prod negative; CI green). R117/R123/R40 PASS (assertion-bearing). R112 PASS (no any/unknown; clean compile). R66/R111 PASS (no dead/unused; noUnusedLocals clean). R108/R100 PASS (this tool IS the env-registry enforcement surface). R103/R118 PASS (CodeQL green).
+- R59 / R65 / R109: the F002 fail-closed INTENT is incomplete — see L464-001 (param/catch identifier shadows not counted toward ambiguity → false-positive env-var fabrication).
+- Security rules R24–R36, data R67–R70, concurrency R51–R55, API/contract R80–R99 mostly N/A (pure static-analysis test harness with no DB/HTTP/auth/PII/payments/UI).
 
 ## NEW FINDINGS
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
 |---|---|---|---|---|---|
 | L464-001 | P2 | R59 (fail-closed intent) / R109 / R65 | test/prod-readiness/env-discovery.ts:329-336 (collectStringConsts.countBindings) | The F002 fail-closed binding-count walk counts ONLY `ts.isVariableDeclaration` nodes. Function parameters (`ParameterDeclaration`) and catch-clause variables (`CatchClause.variableDeclaration` identifier) are NOT counted. So `function f(K){ return process.env[K]; } const K='FOO';` resolves the *dynamic* param read inside `f` to the file-scope const → fabricates env var `FOO` (false positive). Live AST probe confirmed: param-shadow→[FOO], arrow-param→[BAR], catch-shadow→ resolves file const. The doc comment claims fail-closed on "inner block/function const that shadows an outer one" and "let/var shadow of a const" — but parameter/catch shadows slip the guard. Effect: a dynamic `process.env[param]` read is mis-attributed to a same-named string const, producing a spurious UNDECLARED/TRACKED classification (false ship-block or mis-track), not a false negative. | In `countBindings`, also count `ts.isParameter(node)` (when `node.name` is an identifier) and `CatchClause` variable identifiers toward `bindingCounts`, so any identifier whose name is also bound as a param/catch var anywhere in the file is treated as ambiguous and dropped from the resolvable const map (fail-closed). Alternatively, scope-track resolution so a const only resolves reads in scopes where it is not shadowed. Add spec cases for param-shadow and catch-shadow asserting empty resolution. |
 
+STATUS: PASS 1 COMPLETE
+STATUS: PASS 2 COMPLETE
+
 ## VERDICT
-(pending passes)
+FINDINGS-1 (P2 L464-001: F002 fail-closed gap on function-parameter / catch-clause identifier shadows fabricates env-var names from same-named file-scope consts; false-positive, not false-negative)
