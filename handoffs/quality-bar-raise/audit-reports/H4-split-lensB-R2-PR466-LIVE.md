@@ -47,7 +47,11 @@ STATUS: IN PROGRESS — sweep started 2026-06-19T17:36:25Z
 | 18 | redaction | api_key=topsecret123 | `api_key=topsecret123` | api_key=*** | api_key=topsecret123 | FAIL |
 | 19 | redaction | MY-SECRET=topsecret123 | `MY-SECRET=topsecret123` | MY-SECRET=*** | MY-SECRET=*** | PASS |
 | 20 | redaction | MY_SECRET = top secret with spaces | `MY_SECRET = top secret with spaces` | MY_SECRET=*** | MY_SECRET=*** secret with spaces | FAIL |
-| 21 | redaction | MY_SECRET=topsecret123\nNEXT=two | `MY_SECRET=topsecret123\nNEXT=two` | MY_SECRET=***\nNEXT=*** | MY_SECRET=***\nNEXT=*** | PASS |
+| 21 | redaction | MY_SECRET=topsecret123
+\nNEXT=two | `MY_SECRET=topsecret123
+\nNEXT=two` | MY_SECRET=***
+\nNEXT=*** | MY_SECRET=***
+\nNEXT=*** | PASS |
 | 22 | flyErrorMessage | stderr KEY=VALUE | `Buffer stderr` | redacted | err MY_SECRET=*** | PASS |
 | 23 | flyErrorMessage | stderr bare value | `Buffer stderr` | redacted | err topsecret123 | FAIL |
 | 24 | flyErrorMessage | message KEY=VALUE | `Error.message` | redacted | failed MY_SECRET=*** | PASS |
@@ -90,6 +94,7 @@ Pending full R1-R126 table.
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
 |---|---|---|---|---|---|
 | F001 | P1 | R24/R35/R98/R110 | test/prod-readiness/auto-flipper.ts:51-58,281-290,376-380 | The redactor only handles uppercase `KEY=VALUE` runs; probes #11-18/#20/#23/#25/#40-41 leaked quoted assignment values (`KEY='value'`/`KEY="value"`), JSON/YAML/header/URL-encoded/lowercase forms, bare values, and space-containing values through `redactSecretValues`, `flyErrorMessage`, and `result.failed[i].error`. | Replace pattern-only redaction with value-aware redaction using the planned key/value set plus broad secret-pattern detectors for JSON/YAML/header/URL-encoded/lowercase assignments; ensure every error/log/audit path runs through the same tested sanitizer. |
+| F002 | P1 | R24/R35/R59/R98 | test/prod-readiness/auto-flipper.ts:342-344 | `opts.recheckCurrent(row.name)` is awaited outside the redacting `try/catch`; probe #42 threw `recheck blew topsecret123 MY_SECRET=value` and observed the raw message propagate while aborting the commit. | Wrap the recheck callback in a redacting error boundary, add the row to `failed` or `skipped` with sanitized context, continue processing subsequent rows, and test callback exceptions containing bare and `KEY=VALUE` secrets. |
 
 ## VERDICT
 Pending.
