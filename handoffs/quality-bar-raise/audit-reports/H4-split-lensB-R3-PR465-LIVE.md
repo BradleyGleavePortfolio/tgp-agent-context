@@ -36,6 +36,9 @@ STATUS: IN PROGRESS - sweep started 2026-06-19T18:33:45Z
 | 1 | validator/service token | JWT payload has only `iss` | service-role slot should not wire without service role evidence | classified WIRED | FAIL |
 | 2 | validator/service token | JWT payload has only `ref` | service-role slot should not wire without service role evidence | classified WIRED | FAIL |
 | 3 | file evidence | token path is symlink to readable file | evidence true and provider WIRED | evidence false, provider STUB | FAIL |
+| F003 | P3 | R40/R80/R117 | test/prod-readiness/provider-wiring.ts:498-509 | `extractModuleSpecifiers` records `ImportDeclaration` and `ExportDeclaration` module specifiers without checking `importClause.isTypeOnly` or `isTypeOnly` on type-only re-exports. Independent probes for `import type { Stripe } from "stripe"` and `export type { Stripe } from "stripe"` both returned `stripe`, so erased type references can be treated as runtime provider wiring. | Skip type-only imports and re-exports in the runtime package scanner, or split type evidence from runtime evidence; add tests for `import type`, `export type`, side-effect imports, and runtime re-exports. |
+| 4 | import scanner | type-only import | `import type { Stripe } from "stripe"` | runtime package set empty | returned `stripe` | FAIL |
+| 5 | import scanner | type-only re-export | `export type { Stripe } from "stripe"` | runtime package set empty | returned `stripe` | FAIL |
 
 ## DOCTRINE RULE COVERAGE (R1-R126)
 Pending full table after both passes.
@@ -43,6 +46,7 @@ Pending full table after both passes.
 ## NEW FINDINGS
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
 |---|---|---|---|---|---|
+| F003 | P3 | R40/R80/R117 | test/prod-readiness/provider-wiring.ts:498-509 | `extractModuleSpecifiers` records `ImportDeclaration` and `ExportDeclaration` module specifiers without checking `importClause.isTypeOnly` or `isTypeOnly` on type-only re-exports. Independent probes for `import type { Stripe } from "stripe"` and `export type { Stripe } from "stripe"` both returned `stripe`, so erased type references can be treated as runtime provider wiring. | Skip type-only imports and re-exports in the runtime package scanner, or split type evidence from runtime evidence; add tests for `import type`, `export type`, side-effect imports, and runtime re-exports. |
 
 ## VERDICT
 Pending.
