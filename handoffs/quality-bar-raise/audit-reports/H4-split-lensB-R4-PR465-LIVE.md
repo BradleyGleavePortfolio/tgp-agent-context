@@ -21,12 +21,13 @@ STATUS: IN PROGRESS — sweep started 2026-06-19T20:19:50Z
 ## R3 FINDINGS CLOSURE STATUS (sub-task)
 | ID | Status | Evidence |
 |---|---|---|
-| pending | IN PROGRESS | Will verify from source/diff, not prior reports. |
+| F001 | CLOSED | `payload.role === "service_role"` hard gate rejects anon/iss/ref-only tokens; new alg validation gap found separately as R4-F001. |
 
 ## R4 EXHAUSTIVE ADVERSARIAL SWEEP
 | # | Category | Probe | Input | Expected | Observed | Status |
 |---:|---|---|---|---|---|---|
 | 1 | kickoff | Live report initialized before probing | PR #465 | Durable checkpoint | This file committed first | PASS |
+| 2 | Supabase JWT shape | `alg: none` token with `role: service_role` | Header `{alg:"none",typ:"JWT"}`, payload `{role:"service_role"}` | Must be STUB/rejected; unsigned alg-none is not a plausible service-role JWT | `isPlausibleSupabaseServiceRoleJwt` returned true and provider classified WIRED with a plausible URL | FAIL |
 
 ## DOCTRINE RULE COVERAGE (R1–R126)
 Pending exhaustive table in final pass.
@@ -34,6 +35,7 @@ Pending exhaustive table in final pass.
 ## NEW FINDINGS
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
 |---|---|---|---|---|---|
+| R4-F001 | P2 | R30/R31/R40/R108 | `test/prod-readiness/provider-wiring.ts:199-209` | The Supabase validator accepts any non-empty string `header.alg`; an offline-crafted JWT with `alg:"none"` and `role:"service_role"` returns true, so the provider can report WIRED for an unsigned/dummy service-role token. | Require a plausible Supabase signing algorithm (e.g. HS256) and reject `none`/unknown alg values before the role gate. |
 
 ## VERDICT
 Pending.
