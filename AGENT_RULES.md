@@ -1134,6 +1134,306 @@ R109 CI job is mandatory on every PR. Net positive violations = P0 audit finding
 
 ---
 
+### R110 — Secrets scanning pre-commit and CI
+
+**Headline:** High-entropy strings, API keys, tokens, private keys, and known credential shapes are blocked at commit time AND at CI time. No high-entropy string lands in `origin/main`.
+
+**Why.** Hyperscaler rule #2. The first leak destroys trust forever. Pre-commit catches developer mistakes; CI catches what bypassed the hook (force-push, GitHub web edit, agent without hook). Defense in depth per R125.
+
+**Compliance.**
+1. Pre-commit hook runs `gitleaks protect --staged --redact` and blocks the commit on any finding.
+2. CI workflow `secrets-scan.yml` runs `gitleaks detect --redact --log-opts="-p origin/main..HEAD"` on every PR — exit non-zero blocks merge.
+3. Custom rules for `bradley@bradleytgpcoaching.com`-flavored false positives go in `.gitleaks.toml` at repo root.
+
+**Checklist line:** Before push: `gitleaks detect --redact` exit 0; CI secrets-scan workflow exists and is required.
+**Audit lens:** Lens A confirms `.gitleaks.toml` present, CI workflow runs on PR, blocking required-status configured in branch protection.
+**Failure mode.** Without R110, a single careless paste leaks a secret to a public mirror; rotation cost + reputational damage compounds.
+
+---
+
+### R111 — No unused imports, no unused locals
+
+**Headline:** `tsc --noUnusedLocals --noUnusedParameters` is enabled repo-wide; CI fails on any unused import, parameter, or local variable.
+
+**Why.** Hyperscaler rule #4. Unused imports are dead code in disguise — they hide stale dependencies, increase bundle size, and signal sloppy refactors. Free signal of code hygiene.
+
+**Compliance.**
+1. `tsconfig.json` has `"noUnusedLocals": true, "noUnusedParameters": true`.
+2. ESLint rules `@typescript-eslint/no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]` and `unused-imports/no-unused-imports: error`.
+3. CI tsc + ESLint jobs are required status checks.
+
+**Checklist line:** `npm run lint && npm run typecheck` exit 0 before push.
+**Audit lens:** Lens B confirms tsconfig flags + ESLint rules present + CI gates required.
+**Failure mode.** Without R111, dead code accumulates; refactor confidence drops because "this might still be used" becomes the default.
+
+---
+
+### R112 — Strict typing teeth (no `any`, no `unknown` escape hatches)
+
+**Headline:** `@typescript-eslint/no-explicit-any: error` and `@typescript-eslint/no-unsafe-*: error` repo-wide. R75/R100.A2 cast-token ban is now actively enforced by lint, not just by audit grep.
+
+**Why.** Hyperscaler rule #5 + extension of R75/R100.A2/R104. The audit-grep approach catches violations AFTER the agent commits — by then the diff is dirty and the cycle has started. Lint catches it during `npm run lint` so the agent can self-fix BEFORE push.
+
+**Compliance.**
+1. `.eslintrc` includes the `@typescript-eslint/recommended-requiring-type-checking` ruleset.
+2. The full ban list (R75/R100.A2): `no-explicit-any`, `no-unsafe-assignment`, `no-unsafe-member-access`, `no-unsafe-call`, `no-unsafe-return`, `no-unsafe-argument`, plus custom rule rejecting `as any | as unknown as | as never`.
+3. `.catch(()=>null|undefined|{})` caught by `no-floating-promises` + custom rule `no-silent-catch`.
+4. R109 banned literal `Coming soon` caught by custom rule `no-stub-literal`.
+
+**Checklist line:** `npm run lint` exit 0; net banned-token grep returns 0.
+**Audit lens:** Lens A counts net banned tokens in diff; Lens B confirms ESLint rules are `error` level not `warn`.
+**Failure mode.** Without R112, type-safety violations slip past commit and only surface in audit — wasting one cycle per finding.
+
+---
+
+### R113 — CVE thresholds block CI
+
+**Headline:** Any dependency with a CRITICAL or HIGH CVE published >7 days ago blocks the build. 7-day grace lets Renovate ship a fix PR first.
+
+**Why.** Hyperscaler rule #8. A known-exploited CVE in your bundle is negligence post-publication. 7-day grace is the hyperscaler norm — instant blocking creates false-positive churn.
+
+**Compliance.**
+1. CI job runs `npm audit --audit-level=high --json | jq '<custom filter for age >7d>'` and exits non-zero on any match.
+2. Renovate config has `vulnerabilityAlerts.enabled: true` with a high-priority schedule.
+3. Suppression of an active CVE requires a `.audit-ignore.yml` entry with: `cve`, `reason`, `expires`, `owner: bradley@bradleytgpcoaching.com`. Expires past 30 days = CI fail.
+
+**Checklist line:** `npm audit --audit-level=high` exit 0 OR every offender has a fresh `.audit-ignore.yml` entry.
+**Audit lens:** Lens A confirms CI gate exists and is required; Lens B confirms no `.audit-ignore.yml` entry is expired.
+**Failure mode.** Without R113, your bundle ships known-exploitable code; insurer/enterprise customer audits fail.
+
+---
+
+### R114 — No floating versions
+
+**Headline:** Every `dependency` and `devDependency` in `package.json` is an exact version (no `^`, no `~`, no `*`). Lockfile is committed and verified.
+
+**Why.** Hyperscaler rule #9. Floating ranges = non-reproducible builds. Two installs hours apart pull different bytes. R124 (Reproducibility) is impossible without R114.
+
+**Compliance.**
+1. CI job `lockfile-check.yml` runs `npm ci --ignore-scripts` from clean state; any drift fails.
+2. Danger rule rejects PRs that touch `package.json` without a matching `package-lock.json` diff.
+3. `package.json` lint: `grep -E '"[~^*]' package.json` must return empty.
+
+**Checklist line:** Both `package.json` and `package-lock.json` in diff together; no `~` or `^` ranges introduced.
+**Audit lens:** Lens A greps for floating ranges; Lens B confirms danger rule active.
+**Failure mode.** Without R114, "works on my machine" returns; supply-chain attacks become harder to trace.
+
+---
+
+### R115 — SBOM per build (already partial in H2)
+
+**Headline:** Every PR build emits a CycloneDX-formatted SBOM as a workflow artifact. Released versions have the SBOM attached to the GitHub Release.
+
+**Why.** Hyperscaler rule #10. Required for enterprise sales, FedRAMP, SOC2. The SBOM is the source of truth for "what's actually in production" — catches lockfile drift, dynamic imports, transitive dep surprises.
+
+**Compliance.**
+1. H2 #456 already wires `syft` in `sbom.yml`. Confirm it runs on every PR (currently scheduled only on release).
+2. CI artifact retention ≥30 days for SBOMs.
+3. Release workflow attaches `sbom.cdx.json` to the GitHub Release.
+
+**Checklist line:** PR has SBOM workflow run green and artifact uploaded.
+**Audit lens:** Lens A confirms `sbom.yml` triggers on `pull_request:` not just `release:`; Lens B confirms artifact retention ≥30d.
+**Failure mode.** Without R115, vuln response time balloons — you can't grep what you don't know is there.
+
+---
+
+### R116 — Minimum test coverage
+
+**Headline:** Net code added must hit ≥80% line coverage. Diff coverage, not whole-codebase coverage — measures the PR, not the project.
+
+**Why.** Hyperscaler rule #23. Whole-codebase coverage punishes legacy code; diff coverage rewards each PR adding tested code. Pairs with R100 A1 (test:src ratio ≥2.0) — the ratio measures effort, coverage measures execution.
+
+**Compliance.**
+1. CI job runs `jest --coverage` + `nyc check-coverage --lines 80 --diff origin/main` (or `c8 --check-coverage`).
+2. Coverage report uploaded as artifact + commented on PR by danger.
+3. Exemption: explicit `[COVERAGE-EXEMPT: <reason>]` marker in PR title with R76 Exception Request in body. Same pattern as `[LOC-EXEMPT:]`.
+
+**Checklist line:** `jest --coverage` shows ≥80% on changed files OR `[COVERAGE-EXEMPT:]` marker + R76 form in body.
+**Audit lens:** Lens A confirms coverage gate enforced; Lens B confirms exception request properly filed if exempt.
+**Failure mode.** Without R116, R100 A1 ratio gets gamed (lots of test LOC, none actually exercising the code).
+
+---
+
+### R117 — Every test has explicit assertions
+
+**Headline:** ESLint rule `jest/expect-expect: error` enforces every `it()` / `test()` block has at least one `expect()` (or registered matcher).
+
+**Why.** Hyperscaler rule #27. "Tests" without assertions just run code without verification — they bloat the suite, fake the coverage number, and never catch regressions. Cheap to add.
+
+**Compliance.**
+1. `.eslintrc` includes `jest/expect-expect: error` plus `assertFunctionNames` for custom matchers.
+2. CI ESLint job blocks merge on violation.
+
+**Checklist line:** `npm run lint` exit 0 (already covers it via R111/R112 ESLint).
+**Audit lens:** Lens B greps PR's new test files: every `it(` / `test(` contains `expect(` or registered matcher.
+**Failure mode.** Without R117, R100 A1 ratio becomes a lie — high test LOC, zero verification.
+
+---
+
+### R118 — SAST scanning required
+
+**Headline:** Semgrep (or GitHub CodeQL) runs on every PR scanning for SQL injection, XSS, command injection, SSRF, RCE, and crypto misuse. Findings at HIGH or CRITICAL block merge.
+
+**Why.** Hyperscaler rule #29. H2 Lens A explicitly called out the absence of SAST as a finding. This is table-stakes hyperscaler hygiene — without it, R86 (PII) and R107 (audit-log) are theatre.
+
+**Compliance.**
+1. CI workflow `sast.yml` runs `semgrep --config p/owasp-top-ten --error --severity ERROR` on PRs.
+2. CodeQL workflow also enabled (free for public/portfolio repos).
+3. Suppression of a HIGH/CRITICAL requires `.semgrepignore` entry with reason + expiry + owner — same shape as R113.
+
+**Checklist line:** SAST CI status green; no fresh HIGH/CRITICAL findings.
+**Audit lens:** Lens A confirms SAST workflow exists, is required, and uses `--severity ERROR --error` (not warn-only); Lens B confirms `.semgrepignore` discipline.
+**Failure mode.** Without R118, the next PII regression ships unnoticed; R109 promises real entry points to compromised endpoints.
+
+---
+
+### R119 — Cryptographic standards enforced
+
+**Headline:** MD5, SHA-1, DES, 3DES, RC4, and any other deprecated crypto primitive is banned in code. ESLint + Semgrep rule combo.
+
+**Why.** Hyperscaler rule #30. R100 P0 finding territory if shipped to prod. Compliance regs (HIPAA, PCI, SOC2) all require modern crypto — MD5 use alone fails audit.
+
+**Compliance.**
+1. ESLint rule `security/detect-pseudoRandomBytes`, `security/detect-non-literal-require`, custom rule banning `crypto.createHash('md5'|'sha1')`.
+2. Semgrep `p/security-audit` ruleset covers DES/3DES/RC4 + insecure JWT algs.
+3. Exemption only for non-security checksums (e.g., file-content cache key) AND requires explicit `// crypto-allowed: <reason>` comment on the same line.
+
+**Checklist line:** `grep -ri 'md5\|sha1' src/ --include='*.ts' | grep -v 'crypto-allowed'` returns empty.
+**Audit lens:** Lens A greps the diff; Lens B confirms ESLint + Semgrep rules active.
+**Failure mode.** Without R119, password storage / signing / token integrity all become forgeable.
+
+---
+
+### R120 — IaC security misconfig scanning
+
+**Headline:** `checkov` or `tfsec` runs on every PR touching `fly.toml`, `.github/workflows/*.yml`, Dockerfiles, or any infra-as-code. HIGH/CRITICAL misconfigs block merge.
+
+**Why.** Hyperscaler rule #36. Open security groups, unencrypted buckets, root-running containers — all caught by static IaC analysis before deploy. H2 added `actionlint` (syntax) but not `checkov` (security). This is the gap.
+
+**Compliance.**
+1. CI workflow `iac-security.yml` runs `checkov -d . --framework github_actions,dockerfile,kubernetes,terraform --check HIGH,CRITICAL` on PRs.
+2. Fly.toml-specific rules: HTTPS enforced, internal_port not 22, no `[env]` plaintext secrets.
+3. Suppression via `.checkov.yaml` with same reason+expiry+owner shape (R113).
+
+**Checklist line:** `checkov -d . --check HIGH,CRITICAL` exit 0.
+**Audit lens:** Lens A confirms workflow exists and is required; Lens B confirms no expired suppressions.
+**Failure mode.** Without R120, the next infra PR ships a publicly-exposed port or unencrypted storage.
+
+---
+
+### R121 — Git SHA embedded in every artifact
+
+**Headline:** Every built artifact (JS bundle, Docker image, server binary) contains an immutable `GIT_SHA` and `BUILD_TIME` baked in. Accessible via `/api/version` or equivalent.
+
+**Why.** Hyperscaler rule #42. Without R121, "what's actually in prod right now?" is unanswerable. With R121, every error report ties to a specific commit, every customer bug report can be reproduced.
+
+**Compliance.**
+1. Vite/webpack `DefinePlugin` injects `process.env.GIT_SHA = require('child_process').execSync('git rev-parse HEAD').toString().trim()`.
+2. Docker `ARG GIT_SHA` + `LABEL org.opencontainers.image.revision=$GIT_SHA`.
+3. Server exposes `/api/version` returning `{ sha, buildTime, env }`.
+4. Sentry release tagging uses `GIT_SHA` (already in `sentry-upload-sourcemaps.sh` — R121 makes it canonical).
+
+**Checklist line:** Built artifact has SHA embedded; `/api/version` returns current commit.
+**Audit lens:** Lens A confirms DefinePlugin / Docker LABEL present; Lens B confirms `/api/version` endpoint exists and authenticated appropriately.
+**Failure mode.** Without R121, debugging prod = guessing which deploy is live.
+
+---
+
+### R122 — Branch protection: peer review enforced (already partial in H2)
+
+**Headline:** `main` branch protection requires: 1 approving review + required status checks + CODEOWNERS enforced + no force-push + no deletion + signed commits (when R3+GPG land).
+
+**Why.** Hyperscaler rule #47. H2 #456 fixer hardened this (`require_code_owner_reviews: true`). Codifying as R122 makes it a doctrine commitment, not a one-time config drift target.
+
+**Compliance.**
+1. `scripts/setup-branch-protection.sh` (H2-shipped) is idempotent, R3-clean, and reconciles config from a YAML source-of-truth.
+2. Branch protection includes: `required_pull_request_reviews.required_approving_review_count >= 1`, `require_code_owner_reviews: true`, `enforce_admins: true`, `required_linear_history: true`, `allow_force_pushes: false`, `allow_deletions: false`.
+3. Required status checks include EVERY CI workflow added under Wave H (R110/R111/R113/R115/R116/R118/R120 gates).
+
+**Checklist line:** `gh api repos/:owner/:repo/branches/main/protection` matches the YAML spec.
+**Audit lens:** Lens A diffs live config vs `branch-protection.yml`; Lens B confirms `enforce_admins: true` (otherwise solo-founder bypass would be trivial).
+**Failure mode.** Without R122, a single hotfix bypass becomes the new normal; audit trail evaporates.
+
+---
+
+### R123 — Assertion-bearing tests only (companion to R117)
+
+**Headline:** Tests that exit 0 without running any assertion are flagged by the test runner. `jest --passWithNoTests=false`, `vitest --passWithNoTests=false`.
+
+**Why.** Hyperscaler rule #27 deep-dive. R117 catches missing `expect()`; R123 catches whole-file/whole-suite skips that quietly pass CI without exercising anything.
+
+**Compliance.**
+1. CI `npm test` invocation uses `--passWithNoTests=false`.
+2. Coverage tooling (R116) double-checks: lines hit but no expects = miscount = block.
+3. `.skip()` blocks tracked in a quarantine ledger `test/QUARANTINE.md` with reason + expiry + owner.
+
+**Checklist line:** `npm test -- --passWithNoTests=false` exit 0; no fresh `.skip()` without ledger entry.
+**Audit lens:** Lens B counts `.skip()` calls in PR diff; ledger entries must exist or PR fails.
+**Failure mode.** Without R123, "all tests pass" becomes meaningless when half are skipped.
+
+---
+
+### R124 — Reproducibility: every audit and dispatch records exact SHAs
+
+**Headline:** Every subagent dispatch brief and every audit report MUST record the exact `git rev-parse HEAD` of ALL involved repos at dispatch time. Re-running on a different SHA = a different audit, full restart.
+
+**Why.** Meta-rule from hyperscaler bucket #13/#14/#15/#49. This session exposed the problem: H2 audit was performed on SHA `58a5f1a2`, then the fixer pushed to `c795c112` — but had we accidentally audited the new SHA mid-cycle, findings would be stale. The audit must be a function of a single, pinned input.
+
+**Compliance.**
+1. Every audit brief contains a `BUILD MATRIX` block (verbatim format):
+   ```
+   ## BUILD MATRIX
+   - backend HEAD: <sha>
+   - ctxrepo HEAD: <sha>
+   - PR #<n> head: <sha>
+   - PR #<n> base (origin/main): <sha>
+   - timestamp (ISO 8601 UTC): <ts>
+   ```
+2. Every audit report repeats the BUILD MATRIX verbatim at the top.
+3. If any SHA changes mid-audit, the auditor MUST output `VERDICT: INFRA_DEATH` with reason `SHA drift during audit: PR head moved from <old> to <new>`.
+4. Fixer reports also carry a BUILD MATRIX (their input SHA, their output SHA).
+
+**Checklist line:** Audit brief / report has BUILD MATRIX block populated; SHAs verified against `gh pr view --json headRefOid`.
+**Audit lens:** N/A — this is a process rule. The brief preamble (BRIEF_PREAMBLE_R100.md) enforces it.
+**Failure mode.** Without R124, audits silently stale; a CLEAN verdict can be issued against code that no longer exists.
+
+---
+
+### R125 — Defense in depth: every rule has 3 enforcers
+
+**Headline:** A new R-rule is not "real" until it has all three of: (1) the rule text in AGENT_RULES.md, (2) an automated CI/lint gate that blocks the violation, (3) an audit-lens question in BRIEF_PREAMBLE_R100.md that asks the auditor to verify. Rules without all three are flagged in `operator-meta/UNENFORCED_RULES.md` with an owner and target date.
+
+**Why.** Meta-rule from hyperscaler bucket #2/#8/#29/#30/#36. This session shipped R109 with only enforcer (1). The CI gates (R109 Layer 1-6) and audit-lens questions remain TODO. Without R125, AGENT_RULES.md inflates to 30K+ tokens of rules an agent literally cannot remember.
+
+**Compliance.**
+1. Every new R-rule includes the three enforcement scaffolds inline (this rule block format is the template).
+2. `operator-meta/UNENFORCED_RULES.md` tracks rules with <3 enforcers + owner + target date. A rule older than 30 days without all 3 = P1 audit finding.
+3. PRs adding a new R-rule MUST add the CI gate + audit lens in the SAME PR or open follow-up issues with linked PR numbers.
+
+**Checklist line:** New R-rule? Verify: (1) AGENT_RULES.md entry, (2) CI gate file path, (3) BRIEF_PREAMBLE_R100.md addition. All 3 in diff or follow-up issues filed.
+**Audit lens:** Lens B checks `UNENFORCED_RULES.md` — any entry past target date = P1.
+**Failure mode.** Without R125, the rulebook becomes aspirational; agent compliance degrades silently as token-load grows.
+
+---
+
+### R126 — Telemetry as contract: every dispatch records to ledger
+
+**Headline:** Every subagent dispatch auto-appends a JSONL entry to `handoffs/<wave>/dispatch-ledger.jsonl` containing: timestamp, subagent_id, subagent_type, model, brief_sha256, expected_verdict, actual_verdict, latency_ms, cost_units (if known). Weekly retros mine this for miscalibration patterns.
+
+**Why.** Meta-rule from hyperscaler bucket #42/#48/#50. DECISION_LOG.md captures decisions in prose; R126 captures dispatches as structured data. Without R126, "are my agents getting better?" is unanswerable. With R126, retro automation becomes possible.
+
+**Compliance.**
+1. Every dispatch wraps `run_subagent` / `browser_task` with a helper that writes the JSONL entry before AND after dispatch.
+2. The helper lives at `scripts/dispatch-with-ledger.sh` (to be built in Wave H7 or R125 enforcement push).
+3. `expected_verdict` is the agent's prediction; `actual_verdict` is what the subagent returned. Delta drives self-improvement (per SELF_IMPROVEMENT.md §1).
+4. Weekly cron at Sunday 6am PDT computes per-subagent-type calibration stats and posts to operator.
+
+**Checklist line:** Before dispatch, populate ledger entry with prediction; after return, populate verdict + latency.
+**Audit lens:** Lens B confirms ledger entry exists for every dispatched subagent referenced in the audit chain.
+**Failure mode.** Without R126, the self-improvement loop in SELF_IMPROVEMENT.md is permanently anecdotal — no data to learn from.
+
+---
+
 ## §12 — INFRA-AS-DOCTRINE
 
 The following infra components, while not numbered rules, are mandated as part of the
