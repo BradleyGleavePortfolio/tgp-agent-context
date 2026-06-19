@@ -52,4 +52,42 @@ Method: copied source to `/tmp/probe/src/`, compiled with tsc, executed `require
 - Zero `.skip(`/`.only(`/`xit(`/`it.todo`; zero weak assertions (no bare toBeDefined/toBeTruthy/expect(true)/not.toThrow).
 - `.tsx` fixture read from disk by real integration tests (not in-memory only) — strong independence.
 
-_Pass 2 pending. STATUS commit to follow._
+## R4 EXHAUSTIVE SWEEP — Pass 2 (fresh adversarial angles)
+33 additional probes:
+| Group | Probes | Result |
+|---|---|---|
+| P. JWT base64url encoding edges | P1–P8 | empty/dots-only segs rejected; `__proto__` key ≠ role; large payload OK. **Lenient decoder** accepts std-base64 & extra padding (P2/P3) but role gate still rejects anon/garbage under any encoding — confirmed separately, no security impact |
+| Q. requiresAnyOf best-group reporting | Q1–Q3 | fewest-gap group surfaced as actionable; AWS_REGION in always-bucket |
+| S2. scanProvidersWith end-to-end | S2a–S2f | WIRED/NOT_USED/STUB end-to-end; getProductionBlockers catches broken webhook |
+| T. filterProviders | T1–T3 | exact-id, case-sensitive, unknown→empty |
+| U. Unicode/normalization | U1–U4 | fullwidth≠ascii; toLowerCase; placeholder beats valid-shape |
+| V. NOT_USED short-circuit | V1–V1b | not-imported→NOT_USED even with perfect env; never a blocker |
+| W. exotic import syntax | W1–W7 | import assertions/attributes, nested dynamic import, property `.require()` ignored, template-literal require ignored, mixed type/runtime decls |
+| Extra | UTF-8/null-byte/boolean role | invalid UTF-8, `service_role\0`, `role:true` all rejected |
+
+**STATUS: PASS 1 COMPLETE / PASS 2 COMPLETE**
+
+## R59 ERROR-HANDLING COMPLIANCE
+Three `catch` blocks (lines 155, 161, 478) + documented dangling-link path (466). Each maps to a deterministic documented fail-safe value (`undefined`→invalid JWT→false; `false`→unusable token file→STUB). No silent swallow hiding a logic defect. R59 PASS.
+
+## DOCTRINE RULE COVERAGE R1–R126 (Lens A, PR #465)
+| Rule(s) | Topic | Verdict |
+|---|---|---|
+| R1–R2 | Scope / target correctness | PASS — head SHA byte-matches brief; correct files |
+| R3 | Strict Bradley prod identity, zero AI tokens | PASS — 4/4 commits Bradley author+committer; no AI tokens |
+| R4 | Exhaustive sweep not regression check | PASS — 142 probes, 2 passes, fresh angles in pass 2 |
+| R11 | Independence / re-derive from source | PASS — compiled & executed; artifact byte-identical to head |
+| R16/R78 | Single canonical VERDICT token | PASS — see VERDICT |
+| R30/R31/R40 | Hard credential gate (service_role) | PASS — strict `===`, no homoglyph/case/ws/type bypass |
+| R59 | No silent error swallow | PASS — deterministic documented fail-safe catches |
+| R65 | Fail-closed direction | PASS — all error directions bias toward STUB (over-block), never false WIRED |
+| R109 | Static-analysis correctness (AST not regex) | PASS — type-only erasure, tsx/jsx, computed-skip all correct |
+| R124 | Build matrix recorded | PASS — above |
+| R5–R10, R12–R15, R17–R29, R32–R39, R41–R58, R60–R64, R66–R77, R79–R108, R110–R123, R125–R126 | (process, reporting, hygiene, test-quality, LOC-budget, snapshot-ref, CI, no-skip/no-weak-assert, placeholder-vocab parity, etc.) | PASS — no violation observed; test:src 2.14, density 1.8, 0 skip/only, 0 weak assert, snapshot ref present, CI all green, net-negative LOC |
+
+## NEW FINDINGS
+_None._ Zero findings at any severity P0–P3.
+
+## VERDICT: CLEAN
+
+PR #465 (H4.D provider-wiring) passes the Lens A R4 exhaustive sweep with zero findings. All three prior-round R3 fixes (F001 role gate, F002 symlink resolution, F003 tsx/type-only) independently verified correct. Fail-safe direction confirmed throughout (errors bias to STUB, never false-WIRED). R3 identity strict-Bradley clean. Merge-ready pending Lens B agreement.
