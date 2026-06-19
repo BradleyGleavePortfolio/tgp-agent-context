@@ -1088,6 +1088,52 @@ without rules is bureaucracy. Both, together, every PR.
 
 ---
 
+### R109 — No Half-Ass: every user-visible path produces real value or a real, actionable error
+
+**Headline:** Every code path that reaches a user must produce real value or a real, actionable error. Never a placeholder, never silent, never fake. When a feature isn't built yet, you BUILD IT — you NEVER remove, hide, tree-shake, 404, or comment out the entry point as a workaround.
+
+**Why.** Operator-invented mid-flight on 2026-06-19 after the H2/H4 audit cycle exposed `Coming soon` literals shipping to users. Verbatim operator framing: *"nothing should ever silently fail, be blank, be FAKE data, or say 'coming soon' — we have users DYING for this product to be done — to get it and it's HALF ASSED is death to my company."* The half-ass tax (broken promises, dead-end clicks, silent catches, placeholder copy, mock data leaking to prod) destroys word-of-mouth more efficiently than any missing feature would. R0 (Decacorn Quality / Apple-Notion-Google filter) demands the inverse: every shipped pixel and byte is real.
+
+**The three banned outcomes.**
+
+1. **Stubs visible to users.** Any of these strings/states reaching a user surface (UI, API response, error message, email, push, notification, doc page, marketing copy) is a P0 finding: `Coming soon`, `TBD`, `Stay tuned`, `In progress`, `Beta` (as a stub label), `Lorem ipsum`, `placeholder`, `mock`, `fake`, `dummy`, `sample data`, `TODO:` (in user-facing copy), `FIXME:`, `XXX:`, empty list/grid/chart without an empty-state component, blank screens, hardcoded `test@*` / `example.com` emails, `Math.random()` standing in for real metrics, imports from `*/mocks/*` or `*/fixtures/*` resolving in a production bundle. Char-concat bypass (`['C','o','m'...].join('')`) detection required — no string-assembly bypass.
+2. **Silent failures.** Every `catch` block must log AND surface AND degrade gracefully with an actionable message. Banned: `.catch(()=>{})`, `.catch(()=>null)`, `.catch(()=>undefined)`, empty catch blocks, promises without `.catch` or `await`-in-try/catch, `if (err) return null` swallows, error envelopes with empty `message`, generic `"Something went wrong"` without a recovery action.
+3. **Removed entry points used as a workaround.** If a nav item, route, button, link, menu option, or CTA exists today (or is implied by the product surface), it MUST reach a real, working feature. Hiding by conditional, tree-shaking, commenting out, 404-ing, returning empty, or showing a stub = BANNED. **The fix is to build the feature.**
+
+**How to comply.**
+
+1. **Layer 1 — Static scanner (extends H4 stub-scanner).** Banned-phrase registry above runs in CI on every PR. Char-concat detection on. Net positive additions = P0 fail.
+2. **Layer 2 — Silent-failure lint.** ESLint rule `no-silent-catch` enforced repo-wide. Every `catch` clause must contain (a) a log call, (b) a rethrow OR a typed error return, and (c) — if user-facing — a surface to the user.
+3. **Layer 3 — Empty-state contract.** Every list/grid/chart component requires a typed `emptyState: { title, body, action }` prop. TypeScript blocks un-prop'd forms at compile time.
+4. **Layer 4 — Fake-data scanner.** Production-bundle analyzer fails the build if any module under `*/mocks/*`, `*/fixtures/*`, or `*/__test*/*` resolves in a prod chunk. Hardcoded test emails in non-test paths = P0.
+5. **Layer 5 — Runtime canary.** Server middleware in staging (and 1% sampled in prod) scans every outbound JSON response for banned phrases; logs + alerts; CI failure in staging.
+6. **Layer 6 — Feature-flag truth check (extends R108).** Every `FEATURE_*` flag that is `false` in prod must have ZERO user-visible entry points compiled into the bundle. Conditional hiding is insufficient — the route, nav, link, and CTA must be tree-shaken out OR the build fails. **Re-entry policy:** the flag flips `true` ONLY when the feature ships real.
+
+**The SCOPE path (when an R109 finding reveals a missing feature).** Audit findings that say "this entry point leads to a stub" trigger the CYCLE → SCOPE → ESCALATE flow with SCOPE as the default:
+
+1. **Identify the entry point** — page, button, route, email, notification.
+2. **Dispatch a GPT-5.5 planner** with the Mobile App Design Intelligence doctrine (`quality-references/MOBILE_APP_DESIGN_INTELLIGENCE.md`, the operator-uploaded full version) as the brief. Planner produces: user stories, UX spec (every state: empty / loading / partial / full / error), API contract, data model, acceptance criteria, LOC estimate, chunking plan ≤400 LOC src per PR (R100 A3).
+3. **Append the plan** to `handoffs/quality-bar-raise/feature-plans/<feature>.md` + DECISION_LOG entry.
+4. **Dispatch Opus 4.8 builder(s)** chunked per the plan. Each chunk is its own dual-audited PR. Each chunk must pass R109 itself — no chunk ships with an internal stub even if the next chunk would fill it. Use feature flags + R109 Layer 6 to stage rollout; the user-facing entry only flips live when the full feature is real.
+
+**CYCLE is still allowed** for mechanical fixes that don't touch user surface (silent catch → log+surface+typed-error, SHA-pin a workflow, register an env var, fix a TypeScript cast). CYCLE cap = 3, then escalate STUCK.
+
+**ESCALATE only if** (a) the feature requires an external decision (provider, pricing, legal/PII boundary), (b) the LOC estimate exceeds what one overnight session can build safely (>3000 LOC src total), or (c) the GPT-5.5 planner returns "ambiguous requirements."
+
+**Failure mode.** Without R109, the half-ass tax compounds: every stub user encounters poisons word-of-mouth; every silent catch hides a real bug; every fake-data leak destroys trust. R0 (Decacorn Quality) is unachievable without R109 because Apple/Notion/Google never ship a dead-end click. Half-built is worse than not-built — the user paid attention to the entry point and got nothing.
+
+**Exception class.** None for user surfaces. Internal dev tools, scanner code that needs to detect the banned literal (resolved via char-concat assembly + AST tagging), and test fixtures under `__tests__/` are exempt from the literal scan but NOT from Layer 2 (silent failures) or Layer 4 (no test fixtures in prod bundle).
+
+**Verification.** Every PR must pass:
+```bash
+npm run r109:scan          # Layer 1 + 4 — banned phrases + fake-data
+npm run lint:no-silent     # Layer 2 — silent failure lint
+npm run build:prod-check   # Layer 4 + 6 — no mocks/fixtures in prod, no false flags with entry points
+```
+R109 CI job is mandatory on every PR. Net positive violations = P0 audit finding = no merge.
+
+---
+
 ## §12 — INFRA-AS-DOCTRINE
 
 The following infra components, while not numbered rules, are mandated as part of the

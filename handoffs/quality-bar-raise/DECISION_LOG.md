@@ -195,3 +195,35 @@ All briefs embed BRIEF_PREAMBLE_R100.md + AGENT_RULES R10 + R6 + R3 + R13 verbat
 **Next.** Wait for both. Then re-dispatch 4 audits (H2-A, H2-B, H4-A, H4-B) on new SHAs. Cycle until dual-CLEAN per R14.
 
 **Reversibility.** N/A — escalation decision.
+
+---
+
+## 2026-06-19 00:39 PDT — H2 #456 fixer returned + R109 codified
+
+### H2 fixer classification (R16)
+- **Subagent:** `h2_456_fixer_opus_4_8_mqkl0b3t`
+- **Returned verdict:** `VERDICT: FIXES_COMPLETE`
+- **R16 classification:** **CLEAN-from-fixer-perspective** (treated as FINDINGS-RESOLVED, NOT dual-CLEAN — dual re-audit required on new SHA per R14).
+- **New head SHA:** `c795c112` (was 58a5f1a2 audited → 23d04cb2 → c5e6cd58 → c795c112)
+- **Fix disposition:** Lens A — 11 RESOLVED, 1 DEFERRED-WITH-REASON (F-A09 GPG, needs operator key, can't rewrite published history). Lens B — 16 RESOLVED, 3 DUPLICATE-OF (F-B11→A08, F-B12→A06, F-B16→A01+A02).
+- **Verifications passed (from fixer report):** `actionlint .github/workflows/*.yml` exit 0; `shellcheck scripts/setup-branch-protection.sh` exit 0; banned cast tokens net 0; `node --check dangerfile.js` OK; R3 identity verified across 10 commits.
+- **PR updates:** Title now carries `[LOC-EXEMPT: …]` + `[TEST-EXEMPT: …]`; body has post-audit fixes summary + filled R100.A3/R76 Exception Request.
+- **Action:** Dispatch dual Lens A+B re-audit on `c795c112` per R14.
+- **Fix report:** `handoffs/quality-bar-raise/audit-reports/in-progress/H2-456-FIXER-c795c112.md` (also copied to `/home/user/workspace/`).
+
+### R109 codified into AGENT_RULES.md
+- **Origin:** Operator pivot 2026-06-19 ~00:36-00:40 PDT — *"nothing should ever silently fail, be blank, be FAKE data, or say 'coming soon' — we have users DYING for this product to be done — to get it and it's HALF ASSED is death to my company."* Plus: *"never 'remove the entry' - ALWAYS 'Build the feature' - if that means a new scope, use a gpt5.5 agent to PLAN the scope/feature according to the luxury design doctrine."*
+- **Doctrine reference for SCOPE planner:** `quality-references/MOBILE_APP_DESIGN_INTELLIGENCE.md` (operator-uploaded, commit 26db13e, 109347 bytes). Two near-duplicates exist: `DESIGN_INTELLIGENCE_DOC_PLAINTEXT.md` (123355 bytes, possibly extended) and `MOBILE_DESIGN_DOC_UPLOADED_2026-06-16.txt` (109299 bytes, mirror). Canonical pointer = the `.md` in `quality-references/` per R109 text.
+- **Three banned outcomes:** (1) stubs visible to users (banned-phrase registry incl. `Coming soon`, `TBD`, `Lorem ipsum`, `placeholder`, `mock`, `fake`, `Math.random()` in prod, hardcoded `test@*`); (2) silent failures (no `.catch(()=>{})`, no swallowed promises); (3) removed entry points as workaround (build the feature, never hide/tree-shake/404 it).
+- **Six enforcement layers:** scanner extension, silent-failure lint, empty-state contract, fake-data bundle scanner, runtime canary, feature-flag truth check (R108 extension — `FEATURE_*=false` must tree-shake the entry).
+- **CYCLE → SCOPE → ESCALATE clarified in-rule:** CYCLE for mechanical fixes (cap 3); SCOPE default for missing-feature findings → GPT-5.5 planner with MOBILE_APP_DESIGN_INTELLIGENCE.md → Opus 4.8 builder(s) chunked ≤400 LOC per PR; ESCALATE only on external policy/pricing decisions, >3000 LOC scope, or ambiguous requirements.
+- **Operator choice on in-flight H2/H4:** **(a) let them finish** current mechanical scope (no stubs in their diff), then run R109 sweep across whole backend as next job.
+- **Verification entry-points** (to be built in R109 sweep): `npm run r109:scan`, `npm run lint:no-silent`, `npm run build:prod-check`.
+
+### Open questions for operator (still blocking autonomous orchestration)
+1. Auto-merge authority H1/H2/H4 on dual-CLEAN + 4/4 CI + SHA stable ≥5 min?
+2. CYCLE cap = 3 confirmed (now baked into R109)? Or tighter (1)?
+3. Start H3 (observability) if H1/H2/H4 land before 5 AM PDT, or hold for R109 sweep first?
+4. Dispatch H1 #455 dual audit tonight, or hold for operator wake-up?
+5. **NEW:** When does R109 sweep run — immediately after H4 fixer returns CLEAN, or as a follow-up after the 11-mini-PR chunking series (H2→3 + H4→8)?
+
