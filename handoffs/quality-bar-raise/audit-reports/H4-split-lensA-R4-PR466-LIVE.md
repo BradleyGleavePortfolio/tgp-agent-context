@@ -56,4 +56,42 @@ Confirmed leaking for `|-`, `|+`, `>-`, `|2`. Plain `|` and `>` redact correctly
 
 **Suggested fix:** In pattern (f)'s guard, skip any value that STARTS WITH `|` or `>` (e.g. `/^[|>][+-]?\d*\s*$/` or simply `value.trimStart().startsWith('|') || startsWith('>')`), leaving ALL block-scalar headers intact for pass (h); OR broaden pass (h)'s `headerRe` to also re-detect an already-`***`'d header and still redact the indented continuation. Add chomping/indent fixtures (`|-`, `|+`, `>-`, `|2`) to `redactor.spec.ts`.
 
-_Pass 2 pending. STATUS commit to follow._
+## R4 EXHAUSTIVE SWEEP — Pass 2 (FLY_BIN / TOCTOU / strict-env / deeper redaction)
+36 additional probes, all confirm correct behavior:
+| Group | Probes | Result |
+|---|---|---|
+| K. strict-env detection (F003) | K1–K8 | production/staging/ci/arbitrary NODE_ENV are STRICT (reject bare `flyctl`); development/test/unset permit it; `FLY_BIN_REQUIRE_ABSOLUTE=true` forces strict even in dev. **Brief Q answered: `NODE_ENV=staging` IS strict.** |
+| L. absolute/symlink/exec verification | L1–L9 | relative override rejected; absolute regular+exec accepted (canonicalized); non-exec/dir/dangling/nonexistent rejected; symlink→exec resolves to canonical; `FLY_BIN=flyctl` treated as bare default (strict-rejected in prod) |
+| M. assertFlyBinUnchanged TOCTOU | M1–M3 | post-load swap to non-file or non-exec rejected; unchanged valid bin passes |
+| N. deeper redaction shapes | N1–N12 | multi-key JSON, UPPER_SNAKE non-hint key, benign `count=5` intact, Authorization Bearer, X-API-Key, quoted value, URL-encoded pair, longest-first literal ordering, regex-metachar literal, empty text, lowercase `apikey`, inline `password:` all correct |
+| O. collectSecretValues | O1–O4 | gathers every target + was (to_set + already_set), de-duplicated Set |
+
+**STATUS: PASS 1 COMPLETE / PASS 2 COMPLETE**
+
+## TEST-QUALITY corroboration of L466-001
+`redactor.spec.ts` (header: “exhaustive format-coverage suite … CRITICAL SECRET LEAK”) tests ONLY the plain `|` literal and `>` folded block-scalar forms (lines 267–283) — which pass — and has **zero** coverage of the chomping (`|-`,`|+`,`>-`,`>+`) or explicit-indent (`|2`) indicators that defeat the redactor. The missing fixtures are exactly the leaking inputs. Otherwise test quality is strong: auto-flipper.spec 240 expects/124 tests, redactor.spec 87/41 (~1.98 density); zero `.skip(`/`.only(`/`xit(`; the lone `toBeDefined()` (auto-flipper.spec:305) is a JSON.parse guard followed by two substantive assertions, not a weak assertion.
+
+## DOCTRINE RULE COVERAGE R1–R126 (Lens A, PR #466)
+| Rule(s) | Topic | Verdict |
+|---|---|---|
+| R1–R2 | Scope / target correctness | PASS — head SHA byte-matches brief |
+| R3 | Strict Bradley identity, ZERO AI tokens (HIGH-RISK) | PASS — 4/4 commits Bradley author+committer; zero tokens in metadata or source |
+| R4 | Exhaustive sweep, 2 passes | PASS — 91 probes, fresh pass-2 angles |
+| R11 | Independence / re-derive | PASS — compiled & executed; leak reproduced from source |
+| R16/R78 | Single canonical VERDICT token | PASS |
+| R24/R58/R95/R110 | Secret-mutating path hardening (FLY_BIN) | PASS — absolute+realpath+regular+X_OK, TOCTOU revalidation, strict-env |
+| R59 | No silent error swallow | **FINDING L466-001** — redactor leaks on YAML chomping via a no-secretValues sink (defense-in-depth gap), plus all FLY_BIN catches map to deterministic descriptive throws (those PASS) |
+| R65 | Fail-safe direction | PASS — dual-gate commit (API opt-in AND env), dry-run default, execFileSync no-shell+timeout, mutex serialization |
+| R109 | Static-analysis / parsing correctness | PARTIAL — redactor pattern (f) mis-handles block-scalar indicators (L466-001) |
+| R124 | Build matrix | PASS |
+| R125 | Defense-in-depth redaction | **FINDING L466-001** — incomplete YAML coverage |
+| R5–R10, R12–R15, R17–R23, R25–R57, R60–R64, R66–R77, R79–R94, R96–R108, R111–R123, R126 | (process, prototype-pollution safety, deep-nesting, base64 round-trip, safeCauseName allowlist, plan/commit/flip gating, LOC budget, snapshot ref, no-skip/no-weak-assert) | PASS — no violation observed; net-negative LOC; snapshot ref present; no prototype pollution; deep nesting safe |
+
+## NEW FINDINGS SUMMARY
+| ID | Severity | Rule | One-line |
+|---|---|---|---|
+| L466-001 | P2 | R59/R125/R109 | YAML block-scalar chomping/indent indicators (`\|-`,`\|+`,`>-`,`\|2`) defeat the redactor — pattern (f) eats the header, pass (h) then misses the continuation → secret leaks on no-secretValues sinks (e.g. flip()'s RegistryParseError branch). Incomplete F001 fix; untested chomping variants. |
+
+## VERDICT: FINDINGS
+
+PR #466 (H4.F auto-flipper) — ONE finding (**L466-001, P2**). The HIGH-RISK secret-mutation machinery is otherwise sound: dual-gate authorization, no-shell execFileSync with timeout, FLY_BIN absolute/realpath/exec verification with per-invocation TOCTOU revalidation, strict-env detection (staging/ci/prod), cross-caller commit serialization, no prototype pollution, bounded escaped-JSON fixed point, base64 round-trip guard, safeCauseName allowlist. R3 strict-Bradley identity clean with zero AI tokens (HIGH-RISK sweep passed). The single gap is the redactor's incomplete YAML block-scalar handling, which leaks a secret value on the chomping/indent header shapes via sinks that do not supply `secretValues`. Recommend fixing pattern (f)'s guard and adding chomping fixtures before merge.
