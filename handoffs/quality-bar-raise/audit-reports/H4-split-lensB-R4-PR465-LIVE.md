@@ -1,6 +1,6 @@
 # H4 Split Lens B R4 — PR #465 LIVE
 
-STATUS: IN PROGRESS — sweep started 2026-06-19T20:19:50Z
+STATUS: PASS 1 COMPLETE — sweep started 2026-06-19T20:19:50Z
 
 ## BUILD MATRIX (R124)
 - main pre-work from brief: 8467c6f568a51337a7acbfb14f72ac85b996d605
@@ -30,7 +30,7 @@ STATUS: IN PROGRESS — sweep started 2026-06-19T20:19:50Z
 | 2 | Supabase JWT shape | `alg: none` token with `role: service_role` | Header `{alg:"none",typ:"JWT"}`, payload `{role:"service_role"}` | Must be STUB/rejected; unsigned alg-none is not a plausible service-role JWT | `isPlausibleSupabaseServiceRoleJwt` returned true and provider classified WIRED with a plausible URL | FAIL |
 
 ## DOCTRINE RULE COVERAGE (R1–R126)
-Pending exhaustive table in final pass.
+Pass 1 complete at 2026-06-19T20:25:39Z; final R1-R126 table will be written after pass 2.
 
 ## NEW FINDINGS
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
