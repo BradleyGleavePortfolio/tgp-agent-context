@@ -35,6 +35,8 @@ STATUS: IN PROGRESS - sweep started 2026-06-19T18:33:53Z
 | 2 | redaction | escaped JSON stderr | `{\"MY_SECRET\":\"topsecret123\"}` | value removed | value remained | FAIL |
 | 3 | redaction | raw nested JSON stderr | `{"outer":{"MY_SECRET":"topsecret123"}}` | value removed | value remained | FAIL |
 | 4 | redaction | YAML block scalar stderr | `MY_SECRET: |` plus indented value | value removed | value remained | FAIL |
+| F002 | P1 | R24/R35/R98/R110 | test/prod-readiness/auto-flipper.ts:232-240,681-697 | Registry error wrapping preserves `err.name` verbatim as both the public message cause and `causeName`. An independent probe threw an Error whose `name` was `topsecret123`; `flip()` produced an `AutoFlipperRegistryError` whose message and `causeName` both contained that value. A custom error class or mutated `name` can therefore leak a secret despite the message redaction. | Treat error names as untrusted: allowlist built-in class names or replace non-identifier/long/custom names with `Error`; redact `causeName` before storing or printing it; add tests for secret-bearing `name`, constructor names, and non-Error throws. |
+| 5 | error wrapping | registry failure with secret-bearing error name | thrown Error has `name=topsecret123` | public wrapper omits value | message and `causeName` kept value | FAIL |
 
 ## DOCTRINE RULE COVERAGE (R1-R126)
 Pending full table after both passes.
