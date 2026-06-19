@@ -5,37 +5,139 @@
 
 ---
 
-## STEP 0 — Read these in order (do not skip)
+## STEP 0 — Required reading (DO NOT SKIP, in this exact order)
 
-1. `/tmp/ctxrepo/AGENT_RULES.md` — R0-R109 (focus on R0, R3, R6, R10, R14, R16, R75, R100, R108, R109)
-2. `/tmp/ctxrepo/handoffs/quality-bar-raise/HANDOFF.md` — this session's final state
-3. `/tmp/ctxrepo/handoffs/quality-bar-raise/SELF_IMPROVEMENT.md` — anti-patterns to avoid
-4. `/tmp/ctxrepo/handoffs/quality-bar-raise/DECISION_LOG.md` — tail last 50 lines for context
+You are walking into a Wave-H endgame session. Read these BEFORE touching any tool that mutates state. Use grep where noted to avoid token blowout.
+
+### 0.1 — Dashboard (90 seconds, full read)
+- `/tmp/ctxrepo/operator-meta/CHECKLIST.md` (192 lines) — pilot's cheat sheet. R-rule index, gate definitions, banned-token regex, verification commands. Memorize the gate.
+
+### 0.2 — Current state (5 minutes, full read)
+- `/tmp/ctxrepo/handoffs/quality-bar-raise/HANDOFF.md` — what landed, what's open, who owns what.
+- `/tmp/ctxrepo/handoffs/quality-bar-raise/SELF_IMPROVEMENT.md` — anti-patterns from prior agents. Read all of it. The mistakes here will be YOUR mistakes if you skip.
+- `tail -80 /tmp/ctxrepo/handoffs/quality-bar-raise/DECISION_LOG.md` — last decisions in order.
+
+### 0.3 — Rules (grep on demand, do NOT full-read)
+- `/tmp/ctxrepo/AGENT_RULES.md` is 1437 lines. NEVER read top-to-bottom.
+- Grep targets you WILL need:
+  - `grep -n "^## R0\|^## R3\|^## R16\|^## R75\|^## R100\|^## R108\|^## R109" /tmp/ctxrepo/AGENT_RULES.md` — gate-critical rules
+  - `grep -n "^## R11[0-9]\|^## R12[0-6]" /tmp/ctxrepo/AGENT_RULES.md` — R110-R126 hyperscaler block
+  - `grep -n "BUILD MATRIX\|UNENFORCED_RULES\|dispatch-ledger" /tmp/ctxrepo/AGENT_RULES.md` — meta-rule enforcement hooks
+
+### 0.4 — Audit templates (grep on demand)
+- `/tmp/ctxrepo/audit-templates/` — read the specific template the moment you need it. Do not pre-read all of them.
+
+### 0.5 — Audit reports for the 3 active PRs
+- `/tmp/ctxrepo/handoffs/quality-bar-raise/audit-reports/in-progress/H2-456-FIXER-c795c112.md` — H2 fixer verdict, 27/31 resolved.
+- Any new audit reports landed since `da8c650` (`ls -lt /tmp/ctxrepo/handoffs/quality-bar-raise/audit-reports/`).
+
+### 0.6 — Design doctrine (grep on demand, 109KB)
+- `/tmp/ctxrepo/quality-references/MOBILE_APP_DESIGN_INTELLIGENCE.md` — luxury design doctrine. NEVER full-read. Grep by feature: `grep -n -i "haptic\|skeleton\|empty state\|error state" <file>`.
+
+### 0.7 — Wave 4 boundary (READ ONLY, 30 seconds)
+- `ls /tmp/ctxrepo/handoffs/overnight-2026-06-19/` — Wave 4's territory. You may READ these for context. You MUST NEVER write here, touch PRs #449/#451/#452/#453/#454, or mutate crons `72667351`, `ba50785d`, `bac2d173`.
+
+### 0.8 — Do NOT read (token traps)
+- The full backend repo source. Use targeted grep / read-by-file-path only when a specific audit finding points there.
+- AGENT_RULES.md top-to-bottom.
+- Any audit report from Wave 1-3 unless directly referenced.
+- All `quality-references/*.md` files. They are reference, not required reading.
 
 ---
 
-## STEP 1 — Verify sandbox state (or recover)
+## STEP 1 — Zero-state bootstrap (verify or recover)
 
+You may be resuming in a FRESH sandbox with nothing on disk. This sequence assumes zero state and bootstraps fully. Each verification command MUST pass before proceeding to the next.
+
+### 1.1 — Auth
 ```bash
-# Are repos present?
+# All git/gh operations REQUIRE api_credentials=["github"]
+gh auth status 2>&1 | head -5
+# Expect: "Logged in to git-agent-proxy.perplexity.ai as ..."
+```
+
+### 1.2 — Clone repos (if missing)
+```bash
 ls /tmp/ctxrepo /tmp/backend 2>&1
 
 # If ctxrepo missing:
 git clone https://git-agent-proxy.perplexity.ai/BradleyGleavePortfolio/tgp-agent-context.git /tmp/ctxrepo
-# api_credentials=["github"]
 
 # If backend missing:
 git clone https://git-agent-proxy.perplexity.ai/BradleyGleavePortfolio/growth-project-backend.git /tmp/backend
-# api_credentials=["github"]
+```
 
-# Set git identity (R3, NON-NEGOTIABLE):
+### 1.3 — Set R3 identity (NON-NEGOTIABLE on both repos)
+```bash
 cd /tmp/ctxrepo && git config user.email "bradley@bradleytgpcoaching.com" && git config user.name "Bradley Gleave"
 cd /tmp/backend && git config user.email "bradley@bradleytgpcoaching.com" && git config user.name "Bradley Gleave"
 
-# Update both:
-cd /tmp/ctxrepo && git fetch --all --prune && git pull
-cd /tmp/backend && git fetch --all --prune
+# Verify (both must print the exact pair):
+cd /tmp/ctxrepo && git config user.email && git config user.name
+cd /tmp/backend && git config user.email && git config user.name
 ```
+
+### 1.4 — Sync to remote HEAD
+```bash
+cd /tmp/ctxrepo && git fetch --all --prune && git checkout main && git pull --ff-only
+cd /tmp/backend && git fetch --all --prune && git checkout main && git pull --ff-only
+```
+
+### 1.5 — Verify ctxrepo doctrine state (gates the rest of the session)
+```bash
+# ctxrepo main must be at da8c650 or later (R110-R126 + CHECKLIST.md baseline)
+cd /tmp/ctxrepo && git log --oneline -1
+# Expect: da8c650 or descendant
+
+# R126 must be present (proof the doctrine lift landed):
+grep -c "^## R126" /tmp/ctxrepo/AGENT_RULES.md
+# Expect: 1
+
+# CHECKLIST.md must exist:
+test -f /tmp/ctxrepo/operator-meta/CHECKLIST.md && echo "CHECKLIST.md OK" || echo "MISSING — STOP"
+
+# All 3 Wave-H handoff docs must exist:
+for f in HANDOFF.md SELF_IMPROVEMENT.md NEXT_AGENT_PLAYBOOK.md DECISION_LOG.md; do
+  test -f /tmp/ctxrepo/handoffs/quality-bar-raise/$f && echo "$f OK" || echo "$f MISSING — STOP"
+done
+```
+
+### 1.6 — Verify backend PR SHAs (state as of compaction)
+```bash
+# PR #455 H1 — should be CONFLICTING at 7a280b83 (never audited)
+gh pr view 455 --repo BradleyGleavePortfolio/growth-project-backend --json headRefOid,mergeable -q '.headRefOid + " " + .mergeable'
+# Expect: 7a280b83... CONFLICTING (or newer if Wave 4 woke up)
+
+# PR #456 H2 — should be MERGEABLE at c795c112 (fixer FIXES_COMPLETE)
+gh pr view 456 --repo BradleyGleavePortfolio/growth-project-backend --json headRefOid,mergeable -q '.headRefOid + " " + .mergeable'
+
+# PR #457 H4 — should be MERGEABLE at 73bca17f (fixer CANCELLED mid-push, no verdict)
+gh pr view 457 --repo BradleyGleavePortfolio/growth-project-backend --json headRefOid,mergeable -q '.headRefOid + " " + .mergeable'
+```
+
+### 1.7 — Verify safety branch (orphan H4 tests preserved)
+```bash
+gh api repos/BradleyGleavePortfolio/growth-project-backend/branches/wave-h4-orphan-tests-snapshot-2026-06-19 -q .name
+# Expect: wave-h4-orphan-tests-snapshot-2026-06-19
+```
+
+### 1.8 — Verify Wave 4 crons alive (READ ONLY)
+```bash
+pplx-tool list_crons <<'JSON'
+{}
+JSON
+# Look for active: 72667351 (overnight 2:30 AM), ba50785d (heartbeat */15), bac2d173 (wake-up 7:00 AM).
+# If any are missing or paused: STOP and notify operator. Do not recreate Wave 4 crons.
+```
+
+### 1.9 — Self-test: write a banned-token check against your own draft
+```bash
+# Before ANY commit you author, run this on your staged diff:
+cd /tmp/<repo> && git diff --cached | grep -E '^\+' | grep -E '(@ts-ignore|as any|as unknown as|as never|Coming soon|\.catch\(\(\)=>(null|undefined|\{\}))'
+# Output MUST be empty. If not, fix before committing.
+```
+
+If any verification in STEP 1 fails, STOP and write a panic note to `/tmp/ctxrepo/handoffs/quality-bar-raise/RESUME_PANIC.md` describing what failed, then notify operator. Do not proceed to STEP 2 with a degraded baseline.
 
 ---
 
