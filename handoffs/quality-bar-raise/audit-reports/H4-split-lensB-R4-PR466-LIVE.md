@@ -21,12 +21,13 @@ STATUS: IN PROGRESS — sweep started 2026-06-19T20:19:50Z
 ## R3 FINDINGS CLOSURE STATUS (sub-task)
 | ID | Status | Evidence |
 |---|---|---|
-| pending | IN PROGRESS | Will verify from source/diff, not prior reports. |
+| F001 | PARTIAL | Nested JSON/base64/basic YAML block cases improved; new YAML indentation-indicator gap found separately as R4-F001. |
 
 ## R4 EXHAUSTIVE ADVERSARIAL SWEEP
 | # | Category | Probe | Input | Expected | Observed | Status |
 |---:|---|---|---|---|---|---|
 | 1 | kickoff | Live report initialized before probing | PR #466 | Durable checkpoint | This file committed first | PASS |
+| 2 | Redaction / YAML block scalar | Secret key with indentation indicator | `SECRET: |2\n  super-secret-value` | Continuation value redacted | Output was `SECRET: ***\n  super-secret-value`; header redacted but secret block body leaked | FAIL |
 
 ## DOCTRINE RULE COVERAGE (R1–R126)
 Pending exhaustive table in final pass.
@@ -34,6 +35,7 @@ Pending exhaustive table in final pass.
 ## NEW FINDINGS
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
 |---|---|---|---|---|---|
+| R4-F001 | P1 | R24/R35/R98/R110 | `test/prod-readiness/auto-flipper.ts:455-458` | `redactYamlBlockScalars` only matches `KEY: |`, `KEY: >`, `|-`, `|+`, `>-`, `>+`. YAML indentation indicators like `|2` are missed by the block pass; the inline regex redacts only the header (`SECRET: ***`) and leaves the indented secret body untouched. | Extend the YAML header parser to support indentation/chomping indicators in valid orders (e.g. `|2`, `|-2`, `|2-`, `>+4`) and add regression tests that assert the continuation body is redacted. |
 
 ## VERDICT
 Pending.
