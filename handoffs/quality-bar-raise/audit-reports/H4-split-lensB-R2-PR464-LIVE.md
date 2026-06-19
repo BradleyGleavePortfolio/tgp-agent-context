@@ -90,6 +90,7 @@ Pending full R1-R126 table.
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
 |---|---|---|---|---|---|
 | F001 | P3 | R40/R108 | test/prod-readiness/env-discovery.ts:258-267 | `collectStringConsts` records any variable declaration with a string initializer, so `let K="FOO"; process.env[K]` is treated as a static env var even though mutable aliases can be reassigned before use. Probe #11 expected a mutable alias to be skipped and observed discovery. | Restrict collection to `const` declarations or perform flow-aware constant analysis before resolving identifier keys. |
+| F002 | P2 | R31/R40/R108 | test/prod-readiness/env-discovery.ts:199-218,238-249 | `isProcessEnv` only recognizes bare `process.env` / `process["env"]` nodes and does not unwrap TypeScript expression wrappers; probes #19-25 missed `(process)["env"].FOO`, `(process).env.FOO`, `(process.env).FOO`, destructuring from `(process.env)`, `process.env!.FOO`, `(process.env as any).FOO`, and `(process.env satisfies Record<string,string>).FOO`. | Normalize expressions before matching by unwrapping `ParenthesizedExpression`, `NonNullExpression`, `AsExpression`, `TypeAssertionExpression`, and `SatisfiesExpression`; apply the same normalization to destructuring initializers and property/element receivers; add regression tests for every wrapper shape. |
 
 ## VERDICT
 Pending.
