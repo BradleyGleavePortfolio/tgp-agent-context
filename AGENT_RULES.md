@@ -1069,6 +1069,25 @@ without rules is bureaucracy. Both, together, every PR.
 
 ---
 
+### R108 — Every new env var must register in the switch registry or CI fails
+
+**Headline:** Adding an env var to the codebase (`process.env.X`, `ENV_RULES`, `.env.example`, or a Fly secret) without registering it in `prod-switches.yml` causes CI to fail. No exceptions, no warn-only.
+
+**Why.** Operator-invented during the H4 scoping conversation (Q6 Part B). The R100 prod-readiness test only works if the switch registry is complete; an env var that exists in code but is missing from the registry is invisible to the test, which means a stub value can ship to prod undetected. The registry-as-source-of-truth model is the Stripe / Linear pattern — one YAML file enumerates every knob, its prod default, its owner, and whether a placeholder is acceptable.
+
+**How to comply.**
+
+1. `prod-switches.yml` at repo root lists every env-var-shaped switch with: `name`, `tier` (mirrors `EnvTier`), `prod_default` (`ON` | `OFF` | `STUB_ALLOWED` | `MUST_SET`), `owner`, `description`, `auto_flip_on_in_prod` (bool — if true and the value is unset in prod, the readiness test flips it ON automatically before ship-block).
+2. The R100 readiness test (`test/deploy-readiness.spec.ts`) discovers env vars from THREE sources — `ENV_RULES`, `.env.example`, and any `process.env.X` reference under `src/` — and fails when the union is not a subset of `prod-switches.yml`.
+3. Existing pre-H4 env vars are seeded into the registry by the H4.A initial commit (the "grandfather" pass). After that, every new var is a manual registry edit.
+4. The R100 quality-gate CI job re-runs the discovery on every PR and fails the build if discovery > registry.
+
+**Failure mode.** Without R108, env-var sprawl outpaces the readiness test; the test gives false-clean reports while a STUB silently ships to prod.
+
+**Exception class.** None. If the operator wants to add a one-off var without a registry entry, they can mark it `tier: optional, prod_default: STUB_ALLOWED, owner: TODO`. Even that takes the 4-line registry diff — there is no path that adds an env var to code without a registry row.
+
+---
+
 ## §12 — INFRA-AS-DOCTRINE
 
 The following infra components, while not numbered rules, are mandated as part of the
