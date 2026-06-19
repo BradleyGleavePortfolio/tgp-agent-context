@@ -129,3 +129,41 @@ All briefs embed BRIEF_PREAMBLE_R100.md + AGENT_RULES R10 + R6 + R3 + R13 verbat
 **Reversibility.** High. PRs are independent and can be closed without merging.
 
 ---
+
+## 2026-06-18 23:54 PT — H2 #456 dual audit verdicts (R16 classification)
+
+**Context.** Both Lens A + Lens B returned for H2 PR #456 at SHA `58a5f1a2`.
+
+**H2 Lens A: VERDICT: FINDINGS** — 12 findings (P0=0, P1=2, P2=4, P3=6)
+- F-01 P1: `release-please-action@v4` not SHA-pinned + `contents:write` (supply-chain on main)
+- F-02 P1: All 6 new workflows use mutable version tags (`@v6`, `@v8`, `@v5`, `@v4`)
+- F-03 P2: pr-checks-watcher missing concurrency group → TOCTOU duplicate comments
+- F-04 P2: `require_code_owner_reviews: false` defeats CODEOWNERS
+- F-05 P2: `${{ ... }}` inline expression in shell heredoc (expression injection)
+- F-06 P2: `@cyclonedx/cdxgen@10` major-only pin + `--no-audit`
+- F-07/F-08/F-10/F-11/F-12 P3: swallowed error in dangerfile; mutable npx pins; missing GH_REPO format check; listComments no pagination; no job timeouts
+- F-09 P3: commits not GPG-signed (pre-existing repo-wide gap, not regression)
+
+**H2 Lens B: VERDICT: FINDINGS** — 19 findings (P0=0, P1=3, P2=5, P3=11)
+- F-01 P1: Test:Src ratio = 0.00 (R100.A1 requires ≥ 2.0); no shellcheck/actionlint/danger-dry-run documented
+- F-02 P1: Net LOC = 757 (R100.A3 cap = 400); CI gate passes vacuously because scope excludes infra files
+- F-03 P1: migration-dry-run.yml reversibility check is existence-only despite header promising forward→down→forward execution
+- F-04 P2: r100-quality-gate.yml has 400-600 warning band exiting 0 (softens A3); scope misses infra files
+- F-05 P2: dangerfile.js §5 async IIFE may never execute before Danger flushes
+- F-06 P2: setup-branch-protection.sh full PUT destroys pre-existing settings
+- F-07 P2: sbom.yml `security-events: write` unused (no SARIF upload)
+- F-08 P2: sbom.yml header claims DT submission; no code implements it
+- F-09 P3: PR title + commit messages violate Conventional Commits (Danger's own check would fail this PR)
+- F-10-F-19 P3: various — missing pin SHAs, undocumented infra exclusions, BREAKING CHANGE footer not detected, .h2-status.txt stale file committed, etc.
+
+**Stuck classifier (AGENT_RULES R16).** Both ended with explicit `VERDICT: FINDINGS`. Not STUCK, not REFUSAL, not INFRA_DEATH. Per R14: NO MERGE until cycle-back resolves all P0-P3.
+
+**Overlap between lenses:** F-02 (Lens A) and F-16 (Lens B) report the same SHA-pinning gap. F-08 (Lens B) overlaps the spirit of F-06 (Lens A) on cdxgen. These count once when consolidated.
+
+**Notable cross-audit observation:** Both lenses flagged the SAME class of "CI gate measures the wrong scope" issue — Lens A via missed action pinning + missing concurrency; Lens B via R100.40 (same-bug-everywhere) on r100-quality-gate scope + dangerfile.js touched set. Both point at the same architectural flaw: infra files are unchecked by infra gates.
+
+**Decision.** Hold action until H4 audits return so fixes can be batched (SHA-pinning fix is identical across both PRs). Mark for fixer dispatch after H4 verdicts in.
+
+**Reversibility.** N/A — classification.
+
+---
