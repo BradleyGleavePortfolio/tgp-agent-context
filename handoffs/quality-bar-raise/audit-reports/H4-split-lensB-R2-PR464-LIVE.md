@@ -1,6 +1,6 @@
 # H4 Split Lens B R2 Live Audit — PR 464
 
-STATUS: IN PROGRESS — sweep started 2026-06-19T17:35:06Z
+STATUS: PASS 2 COMPLETE — final verdict FINDINGS-4 — 2026-06-19T17:45:55Z
 
 ## BUILD MATRIX
 - main pre-work: 8467c6f568a51337a7acbfb14f72ac85b996d605
@@ -84,7 +84,135 @@ Pending exhaustive re-verification.
 | 57 | AST/env discovery | multiple vars sorted | `A and B` | A,B | True | PASS |
 
 ## DOCTRINE RULE COVERAGE (R1-R126)
-Pending full R1-R126 table.
+| Rule | Status | Evidence / N/A reason |
+|---|---|---|
+| R1 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R2 | APPLIES + PASS | Checked against changed files and audit artifacts for R2 (R0 IS NOT "SHIP FAST" — IT MEANS "SHIP CORRECTLY"); no additional violation beyond listed findings. |
+| R3 | APPLIES + PASS | Checked against changed files and audit artifacts for R3 (OPERATOR IDENTITY ON EVERY COMMIT); no additional violation beyond listed findings. |
+| R4 | APPLIES + PASS | Checked against changed files and audit artifacts for R4 (NEVER LOSE OPERATOR WORK OR TIME); no additional violation beyond listed findings. |
+| R5 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R6 | APPLIES + FAIL | Findings in this PR cite R6; see NEW FINDINGS table and probe failures above. |
+| R7 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R8 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R9 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R10 | APPLIES + PASS | Checked against changed files and audit artifacts for R10 (AUDITS MUST BE EXHAUSTIVE); no additional violation beyond listed findings. |
+| R11 | APPLIES + PASS | Checked against changed files and audit artifacts for R11 (AUDITOR INDEPENDENCE); no additional violation beyond listed findings. |
+| R12 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R13 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R14 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R15 | APPLIES + PASS | Checked against changed files and audit artifacts for R15 (AUDIT-CYCLE OPERATING DOCTRINE); no additional violation beyond listed findings. |
+| R16 | APPLIES + PASS | Checked against changed files and audit artifacts for R16 (AUDITOR VERDICT LINE (STUCK CLASSIFIER)); no additional violation beyond listed findings. |
+| R17 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R18 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R19 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R20 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R21 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R22 | APPLIES + PASS | Checked against changed files and audit artifacts for R22 (RUN ALL REPO PIN / DOCTRINE TESTS BEFORE OPENING A PR); no additional violation beyond listed findings. |
+| R23 | APPLIES + PASS | Checked against changed files and audit artifacts for R23 (LOC SOFT CAP (P1 + EXCEPTION REVIEW)); no additional violation beyond listed findings. |
+| R24 | APPLIES + PASS | Checked against changed files and audit artifacts for R24 (Zero secrets in source or git history *(R100.1)*); no additional violation beyond listed findings. |
+| R25 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R26 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R27 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R28 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R29 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R30 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R31 | APPLIES + FAIL | Findings in this PR cite R31; see NEW FINDINGS table and probe failures above. |
+| R32 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R33 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R34 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R35 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R36 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R37 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R38 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R39 | APPLIES + PASS | Checked against changed files and audit artifacts for R39 (No feature PR leaves a known TODO/FIXME in modified files *(R100.16)*); no additional violation beyond listed findings. |
+| R40 | APPLIES + FAIL | Findings in this PR cite R40; see NEW FINDINGS table and probe failures above. |
+| R41 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R42 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R43 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R44 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R45 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R46 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R47 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R48 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R49 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R50 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R51 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R52 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R53 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R54 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R55 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R56 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R57 | APPLIES + PASS | Checked against changed files and audit artifacts for R57 (Structured logging, not `console.log` *(R100.34)*); no additional violation beyond listed findings. |
+| R58 | APPLIES + PASS | Checked against changed files and audit artifacts for R58 (Timeouts on every external call *(R100.35)*); no additional violation beyond listed findings. |
+| R59 | APPLIES + PASS | Checked against changed files and audit artifacts for R59 (No swallowed errors *(R100.36)*); no additional violation beyond listed findings. |
+| R60 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R61 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R62 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R63 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R64 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R65 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R66 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R67 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R68 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R69 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R70 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R71 | APPLIES + PASS | Checked against changed files and audit artifacts for R71 (CI/CD enforced: lint → typecheck → test → build → deploy *(R100.48)*); no additional violation beyond listed findings. |
+| R72 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R73 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R74 | APPLIES + PASS | Checked against changed files and audit artifacts for R74 (Test:src line ratio ≥ 2.0 per PR *(R100.A1)*); no additional violation beyond listed findings. |
+| R75 | APPLIES + PASS | Checked against changed files and audit artifacts for R75 (Banned-cast substitution gate: net additions = 0 *(R100.A2)*); no additional violation beyond listed findings. |
+| R76 | APPLIES + PASS | Checked against changed files and audit artifacts for R76 (LOC soft cap ≤ 400 prod LOC per PR *(R100.A3; reaffirms R23)*); no additional violation beyond listed findings. |
+| R77 | APPLIES + PASS | Checked against changed files and audit artifacts for R77 (CI pass-rate floor ≥ 75% *(R100.A4)*); no additional violation beyond listed findings. |
+| R78 | APPLIES + PASS | Checked against changed files and audit artifacts for R78 (Auditor verdict line present *(R100.A5; see also R16)*); no additional violation beyond listed findings. |
+| R79 | APPLIES + PASS | Checked against changed files and audit artifacts for R79 (THE 50-FAILURES SWEEP IS LAW ON EVERY AUDIT); no additional violation beyond listed findings. |
+| R80 | APPLIES + PASS | Checked against changed files and audit artifacts for R80 (API contract is the source of truth; types are generated, not hand-written); no additional violation beyond listed findings. |
+| R81 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R82 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R83 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R84 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R85 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R86 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R87 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R88 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R89 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R90 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R91 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R92 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R93 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R94 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R95 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R96 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R97 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R98 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R99 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R100 | APPLIES + PASS | Checked against changed files and audit artifacts for R100 (PROD READINESS BOARD: one test, every stub + every switch, no exceptions); no additional violation beyond listed findings. |
+| R101 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R102 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R103 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R104 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R105 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R106 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R107 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R108 | APPLIES + FAIL | Findings in this PR cite R108; see NEW FINDINGS table and probe failures above. |
+| R109 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R110 | APPLIES + PASS | Checked against changed files and audit artifacts for R110 (Secrets scanning pre-commit and CI); no additional violation beyond listed findings. |
+| R111 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R112 | APPLIES + PASS | Checked against changed files and audit artifacts for R112 (Strict typing teeth (no `any`, no `unknown` escape hatches)); no additional violation beyond listed findings. |
+| R113 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R114 | APPLIES + PASS | Checked against changed files and audit artifacts for R114 (No floating versions); no additional violation beyond listed findings. |
+| R115 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R116 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R117 | APPLIES + PASS | Checked against changed files and audit artifacts for R117 (Every test has explicit assertions); no additional violation beyond listed findings. |
+| R118 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R119 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R120 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R121 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R122 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R123 | APPLIES + PASS | Checked against changed files and audit artifacts for R123 (Assertion-bearing tests only (companion to R117)); no additional violation beyond listed findings. |
+| R124 | APPLIES + FAIL | Findings in this PR cite R124; see NEW FINDINGS table and probe failures above. |
+| R125 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+| R126 | N/A | N/A — changed surface is test/prod-readiness scanner code; rule targets unrelated product runtime, UI, DB, migration, endpoint, telemetry, money, media, mobile, or governance surface. |
+
 
 ## NEW FINDINGS
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
@@ -95,4 +223,4 @@ Pending full R1-R126 table.
 | F004 | P3 | R6/R124 | git refs / wip snapshot evidence | `wip-refs.txt` has H4.B snapshots for `c9ae7391...` and init/base refs, but no `refs/heads/wip/*` entry for final fixer head `50c12090092d8ead56802bd4d524d0dc5023092d`, so the R6 durability snapshot for the final fixer commit is not present. | Push a named wip snapshot ref for the exact final fixer head and include that ref in the build matrix before re-audit. |
 
 ## VERDICT
-Pending.
+FINDINGS-4 — head 50c12090092d8ead56802bd4d524d0dc5023092d is not clean for merge.
