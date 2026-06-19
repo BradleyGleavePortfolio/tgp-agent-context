@@ -1,0 +1,54 @@
+{
+  "as_of": "2026-06-19T22:10:30Z",
+  "main_sha": "8467c6f568a51337a7acbfb14f72ac85b996d605",
+  "open_prs": [
+    {
+      "num": 464,
+      "name": "H4.B env-discovery",
+      "head": "67ade350ed31369360bcbb7e1e9dc9ca40957178",
+      "ci": "10/10",
+      "stage": "R4-fixer-done",
+      "snapshot_ref": "wip/h4b-env-discovery-fixer-r4-final-20260619",
+      "notes": "F001 P2 (R59/R65/R109) closed: param-shadow fail-closed implemented in countBindings via ts.isParameter. Brief's catch-clause additional branch was DEVIATED FROM (intentionally) — catch-clause variables are already ts.VariableDeclaration in this TS version, double-count avoided; documented in code header + fixer report. 5 regression tests, 215/215 prod-readiness, identity strict. Awaiting R5 dual-lens audit."
+    },
+    {
+      "num": 465,
+      "name": "H4.D provider-wiring",
+      "head": "c5dd5bd97a29dce77f8e7afceb3025dd6250e4ec",
+      "ci": "10/10",
+      "stage": "R4-fixer-done",
+      "snapshot_ref": "wip/h4d-provider-wiring-fixer-r4-final-20260619",
+      "notes": "F001 P1-P2 (alg=none / alg allowlist) closed via header parse + allowlist {HS256,HS384,HS512,RS256,RS384,RS512,ES256,ES384} BEFORE existing role gate. 238/238 jest, identity strict. Awaiting R5 dual-lens audit."
+    },
+    {
+      "num": 466,
+      "name": "H4.F auto-flipper (HIGH-RISK)",
+      "head": "c624492e8c24870f76ced2c82764e0c18ff13cd6",
+      "ci": "10/10",
+      "stage": "R4-fixer-done",
+      "snapshot_ref": "wip/h4f-auto-flipper-fixer-r4-final-20260619",
+      "notes": "F001 P1 (YAML block-scalar grammar) closed on BOTH R125 enforcers (pass-f inline + pass-h redactYamlBlockScalars) covering chomping/indent indicators in either order. F002 P1 (FLY_BIN TOCTOU) closed via 5-field stat-identity cache {dev,ino,mtimeNs,size,mode} with FlyBinIdentityMismatch on revalidation mismatch. 243/243 prod-readiness, identity strict. HIGH-RISK: secrets-redaction + FLY_BIN exec gate. Awaiting R5 dual-lens audit."
+    }
+  ],
+  "merged_this_wave": [
+    {"num": 455, "name": "H1", "merge_sha": "b65266c7"},
+    {"num": 456, "name": "H2", "merge_sha": "ceaa759c"},
+    {"num": 458, "name": "H4.A", "merge_sha": "86800008"},
+    {"num": 460, "name": "H4.E learning-ledger", "merge_sha": "fb8768d3"},
+    {"num": 461, "name": "H4.G1 reporter", "merge_sha": "ff8a4e68"},
+    {"num": 462, "name": "H4.G2 operator-keys-generator", "merge_sha": "210f4eb7"},
+    {"num": 463, "name": "H4.C stub-scanner", "merge_sha": "8467c6f5"}
+  ],
+  "locked_decisions": {
+    "d1_sub_coach": "D (lookup table — replace coach_role enum with roles table; RLS references roles.tier/permissions)",
+    "d2_create_index_concurrently": "B (drop CONCURRENTLY — zero users, plain CREATE INDEX is atomic and simpler)",
+    "d3_bundling": "B (split by risk class — PR-Safe for CREATE INDEX, PR-Risky for lookup-table + RLS rewrite)"
+  },
+  "next_action": "Dispatch R5 dual-lens audit on PRs #464/#465/#466 (Lens A Opus 4.8 + Lens B GPT-5.5). Write R5 audit brief at /home/user/workspace/audit_briefs/H4_SPLIT_AUDIT_HALF_B_R5_BRIEF.md by copying R4 brief and updating: heads to 67ade350/c5dd5bd9/c624492e, round to R5, and R4 findings-to-verify list (F001 #464 param-shadow, F001 #465 alg=none, F001 #466 YAML grammar, F002 #466 FLY_BIN stat-identity). PR #464 has an intentional brief deviation that R5 auditors must explicitly verify (catch-clause variables ARE counted via ts.VariableDeclaration in current TS version — no double-count).",
+  "blockers": [
+    "TM-8 #449 still OPEN @ d4a0eb0d — blocks H6",
+    "Branch protection on main blocked by GitHub Free private-repo limit — into OPERATOR_ATTACH",
+    "H3 #459 OPEN @ 82abaaf0 — blocked on forward-migration repair (drive with D1/D2/D3 above)"
+  ],
+  "credits_burn_estimate_remaining": "25-30k for R5 audit + (any R5 fixer cycle) + H4.B/D/F merges + H4.H + H5 + migration repair PR(s) + R109 sweep"
+}
