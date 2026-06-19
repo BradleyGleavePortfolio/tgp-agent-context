@@ -29,6 +29,9 @@ STATUS: IN PROGRESS - sweep started 2026-06-19T18:33:37Z
 | F001 | P2 | R31/R40/R108 | test/prod-readiness/env-discovery.ts:265-269 | Destructuring from `process.env` only records identifier property names; literal or const-backed computed destructuring keys are skipped. Independent probes returned an empty set for `const { ["FOO"]: local } = process.env` and for `const K = "FOO" as const; const { [K]: local } = process.env`, even though both read the `FOO` switch. | Extend destructuring key extraction to unwrap `ComputedPropertyName`, accept string-literal keys, and resolve identifier keys through the same const map used for element access; add focused tests for both shapes. |
 | 1 | AST/env discovery | destructured literal computed key | `const { ["FOO"]: local } = process.env` | `FOO` found | returned empty set | FAIL |
 | 2 | AST/env discovery | destructured const computed key | `const K = "FOO" as const; const { [K]: local } = process.env` | `FOO` found | returned empty set | FAIL |
+| F002 | P2 | R31/R40/R108 | test/prod-readiness/env-discovery.ts:297-314 | `collectStringConsts` stores every const string in one file-wide map, so function or block local bindings overwrite outer bindings and are later used outside their lexical scope. Independent probes for `const K = "FOO"; function f(){ const K = "BAR"; } process.env[K]` and the block equivalent both returned `BAR` instead of `FOO`, making registry coverage depend on unrelated inner scopes. | Track const literals by lexical scope and lookup from the use site outward, or skip identifier-computed keys when more than one binding with that name exists; add shadowing tests for function and block scopes. |
+| 3 | AST/env discovery | function-local const shadowing | outer `K="FOO"`, inner `K="BAR"`, later `process.env[K]` | `FOO` found for outer use | returned `BAR` | FAIL |
+| 4 | AST/env discovery | block-local const shadowing | outer `K="FOO"`, block `K="BAR"`, later `process.env[K]` | `FOO` found for outer use | returned `BAR` | FAIL |
 
 ## DOCTRINE RULE COVERAGE (R1-R126)
 Pending full table after both passes.
@@ -36,6 +39,7 @@ Pending full table after both passes.
 ## NEW FINDINGS
 | ID | Severity | Rule | File:line | Evidence | Proposed Fix |
 |---|---|---|---|---|---|
+| F002 | P2 | R31/R40/R108 | test/prod-readiness/env-discovery.ts:297-314 | `collectStringConsts` stores every const string in one file-wide map, so function or block local bindings overwrite outer bindings and are later used outside their lexical scope. Independent probes for `const K = "FOO"; function f(){ const K = "BAR"; } process.env[K]` and the block equivalent both returned `BAR` instead of `FOO`, making registry coverage depend on unrelated inner scopes. | Track const literals by lexical scope and lookup from the use site outward, or skip identifier-computed keys when more than one binding with that name exists; add shadowing tests for function and block scopes. |
 
 ## VERDICT
 Pending.
