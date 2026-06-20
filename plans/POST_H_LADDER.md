@@ -1,7 +1,8 @@
 # POST_H_LADDER.md — what to build after Wave H lands
 
 **Author:** outgoing operator (save-point at credit floor 2026-06-19 17:45 PDT)
-**Source-of-truth:** this file + `current-state.json` + `HANDOFF_NEXT_OPERATOR.md`
+**Tier 4 squash-merge:** 2026-06-19 — Tier 4 re-keyed from T4.A–T4.D to T4.A2–T4.A13 to match `TGP-MASTER-PLAN-v2.md` operator-ranked A-items. Old lanes reconciled in §5.14.
+**Source-of-truth:** this file + `current-state.json` + `HANDOFF_NEXT_OPERATOR.md` + [`roadmap/TGP-MASTER-PLAN-v2.md`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/roadmap/TGP-MASTER-PLAN-v2.md) (Tier 4 lane keying)
 **Locked priority pyramid (operator-stated 2026-06-19):**
 
 > **Infrastructure/plumbing → Security → Data collection & observability → Unique features → Mobile design & UX polish**
@@ -20,7 +21,7 @@
 2. [Tier 1 — Infrastructure / plumbing](#2-tier-1--infrastructure--plumbing)
 3. [Tier 2 — Security](#3-tier-2--security)
 4. [Tier 3 — Data collection & observability](#4-tier-3--data-collection--observability)
-5. [Tier 4 — Unique features](#5-tier-4--unique-features)
+5. [Tier 4 — Unique features (A1–A13)](#5-tier-4--unique-features-a1a13)
 6. [Tier 5 — Mobile design & UX polish (Stillwater)](#6-tier-5--mobile-design--ux-polish-stillwater)
 7. [Cross-tier appendix](#7-cross-tier-appendix)
 
@@ -298,49 +299,137 @@ All observability lanes merged. `prom-client` exporting; `pg_stat_statements` en
 
 ---
 
-## 5. Tier 4 — Unique features
+## 5. Tier 4 — Unique features (A1–A13)
 
-**Goal:** Now ship the differentiators. The substrate underneath is clean, secure, and observed.
+**Goal:** Ship the 13 differentiators that constitute the App Store launch gate. The substrate underneath is clean, secure, and observed by the time Tier 4 begins.
 
-### 5.1 — Lane T4.A — **Talent Marketplace web SSR** (TM-W lanes)
+**Authority:** [`roadmap/TGP-MASTER-PLAN-v2.md`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/roadmap/TGP-MASTER-PLAN-v2.md) §0.1 — the operator-ranked sequence after the 2026-06-19 dissolution pass. Tier 4 lanes are now keyed to A-items (A1 through A13). A1 (Roman P4 close-out) is already a Tier 1 lane (T1.B); the remaining 12 A-items become Tier 4 lanes T4.A2 through T4.A13 in the operator-ranked order. Old T4.A–T4.D have been absorbed into the A-numbering (see §5.14 for the carryover and demoted items).
 
-5 Next.js pages: TM-W2 SEO job-posting (schema.org JSON-LD already emitted by TM-3 backend, ✅), TM-W5/W8/W9/W12. Resolves operator gate T1.E.3 (shared shell vs separate app from Consumer).
+**Per-lane spec stubs live at:** [`roadmap/specs/A##-*.md`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/tree/main/roadmap/specs) — every lane MUST update its stub with previous-operator working notes as work progresses (R4/R5: never lose).
 
-**Expected merge count:** 5 PRs.
+**Sequencing rule for Tier 4:** Within Tier 4, lanes are run in the A-number order shown below (A2 → A13). R71 parallel-lane cap still applies (≤5 lanes simultaneously), but parallel lanes must not violate the operator-ranked priority of work — i.e. don't park A2/A3/A4 to chase A12. Hard intra-tier dependencies are flagged per-lane.
 
-### 5.2 — Lane T4.B — **Consumer Marketplace planner + execution**
+### 5.1 — Lane T4.A2 — **Migration / import tooling** *(MUST DO #1 post-H feature)*
 
-**Why Tier 4:** [`CONSUMER_MARKETPLACE_SPEC.md`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/plans/CONSUMER_MARKETPLACE_SPEC.md) is operator-locked but architecture/PR-chain = "next planner stage." Tier 4 starts with the planner, then execution.
+**Spec stub:** `roadmap/specs/A02-import-tooling.md`
+**v2 source:** §1.A A2.
+**Why first in Tier 4:** operator: "extremely important, #1 after TM and prior in-flight work is done." Master Plan flags as App Store launch-gate prerequisite ("REQUIRED before marketing").
+**Deliverable shape:** Trainerize CSV/JSON importer + spreadsheet importer + branded invite emails + program-format conversion (`WorkoutProgram` + `WorkoutPlan`) + billing migration (Stripe Connect plan creation).
+**Expected merge count:** 6–8 PRs.
+**Blocks:** nothing (entry-point lane). Many later A-items benefit from imported test data but do not strictly depend on it.
 
-**Deliverable shape** (per spec §1–§8):
-- Coach profile (mandatory photo, modality, packages, trust stack, badges, reviews)
-- Three-path engagement (buy-now / message / book-appointment)
-- Auto-award badge engine (Certified 300+ clients ≥4.0★; Elite 1500+ + ≥4.3★ + $150k+; Sponsored admin-grant)
-- Verified-client reviews
-- Trust stack (Stripe Identity + Checkr + insurance + admin moderation + response-rate signal) — leverages T2.C credential engine
-- 4-rail ranked search (earned / new / paid / your-gym)
-- Flat 2% platform fee per purchase + sub-coach head-coach split toggle
+### 5.2 — Lane T4.A3 — **Re-engagement automations + Dunning consolidation** *(promoted from old Bucket B1)*
 
-**Dependencies (all satisfied by lower tiers):** T2.C credential engine, T3.B per-coach metrics, T1.E TM backend (Stripe Connect, RLS spine, profile model).
+**Spec stub:** `roadmap/specs/A03-reengagement-dunning.md`
+**v2 source:** §1.A A3 (was B1 pre-dissolution).
+**State:** MOSTLY — `src/nudges/`, `ChurnIntervention`, `ptm/`, `dunning-v2/` all present.
+**Deliverable shape:** coach-configurable trigger UI + message template library + `ChurnIntervention` consolidation surface + verify dunning-v2 fully supersedes v1 (retire old T3.C "Dunning v1" lane as redundant if confirmed).
+**Expected merge count:** 4–6 PRs.
+**Tier-3 reconciliation:** T3.C "Dunning v1" is retired into this lane if audit confirms supersession.
 
-**Expected merge count:** ~15–20 PRs (largest single feature wave in the ladder).
+### 5.3 — Lane T4.A4 — **Team QA / manager ops layer** *(promoted from old Bucket B2)*
 
-### 5.3 — Lane T4.C — **Admin Control Room §11.A–O**
+**Spec stub:** `roadmap/specs/A04-team-qa.md`
+**v2 source:** §1.A A4 (was B2).
+**State:** MOSTLY — `sub-coaches/`, `team/`, `team-mode/`, mobile screens shipped.
+**Deliverable shape:** per-sub-coach metrics + unanswered check-in flagging (>48h) + program audit (head coach reads any SC client program) + weekly ops digest (AI-generated).
+**Expected merge count:** 4–6 PRs.
+**Tie:** Team Ops surfaces inside the unified inbox "Team" tab (T4.A9).
 
-Per [`docs/admin/control-room-spec.md`](https://github.com/BradleyGleavePortfolio/growth-project-backend) — EHR-style operator console. 15 placeholder PR slots `TBD-admin-A..O` already allocated. Once Tier 1 and Tier 3 land, admin console has real data + real endpoints to surface.
+### 5.4 — Lane T4.A5 — **White-label multi-tenant (scope-cut)** *(promoted from old Bucket B3)*
 
-**Expected merge count:** 7–10 PRs (subset; full §17 7-week rollout is multi-quarter).
+**Spec stub:** `roadmap/specs/A05-white-label.md`
+**v2 source:** §1.A A5 (was B3).
+**State:** SCAFFOLD — `CommunityWorkspace`, `landing-pages/custom-domain.*`, DNS verifier, RLS tier 1–5.
+**Operator scope cut (IN):** colors + name + logo only. Opt-in side flow, NOT default.
+**Operator scope cut (OUT):** app-store-per-tenant, full per-tenant DB partition beyond RLS, custom domain (already exists).
+**Deliverable shape:** `TenantTheme` columns + logo upload/crop/validation + live preview + render-path swap + opt-out reversibility.
+**Expected merge count:** 3–5 PRs.
 
-### 5.4 — Lane T4.D — **Custom Exercise composer close-out**
+### 5.5 — Lane T4.A6 — **Wearable deep — full provider parity + recovery feed** *(RED FLAG — MOAT)*
 
-4 open PRs idle since 2026-06-17: backend #427 + #428, mobile #264 + #265. Flag-off. Coach-side feature.
+**Spec stub:** `roadmap/specs/A06-wearables.md`
+**v2 source:** §1.A A6.
+**State:** MOSTLY — Apple/Google/Samsung adapters PROD; Whoop/Oura/Garmin enumerated only.
+**Deliverable shape:** Whoop adapter (OAuth + webhook) + Oura adapter (REST/webhook) + Garmin adapter (Connect IQ/webhook) + coach client-card recovery badge + recovery-score feed into adaptive engine (shared interface with T4.A7).
+**Expected merge count:** 6–8 PRs.
+**Blocks:** **T4.A7 (autopilot)** — the recovery/HRV feed is the input to the closed-loop engine. A7 MUST NOT start until A6 lands the shared interface.
 
-**Deliverable:** Audit, fix to dual-CLEAN, merge.
-**Expected merge count:** 4 PRs.
+### 5.6 — Lane T4.A7 — **Closed-loop adaptive autopilot** *(MOAT)*
 
-### 5.5 — Tier 4 gate
+**Spec stub:** `roadmap/specs/A07-autopilot.md`
+**v2 source:** §1.A A7.
+**State:** PARTIAL — substrate present (`WorkoutPlanRevision`, `AIDraft`, `WeeklyInsightCron`, `CoachBriefService`); the auto-write loop is unwritten.
+**Deliverable shape:** rule+LLM layer that writes next-week program revision from trailing RPE + completion + HRV + wearable signal; coach-approval queue with bulk approve / per-row override; per-coach learning model (deferrable v2).
+**Expected merge count:** 5–8 PRs.
+**Hard dependency:** T4.A6 wearable shared interface.
+**Cost gating:** flows through Coach AI Budget (`ai-credits/`); land within T3.B AI usage economics cap ($40 / 3.125× / $125).
 
-All differentiators shipped, flags ready to flip when product team gives go-ahead. `tier_4: complete`.
+### 5.7 — Lane T4.A8 — **Hyperscaler lead funnel** *(Apple-grade)*
+
+**Spec stub:** `roadmap/specs/A08-lead-funnel.md`
+**v2 source:** §1.A A8.
+**State:** MOSTLY — all four primitives shipped (`storefront/`, `contracts/`, `checkout/`, `landing-pages/`); the 7-step welding is missing.
+**Deliverable shape:** funnel composer chaining the 7 steps (TGP-built landing → bio link → guest checkout → superlink download → auto-assign coach → auto-assign package → Day-1 Win) into a coach-configurable single setup screen; superlink generation + deferred-deep-link handling; atomic flow.
+**Expected merge count:** 5–7 PRs.
+
+### 5.8 — Lane T4.A9 — **Unified coach inbox (role-gated split)**
+
+**Spec stub:** `roadmap/specs/A09-coach-inbox.md`
+**v2 source:** §1.A A9.
+**State:** MOSTLY → arguably PROD on data layer (`coach/command-center/`, `community/inbox/`, `community/ai-triage/`).
+**Deliverable shape:** role-gated 2-tab split (Clients tab + Team tab); sub-coaches/solo coaches see Clients only; head coaches see both. Three-panel layout UX polish, bulk approve-all-AI-changes button, read receipts, broadcast-to-segment.
+**Expected merge count:** 4–6 PRs.
+**Tie:** the Team tab surfaces T4.A4 Team QA metrics inside the inbox shell. Bulk-approve action surfaces T4.A7 autopilot revisions.
+
+### 5.9 — Lane T4.A10 — **Consumer Marketplace** *(launch-gate)*
+
+**Spec stub:** `roadmap/specs/A10-consumer-marketplace.md`
+**v2 source:** §1.A A10. Authoritative spec: [`plans/CONSUMER_MARKETPLACE_SPEC.md`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/plans/CONSUMER_MARKETPLACE_SPEC.md) (operator-locked 2026-06-16).
+**State:** ZERO on consumer side; foundation reusable from Talent Marketplace (coach profile, Stripe Connect, RLS spine, badge engine).
+**Deliverable shape (per spec):** badge engine (Certified 300+ / Elite 1500+ / Sponsored + Roman celebration popup); four-rail search (merit / new+upcoming / sponsored / your-gym); modality filters (in-person/hybrid/online); web parity (every mobile screen = web page); gym-affinity rail via `app.current_gym_ids()` RLS; flat 2% platform fee + SC head-coach split toggle.
+**Dependencies (all satisfied by lower tiers):** T2.C credential engine, T3.B per-coach metrics, T1.E TM backend.
+**Expected merge count:** ~15–20 PRs (largest single A-item wave).
+**Includes:** old T4.A web SSR work (TM-W2/W5/W8/W9/W12) is absorbed into this lane's web-parity scope.
+
+### 5.10 — Lane T4.A11 — **AI check-in summaries (client-side)**
+
+**Spec stub:** `roadmap/specs/A11-checkin-summaries.md`
+**v2 source:** §1.A A11.
+**State:** PARTIAL — `CheckIn` model, check-in controllers, `community/ai-triage/`, `CoachBriefService`, `HolisticInsightCache` all present.
+**Deliverable shape:** client-facing weekly digest screen + per-check-in AI urgency classification + suggested-coach-reply panel (coach-side, editable, not auto-sent — guardrail) + weekly-theme aggregation across coach's roster.
+**Expected merge count:** 4–5 PRs.
+**Tie:** consumes C1 smart forms (when those ship) as additional input streams.
+
+### 5.11 — Lane T4.A12 — **Referral tracking (bidirectional + first-payment celebration)**
+
+**Spec stub:** `roadmap/specs/A12-referrals.md`
+**v2 source:** §1.A A12.
+**State:** ZERO. Substrate adjacent in `invite-codes/` + `share-link/`.
+**Deliverable shape:** `Referral` model + unique referral URL per user (extend `share-link/`) + Stripe-webhook attribution on `payment_intent.succeeded` + gift-fulfillment integration (Printful/Shopify — operator-decide) + Roman-voice celebration popup ("Your referral just processed their first payment! Here's a gift from us →") + free TGP shirt for first referral + coach-side referral leaderboard.
+**Expected merge count:** 5–7 PRs.
+
+### 5.12 — Lane T4.A13 — **Coach money-flow engine** *(configurable, not a tracker)*
+
+**Spec stub:** `roadmap/specs/A13-money-flow-engine.md`
+**v2 source:** §1.A A13.
+**State:** PARTIAL — payouts spine PROD (`payouts-v2/`, `connect/`, `SplitLedgerEntry`, `ConnectTransfer`, etc.); the configurable-rule layer is ZERO.
+**Deliverable shape:** `MoneyFlowRule` model (percent / flat / hybrid, per-sub-coach, billing-day-of-month, threshold) + per-SC configuration UI + monthly auto-execution scheduler (cron creates `SplitLedgerEntry` + Connect transfers per active rule) + sub-coach earnings dashboard + head-coach view + idempotency.
+**Doctrine:** all money movements RLS-tier-1 (financial privacy), audit-event-emitting, idempotent, dispute-traceable.
+**Expected merge count:** 6–8 PRs.
+
+### 5.13 — Tier 4 gate
+
+All 13 A-items shipped, flags ready to flip when product team gives go-ahead. `tier_4: complete`. App Store launch gate eligible per Master Expansion Plan.
+
+### 5.14 — Tier 4 carryover (old T4 lanes, reconciled)
+
+- **Old T4.A (Talent Marketplace web SSR, 5 PRs):** absorbed into T4.A10 web-parity scope. Not a standalone lane.
+- **Old T4.B (Consumer Marketplace planner + execution):** is T4.A10 above.
+- **Old T4.C (Admin Control Room §11.A–O):** demoted out of Tier 4. Now Bucket C3 in v2 (MEDIUM/LOW). Re-enters as a post-launch-gate lane once Bucket A clears. Spec for the war-room expansion lives in v2 §1.C C3.
+- **Old T4.D (Custom Exercise composer close-out, 4 PRs):** NOT an A-item. Operator-flagged cleanup carryover; run as a Tier-1 mop-up lane (alongside T1.A/T1.B) rather than Tier 4. Update the four PRs (#427, #428, #264, #265) to dual-CLEAN and merge.
+
+**Expected total Tier 4 merge count:** ~70–100 PRs across 12 lanes (T4.A2 through T4.A13). Roughly an order of magnitude more than the old 4-lane Tier 4. Plan capacity accordingly.
 
 ---
 
@@ -435,7 +524,7 @@ Decisions only the operator can make. Block specific lanes:
 | Tier 1 | ~25-30 | 6-10 sessions |
 | Tier 2 | ~11-13 | 3-4 sessions |
 | Tier 3 | ~12-15 | 3-5 sessions |
-| Tier 4 | ~30-40 | 8-13 sessions |
+| Tier 4 | ~70-100 | 18-25 sessions (12 A-item lanes T4.A2–T4.A13; see §5) |
 | Tier 5 | ~38-58 | 10-19 sessions |
 | **Total** | **~115-155 PRs** | **~30-50 operator sessions** |
 
