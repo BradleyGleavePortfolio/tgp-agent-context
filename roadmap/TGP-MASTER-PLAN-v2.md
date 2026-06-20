@@ -1,8 +1,8 @@
 # TGP Master Plan — v2 (ranked + scoped, ready for planning)
 
 **Supersedes:** `roadmap/TGP-Feature-Roadmap-v1.md` (Jun 2026) and `roadmap/TGP-MASTER-EXPANSION-PLAN.md` Stage 3 section.
-**Date:** 2026-06-19 (ranked pass)
-**Method:** Direct audit of `growth-project-backend` (168 Prisma models, 156 migrations, ~95 modules) and `growth-project-mobile` (50+ screens, 4 health-platform adapters) against every Stage-3 feature in v1. Cross-checked against `CONSUMER_MARKETPLACE_SPEC.md`, `TALENT_MARKETPLACE_SPEC.md`, `PRODUCT_DOMINANCE_PLAYBOOK_DIGEST_2026-05-28.md`, and the in-flight Wave H + `POST_H_LADDER.md`. Operator-ranked 2026-06-19.
+**Date:** 2026-06-19 (ranked pass + Bucket-B-dissolution pass)
+**Method:** Direct audit of `growth-project-backend` (168 Prisma models, 156 migrations, ~95 modules) and `growth-project-mobile` (50+ screens, 4 health-platform adapters) against every Stage-3 feature in v1. Cross-checked against `CONSUMER_MARKETPLACE_SPEC.md`, `TALENT_MARKETPLACE_SPEC.md`, `PRODUCT_DOMINANCE_PLAYBOOK_DIGEST_2026-05-28.md`, and the in-flight Wave H + `POST_H_LADDER.md`. Operator-ranked 2026-06-19. Operator dissolved old Bucket B into Bucket A 2026-06-19.
 
 > **What this document is:** the working feature ledger after audit + operator ranking. Tells the next planner: (a) what's actually built, (b) what's left to build, (c) how the operator ranked it, (d) any scope expansions the operator added during ranking.
 
@@ -16,30 +16,29 @@ After audit + rank, here is the working plan for everything not already shipped 
 
 ### §0.1 Bucket A — Pre-launch-gate MUST-DOs (in order)
 
-These are the items the App Store launch gate depends on (per Master Expansion Plan), ranked by operator-stated priority for the post-H sequencing.
+These are the items the App Store launch gate depends on (per Master Expansion Plan), ranked by operator-stated priority for the post-H sequencing. **2026-06-19 dissolution pass:** Operator declared old Bucket B "actually 3/4 of the most important things to do — alongside import tooling" and folded B1/B2/B3 into A at slots A3/A4/A5. Bucket A is now 13 items. The letter B is retired — do not reuse.
 
 | Order | Feature | Why this slot |
 |---|---|---|
 | **A1** | **Roman P4 close-out** | Operator: "before anything else, it's in our original plans for the next operator." Already on `POST_H_LADDER` Tier 1 T1.B. |
 | **A2** | **Migration / import tooling (2.10)** | Operator: "#1 post-H feature after TM and prior in-flight work is done." Master Plan flags as launch-gate prerequisite. |
-| **A3** | **Wearable deep — full provider parity + recovery feed (1.2)** | Operator RED FLAG: "Sleep data is a massive MOAT — ALL wearables wired and working to hyperscaler quality." Whoop/Oura/Garmin adapters + coach recovery badge + feed into adaptive engine. |
-| **A4** | **Closed-loop adaptive autopilot (1.1)** | Operator: "MOAT feature." Substrate exists; close the loop. Depends on A3 wearable feed. |
-| **A5** | **Consumer Marketplace (1.3-b)** | Per `CONSUMER_MARKETPLACE_SPEC.md`. Launch-gate item per Master Plan. |
-| **A6** | **Hyperscaler lead funnel (2.7)** | Operator-expanded scope: TGP-built landing page → link in bio → guest checkout → superlink to download → auto-assigned coach + package. End-to-end "Apple-grade" funnel composer. |
-| **A7** | **Unified coach inbox (2.1)** | Operator-expanded scope: split into "client stuff" and "team stuff" tabs; sub-coaches and solo coaches see client tab only; head coaches see both. |
-| **A8** | **AI check-in summaries — client-side (2.3)** | Operator: "for clients, high." Client-facing weekly summary digest. |
-| **A9** | **Referral tracking — both sides (2.11)** | Operator-expanded scope: client↔client AND coach↔coach. Coach-to-coach referral triggers popup "Your referral just processed their first payment! Here's a gift from us →" + free TGP shirt fulfillment. |
-| **A10** | **Coach money-flow engine (3.5)** | Operator-expanded scope: full configurable money flow per sub-coach. Examples: "SC A pays me 4% of all money," "SC B pays $200/mo flat on the 1st." Per-sub-coach rule type: percent / flat / hybrid / custom billing date. |
+| **A3** | **Re-engagement automations + Dunning consolidation (2.9 + 5.8)** | Promoted from old B1. Operator: "important (higher)" — couple with dunning v2 finish. Revenue-defense; gates retention math at launch. |
+| **A4** | **Team QA / manager ops layer (2.2)** | Promoted from old B2. Operator: "head coach and managerial stuff to be elite/world-class, mark this as important." |
+| **A5** | **White-label multi-tenant — scope-cut (2.12)** | Promoted from old B3. Operator scope: colors + name + logo only. **Opt-in side flow, NOT the default.** Dead simple upload, clean, luxurious. No app-store-per-tenant in this scope. |
+| **A6** | **Wearable deep — full provider parity + recovery feed (1.2)** | Operator RED FLAG: "Sleep data is a massive MOAT — ALL wearables wired and working to hyperscaler quality." Whoop/Oura/Garmin adapters + coach recovery badge + feed into adaptive engine. |
+| **A7** | **Closed-loop adaptive autopilot (1.1)** | Operator: "MOAT feature." Substrate exists; close the loop. Depends on A6 wearable feed. |
+| **A8** | **Hyperscaler lead funnel (2.7)** | Operator-expanded scope: TGP-built landing page → link in bio → guest checkout → superlink to download → auto-assigned coach + package. End-to-end "Apple-grade" funnel composer. |
+| **A9** | **Unified coach inbox (2.1)** | Operator-expanded scope: split into "client stuff" and "team stuff" tabs; sub-coaches and solo coaches see client tab only; head coaches see both. |
+| **A10** | **Consumer Marketplace (1.3-b)** | Per `CONSUMER_MARKETPLACE_SPEC.md`. Launch-gate item per Master Plan. |
+| **A11** | **AI check-in summaries — client-side (2.3)** | Operator: "for clients, high." Client-facing weekly summary digest. |
+| **A12** | **Referral tracking — both sides (2.11)** | Operator-expanded scope: client↔client AND coach↔coach. Coach-to-coach referral triggers popup "Your referral just processed their first payment! Here's a gift from us →" + free TGP shirt fulfillment. |
+| **A13** | **Coach money-flow engine (3.5)** | Operator-expanded scope: full configurable money flow per sub-coach. Examples: "SC A pays me 4% of all money," "SC B pays $200/mo flat on the 1st." Per-sub-coach rule type: percent / flat / hybrid / custom billing date. |
 
-### §0.2 Bucket B — IMPORTANT (post-launch-gate, ship ASAP after Bucket A)
+### §0.2 Bucket B — DISSOLVED (2026-06-19)
 
-| Order | Feature | Notes |
-|---|---|---|
-| B1 | **Re-engagement automations + Dunning consolidation (2.9 + 5.8)** | Operator: "important (higher)" — couple with dunning v2 finish. |
-| B2 | **Team QA / manager ops layer (2.2)** | Operator: "head coach and managerial stuff to be elite/world-class, mark this as important." |
-| B3 | **White-label multi-tenant — scope-cut (2.12)** | Operator scope: colors + name + logo only. **Opt-in side flow, NOT the default.** Dead simple upload, clean, luxurious. No app-store-per-tenant in this scope. |
+Old Bucket B (Re-engagement+Dunning, Team QA, White-label) was dissolved into Bucket A on 2026-06-19 per operator: *"Bucket B actually is 3/4 of the most important things to do — alongside import tooling. Dissolve Bucket B into Bucket A — just get rid of Bucket B."* Items now live at A3, A4, A5 respectively. **The letter B is retired — do not reuse for future buckets.**
 
-### §0.3 Bucket C — MEDIUM (real work, but not before A or B)
+### §0.3 Bucket C — MEDIUM (real work, but not before A)
 
 | Order | Feature | Notes |
 |---|---|---|
@@ -103,7 +102,47 @@ Build-state scoring legend:
 **Operator note:** "extremely important, #1 after TM and prior in-flight work is done (infra and plumbing need done, too)."
 **Master Plan tie:** App Store launch gate prerequisite ("REQUIRED before marketing") per Stage-3 ranking #6.
 
-#### A3 · Wearable deep — full provider parity + recovery feed (v1 §1.2)
+#### A3 · Re-engagement automations + Dunning consolidation (v1 §2.9 + post-v1 §5.8)
+**Rank:** MUST DO (IMPORTANT higher — promoted from old B1 in dissolution pass)
+**State:** MOSTLY.
+**What's built:** `src/nudges/` (full module: coach-nudges, client-nudges, dto, service), `src/notifications/nudges/`, `CoachNudge`, `NudgeLog`, `ChurnIntervention` (full draft → edit → send workflow with idempotency, alert linkage, risk_score_at_draft), `ptm/` module (heuristic, weighted, scheduler — churn prediction in production), `coach-alerts` controller + service. Dunning: `checkout/dunning-v2/`, `DunningState`, `DunningAttempt`, `PaymentRecoveryToken`, `PaymentReminder`, MIG `20261214_dunning_v2_lockout_recovery`.
+**What to build:**
+- Coach-configurable trigger UI ("if no login 5d, send Message A; if 10d send Message B")
+- Message template library (coach-authored voice; AI-suggested drafts)
+- Verify dunning v2 has fully superseded v1 — if so, retire POST_H T3.C "Dunning v1" as redundant.
+- Consolidate `ChurnIntervention` (already shipped) + new trigger config into a single "Re-engagement" surface.
+**Operator note:** "Re-engagement automations + dunning — important (higher)."
+**Why promoted:** Operator dissolution pass: revenue-defense, gates retention math at launch — sits next to import tooling as a foundational pre-launch pillar.
+
+#### A4 · Team QA / manager-level ops layer (v1 §2.2)
+**Rank:** MUST DO (elite / world-class — promoted from old B2 in dissolution pass)
+**State:** MOSTLY.
+**What's built:** `sub-coaches/` (sub-coach-analytics.service, head-coach-only.guard, sub-coach-invite.service, controller, dto, types), `team/`, `team-mode/` (tier-resolver), `TeamSubCoachAssignment`, `TeamAuditEvent`, `TeamProfile`, `SubCoachInvite`, `SubCoachAssignment`, `SubCoachMutationIdempotency`. Mobile: `TeamManagementScreen`, `TeamMembersScreen`, `SubCoachDetailScreen`, `SubCoachInviteModal`, `CoachTeamProfileScreen`.
+**What to build:**
+- Per-sub-coach metrics: avg check-in response time, % clients with programs updated in 7d, client satisfaction proxy, churn-risk count
+- Unanswered check-in flagging (>48h)
+- Program audit (head coach can view any SC's client programs)
+- Weekly ops digest: AI-generated team performance summary
+**Tie to A9:** Team Ops surfaces inside the unified inbox "Team" tab.
+**Operator note:** "head coach and managerial stuff to be elite/world-class."
+
+#### A5 · White-label multi-tenant — scope-cut (v1 §2.12)
+**Rank:** MUST DO (with scope cut — promoted from old B3 in dissolution pass)
+**State:** SCAFFOLD.
+**What's built:** `CommunityWorkspace` model, `landing-pages/custom-domain.controller`, `custom-domain.service`, `dns-verifier`, RLS tier 1–5 (precondition), `Role.owner`.
+**Operator scope cut:**
+- **IN:** Colors + name + logo only. Clean, luxurious, dead-simple upload.
+- **OUT (this scope):** App-store-per-tenant (separate Apple/Google developer accounts), full per-tenant data partitioning beyond RLS, custom domain (already exists via `custom-domain.service`).
+- **Side flow, not default:** Opt-in toggle. Default UX stays TGP-branded.
+**What to build:**
+- Theme configuration table (`TenantTheme` or per-coach-team theme columns): brand_color_primary, brand_color_secondary, logo_url, display_name, opt_in_at
+- Logo upload + crop + validation (luxury bar: rendering checks)
+- Live preview on coach dashboard + client app
+- Render path: when opt-in is on, swap brand surfaces (header, splash, push templates) for the tenant's
+- Reversibility: opt-out instantly reverts
+**Operator note:** "only to colors + name/logo work, nothing huge — also should be a side flow, not the default — but still, when opted in, needs to be dead simple, easy to upload logos and customize, clean and luxurious."
+
+#### A6 · Wearable deep — full provider parity + recovery feed (v1 §1.2)
 **Rank:** MUST DO (RED FLAG — MOAT)
 **State:** MOSTLY (Apple/Google/Samsung shipped; Whoop/Oura/Garmin enumerated only).
 **What's built:** `WearableConnection`, `WearableMetricDef`, `WearableSample`, `WearableProcessedEvent`, `WearableInsightCache`, `WearableUserMetricPreference`. Mobile adapters: `services/health/{healthkit, healthConnect, samsungHealth, onDeviceConnect}`. Hooks: `useHealthKitSync`, `useHealthConnectSync`, `useSamsungHealthSync`. Community-side surfacing: `community/wearable-prompts/`.
@@ -112,10 +151,10 @@ Build-state scoring legend:
 - Oura adapter (REST polling or webhook)
 - Garmin adapter (Connect IQ or webhook)
 - Coach client-card recovery-score badge (green/yellow/red) in `ClientDetailScreen` / `CoachClientDetail`
-- Feed recovery score as a primary signal into the adaptive programming engine (shared interface with A4)
+- Feed recovery score as a primary signal into the adaptive programming engine (shared interface with A7)
 **Operator note:** "RED FLAG — Sleep data is a massive MOAT of ours, so we need to make sure ALL wearables are wired and working to hyperscaler quality!"
 
-#### A4 · Closed-loop adaptive autopilot (v1 §1.1)
+#### A7 · Closed-loop adaptive autopilot (v1 §1.1)
 **Rank:** MUST DO (MOAT)
 **State:** PARTIAL — substrate present, loop unwritten.
 **What's built:** `WorkoutProgram` (template + cloned), `WorkoutPlan`, `WorkoutPlanRevision`, `WorkoutProgramRevision`, `ClientWorkoutAssignment`, `WorkoutPlanExercise`, `WorkoutBuilderIdempotencyKey`, `ExerciseSet.rpe`, `Intensity` enum. AI write path: `AIDraft`, `AiActionDraft`, `PendingAiDraftsScreen`, `useCoachAckActions`. `WeeklyInsightCron` (`src/ai/coach/weekly-insight.cron.ts`) generates per-client adjustment suggestions. `CoachBriefService` (82KB) surfaces them.
@@ -123,17 +162,11 @@ Build-state scoring legend:
 - Rule+LLM layer that *automatically writes* the next-week program revision from trailing RPE + completion + wearable HRV
 - Coach-approval queue with bulk approve / per-row override
 - Per-coach model that learns coach philosophy over time (deferrable v2)
-**Dependency:** A3 wearable feed for HRV/sleep input.
+**Dependency:** A6 wearable feed for HRV/sleep input.
 **Operator note:** "MOAT feature, so important."
 **Cost gating:** Per-call cost flows through Coach AI Budget (already shipped via `ai-credits/`); land within POST_H Tier 3 T3.B AI usage economics cap ($40/3.125×/$125).
 
-#### A5 · Consumer Marketplace (v1 §1.3 — split product)
-**Rank:** MUST DO (launch-gate)
-**State:** ZERO on consumer side; foundation reusable from Talent Marketplace (coach profile, Stripe Connect, RLS spine, badge engine).
-**Authoritative spec:** `plans/CONSUMER_MARKETPLACE_SPEC.md` (operator-locked 2026-06-16).
-**Scope highlights:** Badge engine (Certified/Elite/Sponsored auto-award + Roman celebration popup), four-rail search (merit / new+upcoming / sponsored / your-gym), modality filters (in-person/hybrid/online), web parity (every mobile screen = web page), gym-affinity rail via `app.current_gym_ids()` RLS.
-
-#### A6 · Hyperscaler lead funnel (v1 §2.7 — operator-expanded)
+#### A8 · Hyperscaler lead funnel (v1 §2.7 — operator-expanded)
 **Rank:** MUST DO (Apple-grade)
 **State:** MOSTLY — all four primitives shipped, integration missing.
 **What's built:** `storefront/` (20+ files including guest-checkout, reconciliation, recovery, rate-limiter, idempotency, PII scrub), `contracts/` (envelope + template + signed-PDF + providers + webhooks — e-sign engine), `checkout/` (purchase-split-handler, dunning, dunning-v2), `landing-pages/` (custom-domain + DNS verifier + lead-rate-limiter + section-schemas + CRM dir), `CoachLandingPage`, `CoachLandingPageSection`, `CoachLandingLead`, `CoachLandingPageView`. Mobile: `BrandedCheckoutWebViewScreen`, `PackageCheckoutScreen`, `CheckoutReturnScreen`, `OnboardingStep1…10`, `LeanQ1…6`, `Day1Win`, `PurchaseUnpackScreen`.
@@ -148,26 +181,32 @@ Build-state scoring legend:
 **What to build (the welding):** funnel composer that chains the 7 steps into a coach-configurable single setup screen; superlink generation + deferred-deep-link handling; landing-page → guest-checkout → install → auto-assign-coach-and-package atomic flow.
 **Operator note:** "I want this to be hyperscaler quality flow."
 
-#### A7 · Unified coach inbox (v1 §2.1 — operator-expanded)
+#### A9 · Unified coach inbox (v1 §2.1 — operator-expanded)
 **Rank:** MUST DO
 **State:** MOSTLY → arguably PROD on data layer.
 **What's built:** `coach/command-center/` (28KB churn-intervention.service, 32KB command-center.service, 37KB ltv-metrics.service, 14KB controller), `community/inbox/` (community-coach-inbox controller+service+repository+dto), `community/ai-triage/` (15KB service, prompts, output schema, triage-cache — *the AI triage layer v1 calls for*). Mobile: `CoachHomeScreen`, `RiskBoardScreen`, `ClientRiskDetailScreen`, `coach/command-center/` directory, `services/commandCenterApi`, `useInboxTriage`.
 **Operator-expanded scope — role-gated split:**
-- **Two tabs:** "Clients" tab (client communication, check-in responses, urgency triage) and "Team" tab (sub-coach ops, response-time metrics, unanswered check-in flags — basically A7 surfaces 2.2 Team QA inside the inbox shell).
+- **Two tabs:** "Clients" tab (client communication, check-in responses, urgency triage) and "Team" tab (sub-coach ops, response-time metrics, unanswered check-in flags — basically A9 surfaces A4 Team QA inside the inbox shell).
 - **Sub-coaches and solo coaches:** see Clients tab only. Team tab hidden.
 - **Head coaches (with sub-coaches):** see both tabs.
 - Role detection via existing `TeamProfile` + `SubCoachAssignment` + `User.role`.
 **What to build:** UX polish on the three-panel layout, role-gated tab rendering, bulk approve-all-AI-changes button, read receipts, "coach last seen", broadcast-to-segment.
-**Tie to A4:** the bulk-approve action surfaces autopilot revisions.
+**Tie to A7:** the bulk-approve action surfaces autopilot revisions.
 
-#### A8 · AI check-in summaries — client-side (v1 §2.3)
+#### A10 · Consumer Marketplace (v1 §1.3 — split product)
+**Rank:** MUST DO (launch-gate)
+**State:** ZERO on consumer side; foundation reusable from Talent Marketplace (coach profile, Stripe Connect, RLS spine, badge engine).
+**Authoritative spec:** `plans/CONSUMER_MARKETPLACE_SPEC.md` (operator-locked 2026-06-16).
+**Scope highlights:** Badge engine (Certified/Elite/Sponsored auto-award + Roman celebration popup), four-rail search (merit / new+upcoming / sponsored / your-gym), modality filters (in-person/hybrid/online), web parity (every mobile screen = web page), gym-affinity rail via `app.current_gym_ids()` RLS.
+
+#### A11 · AI check-in summaries — client-side (v1 §2.3)
 **Rank:** MUST DO (high — client-facing)
 **State:** PARTIAL.
 **What's built:** `CheckIn` model present, `coach-check-ins.controller`, `client-check-ins.controller`, `community/ai-triage/` (closest analogue — triages community messages with Claude), `CoachBriefService` (82KB, already reads check-in data for daily briefs), `HolisticInsightCache` + `holistic-insights.service`.
 **Operator scope clarification:** "for clients, high" — client-side summary surface, not just coach-side digest. Client gets a weekly summary of their own check-ins: trends in mood/energy/soreness/sleep, weekly themes, "your coach noticed X."
 **What to build:** Dedicated client-facing weekly digest screen + per-check-in AI urgency classification + suggested-coach-reply panel (coach-side, editable, not auto-sent — guardrail) + weekly-theme aggregation across coach's whole roster.
 
-#### A9 · Referral tracking — both sides (v1 §2.11 — operator-expanded)
+#### A12 · Referral tracking — both sides (v1 §2.11 — operator-expanded)
 **Rank:** MUST DO
 **State:** ZERO. Substrate adjacent in `invite-codes/` + `share-link/` modules.
 **Operator-expanded scope — bidirectional + first-payment celebration:**
@@ -185,7 +224,7 @@ Build-state scoring legend:
 - Celebration popup component (mobile + web) — on-doctrine, Roman voice ("Your referral just processed…")
 - Coach-side dashboard: referral leaderboard, total referrals, total revenue attributed
 
-#### A10 · Coach money-flow engine (v1 §3.5 — operator-expanded)
+#### A13 · Coach money-flow engine (v1 §3.5 — operator-expanded)
 **Rank:** MUST DO
 **State:** PARTIAL — payout/Connect spine shipped, configurable money flow ZERO.
 **What's built:** `payouts-v2/` (payout-method controller/service, payout-routing, platform-fee, stripe-connect provider, webhook controller), `connect/` (Stripe Connect adapter), `sub-coaches/sub-coach-analytics.service`, `checkout/purchase-split-handler.service`. DB: `SplitLedgerEntry`, `ConnectTransfer`, `PayoutSnapshot`, `PayoutMethod`, `FeePolicy`, `SubCoachAssignment`. MIG: `20261215_payouts_v2_bank_payout_methods`.
@@ -209,46 +248,9 @@ Per head-coach ↔ sub-coach relationship, the head coach configures ONE of:
 
 ---
 
-### §1.B — IMPORTANT (Bucket B)
+### §1.B — DISSOLVED (2026-06-19)
 
-#### B1 · Re-engagement automations + Dunning consolidation (v1 §2.9 + post-v1 §5.8)
-**Rank:** IMPORTANT (higher)
-**State:** MOSTLY.
-**What's built:** `src/nudges/` (full module: coach-nudges, client-nudges, dto, service), `src/notifications/nudges/`, `CoachNudge`, `NudgeLog`, `ChurnIntervention` (full draft → edit → send workflow with idempotency, alert linkage, risk_score_at_draft), `ptm/` module (heuristic, weighted, scheduler — churn prediction in production), `coach-alerts` controller + service. Dunning: `checkout/dunning-v2/`, `DunningState`, `DunningAttempt`, `PaymentRecoveryToken`, `PaymentReminder`, MIG `20261214_dunning_v2_lockout_recovery`.
-**What to build:**
-- Coach-configurable trigger UI ("if no login 5d, send Message A; if 10d send Message B")
-- Message template library (coach-authored voice; AI-suggested drafts)
-- Verify dunning v2 has fully superseded v1 — if so, retire POST_H T3.C "Dunning v1" as redundant.
-- Consolidate `ChurnIntervention` (already shipped) + new trigger config into a single "Re-engagement" surface.
-**Operator note:** "Re-engagement automations + dunning — important (higher)."
-
-#### B2 · Team QA / manager-level ops layer (v1 §2.2)
-**Rank:** IMPORTANT (elite / world-class)
-**State:** MOSTLY.
-**What's built:** `sub-coaches/` (sub-coach-analytics.service, head-coach-only.guard, sub-coach-invite.service, controller, dto, types), `team/`, `team-mode/` (tier-resolver), `TeamSubCoachAssignment`, `TeamAuditEvent`, `TeamProfile`, `SubCoachInvite`, `SubCoachAssignment`, `SubCoachMutationIdempotency`. Mobile: `TeamManagementScreen`, `TeamMembersScreen`, `SubCoachDetailScreen`, `SubCoachInviteModal`, `CoachTeamProfileScreen`.
-**What to build:**
-- Per-sub-coach metrics: avg check-in response time, % clients with programs updated in 7d, client satisfaction proxy, churn-risk count
-- Unanswered check-in flagging (>48h)
-- Program audit (head coach can view any SC's client programs)
-- Weekly ops digest: AI-generated team performance summary
-**Tie to A7:** Team Ops surfaces inside the unified inbox "Team" tab.
-**Operator note:** "head coach and managerial stuff to be elite/world-class."
-
-#### B3 · White-label multi-tenant — scope-cut (v1 §2.12)
-**Rank:** IMPORTANT (with scope cut)
-**State:** SCAFFOLD.
-**What's built:** `CommunityWorkspace` model, `landing-pages/custom-domain.controller`, `custom-domain.service`, `dns-verifier`, RLS tier 1–5 (precondition), `Role.owner`.
-**Operator scope cut:**
-- **IN:** Colors + name + logo only. Clean, luxurious, dead-simple upload.
-- **OUT (this scope):** App-store-per-tenant (separate Apple/Google developer accounts), full per-tenant data partitioning beyond RLS, custom domain (already exists via `custom-domain.service`).
-- **Side flow, not default:** Opt-in toggle. Default UX stays TGP-branded.
-**What to build:**
-- Theme configuration table (`TenantTheme` or per-coach-team theme columns): brand_color_primary, brand_color_secondary, logo_url, display_name, opt_in_at
-- Logo upload + crop + validation (luxury bar: rendering checks)
-- Live preview on coach dashboard + client app
-- Render path: when opt-in is on, swap brand surfaces (header, splash, push templates) for the tenant's
-- Reversibility: opt-out instantly reverts
-**Operator note:** "only to colors + name/logo work, nothing huge — also should be a side flow, not the default — but still, when opted in, needs to be dead simple, easy to upload logos and customize, clean and luxurious."
+The old Bucket B (B1 Re-engagement+Dunning, B2 Team QA, B3 White-label) was promoted into Bucket A on 2026-06-19. Their detailed scopes now live at **A3, A4, A5** above. **The letter B is retired — do not reuse for future buckets.** Refer to A3/A4/A5 going forward.
 
 ---
 
@@ -263,8 +265,8 @@ Per head-coach ↔ sub-coach relationship, the head coach configures ONE of:
 - Form templates: save once, assign to one client or segment
 - Auto-populate: prefill prior answer per question on new submission
 - Recurring scheduling: auto-send weekly cron
-- AI summary trigger on submission (couples to A8)
-**Tie to A8:** these become the input streams to AI check-in summaries.
+- AI summary trigger on submission (couples to A11)
+**Tie to A11:** these become the input streams to AI check-in summaries.
 
 #### C2 · Client loyalty & rewards (v1 §2.8)
 **Rank:** MEDIUM (needs detailed planning before build)
@@ -352,11 +354,11 @@ These are the NEW product spec additions from the ranking pass — fold into eng
 
 | # | Original feature | Expansion |
 |---|---|---|
-| 1 | A6 lead onboarding | TGP-built landing page → bio link → guest checkout → superlink to download → auto-assign coach + bought package, all in one flow. Hyperscaler quality. |
-| 2 | A7 unified inbox | Role-gated 2-tab split: Clients tab + Team tab. Sub-coaches/solo coaches see Clients only. Head coaches see both. |
-| 3 | A9 referral | Bidirectional (client↔client AND coach↔coach) + first-payment-triggers-celebration-popup + free-TGP-shirt fulfillment for first referral. |
-| 4 | A10 commission | Full configurable money-flow engine: percent / flat / hybrid / custom-date rules, per-sub-coach. Not a tracker, an *engine*. |
-| 5 | B3 white-label | Scope-cut: colors + name + logo only. Opt-in side flow, not default. Dead-simple luxurious UX. |
+| 1 | A8 lead onboarding | TGP-built landing page → bio link → guest checkout → superlink to download → auto-assign coach + bought package, all in one flow. Hyperscaler quality. |
+| 2 | A9 unified inbox | Role-gated 2-tab split: Clients tab + Team tab. Sub-coaches/solo coaches see Clients only. Head coaches see both. |
+| 3 | A12 referral | Bidirectional (client↔client AND coach↔coach) + first-payment-triggers-celebration-popup + free-TGP-shirt fulfillment for first referral. |
+| 4 | A13 commission | Full configurable money-flow engine: percent / flat / hybrid / custom-date rules, per-sub-coach. Not a tracker, an *engine*. |
+| 5 | A5 white-label | Scope-cut: colors + name + logo only. Opt-in side flow, not default. Dead-simple luxurious UX. |
 | 6 | C3 Admin Control Room | War-room expansion: every coach + financial data + per-person search + profiles, in a clean web UI. TGP biz operational dashboard. |
 
 ---
@@ -377,6 +379,7 @@ Authority: `roadmap/TGP-MASTER-EXPANSION-PLAN.md`.
 - v1 §1.3 single "marketplace" → split into Consumer + Talent (specs locked 2026-06-16).
 - v1 §4 "Gym Mode as Priority 4" → re-sequenced to Stage 4A/B/D/E.
 - v1 §6 priority matrix overall → superseded by §0 ranked execution order above.
+- Old Bucket B (B1/B2/B3) → dissolved into A3/A4/A5 on 2026-06-19. The letter B is retired.
 
 ---
 
@@ -384,7 +387,7 @@ Authority: `roadmap/TGP-MASTER-EXPANSION-PLAN.md`.
 
 Things that still need a brief code-verification pass — flag before building:
 
-- Does `coach/command-center` already render the three-panel inbox UX or only the data API? (Affects A7 effort estimate.)
+- Does `coach/command-center` already render the three-panel inbox UX or only the data API? (Affects A9 effort estimate.)
 - Does `client/progress/` already render 1RM strength curve? (Affects D2 — finish vs. build.)
 - Has `dunning-v2` fully superseded v1? (Affects POST_H T3.C — may be retirable.)
 - Does the AI-triage prompt use the same Anthropic budget POST_H T3.B wants to formalize? (Affects cost-gating story.)
@@ -419,8 +422,8 @@ These were originally on the v1 ledger or discovered in audit. **All shipped, al
 - PTM churn prediction (`ptm/`, `PtmPrediction`, heuristic + weighted + scheduler)
 - Coach effectiveness + LTV metrics (`coach-effectiveness`, `ltv-metrics.service` 37KB)
 - Coach landing pages + custom domain (`landing-pages/`, `custom-domain.service`, DNS verifier)
-- Wearable Apple/Google/Samsung adapters (Whoop/Oura/Garmin still missing — see A3)
+- Wearable Apple/Google/Samsung adapters (Whoop/Oura/Garmin still missing — see A6)
 
 ---
 
-**End of v2 ranked ledger.** Next: planner stage maps Bucket A → POST_H Tier 4 PR chains.
+**End of v2 ranked ledger.** Next: planner stage maps Bucket A (13 items) → POST_H Tier 4 PR chains.
