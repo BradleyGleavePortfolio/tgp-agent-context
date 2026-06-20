@@ -1,175 +1,426 @@
-# TGP Master Plan — v2 (audited build state + ranking-ready)
+# TGP Master Plan — v2 (ranked + scoped, ready for planning)
 
 **Supersedes:** `roadmap/TGP-Feature-Roadmap-v1.md` (Jun 2026) and `roadmap/TGP-MASTER-EXPANSION-PLAN.md` Stage 3 section.
-**Date:** 2026-06-19
-**Method:** Direct audit of `growth-project-backend` (168 Prisma models, 156 migrations, ~95 modules) and `growth-project-mobile` (50+ screens, 4 health-platform adapters) against every Stage-3 feature in v1. Cross-checked against `CONSUMER_MARKETPLACE_SPEC.md`, `TALENT_MARKETPLACE_SPEC.md`, `PRODUCT_DOMINANCE_PLAYBOOK_DIGEST_2026-05-28.md`, and the in-flight Wave H + `POST_H_LADDER.md`.
+**Date:** 2026-06-19 (ranked pass)
+**Method:** Direct audit of `growth-project-backend` (168 Prisma models, 156 migrations, ~95 modules) and `growth-project-mobile` (50+ screens, 4 health-platform adapters) against every Stage-3 feature in v1. Cross-checked against `CONSUMER_MARKETPLACE_SPEC.md`, `TALENT_MARKETPLACE_SPEC.md`, `PRODUCT_DOMINANCE_PLAYBOOK_DIGEST_2026-05-28.md`, and the in-flight Wave H + `POST_H_LADDER.md`. Operator-ranked 2026-06-19.
 
-> **What this document is:** a single replacement source-of-truth that tells you, for each originally-planned feature: (a) what's actually built, (b) what's missing, (c) what's been superseded by a newer, sharper spec, and (d) a blank "must do / nice to have / not important" column for you to rank. After you rank, the next planner stage will rebuild a PR chain that maps ranked items to Tier 4 of `POST_H_LADDER.md` (Features tier).
+> **What this document is:** the working feature ledger after audit + operator ranking. Tells the next planner: (a) what's actually built, (b) what's left to build, (c) how the operator ranked it, (d) any scope expansions the operator added during ranking.
 
-> **What this document is NOT:** a re-statement of the strategic vision. The decacorn frame, the 5-stage waterfall, the 5 quality rules, and the Product Dominance Playbook remain unchanged — see `TGP-MASTER-EXPANSION-PLAN.md` for those. This doc is purely the *feature ledger*.
+> **What this document is NOT:** a re-statement of the strategic vision. The decacorn frame, the 5-stage waterfall, the 5 quality rules, and the Product Dominance Playbook remain unchanged — see `TGP-MASTER-EXPANSION-PLAN.md`. PROD features are not re-listed here (they're done); see §6 for the PROD inventory if context is needed.
 
 ---
 
-## Build-state scoring legend
+## §0. Ranked execution order (THE answer)
+
+After audit + rank, here is the working plan for everything not already shipped or in flight. Use this as the input to the next planner stage; it maps directly into `POST_H_LADDER.md` Tier 4 (Features) and Tier 5 (UX polish).
+
+### §0.1 Bucket A — Pre-launch-gate MUST-DOs (in order)
+
+These are the items the App Store launch gate depends on (per Master Expansion Plan), ranked by operator-stated priority for the post-H sequencing.
+
+| Order | Feature | Why this slot |
+|---|---|---|
+| **A1** | **Roman P4 close-out** | Operator: "before anything else, it's in our original plans for the next operator." Already on `POST_H_LADDER` Tier 1 T1.B. |
+| **A2** | **Migration / import tooling (2.10)** | Operator: "#1 post-H feature after TM and prior in-flight work is done." Master Plan flags as launch-gate prerequisite. |
+| **A3** | **Wearable deep — full provider parity + recovery feed (1.2)** | Operator RED FLAG: "Sleep data is a massive MOAT — ALL wearables wired and working to hyperscaler quality." Whoop/Oura/Garmin adapters + coach recovery badge + feed into adaptive engine. |
+| **A4** | **Closed-loop adaptive autopilot (1.1)** | Operator: "MOAT feature." Substrate exists; close the loop. Depends on A3 wearable feed. |
+| **A5** | **Consumer Marketplace (1.3-b)** | Per `CONSUMER_MARKETPLACE_SPEC.md`. Launch-gate item per Master Plan. |
+| **A6** | **Hyperscaler lead funnel (2.7)** | Operator-expanded scope: TGP-built landing page → link in bio → guest checkout → superlink to download → auto-assigned coach + package. End-to-end "Apple-grade" funnel composer. |
+| **A7** | **Unified coach inbox (2.1)** | Operator-expanded scope: split into "client stuff" and "team stuff" tabs; sub-coaches and solo coaches see client tab only; head coaches see both. |
+| **A8** | **AI check-in summaries — client-side (2.3)** | Operator: "for clients, high." Client-facing weekly summary digest. |
+| **A9** | **Referral tracking — both sides (2.11)** | Operator-expanded scope: client↔client AND coach↔coach. Coach-to-coach referral triggers popup "Your referral just processed their first payment! Here's a gift from us →" + free TGP shirt fulfillment. |
+| **A10** | **Coach money-flow engine (3.5)** | Operator-expanded scope: full configurable money flow per sub-coach. Examples: "SC A pays me 4% of all money," "SC B pays $200/mo flat on the 1st." Per-sub-coach rule type: percent / flat / hybrid / custom billing date. |
+
+### §0.2 Bucket B — IMPORTANT (post-launch-gate, ship ASAP after Bucket A)
+
+| Order | Feature | Notes |
+|---|---|---|
+| B1 | **Re-engagement automations + Dunning consolidation (2.9 + 5.8)** | Operator: "important (higher)" — couple with dunning v2 finish. |
+| B2 | **Team QA / manager ops layer (2.2)** | Operator: "head coach and managerial stuff to be elite/world-class, mark this as important." |
+| B3 | **White-label multi-tenant — scope-cut (2.12)** | Operator scope: colors + name + logo only. **Opt-in side flow, NOT the default.** Dead simple upload, clean, luxurious. No app-store-per-tenant in this scope. |
+
+### §0.3 Bucket C — MEDIUM (real work, but not before A or B)
+
+| Order | Feature | Notes |
+|---|---|---|
+| C1 | **Reusable smart check-in forms (2.6)** | Operator: "medium." Coach-defined form builder + per-template assign + auto-populate prior answers + recurring cron. |
+| C2 | **Client loyalty & rewards (2.8)** | Operator: "medium important, needs detailed planning though." Must pass anti-badge-theater doctrine first. Plan before build. |
+| C3 | **Admin Control Room — war-room expansion (5.4)** | Operator: "medium/low — needs every single coach and their financial data rolled into a clean web UI + per-person search and profiles — like a war room for all of TGP as a business." Web-first, ops-facing. |
+
+### §0.4 Bucket D — NICE TO HAVE (substrate built, UI-only finishes)
+
+| Order | Feature | Notes |
+|---|---|---|
+| D1 | **Async video replies (3.3)** | Operator: "yes, ship the UI, low effort." Coach records 30–60s video reply in a check-in/message thread; Mux + Whisper substrate already shipped. |
+| D2 | **Progressive overload viz (3.4)** | Operator: "low imp." 1RM strength curve + PR markers + composite Strength Score. May already be in `ProgressScreen` — verify before building. |
+
+### §0.5 Bucket E — PARK (deferred indefinitely)
+
+| # | Feature | Reason |
+|---|---|---|
+| E1 | **Cross-pillar Fitness + Wealth (5.7)** | Operator: "park for now, long term play." |
+| E2 | **AI class demand forecasting (3.2)** | Operator: "throw behind gym mode." Stage 4E. |
+| E3 | **All of Gym Mode (4.1–4.8)** | Per Master Plan, post-launch-gate. Stage 4A/B/D/E. |
+| E4 | **Door hardware / access control (4.5)** | Operator: "behind gym mode — whole other ball game." Stage 4E. |
+
+### §0.6 Bucket F — KILL
+
+| # | Feature | Reason |
+|---|---|---|
+| F1 | **AI video form analysis (2.4)** | Operator: "not that important right now." Substrate (Mux + Anthropic) reusable for D1 video replies. Revisit only if a premium-tier customer explicitly asks. |
+
+---
+
+## §1. The full feature ledger (with audit details preserved)
+
+Build-state scoring legend:
 
 | Tag | Meaning |
 |---|---|
-| **PROD** | Shipped, in active use, behind a feature flag or live. Backend + mobile + (where relevant) data layer all present. |
+| **PROD** | Shipped, in active use. *Not re-listed here; see §6.* |
 | **MOSTLY** | 70–95% built — primary surfaces exist, edges/polish/one sub-feature outstanding. |
-| **PARTIAL** | 30–70% built — clear scaffolding (controllers, services, schema), but the *closing-the-loop* piece is missing. This is where the v1 doc's "partially built — must complete" lives. |
+| **PARTIAL** | 30–70% built — clear scaffolding (controllers, services, schema), but the *closing-the-loop* piece is missing. |
 | **SCAFFOLD** | <30% — name reserved, model exists, or controller stub, but no real path through. |
 | **ZERO** | Not started. No model, no module, no screen. |
-| **SUPERSEDED** | A newer, operator-locked spec absorbs or replaces this. Pointer in the supersession column. |
-| **DEPRECATE?** | Built but possibly obsolete given strategic shifts — flag for explicit kill decision. |
 
-## Evidence anchors (so this is reproducible, not vibes-based)
+### §1.A — Pre-launch-gate MUST-DOs (Bucket A)
 
-Every audit row cites at least one of:
-- **BE-MOD:** backend module path under `growth-project-backend/src/`.
-- **BE-SVC:** backend service file with line count proxy for depth.
-- **DB:** Prisma model name(s) in `prisma/schema.prisma`.
-- **MIG:** migration date stamp from `prisma/migrations/`.
-- **MOB:** mobile path under `growth-project-mobile/src/`.
-- **HOOK:** mobile React hook.
-- **SPEC:** operator-locked spec doc that supersedes.
+#### A1 · Roman P4 close-out
+**Rank:** MUST DO (FIRST)
+**State:** IN FLIGHT (already on `POST_H_LADDER` Tier 1 T1.B). Backend N1 `recentPushes` pre-commit + mobile F1 MMKV gate remaining.
+**Reference:** `POST_H_LADDER.md` Tier 1, `ROMAN_P4_OPTION_C_EXPLAINED.md`.
+**Why first:** Operator: "before anything else, it's in our original plans for the next operator."
+
+#### A2 · Migration / import tooling (v1 §2.10)
+**Rank:** MUST DO (#1 post-H feature after TM + infra)
+**State:** ZERO. No Trainerize/Everfit importer, no spreadsheet upload, no program-format converter.
+**What to build:**
+- Trainerize CSV/JSON importer with field mapping to TGP schema
+- Spreadsheet importer (name, email, start date, program columns)
+- Branded invite emails: "Your coach [Name] has moved to TGP. Download the app to continue."
+- Program-format conversion: parse Trainerize program export → TGP `WorkoutProgram` + `WorkoutPlan` schema
+- Billing migration: detect imported clients with active subs → prompt coach to set up equivalent Stripe Connect plans
+**Operator note:** "extremely important, #1 after TM and prior in-flight work is done (infra and plumbing need done, too)."
+**Master Plan tie:** App Store launch gate prerequisite ("REQUIRED before marketing") per Stage-3 ranking #6.
+
+#### A3 · Wearable deep — full provider parity + recovery feed (v1 §1.2)
+**Rank:** MUST DO (RED FLAG — MOAT)
+**State:** MOSTLY (Apple/Google/Samsung shipped; Whoop/Oura/Garmin enumerated only).
+**What's built:** `WearableConnection`, `WearableMetricDef`, `WearableSample`, `WearableProcessedEvent`, `WearableInsightCache`, `WearableUserMetricPreference`. Mobile adapters: `services/health/{healthkit, healthConnect, samsungHealth, onDeviceConnect}`. Hooks: `useHealthKitSync`, `useHealthConnectSync`, `useSamsungHealthSync`. Community-side surfacing: `community/wearable-prompts/`.
+**What to build:**
+- Whoop adapter (webhook + OAuth; their developer API)
+- Oura adapter (REST polling or webhook)
+- Garmin adapter (Connect IQ or webhook)
+- Coach client-card recovery-score badge (green/yellow/red) in `ClientDetailScreen` / `CoachClientDetail`
+- Feed recovery score as a primary signal into the adaptive programming engine (shared interface with A4)
+**Operator note:** "RED FLAG — Sleep data is a massive MOAT of ours, so we need to make sure ALL wearables are wired and working to hyperscaler quality!"
+
+#### A4 · Closed-loop adaptive autopilot (v1 §1.1)
+**Rank:** MUST DO (MOAT)
+**State:** PARTIAL — substrate present, loop unwritten.
+**What's built:** `WorkoutProgram` (template + cloned), `WorkoutPlan`, `WorkoutPlanRevision`, `WorkoutProgramRevision`, `ClientWorkoutAssignment`, `WorkoutPlanExercise`, `WorkoutBuilderIdempotencyKey`, `ExerciseSet.rpe`, `Intensity` enum. AI write path: `AIDraft`, `AiActionDraft`, `PendingAiDraftsScreen`, `useCoachAckActions`. `WeeklyInsightCron` (`src/ai/coach/weekly-insight.cron.ts`) generates per-client adjustment suggestions. `CoachBriefService` (82KB) surfaces them.
+**What to build:**
+- Rule+LLM layer that *automatically writes* the next-week program revision from trailing RPE + completion + wearable HRV
+- Coach-approval queue with bulk approve / per-row override
+- Per-coach model that learns coach philosophy over time (deferrable v2)
+**Dependency:** A3 wearable feed for HRV/sleep input.
+**Operator note:** "MOAT feature, so important."
+**Cost gating:** Per-call cost flows through Coach AI Budget (already shipped via `ai-credits/`); land within POST_H Tier 3 T3.B AI usage economics cap ($40/3.125×/$125).
+
+#### A5 · Consumer Marketplace (v1 §1.3 — split product)
+**Rank:** MUST DO (launch-gate)
+**State:** ZERO on consumer side; foundation reusable from Talent Marketplace (coach profile, Stripe Connect, RLS spine, badge engine).
+**Authoritative spec:** `plans/CONSUMER_MARKETPLACE_SPEC.md` (operator-locked 2026-06-16).
+**Scope highlights:** Badge engine (Certified/Elite/Sponsored auto-award + Roman celebration popup), four-rail search (merit / new+upcoming / sponsored / your-gym), modality filters (in-person/hybrid/online), web parity (every mobile screen = web page), gym-affinity rail via `app.current_gym_ids()` RLS.
+
+#### A6 · Hyperscaler lead funnel (v1 §2.7 — operator-expanded)
+**Rank:** MUST DO (Apple-grade)
+**State:** MOSTLY — all four primitives shipped, integration missing.
+**What's built:** `storefront/` (20+ files including guest-checkout, reconciliation, recovery, rate-limiter, idempotency, PII scrub), `contracts/` (envelope + template + signed-PDF + providers + webhooks — e-sign engine), `checkout/` (purchase-split-handler, dunning, dunning-v2), `landing-pages/` (custom-domain + DNS verifier + lead-rate-limiter + section-schemas + CRM dir), `CoachLandingPage`, `CoachLandingPageSection`, `CoachLandingLead`, `CoachLandingPageView`. Mobile: `BrandedCheckoutWebViewScreen`, `PackageCheckoutScreen`, `CheckoutReturnScreen`, `OnboardingStep1…10`, `LeanQ1…6`, `Day1Win`, `PurchaseUnpackScreen`.
+**Operator-expanded scope — the hyperscaler funnel:**
+1. **TGP creates the landing page for the coach** (template-driven, drop-in customization, on-doctrine)
+2. **Coach puts link in bio** (Instagram/TikTok/X) — short branded URL
+3. **Prospect lands → reads → guest checkout** (no account required, already supported by `guest-checkout.service`)
+4. **Superlink to download the app** (deep-link that survives App Store / Play Store install)
+5. **App opens → auto-assigns the prospect to the coach** (no manual code entry)
+6. **App auto-assigns the package they just bought on the web page** (no re-selection)
+7. **Coach gets notified, client lands on Day-1 Win**
+**What to build (the welding):** funnel composer that chains the 7 steps into a coach-configurable single setup screen; superlink generation + deferred-deep-link handling; landing-page → guest-checkout → install → auto-assign-coach-and-package atomic flow.
+**Operator note:** "I want this to be hyperscaler quality flow."
+
+#### A7 · Unified coach inbox (v1 §2.1 — operator-expanded)
+**Rank:** MUST DO
+**State:** MOSTLY → arguably PROD on data layer.
+**What's built:** `coach/command-center/` (28KB churn-intervention.service, 32KB command-center.service, 37KB ltv-metrics.service, 14KB controller), `community/inbox/` (community-coach-inbox controller+service+repository+dto), `community/ai-triage/` (15KB service, prompts, output schema, triage-cache — *the AI triage layer v1 calls for*). Mobile: `CoachHomeScreen`, `RiskBoardScreen`, `ClientRiskDetailScreen`, `coach/command-center/` directory, `services/commandCenterApi`, `useInboxTriage`.
+**Operator-expanded scope — role-gated split:**
+- **Two tabs:** "Clients" tab (client communication, check-in responses, urgency triage) and "Team" tab (sub-coach ops, response-time metrics, unanswered check-in flags — basically A7 surfaces 2.2 Team QA inside the inbox shell).
+- **Sub-coaches and solo coaches:** see Clients tab only. Team tab hidden.
+- **Head coaches (with sub-coaches):** see both tabs.
+- Role detection via existing `TeamProfile` + `SubCoachAssignment` + `User.role`.
+**What to build:** UX polish on the three-panel layout, role-gated tab rendering, bulk approve-all-AI-changes button, read receipts, "coach last seen", broadcast-to-segment.
+**Tie to A4:** the bulk-approve action surfaces autopilot revisions.
+
+#### A8 · AI check-in summaries — client-side (v1 §2.3)
+**Rank:** MUST DO (high — client-facing)
+**State:** PARTIAL.
+**What's built:** `CheckIn` model present, `coach-check-ins.controller`, `client-check-ins.controller`, `community/ai-triage/` (closest analogue — triages community messages with Claude), `CoachBriefService` (82KB, already reads check-in data for daily briefs), `HolisticInsightCache` + `holistic-insights.service`.
+**Operator scope clarification:** "for clients, high" — client-side summary surface, not just coach-side digest. Client gets a weekly summary of their own check-ins: trends in mood/energy/soreness/sleep, weekly themes, "your coach noticed X."
+**What to build:** Dedicated client-facing weekly digest screen + per-check-in AI urgency classification + suggested-coach-reply panel (coach-side, editable, not auto-sent — guardrail) + weekly-theme aggregation across coach's whole roster.
+
+#### A9 · Referral tracking — both sides (v1 §2.11 — operator-expanded)
+**Rank:** MUST DO
+**State:** ZERO. Substrate adjacent in `invite-codes/` + `share-link/` modules.
+**Operator-expanded scope — bidirectional + first-payment celebration:**
+- **Client → client referrals** (a client refers a friend to their coach)
+- **Coach → coach referrals** (a coach refers another coach to TGP)
+- **First-payment trigger event:** when a referred party (whether client paying their coach, or coach paying TGP seat fee) processes their first payment, the system AUTOMATICALLY fires:
+  1. Popup to the referrer: *"Your referral just processed their first payment! Here's a gift from us →"*
+  2. **Free TGP shirt fulfillment** (shipping address collection → fulfillment provider integration)
+- Reward types per side: client-side = storefront discount / free week / cash via Connect; coach-side = TGP swag (shirt for first, ladder up later) + month free, etc.
+**What to build:**
+- `Referral` model (referrer_user_id, referred_user_id, type: client_to_client / coach_to_coach, status, first_payment_at, reward_fulfilled_at, idempotency_key)
+- Unique referral URL per user (extend `share-link/` for personalized tokens)
+- Stripe-webhook attribution: on `payment_intent.succeeded` for a referred user → flip referral to fulfilled → trigger gift workflow
+- Gift fulfillment integration: shirt-shipping provider (Printful, Shopify, etc. — operator-decide)
+- Celebration popup component (mobile + web) — on-doctrine, Roman voice ("Your referral just processed…")
+- Coach-side dashboard: referral leaderboard, total referrals, total revenue attributed
+
+#### A10 · Coach money-flow engine (v1 §3.5 — operator-expanded)
+**Rank:** MUST DO
+**State:** PARTIAL — payout/Connect spine shipped, configurable money flow ZERO.
+**What's built:** `payouts-v2/` (payout-method controller/service, payout-routing, platform-fee, stripe-connect provider, webhook controller), `connect/` (Stripe Connect adapter), `sub-coaches/sub-coach-analytics.service`, `checkout/purchase-split-handler.service`. DB: `SplitLedgerEntry`, `ConnectTransfer`, `PayoutSnapshot`, `PayoutMethod`, `FeePolicy`, `SubCoachAssignment`. MIG: `20261215_payouts_v2_bank_payout_methods`.
+**Operator-expanded scope — not just a tracker, a configurable money-flow engine:**
+> "Subcoach A pays me 4% of all money, SC B only pays me 200/mo flat on the 1st"
+
+Per head-coach ↔ sub-coach relationship, the head coach configures ONE of:
+- **Percent-of-revenue** rule: X% of every sub-coach sale routes to head coach
+- **Flat monthly** rule: $Y flat on the Zth of the month (auto-debit from sub-coach's Connect account)
+- **Hybrid** rule: $Y flat + X% above a threshold
+- **Custom billing date** per rule
+- **Per-sub-coach override** (every SC can have a different rule)
+**What to build:**
+- `MoneyFlowRule` model (head_coach_id, sub_coach_id, type: percent / flat / hybrid, percent_bps, flat_cents, billing_day_of_month, threshold_cents, active, idempotency_key, audit_trail_id)
+- Per-sub-coach configuration UI (head-coach side)
+- Monthly auto-execution scheduler (cron) that creates `SplitLedgerEntry` rows + Stripe Connect transfers per active rule
+- Sub-coach earnings dashboard: revenue generated, rule applied, head-coach cut, net payout, payout history
+- Head-coach view: per-SC rule status + monthly inflow projection + actual inflow + audit log
+- Idempotency: re-run for same month + same rule = no-op
+**Doctrine:** all money movements RLS-tier-1 (financial privacy), audit-event-emitting, idempotent, dispute-traceable.
 
 ---
 
-## §1. The feature ledger — ranked-ready
+### §1.B — IMPORTANT (Bucket B)
 
-> Fill the **Your rank** column with one of: `MUST DO` · `IMPORTANT` · `NICE TO HAVE` · `NOT IMPORTANT` · `KILL`. Numeric tie-breaks are optional. Strikethrough rows in §3 are already retired from the plan.
+#### B1 · Re-engagement automations + Dunning consolidation (v1 §2.9 + post-v1 §5.8)
+**Rank:** IMPORTANT (higher)
+**State:** MOSTLY.
+**What's built:** `src/nudges/` (full module: coach-nudges, client-nudges, dto, service), `src/notifications/nudges/`, `CoachNudge`, `NudgeLog`, `ChurnIntervention` (full draft → edit → send workflow with idempotency, alert linkage, risk_score_at_draft), `ptm/` module (heuristic, weighted, scheduler — churn prediction in production), `coach-alerts` controller + service. Dunning: `checkout/dunning-v2/`, `DunningState`, `DunningAttempt`, `PaymentRecoveryToken`, `PaymentReminder`, MIG `20261214_dunning_v2_lockout_recovery`.
+**What to build:**
+- Coach-configurable trigger UI ("if no login 5d, send Message A; if 10d send Message B")
+- Message template library (coach-authored voice; AI-suggested drafts)
+- Verify dunning v2 has fully superseded v1 — if so, retire POST_H T3.C "Dunning v1" as redundant.
+- Consolidate `ChurnIntervention` (already shipped) + new trigger config into a single "Re-engagement" surface.
+**Operator note:** "Re-engagement automations + dunning — important (higher)."
 
-### 1.A — Originally "Partially built — must complete" (v1 §1)
+#### B2 · Team QA / manager-level ops layer (v1 §2.2)
+**Rank:** IMPORTANT (elite / world-class)
+**State:** MOSTLY.
+**What's built:** `sub-coaches/` (sub-coach-analytics.service, head-coach-only.guard, sub-coach-invite.service, controller, dto, types), `team/`, `team-mode/` (tier-resolver), `TeamSubCoachAssignment`, `TeamAuditEvent`, `TeamProfile`, `SubCoachInvite`, `SubCoachAssignment`, `SubCoachMutationIdempotency`. Mobile: `TeamManagementScreen`, `TeamMembersScreen`, `SubCoachDetailScreen`, `SubCoachInviteModal`, `CoachTeamProfileScreen`.
+**What to build:**
+- Per-sub-coach metrics: avg check-in response time, % clients with programs updated in 7d, client satisfaction proxy, churn-risk count
+- Unanswered check-in flagging (>48h)
+- Program audit (head coach can view any SC's client programs)
+- Weekly ops digest: AI-generated team performance summary
+**Tie to A7:** Team Ops surfaces inside the unified inbox "Team" tab.
+**Operator note:** "head coach and managerial stuff to be elite/world-class."
 
-| # | Feature (v1 §) | Audited state | What's actually built | What's missing | Supersession / notes | **Your rank** |
-|---|---|---|---|---|---|---|
-| 1.1 | **Closed-loop adaptive programming (autopilot)** (v1 §1.1) | **PARTIAL** | Workout-program data model is rich: `WorkoutProgram` (template + cloned), `WorkoutPlan`, `WorkoutPlanRevision`, `WorkoutProgramRevision`, `ClientWorkoutAssignment`, `WorkoutPlanExercise`, `WorkoutBuilderIdempotencyKey`, `ExerciseSet.rpe` field, `Intensity` enum. AI write path exists (`AIDraft`, `AiActionDraft`, `PendingAiDraftsScreen.tsx`, `useCoachAckActions.ts` — coach reviews AI-proposed program changes). `WeeklyInsightCron` (BE-MOD: `src/ai/coach/weekly-insight.cron.ts`) generates per-client adjustment suggestions. `CoachBriefService` (BE-SVC: 82KB) surfaces them. | The **closed loop** itself: a rule+LLM layer that *automatically writes* the next-week program revision based on trailing RPE + completion + wearable HRV, then puts it in a coach-approval queue. Today's path is AI-assist (coach asks AI to suggest), not autopilot (system proposes weekly without prompt). | None — still the marquee feature. v1's spec is correct; what changes is the build estimate is now smaller because all four substrate pieces exist. | _____ |
-| 1.2 | **Wearable deep integration** (v1 §1.2) | **MOSTLY** | Full multi-provider pipeline shipped: `WearableConnection`, `WearableMetricDef`, `WearableSample`, `WearableProcessedEvent`, `WearableInsightCache`, `WearableUserMetricPreference` (DB), `WearableProvider` + `WearableMetricType` + `WearableMetricBucket` enums. Mobile has four adapters: `services/health/healthkit`, `services/health/healthConnect`, `services/health/samsungHealth`, `services/health/onDeviceConnect`. Hooks: `useHealthKitSync.ts`, `useHealthConnectSync.ts`, `useSamsungHealthSync.test.tsx`. Community-side surfacing exists (`CommunityWearablePrompt`, `community/wearable-prompts/` BE module). MIG: `20261211_add_sleep_consistency_metrics`. | Whoop / Oura / Garmin are enumerated in `WearableProvider` but adapter code looks Apple/Google/Samsung-only. Coach client card recovery-score badge (green/yellow/red) needs confirmation in `CoachClientDetail`. Feed of recovery score into the adaptive engine = same blocker as 1.1. | None. | _____ |
-| 1.3 | **Marketplace / public discovery layer** (v1 §1.3) | **SUPERSEDED → split into two products** | The v1 spec described a single marketplace. Operator on 2026-06-16 split this into TWO operator-locked specs: `CONSUMER_MARKETPLACE_SPEC.md` (clients discover coaches) and `TALENT_MARKETPLACE_SPEC.md` (gyms/head-coaches hire new coaches). Backend already has: `talent-marketplace/` BE module (anti-bot, apply controller/service/dto, hirer-verified guard, job-listing controller, public-listing controller, idempotency, JSON-LD job posting); DB: `JobListing`, `Applicant`, `Application`, `CoachOffer`, `MarketplaceMutationIdempotency`, `MarketplaceConnectEvent`, `MarketplaceAbuseSignal`; MIGs: `20261220_talent_marketplace_rls`, `…_marketplace_idempotency_claim_nonce`, `…_marketplace_abuse_signal_rls`. Public listing controller spec test exists. Consumer Marketplace remains ZERO on the consumer side but reuses the coach profile + Stripe Connect + RLS spine that Talent already proves out. | Consumer Marketplace: every section of `CONSUMER_MARKETPLACE_SPEC.md` (badge engine Certified/Elite/Sponsored auto-award + Roman celebration popup, four-rail search, modality filters, web parity, gym-affinity rail). Talent Marketplace: web parity, public SEO listings UI, applicant tracking, "candidates like this", new-applicant alerts, applicant portfolio. | Use `CONSUMER_MARKETPLACE_SPEC.md` §1–4 and `TALENT_MARKETPLACE_SPEC.md` §1–6 as the authoritative replacement for v1 §1.3. v1 §1.3 retired. | _____ (rank each marketplace separately below) |
-| **1.3-a** | **Talent Marketplace (gyms/HCs hire coaches)** | **PARTIAL → backend mostly there, no UI** | See above. | Mobile screens for hirer + applicant; web parity surface; anti-bot challenge provider selection (open architecture Q). | TM is `POST_H_LADDER` Tier 1 (TM backend = plumbing) + Tier 4 (TM web/mobile = consumer-shaped feature). | _____ |
-| **1.3-b** | **Consumer Marketplace (clients discover coaches)** | **ZERO on consumer side; foundation exists** | Coach profile, Stripe Connect, RLS spine, reviews-as-signal, badge engine — all reusable from Talent. | Everything client-facing: discovery, search rails, badge UI, celebration popup, modality filters, web pages, SEO city pages. | Tier 4 of `POST_H_LADDER`. | _____ |
+#### B3 · White-label multi-tenant — scope-cut (v1 §2.12)
+**Rank:** IMPORTANT (with scope cut)
+**State:** SCAFFOLD.
+**What's built:** `CommunityWorkspace` model, `landing-pages/custom-domain.controller`, `custom-domain.service`, `dns-verifier`, RLS tier 1–5 (precondition), `Role.owner`.
+**Operator scope cut:**
+- **IN:** Colors + name + logo only. Clean, luxurious, dead-simple upload.
+- **OUT (this scope):** App-store-per-tenant (separate Apple/Google developer accounts), full per-tenant data partitioning beyond RLS, custom domain (already exists via `custom-domain.service`).
+- **Side flow, not default:** Opt-in toggle. Default UX stays TGP-branded.
+**What to build:**
+- Theme configuration table (`TenantTheme` or per-coach-team theme columns): brand_color_primary, brand_color_secondary, logo_url, display_name, opt_in_at
+- Logo upload + crop + validation (luxury bar: rendering checks)
+- Live preview on coach dashboard + client app
+- Render path: when opt-in is on, swap brand surfaces (header, splash, push templates) for the tenant's
+- Reversibility: opt-out instantly reverts
+**Operator note:** "only to colors + name/logo work, nothing huge — also should be a side flow, not the default — but still, when opted in, needs to be dead simple, easy to upload logos and customize, clean and luxurious."
 
-### 1.B — Originally "Not yet built — core coaching gaps" (v1 §2)
+---
 
-| # | Feature (v1 §) | Audited state | What's actually built | What's missing | Supersession / notes | **Your rank** |
-|---|---|---|---|---|---|---|
-| 2.1 | **Unified coach inbox / command center** | **MOSTLY → arguably PROD** | Backend: `src/coach/command-center/` (28KB churn-intervention.service, 32KB command-center.service, 37KB ltv-metrics.service, 14KB controller). `src/community/inbox/` (community-coach-inbox controller+service+repository+dto). `src/community/ai-triage/` (15KB service, prompts, output schema, triage-cache.service — *the AI triage layer v1 calls for*). Mobile: `CoachHomeScreen.tsx`, `RiskBoardScreen.tsx`, `ClientRiskDetailScreen.tsx`, `coach/command-center/` directory, `services/commandCenterApi.ts`, `useInboxTriage.ts` hook. | Final UX polish — three-panel layout, bulk approve-all-AI-changes button, read receipts, "coach last seen", broadcast-to-segment. Some of this may already be present in `command-center/`; need a UX audit, not a new build. | This is much further along than v1 implies. Recommend re-scoping to "Inbox UX polish + AI triage activation" instead of "build inbox from scratch." | _____ |
-| 2.2 | **Team QA / manager-level ops layer** | **MOSTLY** | Backend: `sub-coaches/` module (sub-coach-analytics.service, head-coach-only.guard, sub-coach-invite.service, controller, dto, types), `team/` module, `team-mode/` module (tier-resolver), `TeamSubCoachAssignment`, `TeamAuditEvent`, `TeamProfile`, `SubCoachInvite`, `SubCoachAssignment`, `SubCoachMutationIdempotency` (DB). Mobile: `TeamManagementScreen.tsx`, `TeamMembersScreen.tsx`, `SubCoachDetailScreen.tsx`, `SubCoachInviteModal.tsx`, `CoachTeamProfileScreen.tsx`. | The QA *view* — per-sub-coach response-time metrics, % clients with programs updated in 7d, unanswered check-in flags, weekly ops digest. Substrate exists; the dashboard surface may not. | None. | _____ |
-| 2.3 | **AI-generated check-in summaries** | **PARTIAL** | `CheckIn` DB model present; `coach-check-ins.controller.ts` + `client-check-ins.controller.ts`; community AI-triage is the closest existing analogue (it triages community messages with Claude). `CoachBriefService` (82KB) already reads check-in data to write daily briefs. `HolisticInsightCache` + `holistic-insights.service.ts` exist. `coach/brief/coach-brief.scheduler.ts` (18KB). | A dedicated "check-in digest" panel that aggregates urgency, generates suggested replies per check-in, and surfaces weekly themes. The data is read; the digest UI isn't dedicated. | Heavily overlaps with §3.1 daily briefing — consider merging into one "AI coach assistant" workstream. | _____ |
-| 2.4 | **AI video form analysis** | **SCAFFOLD** | `ExerciseSet.video_url` field exists; `src/video/mux.service.ts` + `mux-webhook.controller.ts` (Mux video pipeline); `CoachMediaAsset`, `MuxProcessedEvent`, `ClientAssetGrant` (DB); `ai/adapters/anthropic.adapter.ts`. | The computer-vision provider integration (ymove/MediaPipe), pose-estimation pipeline, scoring + timestamped annotations, coach review queue, client upload screen. Video plumbing for storage/streaming is there; the *analysis* is not. | None. Cost-per-analysis (~$0.25) means this needs to land *behind* the AI usage economics spine (POST_H Tier 3 T3.B). | _____ |
-| 2.5 | **Native nutrition / meal-plan module** | **PROD** | Backend: `src/food/`, `src/macros/`, `src/meal-plans/`, `src/real-meal-plans/`, `src/recipes/`, `src/fasting/`, `src/water/`, `src/prep-guide/`, `src/lists/`. DB: `FoodItem` (USDA-shaped with `NutrientBasis` enum PER_100G/PER_SERVING), `LoggedFoodEntry`, `MealPlan`, `DailyMealPlan`, `DailyMealPlanSlot`, `DailyMealPlanAssignment`, `MealTemplate`, `MacroTarget`, `Recipe`, `SavedRecipe`, `WaterLog`, `FastingWindow`. Mobile: `ClientDailyMealPlanScreen`, `ClientMacrosScreen`, `CoachMealTemplatesScreen`, `CoachMacrosReviewScreen`, `RecipesScreen`, `RecipeDetailScreen`, `GroceryListScreen`, `ShoppingListScreen`, `PrepGuideScreen`, `FastingScreen`, `AIMealPlanDraftScreen`. Seed data: `prisma/seed-foods.ts`, `seed-recipes.ts`. | Barcode scan flow if not already in the food browser (`useFoodBrowse.ts` exists), end-of-day AI compliance summary if not in `holistic-insights`. | This is **far** more built than v1 implies. v1 listed this as "Priority 5 high build effort" — it's actually shipped. Recommend re-scoping to "Nutrition polish + AI summary." | _____ |
-| 2.6 | **Reusable smart check-in forms** | **PARTIAL** | `CheckIn` model has mood/energy/soreness/sleep_hours/weight_kg/notes — *fixed-schema*, not coach-configurable. `MealTemplate` proves the templating pattern exists elsewhere. `DiagnosticSubmission` + `prisma/seed-diagnostic.json` proves form-engine existence. | Coach-defined form builder, per-template assignment, auto-populate previous answers, recurring-schedule cron, AI summary trigger. | Tightly coupled to 2.3 (check-in AI summaries). | _____ |
-| 2.7 | **Automated lead-to-client onboarding flow** | **MOSTLY** | Backend: `src/storefront/` (20+ files: checkout, guest-checkout, reconciliation, recovery, rate-limiter, idempotency, cookie service, thank-you, PII scrub, lost-webhook reconcile), `src/contracts/` (envelope service, template service, signed-pdf-store, providers, webhooks, telemetry — *e-sign engine*), `src/checkout/` (purchase-split-handler, dunning, dunning-v2). DB: `ClientPurchase`, `GuestCheckout`, `ContractTemplate`, `ContractEnvelope` (with `template_version`, `signed_pdf_url`, `signed_at`, `expires_at`), `ContractAuditEvent`, `CoachLandingPage`, `CoachLandingPageSection`, `CoachLandingLead`. Mobile: `BrandedCheckoutWebViewScreen`, `PackageCheckoutScreen`, `CheckoutReturnScreen`, `OnboardingStep1…10`, `LeanQ1…6` (lean intake), `Day1Win`. MIG: `20261215_b5_digital_contracts`, `20261215_seed_b5_contract_templates`, `…_contracts_rls`. | Welding the four pieces (intake → contract sign → Stripe checkout → first program assignment) into a single coach-configurable funnel template. Each piece is built; the *configured sequence* may not be a single setup screen. | This is much further along than v1 implies. Recommend re-scoping to "Lead funnel composer" (chain existing primitives) instead of "build onboarding flow." | _____ |
-| 2.8 | **Client loyalty & reward system** | **ZERO → partial via streaks** | `Habit` + `HabitLog` (DB) gives streak data; `community/challenges/` (26KB service, 24KB repository, 12KB dto) is the closest analogue (challenges, participations). `CommunityWin` model + `first-win/` module for one-time milestone celebrations. `LeaderboardScreen` + `leaderboard/` module. `mobile/src/lib/milestones.ts`. | A configurable per-coach milestone engine (define trigger → define reward → fire on hit), reward-types catalog (badge/notification/discount-code/coach-video), client timeline integration. | Overlaps with community challenges — consider whether milestone = "personal challenge" in the challenge engine. | _____ |
-| 2.9 | **Re-engagement automations** | **MOSTLY** | Backend: `src/nudges/` (full module: coach-nudges, client-nudges, dto, service), `src/notifications/nudges/`, `CoachNudge` model, `NudgeLog`, `ChurnIntervention` (full draft → edit → send workflow with idempotency, alert linkage, risk_score_at_draft), `PtmPrediction` + `ptm/` module (heuristic, weighted, scheduler — *churn prediction in production*), `coach-alerts.controller.ts` + service. Mobile: `useCoachAckActions`, `coach-alerts` likely surfaced in CoachHome. | Coach-configurable triggers ("if no login 5d, send Message A; if 10d send Message B") and message templates. The *send* path exists (ChurnIntervention); the *trigger configuration UI* may not. | None. | _____ |
-| 2.10 | **Migration / import tooling** | **ZERO** | None. No Trainerize/Everfit importer module, no import-pipeline scaffold, no spreadsheet upload. | All of it. CSV importer, Trainerize JSON parser, branded invite emails, program-format conversion, billing-migration prompt. | **Master Plan explicitly flags this as the App Store launch gate prerequisite** ("REQUIRED before marketing") — it's #6 in the Stage-3 ranking. Don't deprioritize. | _____ |
-| 2.11 | **Referral tracking engine** | **ZERO** | None. No Referral model, no referral-link service, no Stripe-webhook attribution to a referrer. Closest existing primitive: `InviteCode` + `invite-codes/` module (bulk invite), `share-link/` module. | All of it. Unique referral URL per client, Stripe-webhook attribution, reward triggers (discount/free week/cash payout via Connect), leaderboard. | Could be built on top of the existing `invite-codes` + `share-link` modules — substrate is closer than zero. | _____ |
-| 2.12 | **White-label multi-tenant packaging** | **SCAFFOLD** | `community/community-workspace.ts` model (`CommunityWorkspace`) — community-level tenancy. `landing-pages/custom-domain.controller.ts` + `custom-domain.service.ts` + `dns-verifier.ts` (CNAME engine). Backend RLS spine is extensively tiered (`20261213_rls_tier1…tier5` migrations) which is the technical precondition. `Role` enum has `owner` tier above `coach`. | App-store-per-tenant (Apple/Google developer accounts), theme configuration UI, per-tenant data partitioning (RLS goes most of the way), white-label pricing tier. | v1 marked Priority 9 (long-term). Recommend `DEPRECATE?` or `NOT IMPORTANT` until Stage-4 gym chains land. | _____ |
+### §1.C — MEDIUM (Bucket C)
 
-### 1.C — Originally "New ideas — high impact" (v1 §3)
+#### C1 · Reusable smart check-in forms (v1 §2.6)
+**Rank:** MEDIUM
+**State:** PARTIAL.
+**What's built:** `CheckIn` (fixed-schema), `MealTemplate` proves templating pattern, `DiagnosticSubmission` proves form-engine existence.
+**What to build:**
+- Coach-defined form builder (drag-drop question blocks: 1–10 scale, text, yes/no, photo upload)
+- Form templates: save once, assign to one client or segment
+- Auto-populate: prefill prior answer per question on new submission
+- Recurring scheduling: auto-send weekly cron
+- AI summary trigger on submission (couples to A8)
+**Tie to A8:** these become the input streams to AI check-in summaries.
 
-| # | Feature (v1 §) | Audited state | What's actually built | What's missing | Supersession / notes | **Your rank** |
-|---|---|---|---|---|---|---|
-| 3.1 | **Daily AI coach briefing** | **PROD** | Backend: `src/coach/brief/` — 82KB service, 18KB scheduler, 14KB ai-triage analogue, plus `coach-brief.controller`, `coach-brief-preferences.service`, `coach-brief.dto`, `coach-brief.module`, `coach-brief.types`, `coach-daily-log.service`, `coach-brief-enabled.guard`. DB: `CoachBrief`, `CoachBriefPreferences`, `CoachDailyLog`, `CoachBriefPushLedger`. Constants: Claude 3.5 Sonnet, 15s timeout, idempotent per (coach_id, brief_date), generation lease. Mobile: `CoachBriefScreen.tsx`, `COACH_BRIEF_README.md`. | Possibly: head-coach view (substrate has `BriefContextHeadCoach`, `HeadCoachActionItem`, `SubCoachHighlight`), one-tap actions from briefing. Push-notification ledger says push delivery is wired. | This is **shipped**. v1 listed it alongside features that aren't yet built; in reality the Daily Brief is one of the most-developed pieces. | _____ |
-| 3.2 | **AI class demand forecasting (gym mode)** | **ZERO** | None. `gym/gym-distribution.service.ts` exists but is a single file (scaffold). No class-attendance schema, no time-series model. | All of it. Depends on Gym Mode landing first (see §1.D below). | Stage-4E in Master Plan — appropriate to defer. | _____ |
-| 3.3 | **Async video replies** | **PARTIAL** | `CommunityVoiceNote` model (DB) + `community/voice/` module — voice replies likely shipped. `mux.service.ts` + `CoachMediaAsset` + `MuxProcessedEvent` — video upload pipeline ready. Mobile: `MessagesScreen.tsx`, `community/messages/`. | Coach-specific 30–60s video reply UI in a check-in/message thread, Whisper transcription wire-up, 30-day auto-expire. Substrate is fully there. | Recommend re-scope to "Video reply *UI*" — the engine is built. | _____ |
-| 3.4 | **Progressive overload visualization** | **PARTIAL** | DB: `ExerciseSet.reps_per_set`, `weight_per_set`, `rpe`, `notes` → 1RM calculation has all required inputs. `ExerciseCatalogItem`, `exercise-library/`, `exercise-catalog/`. Mobile: `ProgressScreen.tsx`, `client/progress/` directory, `ExerciseDetailScreen.tsx`, `ExerciseLibraryScreen.tsx`. | Time-series 1RM chart per exercise, PR marker logic, composite Strength Score, shareable image. | Possibly already partly rendered in `ProgressScreen` — needs UX audit. Low effort once 1RM computation is in place. | _____ |
-| 3.5 | **Coach staff commission tracking** | **PARTIAL** | Backend: `payouts-v2/` (payout-method controller/service, payout-routing, platform-fee, stripe-connect provider, webhook controller), `connect/` (Stripe Connect adapter), `sub-coaches/sub-coach-analytics.service.ts`, `checkout/purchase-split-handler.service.ts`. DB: `SplitLedgerEntry`, `ConnectTransfer`, `PayoutSnapshot`, `PayoutMethod`, `FeePolicy`, `SubCoachAssignment`. MIG: `20261215_payouts_v2_bank_payout_methods`. | Configurable per-sub-coach commission % UI, monthly auto-calculation, sub-coach earnings dashboard. Engine is there; the *configuration surface* + reporting view may not be. | None. | _____ |
+#### C2 · Client loyalty & rewards (v1 §2.8)
+**Rank:** MEDIUM (needs detailed planning before build)
+**State:** ZERO → partial via streaks.
+**What's built:** `Habit` + `HabitLog` (streak data), `community/challenges/` (26KB service, challenge + participation model — closest analogue), `CommunityWin`, `first-win/` module, `LeaderboardScreen` + `leaderboard/`, `mobile/lib/milestones.ts`.
+**Operator note:** "medium important, needs detailed planning though" + "Loyalty/rewards COULD be done right, just needs planning."
+**Pre-build planning gate:**
+- Doctrine review: must pass anti-badge-theater test (Product Dominance Playbook). Loyalty ≠ vanity gamification. Genuine outcomes-over-opens.
+- Is "milestone" just a private personal challenge in the existing `community/challenges/` engine? Decide reuse vs. new.
+- Reward types catalog: badge / push from coach / auto-discount code / coach-recorded video message
+- Privacy: rewards are personal, not leaderboarded by default
+- Operator-approved spec doc required before any code.
+**What to build (after planning):** Configurable per-coach milestone engine, reward fulfillment, client timeline integration.
 
-### 1.D — Originally "Gym mode" (v1 §4) — full status
+#### C3 · Admin Control Room — war-room expansion (post-v1 §5.4)
+**Rank:** MEDIUM/LOW
+**State:** PARTIAL.
+**What's built:** `AdminControlRoomScreen.tsx` + `coach/ADMIN_CONTROL_ROOM_README.md`. Backend `admin/` module (admin.controller, admin.dto, admin.service, console/, entitlements/, federation/, metrics.service, owner-console.controller, ptm/, reports/, soc2/). POST_H Tier 4 T4.C currently lists §11.A–O sections outstanding.
+**Operator-expanded scope — TGP biz war room:**
+> "needs every single coach and their financial data rolled into a clean web UI + per person search and profiles — like a war room for all of TGP as a business"
 
-| # | Feature (v1 §) | Audited state | What's actually built | What's missing | Supersession / notes | **Your rank** |
-|---|---|---|---|---|---|---|
-| 4.1 | **Gym Mode toggle / gym-first architecture** | **SCAFFOLD** | `src/gym/gym-distribution.service.ts` (single file, ~scaffold). Consumer Marketplace spec §2.8 mentions `app.current_gym_ids()` RLS function and "coaches at your gym" rail — so the gym↔member spine is contemplated. `CommunityWorkspace` is the closest existing tenancy model. | The whole thing. No `Gym`, `Membership`, `Class`, `Booking`, `Facility`, `DoorAccess`, `MemberCheckIn` models. No member-first profile path. | This is **Stage 4A/B/D** in the Master Expansion Plan — explicitly after App Store launch gate. v1 had it earlier than Master Plan; defer to Master Plan ordering. | _____ |
-| 4.2 | **Membership creation system** | **ZERO** | Stripe `Products`/`Prices` integration exists via `CoachPackage`, `ClientPurchase`. Same primitives reusable. | Gym-side membership builder UI, draft/publish states, archive grandfathering, access rules, capacity limits. | Stage 4A. | _____ |
-| 4.3 | **Billing operations (gym)** | **ZERO** | Stripe Subscriptions exists at coach level (`CoachSubscription`). Dunning v2 (`checkout/dunning-v2/`, MIG `…_dunning_v2_lockout_recovery`) reusable. Stripe Terminal: not present. | Member-side billing, freeze/pause, prorated billing, comps, POS, daily revenue report. | Stage 4A. | _____ |
-| 4.4 | **Class & facility scheduling** | **PARTIAL → coach-level scheduling shipped** | Backend: `src/scheduling/` (12 files: availability, open-slots, session-lifecycle, slot-computer, webhook, controller, types, permissions, google-calendar/, google-oauth/, jobs/, providers/). DB: `SessionType`, `CoachAvailability`, `CoachAvailabilityOverride`, `CoachingSession`, `SessionParticipant`, `CalendarConnection`. Mobile: `CoachAvailabilityEditorScreen`, `CoachBookingInboxScreen`, `ClientBookingRequestScreen`, `ClientUpcomingSessionsScreen`, `RescheduleSheet`. | Class (group) version: capacity, waitlist auto-promote, cancellation windows + fee, recurring weekly templates, facility/equipment booking, staff scheduling. | 1:1 substrate is fully built; class version reuses it. | _____ |
-| 4.5 | **Access control (door / kiosk)** | **ZERO** | None. No QR check-in, no BLE/NFC integration, no door-hardware provider (Kisi/Salto). | All of it including hardware contracts. | v1 Priority 8. Stage 4E in Master Plan. Recommend deferring. | _____ |
-| 4.6 | **General member account type** | **ZERO** | `User.role` enum has `coach`, `student`, `owner` — no `member` tier. RLS spine ready. | New role + schema, simplified profile, self-service portal, family/household accounts, upsell CTA. | Stage 4A. | _____ |
-| 4.7 | **Staff role architecture (front desk / trainer / manager / owner)** | **PARTIAL** | `Role` enum has `coach`/`student`/`owner`. `HeadCoachOnlyGuard`, sub-coach permissions. Soc2 admin module exists (`admin/soc2`). RLS tier 2 = coach/team. | Granular roles below owner: front_desk, trainer, manager. Permission matrix. | Stage 4A. | _____ |
-| 4.8 | **Gym ops dashboard** | **ZERO** (coach version partially built) | Coach-side: `coach-effectiveness.controller.ts` + scheduler + service, `CoachBusinessMetricsScreen`, `ltv-metrics.service.ts` (37KB). | Gym-tier daily revenue, attendance heatmap, member health metrics, churn risk panel (substrate via PTM exists), bulk SMS/push, e-sign waiver. | Stage 4A. | _____ |
+- **Web-first surface** (not just mobile screen — operator's biz dashboard)
+- Every coach as a row, searchable, filterable
+- Per-coach profile drill-down: financials (revenue, payouts, splits, Connect status), risk signals (PTM scores, churn interventions), team structure (sub-coaches, clients), activity (last login, last brief, last program update)
+- Per-person search across coaches + clients + applicants
+- Financial roll-ups: total platform revenue, total payouts, fee-take, dunning recoveries, refunds, disputes
+- Trust signals roll-up: % coaches with credentials verified, % with insurance, % with background check
+- "War room" feel: dense information, fast filters, exports to CSV
+**Tie:** consumes the same data that `coach-effectiveness.service`, `ltv-metrics.service`, `ptm/`, `payouts-v2/` already produce; adds nothing new on the backend side beyond aggregation endpoints and a real web surface.
 
-### 1.E — Features added/discovered during execution (not in v1, but built)
+---
 
-These represent the *delta* — things the team shipped after v1 was written, which now belong on the master ledger.
+### §1.D — NICE TO HAVE (Bucket D)
 
-| # | Feature | State | Where it lives | Notes / rank-able? | **Your rank** |
-|---|---|---|---|---|---|
-| 5.1 | **Roman (TGP's flagship voice/chat coach AI)** | **PROD-ish, in flight** | BE-MOD: `src/roman/` (controller, service, prompts, voice/, anthropic-client provider, roman-feature.guard, coach-reviewed.feature). DB: `RomanSession`, `RomanMessage`. MIG: `20261216_add_roman_chat`. Mobile: `RomanChatScreen.tsx`, `useRomanChat.ts`, `mobile/src/lib/roman/`. POST_H Tier 1 has "Roman P4 close-out" as a remaining task. | This is post-v1 invention; ranks as "MUST DO finish." | _____ |
-| 5.2 | **Stillwater design system** | **IN FLIGHT** | Workspace doctrine. POST_H Tier 5 (UX Polish) has Tier 1 primitives + Tier 2 redesigns + Tier 3 sweep. | Operator priority 5 in pyramid; not ranked here since it's a doctrine, not a feature. | _____ |
-| 5.3 | **Coach AI credits / budget economics** | **PARTIAL** | BE-MOD: `src/ai-credits/` (budget service, scheduler, credit-pack checkout, dormancy guard, bankers-round util). DB: `CoachAIBudget`, `UserAIQuota`, `CoachCreditPackPurchase`. Mobile: `CreditPackCheckoutScreen`, `useAIBudget`. POST_H Tier 3 T3.B = "AI usage economics → production" with locked numbers ($40 cap / 3.125× / $125 / $10-25-99-custom packs). | Not in v1 — emerged from operational reality. **Critical: gates 2.4 video form analysis and 1.1 autopilot from runaway cost.** | _____ |
-| 5.4 | **Admin Control Room** | **PARTIAL** | Mobile: `AdminControlRoomScreen.tsx` + `coach/ADMIN_CONTROL_ROOM_README.md`. BE-MOD: `src/admin/` (admin.controller, admin.dto, admin.module, admin.service, console/, entitlements/, federation/, metrics.service, owner-console.controller, ptm/, reports/, soc2/). POST_H Tier 4 T4.C lists §11.A–O sections outstanding. | Operator-facing console for risk, payouts, support, federation. Ranks as separate workstream. | _____ |
-| 5.5 | **Community (full social layer)** | **MOSTLY → PROD** | BE-MOD: `src/community/` (18 sub-modules: ack, ai-triage, challenges, classroom, cohorts, dms, events, inbox, messages, moderation, notifications, plan-context, posts, reactions, realtime, search, voice, wearable-prompts). 16 Community* DB models. Mobile: `CommunityScreen`, `PrivateCommunityHubScreen`, `community/` directory. | Not in v1 at all. Probably an "ecosystem moat" feature — rank explicitly. | _____ |
-| 5.6 | **Bloodwork module** | **PROD** | BE-MOD: `src/bloodwork/`. DB: `BloodworkPanel`, `BloodworkResult`, `BloodworkAttachment`. Mobile: `BloodworkEntryScreen`, `BloodworkReviewQueueScreen`. | Not in v1; medical-grade differentiator. | _____ |
-| 5.7 | **Cross-pillar (Fitness + Wealth)** | **SCAFFOLD** | BE-MOD: `src/coach/cross-pillar/`. `User.coach_practice_type` enum (`fitness_only` / `finance_only` / `both`). Mobile: `BothPillarsScreen`. | Hints at a TGP Wealth product — strategic; rank separately. | _____ |
-| 5.8 | **Dunning v2** | **PROD** | BE-MOD: `src/checkout/dunning-v2/`, `src/checkout/dunning.service.ts`. DB: `DunningState`, `DunningAttempt`, `PaymentRecoveryToken`, `PaymentReminder`. MIG: `20261214_dunning_v2_lockout_recovery`. | POST_H Tier 3 T3.C = "Dunning v1" — may already be superseded by v2. Verify status. | _____ |
-| 5.9 | **Build Week (structured client onboarding)** | **PROD** | BE-MOD: `src/build-week/`. DB: `BuildWeekDay`, `BuildWeekEnrollment`, `BuildWeekDayCompletion`. Seed: `prisma/seed-build-week.json`. | Possibly subsumes/replaces parts of v1 §2.7. | _____ |
-| 5.10 | **Diagnostic submissions / lean intake** | **PROD** | DB: `DiagnosticSubmission`, `AiRoadmap`. Mobile: `LeanQ1…6Screen`. | Not in v1; key onboarding piece. | _____ |
-| 5.11 | **Named regimes / partial-refund decisions** | **PROD** | BE-MOD: `src/regimes/`. MIG: `20261214_named_regimes_and_partial_refund_decision`, `20261218_rls_partial_refund_decision`. | Not in v1; coach-business operational. | _____ |
-| 5.12 | **GDPR scrub / right-to-erasure** | **PROD** | `users/gdpr-scrub.scheduler.ts` + service, `User.deletion_*` columns, MIG `20260507_add_gdpr_deletion_flow`. | Compliance feature. | _____ |
-| 5.13 | **First-win / Day-1 ceremony** | **PROD** | BE-MOD: `src/first-win/` (uses OpenAI for celebration copy). Mobile: `Day1WinScreen`, `day-one/` directory, `client/first-win/`. | Retention micro-feature. | _____ |
+#### D1 · Async video replies (v1 §3.3)
+**Rank:** NICE (yes, ship the UI, low effort)
+**State:** PARTIAL.
+**What's built:** `CommunityVoiceNote` + `community/voice/` (voice replies shipped), `mux.service` + `mux-webhook.controller`, `CoachMediaAsset`, `MuxProcessedEvent`, `ClientAssetGrant`, `MessagesScreen`, `community/messages/`.
+**Scope clarification:** Coach records a 30–60s video reply to a client's check-in or message thread (Loom-style, in-app). NOT client-uploads-form-video (that's the killed F1).
+**What to build:**
+- Mobile: in-thread "Video Reply" button → camera → 60s max → upload via existing Mux pipeline
+- Whisper API transcription (already in stack via OpenAI) for searchability + accessibility
+- 30-day auto-expire policy on `CoachMediaAsset`
+- Client receives push: "Your coach sent you a video message"
 
-### 1.F — Features in v1 that may be **DEPRECATE?**
+#### D2 · Progressive overload viz (v1 §3.4)
+**Rank:** NICE (low importance)
+**State:** PARTIAL.
+**What's built:** `ExerciseSet.{reps_per_set, weight_per_set, rpe, notes}` — all required inputs for 1RM (Epley) calc. `ExerciseCatalogItem`, `exercise-library/`, `exercise-catalog/`. Mobile: `ProgressScreen`, `client/progress/`, `ExerciseDetailScreen`, `ExerciseLibraryScreen`.
+**Pre-build verification:** audit `ProgressScreen` first — may already be partly rendered. If so, this is finishing, not building.
+**What to build (if confirmed missing):**
+- 1RM per-set computation (Epley: weight × (1 + reps/30))
+- Time-series chart per exercise, PR markers
+- Composite "Strength Score": weighted avg across client's top 5 lifts
+- Shareable progress-chart image (coach marketing tool)
 
-Flag any of these for explicit kill:
+---
 
-| # | v1 feature | Why flagged |
+### §1.E — PARK (Bucket E)
+
+| # | Feature | Why parked |
 |---|---|---|
-| 2.12 | White-label multi-tenant | Stage 4 Master Plan defers indefinitely; may never be product-market-fit if TGP wins on direct relationships. **Your call:** _____ |
-| 3.2 | AI class demand forecasting | Requires Gym Mode first; Gym Mode is post-launch-gate. Worth keeping in v2 list but rank `NOT IMPORTANT`. **Your call:** _____ |
-| 4.5 | Access control (door hardware) | Hardware partnership cost may not be justified pre-Stage-4E. **Your call:** _____ |
-| 2.8 | Loyalty / rewards | If sustainable-gamification doctrine kills "badge theater," is this still on-doctrine? Or is it just `community/challenges/` rebranded? **Your call:** _____ |
+| E1 | Cross-pillar Fitness + Wealth (5.7) | Operator: "park for now, long term play." Substrate: `coach/cross-pillar/`, `User.coach_practice_type` enum, `BothPillarsScreen`. Leave as-is. |
+| E2 | AI class demand forecasting (3.2) | Operator: "throw behind gym mode." Stage 4E. |
+| E3 | Gym Mode 4.1 toggle / gym-first architecture | Stage 4A per Master Plan. |
+| E4 | Gym Mode 4.2 membership creation | Stage 4A. |
+| E5 | Gym Mode 4.3 billing operations (gym-side) | Stage 4A. |
+| E6 | Gym Mode 4.4 class & facility scheduling | Stage 4A (coach-level 1:1 scheduling already PROD). |
+| E7 | Gym Mode 4.5 door hardware / access control | Operator: "behind gym mode — whole other ball game." Stage 4E. |
+| E8 | Gym Mode 4.6 general member account type | Stage 4A. |
+| E9 | Gym Mode 4.7 staff role architecture | Stage 4A. |
+| E10 | Gym Mode 4.8 gym ops dashboard | Stage 4A. |
+
+### §1.F — KILL (Bucket F)
+
+| # | Feature | Reason |
+|---|---|---|
+| F1 | AI video form analysis (v1 §2.4) | Operator: "not that important right now." Mux + Anthropic substrate reusable for D1 video replies. Revisit only on explicit premium-customer demand. |
 
 ---
 
-## §2. Strategic recap (unchanged, for context only)
+## §2. Operator-added scope expansions (summary)
 
-These are NOT being re-asked. Authority: `roadmap/TGP-MASTER-EXPANSION-PLAN.md`.
+These are the NEW product spec additions from the ranking pass — fold into engineering specs when building each item.
 
-- **Vision:** Apple-grade coaching platform → complete fitness operating system replacing Trainerize + Mindbody simultaneously.
+| # | Original feature | Expansion |
+|---|---|---|
+| 1 | A6 lead onboarding | TGP-built landing page → bio link → guest checkout → superlink to download → auto-assign coach + bought package, all in one flow. Hyperscaler quality. |
+| 2 | A7 unified inbox | Role-gated 2-tab split: Clients tab + Team tab. Sub-coaches/solo coaches see Clients only. Head coaches see both. |
+| 3 | A9 referral | Bidirectional (client↔client AND coach↔coach) + first-payment-triggers-celebration-popup + free-TGP-shirt fulfillment for first referral. |
+| 4 | A10 commission | Full configurable money-flow engine: percent / flat / hybrid / custom-date rules, per-sub-coach. Not a tracker, an *engine*. |
+| 5 | B3 white-label | Scope-cut: colors + name + logo only. Opt-in side flow, not default. Dead-simple luxurious UX. |
+| 6 | C3 Admin Control Room | War-room expansion: every coach + financial data + per-person search + profiles, in a clean web UI. TGP biz operational dashboard. |
+
+---
+
+## §3. Strategic recap (unchanged, for context only)
+
+Authority: `roadmap/TGP-MASTER-EXPANSION-PLAN.md`.
+
+- **Vision:** Apple-grade coaching platform → fitness operating system replacing Trainerize + Mindbody simultaneously.
 - **Quality bar:** decacorn / luxury / Maya voice / ≤300ms motion / no exclamation / no emoji / no hype.
-- **Stage waterfall:** Stage 0 cleanup → Stage 1 mobile refactor → Stage 2 IA → Stage 3 19-feature roadmap (this doc) → App Store launch gate → Stage 4A/B/C/D-prereq/D/E gym expansion.
-- **App Store launch gate prerequisites:** Closed-loop autopilot (1.1) + wearable deep (1.2) + unified inbox (2.1) + AI summaries (2.3) + daily brief (3.1, already shipped) + migration tooling (2.10, NOT shipped) + marketplace launch (1.3-b consumer side).
-- **Engineering priority pyramid (POST_H_LADDER):** Infrastructure → Security → Observability → Features → UX polish. Tier-gates between tiers. This Stage-3 ledger feeds **Tier 4** of the pyramid.
+- **Stage waterfall:** Stage 0 cleanup → Stage 1 mobile refactor → Stage 2 IA → Stage 3 19-feature roadmap (this doc) → App Store launch gate → Stage 4 gym expansion.
+- **Engineering priority pyramid (POST_H_LADDER):** Infrastructure → Security → Observability → Features → UX polish. This ledger feeds Tier 4 (Features).
 
 ---
 
-## §3. Retired items (do not rebuild)
+## §4. Retired items
 
-These were in v1's competitive-moat table or build-priority matrix but are now either superseded, absorbed, or obsoleted:
-
-- **v1 §1.3 single "marketplace"** → split into Consumer + Talent (specs locked 2026-06-16).
-- **v1 §4 "Gym Mode" as Priority 4** → re-sequenced to Stage 4A/B/D, post-launch-gate.
-- **v1 §6 priority matrix overall** → superseded by POST_H_LADDER tier pyramid + this ledger's ranking column.
-- **v1 §5 competitive moat table** → still valid as marketing, but no longer drives engineering priority.
+- v1 §1.3 single "marketplace" → split into Consumer + Talent (specs locked 2026-06-16).
+- v1 §4 "Gym Mode as Priority 4" → re-sequenced to Stage 4A/B/D/E.
+- v1 §6 priority matrix overall → superseded by §0 ranked execution order above.
 
 ---
 
-## §4. How to use this document
+## §5. Auditor unknowns
 
-1. **Fill the "Your rank" column** in each table above (1.A–1.E). Use `MUST DO` / `IMPORTANT` / `NICE TO HAVE` / `NOT IMPORTANT` / `KILL`.
-2. **Resolve the DEPRECATE? rows** in §1.F.
-3. Hand back to planner. Planner will:
-   - Group all `MUST DO` rows into POST_H_LADDER Tier 4 lanes, sequenced by engineering dependency.
-   - Move all `IMPORTANT` to a Tier 4 stretch lane.
-   - Park `NICE TO HAVE` as a post-launch-gate backlog.
-   - Delete `NOT IMPORTANT` / `KILL` from the working plan.
-4. The output of step 3 becomes a child of `POST_H_LADDER.md` Tier 4 — not a separate plan. **Strategic vision document (Master Expansion Plan) > this ledger > POST_H_LADDER engineering ordering.**
+Things that still need a brief code-verification pass — flag before building:
 
----
+- Does `coach/command-center` already render the three-panel inbox UX or only the data API? (Affects A7 effort estimate.)
+- Does `client/progress/` already render 1RM strength curve? (Affects D2 — finish vs. build.)
+- Has `dunning-v2` fully superseded v1? (Affects POST_H T3.C — may be retirable.)
+- Does the AI-triage prompt use the same Anthropic budget POST_H T3.B wants to formalize? (Affects cost-gating story.)
 
-## §5. Auditor notes / known unknowns
-
-Things this audit could **not** verify without running the codebase:
-
-- Whether `coach/command-center` already renders the three-panel inbox UX or only the data API.
-- Whether `client/progress/` already renders the 1RM strength curve, or just shows raw logs.
-- Whether `dunning-v2` has fully superseded `dunning v1`, and what POST_H T3.C "Dunning v1" actually means.
-- Whether the `WearableProvider` enum's Whoop/Oura/Garmin values have working adapters or are placeholder-only.
-- Whether the AI-triage prompt currently uses the same Anthropic budget that POST_H T3.B wants to formalize.
-
-If any of these matter to ranking, flag them and a follow-up audit will resolve in <500 credits.
+Each resolvable in <500 credits; do before scoping the PR chains.
 
 ---
 
-**End of v2 ledger.** Rank, return, plan.
+## §6. PROD inventory (informational — do not re-build)
+
+These were originally on the v1 ledger or discovered in audit. **All shipped, all in active use.** Listed here only so the next planner doesn't re-scope them.
+
+**Originally v1 features now PROD:**
+- Daily AI coach briefing (v1 §3.1) — `coach/brief/` 82KB service + `CoachBriefScreen`
+- Native nutrition / meal plan (v1 §2.5) — `food/`, `macros/`, `meal-plans/`, `recipes/`, `fasting/`, `water/`, `lists/`, 11 mobile screens, USDA-shaped schema with `NutrientBasis` enum
+
+**Post-v1 discovered (built after v1 was written):**
+- Roman flagship voice/chat coach (`roman/`, `RomanSession`, `RomanMessage`, `RomanChatScreen`) — close-out is A1
+- Stillwater design system (in flight on POST_H Tier 5)
+- Coach AI credits / budget economics (`ai-credits/`, `CoachAIBudget`, `UserAIQuota`) — production formalization on POST_H Tier 3 T3.B
+- Community full social layer (`community/` 18 sub-modules, 16 DB models)
+- Bloodwork module (`bloodwork/`, `BloodworkPanel/Result/Attachment`, 2 mobile screens)
+- Dunning v2 (`checkout/dunning-v2/`, full lockout-recovery flow)
+- Build Week (`build-week/`, `BuildWeekDay/Enrollment/Completion`, seed data)
+- Diagnostic submissions / lean intake (`DiagnosticSubmission`, `AiRoadmap`, `LeanQ1…6Screen`)
+- Named regimes / partial-refund decisions (`regimes/`)
+- GDPR scrub / right-to-erasure (`users/gdpr-scrub`, `User.deletion_*`)
+- First-win / Day-1 ceremony (`first-win/`, `CommunityWin`, `Day1WinScreen`)
+- 1:1 scheduling (`scheduling/`, full Google Calendar OAuth, availability, sessions)
+- Storefront + Stripe Connect spine
+- E-sign contracts engine (`contracts/`, full envelope + template + audit)
+- PTM churn prediction (`ptm/`, `PtmPrediction`, heuristic + weighted + scheduler)
+- Coach effectiveness + LTV metrics (`coach-effectiveness`, `ltv-metrics.service` 37KB)
+- Coach landing pages + custom domain (`landing-pages/`, `custom-domain.service`, DNS verifier)
+- Wearable Apple/Google/Samsung adapters (Whoop/Oura/Garmin still missing — see A3)
+
+---
+
+**End of v2 ranked ledger.** Next: planner stage maps Bucket A → POST_H Tier 4 PR chains.
