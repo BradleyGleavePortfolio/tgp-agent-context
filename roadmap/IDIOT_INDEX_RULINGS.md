@@ -29,6 +29,62 @@
 - **Owner ruling:** "Already exists" — **VERIFY-NEEDED.**
 - **Operator task:** Confirm AI program generation is wired to intake data (A2 imports + onboarding intake). Verify it covers strength + conditioning + nutrition program archetypes. Document gaps.
 
+#### 2.2.1 The Idiot-Index GOAL state for A14 (locked target)
+
+Whatever the current implementation looks like, this is the target shape A14 must reach. The audit measures distance from this target, not from zero.
+
+**The goal — single-textbox, multi-modal, live-program-out:**
+
+> Coach opens A14 surface. There is one input element: a textbox with a microphone icon. The coach either:
+>
+> **Mode A (text):** types/pastes a short description in plain language — e.g., "Client is a 34yo F, runs 3x/wk, wants to add lower-body strength without bulking, has dumbbells and a bench at home, 45min sessions, 4 days a week, dealing with a cranky right knee." ~90 seconds of typing.
+>
+> **Mode B (speech, speech-native — NOT speech-to-text):** taps the mic and speaks the same thing aloud for 30-60 seconds. The model ingests the **audio directly** — tone, emphasis, pauses, the way the coach says "cranky knee" with concern — and skips the lossy text intermediate.
+>
+> Either mode → AI generates the **entire program** live (visible building in real time, not a 30-second "please wait" spinner) and surfaces it back to the coach with a **plain-language thesis** above the program: "Here's what I built and why — 4-day upper/lower split, lower days deload knee load via dumbbell variations and tempo work, two upper days build the lift volume your client wants for the running pattern. Goal hierarchy I prioritized: knee safety → running compatibility → lower-body strength → upper aesthetic."
+>
+> Coach reviews thesis, edits/approves/regenerates. **Total time from input to approved program: under 2 minutes.**
+
+#### 2.2.2 Why speech-native (not speech-to-text) matters
+
+Speech-to-text loses information. Speech-native preserves it:
+
+- **Tone** carries urgency, concern, doubt. "My client has a knee thing" said calmly vs. anxiously implies different program caution levels.
+- **Pauses and emphasis** reveal priority. "She *really* wants lower-body strength" is a different signal than "she wants lower-body strength."
+- **Disfluency** is information. When a coach hesitates on "…about 45 minutes, maybe 60?" the model should treat session length as flexible, not fixed.
+- **Natural framing** the coach uses (their idiom for the client) becomes the language the AI uses in the thesis, so the coach sees their own voice reflected back.
+
+Text-only mode is the floor. Speech-native is the ceiling. Both ship in v1.
+
+#### 2.2.3 Architecture implications
+
+- **Model selection:** must be a multi-modal model that accepts audio input natively (e.g., GPT-4o-class, Gemini 1.5/2/3 native audio, Claude with audio input). NOT Whisper → text → LLM pipeline.
+- **Streaming generation:** program must render token-by-token / block-by-block as it's built. Coach sees "Day 1: Lower" appear, then exercises populating live. Trust + perceived speed both come from visible progress.
+- **Thesis is mandatory output, not optional:** every generated program ships with a plain-language thesis explaining the design choices. This is what makes the coach trust + approve fast.
+- **Audio storage:** raw audio + transcript both logged to `ai_actions` (ZION). Audio enables retraining; transcript enables search/audit.
+- **Latency budget:** thesis visible within 3 seconds of input end. Full program built within 30 seconds. Coach can read the thesis while the program finishes generating below.
+
+#### 2.2.4 The Idiot-Index calculation for this surface
+
+- **Raw material cost:** ~60-90 seconds of coach input + AI inference compute (cents).
+- **Finished part cost (current industry):** 30-90 minutes coach labor + zero AI.
+- **Finished part cost (TGP target):** <2 minutes coach labor + a few cents of AI.
+- **Idiot index dropped from ~30-60x to ~1.5x.** This is the kind of compression the framework asks for.
+
+#### 2.2.5 Operator audit checklist (replaces and expands earlier audit)
+
+- [ ] Does TGP currently accept a single-textbox plain-language program brief? (yes/no)
+- [ ] Does the input element support voice input via microphone? (yes/no)
+- [ ] If voice is supported, is it **speech-native** (audio → model directly) or speech-to-text (audio → transcript → model)? **This distinction matters; document carefully.**
+- [ ] Does the AI render the program live/streaming, or is it a single-shot response after a delay?
+- [ ] Does every generated program ship with a thesis explaining design choices?
+- [ ] What's the actual end-to-end latency from input-end to thesis-visible? From input-end to program-complete?
+- [ ] Coach approval/edit/regenerate workflow surface — exists? quality?
+- [ ] What model is being used today? Multi-modal? Audio-native?
+- [ ] Are audio + transcript + final program logged for training feedback?
+
+**The audit's job is to measure distance from the GOAL above, not to confirm "is anything there." Even if generation exists today, if it's not single-textbox + speech-native + live + thesis-bearing, the gap to GOAL is the actual A14 work.**
+
 ### 2.3 Client onboarding floor
 - **Audit finding:** Client should sign up → AI-guided intake → auto-generated starter program → payment configured → first workout, all in <10 minutes with zero coach involvement.
 - **Owner ruling:** Auto-assignment flow is right for **non-PT clients, general users, and gym members.** For PT clients, the question "which package would you like to buy from your coach?" must be in the flow before program assignment.
@@ -68,12 +124,14 @@
 ### 2.7 Voice-first coaching
 - **Audit finding:** Coach speaks 30 seconds, AI transcribes intent, drafts personalized messages to N clients, coach one-taps to send. Defining differentiator opportunity.
 - **Owner ruling:** "LOVE IT. Needs careful planning on implementation."
+- **Architecture principle (inherited from §2.2):** **Speech-native, NOT speech-to-text.** Audio goes directly into the multi-modal model. Tone, urgency, emphasis are preserved as signal. Same model class as A14.
 - **Locked design considerations:**
-  - **Privacy:** voice transcription happens server-side; transcripts logged to `ai_actions` table for audit (per ZION).
+  - **Privacy:** raw audio + transcript + drafts all logged to `ai_actions` table for audit (per ZION). Audio retention configurable, default 90 days.
   - **Targeting:** voice command names target group (e.g. "everyone who missed Monday's workout") rather than individual client picking, which is the time-savings unlock.
   - **Personalization:** AI rewrites the same core message in each client's preferred voice (per behavioral personalization profile, A20).
   - **Approval surface:** scrollable card stack of N drafted messages, one-tap-send or one-tap-edit per card. Bulk approve all if coach trusts the output.
   - **Latency budget:** <5 seconds from voice-end to first draft visible. Otherwise UX dies.
+  - **Speech-native specifically means:** when coach says "check on Sarah, she sounded off in her last check-in," the model uses the coach's *concerned* tone to pick a gentler message template, not just the literal words.
 - **Operator task:** Spec as A17 in new-A-items backlog. Estimated 10-15 operators. **Careful planning** flag honored — needs design pass before operator dispatch.
 
 ### 2.8 Small loans / Borrow Cash inside TGP Wallet
