@@ -26,25 +26,61 @@
 
 ## A14 — AI Program Generation
 
-**Status:** **VERIFY-NEEDED.** Owner indicated "already exists" — operator must audit current state before scoping.
+**Status:** **VERIFY-NEEDED.** Owner indicated "already exists" — operator must audit current state vs the GOAL below before scoping.
 
-**Audit checklist for operator:**
-- [ ] Does TGP currently AI-generate programs from intake data?
-- [ ] What inputs does it use? (goals, constraints, equipment, history, wearable recovery, prior program adherence)
-- [ ] What output formats? (strength, conditioning, hybrid, nutrition, recovery protocol)
-- [ ] What's the quality bar — does it match a 60th-percentile human coach, 90th, or fail?
-- [ ] Does coach review/edit/approve workflow exist?
-- [ ] How does it integrate with A2 imports (years of prior programs as training data)?
-- [ ] Does it support iteration based on adherence + outcomes?
+**Cross-ref:** Full GOAL state defined in `IDIOT_INDEX_RULINGS.md` §2.2.1–2.2.5. Summary below.
 
-**If solid:** document it and close. **If half-built:** scope a finish pass. **If missing:** full spec, 20-30 operators.
+### GOAL state (locked target)
 
-**Why this matters:** This is the single biggest coach time-saver in TGP. 30-90 minute manual program build → 90-second AI-generate-then-review. 30-60x productivity unlock.
+Single textbox with a mic icon. Coach either:
+- **Types** ~90 seconds of plain-language brief, OR
+- **Speaks** 30-60 seconds aloud. Audio is processed **speech-native** (audio → multi-modal model directly), NOT speech-to-text. Tone, emphasis, pauses preserved as signal.
+
+Either mode → AI builds the full program **live/streaming** — program renders block by block as it generates, not after a delay. Surfaces with a **plain-language thesis** above the program explaining design choices.
+
+Total time from input to coach-approved program: **<2 minutes.**
+
+### Why speech-native matters
+- Tone carries urgency/concern ("cranky knee" said worried → more cautious programming).
+- Emphasis reveals priority ("she *really* wants strength" ≠ "she wants strength").
+- Disfluency is information (hesitation on session length → flexible duration).
+- Coach's natural framing becomes the AI's thesis language.
+
+### Architecture requirements
+- Multi-modal model with native audio input (GPT-4o-class, Gemini native audio, Claude with audio). **Whisper → text → LLM pipeline is explicitly rejected.**
+- Streaming generation: program builds visibly token-by-token / block-by-block.
+- Thesis is mandatory output.
+- Audio + transcript + final program logged to `ai_actions` (ZION).
+- Latency budget: thesis visible <3 sec post input-end. Full program <30 sec.
+
+### Audit checklist for operator (measures distance from GOAL)
+- [ ] Single-textbox plain-language brief input exists? (y/n)
+- [ ] Microphone in same input element? (y/n)
+- [ ] Voice path is **speech-native** or speech-to-text? **(document precisely)**
+- [ ] Program renders **live/streaming**, or single-shot after delay?
+- [ ] Every generated program ships with a thesis?
+- [ ] End-to-end latency: input-end → thesis-visible, input-end → program-complete — actual numbers?
+- [ ] Coach approval/edit/regenerate workflow exists? Quality?
+- [ ] Current model: multi-modal? Audio-native?
+- [ ] Audio + transcript + program logged to `ai_actions`?
+- [ ] Coach decisions (approve/edit/reject) captured for training?
+- [ ] Inputs include: A2-imported history, prior adherence, wearable recovery, A20 behavioral profile?
+
+**Audit operator's job: measure distance from GOAL, not confirm "is anything there." Gap to GOAL is the actual A14 work even if generation exists today.**
+
+**Operator estimate:**
+- If GOAL fully met: document, close.
+- If text-only single-textbox + streaming + thesis but no speech-native: ~8-12 operators to add audio-native input + retraining loop.
+- If basic generation but multi-step form / no thesis / no streaming: ~15-22 operators.
+- If missing entirely: 20-30 operators.
+
+**Why this matters:** Single biggest coach time-saver in TGP. 30-90 minute manual program build → <2-minute speech-to-approved-program. Idiot index drops from ~30-60x to ~1.5x.
 
 **Doctrine flags:**
-- AI prompts + retrieved context + final program output all logged to `ai_actions` (ZION).
+- AI prompts + audio + retrieved context + final program output all logged to `ai_actions` (ZION).
 - Coach approval/edit/reject event captured for training feedback loop.
 - Program version history mandatory (`program_versions` table).
+- Audio retention: configurable, default 90 days. Transcript + final program retained indefinitely for training corpus.
 
 ---
 
