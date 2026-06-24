@@ -6,10 +6,9 @@
   "operator": 49,
   "current_phase": "phase_3_tm_sweep",
   "active_pr": {
-    "num": 470,
-    "task": "TM-7b admin applicant review",
-    "supersedes": 454,
-    "reason_for_new_pr": "GitHub auto-closed #454 when its base branch was deleted on TM-7a merge"
+    "num": 449,
+    "task": "TM-8 hirer applicant tracking",
+    "blocker": "PII operator-approval gate (do-not-merge: pii-review)"
   },
   "disk_telemetry": {
     "last_checked": "2026-06-24T08:26:30Z",
@@ -743,9 +742,10 @@
     },
     "tm_8_pii_gate": "do-not-merge: pii-review marker present in #449 body \u2014 will surface for user decision when sequence reaches TM-8",
     "last_event": {
-      "ts": "2026-06-24T15:01:37.900302+00:00",
-      "event": "tm7b_fresh_pr_470_opened_fixer_dispatched",
-      "note": "PR #454 auto-closed on base-branch delete; #470 opened against main with same branch+head SHA"
+      "ts": "2026-06-24T15:22:49.703949+00:00",
+      "event": "tm7b_merged_advancing_to_tm8_pii_gate",
+      "next": "Surface canary PII decision to user before TM-8 rebase",
+      "stacked_pr_preflight_logged": true
     },
     "tm7a": {
       "status": "MERGED",
@@ -765,19 +765,19 @@
       ]
     },
     "tm7b": {
-      "status": "fixer_dispatched",
+      "status": "MERGED",
       "old_pr": 454,
       "new_pr": 470,
-      "branch": "feat/tm-7b-admin-applications",
-      "current_head": "ba5c69f8c50367d450bf0a3cf5a722585488cb81",
-      "blocker_at_dispatch": "tsc compile failure \u2014 apply() return type missing note/decided_by/decided_at after TM-7a contract evolution",
-      "fixer_scope": [
-        "P0: tsc compile (ReviewDecisionResult shape)",
-        "P1: ParseApplicationStatusPipe coded 400",
-        "P1: request_id audit log threading",
-        "P1: note/decided_by/decided_at persistence + replay",
-        "P2: HttpCode(200), wire spec, lifecycle timestamps if schema supports"
-      ]
+      "merge_sha": "a6f6e0b23be882eecae7e771d2afb3894a14a6b8",
+      "merged_at": "2026-06-24T15:21:54Z",
+      "final_findings_at_merge": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 0,
+        "P3": 0
+      },
+      "passes": 1,
+      "lessons": "TM-7b was stacked on TM-7a; TM-7a base-branch delete auto-closed TM-7b #454; reopened as #470 vs main. Future: retarget stacked PRs to main BEFORE upstream merges (will apply to TM-9b #453 before TM-9a #451 merges)."
     }
   }
 }
