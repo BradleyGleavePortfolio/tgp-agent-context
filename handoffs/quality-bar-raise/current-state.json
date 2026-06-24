@@ -719,7 +719,7 @@
       }
     }
   ],
-  "last_update": "2026-06-24T17:22:16Z",
+  "last_update": "2026-06-24T17:32:53Z",
   "last_event": "tm_7a_fixer_dispatched",
   "mobile_dependabot": {
     "closed_not_actionable": [
@@ -898,14 +898,23 @@
     "ci": "10/10 PASS"
   },
   "tm9b_status": {
-    "phase": "fixer1-complete-reaudit-dispatched",
-    "fixer_commits": 6,
-    "final_sha": "ad655244",
-    "loc_stats": "296 prod / 489 test net (785 total) \u2014 [LOC-EXEMPT] for total, prod under 400 cap",
-    "test_density": "1.57x \u2014 [TEST-EXEMPT]",
-    "tm9b_test_count": "29 (was 14)",
-    "ci_gates": "all R100 + rls/mwb PASS",
-    "danger_resolved_via": "amended last commit subject to `fix(tm-9b): ...` for Conventional Commits",
-    "reaudit": "Lens A Opus 4.8 + Lens B GPT-5.5 dispatched"
+    "phase": "MERGED",
+    "merge_commit": "be1cdb751c54a7882a59c96918e886dca19ac634",
+    "merged_at": "2026-06-24T17:32:26Z",
+    "reaudit": "Lens A Opus 4.8 CLEAN, Lens B GPT-5.5 P3-only (DTO comment ref + cursor-fallback convention nit, both non-blocking)",
+    "ci_green": "10/10 (banned cast tokens, CodeQL, LOC, test density, build-and-test, danger, mwb-3-live, rls-floor, rls-live, size-label)",
+    "fixer_outcome": "29 tests (up from 14); shared specialties.ts + alert-cursor.ts helpers extracted; full envelope pagination",
+    "automerge_basis": "R109 \u2014 dual-lens functionally CLEAN P0/P1/P2; remaining P3s are convention parity"
+  },
+  "job_chain": {
+    "status": "COMPLETE",
+    "merged_in_order": [
+      "TM-7a #452",
+      "TM-7b #454",
+      "TM-8 #449",
+      "TM-9a #451",
+      "TM-9b #453"
+    ],
+    "next": "awaiting operator direction"
   }
 }
