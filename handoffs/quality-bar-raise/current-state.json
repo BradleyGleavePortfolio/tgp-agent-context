@@ -515,17 +515,38 @@
       "pre_audit_ci": "ALL 10 GREEN",
       "lens_a": "Opus 4.8 running",
       "lens_b": "GPT-5.5 running with registry-verify reminder"
+    },
+    {
+      "ts": "2026-06-24T09:19:02.217422+00:00",
+      "type": "pr_merged",
+      "pr": 443,
+      "repo": "growth-project-backend",
+      "title": "eslint minor 10.4.0->10.5.0 (DEV lint-only)",
+      "merge_commit": "b70488f825c55ca68509546c58b6f0457ee961e5",
+      "lens_a": "CLEAN (Opus 4.8)",
+      "lens_b": "CLEAN (GPT-5.5)",
+      "notes": "All 10.5.0 'features' are violation-location refinements (max-nested-callbacks, no-with, etc.) - none enabled in repo's eslint.config.js. typescript-eslint 8.62 peerDep range includes 10.5.0."
+    },
+    {
+      "ts": "2026-06-24T09:19:02.217422+00:00",
+      "type": "audit_dispatched",
+      "pr": 444,
+      "repo": "growth-project-backend",
+      "title": "@nestjs/core patch 11.1.26->11.1.27 (RUNTIME framework core)",
+      "pre_audit_ci": "GREEN",
+      "lens_a": "Opus running",
+      "lens_b": "GPT-5.5 running"
     }
   ],
-  "last_update": "2026-06-24T09:14:42.266283+00:00",
+  "last_update": "2026-06-24T09:19:02.217422+00:00",
   "last_event": {
-    "ts": "2026-06-24T09:14:42.266283+00:00",
+    "ts": "2026-06-24T09:19:02.217422+00:00",
     "type": "audit_dispatched",
-    "pr": 443,
+    "pr": 444,
     "repo": "growth-project-backend",
-    "title": "eslint minor 10.4.0->10.5.0 (DEV-only lint)",
-    "pre_audit_ci": "ALL 10 GREEN",
-    "lens_a": "Opus 4.8 running",
-    "lens_b": "GPT-5.5 running with registry-verify reminder"
+    "title": "@nestjs/core patch 11.1.26->11.1.27 (RUNTIME framework core)",
+    "pre_audit_ci": "GREEN",
+    "lens_a": "Opus running",
+    "lens_b": "GPT-5.5 running"
   }
 }
