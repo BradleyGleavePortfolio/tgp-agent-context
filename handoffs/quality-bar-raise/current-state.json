@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-06-24T08:15:30Z",
+  "as_of": "2026-06-24T08:26:30Z",
   "schema_version": "telemetry-v1",
   "main_sha": "6787c48bd7add1ecd03ccce3cd92d23092f1fc2c",
   "wave_1": "complete",
@@ -9,20 +9,20 @@
     "num": 442,
     "title": "chore(deps): bump @sentry/node from 10.53.1 to 10.58.0",
     "repo": "growth-project-backend",
-    "head_sha": "3b49308bfef09994add6161abd880c68e7621f94",
+    "head_sha": "0e342c1e682ba9bcf88088880b5b3d8e8b87c961",
     "branch": "dependabot/npm_and_yarn/sentry/node-10.58.0",
     "kind": "minor",
-    "ci_state": "4_of_11_checks_only_pre_rebase",
-    "round": "awaiting_rebase",
-    "audit_dispatched_at": null,
+    "ci_state": "all_11_green_post_rebase",
+    "round": "R1",
+    "audit_dispatched_at": "2026-06-24T08:26:30Z",
     "lenses": {
       "A_opus_4_8": {
-        "status": "pending",
+        "status": "running",
         "verdict": null,
         "findings": []
       },
       "B_gpt_5_5": {
-        "status": "pending",
+        "status": "running",
         "verdict": null,
         "findings": []
       }
@@ -33,12 +33,12 @@
     "notes": "Rebase triggered via @dependabot rebase comment; waiting for full 11-check CI rollup against new main 6787c48b before audit"
   },
   "disk_telemetry": {
-    "last_checked": "2026-06-24T08:15:30Z",
+    "last_checked": "2026-06-24T08:26:30Z",
     "free_gb": 4.0,
     "zombie_clones": 0,
     "threshold_free_gb": 5,
     "threshold_zombies": 5,
-    "note": "4G during dispatch is below 5G floor \u2014 sandboxes haven't released yet; will recover after #440 lens overlays GC"
+    "note": "4G during dispatch; sandboxes pinning overlay; will sweep on next cycle if drops further"
   },
   "autonomous_policy": {
     "zero_finding_doctrine": "ALL P0-P3 findings must be fixed before merge",
@@ -72,7 +72,7 @@
       "repo": "backend",
       "kind": "minor",
       "title": "@sentry/node 10.53->10.58",
-      "status": "awaiting_rebase"
+      "status": "in_audit"
     },
     {
       "order": 4,
@@ -371,6 +371,21 @@
       "event": "rebase_requested",
       "pr": 442,
       "details": "#442 only has 4/11 checks (pre-R100 gates); requesting Dependabot rebase against new main 6787c48b"
+    },
+    {
+      "ts": "2026-06-24T08:25:00Z",
+      "event": "rebase_complete",
+      "pr": 442,
+      "new_head": "0e342c1e",
+      "details": "Dependabot rebased #442 against main 6787c48b; 11/11 CI green"
+    },
+    {
+      "ts": "2026-06-24T08:26:30Z",
+      "event": "audit_dispatched",
+      "pr": 442,
+      "lens": "A+B",
+      "round": "R1",
+      "details": "@sentry/node 10.53->10.58 minor dual-lens launched"
     }
   ],
   "hyperscaler_remediation_patterns": [],
