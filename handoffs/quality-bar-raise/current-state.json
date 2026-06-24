@@ -916,5 +916,16 @@
       "TM-9b #453"
     ],
     "next": "awaiting operator direction"
-  }
+  },
+  "decisions": [
+    {
+      "at": "2026-06-24T17:46:07.308230+00:00",
+      "topic": "doctrine-retro-audit-outcome",
+      "finding": "zero mobile consumers exist for TM-7a/7b/8/9a/9b endpoints; only stale ApplicationStatusScreen calls a dead /applications/me path and is not wired to any navigator",
+      "decision": "continue backend/technical PR velocity; apply luxury doctrine closely WHEN screens are built in a future dedicated mobile sprint; do not retro-fit doctrine to backend-only PRs",
+      "doctrine_path": "/home/user/workspace/tgp/ctx/quality-references/MOBILE_APP_DESIGN_INTELLIGENCE.md",
+      "rationale": "backend plumbing is correct, defensible, and not user-facing; doctrine grades pixels not payloads"
+    }
+  ],
+  "last_updated": "2026-06-24T17:46:07.308247+00:00"
 }
