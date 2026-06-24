@@ -536,17 +536,40 @@
       "pre_audit_ci": "GREEN",
       "lens_a": "Opus running",
       "lens_b": "GPT-5.5 running"
+    },
+    {
+      "ts": "2026-06-24T09:22:41.541810+00:00",
+      "type": "pr_merged",
+      "pr": 444,
+      "repo": "growth-project-backend",
+      "title": "@nestjs/core patch 11.1.26->11.1.27",
+      "merge_commit": "6c8d5b39a8d6f926cb8d7eba874a76c03fc69c50",
+      "lens_a": "CLEAN (Opus)",
+      "lens_b": "CLEAN (GPT-5.5)",
+      "notes": "Two fixes: SSE async-teardown (no @Sse() decorators in repo) + platform-fastify trailing-slash (repo uses platform-express). Both touch unexercised paths. Zero behavior risk."
+    },
+    {
+      "ts": "2026-06-24T09:22:41.541810+00:00",
+      "type": "audit_dispatched",
+      "pr": 439,
+      "repo": "growth-project-backend",
+      "title": "axios 2-MINOR jump 1.16.1->1.18.1 (RUNTIME HTTP client)",
+      "pre_audit_ci": "ALL 11 GREEN",
+      "lens_a": "Opus running (with extra-paranoid 2-minor mandate)",
+      "lens_b": "GPT-5.5 running",
+      "risk": "HIGHER - 2 minors of changelog surface on HTTP client, potential Stripe/payment webhook payload impact"
     }
   ],
-  "last_update": "2026-06-24T09:19:02.217422+00:00",
+  "last_update": "2026-06-24T09:22:41.541810+00:00",
   "last_event": {
-    "ts": "2026-06-24T09:19:02.217422+00:00",
+    "ts": "2026-06-24T09:22:41.541810+00:00",
     "type": "audit_dispatched",
-    "pr": 444,
+    "pr": 439,
     "repo": "growth-project-backend",
-    "title": "@nestjs/core patch 11.1.26->11.1.27 (RUNTIME framework core)",
-    "pre_audit_ci": "GREEN",
-    "lens_a": "Opus running",
-    "lens_b": "GPT-5.5 running"
+    "title": "axios 2-MINOR jump 1.16.1->1.18.1 (RUNTIME HTTP client)",
+    "pre_audit_ci": "ALL 11 GREEN",
+    "lens_a": "Opus running (with extra-paranoid 2-minor mandate)",
+    "lens_b": "GPT-5.5 running",
+    "risk": "HIGHER - 2 minors of changelog surface on HTTP client, potential Stripe/payment webhook payload impact"
   }
 }
