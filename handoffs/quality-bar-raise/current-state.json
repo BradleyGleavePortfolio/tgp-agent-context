@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-06-24T07:50:00Z",
+  "as_of": "2026-06-24T08:06:30Z",
   "schema_version": "telemetry-v1",
   "main_sha": "39e23d92103aa10a79fbc90225b479546bae13e6",
   "wave_1": "complete",
@@ -18,9 +18,11 @@
     "audit_dispatched_at": "2026-06-24T07:50:00Z",
     "lenses": {
       "A_opus_4_8": {
-        "status": "running",
-        "verdict": null,
-        "findings": []
+        "status": "complete",
+        "verdict": "CLEAN",
+        "findings": [],
+        "completed_at": "2026-06-24T08:06:00Z",
+        "notes": "@types/node 26 + undici-types 8 type-only; TS 5.9.3 satisfies >=5.6; 65 crypto imports all use string/Buffer (valid BinaryLike/KeyLike); fetch mocked via globalThis; tsc --noEmit 0 errors across 3756 files; lockfile deduped; sensitive surfaces (payments/auth/webhooks) byte-identical"
       },
       "B_gpt_5_5": {
         "status": "running",
@@ -335,6 +337,15 @@
       "free_gb": 5.4,
       "zombies": 0,
       "details": "pre-dispatch healthy"
+    },
+    {
+      "ts": "2026-06-24T08:06:00Z",
+      "event": "lens_a_verdict",
+      "pr": 440,
+      "lens": "A_opus_4_8",
+      "verdict": "CLEAN",
+      "findings": 0,
+      "details": "@types/node 26 type-only safe; tsc 0 errors; sensitive surfaces ok"
     }
   ],
   "hyperscaler_remediation_patterns": [],
