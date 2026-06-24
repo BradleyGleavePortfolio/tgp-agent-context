@@ -1,46 +1,44 @@
 {
-  "as_of": "2026-06-24T08:06:30Z",
+  "as_of": "2026-06-24T08:15:30Z",
   "schema_version": "telemetry-v1",
-  "main_sha": "39e23d92103aa10a79fbc90225b479546bae13e6",
+  "main_sha": "6787c48bd7add1ecd03ccce3cd92d23092f1fc2c",
   "wave_1": "complete",
   "operator": 49,
-  "current_phase": "phase_1_majors",
+  "current_phase": "phase_2_minor_patch",
   "active_pr": {
-    "num": 440,
-    "title": "chore(deps): bump @types/node from 25.9.1 to 26.0.0",
+    "num": 442,
+    "title": "chore(deps): bump @sentry/node from 10.53.1 to 10.58.0",
     "repo": "growth-project-backend",
-    "head_sha": "e53b028202f8e02716bfdac318862aad01b08c56",
-    "branch": "dependabot/npm_and_yarn/types/node-25.9.3",
-    "kind": "type_only_major",
-    "transitive": "undici-types 7.24.6->8.3.0",
-    "ci_state": "all_11_green_pre_audit",
-    "round": "R1",
-    "audit_dispatched_at": "2026-06-24T07:50:00Z",
+    "head_sha": "3b49308bfef09994add6161abd880c68e7621f94",
+    "branch": "dependabot/npm_and_yarn/sentry/node-10.58.0",
+    "kind": "minor",
+    "ci_state": "4_of_11_checks_only_pre_rebase",
+    "round": "awaiting_rebase",
+    "audit_dispatched_at": null,
     "lenses": {
       "A_opus_4_8": {
-        "status": "complete",
-        "verdict": "CLEAN",
-        "findings": [],
-        "completed_at": "2026-06-24T08:06:00Z",
-        "notes": "@types/node 26 + undici-types 8 type-only; TS 5.9.3 satisfies >=5.6; 65 crypto imports all use string/Buffer (valid BinaryLike/KeyLike); fetch mocked via globalThis; tsc --noEmit 0 errors across 3756 files; lockfile deduped; sensitive surfaces (payments/auth/webhooks) byte-identical"
+        "status": "pending",
+        "verdict": null,
+        "findings": []
       },
       "B_gpt_5_5": {
-        "status": "running",
+        "status": "pending",
         "verdict": null,
         "findings": []
       }
     },
     "fixer_history": [],
     "merge_sha": null,
-    "merged_at": null
+    "merged_at": null,
+    "notes": "Rebase triggered via @dependabot rebase comment; waiting for full 11-check CI rollup against new main 6787c48b before audit"
   },
   "disk_telemetry": {
-    "last_checked": "2026-06-24T07:50:00Z",
-    "free_gb": 5.4,
+    "last_checked": "2026-06-24T08:15:30Z",
+    "free_gb": 4.0,
     "zombie_clones": 0,
     "threshold_free_gb": 5,
     "threshold_zombies": 5,
-    "note": "5.4G free pre-dispatch; will sweep aggressively after #440"
+    "note": "4G during dispatch is below 5G floor \u2014 sandboxes haven't released yet; will recover after #440 lens overlays GC"
   },
   "autonomous_policy": {
     "zero_finding_doctrine": "ALL P0-P3 findings must be fixed before merge",
@@ -66,7 +64,7 @@
       "repo": "backend",
       "kind": "type_only_major",
       "title": "@types/node 25->26",
-      "status": "in_audit"
+      "status": "merged"
     },
     {
       "order": 3,
@@ -74,7 +72,7 @@
       "repo": "backend",
       "kind": "minor",
       "title": "@sentry/node 10.53->10.58",
-      "status": "queued"
+      "status": "awaiting_rebase"
     },
     {
       "order": 4,
@@ -346,6 +344,33 @@
       "verdict": "CLEAN",
       "findings": 0,
       "details": "@types/node 26 type-only safe; tsc 0 errors; sensitive surfaces ok"
+    },
+    {
+      "ts": "2026-06-24T08:06:00Z",
+      "event": "lens_b_verdict",
+      "pr": 440,
+      "lens": "B_gpt_5_5",
+      "verdict": "CLEAN",
+      "findings": 0,
+      "details": "tsc 0 errors on default+build tsconfigs; deduped lockfile; 155 fetch-family identifiers compile clean"
+    },
+    {
+      "ts": "2026-06-24T08:15:13Z",
+      "event": "merge",
+      "pr": 440,
+      "merge_sha": "6787c48b",
+      "details": "@types/node 25->26 merged; Phase 1 majors complete (2/2 closed: #447 fast-check + #440 @types/node)"
+    },
+    {
+      "ts": "2026-06-24T08:15:30Z",
+      "event": "phase_transition",
+      "details": "Phase 1 majors complete; entering Phase 2 minor/patch. Note: expo SDK 56->57 is a deferred manual PR (Dependabot does not propose)."
+    },
+    {
+      "ts": "2026-06-24T08:15:30Z",
+      "event": "rebase_requested",
+      "pr": 442,
+      "details": "#442 only has 4/11 checks (pre-R100 gates); requesting Dependabot rebase against new main 6787c48b"
     }
   ],
   "hyperscaler_remediation_patterns": [],
@@ -362,6 +387,13 @@
       "merge_sha": "39e23d92",
       "audit_rounds": "R1 dual-lens CLEAN both (no fixer needed)",
       "duration_min": 23
+    },
+    {
+      "num": 440,
+      "name": "@types/node 25->26 (type-only major) + undici-types 7->8 transitive",
+      "merge_sha": "6787c48b",
+      "audit_rounds": "R1 dual-lens CLEAN both (no fixer needed)",
+      "duration_min": 25
     }
   ]
 }
