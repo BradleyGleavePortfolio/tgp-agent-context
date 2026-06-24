@@ -1,8 +1,64 @@
 {
-  "as_of": "2026-06-24T07:25:00Z",
+  "as_of": "2026-06-24T07:41:00Z",
+  "schema_version": "telemetry-v1",
   "main_sha": "02812619023d79f09952ffcf768bf6496a61f737",
   "wave_1": "complete",
-  "open_prs": [],
+  "operator": 49,
+  "current_phase": "phase_1_majors",
+  "active_pr": {
+    "num": 447,
+    "title": "chore(deps): bump fast-check from 3.23.2 to 4.8.0",
+    "repo": "growth-project-backend",
+    "head_sha": "8a95294111e99ee69146ef43a58ba3b8256ee597",
+    "branch": "dependabot/npm_and_yarn/fast-check-4.8.0",
+    "kind": "runtime_major",
+    "ci_state": "all_green_pre_audit",
+    "round": "R1",
+    "audit_dispatched_at": "2026-06-24T07:26:00Z",
+    "lenses": {
+      "A_opus_4_8": {"subagent_id": "pr_447_fast_check_4_lens_a_opus_audit_mqrr65nl", "status": "running", "verdict": null, "findings": []},
+      "B_gpt_5_5": {"subagent_id": "pr_447_fast_check_4_lens_b_gpt_5_5_audit_mqrr6lrp", "status": "running", "verdict": null, "findings": []}
+    },
+    "fixer_history": [],
+    "merge_sha": null,
+    "merged_at": null
+  },
+  "disk_telemetry": {
+    "last_checked": "2026-06-24T07:25:00Z",
+    "free_gb": 6.8,
+    "zombie_clones": 0,
+    "threshold_free_gb": 5,
+    "threshold_zombies": 5
+  },
+  "autonomous_policy": {
+    "zero_finding_doctrine": "ALL P0-P3 findings must be fixed before merge",
+    "fixer_approach": "hyperscaler research live -> implement their pattern -> save prevention to memory",
+    "ci_failure_post_merge": "roll forward immediately with fixer subagent",
+    "disk_active_prevention": "kill /tmp/growth-project-*-* clones before dispatch if <5G or >5 zombies",
+    "sensitive_surfaces_extra_dim": "auth/payments/RLS/secrets/migrations/auto-flipper require user-observable behavior diff audit",
+    "no_pause_no_ping": "loop runs unattended until queue empty",
+    "type_only_before_runtime": "type-only majors prioritized before runtime majors in Phase 1"
+  },
+  "open_dependabot_queue": [
+    {"order": 1, "num": 447, "repo": "backend", "kind": "runtime_major", "title": "fast-check 3->4", "status": "in_audit"},
+    {"order": 2, "num": 440, "repo": "backend", "kind": "type_only_major", "title": "@types/node 25->26", "status": "queued"},
+    {"order": 3, "num": 442, "repo": "backend", "kind": "minor", "title": "@sentry/node 10.53->10.58", "status": "queued"},
+    {"order": 4, "num": 445, "repo": "backend", "kind": "minor", "title": "typescript-eslint plugin 8.60->8.61", "status": "queued"},
+    {"order": 5, "num": 446, "repo": "backend", "kind": "patch", "title": "@aws-sdk/client-s3 3.1065->3.1071", "status": "queued"},
+    {"order": 6, "num": 441, "repo": "backend", "kind": "minor", "title": "typescript-eslint root 8.60->8.61", "status": "queued"},
+    {"order": 7, "num": 438, "repo": "backend", "kind": "minor", "title": "ioredis 5.10->5.11", "status": "queued"},
+    {"order": 8, "num": 443, "repo": "backend", "kind": "minor", "title": "eslint 10.4->10.5", "status": "queued"},
+    {"order": 9, "num": 444, "repo": "backend", "kind": "patch", "title": "@nestjs/core 11.1.26->11.1.27", "status": "queued"},
+    {"order": 10, "num": 439, "repo": "backend", "kind": "minor", "title": "axios 1.16->1.18", "status": "queued"},
+    {"order": 11, "num": 267, "repo": "mobile", "kind": "patch_group", "title": "expo group (within SDK 56)", "status": "queued"},
+    {"order": 12, "num": 268, "repo": "mobile", "kind": "minor_group", "title": "react-navigation group", "status": "queued"},
+    {"order": 13, "num": 266, "repo": "mobile", "kind": "mixed_group", "title": "dev-dependencies group", "status": "queued"},
+    {"order": 14, "num": 269, "repo": "mobile", "kind": "react_major_likely", "title": "react + @types/react", "status": "queued"},
+    {"order": 15, "num": 270, "repo": "mobile", "kind": "minor", "title": "react-native-safe-area-context 5.7->5.8", "status": "queued"}
+  ],
+  "manual_majors_pending": [
+    {"name": "expo SDK 56->57", "repo": "mobile", "reason": "Dependabot does not propose this; requires manual `expo upgrade` migration and breaking-change handling"}
+  ],
   "merged_this_wave": [
     {"num": 455, "name": "H1", "merge_sha": "b65266c7"},
     {"num": 456, "name": "H2", "merge_sha": "ceaa759c"},
@@ -13,37 +69,25 @@
     {"num": 463, "name": "H4.C stub-scanner", "merge_sha": "8467c6f5"},
     {"num": 464, "name": "H4.B env-discovery", "merge_sha": "1892622018", "operator": 49, "audit_rounds": "R5 dual-lens CLEAN both"},
     {"num": 465, "name": "H4.D provider-wiring", "merge_sha": "9bf6d66f", "operator": 49, "audit_rounds": "R5 dual-lens CLEAN both"},
-    {"num": 466, "name": "H4.F auto-flipper", "merge_sha": "02812619", "operator": 49, "audit_rounds": "R5a→R5c NOT_CLEAN (gate env-source drift, both lenses converged), R5d fixer (single-source via opts.env threading), R5e dual-lens CLEAN both"}
-  ],
-  "locked_decisions": {
-    "d1_sub_coach": "D (lookup table — replace coach_role enum with roles table; RLS references roles.tier/permissions)",
-    "d2_create_index_concurrently": "B (drop CONCURRENTLY — zero users, plain CREATE INDEX is atomic and simpler)",
-    "d3_bundling": "B (split by risk class — PR-Safe for CREATE INDEX, PR-Risky for lookup-table + RLS rewrite)"
-  },
-  "operator_49_rules_established": {
-    "subagent_sandbox_extraction": "All subagents MUST write final output to /home/user/workspace/ before terminating. NEVER /tmp inside sandbox. HARD RULE.",
-    "choice_workflow": "When choice arises: research live what hyperscalers do → if one viable option, do it (no ask) → if multiple, present Option 1/Option 2 with explanation + kitchen/airport metaphor (same situation, different solution).",
-    "dependabot_policy": "Auto-merge after dual-lens adversarial CLEAN.",
-    "backlog_order": "PHASE 1 = MAJORS solo (no parallel same-repo). PHASE 2 = parallel minor/patch lanes (backend + mobile). PHASE 3 = R81-backfill P1 bugs. PHASE 4 = new P2 issues filed this session.",
-    "expo_version_flag": "User said '66→67' but mobile package.json shows expo ~56.0.11 — needs clarification before Phase 1 expo major."
-  },
-  "next_action": "Begin Phase 1 (Majors solo). Open candidates: @nestjs/core major, axios major, @types/node 26, fast-check 4, expo group (BLOCKED until version clarified). Also file 4 new P2 issues from this session's audits: R2 Claim 2 (refreshEntitlement missing from CheckoutReturnScreen — mobile), R1 P0-3 (macro target → P2 — mobile), R1 P0-7 (failed-resend body-match → P2 — backend), R3 Claim 1 (RootNavigator bootstrapAuth guard → P2/P3 — mobile).",
-  "blockers": [
-    "TM-8 #449 still OPEN @ d4a0eb0d — blocks H6",
-    "Branch protection on main blocked by GitHub Free private-repo limit — into OPERATOR_ATTACH",
-    "H3 #459 OPEN @ 82abaaf0 — blocked on forward-migration repair (drive with D1/D2/D3)",
-    "Expo version mismatch: user said '66→67', actual mobile lockfile is ~56.0.11 — clarify before Phase 1 expo bump"
+    {"num": 466, "name": "H4.F auto-flipper", "merge_sha": "02812619", "operator": 49, "audit_rounds": "R5a->R5c NOT_CLEAN (gate env-source drift, both lenses converged), R5d fixer (single-source via opts.env threading), R5e dual-lens CLEAN both"}
   ],
   "session_findings_to_file": [
-    {"id": "R2-Claim-2", "repo": "mobile", "severity": "P2", "title": "refreshEntitlement never called on purchase-completion path", "location": "CheckoutReturnScreen", "note": "in-app webview means AppState background→foreground re-check never fires; stale 'inactive' gate persists for session"},
-    {"id": "R1-P0-3", "repo": "mobile", "severity": "P2", "title": "macro target (downgraded from filed P0)", "note": "details in /home/user/workspace/p0_claims_audit_report.md"},
-    {"id": "R1-P0-7", "repo": "backend", "severity": "P2", "title": "failed-resend body-match (downgraded from filed P0)", "note": "details in /home/user/workspace/p0_claims_audit_report.md"},
-    {"id": "R3-Claim-1", "repo": "mobile", "severity": "P2/P3", "title": "RootNavigator bootstrapAuth concurrency guard absent", "note": "CONFIRMED but self-converging; defensive hardening; details in /home/user/workspace/r3_claims_audit_report.md"}
+    {"id": "R2-Claim-2", "repo": "mobile", "severity": "P2", "title": "refreshEntitlement never called on purchase-completion path (CheckoutReturnScreen)"},
+    {"id": "R1-P0-3", "repo": "mobile", "severity": "P2", "title": "macro target (downgraded from filed P0)"},
+    {"id": "R1-P0-7", "repo": "backend", "severity": "P2", "title": "failed-resend body-match (downgraded from filed P0)"},
+    {"id": "R3-Claim-1", "repo": "mobile", "severity": "P2/P3", "title": "RootNavigator bootstrapAuth concurrency guard absent (self-converging)"}
   ],
-  "backlog_inventory": {
-    "audit_reports_total": 73,
-    "backend_r81_backfill_findings": {"issues": ["#406", "#407", "#408", "#409", "#410"], "total": 20, "p1": 2, "p2": 12, "p3": 6},
-    "mobile_r81_backfill_findings": {"issues": ["#256", "#257", "#258", "#259", "#260", "#261"], "total": 38, "p1": 4, "p2": 22, "p3": 12},
-    "majors_phase_1": ["@nestjs/core", "axios", "@types/node 26", "fast-check 4", "expo (BLOCKED — version clarification needed)"]
-  }
+  "milestone_log": [
+    {"ts": "2026-06-24T07:24:51Z", "event": "merge", "pr": 466, "merge_sha": "02812619", "details": "Wave 1 closed"},
+    {"ts": "2026-06-24T07:25:00Z", "event": "handoff_committed", "ctx_sha": "173b58d3fc21189a10e9492ed7e856c2ac969bdc", "details": "HANDOFF_OP_50.md + current-state.json wave 1 close committed"},
+    {"ts": "2026-06-24T07:26:00Z", "event": "audit_dispatched", "pr": 447, "lens": "A+B", "round": "R1", "details": "fast-check 3->4 dual-lens audit launched"},
+    {"ts": "2026-06-24T07:41:00Z", "event": "telemetry_schema_initialized", "details": "schema-v1 live-state telemetry policy in effect; all milestones now logged here"}
+  ],
+  "hyperscaler_remediation_patterns": [],
+  "blockers": [
+    "TM-8 #449 still OPEN @ d4a0eb0d — blocks H6",
+    "Branch protection on main blocked by GitHub Free private-repo limit",
+    "H3 #459 OPEN @ 82abaaf0 — blocked on forward-migration repair",
+    "Expo SDK 56->57 needs manual PR (Dependabot only proposes patches within SDK 56)"
+  ]
 }
