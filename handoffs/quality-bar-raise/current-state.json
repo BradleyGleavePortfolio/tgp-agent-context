@@ -623,5 +623,40 @@
     "lens_a": "Opus running",
     "lens_b": "GPT-5.5 running",
     "sensitive_surface": "UX - navigation/transitions/headers/tabs/gestures"
-  }
+  },
+  "mobile_dependabot": {
+    "last_merged": {
+      "pr": 268,
+      "title": "react-navigation group (bottom-tabs/native-stack minor; native/elements/routers transitive)",
+      "merge_commit": "32f75f5eeb50abf35512844a6d1b57d8e3e51094",
+      "merged_at_utc": "2026-06-24T09:35:20Z",
+      "verdict": "dual-lens CLEAN (Opus + GPT-5.5 both APPROVE)"
+    },
+    "closed_not_actionable": [
+      {
+        "pr": 269,
+        "title": "react + @types/react",
+        "reason": "RN 0.85.3 bundles react-native-renderer pinned to react@19.2.3; bumping react to 19.2.7 triggers runtime invariant 'Incompatible React versions'. Cannot merge until RN ships release with matching bundled renderer.",
+        "closed_at_utc": "2026-06-24T09:38:00Z"
+      }
+    ],
+    "in_audit": {
+      "pr": 267,
+      "title": "expo group (5 patches: expo, expo-font, expo-notifications, expo-sharing, expo-video)",
+      "ci_status": "GREEN",
+      "lenses_dispatched_at_utc": "2026-06-24T09:38:00Z"
+    },
+    "remaining": [
+      {
+        "pr": 266,
+        "title": "dev-deps (jest-expo + react-dom)",
+        "status": "rebase requested; likely fails same RN renderer pin"
+      },
+      {
+        "manual": "Expo SDK 56 -> 57 migration",
+        "status": "deferred per user"
+      }
+    ]
+  },
+  "last_updated_utc": "2026-06-24T09:39:00Z"
 }
