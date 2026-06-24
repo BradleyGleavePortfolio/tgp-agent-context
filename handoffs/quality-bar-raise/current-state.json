@@ -671,7 +671,7 @@
     }
   ],
   "last_update": "2026-06-24T13:27:20+00:00",
-  "last_event": "track_a_expo_sdk57_scoped_awaiting_decision",
+  "last_event": "tm_7a_fixer_dispatched",
   "mobile_dependabot": {
     "closed_not_actionable": [
       {
@@ -709,7 +709,7 @@
     ],
     "deferred_manual": "Expo SDK 56 \u2192 57 migration (not Dependabot-proposed)"
   },
-  "last_updated_utc": "2026-06-24T13:32:43Z",
+  "last_updated_utc": "2026-06-24T13:44:09Z",
   "dependabot_queue_status": "ALL CLEAR (backend + mobile)",
   "track_a_expo_sdk57": {
     "status": "scoping_complete_awaiting_user_decision",
@@ -730,5 +730,38 @@
       "active_pr"
     ],
     "scoped_at": "2026-06-24T13:32:43Z"
+  },
+  "tm_sweep": {
+    "status": "in_progress",
+    "order": [
+      "TM-7a #452",
+      "TM-7b #454",
+      "TM-8 #449 (PII gate)",
+      "TM-9a #451",
+      "TM-9b #453"
+    ],
+    "current": "TM-7a #452 fixer dispatched after dual-lens DIRTY",
+    "audit_summary": {
+      "TM-7a_lens_a": "Opus 4.8 \u2014 8 findings P0=0 P1=0 P2=2 P3=6",
+      "TM-7a_lens_b": "GPT-5.5 \u2014 8 findings P0=0 P1=1 P2=5 P3=2",
+      "consolidated_fixes_in_flight": [
+        "status enum validation (was raw string)",
+        "lifecycle timestamps (published_at/closed_at)",
+        "note persistence + replay round-trip",
+        "structured audit log on decisions",
+        "@HttpCode(200) on review POST",
+        "keysetWhere preserves base.AND"
+      ]
+    },
+    "rebased_heads": {
+      "TM-7a #452": "3990fd9b"
+    },
+    "behind_by_main": {
+      "TM-7b #454": "tied-to-TM-7a",
+      "TM-8 #449": "20 (will rebase)",
+      "TM-9a #451": "20",
+      "TM-9b #453": "tied-to-TM-9a"
+    },
+    "tm_8_pii_gate": "do-not-merge: pii-review marker present in #449 body \u2014 will surface for user decision when sequence reaches TM-8"
   }
 }
