@@ -687,6 +687,22 @@
         ],
         "fixer_model": "opus_4_8"
       }
+    },
+    {
+      "ts": "2026-06-24T16:08:21.599850Z",
+      "milestone": "TM-8 dual-lens CLEAN both lenses after fixer pass 1; auto-merge armed",
+      "details": {
+        "pr": 449,
+        "head_sha": "044e02653b33c51624b51ffcdb621d5278b64763",
+        "fixer_passes": 1,
+        "findings_fixed": 13,
+        "tests_passing": "37 passed / 2 skipped (4 suites)",
+        "new_findings": 0,
+        "lens_a_posture": "CLEAN",
+        "lens_b_posture": "CLEAN",
+        "ci_state": "in_progress (build-and-test + CodeQL); all quality gates green",
+        "next": "TM-9a #451 luxury doctrine UX after merge"
+      }
     }
   ],
   "last_update": "2026-06-24T13:27:20+00:00",
