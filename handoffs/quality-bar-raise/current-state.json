@@ -667,6 +667,26 @@
           "gpt_5_5"
         ]
       }
+    },
+    {
+      "ts": "2026-06-24T15:56:23.455821Z",
+      "milestone": "TM-8 dual-lens audit DIRTY; fixer pass 1 dispatched",
+      "details": {
+        "pr": 449,
+        "head_before_fix": "4800e72a",
+        "lens_a_findings": "1 P0, 1 P1, 2 P2, 3 P3",
+        "lens_b_findings": "1 P0, 2 P1, 2 P2, 1 P3",
+        "convergent_blockers": [
+          "withdrawn applicants can be resurrected via ??'new' fallback (A-P0-1/B-P1-1)",
+          "headline raw PII leak in detail response (B-P0-1, lens A missed)",
+          "stage replay returns request target not ledger response (A-P1-1/B-P2-1)",
+          "non-atomic check-then-update on stage (B-P1-2, lens A missed)",
+          "stage write not hirer-scoped (A-P2-1)",
+          "retry after terminal returns 409 not stored success (B-P2-2)",
+          "in_flight/release-on-error specs missing (A-P2-2)"
+        ],
+        "fixer_model": "opus_4_8"
+      }
     }
   ],
   "last_update": "2026-06-24T13:27:20+00:00",
