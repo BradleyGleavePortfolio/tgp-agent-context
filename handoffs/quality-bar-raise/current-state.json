@@ -646,6 +646,27 @@
       "type": "milestone",
       "milestone": "TRACK_B_COMPLETE",
       "summary": "All 4 session-finding P2 issues filed (mobile #273/#274/#275, backend #468). Track A (Expo SDK 56->57 scoping) in progress in parallel."
+    },
+    {
+      "ts": "2026-06-24T15:51:05.632861Z",
+      "milestone": "TM-8 PII canary closed; PR #449 rebased onto main (a6f6e0b2), 25 specs green, dual-lens audit dispatched",
+      "details": {
+        "pr": 449,
+        "head_sha": "4800e72a",
+        "base_main": "a6f6e0b2",
+        "net_loc": 1013,
+        "tests_passing": 25,
+        "title_tags": [
+          "LOC-EXEMPT",
+          "TEST-EXEMPT"
+        ],
+        "pii_posture": "construct-time strip via toCandidateCard allow-list; email->domain; phone_last4 null; no operator reveal",
+        "research_basis": "hyperscaler comparison: TM-8 stricter than Greenhouse/Lever/Workday/LinkedIn Recruiter/Teamtailor/Cavuno defaults",
+        "auditors": [
+          "opus_4_8",
+          "gpt_5_5"
+        ]
+      }
     }
   ],
   "last_update": "2026-06-24T13:27:20+00:00",
