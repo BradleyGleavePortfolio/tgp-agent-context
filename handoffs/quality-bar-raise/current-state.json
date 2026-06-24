@@ -1,31 +1,28 @@
 {
-  "as_of": "2026-06-24T07:44:00Z",
+  "as_of": "2026-06-24T07:50:00Z",
   "schema_version": "telemetry-v1",
-  "main_sha": "02812619023d79f09952ffcf768bf6496a61f737",
+  "main_sha": "39e23d92103aa10a79fbc90225b479546bae13e6",
   "wave_1": "complete",
   "operator": 49,
   "current_phase": "phase_1_majors",
   "active_pr": {
-    "num": 447,
-    "title": "chore(deps): bump fast-check from 3.23.2 to 4.8.0",
+    "num": 440,
+    "title": "chore(deps): bump @types/node from 25.9.1 to 26.0.0",
     "repo": "growth-project-backend",
-    "head_sha": "8a95294111e99ee69146ef43a58ba3b8256ee597",
-    "branch": "dependabot/npm_and_yarn/fast-check-4.8.0",
-    "kind": "runtime_major",
-    "ci_state": "all_11_green",
+    "head_sha": "e53b028202f8e02716bfdac318862aad01b08c56",
+    "branch": "dependabot/npm_and_yarn/types/node-25.9.3",
+    "kind": "type_only_major",
+    "transitive": "undici-types 7.24.6->8.3.0",
+    "ci_state": "all_11_green_pre_audit",
     "round": "R1",
-    "audit_dispatched_at": "2026-06-24T07:26:00Z",
+    "audit_dispatched_at": "2026-06-24T07:50:00Z",
     "lenses": {
       "A_opus_4_8": {
-        "subagent_id": "pr_447_fast_check_4_lens_a_opus_audit_mqrr65nl",
-        "status": "complete",
-        "verdict": "CLEAN",
-        "findings": [],
-        "completed_at": "2026-06-24T07:42:00Z",
-        "notes": "fast-check use scoped to test/ai-credits-bankers-round.spec.ts; 5 APIs (assert, property, integer, tuple, double); none touch v4 removed/renamed surfaces; dual-pkg CJS/ESM ok; mutation-discrimination green"
+        "status": "running",
+        "verdict": null,
+        "findings": []
       },
       "B_gpt_5_5": {
-        "subagent_id": "pr_447_fast_check_4_lens_b_gpt_5_5_audit_mqrr6lrp",
         "status": "running",
         "verdict": null,
         "findings": []
@@ -36,12 +33,12 @@
     "merged_at": null
   },
   "disk_telemetry": {
-    "last_checked": "2026-06-24T07:44:00Z",
-    "free_gb": 5.5,
+    "last_checked": "2026-06-24T07:50:00Z",
+    "free_gb": 5.4,
     "zombie_clones": 0,
     "threshold_free_gb": 5,
     "threshold_zombies": 5,
-    "note": "just above threshold; pre-flight sweep before next dispatch"
+    "note": "5.4G free pre-dispatch; will sweep aggressively after #440"
   },
   "autonomous_policy": {
     "zero_finding_doctrine": "ALL P0-P3 findings must be fixed before merge",
@@ -59,7 +56,7 @@
       "repo": "backend",
       "kind": "runtime_major",
       "title": "fast-check 3->4",
-      "status": "in_audit"
+      "status": "merged"
     },
     {
       "order": 2,
@@ -67,7 +64,7 @@
       "repo": "backend",
       "kind": "type_only_major",
       "title": "@types/node 25->26",
-      "status": "queued"
+      "status": "in_audit"
     },
     {
       "order": 3,
@@ -307,6 +304,37 @@
       "free_gb": 5.5,
       "zombies": 0,
       "details": "healthy but near 5G threshold; will sweep before next subagent dispatch"
+    },
+    {
+      "ts": "2026-06-24T07:49:00Z",
+      "event": "lens_b_verdict",
+      "pr": 447,
+      "lens": "B_gpt_5_5",
+      "verdict": "CLEAN",
+      "findings": 0,
+      "details": "fast-check v4 breaking changes all in dropped-deprecated APIs, none used; smoke 5/5 + mutation RED"
+    },
+    {
+      "ts": "2026-06-24T07:49:38Z",
+      "event": "merge",
+      "pr": 447,
+      "merge_sha": "39e23d92",
+      "details": "fast-check 3->4 merged; first Phase 1 major closed; no fixer needed"
+    },
+    {
+      "ts": "2026-06-24T07:50:00Z",
+      "event": "audit_dispatched",
+      "pr": 440,
+      "lens": "A+B",
+      "round": "R1",
+      "details": "@types/node 25->26 (type-only) + undici-types 7->8 transitive; dual-lens launched per type-only-first rule"
+    },
+    {
+      "ts": "2026-06-24T07:50:00Z",
+      "event": "disk_check",
+      "free_gb": 5.4,
+      "zombies": 0,
+      "details": "pre-dispatch healthy"
     }
   ],
   "hyperscaler_remediation_patterns": [],
@@ -315,5 +343,14 @@
     "Branch protection on main blocked by GitHub Free private-repo limit",
     "H3 #459 OPEN @ 82abaaf0 \u2014 blocked on forward-migration repair",
     "Expo SDK 56->57 needs manual PR (Dependabot only proposes patches within SDK 56)"
+  ],
+  "merged_phase_1": [
+    {
+      "num": 447,
+      "name": "fast-check 3->4 (runtime major)",
+      "merge_sha": "39e23d92",
+      "audit_rounds": "R1 dual-lens CLEAN both (no fixer needed)",
+      "duration_min": 23
+    }
   ]
 }
