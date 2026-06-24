@@ -852,7 +852,7 @@
     }
   },
   "tm9a": {
-    "status": "audits_dispatched",
+    "status": "fixer1_dispatched",
     "pr": "#451",
     "head": "58256494",
     "rebased_onto": "b815e7dc",
@@ -869,6 +869,20 @@
     "lenses": {
       "a": "opus_4_8",
       "b": "gpt_5_5"
-    }
+    },
+    "audit": {
+      "lens_a": {
+        "model": "opus_4_8",
+        "status": "DIRTY",
+        "findings": "P0:1 P1:3 P2:3 P3:2"
+      },
+      "lens_b": {
+        "model": "gpt_5_5",
+        "status": "DIRTY",
+        "findings": "P0:2 P1:6 P2:4 P3:0"
+      },
+      "key_p0": "intro_video_url phantom field \u2014 validated-but-never-persisted, no backing column; honest-removal path"
+    },
+    "fixer1_dispatched_at": "2026-06-24T16:30:07Z"
   }
 }
