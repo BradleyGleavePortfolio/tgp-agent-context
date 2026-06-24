@@ -588,18 +588,40 @@
       "lens_a": "Opus running",
       "lens_b": "GPT-5.5 running",
       "selection_rationale": "First mobile PR - smallest scope, CI clean. Then #268 (react-navigation group clean), #267 (expo group clean), then investigate failing #266 (dev-deps) and #269 (react+types patch with CI failure)."
+    },
+    {
+      "ts": "2026-06-24T09:30:38.354753+00:00",
+      "type": "pr_merged",
+      "pr": 270,
+      "repo": "growth-project-mobile",
+      "title": "react-native-safe-area-context 5.7.0->5.8.0 (RUNTIME native)",
+      "merge_commit": "f074699aa247dc1098b2c5045f9e310c37449574",
+      "lens_a": "CLEAN (Opus)",
+      "lens_b": "CLEAN (GPT-5.5)",
+      "notes": "Single change in 5.8.0: remove UIImplementation from SafeAreaView (Android legacy-Paper API cleanup, beneficial for Fabric/New Arch). No public API, inset value, or rendering change. fsevents 'dev:true' removal is benign churn (macOS-only optional, never installed on CI/devices)."
+    },
+    {
+      "ts": "2026-06-24T09:30:38.354753+00:00",
+      "type": "audit_dispatched",
+      "pr": 268,
+      "repo": "growth-project-mobile",
+      "title": "react-navigation group: bottom-tabs 7.17.2->7.18.2 + native-stack 7.17.2->7.17.5 + core/elements transitives",
+      "pre_audit_ci": "GREEN",
+      "lens_a": "Opus running",
+      "lens_b": "GPT-5.5 running",
+      "sensitive_surface": "UX - navigation/transitions/headers/tabs/gestures"
     }
   ],
-  "last_update": "2026-06-24T09:27:41.222195+00:00",
+  "last_update": "2026-06-24T09:30:38.354753+00:00",
   "last_event": {
-    "ts": "2026-06-24T09:27:41.222195+00:00",
+    "ts": "2026-06-24T09:30:38.354753+00:00",
     "type": "audit_dispatched",
-    "pr": 270,
+    "pr": 268,
     "repo": "growth-project-mobile",
-    "title": "react-native-safe-area-context minor 5.7.0->5.8.0 (RUNTIME native module)",
+    "title": "react-navigation group: bottom-tabs 7.17.2->7.18.2 + native-stack 7.17.2->7.17.5 + core/elements transitives",
     "pre_audit_ci": "GREEN",
     "lens_a": "Opus running",
     "lens_b": "GPT-5.5 running",
-    "selection_rationale": "First mobile PR - smallest scope, CI clean. Then #268 (react-navigation group clean), #267 (expo group clean), then investigate failing #266 (dev-deps) and #269 (react+types patch with CI failure)."
+    "sensitive_surface": "UX - navigation/transitions/headers/tabs/gestures"
   }
 }
