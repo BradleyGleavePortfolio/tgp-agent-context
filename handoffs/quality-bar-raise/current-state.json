@@ -442,17 +442,49 @@
       "lens_a": "Opus 4.8 running",
       "lens_b": "GPT-5.5 running",
       "pre_audit_ci": "ALL GREEN"
+    },
+    {
+      "ts": "2026-06-24T09:03:49.360899+00:00",
+      "type": "pr_merged",
+      "pr": 441,
+      "repo": "growth-project-backend",
+      "title": "typescript-eslint meta 8.60->8.62 (umbrella - cascades full @typescript-eslint/* family)",
+      "merge_commit": "a227b4efd5eb2edf6d564276c21e4e9eac59c767",
+      "lens_a": "CLEAN (Opus 4.8)",
+      "lens_b": "CLEAN (GPT-5.5)",
+      "notes": "Both lenses CLEAN. Followup #467 filed for P3 (package.json direct devDep floors for plugin/parser still ^8.60, cosmetic since caret resolves to 8.62 in lockfile)."
+    },
+    {
+      "ts": "2026-06-24T09:03:49.360899+00:00",
+      "type": "issue_filed",
+      "issue": 467,
+      "repo": "growth-project-backend",
+      "severity": "P3",
+      "title": "Align @typescript-eslint/eslint-plugin + parser direct devDeps floors",
+      "source": "PR #441 Lens A finding"
+    },
+    {
+      "ts": "2026-06-24T09:03:49.360899+00:00",
+      "type": "audit_dispatched",
+      "pr": 446,
+      "repo": "growth-project-backend",
+      "title": "@aws-sdk/client-s3 patch 3.1065->3.1071",
+      "pre_audit_ci": "GREEN (build/rls/mwb)",
+      "lens_a": "Opus 4.8 running",
+      "lens_b": "GPT-5.5 running",
+      "notes": "RUNTIME dep, sensitive storage surface - behavior-diff dim included"
     }
   ],
-  "last_update": "2026-06-24T08:58:24.041871+00:00",
+  "last_update": "2026-06-24T09:03:49.360899+00:00",
   "last_event": {
-    "ts": "2026-06-24T08:58:24.041871+00:00",
+    "ts": "2026-06-24T09:03:49.360899+00:00",
     "type": "audit_dispatched",
-    "pr": 441,
+    "pr": 446,
     "repo": "growth-project-backend",
-    "title": "typescript-eslint meta 8.60->8.62 (umbrella - coordinates all @typescript-eslint/*)",
+    "title": "@aws-sdk/client-s3 patch 3.1065->3.1071",
+    "pre_audit_ci": "GREEN (build/rls/mwb)",
     "lens_a": "Opus 4.8 running",
     "lens_b": "GPT-5.5 running",
-    "pre_audit_ci": "ALL GREEN"
+    "notes": "RUNTIME dep, sensitive storage surface - behavior-diff dim included"
   }
 }
