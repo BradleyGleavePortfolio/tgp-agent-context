@@ -410,5 +410,30 @@
       "audit_rounds": "R1 dual-lens CLEAN both (no fixer needed)",
       "duration_min": 25
     }
-  ]
+  ],
+  "events": [
+    {
+      "ts": "2026-06-24T08:49:54.947756+00:00",
+      "type": "pr_merged",
+      "pr": 442,
+      "repo": "growth-project-backend",
+      "title": "@sentry/node 10.53.1->10.60.0 (minor)",
+      "merge_commit": "dae0d74ed585a8429863e24fff246c9239a808bb",
+      "lens_a": "CLEAN (Opus 4.8)",
+      "lens_b": "CLEAN (GPT-5.5)",
+      "notes": "Dependabot metadata listed 10.58.0; actual 10.60.0. tsc 0 errors, prod-readiness 892/892. No fixer needed."
+    }
+  ],
+  "last_update": "2026-06-24T08:49:54.947756+00:00",
+  "last_event": {
+    "ts": "2026-06-24T08:49:54.947756+00:00",
+    "type": "pr_merged",
+    "pr": 442,
+    "repo": "growth-project-backend",
+    "title": "@sentry/node 10.53.1->10.60.0 (minor)",
+    "merge_commit": "dae0d74ed585a8429863e24fff246c9239a808bb",
+    "lens_a": "CLEAN (Opus 4.8)",
+    "lens_b": "CLEAN (GPT-5.5)",
+    "notes": "Dependabot metadata listed 10.58.0; actual 10.60.0. tsc 0 errors, prod-readiness 892/892. No fixer needed."
+  }
 }
