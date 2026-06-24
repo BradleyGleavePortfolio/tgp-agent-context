@@ -850,5 +850,25 @@
       "passes": 1,
       "lessons": "TM-7b was stacked on TM-7a; TM-7a base-branch delete auto-closed TM-7b #454; reopened as #470 vs main. Future: retarget stacked PRs to main BEFORE upstream merges (will apply to TM-9b #453 before TM-9a #451 merges)."
     }
+  },
+  "tm9a": {
+    "status": "audits_dispatched",
+    "pr": "#451",
+    "head": "58256494",
+    "rebased_onto": "b815e7dc",
+    "loc": {
+      "prod": 393,
+      "tests": 467,
+      "net": 860
+    },
+    "title_exemptions": [
+      "LOC-EXEMPT",
+      "TEST-EXEMPT"
+    ],
+    "dispatched_at": "2026-06-24T16:25:29Z",
+    "lenses": {
+      "a": "opus_4_8",
+      "b": "gpt_5_5"
+    }
   }
 }
