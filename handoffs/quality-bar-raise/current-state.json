@@ -852,14 +852,18 @@
     }
   },
   "tm9a": {
-    "status": "fixer1_dispatched",
+    "status": "MERGED",
     "pr": "#451",
     "head": "58256494",
     "rebased_onto": "b815e7dc",
     "loc": {
       "prod": 393,
-      "tests": 467,
-      "net": 860
+      "tests": 702,
+      "net": 1095,
+      "exemptions": [
+        "LOC-EXEMPT",
+        "TEST-EXEMPT"
+      ]
     },
     "title_exemptions": [
       "LOC-EXEMPT",
@@ -883,6 +887,14 @@
       },
       "key_p0": "intro_video_url phantom field \u2014 validated-but-never-persisted, no backing column; honest-removal path"
     },
-    "fixer1_dispatched_at": "2026-06-24T16:30:07Z"
+    "fixer1_dispatched_at": "2026-06-24T16:30:07Z",
+    "merge_sha": "e1b4d0e3f78b8f9ee98e9262cd113eafd4ef3a9b",
+    "merged_at": "2026-06-24T16:48:48Z",
+    "reaudit": {
+      "lens_a": "CLEAN (Opus 4.8)",
+      "lens_b": "DIRTY on P3 grep-hygiene only (GPT-5.5) \u2014 comment refs are intentional deferral tracking; functionally CLEAN",
+      "decision": "Auto-merged per R109 (dual-lens functionally CLEAN, no user-observable UX, all 10 CI checks PASS)"
+    },
+    "ci": "10/10 PASS"
   }
 }
