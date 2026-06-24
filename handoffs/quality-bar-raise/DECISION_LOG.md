@@ -227,3 +227,50 @@ All briefs embed BRIEF_PREAMBLE_R100.md + AGENT_RULES R10 + R6 + R3 + R13 verbat
 4. Dispatch H1 #455 dual audit tonight, or hold for operator wake-up?
 5. **NEW:** When does R109 sweep run — immediately after H4 fixer returns CLEAN, or as a follow-up after the 11-mini-PR chunking series (H2→3 + H4→8)?
 
+
+## 2026-06-24 11:30 PT — Mobile sprint sequencing locked: backend velocity continues, doctrine deferred
+
+**Context.** Operator ran a retro-audit on the luxury doctrine after TM-7a/7b/8/9a/9b backends landed: "and every user facing page was built and planned per the luxury doctrine?" Discovered ZERO mobile screens consumed any of the new backend endpoints — the doctrine has nothing to audit.
+
+**Options considered.**
+1. Halt backend, build mobile screens before continuing — rejected (backend has more atomic units ready).
+2. Retrofit doctrine compliance into backend PRs — rejected (doctrine is UI-only, doesn't apply to controllers/services/RLS).
+3. **CHOSEN: Continue backend velocity, apply doctrine only at screen-build time.**
+
+**Choice.** Operator quote: *"we built zero screens, keep pushing backend and techncial PR's, then WHEN we build the screens, we use the doctrine closely"*.
+
+**Why.** Doctrine compliance retrofitted to backend PRs would be theatre. Better to land backend atomically + apply doctrine once when there's a UI to apply it to.
+
+**Reversibility.** N/A — process decision. Memory written: `projects.tgp.mobile_sprint_sequencing`. Telemetry: `sequencing-decision-20260624T174605Z`.
+
+---
+
+## 2026-06-24 11:45 PT — Migration chain full repair authorized (Option 1 full)
+
+**Context.** PR #427 (B1 custom-exercise storage, first migration-touching PR post-baseline-debt) hit the `Forward migration applies cleanly` CI gate. Two builder dispatches surfaced 7 independent defects in the 153-migration chain, only 3 of which were fixable under the original "don't edit schema.prisma, don't edit migration content" constraints.
+
+**Defects discovered.**
+1. `20250724120000_subcoach_invite_token_hash` misdated (ALTERs SubCoachInvite ~10 months before table is created at `20260604000000`)
+2. `20250724120001_team_audit_revenue_sharing_changed` misdated (ALTER TYPE TeamAuditEventKind before created at `20260510000000`)
+3. CI runs bare postgres:15.18; ≥39 migrations require Supabase env (auth schema, auth.uid(), service_role/authenticated/anon)
+4. `20260702000000_fix_workout_rls_coach_role` uses Role enum value `sub_coach` but value is never added AND not in schema.prisma Role enum
+5. `20260704000001_coach_brief_cwa_index_concurrent` wraps CONCURRENTLY in COMMIT/BEGIN bookend — fails on Prisma 6.19 (engine runs migrations outside tx; bookends re-introduce one)
+6. `20261207000000_pr14_..._guest_subscription` same CONCURRENTLY/COMMIT/BEGIN issue
+7. `20261212000000_community_v1_1_schema` (+ 3 later community migrations) declare uuid columns FK'd to User.id which is TEXT — illegal DDL
+
+**Options considered.**
+1. Rewrite baseline from schema.prisma (Prisma canonical re-baseline) — REJECTED by first builder: generated baseline doesn't apply (14 uuid→text FK errors); schema.prisma internally inconsistent
+2. Bootstrap CI + renumber misdated only (narrow Option 1) — IMPLEMENTED + verified locally, but gate still fails on defects 4-7
+3. **CHOSEN: Authorize full repair — schema.prisma edits + migration content edits + new fixer migration**
+
+**Choice.** Operator quote: *"Option 1: Authorize the full repair"*. uuid/text decision: keep User.id TEXT (matches baseline + prod's working state); downgrade community @db.Uuid columns to TEXT in schema.prisma + edit affected community migrations.
+
+**Why.** 3 mechanical fixes (renames + workflow + bookend deletions + enum value add) are low-risk and unblock the gate forever. The uuid/text reconciliation is higher-risk but the safer direction (TEXT, matching prod) is reversible if prod's community tables are already UUID (data migration deferred to prod rollout decision).
+
+**Reversibility.** Medium-high. Renames + workflow + bookend edits are trivially reversible. New sub_coach enum migration is IRREVERSIBLE (PG<17 can't DROP enum value). uuid→text schema.prisma + migration edits are reversible until prod data exists in community tables.
+
+**Production rollout.** Runbook required at `docs/runbooks/migration-chain-repair-2026-06-24.md`. Key risks: prod `_prisma_migrations` has rows for OLD migration names (need `migrate resolve --rolled-back <old>` + `--applied <new>` pairs); community tables in prod may already have UUID columns needing data migration.
+
+**Builder dispatched.** Opus 4.8 subagent `migration_full_repair_mqsfdqqb` — full repair plan in subagent objective. Verdict will land at `/home/user/workspace/verdicts/migration_full_repair_summary.md`.
+
+---

@@ -1,22 +1,23 @@
 {
-  "as_of": "2026-06-24T08:26:30Z",
+  "as_of": "2026-06-24T18:49:28.406749Z",
   "schema_version": "telemetry-v1",
   "main_sha": "6787c48bd7add1ecd03ccce3cd92d23092f1fc2c",
   "wave_1": "complete",
   "operator": 49,
-  "current_phase": "phase_3_tm_sweep",
+  "current_phase": "migration_chain_repair",
   "active_pr": {
-    "num": 449,
-    "task": "TM-8 hirer applicant tracking",
-    "blocker": "PII operator-approval gate (do-not-merge: pii-review)"
+    "num": 427,
+    "task": "TM custom-exercise storage (B1)",
+    "blocker": "Forward migration applies cleanly CI gate fails \u2014 pre-existing baseline-debt + 7 chain defects discovered",
+    "blocker_status": "in-progress: full-repair builder dispatched (subagent migration_full_repair_mqsfdqqb)"
   },
   "disk_telemetry": {
-    "last_checked": "2026-06-24T08:26:30Z",
-    "free_gb": 4.0,
-    "zombie_clones": 0,
+    "last_checked": "2026-06-24T18:49:28.406749Z",
+    "free_gb": 5.5,
+    "zombie_clones": 4,
     "threshold_free_gb": 5,
     "threshold_zombies": 5,
-    "note": "4G during dispatch; sandboxes pinning overlay; will sweep on next cycle if drops further"
+    "note": "5.5G after fixer subagents; 4 zombie work dirs (gpb-fixer-work, gpb-rebaseline-work, growth-project-backend-pr452, gpb-fullrepair-work in flight). Sweep after PR merges."
   },
   "autonomous_policy": {
     "zero_finding_doctrine": "ALL P0-P3 findings must be fixed before merge",
@@ -927,5 +928,77 @@
       "rationale": "backend plumbing is correct, defensible, and not user-facing; doctrine grades pixels not payloads"
     }
   ],
-  "last_updated": "2026-06-24T17:46:07.308247+00:00"
+  "last_updated": "2026-06-24T17:46:07.308247+00:00",
+  "sequencing_decision_2026_06_24": {
+    "decision": "Backend velocity continues without mobile screens. Luxury doctrine deferred to screen-build time, never retrofit to backend PRs.",
+    "rationale": "User retro-audit revealed ZERO mobile screens shipped for TM-7a/7b/8/9a/9b backends. Sequencing locked: ship backends, then apply doctrine at UI build.",
+    "memory_key": "projects.tgp.mobile_sprint_sequencing"
+  },
+  "migration_chain_repair_2026_06_24": {
+    "background": "PR #427 (storage layer) hit 'Forward migration applies cleanly' CI gate. First migration-touching PR post-baseline-debt (gate added in H2 #456 on 2026-06-19).",
+    "investigation_path": [
+      "Path A (rewrite baseline from schema.prisma) \u2014 REJECTED by builder: generated baseline does not apply to empty DB (14 uuid\u2192text FK errors); schema.prisma internally inconsistent",
+      "Option 1 narrow (CI bootstrap + renumber 2 misdated migrations) \u2014 IMPLEMENTED but insufficient: revealed 3 further blockers (Role.sub_coach not in enum, CONCURRENTLY in COMMIT/BEGIN, uuid\u2192text community FKs)",
+      "Option 1 full repair (authorize schema.prisma + migration content edits) \u2014 IN PROGRESS (subagent migration_full_repair_mqsfdqqb)"
+    ],
+    "defect_inventory": [
+      {
+        "n": 1,
+        "fix": "rename 20250724120000 \u2192 20260604000001_subcoach_invite_token_hash",
+        "status": "staged in gpb-fixer-work"
+      },
+      {
+        "n": 2,
+        "fix": "rename 20250724120001 \u2192 20260510000001_team_audit_revenue_sharing_changed",
+        "status": "staged in gpb-fixer-work"
+      },
+      {
+        "n": 3,
+        "fix": "CI workflow Supabase bootstrap (auth schema, auth.uid(), 3 roles)",
+        "status": "staged in gpb-fixer-work"
+      },
+      {
+        "n": 4,
+        "fix": "Add Role.sub_coach to schema.prisma + new migration 20260701235900_add_sub_coach_role_value",
+        "status": "in progress"
+      },
+      {
+        "n": 5,
+        "fix": "Remove COMMIT/BEGIN bookends around CONCURRENTLY in 20260704000001 + fix index name",
+        "status": "in progress"
+      },
+      {
+        "n": 6,
+        "fix": "Remove COMMIT/BEGIN bookends around CONCURRENTLY in 20261207000000",
+        "status": "in progress"
+      },
+      {
+        "n": 7,
+        "fix": "uuid\u2192text reconciliation: keep User.id TEXT; change community @db.Uuid columns to TEXT in schema.prisma + community migrations",
+        "status": "in progress (high-risk: prod rollout needs verification)"
+      }
+    ],
+    "production_rollout_risk": "HIGH \u2014 community uuid\u2192text edits may need data migration if prod has community tables with UUID columns; verify before merge",
+    "runbook_path": "docs/runbooks/migration-chain-repair-2026-06-24.md (will be created by builder)"
+  },
+  "open_backend_prs": [
+    {
+      "num": 427,
+      "title": "feat(coach): custom-exercise storage (B1)",
+      "state": "UNSTABLE/MERGEABLE",
+      "blocker": "Forward migration applies cleanly (chain repair PR pending)"
+    },
+    {
+      "num": 428,
+      "title": "feat(coach): custom-exercise API (B2)",
+      "state": "UNKNOWN",
+      "blocker": "base ref needs retarget to main; CONFLICTING + build failing"
+    },
+    {
+      "num": 459,
+      "title": "feat(observability): H3 prom-client + Sentry release tagging",
+      "state": "UNSTABLE",
+      "blocker": "Same Forward migration gate; chain repair will unblock"
+    }
+  ]
 }
