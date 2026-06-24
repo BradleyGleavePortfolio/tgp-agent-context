@@ -1,35 +1,8 @@
 {
-  "as_of": "2026-06-19T22:10:30Z",
-  "main_sha": "8467c6f568a51337a7acbfb14f72ac85b996d605",
-  "open_prs": [
-    {
-      "num": 464,
-      "name": "H4.B env-discovery",
-      "head": "67ade350ed31369360bcbb7e1e9dc9ca40957178",
-      "ci": "10/10",
-      "stage": "R4-fixer-done",
-      "snapshot_ref": "wip/h4b-env-discovery-fixer-r4-final-20260619",
-      "notes": "F001 P2 (R59/R65/R109) closed: param-shadow fail-closed implemented in countBindings via ts.isParameter. Brief's catch-clause additional branch was DEVIATED FROM (intentionally) — catch-clause variables are already ts.VariableDeclaration in this TS version, double-count avoided; documented in code header + fixer report. 5 regression tests, 215/215 prod-readiness, identity strict. Awaiting R5 dual-lens audit."
-    },
-    {
-      "num": 465,
-      "name": "H4.D provider-wiring",
-      "head": "c5dd5bd97a29dce77f8e7afceb3025dd6250e4ec",
-      "ci": "10/10",
-      "stage": "R4-fixer-done",
-      "snapshot_ref": "wip/h4d-provider-wiring-fixer-r4-final-20260619",
-      "notes": "F001 P1-P2 (alg=none / alg allowlist) closed via header parse + allowlist {HS256,HS384,HS512,RS256,RS384,RS512,ES256,ES384} BEFORE existing role gate. 238/238 jest, identity strict. Awaiting R5 dual-lens audit."
-    },
-    {
-      "num": 466,
-      "name": "H4.F auto-flipper (HIGH-RISK)",
-      "head": "c624492e8c24870f76ced2c82764e0c18ff13cd6",
-      "ci": "10/10",
-      "stage": "R4-fixer-done",
-      "snapshot_ref": "wip/h4f-auto-flipper-fixer-r4-final-20260619",
-      "notes": "F001 P1 (YAML block-scalar grammar) closed on BOTH R125 enforcers (pass-f inline + pass-h redactYamlBlockScalars) covering chomping/indent indicators in either order. F002 P1 (FLY_BIN TOCTOU) closed via 5-field stat-identity cache {dev,ino,mtimeNs,size,mode} with FlyBinIdentityMismatch on revalidation mismatch. 243/243 prod-readiness, identity strict. HIGH-RISK: secrets-redaction + FLY_BIN exec gate. Awaiting R5 dual-lens audit."
-    }
-  ],
+  "as_of": "2026-06-24T07:25:00Z",
+  "main_sha": "02812619023d79f09952ffcf768bf6496a61f737",
+  "wave_1": "complete",
+  "open_prs": [],
   "merged_this_wave": [
     {"num": 455, "name": "H1", "merge_sha": "b65266c7"},
     {"num": 456, "name": "H2", "merge_sha": "ceaa759c"},
@@ -37,18 +10,40 @@
     {"num": 460, "name": "H4.E learning-ledger", "merge_sha": "fb8768d3"},
     {"num": 461, "name": "H4.G1 reporter", "merge_sha": "ff8a4e68"},
     {"num": 462, "name": "H4.G2 operator-keys-generator", "merge_sha": "210f4eb7"},
-    {"num": 463, "name": "H4.C stub-scanner", "merge_sha": "8467c6f5"}
+    {"num": 463, "name": "H4.C stub-scanner", "merge_sha": "8467c6f5"},
+    {"num": 464, "name": "H4.B env-discovery", "merge_sha": "1892622018", "operator": 49, "audit_rounds": "R5 dual-lens CLEAN both"},
+    {"num": 465, "name": "H4.D provider-wiring", "merge_sha": "9bf6d66f", "operator": 49, "audit_rounds": "R5 dual-lens CLEAN both"},
+    {"num": 466, "name": "H4.F auto-flipper", "merge_sha": "02812619", "operator": 49, "audit_rounds": "R5a→R5c NOT_CLEAN (gate env-source drift, both lenses converged), R5d fixer (single-source via opts.env threading), R5e dual-lens CLEAN both"}
   ],
   "locked_decisions": {
     "d1_sub_coach": "D (lookup table — replace coach_role enum with roles table; RLS references roles.tier/permissions)",
     "d2_create_index_concurrently": "B (drop CONCURRENTLY — zero users, plain CREATE INDEX is atomic and simpler)",
     "d3_bundling": "B (split by risk class — PR-Safe for CREATE INDEX, PR-Risky for lookup-table + RLS rewrite)"
   },
-  "next_action": "Dispatch R5 dual-lens audit on PRs #464/#465/#466 (Lens A Opus 4.8 + Lens B GPT-5.5). Write R5 audit brief at /home/user/workspace/audit_briefs/H4_SPLIT_AUDIT_HALF_B_R5_BRIEF.md by copying R4 brief and updating: heads to 67ade350/c5dd5bd9/c624492e, round to R5, and R4 findings-to-verify list (F001 #464 param-shadow, F001 #465 alg=none, F001 #466 YAML grammar, F002 #466 FLY_BIN stat-identity). PR #464 has an intentional brief deviation that R5 auditors must explicitly verify (catch-clause variables ARE counted via ts.VariableDeclaration in current TS version — no double-count).",
+  "operator_49_rules_established": {
+    "subagent_sandbox_extraction": "All subagents MUST write final output to /home/user/workspace/ before terminating. NEVER /tmp inside sandbox. HARD RULE.",
+    "choice_workflow": "When choice arises: research live what hyperscalers do → if one viable option, do it (no ask) → if multiple, present Option 1/Option 2 with explanation + kitchen/airport metaphor (same situation, different solution).",
+    "dependabot_policy": "Auto-merge after dual-lens adversarial CLEAN.",
+    "backlog_order": "PHASE 1 = MAJORS solo (no parallel same-repo). PHASE 2 = parallel minor/patch lanes (backend + mobile). PHASE 3 = R81-backfill P1 bugs. PHASE 4 = new P2 issues filed this session.",
+    "expo_version_flag": "User said '66→67' but mobile package.json shows expo ~56.0.11 — needs clarification before Phase 1 expo major."
+  },
+  "next_action": "Begin Phase 1 (Majors solo). Open candidates: @nestjs/core major, axios major, @types/node 26, fast-check 4, expo group (BLOCKED until version clarified). Also file 4 new P2 issues from this session's audits: R2 Claim 2 (refreshEntitlement missing from CheckoutReturnScreen — mobile), R1 P0-3 (macro target → P2 — mobile), R1 P0-7 (failed-resend body-match → P2 — backend), R3 Claim 1 (RootNavigator bootstrapAuth guard → P2/P3 — mobile).",
   "blockers": [
     "TM-8 #449 still OPEN @ d4a0eb0d — blocks H6",
     "Branch protection on main blocked by GitHub Free private-repo limit — into OPERATOR_ATTACH",
-    "H3 #459 OPEN @ 82abaaf0 — blocked on forward-migration repair (drive with D1/D2/D3 above)"
+    "H3 #459 OPEN @ 82abaaf0 — blocked on forward-migration repair (drive with D1/D2/D3)",
+    "Expo version mismatch: user said '66→67', actual mobile lockfile is ~56.0.11 — clarify before Phase 1 expo bump"
   ],
-  "credits_burn_estimate_remaining": "25-30k for R5 audit + (any R5 fixer cycle) + H4.B/D/F merges + H4.H + H5 + migration repair PR(s) + R109 sweep"
+  "session_findings_to_file": [
+    {"id": "R2-Claim-2", "repo": "mobile", "severity": "P2", "title": "refreshEntitlement never called on purchase-completion path", "location": "CheckoutReturnScreen", "note": "in-app webview means AppState background→foreground re-check never fires; stale 'inactive' gate persists for session"},
+    {"id": "R1-P0-3", "repo": "mobile", "severity": "P2", "title": "macro target (downgraded from filed P0)", "note": "details in /home/user/workspace/p0_claims_audit_report.md"},
+    {"id": "R1-P0-7", "repo": "backend", "severity": "P2", "title": "failed-resend body-match (downgraded from filed P0)", "note": "details in /home/user/workspace/p0_claims_audit_report.md"},
+    {"id": "R3-Claim-1", "repo": "mobile", "severity": "P2/P3", "title": "RootNavigator bootstrapAuth concurrency guard absent", "note": "CONFIRMED but self-converging; defensive hardening; details in /home/user/workspace/r3_claims_audit_report.md"}
+  ],
+  "backlog_inventory": {
+    "audit_reports_total": 73,
+    "backend_r81_backfill_findings": {"issues": ["#406", "#407", "#408", "#409", "#410"], "total": 20, "p1": 2, "p2": 12, "p3": 6},
+    "mobile_r81_backfill_findings": {"issues": ["#256", "#257", "#258", "#259", "#260", "#261"], "total": 38, "p1": 4, "p2": 22, "p3": 12},
+    "majors_phase_1": ["@nestjs/core", "axios", "@types/node 26", "fast-check 4", "expo (BLOCKED — version clarification needed)"]
+  }
 }
