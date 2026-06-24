@@ -671,12 +671,7 @@
     }
   ],
   "last_update": "2026-06-24T13:27:20+00:00",
-  "last_event": {
-    "ts": "2026-06-24T13:27:20+00:00",
-    "type": "milestone",
-    "milestone": "TRACK_B_COMPLETE",
-    "summary": "All 4 session-finding P2 issues filed (mobile #273/#274/#275, backend #468). Track A (Expo SDK 56->57 scoping) in progress in parallel."
-  },
+  "last_event": "track_a_expo_sdk57_scoped_awaiting_decision",
   "mobile_dependabot": {
     "closed_not_actionable": [
       {
@@ -714,6 +709,26 @@
     ],
     "deferred_manual": "Expo SDK 56 \u2192 57 migration (not Dependabot-proposed)"
   },
-  "last_updated_utc": "2026-06-24T13:27:20+00:00",
-  "dependabot_queue_status": "ALL CLEAR (backend + mobile)"
+  "last_updated_utc": "2026-06-24T13:32:43Z",
+  "dependabot_queue_status": "ALL CLEAR (backend + mobile)",
+  "track_a_expo_sdk57": {
+    "status": "scoping_complete_awaiting_user_decision",
+    "scope_doc": "tgp/track_a_scope.md (workspace-local)",
+    "primary_sources_verified": [
+      "https://reactnative.dev/blog/2026/06/11/react-native-0.86",
+      "https://raw.githubusercontent.com/expo/expo/main/CHANGELOG.md",
+      "https://registry.npmjs.org/expo (dist-tags)"
+    ],
+    "key_findings": [
+      "RN 0.86 has zero user-facing breaking changes per official release post",
+      "Expo SDK 57 stable NOT released as of 2026-06-24 - only one canary publish exists (57.0.0-canary-20260526-13e89ca)",
+      "Decision is now release-channel (wait vs canary vs hold), not migration-complexity"
+    ],
+    "decision_pending_user": "Path 1 wait for stable / Path 2 expo@canary now / Path 3 hold on SDK 56",
+    "telemetry_stale_fields_flagged": [
+      "current_phase",
+      "active_pr"
+    ],
+    "scoped_at": "2026-06-24T13:32:43Z"
+  }
 }
