@@ -4,33 +4,11 @@
   "main_sha": "6787c48bd7add1ecd03ccce3cd92d23092f1fc2c",
   "wave_1": "complete",
   "operator": 49,
-  "current_phase": "phase_2_minor_patch",
+  "current_phase": "phase_3_tm_sweep",
   "active_pr": {
-    "num": 442,
-    "title": "chore(deps): bump @sentry/node from 10.53.1 to 10.58.0",
-    "repo": "growth-project-backend",
-    "head_sha": "0e342c1e682ba9bcf88088880b5b3d8e8b87c961",
-    "branch": "dependabot/npm_and_yarn/sentry/node-10.58.0",
-    "kind": "minor",
-    "ci_state": "all_11_green_post_rebase",
-    "round": "R1",
-    "audit_dispatched_at": "2026-06-24T08:26:30Z",
-    "lenses": {
-      "A_opus_4_8": {
-        "status": "running",
-        "verdict": null,
-        "findings": []
-      },
-      "B_gpt_5_5": {
-        "status": "running",
-        "verdict": null,
-        "findings": []
-      }
-    },
-    "fixer_history": [],
-    "merge_sha": null,
-    "merged_at": null,
-    "notes": "Rebase triggered via @dependabot rebase comment; waiting for full 11-check CI rollup against new main 6787c48b before audit"
+    "num": 454,
+    "task": "TM-7b admin applicant review",
+    "depends_on": "TM-7a #452 (merged)"
   },
   "disk_telemetry": {
     "last_checked": "2026-06-24T08:26:30Z",
@@ -764,19 +742,26 @@
     },
     "tm_8_pii_gate": "do-not-merge: pii-review marker present in #449 body \u2014 will surface for user decision when sequence reaches TM-8",
     "last_event": {
-      "ts": "2026-06-24T14:45:35.135871+00:00",
-      "event": "tm7a_reaudit2_lens_b_dirty_dispatching_fixer3",
-      "pr": 452,
-      "head_substantive": "7630857c78987c6616e87494d7a8858ecd108ff3",
-      "reaudit2_lens_a": "CLEAN (1 P3 carry-over to #469)",
-      "reaudit2_lens_b": "DIRTY P2=1 P3=1",
-      "p2_findings": [
-        "B-P2-8 empty-string status bypasses invalid_listing_status contract"
-      ],
-      "p3_deferred_to_469": [
-        "B-P3-3 OpenAPI shows status as required plain string + omits cursor/limit"
-      ],
-      "ci_rollup": "9/10 green, build-and-test still IN_PROGRESS, no failures"
+      "ts": "2026-06-24T14:57:31.302271+00:00",
+      "event": "tm7a_merged_advancing_to_tm7b",
+      "next": "rebase TM-7b #454 onto new main 66135d7f, identity amend, dual-lens audit"
+    },
+    "tm7a": {
+      "status": "MERGED",
+      "merge_sha": "66135d7f0c42c904828375a1011d8c61495b84f0",
+      "merged_at": "2026-06-24T14:55:36Z",
+      "passes": 3,
+      "final_findings_at_merge": {
+        "P0": 0,
+        "P1": 0,
+        "P2": 0,
+        "P3": 0
+      },
+      "p3s_filed_to_469": [
+        "audit replay omits decided_by/decided_at",
+        "HTTP-200 metadata-only",
+        "OpenAPI status required+plain (B-P3-3)"
+      ]
     }
   }
 }
