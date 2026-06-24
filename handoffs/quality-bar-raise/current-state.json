@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-06-24T07:41:00Z",
+  "as_of": "2026-06-24T07:44:00Z",
   "schema_version": "telemetry-v1",
   "main_sha": "02812619023d79f09952ffcf768bf6496a61f737",
   "wave_1": "complete",
@@ -12,23 +12,36 @@
     "head_sha": "8a95294111e99ee69146ef43a58ba3b8256ee597",
     "branch": "dependabot/npm_and_yarn/fast-check-4.8.0",
     "kind": "runtime_major",
-    "ci_state": "all_green_pre_audit",
+    "ci_state": "all_11_green",
     "round": "R1",
     "audit_dispatched_at": "2026-06-24T07:26:00Z",
     "lenses": {
-      "A_opus_4_8": {"subagent_id": "pr_447_fast_check_4_lens_a_opus_audit_mqrr65nl", "status": "running", "verdict": null, "findings": []},
-      "B_gpt_5_5": {"subagent_id": "pr_447_fast_check_4_lens_b_gpt_5_5_audit_mqrr6lrp", "status": "running", "verdict": null, "findings": []}
+      "A_opus_4_8": {
+        "subagent_id": "pr_447_fast_check_4_lens_a_opus_audit_mqrr65nl",
+        "status": "complete",
+        "verdict": "CLEAN",
+        "findings": [],
+        "completed_at": "2026-06-24T07:42:00Z",
+        "notes": "fast-check use scoped to test/ai-credits-bankers-round.spec.ts; 5 APIs (assert, property, integer, tuple, double); none touch v4 removed/renamed surfaces; dual-pkg CJS/ESM ok; mutation-discrimination green"
+      },
+      "B_gpt_5_5": {
+        "subagent_id": "pr_447_fast_check_4_lens_b_gpt_5_5_audit_mqrr6lrp",
+        "status": "running",
+        "verdict": null,
+        "findings": []
+      }
     },
     "fixer_history": [],
     "merge_sha": null,
     "merged_at": null
   },
   "disk_telemetry": {
-    "last_checked": "2026-06-24T07:25:00Z",
-    "free_gb": 6.8,
+    "last_checked": "2026-06-24T07:44:00Z",
+    "free_gb": 5.5,
     "zombie_clones": 0,
     "threshold_free_gb": 5,
-    "threshold_zombies": 5
+    "threshold_zombies": 5,
+    "note": "just above threshold; pre-flight sweep before next dispatch"
   },
   "autonomous_policy": {
     "zero_finding_doctrine": "ALL P0-P3 findings must be fixed before merge",
@@ -40,54 +53,267 @@
     "type_only_before_runtime": "type-only majors prioritized before runtime majors in Phase 1"
   },
   "open_dependabot_queue": [
-    {"order": 1, "num": 447, "repo": "backend", "kind": "runtime_major", "title": "fast-check 3->4", "status": "in_audit"},
-    {"order": 2, "num": 440, "repo": "backend", "kind": "type_only_major", "title": "@types/node 25->26", "status": "queued"},
-    {"order": 3, "num": 442, "repo": "backend", "kind": "minor", "title": "@sentry/node 10.53->10.58", "status": "queued"},
-    {"order": 4, "num": 445, "repo": "backend", "kind": "minor", "title": "typescript-eslint plugin 8.60->8.61", "status": "queued"},
-    {"order": 5, "num": 446, "repo": "backend", "kind": "patch", "title": "@aws-sdk/client-s3 3.1065->3.1071", "status": "queued"},
-    {"order": 6, "num": 441, "repo": "backend", "kind": "minor", "title": "typescript-eslint root 8.60->8.61", "status": "queued"},
-    {"order": 7, "num": 438, "repo": "backend", "kind": "minor", "title": "ioredis 5.10->5.11", "status": "queued"},
-    {"order": 8, "num": 443, "repo": "backend", "kind": "minor", "title": "eslint 10.4->10.5", "status": "queued"},
-    {"order": 9, "num": 444, "repo": "backend", "kind": "patch", "title": "@nestjs/core 11.1.26->11.1.27", "status": "queued"},
-    {"order": 10, "num": 439, "repo": "backend", "kind": "minor", "title": "axios 1.16->1.18", "status": "queued"},
-    {"order": 11, "num": 267, "repo": "mobile", "kind": "patch_group", "title": "expo group (within SDK 56)", "status": "queued"},
-    {"order": 12, "num": 268, "repo": "mobile", "kind": "minor_group", "title": "react-navigation group", "status": "queued"},
-    {"order": 13, "num": 266, "repo": "mobile", "kind": "mixed_group", "title": "dev-dependencies group", "status": "queued"},
-    {"order": 14, "num": 269, "repo": "mobile", "kind": "react_major_likely", "title": "react + @types/react", "status": "queued"},
-    {"order": 15, "num": 270, "repo": "mobile", "kind": "minor", "title": "react-native-safe-area-context 5.7->5.8", "status": "queued"}
+    {
+      "order": 1,
+      "num": 447,
+      "repo": "backend",
+      "kind": "runtime_major",
+      "title": "fast-check 3->4",
+      "status": "in_audit"
+    },
+    {
+      "order": 2,
+      "num": 440,
+      "repo": "backend",
+      "kind": "type_only_major",
+      "title": "@types/node 25->26",
+      "status": "queued"
+    },
+    {
+      "order": 3,
+      "num": 442,
+      "repo": "backend",
+      "kind": "minor",
+      "title": "@sentry/node 10.53->10.58",
+      "status": "queued"
+    },
+    {
+      "order": 4,
+      "num": 445,
+      "repo": "backend",
+      "kind": "minor",
+      "title": "typescript-eslint plugin 8.60->8.61",
+      "status": "queued"
+    },
+    {
+      "order": 5,
+      "num": 446,
+      "repo": "backend",
+      "kind": "patch",
+      "title": "@aws-sdk/client-s3 3.1065->3.1071",
+      "status": "queued"
+    },
+    {
+      "order": 6,
+      "num": 441,
+      "repo": "backend",
+      "kind": "minor",
+      "title": "typescript-eslint root 8.60->8.61",
+      "status": "queued"
+    },
+    {
+      "order": 7,
+      "num": 438,
+      "repo": "backend",
+      "kind": "minor",
+      "title": "ioredis 5.10->5.11",
+      "status": "queued"
+    },
+    {
+      "order": 8,
+      "num": 443,
+      "repo": "backend",
+      "kind": "minor",
+      "title": "eslint 10.4->10.5",
+      "status": "queued"
+    },
+    {
+      "order": 9,
+      "num": 444,
+      "repo": "backend",
+      "kind": "patch",
+      "title": "@nestjs/core 11.1.26->11.1.27",
+      "status": "queued"
+    },
+    {
+      "order": 10,
+      "num": 439,
+      "repo": "backend",
+      "kind": "minor",
+      "title": "axios 1.16->1.18",
+      "status": "queued"
+    },
+    {
+      "order": 11,
+      "num": 267,
+      "repo": "mobile",
+      "kind": "patch_group",
+      "title": "expo group (within SDK 56)",
+      "status": "queued"
+    },
+    {
+      "order": 12,
+      "num": 268,
+      "repo": "mobile",
+      "kind": "minor_group",
+      "title": "react-navigation group",
+      "status": "queued"
+    },
+    {
+      "order": 13,
+      "num": 266,
+      "repo": "mobile",
+      "kind": "mixed_group",
+      "title": "dev-dependencies group",
+      "status": "queued"
+    },
+    {
+      "order": 14,
+      "num": 269,
+      "repo": "mobile",
+      "kind": "react_major_likely",
+      "title": "react + @types/react",
+      "status": "queued"
+    },
+    {
+      "order": 15,
+      "num": 270,
+      "repo": "mobile",
+      "kind": "minor",
+      "title": "react-native-safe-area-context 5.7->5.8",
+      "status": "queued"
+    }
   ],
   "manual_majors_pending": [
-    {"name": "expo SDK 56->57", "repo": "mobile", "reason": "Dependabot does not propose this; requires manual `expo upgrade` migration and breaking-change handling"}
+    {
+      "name": "expo SDK 56->57",
+      "repo": "mobile",
+      "reason": "Dependabot does not propose this; requires manual `expo upgrade` migration and breaking-change handling"
+    }
   ],
   "merged_this_wave": [
-    {"num": 455, "name": "H1", "merge_sha": "b65266c7"},
-    {"num": 456, "name": "H2", "merge_sha": "ceaa759c"},
-    {"num": 458, "name": "H4.A", "merge_sha": "86800008"},
-    {"num": 460, "name": "H4.E learning-ledger", "merge_sha": "fb8768d3"},
-    {"num": 461, "name": "H4.G1 reporter", "merge_sha": "ff8a4e68"},
-    {"num": 462, "name": "H4.G2 operator-keys-generator", "merge_sha": "210f4eb7"},
-    {"num": 463, "name": "H4.C stub-scanner", "merge_sha": "8467c6f5"},
-    {"num": 464, "name": "H4.B env-discovery", "merge_sha": "1892622018", "operator": 49, "audit_rounds": "R5 dual-lens CLEAN both"},
-    {"num": 465, "name": "H4.D provider-wiring", "merge_sha": "9bf6d66f", "operator": 49, "audit_rounds": "R5 dual-lens CLEAN both"},
-    {"num": 466, "name": "H4.F auto-flipper", "merge_sha": "02812619", "operator": 49, "audit_rounds": "R5a->R5c NOT_CLEAN (gate env-source drift, both lenses converged), R5d fixer (single-source via opts.env threading), R5e dual-lens CLEAN both"}
+    {
+      "num": 455,
+      "name": "H1",
+      "merge_sha": "b65266c7"
+    },
+    {
+      "num": 456,
+      "name": "H2",
+      "merge_sha": "ceaa759c"
+    },
+    {
+      "num": 458,
+      "name": "H4.A",
+      "merge_sha": "86800008"
+    },
+    {
+      "num": 460,
+      "name": "H4.E learning-ledger",
+      "merge_sha": "fb8768d3"
+    },
+    {
+      "num": 461,
+      "name": "H4.G1 reporter",
+      "merge_sha": "ff8a4e68"
+    },
+    {
+      "num": 462,
+      "name": "H4.G2 operator-keys-generator",
+      "merge_sha": "210f4eb7"
+    },
+    {
+      "num": 463,
+      "name": "H4.C stub-scanner",
+      "merge_sha": "8467c6f5"
+    },
+    {
+      "num": 464,
+      "name": "H4.B env-discovery",
+      "merge_sha": "1892622018",
+      "operator": 49,
+      "audit_rounds": "R5 dual-lens CLEAN both"
+    },
+    {
+      "num": 465,
+      "name": "H4.D provider-wiring",
+      "merge_sha": "9bf6d66f",
+      "operator": 49,
+      "audit_rounds": "R5 dual-lens CLEAN both"
+    },
+    {
+      "num": 466,
+      "name": "H4.F auto-flipper",
+      "merge_sha": "02812619",
+      "operator": 49,
+      "audit_rounds": "R5a->R5c NOT_CLEAN (gate env-source drift, both lenses converged), R5d fixer (single-source via opts.env threading), R5e dual-lens CLEAN both"
+    }
   ],
   "session_findings_to_file": [
-    {"id": "R2-Claim-2", "repo": "mobile", "severity": "P2", "title": "refreshEntitlement never called on purchase-completion path (CheckoutReturnScreen)"},
-    {"id": "R1-P0-3", "repo": "mobile", "severity": "P2", "title": "macro target (downgraded from filed P0)"},
-    {"id": "R1-P0-7", "repo": "backend", "severity": "P2", "title": "failed-resend body-match (downgraded from filed P0)"},
-    {"id": "R3-Claim-1", "repo": "mobile", "severity": "P2/P3", "title": "RootNavigator bootstrapAuth concurrency guard absent (self-converging)"}
+    {
+      "id": "R2-Claim-2",
+      "repo": "mobile",
+      "severity": "P2",
+      "title": "refreshEntitlement never called on purchase-completion path (CheckoutReturnScreen)"
+    },
+    {
+      "id": "R1-P0-3",
+      "repo": "mobile",
+      "severity": "P2",
+      "title": "macro target (downgraded from filed P0)"
+    },
+    {
+      "id": "R1-P0-7",
+      "repo": "backend",
+      "severity": "P2",
+      "title": "failed-resend body-match (downgraded from filed P0)"
+    },
+    {
+      "id": "R3-Claim-1",
+      "repo": "mobile",
+      "severity": "P2/P3",
+      "title": "RootNavigator bootstrapAuth concurrency guard absent (self-converging)"
+    }
   ],
   "milestone_log": [
-    {"ts": "2026-06-24T07:24:51Z", "event": "merge", "pr": 466, "merge_sha": "02812619", "details": "Wave 1 closed"},
-    {"ts": "2026-06-24T07:25:00Z", "event": "handoff_committed", "ctx_sha": "173b58d3fc21189a10e9492ed7e856c2ac969bdc", "details": "HANDOFF_OP_50.md + current-state.json wave 1 close committed"},
-    {"ts": "2026-06-24T07:26:00Z", "event": "audit_dispatched", "pr": 447, "lens": "A+B", "round": "R1", "details": "fast-check 3->4 dual-lens audit launched"},
-    {"ts": "2026-06-24T07:41:00Z", "event": "telemetry_schema_initialized", "details": "schema-v1 live-state telemetry policy in effect; all milestones now logged here"}
+    {
+      "ts": "2026-06-24T07:24:51Z",
+      "event": "merge",
+      "pr": 466,
+      "merge_sha": "02812619",
+      "details": "Wave 1 closed"
+    },
+    {
+      "ts": "2026-06-24T07:25:00Z",
+      "event": "handoff_committed",
+      "ctx_sha": "173b58d3fc21189a10e9492ed7e856c2ac969bdc",
+      "details": "HANDOFF_OP_50.md + current-state.json wave 1 close committed"
+    },
+    {
+      "ts": "2026-06-24T07:26:00Z",
+      "event": "audit_dispatched",
+      "pr": 447,
+      "lens": "A+B",
+      "round": "R1",
+      "details": "fast-check 3->4 dual-lens audit launched"
+    },
+    {
+      "ts": "2026-06-24T07:41:00Z",
+      "event": "telemetry_schema_initialized",
+      "details": "schema-v1 live-state telemetry policy in effect; all milestones now logged here"
+    },
+    {
+      "ts": "2026-06-24T07:42:00Z",
+      "event": "lens_a_verdict",
+      "pr": 447,
+      "lens": "A_opus_4_8",
+      "verdict": "CLEAN",
+      "findings": 0,
+      "details": "fast-check 3->4 Lens A complete; one caveat noted (pre-existing ts-jest lib config issue, provably bump-independent)"
+    },
+    {
+      "ts": "2026-06-24T07:44:00Z",
+      "event": "disk_check",
+      "free_gb": 5.5,
+      "zombies": 0,
+      "details": "healthy but near 5G threshold; will sweep before next subagent dispatch"
+    }
   ],
   "hyperscaler_remediation_patterns": [],
   "blockers": [
-    "TM-8 #449 still OPEN @ d4a0eb0d — blocks H6",
+    "TM-8 #449 still OPEN @ d4a0eb0d \u2014 blocks H6",
     "Branch protection on main blocked by GitHub Free private-repo limit",
-    "H3 #459 OPEN @ 82abaaf0 — blocked on forward-migration repair",
+    "H3 #459 OPEN @ 82abaaf0 \u2014 blocked on forward-migration repair",
     "Expo SDK 56->57 needs manual PR (Dependabot only proposes patches within SDK 56)"
   ]
 }
