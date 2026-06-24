@@ -703,6 +703,20 @@
         "ci_state": "in_progress (build-and-test + CodeQL); all quality gates green",
         "next": "TM-9a #451 luxury doctrine UX after merge"
       }
+    },
+    {
+      "ts": "2026-06-24T16:19:07.092626Z",
+      "milestone": "TM-8 MERGED + stacked-PR preflight: TM-9b base retargeted to main",
+      "details": {
+        "tm8_pr": 449,
+        "tm8_merge_sha": "b815e7dcc4bd1a2f77afeb8f8234292d0526dbd3",
+        "tm8_merged_at": "2026-06-24T16:08:05Z",
+        "tm8_ci": "all 10 checks SUCCESS",
+        "tm9b_pr": 453,
+        "tm9b_base_was": "feat/tm-9a-job-hunter-dashboard",
+        "tm9b_base_now": "main",
+        "next": "TM-9a #451 audit + fix + merge with luxury doctrine for user-facing surfaces"
+      }
     }
   ],
   "last_update": "2026-06-24T13:27:20+00:00",
