@@ -719,7 +719,7 @@
       }
     }
   ],
-  "last_update": "2026-06-24T13:27:20+00:00",
+  "last_update": "2026-06-24T16:58:23Z",
   "last_event": "tm_7a_fixer_dispatched",
   "mobile_dependabot": {
     "closed_not_actionable": [
@@ -896,5 +896,17 @@
       "decision": "Auto-merged per R109 (dual-lens functionally CLEAN, no user-observable UX, all 10 CI checks PASS)"
     },
     "ci": "10/10 PASS"
+  },
+  "tm9b_status": {
+    "phase": "audit-complete-DIRTY-fixer-dispatched",
+    "lens_a_opus": "DIRTY: 10 findings (P0:1 P1:3 P2:3 P3:3)",
+    "lens_b_gpt55": "DIRTY: 13 findings (P0:2 P1:5 P2:4 P3:2)",
+    "p0_consensus": [
+      "savePreferences writes raw specialties \u2014 bypasses TM-9a normalize on same column",
+      "specialties:null passes IsOptional validation, blows up at Prisma non-null write (Lens B)"
+    ],
+    "fixer": "Opus 4.8 dispatched",
+    "branch_sha_pre_fix": "74a8cfbb",
+    "rebased_on": "e1b4d0e3"
   }
 }
