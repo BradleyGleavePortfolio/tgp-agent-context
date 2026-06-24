@@ -473,18 +473,38 @@
       "lens_a": "Opus 4.8 running",
       "lens_b": "GPT-5.5 running",
       "notes": "RUNTIME dep, sensitive storage surface - behavior-diff dim included"
+    },
+    {
+      "ts": "2026-06-24T09:11:01.532704+00:00",
+      "type": "pr_merged",
+      "pr": 446,
+      "repo": "growth-project-backend",
+      "title": "@aws-sdk/client-s3 patch 3.1065->3.1071",
+      "merge_commit": "39d2ea11e3f8b825fb77aedd9fc814cf78845935",
+      "lens_a": "CLEAN (Opus 4.8) - first pass",
+      "lens_b": "CLEAN (GPT-5.5) - after retraction of false-positive P1",
+      "notes": "Lens B initially raised P1 about typosquat transitives (@aws-sdk/credential-provider-login, @nodable/entities, anynum). Main agent + Lens A verified via npm registry - all legitimate transitives of fast-xml-parser@5.7+ and AWS SDK. Lens B re-prompted with evidence, self-corrected and retracted. SDK is dormant (zero src imports) - declared-but-unused, reserved for Phase B."
+    },
+    {
+      "ts": "2026-06-24T09:11:01.532704+00:00",
+      "type": "audit_dispatched",
+      "pr": 438,
+      "repo": "growth-project-backend",
+      "title": "ioredis minor 5.10.1->5.11.1 (RUNTIME - cache/queue surface)",
+      "pre_audit_ci": "ALL 11 CHECKS GREEN",
+      "lens_a": "Opus 4.8 running",
+      "lens_b": "GPT-5.5 running with registry-verify corrective"
     }
   ],
-  "last_update": "2026-06-24T09:03:49.360899+00:00",
+  "last_update": "2026-06-24T09:11:01.532704+00:00",
   "last_event": {
-    "ts": "2026-06-24T09:03:49.360899+00:00",
+    "ts": "2026-06-24T09:11:01.532704+00:00",
     "type": "audit_dispatched",
-    "pr": 446,
+    "pr": 438,
     "repo": "growth-project-backend",
-    "title": "@aws-sdk/client-s3 patch 3.1065->3.1071",
-    "pre_audit_ci": "GREEN (build/rls/mwb)",
+    "title": "ioredis minor 5.10.1->5.11.1 (RUNTIME - cache/queue surface)",
+    "pre_audit_ci": "ALL 11 CHECKS GREEN",
     "lens_a": "Opus 4.8 running",
-    "lens_b": "GPT-5.5 running",
-    "notes": "RUNTIME dep, sensitive storage surface - behavior-diff dim included"
+    "lens_b": "GPT-5.5 running with registry-verify corrective"
   }
 }
