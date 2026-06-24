@@ -494,17 +494,38 @@
       "pre_audit_ci": "ALL 11 CHECKS GREEN",
       "lens_a": "Opus 4.8 running",
       "lens_b": "GPT-5.5 running with registry-verify corrective"
+    },
+    {
+      "ts": "2026-06-24T09:14:42.266283+00:00",
+      "type": "pr_merged",
+      "pr": 438,
+      "repo": "growth-project-backend",
+      "title": "ioredis minor 5.10.1->5.11.1 (RUNTIME cache/queue)",
+      "merge_commit": "029124def3af5f209cfcae684db6249c13a9a7a1",
+      "lens_a": "CLEAN (Opus 4.8)",
+      "lens_b": "CLEAN (GPT-5.5, with registry-verify proper)",
+      "notes": "Sole consumer is @nest-lab/throttler-storage-redis (rate-limit). cluster-key-slot 1.1.2->1.1.1 confirmed as ioredis 5.11's exact pin (not malicious). No BullMQ in repo. INFO note: WHATWG URL parser percent-decodes Redis password (theoretical edge if token has reserved chars)."
+    },
+    {
+      "ts": "2026-06-24T09:14:42.266283+00:00",
+      "type": "audit_dispatched",
+      "pr": 443,
+      "repo": "growth-project-backend",
+      "title": "eslint minor 10.4.0->10.5.0 (DEV-only lint)",
+      "pre_audit_ci": "ALL 10 GREEN",
+      "lens_a": "Opus 4.8 running",
+      "lens_b": "GPT-5.5 running with registry-verify reminder"
     }
   ],
-  "last_update": "2026-06-24T09:11:01.532704+00:00",
+  "last_update": "2026-06-24T09:14:42.266283+00:00",
   "last_event": {
-    "ts": "2026-06-24T09:11:01.532704+00:00",
+    "ts": "2026-06-24T09:14:42.266283+00:00",
     "type": "audit_dispatched",
-    "pr": 438,
+    "pr": 443,
     "repo": "growth-project-backend",
-    "title": "ioredis minor 5.10.1->5.11.1 (RUNTIME - cache/queue surface)",
-    "pre_audit_ci": "ALL 11 CHECKS GREEN",
+    "title": "eslint minor 10.4.0->10.5.0 (DEV-only lint)",
+    "pre_audit_ci": "ALL 10 GREEN",
     "lens_a": "Opus 4.8 running",
-    "lens_b": "GPT-5.5 running with registry-verify corrective"
+    "lens_b": "GPT-5.5 running with registry-verify reminder"
   }
 }
