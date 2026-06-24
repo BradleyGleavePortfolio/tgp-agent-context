@@ -6,9 +6,10 @@
   "operator": 49,
   "current_phase": "phase_3_tm_sweep",
   "active_pr": {
-    "num": 454,
+    "num": 470,
     "task": "TM-7b admin applicant review",
-    "depends_on": "TM-7a #452 (merged)"
+    "supersedes": 454,
+    "reason_for_new_pr": "GitHub auto-closed #454 when its base branch was deleted on TM-7a merge"
   },
   "disk_telemetry": {
     "last_checked": "2026-06-24T08:26:30Z",
@@ -742,9 +743,9 @@
     },
     "tm_8_pii_gate": "do-not-merge: pii-review marker present in #449 body \u2014 will surface for user decision when sequence reaches TM-8",
     "last_event": {
-      "ts": "2026-06-24T14:57:31.302271+00:00",
-      "event": "tm7a_merged_advancing_to_tm7b",
-      "next": "rebase TM-7b #454 onto new main 66135d7f, identity amend, dual-lens audit"
+      "ts": "2026-06-24T15:01:37.900302+00:00",
+      "event": "tm7b_fresh_pr_470_opened_fixer_dispatched",
+      "note": "PR #454 auto-closed on base-branch delete; #470 opened against main with same branch+head SHA"
     },
     "tm7a": {
       "status": "MERGED",
@@ -761,6 +762,21 @@
         "audit replay omits decided_by/decided_at",
         "HTTP-200 metadata-only",
         "OpenAPI status required+plain (B-P3-3)"
+      ]
+    },
+    "tm7b": {
+      "status": "fixer_dispatched",
+      "old_pr": 454,
+      "new_pr": 470,
+      "branch": "feat/tm-7b-admin-applications",
+      "current_head": "ba5c69f8c50367d450bf0a3cf5a722585488cb81",
+      "blocker_at_dispatch": "tsc compile failure \u2014 apply() return type missing note/decided_by/decided_at after TM-7a contract evolution",
+      "fixer_scope": [
+        "P0: tsc compile (ReviewDecisionResult shape)",
+        "P1: ParseApplicationStatusPipe coded 400",
+        "P1: request_id audit log threading",
+        "P1: note/decided_by/decided_at persistence + replay",
+        "P2: HttpCode(200), wire spec, lifecycle timestamps if schema supports"
       ]
     }
   }
