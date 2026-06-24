@@ -764,23 +764,19 @@
     },
     "tm_8_pii_gate": "do-not-merge: pii-review marker present in #449 body \u2014 will surface for user decision when sequence reaches TM-8",
     "last_event": {
-      "ts": "2026-06-24T14:26:11.799390Z",
-      "event": "tm7a_lens_b_reaudit_dirty_dispatching_fixer2",
+      "ts": "2026-06-24T14:45:35.135871+00:00",
+      "event": "tm7a_reaudit2_lens_b_dirty_dispatching_fixer3",
       "pr": 452,
-      "head_substantive": "9155f430d183d29350f33aae9894c273a53fa797",
-      "findings": {
-        "P0": 0,
-        "P1": 0,
-        "P2": 2,
-        "P3": 0
-      },
+      "head_substantive": "7630857c78987c6616e87494d7a8858ecd108ff3",
+      "reaudit2_lens_a": "CLEAN (1 P3 carry-over to #469)",
+      "reaudit2_lens_b": "DIRTY P2=1 P3=1",
       "p2_findings": [
-        "B-P2-6 invalid_listing_status wire code",
-        "B-P2-7 request_id in moderation audit"
+        "B-P2-8 empty-string status bypasses invalid_listing_status contract"
       ],
-      "lens_a_reaudit": "CLEAN",
-      "ci_rollup": "10/10 green, mergeStateStatus=CLEAN",
-      "blocker": "zero-finding doctrine \u2014 both P2s must resolve before merge"
+      "p3_deferred_to_469": [
+        "B-P3-3 OpenAPI shows status as required plain string + omits cursor/limit"
+      ],
+      "ci_rollup": "9/10 green, build-and-test still IN_PROGRESS, no failures"
     }
   }
 }
