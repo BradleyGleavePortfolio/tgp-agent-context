@@ -422,18 +422,37 @@
       "lens_a": "CLEAN (Opus 4.8)",
       "lens_b": "CLEAN (GPT-5.5)",
       "notes": "Dependabot metadata listed 10.58.0; actual 10.60.0. tsc 0 errors, prod-readiness 892/892. No fixer needed."
+    },
+    {
+      "ts": "2026-06-24T08:58:24.041871+00:00",
+      "type": "pr_closed_superseded",
+      "pr": 445,
+      "repo": "growth-project-backend",
+      "title": "@typescript-eslint/eslint-plugin 8.60->8.62 (standalone)",
+      "superseded_by": 441,
+      "lens_b_findings": "P0 - npm ci ERESOLVE: plugin@8.62 peerDep parser^8.62, but parser pinned 8.60. Internal skew. All CI red attributable to PR, not flakiness.",
+      "notes": "Hyperscaler pattern: prefer meta-package umbrella bump for monorepo families over per-package bumps that produce skew. Lens A cancelled mid-flight - answer clear from Lens B + #441 inspection."
+    },
+    {
+      "ts": "2026-06-24T08:58:24.041871+00:00",
+      "type": "audit_dispatched",
+      "pr": 441,
+      "repo": "growth-project-backend",
+      "title": "typescript-eslint meta 8.60->8.62 (umbrella - coordinates all @typescript-eslint/*)",
+      "lens_a": "Opus 4.8 running",
+      "lens_b": "GPT-5.5 running",
+      "pre_audit_ci": "ALL GREEN"
     }
   ],
-  "last_update": "2026-06-24T08:49:54.947756+00:00",
+  "last_update": "2026-06-24T08:58:24.041871+00:00",
   "last_event": {
-    "ts": "2026-06-24T08:49:54.947756+00:00",
-    "type": "pr_merged",
-    "pr": 442,
+    "ts": "2026-06-24T08:58:24.041871+00:00",
+    "type": "audit_dispatched",
+    "pr": 441,
     "repo": "growth-project-backend",
-    "title": "@sentry/node 10.53.1->10.60.0 (minor)",
-    "merge_commit": "dae0d74ed585a8429863e24fff246c9239a808bb",
-    "lens_a": "CLEAN (Opus 4.8)",
-    "lens_b": "CLEAN (GPT-5.5)",
-    "notes": "Dependabot metadata listed 10.58.0; actual 10.60.0. tsc 0 errors, prod-readiness 892/892. No fixer needed."
+    "title": "typescript-eslint meta 8.60->8.62 (umbrella - coordinates all @typescript-eslint/*)",
+    "lens_a": "Opus 4.8 running",
+    "lens_b": "GPT-5.5 running",
+    "pre_audit_ci": "ALL GREEN"
   }
 }
