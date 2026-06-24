@@ -241,25 +241,41 @@
       "id": "R2-Claim-2",
       "repo": "mobile",
       "severity": "P2",
-      "title": "refreshEntitlement never called on purchase-completion path (CheckoutReturnScreen)"
+      "title": "refreshEntitlement never called on purchase-completion path (CheckoutReturnScreen)",
+      "filed_at": "2026-06-24T13:27:20+00:00",
+      "issue": 273,
+      "issue_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/issues/273",
+      "status": "filed"
     },
     {
       "id": "R1-P0-3",
       "repo": "mobile",
       "severity": "P2",
-      "title": "macro target (downgraded from filed P0)"
+      "title": "macro target (downgraded from filed P0)",
+      "filed_at": "2026-06-24T13:27:20+00:00",
+      "issue": 274,
+      "issue_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/issues/274",
+      "status": "filed"
     },
     {
       "id": "R1-P0-7",
       "repo": "backend",
       "severity": "P2",
-      "title": "failed-resend body-match (downgraded from filed P0)"
+      "title": "failed-resend body-match (downgraded from filed P0)",
+      "filed_at": "2026-06-24T13:27:20+00:00",
+      "issue": 468,
+      "issue_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/issues/468",
+      "status": "filed"
     },
     {
       "id": "R3-Claim-1",
       "repo": "mobile",
       "severity": "P2/P3",
-      "title": "RootNavigator bootstrapAuth concurrency guard absent (self-converging)"
+      "title": "RootNavigator bootstrapAuth concurrency guard absent (self-converging)",
+      "filed_at": "2026-06-24T13:27:20+00:00",
+      "issue": 275,
+      "issue_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/issues/275",
+      "status": "filed"
     }
   ],
   "milestone_log": [
@@ -610,19 +626,56 @@
       "lens_a": "Opus running",
       "lens_b": "GPT-5.5 running",
       "sensitive_surface": "UX - navigation/transitions/headers/tabs/gestures"
+    },
+    {
+      "ts": "2026-06-24T13:27:20+00:00",
+      "type": "issue_filed",
+      "issue": 273,
+      "repo": "growth-project-mobile",
+      "severity": "P2",
+      "source_finding": "R2-Claim-2",
+      "title": "CheckoutReturnScreen calls refreshEntitlement without StrictMode/double-mount guard"
+    },
+    {
+      "ts": "2026-06-24T13:27:20+00:00",
+      "type": "issue_filed",
+      "issue": 274,
+      "repo": "growth-project-mobile",
+      "severity": "P2",
+      "source_finding": "R1-P0-3",
+      "title": "Macro target inputs lack server-side validation when client sends out-of-range values"
+    },
+    {
+      "ts": "2026-06-24T13:27:20+00:00",
+      "type": "issue_filed",
+      "issue": 275,
+      "repo": "growth-project-mobile",
+      "severity": "P2",
+      "source_finding": "R3-Claim-1",
+      "title": "RootNavigator bootstrapAuth has unguarded concurrent-call window on cold start with deep link"
+    },
+    {
+      "ts": "2026-06-24T13:27:20+00:00",
+      "type": "issue_filed",
+      "issue": 468,
+      "repo": "growth-project-backend",
+      "severity": "P2",
+      "source_finding": "R1-P0-7",
+      "title": "Failed-email resend uses fuzzy body-match instead of message ID"
+    },
+    {
+      "ts": "2026-06-24T13:27:20+00:00",
+      "type": "milestone",
+      "milestone": "TRACK_B_COMPLETE",
+      "summary": "All 4 session-finding P2 issues filed (mobile #273/#274/#275, backend #468). Track A (Expo SDK 56->57 scoping) in progress in parallel."
     }
   ],
-  "last_update": "2026-06-24T09:30:38.354753+00:00",
+  "last_update": "2026-06-24T13:27:20+00:00",
   "last_event": {
-    "ts": "2026-06-24T09:30:38.354753+00:00",
-    "type": "audit_dispatched",
-    "pr": 268,
-    "repo": "growth-project-mobile",
-    "title": "react-navigation group: bottom-tabs 7.17.2->7.18.2 + native-stack 7.17.2->7.17.5 + core/elements transitives",
-    "pre_audit_ci": "GREEN",
-    "lens_a": "Opus running",
-    "lens_b": "GPT-5.5 running",
-    "sensitive_surface": "UX - navigation/transitions/headers/tabs/gestures"
+    "ts": "2026-06-24T13:27:20+00:00",
+    "type": "milestone",
+    "milestone": "TRACK_B_COMPLETE",
+    "summary": "All 4 session-finding P2 issues filed (mobile #273/#274/#275, backend #468). Track A (Expo SDK 56->57 scoping) in progress in parallel."
   },
   "mobile_dependabot": {
     "closed_not_actionable": [
@@ -661,6 +714,6 @@
     ],
     "deferred_manual": "Expo SDK 56 \u2192 57 migration (not Dependabot-proposed)"
   },
-  "last_updated_utc": "2026-06-24T09:46:19Z",
+  "last_updated_utc": "2026-06-24T13:27:20+00:00",
   "dependabot_queue_status": "ALL CLEAR (backend + mobile)"
 }
