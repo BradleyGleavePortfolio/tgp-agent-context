@@ -1,0 +1,47 @@
+# M_PLAN_REALITY_CHECK_v2 source index
+
+Total unique cited URLs: 43
+
+- http://help.truecoach.co/en/articles/2393507-printing-a-program
+- http://help.truecoach.co/en/articles/3047247-exporting-workouts
+- http://help.truecoach.co/en/articles/5811721-how-to-export-clients
+- https://assistantcoach.fit/terms
+- https://aws.amazon.com/ec2/pricing/on-demand/
+- https://developer.mozilla.org/en-US/docs/Web/API/Push_API
+- https://docs.browserbase.com/account/billing/plans
+- https://docs.expo.dev/push-notifications/overview/
+- https://docs.stripe.com/billing/subscriptions/import-subscriptions
+- https://docs.stripe.com/billing/subscriptions/migrate-subscriptions
+- https://e2b.dev/pricing
+- https://everfit.io/tos/
+- https://help.assistantcoach.fit/ai-integration/overview/
+- https://help.assistantcoach.fit/data-export/
+- https://help.assistantcoach.fit/trust/privacy/
+- https://help.assistantcoach.fit/trust/security/
+- https://help.assistantcoach.fit/workout-plans/pdf-export/
+- https://help.everfit.io/en/articles/5647484-how-to-export-or-print-workouts-as-pdfs
+- https://help.everfit.io/en/articles/5660236-client-app-print-workout-as-a-pdf
+- https://help.everfit.io/en/articles/8012101-export-form-responses-as-pdf
+- https://help.trainerize.com/hc/en-us/articles/26458988419220
+- https://help.trainerize.com/hc/en-us/articles/31089834946324-What-Information-Can-Be-Exported-from-ABC-Trainerize
+- https://help.trainerize.com/hc/en-us/articles/360025557932-How-to-Keep-Your-ABC-Trainerize-Account-Secure
+- https://help.trainerize.com/hc/en-us/articles/360033710571-What-is-Strong-Customer-Authentication-SCA
+- https://help.truecoach.co/en/articles/2393629-transferring-coach-accounts
+- https://intercom.help/coachrx/en/articles/14077482-exporting-data-from-coachrx
+- https://intercom.help/coachrx/en/articles/14473855-how-to-export-your-client-list-as-a-csv
+- https://intercom.help/coachrx/en/articles/14890425-migrating-clients-to-coachrx-with-bulk-csv-import-truecoach-trainerize-bridge
+- https://intercom.help/coachrx/en/articles/6005522-coachrx-data-processing-addendum
+- https://intercom.help/coachrx/en/articles/6428167-coach-roles-permissions
+- https://intercom.help/coachrx/en/articles/7172943-custom-client-reports
+- https://resend.com/docs/api-reference/emails/send-email
+- https://support.mypthub.net/hc/en-us/articles/22529663855249-Download-Nutrition-Report
+- https://support.mypthub.net/hc/en-us/articles/7580877889425-Client-How-to-print-workout-on-the
+- https://truecoach.co/terms/
+- https://web.dev/articles/push-notifications-subscribing-a-user
+- https://www.browserbase.com/pricing
+- https://www.mypthub.net/legal/terms-of-use/
+- https://www.opexfit.com/privacy-policy
+- https://www.opexfit.com/terms-and-conditions
+- https://www.trainerize.com/legal.aspx
+- https://www.twilio.com/docs/messaging/api
+- https://www.twilio.com/docs/voice/api/call-resource
