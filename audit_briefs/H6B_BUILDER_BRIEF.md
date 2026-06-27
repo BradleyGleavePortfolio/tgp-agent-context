@@ -7,7 +7,8 @@
 ## Repo + branch
 
 - Repo: `BradleyGleavePortfolio/growth-project-backend`
-- Branch: `wave-h6b-circuit-breakers` (base: **`wave-h6a-audit-log-substrate` after it merges to main**)
+- Branch: `wave-h6b-circuit-breakers` (base: `main` @ `185444e4326e61fd964c18498a3805533bd85152`)
+- **Parallel-with-H6A:** dependency analysis (2026-06-26) confirmed H6B has ZERO imports from `src/audit-log/` (verified: `git diff` of #492's breaker-side files against main found 0 audit-log references). H6B can build and merge independently of H6A. The two branches touch disjoint file sets (A: `src/audit-log/`, `prisma/`, `scripts/`, `docs/audit-log.md`, ADR. B: `src/circuit-breakers/`, `src/main.ts`, the 7 breaker-wrapped clients, `docs/circuit-breakers.md`, `package.json` for opossum). Merge order is whichever finishes dual-CLEAN audit first.
 - Open as `[WIP]` at first push (R52).
 - PR title: `feat(h6b): per-client circuit breakers — Opossum factory + 7 wrapped clients`
 - **No exemption marker** — this slice's net prod LOC is ~311, under R76's 400 cap.
@@ -148,15 +149,13 @@ test/circuit-breakers/circuit-open.filter.spec.ts     (carry forward as-is)
 ## Workflow
 
 ```bash
-# 1. Wait for H6A to merge to main. Verify:
+# 1. Fresh clone off main @ 185444e4 (H6A is NOT a prerequisite — dependency analysis verified zero cross-imports)
 cd /tmp && rm -rf h6b-build
 git clone https://git-agent-proxy.perplexity.ai/BradleyGleavePortfolio/growth-project-backend.git h6b-build
 cd h6b-build
-git log --oneline | head -5  # confirm H6A merge commit is on main
-test -f src/audit-log/audit-log.service.ts || { echo "H6A NOT MERGED — abort"; exit 1; }
-test -f prisma/migrations/20261226000000_create_audit_log/migration.sql || { echo "H6A NOT MERGED — abort"; exit 1; }
 
-# 2. Branch off post-H6A main
+# 2. Verify base SHA
+test "$(git rev-parse HEAD)" = "185444e4326e61fd964c18498a3805533bd85152" || { echo "WRONG BASE — abort"; exit 1; }
 git checkout -b wave-h6b-circuit-breakers
 
 # 3. Install + baseline
@@ -251,7 +250,7 @@ Your final output MUST include (in this order):
 
 ## Done criteria
 
-- PR opened off post-H6A-merge main
+- PR opened off main @ 185444e4 (parallel-with-H6A; no H6A merge dependency)
 - CI green
 - All gates passed and pasted into report
 - Every NEW commit as `Bradley Gleave <bradley@bradleytgpcoaching.com>`
