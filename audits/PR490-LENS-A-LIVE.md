@@ -84,3 +84,8 @@
 
 ### [11] R109 NO-HALF-ASS — PASS
 - Added-line scan for `.skip|.todo|xit|xtest|fit|fdescribe|"Coming soon"` → ZERO. No skipped/todo/focused tests or placeholders introduced.
+
+### [12] R20 TRACKING-ISSUE DISCIPLINE — PASS
+- New commit subject `fix(test): document KNOWN_BELOW_FLOOR_COUNT tripwire (#495)` references #495; spec comment (line 229) references fully-qualified `BradleyGleavePortfolio/growth-project-backend#495`.
+- Issue #495 verified via `gh issue view 495`: **state = OPEN**, labeled `tracking` + `migrations`, title "chore(test): evaluate dynamic content-hash invariant for KNOWN_BELOW_FLOOR_COUNT (PR #490 P3 follow-up)", owner Bradley Gleave. Body scopes the dynamic-hash/manifest follow-up work and the tripwire-ratify-vs-replace decision.
+- R20 satisfied: the deferred alternative (Path D / dynamic hash) is captured in an open, labeled, owned tracking issue rather than silently dropped.
