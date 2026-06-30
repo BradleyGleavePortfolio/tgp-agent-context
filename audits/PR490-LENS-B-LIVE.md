@@ -1,40 +1,16 @@
-# PR #490 — Lens B Audit — gpt_5_5
+# PR #490 — Lens B Re-Audit @ 40f31a3c — gpt_5_5
 
-## BUILD MATRIX (R124)
-```
+## DISPATCH HEADER (R78 / R124)
 - backend repo: BradleyGleavePortfolio/growth-project-backend
-- PR #490 head SHA: 59315faf7b5f39179a11e99695c6eefdb82b06ca
-- PR #490 base: main @ 185444e4326e61fd964c18498a3805533bd85152 (per PR body)
+- PR #490 head SHA: 40f31a3c2a1e563cf0070276d4b2f938e17430f0
+- PR #490 prior SHA (now archived): 59315faf7b5f39179a11e99695c6eefdb82b06ca → `audits/PR490-LENS-B-LIVE.59315fa.archive.md`
+- PR #490 base: main @ 185444e4326e61fd964c18498a3805533bd85152
 - PR title: fix(test): sync migration-spec fixtures to post-repair chain [TEST-FIX]
-- Branch: fix/migration-spec-pre-existing-floor-and-path
-- Dispatch UTC: 2026-06-30T22:09Z
-- ctxrepo: BradleyGleavePortfolio/tgp-agent-context (default branch main)
-- AGENT_RULES.md HEAD known to dispatcher: read at dispatch time, 1464 lines, R1-R126 + §12
-- Audit-start timestamp UTC: 2026-06-30T22:18Z
-```
+- New commit on top of 59315fa: `fix(test): document KNOWN_BELOW_FLOOR_COUNT tripwire (#495)` — Path C resolution of prior dual-lens P3-1 (both lenses); +13/-1 LOC on test/roman-coach-reviewed-migration.spec.ts; test-only; banned-cast net 0
+- Diff (head vs base): 2 files / +16 / -4. Zero prod LOC. Zero migration files touched.
+- ctxrepo: BradleyGleavePortfolio/tgp-agent-context
+- Auditor: Lens B, model gpt_5_5 (R11 independence honored — Lens A file NOT read)
+- Re-audit-start UTC: 2026-06-30T22:52Z
+- Live-push: every finding pushed to GitHub the moment it is written (R-live-push / R52)
 
-## CHECKLIST RESULTS
-- 1. VERIFIED — R76 §6 append-only invariant: head SHA was verified both ways (`git rev-parse HEAD` and `gh pr view --json headRefOid` returned `59315faf7b5f39179a11e99695c6eefdb82b06ca`). Directory order and SQL content support the three below-floor additions as repair/hygiene rather than unrelated back-dating: `20260425030001_add_community_win_visibility` immediately follows `20260425030000_add_community_win_and_coach_guideline`, and its SQL adds the missing `CommunityWin.visibility` column referenced by schema/RLS (`prisma/migrations/20260425030001.../migration.sql:1-18`; predecessor creates `CommunityWin` at `20260425030000.../migration.sql:28-51`). `20260701235900_add_sub_coach_role_value` sits between the prior workout RLS fix and the consuming `20260702000000_fix_workout_rls_coach_role`; its SQL says it is required because that next migration compares `User.role` to `'sub_coach'` (`20260701235900.../migration.sql:1-20`; consumer at `20260702000000.../migration.sql:15-19,41-52`). `20261207000001_pr14_client_purchase_landing_page_idx_concurrent` immediately follows `20261207000000_pr14_client_purchase_landing_page_id_and_guest_subscription`, which explicitly moved the concurrent index out to this one-statement migration (`20261207000000.../migration.sql:43-58`; target SQL at `20261207000001.../migration.sql:1-22`). The independent below-floor count command returned `149`.
-- 2. VERIFIED — FLOOR_TS structural pin: at head, `FLOOR_TS = '20261219000000'`, `self = '20261219000000_conv_review_coach_reviewed_at_idx'`, and `expect(self.slice(0, 14)).toBe(FLOOR_TS)` is present at `test/roman-coach-reviewed-migration.spec.ts:212,227,229`; advancing `FLOOR_TS` away from the self prefix would break that assertion.
-- 3. REFUTED-IN-PART — Path A over B/C is sound on the current code: the literal bump preserves `expect(belowFloor).toHaveLength(KNOWN_BELOW_FLOOR_COUNT)` at `test/roman-coach-reviewed-migration.spec.ts:225,230-231`, and Path B conflicts with the structural pin at lines 212, 227, and 229. However, the PR body only considered Paths A/B/C and did not consider a fourth Path D: a content-derived below-floor manifest/hash or similar dynamic computation that avoids repeated literal counter bumps while still detecting unauthorized back-dated insertions. See NEW DEFECTS FOUND.
-- 4. VERIFIED — ENOENT root cause: at head, `prisma/migrations/20261214000000_named_regimes_and_partial_refund_decision` is absent (`OLD_MISSING`), while `20261215000300_named_regimes_and_partial_refund_decision` is present. The head spec points `readOriginalMigrationSql()` to `20261215000300...` at `test/partial-refund-decision-rls-migration.spec.ts:38-48`. Grep found no remaining `20261214000000` in that spec; the only remaining repo test reference is a dummy migration name in `test/rls-tier5-policies.spec.ts:1174-1185`, not the renamed directory.
-- 5. VERIFIED — F3 sibling existence is covered by load-time file read plus content assertions: `readNewMigrationSql()` reads `prisma/migrations/20261218000100_rls_partial_refund_decision/migration.sql` at `test/partial-refund-decision-rls-migration.spec.ts:25-36`. The suite then asserts content in each reachable block: no create/add/drop at lines 54-60, BEGIN/COMMIT at 69-71, ENABLE/FORCE RLS at 74-80, service-role policy at 83-86, SELECT policy and owner/coach predicate at 89-97, UPDATE policy and WITH CHECK at 100-112, no tenant INSERT/DELETE/client policy at 115-120, plus ordering at 123-124.
-- 6. VERIFIED — Append-only ordering comparison evaluates true and line numbers match head: `expect('20261218000100' > '20261215000300').toBe(true)` is at `test/partial-refund-decision-rls-migration.spec.ts:123-124`.
-- 7. VERIFIED — R19 pre-existing failure consistency: base commit file contents show `KNOWN_BELOW_FLOOR_COUNT = 146` with `expect(belowFloor).toHaveLength(KNOWN_BELOW_FLOOR_COUNT)` at base lines 217 and 223, while the head migration listing independently counts 149 below-floor dirs. Base also hard-coded `20261214000000_named_regimes_and_partial_refund_decision` at base line 44 while head lacks that directory and has `20261215000300...`. The diff is limited to the stale counter/comment and stale path/doc/order literals, matching the claimed failures and not expanding beyond lane scope.
-- 8. VERIFIED — R18 OWNS discipline: PR metadata lists exactly `test/partial-refund-decision-rls-migration.spec.ts +3 -3` and `test/roman-coach-reviewed-migration.spec.ts +9 -1`; diff headers contain only those two files, with no `prisma/migrations/`, `supabase/migrations/`, `src/`, or workflow file.
-- 9. VERIFIED — R3 commit identity: GitHub commit API for `59315faf7b5f39179a11e99695c6eefdb82b06ca` reports both author and committer as `Bradley Gleave <bradley@bradleytgpcoaching.com>` at `2026-06-27T03:02:34Z`. Commit message scan found no `Co-Authored`, `Claude`, or standalone `AI` token/trailer.
-- 10. VERIFIED — R75/R100.A2 banned-cast net delta: grep over added diff lines and the whole diff for `as any`, `as unknown as`, `as never`, `@ts-ignore`, `@ts-nocheck`, and `<any>` returned no matches.
-- 11. VERIFIED — R74 test:src density: PR metadata has non-test file list empty and non-test additions total `0`, so the N/A claim for a pure test-fix lane is supported.
-- 12. VERIFIED — R117/R123 assertion-bearing tests: the modified roman `it()` block at `test/roman-coach-reviewed-migration.spec.ts:197-232` still contains `expect(dirs).toContain(self)`, `expect(self.slice(0, 14)).toBe(FLOOR_TS)`, and `expect(belowFloor).toHaveLength(KNOWN_BELOW_FLOOR_COUNT)` at lines 228-231. The modified partial spec lines do not remove or weaken assertions: the first affected `it()` retains six expectations at `test/partial-refund-decision-rls-migration.spec.ts:54-67`, and the ordering `it()` retains `expect(...).toBe(true)` at lines 123-124.
-- 13. VERIFIED — R109 no half-ass/quarantine: grep for `.skip(`, `.todo(`, `xit(`, and `xtest(` in both changed specs returned no matches.
-- 14. VERIFIED — R20 tracking-issue discipline: scanning the PR body plus commit headline/body for `TODO`, `follow-up`, `next operator`, and `post-flag-flip` found only the quoted test-run summary text `5 todo`, not descoped work requiring a tracking issue.
-- 15. VERIFIED — R102/R122 internal branch-protection claim: I did not verify branch-protection config or rerun the full suite. Internal consistency checks passed: the base versions of the two changed specs contain exactly the stale counter/path that the PR updates, and grep for `20261214000000\|KNOWN_BELOW_FLOOR_COUNT` across `test/` and `src/` found only the roman spec's counter/assertion plus `test/rls-tier5-policies.spec.ts:1184`, where `20261214000000_dummy_followup` is a synthetic `_prisma_migrations` row name rather than a filesystem path to the renamed migration.
-
-## NEW DEFECTS FOUND
-- P3 — `test/roman-coach-reviewed-migration.spec.ts:213-225` / PR body Path A/B/C discussion: the PR fixes the immediate red spec by bumping a literal counter from 146 to 149, but it does not consider Path D: deriving the expected below-floor set from the migration directory with a pinned manifest/hash or content-derived check. Evidence: the PR body's “Path chosen: A” section considers A/B/C only, and the head spec still uses a manually bumped `const KNOWN_BELOW_FLOOR_COUNT = 149` at line 225. Recommended fix: either document why a content-derived below-floor manifest/hash is rejected, or replace the raw count with a pinned below-floor directory-set/hash check so legitimate repair migrations can be reviewed without future blind counter bumps while unauthorized back-dated insertions still fail.
-
-## RE-AUDIT SWEEP (50 failures / R24-R73)
-No additional R24-R73 failure mode was tripped by this diff. The sweep covered the full two-file diff, assertion integrity, skipped/todo quarantines, banned casts, doctrine-pin paths, OWNS scope, commit identity, tracking-issue language, migration ordering evidence, and branch-protection internal consistency. The only defect found is the P3 Path D maintainability gap above.
-
-## VERDICT
-VERDICT: FINDINGS
+## CHECKLIST (to be filled by Lens B; each item verified independently against `gh pr view 490 --json files,headRefOid` + repo at SHA 40f31a3c)
