@@ -92,3 +92,9 @@ Status: **FINDING (P2)**.
 - The runbook is actionable: it explains PR vs prod-deploy modes (lines 32-46), gives exact local commands (lines 50-64), and lists remediation steps by bucket (lines 70-84).
 - No unfiled TODO/FIXME placeholder text appears in the runbook.
 - **P2:** the documented DO NOT DEPLOY exit-line format omits the `PROD SWITCHES WARN` bucket that the spec actually renders (`EXIT: N STUB + N PROD SWITCHES WRONG + N PROD SWITCHES WARN + N WIRING GAPS + N ENV GAPS + N KEY GAPS → DO NOT DEPLOY` in spec lines 192-194 and 213-219). Update docs/runbooks line 28 so operators see the exact line shape.
+
+## Item 11 — PR template +1 verification
+Status: **CLEAN**.
+
+- The only PR template change adds one checklist line: `R100 deploy-readiness board: ALL CLEAR` with PR-mode gating and prod-deploy surface noted.
+- The addition is legitimate for this lane because it records the new orchestrator-board readiness check and does not weaken existing checklist requirements.
