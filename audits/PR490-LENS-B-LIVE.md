@@ -46,3 +46,6 @@ PASS — Both PR commits (`59315faf7b5f39179a11e99695c6eefdb82b06ca` and `40f31a
 
 ### Checklist item 8 — R75/R100.A2 banned-cast net delta
 PASS — Added-line scan across the full PR diff for `as any|as unknown as|as never|@ts-ignore|@ts-nocheck|<any>|Coming soon|.catch(()=>` returned 0 matches. No banned-cast or placeholder net delta introduced.
+
+### Checklist item 9 — R74 test:src density
+PASS — `git diff --numstat` shows all additions are under `test/`: `3/3` in `test/partial-refund-decision-rls-migration.spec.ts` and `13/1` in `test/roman-coach-reviewed-migration.spec.ts`. Non-test additions = 0, so R74 density is N/A for this test-only lane.
