@@ -22,3 +22,6 @@ Result: PASS. Added-line scan found no hardcoded production secrets, real Sentry
 
 ### Item 2 — R25 RLS pg_stat_statements
 Result: FINDING P2. pg_stat_statements itself should not expose Prisma tagged-template bound parameter values for normal statements, and GET /admin/db-stats is protected with @UseGuards(MetricsAuthGuard). However db-stats.service redactStatement() only whitespace-normalizes and truncates queryPreview; it does not mask quoted/numeric literals if pg_stat_statements stores a non-normalized utility/raw statement. Recommendation: literal-redact queryPreview (or omit preview and return hash only) before exposing /admin/db-stats.
+
+### Item 3 — R26 raw SQL injection
+Result: PASS. New db-stats SQL uses Prisma tagged-template  with only an internally clamped numeric LIMIT interpolation; no user input reaches raw SQL. Migration SQL is static CREATE EXTENSION IF NOT EXISTS pg_stat_statements; no dynamic SQL or interpolation.
