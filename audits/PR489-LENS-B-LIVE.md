@@ -117,3 +117,9 @@ Status: **CLEAN / N/A**.
 
 - Added test/config LOC is 1320 (`test/deploy-readiness.spec.ts`) + 146 (`test/prod-readiness.config.ts`) = 1466.
 - Added `src/` LOC denominator is 0, so test:src ratio is infinite / not applicable rather than below-threshold.
+
+## Item 15 — R18 OWNS scope / identity of touched lane
+Status: **CLEAN**.
+
+- PR touches only five orchestrator-lane files: one CI workflow, one runbook, one PR-template line, and two `test/` deploy-readiness orchestrator/config files.
+- No unrelated application, database, or production source files were changed.
