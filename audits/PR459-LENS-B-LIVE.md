@@ -20,6 +20,7 @@
 - P2: `prisma/migrations/20261221000000_enable_pg_stat_statements/migration.sql:1` (R82) marks the migration `IRREVERSIBLE` and only issues `CREATE EXTENSION IF NOT EXISTS pg_stat_statements`; add a documented reversible down/rollback path (for example an explicit operator-approved `DROP EXTENSION` procedure or split this into an operator runbook outside Prisma migrations) so the modified migration satisfies the reversibility requirement.
 - P2: `src/observability/db-stats.service.ts:42` (queryPreview redaction) only masks single-quoted, double-quoted, and multi-digit literals, so PostgreSQL dollar-quoted literals such as `$$email@example.com$$` can still pass through `redactStatement()` into the `/admin/db-stats` preview; extend the redactor and tests to cover dollar-quoted strings before truncation.
 
+
 ## VERDICT
 
-(populated last)
+VERDICT: FINDINGS
