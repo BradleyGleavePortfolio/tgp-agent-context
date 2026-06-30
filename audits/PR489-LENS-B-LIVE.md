@@ -51,3 +51,11 @@ Sampled 10 blocks across the 1320-line spec; each has real assertions against be
 8. Lines 1032-1040 assert quick mode executes only STUB_VALUES and is clean.
 9. Lines 1194-1217 assert planted tokens across `supabase/` and `.env.example` are actually detected and block.
 10. Lines 1244-1274 assert prod-switch wrong/OK classification and PR gating behavior.
+
+## Item 5 — R86 anti-padding on 1320 LOC spec
+Status: **CLEAN (watch item noted)**.
+
+- The file is large because it embeds the deploy-readiness orchestrator plus tests: typed aggregation contracts and board rendering (lines 130-295), config-root stub scan coverage (lines 333-468), section runners (lines 470-709), end-to-end orchestration (lines 731-792), then behavioral tests (lines 801-1299).
+- Table-driven cases are limited and purposeful: bucket-sum examples at lines 838-845 and mode-resolution examples at lines 1020-1028.
+- The largest generated-looking construct is the 240-row in-memory filler registry at lines 1231-1241, but it is runtime fixture data to satisfy the registry minimum without adding 240 physical LOC.
+- I did not find LOC padding by copied permutations; the repetition primarily maps distinct R100 board sections and scanner integrations.
