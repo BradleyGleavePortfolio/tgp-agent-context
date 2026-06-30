@@ -31,3 +31,6 @@ Result: PASS. /metrics/prom sets text/plain Prometheus content type. /admin/db-s
 
 ### Item 5 — R28 IDOR timing-safe bearer
 Result: PASS. MetricsAuthGuard does not use plain === for configured token comparison; it calls constantTimeEquals(), which returns false on length mismatch and XOR-accumulates all characters for equal-length inputs. Missing/wrong headers throw UnauthorizedException; production/staging unset token fail closed with ServiceUnavailableException.
+
+### Item 6 — R29 metrics exposure
+Result: PASS. /metrics/prom is @Public only to bypass the global JWT guard and is explicitly protected by MetricsAuthGuard. The guard defaults to 503 in prod-like envs when METRICS_AUTH_TOKEN is unset, so a misconfigured prod/staging deploy does not expose runtime metrics. No separate rate limiter is present, but the endpoint is token-gated and intended for Prometheus polling.
