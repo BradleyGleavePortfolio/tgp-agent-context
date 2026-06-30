@@ -103,3 +103,17 @@ Scope swept: full +16/-4 diff = (a) RLS spec path/header/ordering literal update
 - **Infrastructure (R71-R73)**: No CI/workflow/config/Dockerfile/dependency change. PASS.
 
 New defects found in sweep: **NONE**. No P0/P1/P2/P3 surfaced.
+
+### [14] RE-CHECK PRIOR P3s — BOTH RESOLVED
+Prior Lens A (archived @ 59315fa) returned VERDICT: FINDINGS with two P3 maintainability/doc notes. Status at head 40f31a3c:
+
+- **Prior P3-1 (Path D / dynamic-count not considered)** — **RESOLVED.** The NEW commit `40f31a3c` adds a +4-line comment block (lines 226-229) explicitly ratifying the pinned-literal pattern as a *deliberate human-review tripwire* AND linking the dynamic-hash alternative to tracking issue `#495` (OPEN, labeled `tracking`+`migrations`, owner Bradley Gleave). This is exactly remedy (a) AND (b) the prior audit recommended. Resolution accepted.
+
+- **Prior P3-2 (stale PR-body line numbers)** — **RESOLVED (not re-filed).** Prior audit found the PR body cited `:223`/"line 221" while actual at 59315fa was counter=225 / pin=229. At head 40f31a3c the PR body has been refreshed (body line 91: "PR body line-numbers refreshed") and now cites:
+  - "Root cause 1 — ...spec.ts:229" → counter `KNOWN_BELOW_FLOOR_COUNT = 149` IS at line **229** ✔
+  - "(line 233 asserts `self.slice(0,14) === FLOOR_TS`)" → pin IS at line **233** ✔
+  - "path on line 44" → path string IS at line **44** ✔
+  - "ordering literal comparison (line 124)" → IS at line **124** ✔
+  All four PR-body line references now match the current SHA exactly. The doc drift the prior audit flagged is gone. **Decision: close as superseded — NOT re-filed as a new P3.** (Brief's hypothesis that the body would still be stale does not hold at this SHA — the body was updated alongside the fixer commit.)
+
+Net prior-P3 status: 2 prior P3s, both resolved. No carried-forward findings.
