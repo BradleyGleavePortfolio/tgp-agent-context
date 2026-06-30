@@ -37,3 +37,6 @@ Result: PASS. /metrics/prom is @Public only to bypass the global JWT guard and i
 
 ### Item 7 — R30 JWT
 Result: PASS. No JWT parsing, signing, verification, or claim handling is introduced. The new auth surface is a standalone METRICS_AUTH_TOKEN bearer guard for observability endpoints only.
+
+### Item 8 — R31 input validation
+Result: PASS. New user-facing handlers accept no route params, query params, or request bodies. DbStatsService.topStatements() clamps its internal topN to integer [1,100], but controller does not expose topN input.
