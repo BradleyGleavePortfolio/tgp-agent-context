@@ -37,3 +37,6 @@ PASS — Commit `40f31a3c2a1e563cf0070276d4b2f938e17430f0` changes only `test/ro
 
 ### Checklist item 5 — ENOENT root cause / RLS spec path
 PASS — The RLS spec update is correct and complete. `test/partial-refund-decision-rls-migration.spec.ts` now references `20261215000300_named_regimes_and_partial_refund_decision`, that migration directory exists, and a stale-reference grep for `20261214000000_named...` in the changed spec returned 0 matches. The append-only timestamp comparison was also updated from `20261218000100 > 20261214000000` to `20261218000100 > 20261215000300`.
+
+### Checklist item 6 — R18 OWNS scope
+PASS — PR diff scope is exactly two modified test files with `16 insertions(+), 4 deletions(-)`: `test/partial-refund-decision-rls-migration.spec.ts` and `test/roman-coach-reviewed-migration.spec.ts`. No production files, Prisma migration files, workflow files, or other surfaces are changed.
