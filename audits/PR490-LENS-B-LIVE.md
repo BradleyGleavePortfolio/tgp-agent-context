@@ -14,3 +14,14 @@
 - Live-push: every finding pushed to GitHub the moment it is written (R-live-push / R52)
 
 ## CHECKLIST (to be filled by Lens B; each item verified independently against `gh pr view 490 --json files,headRefOid` + repo at SHA 40f31a3c)
+
+## Lens B live audit — current run
+- Lens: B
+- Model: gpt_5_5
+- PR: BradleyGleavePortfolio/growth-project-backend#490
+- Required head SHA: 40f31a3c2a1e563cf0070276d4b2f938e17430f0
+
+### Checklist item 1 — R124 BUILD MATRIX
+PASS — Verified current checkout and PR API both resolve to head SHA `40f31a3c2a1e563cf0070276d4b2f938e17430f0`:
+- `git rev-parse HEAD`: `40f31a3c2a1e563cf0070276d4b2f938e17430f0`
+- `gh api repos/BradleyGleavePortfolio/growth-project-backend/pulls/490 --jq .head.sha`: `40f31a3c2a1e563cf0070276d4b2f938e17430f0`
