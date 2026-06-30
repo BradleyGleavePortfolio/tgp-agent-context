@@ -19,3 +19,6 @@
 
 ### Item 1 — R24 secrets
 Result: PASS. Added-line scan found no hardcoded production secrets, real Sentry DSNs, or Postgres URLs. Matches were limited to unit-test placeholder METRICS_AUTH_TOKEN values and fake Sentry DSN strings (https://dsn@o.ingest/1). No prod code embeds SENTRY_DSN, DATABASE_URL, METRICS_AUTH_TOKEN, private keys, AWS/OpenAI/GitHub/Slack tokens.
+
+### Item 2 — R25 RLS pg_stat_statements
+Result: FINDING P2. pg_stat_statements itself should not expose Prisma tagged-template bound parameter values for normal statements, and GET /admin/db-stats is protected with @UseGuards(MetricsAuthGuard). However db-stats.service redactStatement() only whitespace-normalizes and truncates queryPreview; it does not mask quoted/numeric literals if pg_stat_statements stores a non-normalized utility/raw statement. Recommendation: literal-redact queryPreview (or omit preview and return hash only) before exposing /admin/db-stats.
