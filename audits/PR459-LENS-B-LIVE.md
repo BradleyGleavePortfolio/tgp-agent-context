@@ -43,3 +43,6 @@ Result: PASS. New user-facing handlers accept no route params, query params, or 
 
 ### Item 9 — R32 layer auth
 Result: PASS. Both privileged new controllers are guarded at controller class level: PromMetricsController has @UseGuards(MetricsAuthGuard) on @Controller('metrics') for GET /metrics/prom, and DbStatsController has @UseGuards(MetricsAuthGuard) on @Controller('admin') for GET /admin/db-stats. MetricsAuthGuard is registered as a provider in ObservabilityModule.
+
+### Item 10 — MetricsAuthGuard ReDoS fix
+Result: FINDING P2. The regex-based parser is gone and there are no nested quantifiers, so the classic ReDoS vector is fixed. But the advertised 4096-byte cap is applied after value.trim(), meaning an overlong whitespace-heavy Authorization header is scanned before the cap check. Node's header-size limits reduce practical risk, but the parser is not genuinely bounded as documented. Move a raw value.length > MAX_AUTHORIZATION_HEADER_LENGTH rejection before trim().
