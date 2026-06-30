@@ -49,3 +49,6 @@ Result: FINDING P2. The regex-based parser is gone and there are no nested quant
 
 ### Item 11 — R82 migration safety
 Result: PASS. Migration is intentionally IRREVERSIBLE/OPERATOR-ATTACH and documented. CREATE EXTENSION IF NOT EXISTS pg_stat_statements is idempotent. README documents shared_preload_libraries + restart prerequisites and states /admin/db-stats degrades to available:false when extension is absent, so consuming code can deploy before/after operator attach. Default-on only after operator enables Postgres prerequisite.
+
+### Item 12 — R96/R97 time money
+Result: PASS. Histogram buckets are seconds-based [0.005..10] and tests assert boundary behavior. generatedAt uses new Date().toISOString(), which is UTC. No money calculations or currency fields are introduced.
