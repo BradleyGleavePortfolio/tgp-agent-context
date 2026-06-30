@@ -98,3 +98,10 @@ Status: **CLEAN**.
 
 - The only PR template change adds one checklist line: `R100 deploy-readiness board: ALL CLEAR` with PR-mode gating and prod-deploy surface noted.
 - The addition is legitimate for this lane because it records the new orchestrator-board readiness check and does not weaken existing checklist requirements.
+
+## Item 12 — LOC-EXEMPT verification / 0 prod LOC
+Status: **CLEAN**.
+
+- Diff files are exactly `.github/PULL_REQUEST_TEMPLATE.md`, `.github/workflows/h4-readiness.yml`, `docs/runbooks/deploy-readiness.md`, `test/deploy-readiness.spec.ts`, and `test/prod-readiness.config.ts`.
+- `git diff --name-only ... | grep '^src/'` returned no matches, and numstat is +1745/0 across those five non-`src/` files.
+- LOC-EXEMPT claim of zero production LOC is therefore verified.
