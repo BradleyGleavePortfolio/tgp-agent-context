@@ -85,3 +85,10 @@ Status: **FINDING (same P1 as item 6)**.
 - Assertion density is strong: grep found 103 `expect(` calls across 27 test declarations/table-driven blocks.
 - Every visible test body I inspected contains meaningful assertions over return values, counts, rendered strings, or scanner outputs.
 - **P1 carried from item 6:** the hard-block prod-deploy test is registered through `it.skip` when `DEPLOY_READINESS_STRICT` is not set (lines 1093-1106), so the default PR path includes a skipped test instead of a deterministic pass/fail outcome for that test case.
+
+## Item 10 — Runbook actionability / R20 placeholders
+Status: **FINDING (P2)**.
+
+- The runbook is actionable: it explains PR vs prod-deploy modes (lines 32-46), gives exact local commands (lines 50-64), and lists remediation steps by bucket (lines 70-84).
+- No unfiled TODO/FIXME placeholder text appears in the runbook.
+- **P2:** the documented DO NOT DEPLOY exit-line format omits the `PROD SWITCHES WARN` bucket that the spec actually renders (`EXIT: N STUB + N PROD SWITCHES WRONG + N PROD SWITCHES WARN + N WIRING GAPS + N ENV GAPS + N KEY GAPS → DO NOT DEPLOY` in spec lines 192-194 and 213-219). Update docs/runbooks line 28 so operators see the exact line shape.
