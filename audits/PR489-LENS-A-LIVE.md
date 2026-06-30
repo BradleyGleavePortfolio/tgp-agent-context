@@ -96,3 +96,37 @@ grep over added diff (`test/`, `docs/`, `.github/`) for `as any|as unknown as|as
 ## ITEM 9 — R117/R123 assertion-bearing / deterministic pass-fail
 
 Every sampled path produces deterministic pass/fail against fixed fixtures or the live repo board (`runDeployReadiness({repoRoot, mode})`). No tautological/always-pass tests observed. The dual-mode assertions (PR vs strict) pin BOTH the gating verdict and the surfaced strict count, so a regression that silently flips gating would fail. No "passes when it shouldn't" pattern. VERDICT ITEM 9: **PASS.**
+
+---
+
+## ITEM 8 — `test/prod-readiness.config.ts`: config or hidden prod code? (147 LOC)
+
+Read in full. It is **pure config/metadata**:
+- `BOARD_SECTIONS` (L27-34): 6 `as const` string ids.
+- `BoardSection`/`SectionMode` types + `ScannerRegistration` interface (L36-60).
+- `SCANNER_REGISTRY` (L69-118): typed data table mapping each section → label/origin/mode/asserts.
+- `REGISTRY_PATH`, `LEDGER_PATH` (L125, L132): string path constants.
+- Two trivial PURE helpers: `gatingSections()` (filter, L135-137) and `registrationFor()` (find-or-throw, L140-146).
+Module-level docstring (L13) states "imports NO scanner code and performs NO I/O" — confirmed: no `fs`, no imports, no business/runtime logic that belongs in `src/`. The find-or-throw is test-harness wiring, not prod behaviour. **Not hidden prod code.** Correctly lives under `test/`.
+
+Minor: `BOARD_SECTIONS` has 6 ids but L22-23 docstring says "seven board sections … seven merged H4 sub-scanners (H4.A through H4.G)". The 7 H4 lanes map to 6 sections (H4.E+H4.F merge into WIRING per L89 and test L1006). Doc wording "seven board sections" is imprecise (it's seven *scanners* → six *sections*). **P3 nit** (cosmetic doc, no behavioural impact).
+
+VERDICT ITEM 8: **PASS** (1 P3 doc nit).
+
+## ITEM 10 — Runbook `docs/runbooks/deploy-readiness.md` (107 LOC)
+
+Read in full. Actionable, not placeholder:
+- "What the board is" — section table with the question each answers.
+- Two exit-line formats documented (ALL CLEAR vs itemised DO NOT DEPLOY).
+- "The two ways the board runs" — PR informational (gates STUB+PROD SWITCHES only; explains why env-dependent sections don't block on a PR runner) vs prod-deploy hard block (`DEPLOY_READINESS_STRICT=1`).
+- "How to run it yourself" — three concrete `npm run test` invocations (full, quick, strict).
+- "What to do when it says DO NOT DEPLOY" — numbered per-bucket remediation (STUB / PROD SWITCHES WRONG / WIRING GAPS / ENV GAPS / KEY GAPS) with exact file paths and fixes.
+- "Operator setup after this lands" — two one-time post-merge actions (branch protection, promote informational→required), correctly flagged as out-of-PR operator work.
+- "Where the pieces live" — path map.
+No placeholder text. **R20: zero unfiled TODOs/FIXMEs** in the runbook (grep confirmed). Same harmless "seven" framing as item 8 (P3, already counted). VERDICT ITEM 10: **PASS.**
+
+## ITEM 11 — PR template `.github/PULL_REQUEST_TEMPLATE.md` (+1)
+
+The single added line (diff L+23):
+`+ - [ ] **R100 deploy-readiness board: ALL CLEAR** (PR mode gating sections green; environment-dependent sections surfaced for the prod-deploy gate)`
+Inserted into the existing "R-rule self-check" checklist, immediately after the prior R100 prod-readiness checkbox. Pure additive (+1/0), legitimate new-orchestrator checkbox, surrounding lines untouched. **No stealth edit.** VERDICT ITEM 11: **PASS.**
