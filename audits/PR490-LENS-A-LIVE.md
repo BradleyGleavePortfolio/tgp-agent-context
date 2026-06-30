@@ -50,3 +50,11 @@
 - (c) **No new banned-cast tokens** in the +4 lines (grep clean — see item 8). ✔
 - NOTE on LOC accounting: the dispatch brief's "+13/-1" for this file is the cumulative base..head hunk (the full comment block authored across BOTH commits + the 149 literal swap). The NEW commit's OWN delta is +4/-0, matching its commit-body claim "R86 LOC delta +4". No discrepancy — distinct diff bases.
 - Resolves prior P3-1 (Path D / dynamic-hash unconsidered): the comment now explicitly ratifies the tripwire intent AND links the tracking issue. ✔
+
+### [5] ENOENT ROOT CAUSE / RLS SPEC RENAME — PASS (complete, no stale refs)
+- Rename `20261214000000_named...` → `20261215000300_named_regimes_and_partial_refund_decision` is correct & complete in `test/partial-refund-decision-rls-migration.spec.ts`:
+  - readOriginalMigrationSql() path @ line 44 → `20261215000300_named_regimes_and_partial_refund_decision` ✔ (target dir exists, migration.sql present, 10 PartialRefundDecision refs = table creator).
+  - Header comment @ line 7 updated to `20261215000300`.
+  - Ordering assertion @ line 124: `expect('20261218000100' > '20261215000300').toBe(true)` — lexically correct; RLS migration sorts after table-creation migration ✔.
+- **No stale `20261214000000` references remain in the changed spec** (grep = NONE). The `20261214000000` prefix now belongs to an UNRELATED migration `20261214000000_dunning_v2_lockout_recovery` (0 PartialRefundDecision refs — sanity confirmed), so the old fixture path would 404/ENOENT — exactly the red-spec the PR fixes. Root cause = the PR #487 chain-repair renumber; fix is the minimal path update. ✔
+- RLS target `20261218000100_rls_partial_refund_decision` exists and `ENABLE`+`FORCE ROW LEVEL SECURITY` on PartialRefundDecision — spec's static assertions remain valid.
