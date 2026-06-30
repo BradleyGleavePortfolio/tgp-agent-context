@@ -46,3 +46,6 @@ Result: PASS. Both privileged new controllers are guarded at controller class le
 
 ### Item 10 — MetricsAuthGuard ReDoS fix
 Result: FINDING P2. The regex-based parser is gone and there are no nested quantifiers, so the classic ReDoS vector is fixed. But the advertised 4096-byte cap is applied after value.trim(), meaning an overlong whitespace-heavy Authorization header is scanned before the cap check. Node's header-size limits reduce practical risk, but the parser is not genuinely bounded as documented. Move a raw value.length > MAX_AUTHORIZATION_HEADER_LENGTH rejection before trim().
+
+### Item 11 — R82 migration safety
+Result: PASS. Migration is intentionally IRREVERSIBLE/OPERATOR-ATTACH and documented. CREATE EXTENSION IF NOT EXISTS pg_stat_statements is idempotent. README documents shared_preload_libraries + restart prerequisites and states /admin/db-stats degrades to available:false when extension is absent, so consuming code can deploy before/after operator attach. Default-on only after operator enables Postgres prerequisite.
