@@ -111,3 +111,9 @@ Status: **CLEAN / N/A**.
 
 - R76 production LOC cap is not applicable because the PR changes zero `src/` production lines.
 - The LOC is test/CI/docs/template only, so no production cap breach exists.
+
+## Item 14 — R74 test:src density
+Status: **CLEAN / N/A**.
+
+- Added test/config LOC is 1320 (`test/deploy-readiness.spec.ts`) + 146 (`test/prod-readiness.config.ts`) = 1466.
+- Added `src/` LOC denominator is 0, so test:src ratio is infinite / not applicable rather than below-threshold.
