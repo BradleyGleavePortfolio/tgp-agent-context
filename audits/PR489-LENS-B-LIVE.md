@@ -35,3 +35,19 @@ Status: **CLEAN**.
 
 - Both jobs use `runs-on: ubuntu-latest` (lines 62 and 152).
 - No custom/self-hosted runner or privileged runner surface was introduced.
+
+## Item 4 — Sample 10 `it()` blocks for meaningful assertions
+Status: **CLEAN**.
+
+Sampled 10 blocks across the 1320-line spec; each has real assertions against behavior, not mere existence theater:
+
+1. Lines 803-814 assert exact ALL CLEAR rendering and zero sum.
+2. Lines 816-832 assert DO NOT DEPLOY regex shape, captured bucket order, and sum.
+3. Lines 866-877 assert strict aggregation totals and rendered board content.
+4. Lines 879-891 assert PR-mode gating excludes env-dependent buckets while surfacing strict totals.
+5. Lines 947-957 assert stub-section red counting and rendered file/line content.
+6. Lines 970-982 assert operator key gap arithmetic and line rendering.
+7. Lines 996-1004 assert section registry order and that only auto-flipper is informational.
+8. Lines 1032-1040 assert quick mode executes only STUB_VALUES and is clean.
+9. Lines 1194-1217 assert planted tokens across `supabase/` and `.env.example` are actually detected and block.
+10. Lines 1244-1274 assert prod-switch wrong/OK classification and PR gating behavior.
