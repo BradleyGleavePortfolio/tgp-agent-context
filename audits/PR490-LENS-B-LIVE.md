@@ -43,3 +43,6 @@ PASS — PR diff scope is exactly two modified test files with `16 insertions(+)
 
 ### Checklist item 7 — R3 commit identity
 PASS — Both PR commits (`59315faf7b5f39179a11e99695c6eefdb82b06ca` and `40f31a3c2a1e563cf0070276d4b2f938e17430f0`) have author and committer exactly `Bradley Gleave <bradley@bradleytgpcoaching.com>`. Forbidden-token scan of both commit messages returned 0 matches.
+
+### Checklist item 8 — R75/R100.A2 banned-cast net delta
+PASS — Added-line scan across the full PR diff for `as any|as unknown as|as never|@ts-ignore|@ts-nocheck|<any>|Coming soon|.catch(()=>` returned 0 matches. No banned-cast or placeholder net delta introduced.
