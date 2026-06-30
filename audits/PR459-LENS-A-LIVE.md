@@ -136,3 +136,18 @@ A negative grep `grep -vE '^src/observability/|^prisma/migrations/2026...|^packa
 
 ### Item 24 — R20 tracking issues (TODO/FIXME) — **PASS**
 Grep of added lines in src+test for `TODO|FIXME|XXX|HACK` → **NONE**. No follow-up markers introduced. The migration README documents the operator-attach prerequisite as an operational runbook step (not a code TODO), which is appropriate. **No finding.**
+
+### Item 25 — R79 50-failures severity-pass sweep — **PASS (no new failures)**
+Swept the full diff in severity order:
+1. **Security** — secrets (item 1 ✓), authn/authz default-deny + CT compare (items 5,9 ✓), ReDoS hardened (item 10 ✓), PII redaction + bearer gate on db-stats (item 2 ✓), no SQL injection (item 3 ✓), no XSS (item 4 ✓). Clear.
+2. **Data integrity** — migration is additive read-only diagnostic, graceful degrade, expand-contract safe (item 11 ✓). No data mutation paths in this PR. Clear.
+3. **Concurrency** — `registerDefaultMetrics` is idempotent via a `defaultsRegistered` guard (prom-metrics.ts L28-43); `buildHttpHistogram` reuses an existing singleton (L49-52) so repeated AppModule bootstraps (tests) don't double-register and throw. Module `onModuleInit` is the single registration point. No shared-mutable-state races. Clear.
+4. **Error handling** — `topStatements` classifies expected extension-absent SQLSTATEs (42P01/42704) and **rethrows** all unexpected errors (service L106-121) — no swallowing. Sentry `unhandledRejection`/`uncaughtException` handlers in main.ts L159-166 capture + log. Clear.
+5. **Performance** — single DB query, no N+1 (item 14 ✓); histogram cardinality bounded by route normalisation + fixed label set (item 12 ✓); prom middleware only does work on `res.on('finish')`, never blocks the request. Clear.
+6. **Architecture** — clean layer split guard/service/controller (item 13 ✓); barrel `index.ts` intentionally avoids re-exporting established primitives to prevent import churn. Clear.
+7. **Code quality** — 0 prod banned casts (item 15 ✓), 0 half-ass markers (item 16 ✓), LOC accurate (item 17 ✓), test density 2.16 (item 18 ✓). Clear.
+8. **Infrastructure** — 23 files in-lane (item 22 ✓), clean commit identity (item 23 ✓), dependency add is the official prom-client@15.1.3 (Apache-2.0) + standard transitives. Clear.
+
+**Failure #36 (silent errors) — SPECIAL ATTENTION:** grepped `src/observability/` for `catch(){}`, `catch(e){}`, `.catch(()=>...)` → **NONE**. The only catch block (db-stats.service L106) inspects the error, logs a warn for the known-benign case, and rethrows everything else. The histogram timer uses `res.on('finish')` with no error-swallowing. **No silent errors.**
+
+**Sweep result: 0 new failures across all 8 passes.**
