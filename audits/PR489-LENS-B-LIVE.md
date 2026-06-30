@@ -78,3 +78,10 @@ Status: **CLEAN**.
 
 - The config imports no scanner/prod modules and performs no I/O; it declares section ids/types, a `SCANNER_REGISTRY` metadata array, two relative paths, and small pure lookup/filter helpers (lines 13-18, 27-34, 69-118, 125-146).
 - I found no hidden production logic, side effects, environment reads, network calls, filesystem calls, or deploy behavior in this config file.
+
+## Item 9 — R117/R123 assertion-bearing deterministic pass/fail
+Status: **FINDING (same P1 as item 6)**.
+
+- Assertion density is strong: grep found 103 `expect(` calls across 27 test declarations/table-driven blocks.
+- Every visible test body I inspected contains meaningful assertions over return values, counts, rendered strings, or scanner outputs.
+- **P1 carried from item 6:** the hard-block prod-deploy test is registered through `it.skip` when `DEPLOY_READINESS_STRICT` is not set (lines 1093-1106), so the default PR path includes a skipped test instead of a deterministic pass/fail outcome for that test case.
