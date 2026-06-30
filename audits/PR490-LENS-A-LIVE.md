@@ -14,3 +14,19 @@
 - Live-push: every finding pushed to GitHub the moment it is written (R-live-push / R52)
 
 ## CHECKLIST (to be filled by Lens A; each item verified independently against `gh pr view 490 --json files,headRefOid` + repo at SHA 40f31a3c)
+
+---
+### [1] R124 BUILD MATRIX — PASS
+- `git rev-parse HEAD` = `40f31a3c2a1e563cf0070276d4b2f938e17430f0`
+- `gh api .../pulls/490 --jq .head.sha` = `40f31a3c2a1e563cf0070276d4b2f938e17430f0`
+- Both match the dispatch SHA. Build matrix verified. Base = main @ 185444e4. Diff confirmed 2 files / +16 / -4 via `git diff base..head --stat`.
+
+### [2] R76 §6 APPEND-ONLY INVARIANT — PASS
+- Independent below-floor enumeration at THIS SHA (FLOOR_TS=20261219000000):
+  `ls -1 prisma/migrations/ | while read d; do p="${d:0:14}"; [[ "$p" < "20261219000000" ]] && echo "$d"; done | wc -l` = **149**.
+- Total migration dirs = 156. Below-floor literal in spec bumped 146 -> 149 — matches the independent count exactly.
+- All three named split companions present below floor:
+  - `20260425030001_add_community_win_visibility`
+  - `20260701235900_add_sub_coach_role_value`
+  - `20261207000001_pr14_client_purchase_landing_page_idx_concurrent`
+- Each sits in its chronologically-correct slot below FLOOR; grandfathered append-only hygiene, not a back-dated reorder of later work. R76 §6 compliant. Zero migration files touched by this PR (verified: diff stat shows only `test/` files).
