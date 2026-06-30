@@ -25,3 +25,6 @@
 PASS — Verified current checkout and PR API both resolve to head SHA `40f31a3c2a1e563cf0070276d4b2f938e17430f0`:
 - `git rev-parse HEAD`: `40f31a3c2a1e563cf0070276d4b2f938e17430f0`
 - `gh api repos/BradleyGleavePortfolio/growth-project-backend/pulls/490 --jq .head.sha`: `40f31a3c2a1e563cf0070276d4b2f938e17430f0`
+
+### Checklist item 2 — R76 §6 append-only invariant
+PASS — Independent below-floor enumeration at SHA `40f31a3c2a1e563cf0070276d4b2f938e17430f0` returned `149` migrations for prefixes lexically below `20261219000000`, matching the updated 146→149 fixture expectation. Enumeration saved locally at `/home/user/workspace/pr490_lensb_below_floor_migrations.txt`.
