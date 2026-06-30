@@ -43,3 +43,18 @@ The headline failure mode (pg_stat_statements leaking bound parameters with PII 
 ### Item 4 — R27 XSS / output paths — **PASS**
 - `prom-metrics.controller.ts` L24 sets `Content-Type: text/plain; version=0.0.4; charset=utf-8` (the canonical Prometheus exposition content-type) — not `text/html`, so no browser HTML interpretation. Body is `register.metrics()` (prom-client serialiser), label values bounded to method/route/status_code, never user-supplied free text. `normaliseRouteLabel` (prom-metrics.ts L70-82) collapses UUIDs/numeric ids → bounded cardinality + no reflected user string.
 - Sentry: `stripSensitiveHeaders` (sentry-config.ts L47-56) deletes authorization/cookie before send; tags block (L73-80) is static service/runtime/environment + resolved release — no user-controlled strings written to logs/tags. **No finding.**
+
+### Item 5 — R28 IDOR / timing-safe comparison — **PASS**
+Both `/metrics/prom` (prom-metrics.controller.ts L20) and `/admin/db-stats` (db-stats.controller.ts L20) are behind `@UseGuards(MetricsAuthGuard)`. Token check is **NOT `===`**: `constantTimeEquals` (metrics-auth.guard.ts L88-96) does a length-guard then XOR-accumulates every char code (`diff |= a.charCodeAt(i) ^ b.charCodeAt(i)`) and returns `diff === 0`, so loop duration is independent of where the first mismatch occurs. Length is treated as non-secret (acceptable — token length is fixed by the operator). Note: this is a hand-rolled CT compare rather than `crypto.timingSafeEqual`; it is correct and constant-time for equal-length strings. **No finding** (could optionally use `crypto.timingSafeEqual` over Buffers — P3 nicety, not raised as it adds a length-leak the current code also has).
+
+### Item 6 — R29 Rate limiting on /metrics/prom — **PASS (by design)**
+The endpoint is bearer-only gated and `@ApiExcludeController`. Prometheus scrape endpoints are intentionally high-frequency; gating by a shared bearer token (not per-user) is the correct allowlist model. The prom middleware is registered FIRST in main.ts (L42) so even throttled/4xx requests are measured. No per-route throttle is needed when the endpoint is bearer-gated and not user-facing. **No finding.**
+
+### Item 7 — R30 JWT hygiene — **PASS (env-only confirmed)**
+Sentry release tagging uses **no JWT/signed tokens** — release is a plain string composed from `SENTRY_RELEASE`/`GIT_SHA`/`RELEASE_VERSION` env vars (sentry-config.ts L26-35). Metrics auth uses a static bearer secret, not a JWT. Confirmed env-only. **No finding.**
+
+### Item 8 — R31 Runtime input validation — **PASS**
+`/admin/db-stats` (db-stats.controller.ts L25-32) takes **no query params** — `dbStatsTop()` calls `topStatements()` with the default `DB_STATS_TOP_N=20`. The `topN` param exists on the service for internal/testing use and is defensively clamped `Math.max(1, Math.min(100, Math.floor(topN)))` (service L79) so even a hostile value is bounded to [1,100] integer. Since no external input reaches it today, zod/class-validator is unnecessary; the clamp is the validation. **No finding.** (If a `?topN=` param is exposed later it should get a class-validator DTO — noted for future, not blocking.)
+
+### Item 9 — R32 Role checks at data layer — **PASS**
+`@UseGuards(MetricsAuthGuard)` is a **class-level decorator** on both controllers, so the guard runs before every handler method — not per-route-only. Guard is registered as a provider in observability.module.ts L37. Placement is before the controller body executes (Nest guard lifecycle runs guard → handler). **No finding.**
