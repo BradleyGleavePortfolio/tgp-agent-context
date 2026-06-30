@@ -12,3 +12,14 @@
 - Auditor: Lens B, model gpt_5_5 (R11 independence honored — Lens A file NOT read)
 - Audit-start UTC: 2026-06-30T23:00Z
 - Live-push: every checklist item pushed the moment it's written (R-live-push / R52)
+
+## Item 1 — CI workflow security line-by-line (`.github/workflows/h4-readiness.yml`)
+Status: **FINDINGS (P1/P2)**.
+
+- R124 verified: local checkout `git rev-parse HEAD` and `gh pr view 489 --json headRefOid` both returned `375f310a17bf03c709385acc4d6d0072919b9340`; base ref returned `185444e4326e61fd964c18498a3805533bd85152`.
+- Trigger set is `pull_request`, `workflow_dispatch`, and `push` to `release/*`; **no `pull_request_target`** trigger found, so the classic elevated-token PR-head checkout P0 is absent (lines 37-42).
+- Permissions are not `write-all`; top-level is `contents: read`, and the PR job adds `pull-requests: write` only for commenting (lines 46-47, 64-66).
+- **P1:** the PR job grants `pull-requests: write` to the whole job while running PR-controlled code via `npm ci`, `npx prisma generate`, and `npm run test` before the comment step (lines 63-87). Split the comment operation into a separate minimal job/workflow or avoid exposing a write-scoped `GITHUB_TOKEN` to dependency/test execution.
+- No secrets are echoed or referenced; grep found no `secrets.*` use in executable workflow code.
+- No direct `${{ github.event.* }}` interpolation appears inside `run:` blocks; the only event/context use is in YAML `if:` guards and `github-script` context reads (lines 61, 131-132, 151), so the industry P0 command-injection pattern is absent.
+- **P2:** first-party actions use moving major tags `actions/checkout@v4` and `actions/setup-node@v4` (lines 68, 70, 154, 156). The third-party `actions/github-script` is SHA-pinned (line 105), but checkout/setup-node should also be pinned to immutable SHAs or at least full vetted versions under the stated pinned-action policy.
