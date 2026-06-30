@@ -17,7 +17,7 @@
 
 ## FINDINGS
 
-(populated live by auditor)
+- P2: `prisma/migrations/20261221000000_enable_pg_stat_statements/migration.sql:1` (R82) marks the migration `IRREVERSIBLE` and only issues `CREATE EXTENSION IF NOT EXISTS pg_stat_statements`; add a documented reversible down/rollback path (for example an explicit operator-approved `DROP EXTENSION` procedure or split this into an operator runbook outside Prisma migrations) so the modified migration satisfies the reversibility requirement.
 
 ## VERDICT
 
