@@ -66,3 +66,9 @@ Status: **FINDING (P1)**.
 - Grep found no `fit`, `fdescribe`, `xit`, `xtest`, `.todo`, `.only`, or literal `Coming soon` test placeholder in the added spec/config.
 - **P1:** `test/deploy-readiness.spec.ts` defines `const gateDescribe = resolveStrict(process.env) ? it : it.skip;` and uses it for the hard-block prod-deploy gate test (lines 1083-1106). That means the default/PR run reports a skipped test, violating the explicit R109 no-`.skip` policy even though the workflow sets strict mode for the deploy gate.
 - Fix by avoiding Jest skip registration in default mode; for example, keep an always-running deterministic test that asserts the strict gate behavior with explicit injected env/fixtures, and keep the real deploy gate as a separate script/workflow assertion rather than registering `.skip`.
+
+## Item 7 — R75/R100.A2 banned casts/directives in added diff
+Status: **CLEAN**.
+
+- Added-diff grep for `as any|as unknown as|as never|@ts-ignore|@ts-nocheck|<any>` returned zero matches across the PR diff.
+- The only broad grep hit in the workspace is the pre-existing PR-template checklist text listing the banned tokens, not newly added code.
