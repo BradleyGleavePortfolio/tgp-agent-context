@@ -34,3 +34,6 @@ Result: PASS. MetricsAuthGuard does not use plain === for configured token compa
 
 ### Item 6 — R29 metrics exposure
 Result: PASS. /metrics/prom is @Public only to bypass the global JWT guard and is explicitly protected by MetricsAuthGuard. The guard defaults to 503 in prod-like envs when METRICS_AUTH_TOKEN is unset, so a misconfigured prod/staging deploy does not expose runtime metrics. No separate rate limiter is present, but the endpoint is token-gated and intended for Prometheus polling.
+
+### Item 7 — R30 JWT
+Result: PASS. No JWT parsing, signing, verification, or claim handling is introduced. The new auth surface is a standalone METRICS_AUTH_TOKEN bearer guard for observability endpoints only.
