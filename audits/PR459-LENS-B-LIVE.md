@@ -28,3 +28,6 @@ Result: PASS. New db-stats SQL uses Prisma tagged-template  with only an interna
 
 ### Item 4 — R27 XSS
 Result: PASS. /metrics/prom sets text/plain Prometheus content type. /admin/db-stats returns JSON only. Sentry release/environment/tag values come from environment variables and are sent to Sentry config, not rendered into HTML. No new browser-rendered surface or unescaped HTML path found.
+
+### Item 5 — R28 IDOR timing-safe bearer
+Result: PASS. MetricsAuthGuard does not use plain === for configured token comparison; it calls constantTimeEquals(), which returns false on length mismatch and XOR-accumulates all characters for equal-length inputs. Missing/wrong headers throw UnauthorizedException; production/staging unset token fail closed with ServiceUnavailableException.
