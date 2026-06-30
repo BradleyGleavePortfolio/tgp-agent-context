@@ -136,3 +136,11 @@ Status: **CLEAN**.
 
 - Grep for `TODO|FIXME|XXX|TBD` in the five changed files found only intentional `TODO_BEFORE_PROD` stub-scan token fixtures in `test/deploy-readiness.spec.ts` (lines 344, 1158, 1167, 1209).
 - No unfiled TODO/FIXME implementation notes or placeholder follow-ups were introduced in docs, workflow, config, or tests.
+
+## Item 18 — R79 50-failures sweep, severity-pass order
+Status: **FINDINGS (P1/P2 carried)**.
+
+- P0 sweep: no `pull_request_target`; no PR-head checkout under elevated target-token; no `${{ github.event.* }}` interpolation inside `run:` shell; no secrets echoed or debug-printed.
+- **P1 carried from item 1:** PR job grants `pull-requests: write` while executing PR-controlled dependency/test commands before the comment step (lines 63-87), exposing a write-scoped token to code execution in that job.
+- **P2:** workflow has `continue-on-error: true` on `test-deploy-readiness` (line 63). This is documented as intentional informational behavior, but it still means a broken board can produce a green PR check unless operators inspect the posted board/comment; that is Failure #36-style masking and should be time-boxed or made visibly neutral/non-required.
+- Command-extraction `awk ... || true` is acceptable because the step immediately falls back to an explicit “board did not render” message if the extract is empty (lines 91-101).
