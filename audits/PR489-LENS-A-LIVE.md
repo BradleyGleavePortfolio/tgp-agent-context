@@ -46,3 +46,53 @@ Both jobs `runs-on: ubuntu-latest` (L62, L152). No `self-hosted`. **PASS.**
 - **Secrets exposure via debug logging:** none — no secrets referenced.
 
 VERDICT ITEM 18 (YAML): **CLEAN** aside from one P3 observation (informational-check masking, by design).
+
+---
+
+## ITEM 4 — Sample 10 `it()` blocks for real assertions (R40 anti-theater)
+
+35 describe/it blocks, 103 `expect()` calls total. Sampled 10 across the file:
+
+1. L803 `renders ALL CLEAR when every bucket is zero` — `expect(buildExitLine(counts)).toBe(EXIT_ALL_CLEAR)` + `sumCounts→0`. Real.
+2. L816 `renders the itemised DO NOT DEPLOY line` — matches regex, executes capture, asserts the 6 captured numbers `.toEqual([2,1,6,3,4,5])` + `sumCounts→21`. Strong behavioural assertion.
+3. L893 `happy-path fixture aggregates to zero` — loops strict∈{false,true}, asserts totalRed/strictTotalRed/exitLine/board contains 'SAFE TO DEPLOY'. Real.
+4. L919 `env-dependent-only red gates under strict but not PR` — asserts strict gates (`>0`, DO_NOT_DEPLOY regex) AND PR does not (`totalRed===0`, strictTotalRed>0, ALL_CLEAR, board contains 'PROD-DEPLOY RED LINES (strict): 1'). Excellent dual-mode assertion.
+5. L947 `stub section counts only BLOCK_SHIP as red` — `r.red===1`, `r.gating===true`, line contains `src/a.ts:1`. Real (filters WARN/INFO).
+6. L959 `wiring section counts STUB providers, ignores NOT_USED/WIRED` — `r.red===1`, line contains 'Stripe'. Real.
+7. L970 `operator-keys section` — `keyGaps===3`, `result.red===3`, contains 'STRIPE_LIVE_MODE'. Real arithmetic over gap sources.
+8. L1244 `wrongly-set switch in red, correct in OK` — `wrong===1`, body contains 'WRONG] WRONG_FLAG' + 'actual=set expected=OFF', classifySwitch OK vs WRONG, then board gates with DO_NOT_DEPLOY. Real.
+9. L1276 `unset MUST_SET/ON → WARN (strict-only)` — `wrong===0`, `warn>=2`, PR totalRed===0 but strict totalRed===warn. Real mode-sensitive gating.
+10. L1194 `finds planted tokens in supabase/migrations + .env.example` — asserts non-src roots scanned, 6 specific tokens detected, every config hit BLOCK_SHIP, stub section red>0. Real.
+
+VERDICT ITEM 4: **PASS.** Every sampled block carries ≥1 meaningful behavioural `expect()`. No `.toBeDefined()`/exists theater.
+
+## ITEM 5 — R86 anti-padding (1320 LOC)
+
+Tests are genuinely distinct, organized by behaviour class, not permutation padding:
+- exit-line format (ALL CLEAR vs itemised DO NOT DEPLOY, regex non-overlap)
+- aggregation correctness (full breakdown, PR-vs-strict mode gating, happy-path, env-dependent-only)
+- section runners (stub / wiring / operator-keys / auto-flipper) — each a distinct sub-scanner with distinct assertion class
+- config registry (render order, exactly-one-informational, H4.E+H4.F coverage, pattern exposure)
+- mode resolution R104
+- live-repo integration (quick/full/strict against REPO_ROOT)
+- learning-ledger tracked-debt downgrade (unit + live)
+- stub-scan scope across src/ + supabase/ + .env.example
+- prod-switch render+gate per registry row
+Each section exercises a unique behaviour; the table-driven cases (e.g. L1244/L1276) test *different* classification outcomes (WRONG vs WARN), not duplicate permutations. LOC is justified by the orchestrator's 7-section surface + dual-mode (PR/strict) matrix. No R86 padding finding.
+
+VERDICT ITEM 5: **PASS.**
+
+## ITEM 6 — R109 no half-ass (`.skip|.todo|xit|fit|fdescribe|"Coming soon"`)
+
+grep hits:
+- L1093 `const gateDescribe = resolveStrict(process.env) ? it : it.skip;` — **NOT a half-ass skip.** This is a deliberate environment-gated test: the STRICT prod-deploy gate test (L1094-1106) runs ONLY when `DEPLOY_READINESS_STRICT=1` (set by the YAML gate job L168-170); skipped in PR/local so it never false-fails. The test body has real assertions (`board.totalRed===0`, `board.exitLine===EXIT_ALL_CLEAR`). Legitimate conditional execution, documented L1083-1092. **P3 note** only: a conditionally-skipped gate test means the hard-gate assertion never runs in CI on the PR itself — but that is exactly the design (gate runs on release/* push + workflow_dispatch). Acceptable.
+- `TODO_BEFORE_PROD` (L344 const, L1167 planted fixture, L1209 assertion) — **NOT R20 TODOs.** These are scanner *needle tokens* the orchestrator hunts for as deploy hazards; L344 is a data constant, L1167 is a planted test fixture, L1209 asserts detection. Correct fixture usage, not unfiled work.
+No `.todo`, `xit`, `xtest`, `fit`, `fdescribe`, or "Coming soon". VERDICT ITEM 6: **PASS** (1 P3 note).
+
+## ITEM 7 — R75 / R100.A2 banned casts
+
+grep over added diff (`test/`, `docs/`, `.github/`) for `as any|as unknown as|as never|@ts-ignore|@ts-nocheck|<any>` → **ZERO** in added lines. (The only mentions are inside the PR template checklist text enumerating the banned tokens — not actual casts.) VERDICT ITEM 7: **PASS (0).**
+
+## ITEM 9 — R117/R123 assertion-bearing / deterministic pass-fail
+
+Every sampled path produces deterministic pass/fail against fixed fixtures or the live repo board (`runDeployReadiness({repoRoot, mode})`). No tautological/always-pass tests observed. The dual-mode assertions (PR vs strict) pin BOTH the gating verdict and the surfaced strict count, so a regression that silently flips gating would fail. No "passes when it shouldn't" pattern. VERDICT ITEM 9: **PASS.**
