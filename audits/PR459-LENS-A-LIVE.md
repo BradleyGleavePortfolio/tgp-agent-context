@@ -21,3 +21,10 @@
 - MATCH → proceeding. Base confirmed main @ 185444e4326e61fd964c18498a3805533bd85152, 11 commits, HEAD~11 = base.
 
 ## FINDINGS (severity-tagged; live-pushed per item)
+
+### Item 1 — R24 Zero secrets in source/history — **PASS (P0/P1 clear)**
+Grepped full added diff for real Sentry DSN format `https://<hex-key>@<host>/<id>`, `postgres://user:pass@`, `sk_live/sk_test`, `AKIA`, PEM blocks, inline `api_key=...` literals → **none found**. Everything is env-driven:
+- `sentry-config.ts`: DSN comes from `env.SENTRY_DSN` (initSentry L92-98); `buildSentryOptions(dsn, env)` takes DSN as a param, never literal. Test fixtures use obviously-fake `https://dsn@o.ingest/1`.
+- `metrics-auth.guard.ts`: token read from `process.env.METRICS_AUTH_TOKEN` (L26). Test tokens are placeholders (`super-secret`, `scrape-token`).
+- Migration SQL: pure `CREATE EXTENSION`, no connection string.
+No secrets in source or in any of the 11 commit messages. **No finding.**
