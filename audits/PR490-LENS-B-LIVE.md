@@ -28,3 +28,6 @@ PASS — Verified current checkout and PR API both resolve to head SHA `40f31a3c
 
 ### Checklist item 2 — R76 §6 append-only invariant
 PASS — Independent below-floor enumeration at SHA `40f31a3c2a1e563cf0070276d4b2f938e17430f0` returned `149` migrations for prefixes lexically below `20261219000000`, matching the updated 146→149 fixture expectation. Enumeration saved locally at `/home/user/workspace/pr490_lensb_below_floor_migrations.txt`.
+
+### Checklist item 3 — FLOOR_TS structural pin
+PASS — In `test/roman-coach-reviewed-migration.spec.ts` at current SHA, the structural pin is intact: `const FLOOR_TS = '20261219000000';` appears at line 212, `const self = '20261219000000_conv_review_coach_reviewed_at_idx';` appears at line 231, and `expect(self.slice(0, 14)).toBe(FLOOR_TS);` appears at line 233.
