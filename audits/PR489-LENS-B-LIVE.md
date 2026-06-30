@@ -123,3 +123,10 @@ Status: **CLEAN**.
 
 - PR touches only five orchestrator-lane files: one CI workflow, one runbook, one PR-template line, and two `test/` deploy-readiness orchestrator/config files.
 - No unrelated application, database, or production source files were changed.
+
+## Item 16 — R3 commit identity and forbidden-token check
+Status: **CLEAN**.
+
+- PR range has two commits: `8be2c866...` (`Add R100 deploy-readiness orchestrator board`) and `375f310a...` (`test: tighten deploy-readiness orchestrator stub scope and prod-switch rendering`).
+- Both commits are authored by `Bradley Gleave <bradley@bradleytgpcoaching.com>`.
+- Commit-message grep found no co-author trailers or forbidden identity tokens; incidental words like `fail`/`planted` are not identity tokens.
