@@ -61,3 +61,6 @@ Result: PASS. DbStatsService performs exactly one pg_stat_statements query and m
 
 ### Item 15 — R75 banned-cast net delta
 Result: FINDING P2. Expected net delta was 0, but added diff contains 27 banned cast-pattern hits, all in test/observability/*.spec.ts. They are mostly as unknown as test fakes for PrismaService, ExecutionContext, Request/Response, EventEmitter, and Parameters<typeof stripSensitiveHeaders>. No prod banned-cast hits found, but the checklist explicitly expected zero across the diff.
+
+### Item 16 — R109 no half-ass tests
+Result: PASS. Grep found no .skip, .todo, xit, xtest, fit, or fdescribe in test/observability or src/observability.
