@@ -27,6 +27,33 @@
 
 **[VERIFIED] R11 — Lens isolation honored.** `audits/PR489-LENS-B-LIVE.md` was NOT read at any point during this audit. This run is independent.
 
+**[VERIFIED] R75 — zero banned casts.** Scan of `test/deploy-readiness.spec.ts` and `test/prod-readiness.config.ts` for `as any | as unknown as | as never | @ts-ignore | @ts-nocheck | <any>`: zero hits. PR carries 0 prod LOC + 1320 LOC spec + 146 LOC config + 223 LOC workflow + 109 LOC runbook + 1 PR-template line; no TS in `src/` touched. No finding.
+
+**[VERIFIED] R76 — per-file prod LOC cap.** Genuine prod LOC = 0 (all TS is under `test/**`, CI is `.github/**`, docs under `docs/**`). Workflow 223 LOC, config 146 LOC, runbook 109 LOC — all well under 400 and not prod files. Spec 1320 LOC is test code under the PR's `[LOC-EXEMPT]` marker (R100 flagship orchestrator). No finding.
+
+**[VERIFIED] R86 — no padding.** `test/deploy-readiness.spec.ts`: 26 test blocks, 103 `expect(...)` assertions (~4 per test). Every test block carries real assertions (the line-1059 strict-mode test has 5; line-1093 gate has 4). No filler / no-assertion tests. No finding.
+
+**[VERIFIED] R109 — only the operator-accepted skip is present.** The sole skip/todo/focus marker in the diff is `it.skip` at `test/deploy-readiness.spec.ts:1093` (`const gateDescribe = resolveStrict(process.env) ? it : it.skip;`), inside the operator-accepted strict-gate exception range 1083-1106 (ruling 2026-06-30 16:22 PDT). It stands by design — NOT flagged. No other `.skip|.todo|xit|xtest|fit|fdescribe|"Coming soon"` anywhere in the diff. No finding.
+
+### CI security checklist — P1 workflow-split re-verification (`.github/workflows/h4-readiness.yml`)
+
+**[VERIFIED] P1 fixed — elevated scope isolated from PR-controlled code.** The split (commit `1989452f`) is sound:
+- `comment-deploy-readiness` (lines 141-195) holds the ONLY `pull-requests: write` scope (line 147) and runs NO PR-controlled code: it has no `checkout`, no `npm ci`, no `prisma generate`, no test execution. It only `actions/download-artifact` (line 151) the board produced by the test job and posts it via `actions/github-script` (line 157). The canonical postinstall/test token-exfil path cannot reach the write token.
+- `test-deploy-readiness` (lines 81-130) runs the PR-controlled code (`npm ci` L96, `npx prisma generate` L99, the test board L107) and its `permissions:` block is `contents: read` only (lines 85-86) — NO `pull-requests: write` or other elevated scope.
+- Workflow default `permissions:` is `contents: read` (lines 58-59) — least privilege.
+- Artifact handoff: test job uploads `board-extract.txt` via `actions/upload-artifact` (L125, `if-no-files-found: error`); comment job consumes it via `download-artifact` (L151). No re-checkout/execute of PR HEAD in the elevated job. Checklist satisfied.
+
+**[VERIFIED] P2-1 fixed — all actions SHA-pinned (commit `4da81900`).** All 7 `uses:` refs are 40-hex SHA pins with version comments. Each pin was resolved against the upstream tag and MATCHES: `checkout@11bd719…` (v4.2.2), `setup-node@49933ea…` (v4.4.0), `upload-artifact@b4b15b8…` (v4.4.3), `download-artifact@fa0a91b…` (v4.1.8), `github-script@ed59741…` (v8.0.0). No major-tag float; no typo'd/spoofed pin. The elevated-scope job's two actions are both correctly pinned. No finding.
+
+**[VERIFIED] P2-2 fixed — runbook documents the WARN bucket (commit `be849d1c`).** `docs/runbooks/deploy-readiness.md` exit line (L28) now reads `EXIT: N STUB + N PROD SWITCHES WRONG + N PROD SWITCHES WARN + N WIRING GAPS + N ENV GAPS + N KEY GAPS -> DO NOT DEPLOY`, and a dedicated "WRONG vs WARN" paragraph (L30) explains WRONG gates both surfaces while WARN gates only under strict. This matches the spec's `buildExitLine` (spec L213-219) and `EXIT_DO_NOT_DEPLOY_RE` (spec L193-194) exactly. No finding.
+
+**[VERIFIED] P2-3 fixed — no continue-on-error masking (commit `59b6340d`).** `grep continue-on-error` over the workflow finds only documentation comments (L34, L74, L199); zero actual `continue-on-error:` step/job keys. A broken board render now surfaces the PR check red; the strict `deploy-readiness-gate` job (L201-223) is hard-blocking with no masking. No finding.
+
+### Result
+Fresh full-PR sweep across all 5 changed files (`.github/workflows/h4-readiness.yml`, `test/deploy-readiness.spec.ts`, `test/prod-readiness.config.ts`, `docs/runbooks/deploy-readiness.md`, `.github/PULL_REQUEST_TEMPLATE.md`). All four prior non-skip defects (P1 split, P2 SHA pins, P2 runbook WARN, P2 continue-on-error) are genuinely fixed and independently confirmed. The R109 `it.skip` is the operator-accepted exception and is not a finding. No new defects of any severity. Zero findings (P0/P1/P2/P3 = 0).
+
 ## VERDICT
 
-(populated last)
+Fresh independent Lens A audit of PR #489 @ `59b6340d0a58816c53a5dadf839233cf16aa229b`. Head SHA verified both ways (R124). R3 clean on all PR commits incl. the four fixers. R75/R76/R86 clean. R109: only the operator-accepted `it.skip` strict-gate (line 1093) is present — not a finding. The P1 workflow split genuinely isolates the `pull-requests: write` scope (in the no-code `comment-deploy-readiness` job) from PR-controlled code execution (in the `contents: read`-only `test-deploy-readiness` job), with artifact-only handoff; P2 SHA pins all resolve correctly; P2 runbook WARN bucket documented and matches the spec; P2 continue-on-error masking removed. All four prior non-skip defects confirmed fixed. Zero new findings (P0=0, P1=0, P2=0, P3=0).
+
+VERDICT: CLEAN
