@@ -85,3 +85,6 @@ Result: PASS. The 23 changed files are confined to observability lane/supporting
 
 ### Item 23 — R3 commit identity
 Result: PASS. All 11 commits from origin/main..HEAD are authored and committed by Bradley Gleave <bradley@bradleytgpcoaching.com>. Commit bodies are empty; no Co-authored-by lines or forbidden AI/bot attribution tokens found.
+
+### Item 24 — R20 tracking
+Result: PASS. Grep of changed observability source/tests/migration/bootstrap files found no TODO, FIXME, FOLLOWUP, HACK, or XXX markers. Migration README documents operator-attach and irreversible behavior rather than leaving an untracked follow-up.
