@@ -25,3 +25,6 @@ Result: FINDING P2. pg_stat_statements itself should not expose Prisma tagged-te
 
 ### Item 3 — R26 raw SQL injection
 Result: PASS. New db-stats SQL uses Prisma tagged-template  with only an internally clamped numeric LIMIT interpolation; no user input reaches raw SQL. Migration SQL is static CREATE EXTENSION IF NOT EXISTS pg_stat_statements; no dynamic SQL or interpolation.
+
+### Item 4 — R27 XSS
+Result: PASS. /metrics/prom sets text/plain Prometheus content type. /admin/db-stats returns JSON only. Sentry release/environment/tag values come from environment variables and are sent to Sentry config, not rendered into HTML. No new browser-rendered surface or unescaped HTML path found.
