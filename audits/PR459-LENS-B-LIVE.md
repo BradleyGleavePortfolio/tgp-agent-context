@@ -64,3 +64,6 @@ Result: FINDING P2. Expected net delta was 0, but added diff contains 27 banned 
 
 ### Item 16 — R109 no half-ass tests
 Result: PASS. Grep found no .skip, .todo, xit, xtest, fit, or fdescribe in test/observability or src/observability.
+
+### Item 17 — R76 LOC cap
+Result: PASS. PR is marked LOC-EXEMPT. Independent numstat: new src/observability files excluding the pre-existing module total 503 added LOC; including ObservabilityModule edits, src/observability added LOC is 529; including src/main.ts and src/instrument.ts bootstrap changes, src added LOC is 548. This is consistent with the declared ~505 new prod LOC lane.
