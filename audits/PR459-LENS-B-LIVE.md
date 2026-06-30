@@ -88,3 +88,6 @@ Result: PASS. All 11 commits from origin/main..HEAD are authored and committed b
 
 ### Item 24 — R20 tracking
 Result: PASS. Grep of changed observability source/tests/migration/bootstrap files found no TODO, FIXME, FOLLOWUP, HACK, or XXX markers. Migration README documents operator-attach and irreversible behavior rather than leaving an untracked follow-up.
+
+### Item 25 — R79 50-failures sweep
+Result: PASS except findings already logged. Severity-pass sweep found no additional P0/P1 issues: no silent .catch(()=>) / empty catch patterns in src/observability, no raw SQL injection, no JWT changes, no unguarded privileged endpoints, no half-ass tests, no TODO debt. Dynamic Jest execution was attempted but dependency install timed out before jest was available, so this lens relied on static/source-level review plus test-source inspection. Open findings remain: P2 db-stats queryPreview literal masking, P2 MetricsAuthGuard cap-after-trim boundedness, P2 test-only banned casts, P3 LOC bookkeeping mismatch.
