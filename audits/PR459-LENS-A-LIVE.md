@@ -108,3 +108,20 @@ PR title cites "~1059 net test lines / ~505 net src". Actual: **1099 test / 508 
 - src: 505 declared vs 508 actual → +3, negligible.
 - test: 1059 declared vs 1099 actual → +40 (3.8%). Material enough to note but in the *safe* direction (more tests than claimed).
 Because the true ratio (2.16) is already ≥2.0, the `[LOC-EXEMPT]` marker is **technically unnecessary but harmless** — exactly as the checklist anticipated. **P3**: title cites ~1059 test lines; actual net is 1099 — minor doc drift, recommend updating the title/marker rationale numbers. Non-blocking.
+
+### Item 19 — R117/R40 every it() has a real expect (no theater) — **PASS**
+Read all 9 spec files in full. **110 `it()` blocks / 169 `expect()` calls** (every file has expect ≥ it). No "constructor exists" theater — assertions target behaviour: token equality/timing, redaction truncation+hash format `/^[0-9a-f]{64}$/`, bucket placement, route normalisation, release precedence, header stripping, guard 401/503/allow paths. The single `toBeDefined()` (prom-metrics-extended.spec.ts L87) asserts the shared singleton histogram is constructed — a legitimate wiring check, paired in the same describe with a real metrics-render assertion (L90-94). NOTE: could not execute the suite (npm ci exceeded sandbox time on the large lockfile); verification is static. Specs use mocked Prisma (`makePrisma`/`$queryRaw` jest.fn) and pure functions — no live DB required, and jest.config roots include `<rootDir>/test` so `test/observability/*.spec.ts` is discovered. **No finding.**
+
+### Item 20 — R86 anti-padding (extended specs exercise NEW behaviour) — **PASS**
+The four `*-extended.spec.ts` files are **not duplication** — they cover distinct boundary/edge cases the base specs do not:
+- `metrics-auth-extended`: empty-vs-unset token semantics (L66-72), **staging** prod-like variant (L74-78), whitespace-padded token match (L80-83), `test`-env allow path (L92-97) — base file covers production/development only.
+- `db-stats-extended`: exact-at-limit vs one-over truncation boundary (L36-47), order preservation DESC (L65-75), plain-number (non-bigint) coercion (L77-86), zero/negative clamp floor (L88-94), fractional floor (L96-102) — base file does not test these boundaries.
+- `prom-metrics-extended`: **per-bucket count assertions** at 3ms/3s/12s boundaries via a regex bucket-counter (L34-68), multi-label cardinality (L70-83), PII-label negative assertions (L27-31) — base file only asserts presence of strings.
+- `sentry-config-extended`: full release-precedence permutation matrix (L17-41), negative/0/1 sample-rate clamp boundaries (L43-56), strip idempotency + no-request no-op (L58-74), no-release tags-block path (L76-85).
+Each extended block asserts behaviour the base file leaves untested. **No finding.**
+
+### Item 21 — Auth guard test coverage — **PASS**
+metrics-auth.spec.ts + metrics-auth-extended.spec.ts + observability-wiring.spec.ts collectively cover:
+- missing header (spec L132-135), wrong scheme `Basic` (L59), wrong token → 401 (L125-130), correct token → allow (L120-123), unset+prod → 503 fail-closed (L137-141), unset+dev → allow (L143-147).
+- **timing-safe evidence**: `constantTimeEquals` tested for equal (true), same-length-different (false), different-length (false) (L35-45) + empty-string edges (extended L23-33). Confirms the CT path is exercised.
+- **ReDoS test for the bearer parser**: metrics-auth.spec.ts L64-101 — long-legit token <50ms, 50k-spaces pathological <50ms, over-cap rejected <50ms. Matches the fec805cf hardening. **No finding.**
