@@ -31,3 +31,6 @@ PASS — Independent below-floor enumeration at SHA `40f31a3c2a1e563cf0070276d4b
 
 ### Checklist item 3 — FLOOR_TS structural pin
 PASS — In `test/roman-coach-reviewed-migration.spec.ts` at current SHA, the structural pin is intact: `const FLOOR_TS = '20261219000000';` appears at line 212, `const self = '20261219000000_conv_review_coach_reviewed_at_idx';` appears at line 231, and `expect(self.slice(0, 14)).toBe(FLOOR_TS);` appears at line 233.
+
+### Checklist item 4 — NEW commit 40f31a3c Path C resolution
+PASS — Commit `40f31a3c2a1e563cf0070276d4b2f938e17430f0` changes only `test/roman-coach-reviewed-migration.spec.ts` with 4 inserted comment lines. The added block at lines 225-228 documents that the pinned literal is a deliberate human-review tripwire and references `BradleyGleavePortfolio/growth-project-backend#495` for the dynamic-hash alternative. Issue #495 exists, is OPEN, and is titled `chore(test): evaluate dynamic content-hash invariant for KNOWN_BELOW_FLOOR_COUNT (PR #490 P3 follow-up)`. The new commit is comment/documentation only: no executable logic changed, no assertions weakened or removed, and added-line banned-cast token scan returned 0 matches.
