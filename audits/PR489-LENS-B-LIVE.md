@@ -130,3 +130,9 @@ Status: **CLEAN**.
 - PR range has two commits: `8be2c866...` (`Add R100 deploy-readiness orchestrator board`) and `375f310a...` (`test: tighten deploy-readiness orchestrator stub scope and prod-switch rendering`).
 - Both commits are authored by `Bradley Gleave <bradley@bradleytgpcoaching.com>`.
 - Commit-message grep found no co-author trailers or forbidden identity tokens; incidental words like `fail`/`planted` are not identity tokens.
+
+## Item 17 — R20 tracking: TODOs/FIXMEs filed?
+Status: **CLEAN**.
+
+- Grep for `TODO|FIXME|XXX|TBD` in the five changed files found only intentional `TODO_BEFORE_PROD` stub-scan token fixtures in `test/deploy-readiness.spec.ts` (lines 344, 1158, 1167, 1209).
+- No unfiled TODO/FIXME implementation notes or placeholder follow-ups were introduced in docs, workflow, config, or tests.
