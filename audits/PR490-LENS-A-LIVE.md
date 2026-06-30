@@ -117,3 +117,14 @@ Prior Lens A (archived @ 59315fa) returned VERDICT: FINDINGS with two P3 maintai
   All four PR-body line references now match the current SHA exactly. The doc drift the prior audit flagged is gone. **Decision: close as superseded — NOT re-filed as a new P3.** (Brief's hypothesis that the body would still be stale does not hold at this SHA — the body was updated alongside the fixer commit.)
 
 Net prior-P3 status: 2 prior P3s, both resolved. No carried-forward findings.
+
+---
+## FINDINGS SUMMARY (Lens A @ 40f31a3c)
+- P0: 0
+- P1: 0
+- P2: 0
+- P3: 0 (both prior P3s resolved — P3-1 by Path C comment+#495; P3-2 by refreshed PR body)
+- All 14 checklist items PASS. R79 severity sweep CLEAN across all 8 passes. No new defects.
+- R124 SHA verified both ways = 40f31a3c2a1e563cf0070276d4b2f938e17430f0. R11 independence honored (Lens B file never read). R3 clean on both commits.
+
+VERDICT: CLEAN
