@@ -52,3 +52,6 @@ PASS — `git diff --numstat` shows all additions are under `test/`: `3/3` in `t
 
 ### Checklist item 10 — R117/R123 assertion-bearing tests
 PASS — Every modified `it()` block retains real `expect(...)` assertions. In `partial-refund-decision-rls-migration.spec.ts`, the changed original-migration reader is exercised by the `is a NEW additive migration...` block at lines 54-67, and the timestamp-order block keeps `expect('20261218000100' > '20261215000300').toBe(true);` at line 124. In `roman-coach-reviewed-migration.spec.ts`, the append-only block keeps `expect(dirs).toContain(self);`, `expect(self.slice(0, 14)).toBe(FLOOR_TS);`, and `expect(belowFloor).toHaveLength(KNOWN_BELOW_FLOOR_COUNT);` at lines 232-235. No no-op assertion pattern was introduced.
+
+### Checklist item 11 — R109 no-half-ass
+PASS — Added-line scan for `.skip`, `.todo`, `xit`, `xtest`, `fit`, `fdescribe`, and `"Coming soon"` returned 0 matches. The PR introduces no skipped, focused, todo, or placeholder tests.
