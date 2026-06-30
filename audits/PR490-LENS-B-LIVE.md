@@ -58,3 +58,14 @@ PASS — Added-line scan for `.skip`, `.todo`, `xit`, `xtest`, `fit`, `fdescribe
 
 ### Checklist item 12 — R20 tracking-issue discipline
 PASS — New commit `40f31a3c` references `#495`; `gh issue view 495` confirms the issue exists, is OPEN, and tracks evaluating a dynamic content-hash/manifest alternative versus ratifying the pinned-literal tripwire. Labels currently returned by the API are `tracking` and `migrations`, which is sufficient tracking-issue state for this P3 follow-up.
+
+### Checklist item 13 — R79 50-failures sweep
+PASS — Reviewed the complete `16 insertions(+), 4 deletions(-)` diff in severity-pass order against R24-R73; no new defects found.
+- Security: no auth/RLS production policy changed; test-only fixture path/comment/count changes only.
+- Data integrity: below-floor count independently enumerates to 149; renamed RLS original migration path exists; no migration SQL was edited.
+- Concurrency: no concurrent code paths, async behavior, locking, or transaction behavior changed; only static tests/comments changed.
+- Error handling: `readFileSync` fixture target now points at an existing migration directory; no stale old-path reference remains in the changed spec.
+- Performance: no production runtime cost; the only enumeration remains in a static Jest migration spec.
+- Architecture: scope remains static drift-detection tests for migration/schema integrity; Path C documents the tripwire rationale and delegates alternative design to issue #495.
+- Code quality: no banned casts, placeholders, skipped/focused tests, or no-op assertion additions detected; modified tests remain assertion-bearing.
+- Infrastructure: no workflow, CI, package, dependency, generated, or migration-file changes.
