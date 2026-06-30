@@ -12,3 +12,12 @@
 - Auditor: Lens A, model claude_opus_4_8 (R11 independence honored — Lens B file NOT read)
 - Audit-start UTC: 2026-06-30T23:00Z
 - Live-push: every checklist item pushed the moment it's written (R-live-push / R52)
+
+---
+
+## R124 SHA VERIFICATION (pre-audit gate)
+- `git rev-parse HEAD` = `fec805cfa94b723e76deee9d8d525f9b13e00da7`
+- `gh api .../pulls/459 --jq .head.sha` = `fec805cfa94b723e76deee9d8d525f9b13e00da7`
+- MATCH → proceeding. Base confirmed main @ 185444e4326e61fd964c18498a3805533bd85152, 11 commits, HEAD~11 = base.
+
+## FINDINGS (severity-tagged; live-pushed per item)
