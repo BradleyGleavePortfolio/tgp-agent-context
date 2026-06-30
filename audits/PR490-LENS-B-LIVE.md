@@ -40,3 +40,6 @@ PASS — The RLS spec update is correct and complete. `test/partial-refund-decis
 
 ### Checklist item 6 — R18 OWNS scope
 PASS — PR diff scope is exactly two modified test files with `16 insertions(+), 4 deletions(-)`: `test/partial-refund-decision-rls-migration.spec.ts` and `test/roman-coach-reviewed-migration.spec.ts`. No production files, Prisma migration files, workflow files, or other surfaces are changed.
+
+### Checklist item 7 — R3 commit identity
+PASS — Both PR commits (`59315faf7b5f39179a11e99695c6eefdb82b06ca` and `40f31a3c2a1e563cf0070276d4b2f938e17430f0`) have author and committer exactly `Bradley Gleave <bradley@bradleytgpcoaching.com>`. Forbidden-token scan of both commit messages returned 0 matches.
