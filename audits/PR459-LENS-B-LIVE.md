@@ -67,3 +67,6 @@ Result: PASS. Grep found no .skip, .todo, xit, xtest, fit, or fdescribe in test/
 
 ### Item 17 — R76 LOC cap
 Result: PASS. PR is marked LOC-EXEMPT. Independent numstat: new src/observability files excluding the pre-existing module total 503 added LOC; including ObservabilityModule edits, src/observability added LOC is 529; including src/main.ts and src/instrument.ts bootstrap changes, src added LOC is 548. This is consistent with the declared ~505 new prod LOC lane.
+
+### Item 18 — R74 test:src density
+Result: FINDING P3 bookkeeping nit. Density passes: test/observability added LOC = 1099; src added LOC including src/observability plus bootstrap src/main.ts and src/instrument.ts = 548; ratio = 2.005. Against new src/observability files only, ratio = 1099/503 = 2.185. The quoted ~1059/~505 count is close on prod LOC but not exact on test LOC; actual added test LOC is 1099.
