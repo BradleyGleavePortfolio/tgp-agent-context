@@ -151,3 +151,26 @@ Swept the full diff in severity order:
 **Failure #36 (silent errors) — SPECIAL ATTENTION:** grepped `src/observability/` for `catch(){}`, `catch(e){}`, `.catch(()=>...)` → **NONE**. The only catch block (db-stats.service L106) inspects the error, logs a warn for the known-benign case, and rethrows everything else. The histogram timer uses `res.on('finish')` with no error-swallowing. **No silent errors.**
 
 **Sweep result: 0 new failures across all 8 passes.**
+
+---
+
+## SUMMARY (R78)
+PR #459 (H3 observability: prom-client `/metrics/prom`, pg_stat_statements `/admin/db-stats`, Sentry release tagging) is **well-engineered and security-conscious**. The highest-priority security surface passes cleanly:
+- Both privileged endpoints are bearer-gated **default-deny** (503 fail-closed in prod when unconfigured), with a **constant-time** token comparison (not `===`).
+- The fec805cf ReDoS fix replaces the `\s+(.+)` regex with a fully **regex-free bounded parser**; verified empirically linear on multi-MB pathological inputs.
+- pg_stat_statements PII risk is doubly mitigated: bearer gate + **200-char preview + sha256 hash redaction** (no raw query text leaves the service).
+- 0 prod banned casts, 0 silent errors, 0 half-ass markers, 0 secrets, all 11 commits clean (Bradley Gleave author+committer), all 23 files in-lane.
+- Test density **2.16 ≥ 2.0** (R74 satisfied); 110 it()/169 expect() with real behavioural assertions and genuine extended-coverage (R86).
+- Migration is additive read-only, IRREVERSIBLE-by-design with graceful degrade — expand-contract safe.
+
+### Findings ledger
+- **P0: 0**
+- **P1: 0**
+- **P2: 0**
+- **P3: 2**
+  - P3-1 (item 2): db-stats query *preview* assumes parameterised SQL; recommend a README note that non-parameterised inlined literals could appear in the 200-char preview. (Codebase uses Prisma `$queryRaw` parameterised templates, so currently moot.)
+  - P3-2 (item 18): PR title cites "~1059 net test lines"; actual net is 1099 (and ~505 src vs actual 508). Minor doc drift; LOC-EXEMPT marker is harmless since true ratio already ≥2.0.
+
+Neither P3 blocks merge; both can be same-PR tweaks or tracked follow-ups.
+
+VERDICT: FINDINGS
