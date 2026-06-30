@@ -73,3 +73,6 @@ Result: FINDING P3 bookkeeping nit. Density passes: test/observability added LOC
 
 ### Item 19 — R117 assertions
 Result: PASS. Lightweight per-it() brace scan found 0 observability test cases without expect(). Counts by file show every spec has assertion density: 110 it() blocks and 169 expect() calls total across test/observability.
+
+### Item 20 — R86 anti-padding extended specs
+Result: PASS. Extended specs add meaningful boundary/edge coverage rather than duplicate existence checks: db-stats covers clamp floor/fractional topN/order/empty rows; metrics-auth covers env permutations/whitespace/empty token; prom-metrics covers bucket boundaries/cardinality/shared instance/additional route normalization; sentry-config covers release precedence/sample-rate boundaries/header stripping idempotency/tags no-release path.
