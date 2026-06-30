@@ -70,3 +70,6 @@ Result: PASS. PR is marked LOC-EXEMPT. Independent numstat: new src/observabilit
 
 ### Item 18 — R74 test:src density
 Result: FINDING P3 bookkeeping nit. Density passes: test/observability added LOC = 1099; src added LOC including src/observability plus bootstrap src/main.ts and src/instrument.ts = 548; ratio = 2.005. Against new src/observability files only, ratio = 1099/503 = 2.185. The quoted ~1059/~505 count is close on prod LOC but not exact on test LOC; actual added test LOC is 1099.
+
+### Item 19 — R117 assertions
+Result: PASS. Lightweight per-it() brace scan found 0 observability test cases without expect(). Counts by file show every spec has assertion density: 110 it() blocks and 169 expect() calls total across test/observability.
