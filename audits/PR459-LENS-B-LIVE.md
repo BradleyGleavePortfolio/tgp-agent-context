@@ -76,3 +76,6 @@ Result: PASS. Lightweight per-it() brace scan found 0 observability test cases w
 
 ### Item 20 — R86 anti-padding extended specs
 Result: PASS. Extended specs add meaningful boundary/edge coverage rather than duplicate existence checks: db-stats covers clamp floor/fractional topN/order/empty rows; metrics-auth covers env permutations/whitespace/empty token; prom-metrics covers bucket boundaries/cardinality/shared instance/additional route normalization; sentry-config covers release precedence/sample-rate boundaries/header stripping idempotency/tags no-release path.
+
+### Item 21 — Auth guard test quality
+Result: PASS with note from item 10. Tests cover missing header, wrong scheme, wrong token, correct token, prod/staging fail-closed, dev/test allow when unset, constantTimeEquals behavior, lowercase scheme, array header, whitespace, oversized header, and pathological many-spaces header. They assert no regex hang, but they do not catch the cap-after-trim boundedness issue noted in item 10.
