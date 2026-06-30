@@ -59,3 +59,10 @@ Status: **CLEAN (watch item noted)**.
 - Table-driven cases are limited and purposeful: bucket-sum examples at lines 838-845 and mode-resolution examples at lines 1020-1028.
 - The largest generated-looking construct is the 240-row in-memory filler registry at lines 1231-1241, but it is runtime fixture data to satisfy the registry minimum without adding 240 physical LOC.
 - I did not find LOC padding by copied permutations; the repetition primarily maps distinct R100 board sections and scanner integrations.
+
+## Item 6 — R109 no skip/todo/focus markers
+Status: **FINDING (P1)**.
+
+- Grep found no `fit`, `fdescribe`, `xit`, `xtest`, `.todo`, `.only`, or literal `Coming soon` test placeholder in the added spec/config.
+- **P1:** `test/deploy-readiness.spec.ts` defines `const gateDescribe = resolveStrict(process.env) ? it : it.skip;` and uses it for the hard-block prod-deploy gate test (lines 1083-1106). That means the default/PR run reports a skipped test, violating the explicit R109 no-`.skip` policy even though the workflow sets strict mode for the deploy gate.
+- Fix by avoiding Jest skip registration in default mode; for example, keep an always-running deterministic test that asserts the strict gate behavior with explicit injected env/fixtures, and keep the real deploy gate as a separate script/workflow assertion rather than registering `.skip`.
