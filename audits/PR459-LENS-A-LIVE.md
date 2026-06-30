@@ -79,3 +79,22 @@ All linear; no pathological blowup. **Minor P3 observation:** the `.trim()` on L
 ### Item 12 — R97 money / R96 time — **PASS**
 - **Histogram buckets** (prom-metrics.ts L18-20): `[0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]` seconds — the Prometheus client defaults plus a 10s tail. No zero/negative bucket (no underflow), monotonically increasing, and prom-client implicitly adds `+Inf` so samples >10s land in `+Inf` (verified by prom-metrics-extended.spec.ts L60-67: a 12s sample is in no finite bucket but increments `_count`). Sane. No money in this PR (R97 N/A — observability only).
 - **Time/UTC** (R96): `db-stats.controller.ts` L29 stamps `new Date().toISOString()` → always UTC `Z` suffix. Sentry/prom timestamps are managed by their libraries (UTC). No naive local-time formatting. **No finding.**
+
+### Item 13 — R37 Layer discipline — **PASS**
+- `db-stats.service.ts` holds the business logic (query, clamp, redaction, error-classification). `db-stats.controller.ts` is a thin handler: it only calls `topStatements()` and stamps `generatedAt` (L26-31). No business logic in the controller.
+- `prom-metrics.controller.ts` only sets the content-type header and returns `renderPromMetrics()` — no logic.
+- `metrics-auth.guard.ts` is pure auth (token presence/comparison) — no business logic. Helpers `extractBearerToken`/`constantTimeEquals` are auth primitives. Clean separation. **No finding.**
+
+### Item 14 — R44 N+1 — **PASS**
+`DbStatsService.topStatements` issues **exactly one** `$queryRaw` (service L81-90); results are mapped in-memory via `rows.map(...)` (L92) — no per-row DB calls, no queries inside loops. **No N+1. No finding.**
+
+### Item 15 — R75 / R100.A2 banned casts (net delta in PROD code) — **PASS**
+Grepped added diff lines for `as any | as unknown as | as never | @ts-ignore | @ts-nocheck | <any> | "Coming soon" | .catch(()=>`.
+- **src/ (prod): 0 occurrences.** Confirmed clean.
+- test/: 27 `as unknown as` — all in test fixtures (mocking `PrismaService`/`ExecutionContext`/`Request`/`Response`/`DbStatsService`). These are standard, idiomatic NestJS test doubles, not prod casts; R75 net-delta on prod = 0. **No finding** (test casts are the accepted pattern for typing fakes; none mask real type errors in shipped code).
+
+### Item 16 — R109 no half-ass — **PASS**
+Grepped for `.skip | .todo | xit | xtest | fit | fdescribe | "Coming soon"` across added src+test → **NONE**. No disabled/focused tests, no placeholder stubs. **No finding.**
+
+### Item 17 — R76 LOC cap (LOC-EXEMPT marker) — **PASS, marker accurate**
+Independently counted prod src net LOC via `git diff --numstat -- 'src/**'`: **added=548, removed=40, net=508**. PR title/header declares ~505. Delta is +3 lines (0.6%) — **accurate, not materially understated**. The `[LOC-EXEMPT]` marker rationale (R74 forces high test LOC) is legitimate. No P1 — LOC is not significantly higher than declared. **No finding.**
