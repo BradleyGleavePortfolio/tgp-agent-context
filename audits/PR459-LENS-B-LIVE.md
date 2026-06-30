@@ -52,3 +52,6 @@ Result: PASS. Migration is intentionally IRREVERSIBLE/OPERATOR-ATTACH and docume
 
 ### Item 12 — R96/R97 time money
 Result: PASS. Histogram buckets are seconds-based [0.005..10] and tests assert boundary behavior. generatedAt uses new Date().toISOString(), which is UTC. No money calculations or currency fields are introduced.
+
+### Item 13 — R37 layer discipline
+Result: PASS. Controllers are thin and delegate rendering/data work to services/helpers: PromMetricsController only returns renderPromMetrics(); DbStatsController only adds generatedAt and delegates to DbStatsService.topStatements(). SQL/data mapping lives in DbStatsService; Sentry option resolution is factored into sentry-config helpers.
