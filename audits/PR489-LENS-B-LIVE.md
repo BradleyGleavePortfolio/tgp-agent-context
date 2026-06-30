@@ -29,3 +29,9 @@ Status: **CLEAN**.
 
 - Workflow defines `concurrency.group: h4-readiness-${{ github.ref }}` with `cancel-in-progress: true` (lines 49-51).
 - Grouping by ref avoids cross-branch cancellation, and cancellation is safe for this read-only/test/comment board because it does not deploy or mutate production state.
+
+## Item 3 — Runner check
+Status: **CLEAN**.
+
+- Both jobs use `runs-on: ubuntu-latest` (lines 62 and 152).
+- No custom/self-hosted runner or privileged runner surface was introduced.
