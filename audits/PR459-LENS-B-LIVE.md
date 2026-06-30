@@ -58,3 +58,6 @@ Result: PASS. Controllers are thin and delegate rendering/data work to services/
 
 ### Item 14 — R44 N+1
 Result: PASS. DbStatsService performs exactly one pg_stat_statements query and maps returned rows in memory. No DB calls occur inside loops.
+
+### Item 15 — R75 banned-cast net delta
+Result: FINDING P2. Expected net delta was 0, but added diff contains 27 banned cast-pattern hits, all in test/observability/*.spec.ts. They are mostly as unknown as test fakes for PrismaService, ExecutionContext, Request/Response, EventEmitter, and Parameters<typeof stripSensitiveHeaders>. No prod banned-cast hits found, but the checklist explicitly expected zero across the diff.
