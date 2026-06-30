@@ -98,3 +98,13 @@ Grepped for `.skip | .todo | xit | xtest | fit | fdescribe | "Coming soon"` acro
 
 ### Item 17 — R76 LOC cap (LOC-EXEMPT marker) — **PASS, marker accurate**
 Independently counted prod src net LOC via `git diff --numstat -- 'src/**'`: **added=548, removed=40, net=508**. PR title/header declares ~505. Delta is +3 lines (0.6%) — **accurate, not materially understated**. The `[LOC-EXEMPT]` marker rationale (R74 forces high test LOC) is legitimate. No P1 — LOC is not significantly higher than declared. **No finding.**
+
+### Item 18 — R74 test:src density (LOC-EXEMPT pre-declared) — **PASS, one P3 on title accuracy**
+Independent `git diff --numstat` vs base:
+- **src net added = 508** (added 548 − removed 40)
+- **test net added = 1099** (added 1099 − removed 0)
+- **ratio = 1099 / 508 = 2.16** → **≥ 2.0 ✓ R74 satisfied.**
+PR title cites "~1059 net test lines / ~505 net src". Actual: **1099 test / 508 src**.
+- src: 505 declared vs 508 actual → +3, negligible.
+- test: 1059 declared vs 1099 actual → +40 (3.8%). Material enough to note but in the *safe* direction (more tests than claimed).
+Because the true ratio (2.16) is already ≥2.0, the `[LOC-EXEMPT]` marker is **technically unnecessary but harmless** — exactly as the checklist anticipated. **P3**: title cites ~1059 test lines; actual net is 1099 — minor doc drift, recommend updating the title/marker rationale numbers. Non-blocking.
