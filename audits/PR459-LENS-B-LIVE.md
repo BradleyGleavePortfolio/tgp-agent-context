@@ -79,3 +79,6 @@ Result: PASS. Extended specs add meaningful boundary/edge coverage rather than d
 
 ### Item 21 — Auth guard test quality
 Result: PASS with note from item 10. Tests cover missing header, wrong scheme, wrong token, correct token, prod/staging fail-closed, dev/test allow when unset, constantTimeEquals behavior, lowercase scheme, array header, whitespace, oversized header, and pathological many-spaces header. They assert no regex hang, but they do not catch the cap-after-trim boundedness issue noted in item 10.
+
+### Item 22 — R18 OWNS scope
+Result: PASS. The 23 changed files are confined to observability lane/supporting artifacts: prom-client dependency, pg_stat_statements migration, Sentry bootstrap/config, app middleware wiring, src/observability controllers/services/helpers/module, and test/observability coverage. No unrelated product/domain files changed.
