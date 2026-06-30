@@ -58,3 +58,16 @@ Sentry release tagging uses **no JWT/signed tokens** — release is a plain stri
 
 ### Item 9 — R32 Role checks at data layer — **PASS**
 `@UseGuards(MetricsAuthGuard)` is a **class-level decorator** on both controllers, so the guard runs before every handler method — not per-route-only. Guard is registered as a provider in observability.module.ts L37. Placement is before the controller body executes (Nest guard lifecycle runs guard → handler). **No finding.**
+
+### Item 10 — MetricsAuthGuard ReDoS fix (commit fec805cf) — **PASS (security hardening confirmed)**
+Old parser (pre-fix): `/^Bearer\s+(.+)$/i.exec(value.trim())`. New parser (metrics-auth.guard.ts **L64-80**) is a fully **regex-free** bounded scan:
+1. L71 `value.trim()`; L72 reject empty OR `> MAX_AUTHORIZATION_HEADER_LENGTH` (4096, L52);
+2. L75 fixed-length prefix check `trimmed.slice(0, 'bearer '.length).toLowerCase() === 'bearer '`;
+3. L78 `trimmed.slice(BEARER_PREFIX.length).trim()`, reject empty.
+**No regex at all → no nested quantifiers, no backtracking possible.** Verified empirically with concrete vectors (node, hrtime):
+- `'Bearer'+' '.repeat(50000)` → `undefined` in **71µs** (old regex: 218µs on same input)
+- `' '.repeat(1_000_000)+'Bearer x'` → `'x'` in **1.58ms** (linear, dominated by the leading `.trim()`)
+- `'Bearer '+'a'.repeat(1_000_000)` → `undefined` (over-cap) in **0.9ms**
+- `'Bearer '+(' a'.repeat(500_000))` → `undefined` in **0.89ms** — the classic `(ws+)(.+)` shape resolves linearly.
+- over-cap 5000 → `undefined` in **3µs**.
+All linear; no pathological blowup. **Minor P3 observation:** the `.trim()` on L71 runs over the *raw* header before the 4096 cap is applied, so a multi-MB header is still fully trimmed (linear) before rejection. That is O(n) not O(n²) — not a ReDoS and Express/Node header size limits (default ~8-16KB via `--max-http-header-size`) already bound this upstream — so it is informational only, not a finding. ReDoS test coverage present in metrics-auth.spec.ts L64-101. **Fix is correct and complete.**
