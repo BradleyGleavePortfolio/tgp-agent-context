@@ -89,3 +89,17 @@
 - New commit subject `fix(test): document KNOWN_BELOW_FLOOR_COUNT tripwire (#495)` references #495; spec comment (line 229) references fully-qualified `BradleyGleavePortfolio/growth-project-backend#495`.
 - Issue #495 verified via `gh issue view 495`: **state = OPEN**, labeled `tracking` + `migrations`, title "chore(test): evaluate dynamic content-hash invariant for KNOWN_BELOW_FLOOR_COUNT (PR #490 P3 follow-up)", owner Bradley Gleave. Body scopes the dynamic-hash/manifest follow-up work and the tripwire-ratify-vs-replace decision.
 - R20 satisfied: the deferred alternative (Path D / dynamic hash) is captured in an open, labeled, owned tracking issue rather than silently dropped.
+
+### [13] R79 50-FAILURES SWEEP (severity-pass order, R24–R73) — CLEAN
+Scope swept: full +16/-4 diff = (a) RLS spec path/header/ordering literal updates `20261214000000→20261215000300` (+3/-3), (b) roman spec `KNOWN_BELOW_FLOOR_COUNT 146→149` literal swap (+1/-1) + 12 added `//` comment lines (cumulative across both commits). Zero prod LOC, zero migration files.
+
+- **Security (R24-R31)**: No auth, RLS-policy, secrets, injection, or access-control logic touched. The RLS spec only *asserts on* an unchanged migration's static SQL; the assertions themselves (ENABLE/FORCE RLS, coach-only policy set) are not modified. No security regression. PASS.
+- **Data integrity (R32-R39)**: No schema, migration SQL, constraint, or data-write path changed. The append-only invariant guard is strengthened-by-documentation, not loosened; below-floor count literal now matches the true repo state (149). No integrity defect. PASS.
+- **Concurrency (R40-R45)**: No async/transaction/locking/race surface in a static spec literal+comment change. N/A → PASS.
+- **Error handling (R46-R51)**: No try/catch, no swallowed errors, no `.catch(()=>)` introduced (grep clean). The ENOENT fixed is a deterministic path correction. PASS.
+- **Performance (R52-R56)**: No hot-path, query, index, or N+1 surface. Comment-only + literal swap. PASS.
+- **Architecture (R57-R63)**: No layering, dependency, or boundary change. Test files remain test-scoped; tracking issue #495 captures deferred design alternative (R20). PASS.
+- **Code quality (R64-R70)**: Comments are accurate, specific, and cite R76 §6 + issue #495. Literals (149) independently verified against repo state. No dead code, no magic-number drift (the magic number is now documented + tripwire-rationalized). No banned casts. PASS.
+- **Infrastructure (R71-R73)**: No CI/workflow/config/Dockerfile/dependency change. PASS.
+
+New defects found in sweep: **NONE**. No P0/P1/P2/P3 surfaced.
