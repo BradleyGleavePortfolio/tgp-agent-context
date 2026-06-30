@@ -30,3 +30,11 @@
   - `20260701235900_add_sub_coach_role_value`
   - `20261207000001_pr14_client_purchase_landing_page_idx_concurrent`
 - Each sits in its chronologically-correct slot below FLOOR; grandfathered append-only hygiene, not a back-dated reorder of later work. R76 §6 compliant. Zero migration files touched by this PR (verified: diff stat shows only `test/` files).
+
+### [3] FLOOR_TS STRUCTURAL PIN — PASS (lines re-cited at THIS SHA)
+- `const FLOOR_TS = '20261219000000';` @ **line 212** (unchanged).
+- Structural pin `expect(self.slice(0, 14)).toBe(FLOOR_TS);` INTACT @ **line 233** (prior audit cited 225/229 at 59315fa; the +12-line comment-block insertion at lines 217-229 shifted the pin + filter down by +4).
+- `const belowFloor = dirs.filter((dir) => dir.slice(0, 14) < FLOOR_TS);` @ **line 234**; `expect(belowFloor).toHaveLength(KNOWN_BELOW_FLOOR_COUNT);` @ **line 235**.
+- `const self = '20261219000000_conv_review_coach_reviewed_at_idx';` @ line 231; `expect(dirs).toContain(self);` @ line 232.
+- The below-floor comparison uses the offending direction (`< FLOOR_TS`), not the tautological `> self` — guard logic is sound and unchanged.
+- No assertion weakened, removed, or converted to no-op. Comment-only growth.
