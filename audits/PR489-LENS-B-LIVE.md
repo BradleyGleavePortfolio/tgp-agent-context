@@ -23,3 +23,9 @@ Status: **FINDINGS (P1/P2)**.
 - No secrets are echoed or referenced; grep found no `secrets.*` use in executable workflow code.
 - No direct `${{ github.event.* }}` interpolation appears inside `run:` blocks; the only event/context use is in YAML `if:` guards and `github-script` context reads (lines 61, 131-132, 151), so the industry P0 command-injection pattern is absent.
 - **P2:** first-party actions use moving major tags `actions/checkout@v4` and `actions/setup-node@v4` (lines 68, 70, 154, 156). The third-party `actions/github-script` is SHA-pinned (line 105), but checkout/setup-node should also be pinned to immutable SHAs or at least full vetted versions under the stated pinned-action policy.
+
+## Item 2 — Concurrency / cancel-in-progress safety
+Status: **CLEAN**.
+
+- Workflow defines `concurrency.group: h4-readiness-${{ github.ref }}` with `cancel-in-progress: true` (lines 49-51).
+- Grouping by ref avoids cross-branch cancellation, and cancellation is safe for this read-only/test/comment board because it does not deploy or mutate production state.
