@@ -105,3 +105,9 @@ Status: **CLEAN**.
 - Diff files are exactly `.github/PULL_REQUEST_TEMPLATE.md`, `.github/workflows/h4-readiness.yml`, `docs/runbooks/deploy-readiness.md`, `test/deploy-readiness.spec.ts`, and `test/prod-readiness.config.ts`.
 - `git diff --name-only ... | grep '^src/'` returned no matches, and numstat is +1745/0 across those five non-`src/` files.
 - LOC-EXEMPT claim of zero production LOC is therefore verified.
+
+## Item 13 — R76 cap applicability
+Status: **CLEAN / N/A**.
+
+- R76 production LOC cap is not applicable because the PR changes zero `src/` production lines.
+- The LOC is test/CI/docs/template only, so no production cap breach exists.
