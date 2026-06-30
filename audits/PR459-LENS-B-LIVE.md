@@ -55,3 +55,6 @@ Result: PASS. Histogram buckets are seconds-based [0.005..10] and tests assert b
 
 ### Item 13 — R37 layer discipline
 Result: PASS. Controllers are thin and delegate rendering/data work to services/helpers: PromMetricsController only returns renderPromMetrics(); DbStatsController only adds generatedAt and delegates to DbStatsService.topStatements(). SQL/data mapping lives in DbStatsService; Sentry option resolution is factored into sentry-config helpers.
+
+### Item 14 — R44 N+1
+Result: PASS. DbStatsService performs exactly one pg_stat_statements query and maps returned rows in memory. No DB calls occur inside loops.
