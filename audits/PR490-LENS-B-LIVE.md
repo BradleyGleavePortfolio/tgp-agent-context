@@ -34,3 +34,6 @@ PASS — In `test/roman-coach-reviewed-migration.spec.ts` at current SHA, the st
 
 ### Checklist item 4 — NEW commit 40f31a3c Path C resolution
 PASS — Commit `40f31a3c2a1e563cf0070276d4b2f938e17430f0` changes only `test/roman-coach-reviewed-migration.spec.ts` with 4 inserted comment lines. The added block at lines 225-228 documents that the pinned literal is a deliberate human-review tripwire and references `BradleyGleavePortfolio/growth-project-backend#495` for the dynamic-hash alternative. Issue #495 exists, is OPEN, and is titled `chore(test): evaluate dynamic content-hash invariant for KNOWN_BELOW_FLOOR_COUNT (PR #490 P3 follow-up)`. The new commit is comment/documentation only: no executable logic changed, no assertions weakened or removed, and added-line banned-cast token scan returned 0 matches.
+
+### Checklist item 5 — ENOENT root cause / RLS spec path
+PASS — The RLS spec update is correct and complete. `test/partial-refund-decision-rls-migration.spec.ts` now references `20261215000300_named_regimes_and_partial_refund_decision`, that migration directory exists, and a stale-reference grep for `20261214000000_named...` in the changed spec returned 0 matches. The append-only timestamp comparison was also updated from `20261218000100 > 20261214000000` to `20261218000100 > 20261215000300`.
