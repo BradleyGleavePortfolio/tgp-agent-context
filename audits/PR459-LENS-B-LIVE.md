@@ -40,3 +40,6 @@ Result: PASS. No JWT parsing, signing, verification, or claim handling is introd
 
 ### Item 8 — R31 input validation
 Result: PASS. New user-facing handlers accept no route params, query params, or request bodies. DbStatsService.topStatements() clamps its internal topN to integer [1,100], but controller does not expose topN input.
+
+### Item 9 — R32 layer auth
+Result: PASS. Both privileged new controllers are guarded at controller class level: PromMetricsController has @UseGuards(MetricsAuthGuard) on @Controller('metrics') for GET /metrics/prom, and DbStatsController has @UseGuards(MetricsAuthGuard) on @Controller('admin') for GET /admin/db-stats. MetricsAuthGuard is registered as a provider in ObservabilityModule.
