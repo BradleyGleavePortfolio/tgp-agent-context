@@ -55,3 +55,6 @@ PASS — Every modified `it()` block retains real `expect(...)` assertions. In `
 
 ### Checklist item 11 — R109 no-half-ass
 PASS — Added-line scan for `.skip`, `.todo`, `xit`, `xtest`, `fit`, `fdescribe`, and `"Coming soon"` returned 0 matches. The PR introduces no skipped, focused, todo, or placeholder tests.
+
+### Checklist item 12 — R20 tracking-issue discipline
+PASS — New commit `40f31a3c` references `#495`; `gh issue view 495` confirms the issue exists, is OPEN, and tracks evaluating a dynamic content-hash/manifest alternative versus ratifying the pinned-literal tripwire. Labels currently returned by the API are `tracking` and `migrations`, which is sufficient tracking-issue state for this P3 follow-up.
