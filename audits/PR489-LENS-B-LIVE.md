@@ -144,3 +144,18 @@ Status: **FINDINGS (P1/P2 carried)**.
 - **P1 carried from item 1:** PR job grants `pull-requests: write` while executing PR-controlled dependency/test commands before the comment step (lines 63-87), exposing a write-scoped token to code execution in that job.
 - **P2:** workflow has `continue-on-error: true` on `test-deploy-readiness` (line 63). This is documented as intentional informational behavior, but it still means a broken board can produce a green PR check unless operators inspect the posted board/comment; that is Failure #36-style masking and should be time-boxed or made visibly neutral/non-required.
 - Command-extraction `awk ... || true` is acceptable because the step immediately falls back to an explicit “board did not render” message if the extract is empty (lines 91-101).
+
+## Final Lens B summary (R78 counts)
+
+- P0 count: 0
+- P1 count: 2
+  - PR workflow exposes `pull-requests: write` token to PR-controlled `npm ci` / Prisma / test execution before commenting.
+  - Default test run registers an `it.skip` prod-gate test, violating R109 and preventing deterministic pass/fail in the default path.
+- P2 count: 3
+  - `actions/checkout@v4` and `actions/setup-node@v4` use moving major tags rather than immutable pins.
+  - Runbook exit-line documentation omits the `PROD SWITCHES WARN` bucket.
+  - PR readiness job uses `continue-on-error: true`, intentionally informational but still masking failures as a green check.
+- P3 count: 0
+- R11: Lens A file was not read.
+- R124: head SHA verified both locally and via GitHub API.
+- R78 decision: FINDINGS.
