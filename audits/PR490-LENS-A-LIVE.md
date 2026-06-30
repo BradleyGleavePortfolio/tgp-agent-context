@@ -38,3 +38,15 @@
 - `const self = '20261219000000_conv_review_coach_reviewed_at_idx';` @ line 231; `expect(dirs).toContain(self);` @ line 232.
 - The below-floor comparison uses the offending direction (`< FLOOR_TS`), not the tautological `> self` — guard logic is sound and unchanged.
 - No assertion weakened, removed, or converted to no-op. Comment-only growth.
+
+### [4] NEW COMMIT 40f31a3c — PATH C RESOLUTION — PASS
+- Commit-level delta (59315fa..40f31a3c) on `test/roman-coach-reviewed-migration.spec.ts` = **+4 / -0**, all four lines pure `//` comment (lines 226-229):
+  - "The pinned-literal pattern is a deliberate human-review tripwire:"
+  - "every legitimate R76 §6 back-dated insertion forces a manual bump"
+  - "and a reviewer's eyes. Dynamic-hash alternative tracked in"
+  - "BradleyGleavePortfolio/growth-project-backend#495."
+- (a) **Issue #495 exists, state = OPEN.** Title: "chore(test): evaluate dynamic content-hash invariant for KNOWN_BELOW_FLOOR_COUNT (PR #490 P3 follow-up)". Labels: `tracking`, `migrations`. Owner: Bradley Gleave. Body explicitly tracks the dynamic-hash / content-derived-manifest alternative and the tradeoff vs. the deliberate-tripwire literal. ✔
+- (b) **Comment/documentation ONLY** — no logic change, no assertion added/weakened/removed; `expect(...)` lines (toContain, slice-pin, toHaveLength) all unchanged. ✔
+- (c) **No new banned-cast tokens** in the +4 lines (grep clean — see item 8). ✔
+- NOTE on LOC accounting: the dispatch brief's "+13/-1" for this file is the cumulative base..head hunk (the full comment block authored across BOTH commits + the 149 literal swap). The NEW commit's OWN delta is +4/-0, matching its commit-body claim "R86 LOC delta +4". No discrepancy — distinct diff bases.
+- Resolves prior P3-1 (Path D / dynamic-hash unconsidered): the comment now explicitly ratifies the tripwire intent AND links the tracking issue. ✔
