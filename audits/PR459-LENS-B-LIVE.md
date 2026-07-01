@@ -1,25 +1,22 @@
-# PR #459 — Lens B Audit @ 4605f422 — gpt_5_5 (round 3)
+# PR #459 — Lens B Audit ROUND 3 @ 4605f422 — gpt_5_5
 
 ## DISPATCH HEADER (R78 / R124)
 
-- PR: #459 (Wave 1.5, H3 observability)
+- PR: #459 (Wave H3 observability)
 - Branch: `wave-h3-observability`
-- Head SHA (verify both ways): `4605f42279f3ff02cfd78547f48449a2ff32d0ab`
-- Round 2 archived at `audits/PR459-LENS-B-LIVE.734c870e.archive.md` (R5).
-- Round 3 fixer commits (both R3-clean, Bradley Gleave author+committer):
-  - `4ec35850` — fix(observability): add reversible rollback path for pg_stat_statements migration (PR459 R82)
-  - `4605f422` — fix(observability): mask dollar-quoted literals in db-stats queryPreview (PR459 R72-r2)
-- New files landed: `prisma/migrations/20261221000000_enable_pg_stat_statements/down.sql`, `docs/runbooks/pg-stat-statements-rollback.md`.
-- Auditor: `gpt_5_5` (R-META-4).
-- Lens isolation: MUST NOT read `PR459-LENS-A-LIVE.md` (R11).
-- Live-push every finding (R52).
-- VERDICT line (R78): exactly one of `CLEAN | FINDINGS | REFUSAL | INFRA_DEATH` last.
-- New doctrine in effect: R130–R137. R82 requires reversible down path — verify `down.sql` is functional (not a stub) and the IRREVERSIBLE claim is fully removed everywhere. Also verify dollar-quoted redaction covers both anonymous (`$$…$$`) and tagged (`$tag$…$tag$`) forms; do NOT let `$1`/`$2` prepared-statement placeholders get accidentally masked.
+- Head SHA (local `git rev-parse HEAD` + GitHub PR head): `4605f42279f3ff02cfd78547f48449a2ff32d0ab`
+- Round-3 fixer commits under review: `4ec35850` (R82 down path + runbook) and `4605f422` (dollar-quoted redaction extension).
+- Auditor: `gpt_5_5` (R-META-4)
+- Lens isolation: Lens B did not read `audits/PR459-LENS-A-LIVE.md` (R11).
+- Live-push: every finding is written and pushed immediately (R52).
+- VERDICT line (R78): exactly one `VERDICT:` line, last.
 
 ## FINDINGS
 
-(populated live)
+- P1: R76 prod LOC cap is exceeded. `git diff --numstat origin/main...HEAD` shows `src/` alone adds 584 production lines and deletes 40 (net +544), before counting the migration SQL/down files; the R76 cap is ≤400 prod LOC and the PR has no operator exception under R109. Split or reduce the production footprint, or obtain the required explicit exception before merge.
 
-## VERDICT
+## AUDIT NOTES (in progress)
 
-(populated last)
+- R124: head verified locally and through GitHub PR metadata as `4605f42279f3ff02cfd78547f48449a2ff32d0ab`.
+
+VERDICT: FINDINGS
