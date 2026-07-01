@@ -9,12 +9,13 @@
 ## BUILD MATRIX (R124 — mandatory; must appear verbatim at top of your report)
 
 ```
-- zion-preserve pr0/constitutional-layer HEAD: <PATCH-IN-AFTER-OPUS-REPORTS>
-- zion-preserve main HEAD:                     (empty repo — no main commits)
+- zion-preserve pr0/constitutional-layer HEAD: a71aecb130cae41842998fd78d8ec890fd738ca5
+- zion-preserve main HEAD:                     1c450ddae58b75ad86f003622824557833f4f672 (init commit + .gitignore, no content merged)
 - tgp-agent-context HEAD:                      859a5f611f1c592d1cef7c569d0c177158f64714
-- PR #:                                        <PATCH-IN>
-- PR head:                                     <PATCH-IN>
-- PR base:                                     origin/main (empty)
+- PR #:                                        1
+- PR URL:                                      https://github.com/BradleyGleavePortfolio/zion-preserve/pull/1
+- PR head:                                     a71aecb130cae41842998fd78d8ec890fd738ca5
+- PR base:                                     1c450ddae58b75ad86f003622824557833f4f672 (main)
 - doctrine file:                               /home/user/workspace/zion-context/AGENT_RULES.md
 - timestamp UTC:                               <fill at start of audit>
 ```
