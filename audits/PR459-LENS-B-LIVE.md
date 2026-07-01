@@ -14,6 +14,7 @@
 ## FINDINGS
 
 - P1: R76 prod LOC cap is exceeded. `git diff --numstat origin/main...HEAD` shows `src/` alone adds 584 production lines and deletes 40 (net +544), before counting the migration SQL/down files; the R76 cap is ≤400 prod LOC and the PR has no operator exception under R109. Split or reduce the production footprint, or obtain the required explicit exception before merge.
+- P2: `src/observability/db-stats.service.ts:58` still masks multi-digit prepared-statement placeholders. The dollar-quote pass correctly avoids `$1`/`$2`, but the later `/\d{2,}/g` pass rewrites `$99` (and `$10`, etc.) to `$?`, violating the required non-mask case for prepared placeholders and degrading queryPreview usefulness. Preserve `$<digits>` placeholders before the numeric-literal pass, and add a direct regression test for `$99`.
 
 ## AUDIT NOTES (in progress)
 
