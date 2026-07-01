@@ -54,3 +54,8 @@
 ## Execution notes
 - Initial `npm ci` timed out at the sandbox limit after creating `node_modules`; `postinstall` (`prisma generate`) had not completed, leaving an incomplete Prisma client.
 - Manual `npx prisma generate` completed successfully; after that, the direct new test file and TypeScript compile passed.
+
+## Final summary
+- Severity counts: P0=0, P1=1, P2=1, P3=0.
+- Verdict: findings.
+VERDICT: FINDINGS
