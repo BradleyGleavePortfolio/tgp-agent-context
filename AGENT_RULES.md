@@ -1456,6 +1456,37 @@ them as table-stakes, not as nice-to-haves.
 
 ---
 
+## §13 — FIRST-PRINCIPLES DOCTRINE (R130 – R137)
+
+Added 2026-06-30 by operator ruling. These rules encode the Musk "Algorithm" (question / delete / simplify / accelerate / automate) plus a measurement layer (Idiot Index, cycle-time ledger) and a constraint audit that separates real limits from self-imposed ones. They apply to code, rules, workflows, subagent dispatch chains, and this rules file itself. Rules R131 and R136 are the meta-doctrine: no rule in this document is exempt from being questioned.
+
+### R130 — Idiot Index: measure actual vs. theoretical minimum cost
+**Headline:** For every recurring workflow, compute `actual_cost / theoretical_minimum_cost`. If the ratio is ≥ 3×, the workflow is a candidate for redesign under R131–R134. **Why:** Musk's Idiot Index (raw-materials cost vs. finished-part cost) exposes hidden waste that "optimization" alone can't fix — you can only see the gap once you measure it. **How to comply:** log per-wave cycle counts (audit rounds, fixer iterations, subagent hops); flag any workflow with a ratio ≥ 3× in the wave postmortem; propose which of R131–R135 applies. **Failure mode:** teams optimize the wrong step because they never measured the ratio; automation calcifies waste (see R135).
+
+### R131 — Question every requirement (including these rules)
+**Headline:** Before executing any rule, step, or check, ask *who added it, when, why, and is it still true?* Rules attributed to a department or single person ("the lawyer said…", "R∗ requires…") are the most suspect. This doctrine is itself subject to R131 — no rule is sacred. **Why:** requirements accrete faster than they're pruned; most legacy rules survive on inertia, not evidence. **How to comply:** when a rule blocks work, cite the rule + reason + last-verified date; if last-verified is > 6 months old, re-verify against current context before enforcing; open an R131 challenge in the wave postmortem if evidence contradicts the rule. **Failure mode:** phantom rules ossify; auditors enforce doctrine that no longer maps to reality (this wave: R82 IRREVERSIBLE marker misread as sufficient; R75 misread as src-only).
+
+### R132 — Delete the part or process before optimizing it
+**Headline:** Prefer removing over optimizing. If you don't add back at least 10% of what you deleted later, you didn't delete enough. **Why:** Musk's Algorithm step 2 — deletion is the highest-leverage move because it eliminates the entire downstream chain (tests, docs, review, maintenance). **How to comply:** for every proposed optimization, first attempt deletion of the underlying step; require an evidence-backed reason if deletion fails; track "deletions attempted vs. adds-back" as a wave metric. **Failure mode:** dead rules/code/CI steps become permanent (see R66 dead-code rule); reviewers optimize a step that has no consumers.
+
+### R133 — Simplify or optimize only AFTER R131 and R132
+**Headline:** Do not simplify a step until you have tried to delete it. Do not optimize a step until you have tried to simplify it. Order matters. **Why:** simplifying wrong work is worse than deleting it — you now have less waste but the waste survives forever. **How to comply:** in any refactor PR, the description must list what was considered for deletion (R132) and what was considered for questioning (R131) before the simplification landed; auditor rejects refactors that skip these steps. **Failure mode:** a "clever" abstraction locks in a step that should have been removed entirely.
+
+### R134 — Accelerate cycle time only AFTER R131–R133
+**Headline:** Once you have questioned, deleted, and simplified — THEN speed up what remains. Never before. **Why:** speeding up wrong work compounds the mistake; the fastest way to do the wrong thing is still wrong. **How to comply:** any "make it faster" PR must reference the R131/R132/R133 evidence for the step being accelerated; auditor confirms the underlying step passed R131–R133 first. **Failure mode:** performance tuning on a code path that R131 would have deleted.
+
+### R135 — Automate last
+**Headline:** Only automate a process AFTER R131–R134 have run against it. Automating an unnecessary or broken process codifies waste. **Why:** Musk's Algorithm step 5 — automation is the final step because it locks in whatever process you automated; a bad automated process is harder to remove than a bad manual one. **How to comply:** every proposed automation must cite the R131/R132/R133/R134 evidence for the process; the automation PR must include a kill-switch (R83) and a re-review date. **Failure mode:** automated pipelines that outlive the reason they existed (this is how CI stacks accumulate unused jobs).
+
+### R136 — Constraint audit: separate real constraints from self-imposed ones
+**Headline:** For any architecture proposal, list ALL hard constraints (rate limits, browser sandboxing, network physics, RLS, regulatory, TOS). Anything not on that list is a self-imposed constraint and is subject to R131. **Why:** Musk's "are we breaking any laws?" — most engineering constraints are self-imposed and could be challenged; distinguishing physics from policy is the highest-value discrimination in design. **How to comply:** any RFC/design doc includes a `## Hard Constraints` section citing the source (RFC number, TOS clause, physical limit); anything else lives under `## Assumptions` and is challengeable. **Failure mode:** "we can't do X because policy" ossifies when the policy was invented internally three years ago and forgotten (see R131).
+
+### R137 — Cycle-time ledger: measure the wave, root-cause the outliers
+**Headline:** Per wave, log dispatch → first audit round → last audit round → merge. Any PR requiring > 3 audit rounds gets a root-cause note; any PR with > 1 lens-disagreement gets a doctrine-gap note. **Why:** you cannot enforce R130 without measurement; per-wave data reveals which rules produce disagreements and which produce fast convergence. **How to comply:** wave postmortem file at `waves/W<N>/postmortem.md` includes: per-PR round counts, per-PR lens-agreement matrix, per-PR fixer commit counts, cumulative subagent lane-hours. Any outlier (> 3× the wave median) opens an R131 challenge on the rule that produced it. **Failure mode:** teams keep hitting the same audit-round wall wave after wave because no one is measuring the walls.
+
+---
+
+
 
 ---
 
