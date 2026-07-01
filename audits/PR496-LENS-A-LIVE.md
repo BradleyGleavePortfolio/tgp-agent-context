@@ -53,9 +53,43 @@
 - Builder claimed 103. Actual ≤103 either way. Well under R76 cap (400). ✅
 - Test LOC: new `test/auth/extension-auth.spec.ts` +372; spec churn -23 net. Large test surface.
 
-## Check 7 — R3 commit sweep  (pending — see below)
+## Check 7 — R3 commit sweep  ✅ CLEAN
+All 5 commits `origin/main..HEAD`:
+- `5ab0d7f2` test(auth): extension auth + signup ref coverage
+- `3bacea65` feat(auth): /auth/extension/login + /auth/extension/refresh routes
+- `fc78dbb4` feat(auth): extension login/refresh proxying Supabase + signup_ref persistence
+- `5d132c71` feat(auth): add ref field to signup DTOs + ExtensionRefreshDto
+- `d50ead62` chore(schema): add User.signup_ref for signup attribution
 
-## Check 8 — Test execution (npm ci / jest src/auth / tsc)  (pending — see below)
+Every commit: author = committer = `Bradley Gleave <bradley@bradleytgpcoaching.com>` (name + email both match). R3 ✅
+Forbidden-token sweep of all commit messages/trailers: NONE (no claude/copilot/co-authored-by/agent/computer/assistant/generated-by). ✅
+
+## Check 8 — Test execution  ✅ ALL GREEN
+- `npm ci` completed; Prisma client generated and aware of `signup_ref` (663 refs). ✅
+- `npx jest src/auth test/auth --runInBand --testTimeout=30000` → **Test Suites: 10 passed / 10; Tests: 91 passed / 91**. New `test/auth/extension-auth.spec.ts` PASS (17 new `it()` cases — matches builder claim). ✅
+- `npx tsc --noEmit` → **exit 0**, no type errors. ✅
+- Runtime log inspection during tests: `extension refresh rejected: token expired` / `no session returned` — confirms R30 redaction holds at runtime (no token/password in logs). ✅
+- R109: no stubs / silent catches / "Coming soon" in added prod code. ✅
+
+## Metrics reconciliation
+- Head SHA verified BOTH ways = `5ab0d7f25f37a5c795482becd4d5fb8a95ca629b` ✅
+- Net prod LOC: task-formula 64; true (excl tests) **90** — builder claimed 103; both ≤ R76 cap 400. ✅
+- test:src ratio: builder's **3.30** reconciles as 372 new test LOC / ~113 prod-src added LOC (3.29). ✅ (R74 is Lens B's gate; recorded here.)
+- Banned-cast net additions: **0** (R75). ✅
+- 17 new tests confirmed; 91 total pass.
+
+## Severity counts
+- P0: 0
+- P1: 0
+- P2: 0
+- P3: 2 (both pre-existing / low-risk observations, NOT introduced-defects):
+  1. `LoginDto.password` lacks `@MaxLength` (unbounded length) — pre-existing on the reused DTO; mitigated by IP throttle + Supabase-side bound. Task check 1 flagged verifying `@MaxLength` bounds; email is bounded, password is not.
+  2. Refresh endpoint reuses the `AUTH_LOGIN_PER_MIN` named throttler with a distinct 30/min limit — verified NestJS keys throttle counters per (name+route), so no cross-route bucket collision. Documented for clarity; not a defect.
+
+## R11 LENS ISOLATION — FINAL CONFIRMATION
+No Lens B file opened; no `pr496_lensb_*`; no `grep -r` in `audit_workspace/`. All evidence independent, scoped to `/tmp/pr496_lensa_r1`.
 
 ---
-_Live audit in progress. Verdict emitted after checks 7 + 8._
+VERDICT: FINDINGS
+
+(Two P3 observations only — no P0/P1/P2. Both are low-risk/pre-existing; per R31/R33 the auditor records them so a fixer closes P0–P3 inclusive. Core deliverables — public+throttled endpoints, structured 401, DTO validation, additive+reversible migration, no token/password leakage, R3 identity, 0 banned casts, 91 green tests, tsc 0 — all pass.)
