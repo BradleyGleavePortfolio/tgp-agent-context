@@ -179,7 +179,8 @@
     {"timestamp": "2026-06-30T21:36-07:00", "quote": "get PR-C1-4 done after PR-A - but make sure PR-B isn't blocking PR-CX", "impact": "PR-B and PR-C1 spawn in parallel. C-track internally serial."},
     {"timestamp": "2026-06-30T~22:30-07:00", "quote": "Fix the 3 CI gates first", "impact": "Drove PRs #497 / #498 / #499. Reversibility gate now works for every future migration PR."},
     {"timestamp": "2026-06-30T23:51-07:00", "quote": "once 496 and 498 merge can you start working on the import tool further", "impact": "Confirmed autonomy to spawn PR-B + PR-C1 the moment #496 landed."},
-    {"timestamp": "2026-06-30T23:56-07:00", "quote": "update live state json at every turn AND make a 'agent 52 read this' document", "impact": "This document + HANDOFF_AGENT_52_FROM_AGENT_51.md refresh every material state change."}
+    {"timestamp": "2026-06-30T23:56-07:00", "quote": "update live state json at every turn AND make a 'agent 52 read this' document", "impact": "This document + HANDOFF_AGENT_52_FROM_AGENT_51.md refresh every material state change."},
+    {"timestamp": "2026-07-01T00:01-07:00", "quote": "update BOTH the json and handoff document at every merged PR - keep working", "impact": "After every squash-merge, BOTH this JSON and HANDOFF_AGENT_52_FROM_AGENT_51.md update in the same push that R5-archives the audits. Non-negotiable."}
   ],
   "human_choices_and_scope_expansions": [
     {"decision": "Reuse Supabase sessions (no backend JWT)", "when": "2026-06-30T21:00-07:00"},
@@ -188,7 +189,8 @@
     {"decision": "Fix the 3 CI gates properly, not R86-exempt them", "when": "2026-06-30T~22:30-07:00"},
     {"decision": "Auto-discovery over per-platform adapters — importer extension is universal (sourcePlatform: auto:<hostname>)", "when": "2026-06-27 through 2026-06-30, implicit in AUTO_DISCOVERY.md sign-off"},
     {"decision": "LOC-EXEMPT marker acceptable for test-first PRs", "when": "2026-06-30, implicit in PR #496 title acceptance"},
-    {"decision": "Live state JSON + agent-NN handoff doc on every material change", "when": "2026-06-30T23:56-07:00"}
+    {"decision": "Live state JSON + agent-NN handoff doc on every material change", "when": "2026-06-30T23:56-07:00"},
+    {"decision": "BOTH docs update at every merged PR (same push as R5 audit archive)", "when": "2026-07-01T00:01-07:00"}
   ],
   "workspace_paths_ephemeral": {
     "backend_working_checkout_current_thread": "/home/user/workspace/growth-project-backend/",

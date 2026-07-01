@@ -143,6 +143,7 @@ Authorization: Bearer <supabase_access_token>
 4. **2026-06-30 (during CI):** *"Fix the 3 CI gates first"* (not R86 exception, not restructure) — this drove PRs #497 / #498 / #499.
 5. **2026-06-30 23:51:** *"once 496 and 498 merge can you start working on the import tool further"* — YES. Spawn PR-B + PR-C1 the moment #496 lands.
 6. **2026-06-30 23:56:** *"update live state json at every turn AND make a 'agent 52 read this' document"* — this is that document. Also refresh `handoffs/importer-wave/current-state.json` on every material change.
+7. **2026-07-01 00:01:** *"update BOTH the json and handoff document at every merged PR - keep working"* — after every squash-merge, BOTH `HANDOFF_AGENT_52_FROM_AGENT_51.md` and `handoffs/importer-wave/current-state.json` update in the same push that R5-archives the audits.
 
 ---
 
@@ -209,6 +210,7 @@ Authorization: Bearer <supabase_access_token>
 | Auto-discovery over per-platform adapters | (implicit in AUTO_DISCOVERY.md sign-off) | 2026-06-27 → 2026-06-30 | Importer extension is universal (`sourcePlatform: "auto:<hostname>"`). TrueCoach-specific adapter from Op 50.5 archived. |
 | LOC-EXEMPT marker acceptable for test-first PRs | (implicit in PR #496 title acceptance) | 2026-06-30 | Test LOC no longer counted against R76 when title carries `[LOC-EXEMPT: test-first pattern — <N> R74 test LOC + <reason>]`. |
 | Live state JSON + agent-NN handoff doc on every material change | *"update live state json at every turn AND make a 'agent 52 read this' document"* | 2026-06-30 23:56 | This doc + `handoffs/importer-wave/current-state.json` refreshed every material state change. |
+| BOTH docs updated at every merged PR | *"update BOTH the json and handoff document at every merged PR - keep working"* | 2026-07-01 00:01 | Merge commit + audit-archive commit + doc-refresh commit go in the same push. Non-negotiable. |
 
 ---
 
