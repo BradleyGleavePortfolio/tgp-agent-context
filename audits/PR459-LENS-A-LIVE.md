@@ -145,6 +145,33 @@ finding, separate from the substantive P1-LOC.
 ---
 
 ## Targeted Test
-(pending — see below)
+`NODE_OPTIONS=--max-old-space-size=6144 npx jest test/observability --runInBand --testTimeout=30000`
+
+**Result: 10 suites passed, 148 tests passed, 0 failed.** ✅
+(DbStatsService logs the expected `available:false` WARN — graceful-degradation path, not a failure.)
 
 ---
+
+## Severity Summary
+
+| Finding | Severity | Status |
+|---|---|---|
+| Net +471 prod LOC > 400 cap | **P1-LOC** | Over cap; `r86-exception-requested` label present. Per R76/R86 doctrine this is a P1 (operator resolves via `r86-exception-approved`), NOT a CLEAN blocker, NOT P0. No BLOAT identified. |
+| R86 exception block filing defect (stale/contradictory PR body) | **P2** | Label present but body has NO conforming exception block; body states wrong Head SHA (`fec805cf`), wrong LOC (502/1059 vs actual 471/1282), lists deleted `index.ts`, and mis-labels the migration "IRREVERSIBLE" when round-4 made it reversible. |
+
+- **P0: 0**, **P1: 1 (P1-LOC)**, **P2: 1**, **P3: 0**.
+- Round-3 Lens B P2 bugs (`$99` placeholder mask, PG escape-string leak): **BOTH VERIFIED FIXED** in round-4.
+- Security (R24–R36), Perf/Concurrency (R44–R55), Data/Infra (R67–R73, R82), R75, R125: all clean/N-A as noted.
+- No P0 invented (R76 discipline honoured). Migration reversible (R82). RLS N/A — no new tables (R125).
+
+## Verdict Rationale
+The substantive engineering is sound: both prior P2 security bugs are fixed, banned-cast net = 0, migration
+is reversible with runbook, tests green. The remaining issues are (1) the P1-LOC over-cap — which the doctrine
+routes through the exception path (label present) rather than blocking as a P0 — and (2) a P2 that the R86
+exception is not *properly filed* (the PR body is stale/self-contradictory and lacks the required per-file
+assessment + split-feasibility). Because `r86-exception-approved` is NOT present and a P2 filing defect exists,
+the verdict is FINDINGS, not CLEAN.
+
+---
+
+VERDICT: FINDINGS
