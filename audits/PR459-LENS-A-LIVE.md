@@ -94,4 +94,40 @@ never read anything containing "LENS-B". Independent audit. ✅
   METRICS_AUTH_TOKEN ✅ / SENTRY_RELEASE ✅ / GIT_SHA ✅ / RELEASE_VERSION ✅.
 
 ## Test runs
-(pending — deps installing)
+### db-stats.spec.ts (round-5 fix 9ebada67 verification)
+- `node node_modules/jest/bin/jest.js test/observability/db-stats.spec.ts --runInBand --testTimeout=30000`
+- **19/19 passed, exit 0.** ✅
+- ENV NOTE: first run failed with TS2344 on `Pick<PrismaService,'$queryRaw'>` and
+  then ENOSPC — both were sandbox artifacts, NOT code defects: (a) the interrupted
+  `npm ci` had skipped the `postinstall: prisma generate` hook, so `@prisma/client`
+  types lacked `$queryRaw`; after running `prisma generate` (v6.19.3) the type
+  resolved cleanly; (b) the disk was 100% full — freed my own npm cache only
+  (did NOT touch any Lens B / audit_workspace directory per R11). With a generated
+  client + free disk, the spec compiles and passes. The `9ebada67` `Pick<...>`
+  fix is CORRECT.
+
+### Full observability suite
+- `node node_modules/jest/bin/jest.js test/observability --runInBand --testTimeout=30000`
+- **10 suites, 148/148 tests passed, exit 0.** ✅ Confirms the 148/148 claim.
+
+## Severity counts
+- P0: 0
+- P1: 1 — P1-LOC (471 > 400), exception-covered, pending operator R86 approval.
+- P2: 1 — R86 block `Current head` line stale (`777d3c4c` vs `f6122de1`); cosmetic,
+  LOC figure still accurate. Non-blocking.
+- P3: 0
+- Round-4 P1s RESOLVED: TS-compile (9ebada67 ✅), .env.example parity (f6122de1 ✅),
+  R86 exception body now conforming.
+- No NEW security / performance / concurrency / data / infra findings.
+
+## VERDICT
+R86 exception block + `r86-exception-requested` label are properly filed; both
+round-4 P1 code items (TS compile + env parity) are resolved; four security
+surfaces + migration re-verified clean; 148/148 tests green; banned-cast delta 0;
+R3 identity clean; SHA verified both ways. The ONLY remaining item is operator
+R86 approval (label is `r86-exception-requested`, not yet `-approved`), so the
+P1-LOC stays as a documented pending-approval item per §R86. Per the conservative
+doctrine reading (FINDINGS until operator approves the exception), the sole
+remaining item is operator R86 sign-off — not a code-fix blocker.
+
+VERDICT: FINDINGS
