@@ -240,3 +240,27 @@ Format: `YYYY-MM-DD · short-id · category · ruling (verbatim where possible)`
 - M11 wizard is NOT "UI shell" — it's mobile + web + Roman-AI hand-holding + per-step progress + abort-and-resume + first-import celebration popup + Day-1 Win sequence chain
 
 **Authoritative location:** This log. All M-series briefs must reference this ruling in their "Scope floor compliance" section. Reality check report (`audit_briefs/M_PLAN_REALITY_CHECK.md`, in flight) will be re-evaluated against this floor.
+
+---
+
+## 2026-07-07 · DARK_ROUTE · no dark merges — "build the dishes, then put them on the menu"
+
+**Verbatim (operator, 2026-07-07 23:29 PDT):**
+> "Option C — Build the dishes, then put them on the menu (your instinct) - build them, make them really fucking well built, get them dual clean and merged, flip them ON right away"
+> "Simple terms. Don't merge routes until they're launch-ready; merge = go-live. Routes don't exist in the codebase until they're real. No flag = no dark state = no leak -> that should just be a base RULE to not merge shit that doesn't exist"
+
+**Effect:**
+1. **DARK_ROUTE_GUARD_ORDERING cross-cutting P2 resolved as Option C** for the importer wave (#500/#501/#502): dispatch the fixer round for the REAL findings (path-prefix P1 on #500, R80 envelope P1 on #501, #502 CI-red + roles + density + casts + brute-force + code-in-query), reach dual-CLEAN, merge in order (#2 → #1 → #501 → #500 → #502), and flip `FEATURE_SCOUT_INGEST` + `FEATURE_EXTENSION_PAIRING` `ON` at launch. The dark-route finding dissolves because the dark phase ends — there is no permanent dark state to leak.
+2. **New base rule (operator-elevated, R109-adjacent): NO DARK MERGES — EVER.** Routes do not merge until they are launch-ready and real; merge ≈ go-live. No permanent "ships dark" endpoints. The dark-route guard-ordering problem only existed because dark state persisted indefinitely; the rule eliminates the class, not the instance.
+   - **Enforcement path (per R125, three enforcers):**
+     - (1) This DECISION_LOG entry is the doctrine record.
+     - (2) CI gate: `test:deploy-readiness` (R100) flags any `FEATURE_*` flag that is `OFF` in prod AND has merged routes — a merged-but-flag-off route past its launch window is a P1 finding. File the CI gap as an R20 tracking issue ("deploy-readiness must fail on stale dark routes") if not already covered.
+     - (3) Audit-lens question for BRIEF_PREAMBLE: "Does this PR merge a route that ships behind a permanent flag with no launch date? If yes, P1 — no dark merges."
+3. **Option A (global pre-auth middleware) filed as R20 Tier-2 tracking issue** — the systemic "make hiding actually work repo-wide" fix for any *temporary* dark phase that genuinely cannot avoid one. Not blocking this wave; its own lane. Prevents the Option-B-style waiver from quietly becoming permanent (R66/R125).
+4. **Options B (waive) and D (no flag at all) REJECTED.** B breaks the promise; D conflicts with R83 (feature flags are still mandated for risky paths with kill-switch + cleanup deadline — "no dark merges" means no *permanent* dark state, not "no flags ever"; flags must have a launch date and flip ON).
+
+**Scope of "no dark merges":** flags are still allowed (R83) for rollout safety (kill-switch, staged exposure), but every flag MUST have a documented launch/flip-ON date, and a route that sits merged-but-flag-OFF past that date is a P1. The rule outlaws *indefinite dark state*, not flags themselves.
+
+**Authoritative location:** This log. AGENT_RULES.md R109 ("No Half-Ass") is the doctrinal neighbor; the "no dark merges" rule extends R109's "never a stub / never fake" into "never a permanently-hidden real route."
+
+**R3 footer:** Committed as Bradley Gleave <bradley@bradleytgpcoaching.com>. Zero AI/Claude/agent/Co-authored-by tokens.
