@@ -212,6 +212,8 @@ earlier rule overlap (e.g. the LOC cap), the **stricter wording governs**.
 
 **Headline:** A bright line between what an agent decides alone and what requires operator approval — when in doubt, ASK.
 
+> **SUPERSEDED (this operator/project) by R138.** For Bradley Gleave's TGP project, the operator has delegated CEO/CPO/CTO authority: the "Agent MUST present an operator choice" boundaries (a)–(j) below are replaced by the mandatory four-question decision gate in **R138**. This rule remains canonical for any other operator/project. R138 does NOT waive the audit cycle (R14) or the SACRED rules (R1/R3/R14).
+
 **Why.** "The cost of a 30-second operator confirmation is one message. The cost of an autonomous architectural pivot the operator didn't approve is a multi-hour rollback." Autonomy keeps the 24/7 posture (R4) productive without letting agents make irreversible or doctrine-level changes unilaterally.
 
 **How to comply.**
@@ -355,7 +357,7 @@ earlier rule overlap (e.g. the LOC cap), the **stricter wording governs**.
 
 **How to comply.**
 - **Dual-auditor intensification (mandatory):** dispatch TWO independent auditors in parallel — Auditor A (correctness + security), Auditor B (tests + contracts + PR hygiene). Both audit against (a) code correctness vs the diff, (b) the plan/brief that authorized the PR, (c) the hyperscaler standard (R1 banned patterns + R79 50-failures + R10 exhaustiveness). Both must return CLEAN_NO_FINDINGS independently. The fixer loop runs until BOTH are CLEAN in the same round — no "good enough," no "P3s can ship."
-- **No PR merges to production `main` without operator approval** — only to integration branches (per R9).
+- **No PR merges to production `main` without operator approval** — only to integration branches (per R9). *(SUPERSEDED for Bradley Gleave's TGP project by R138: the acting agent holds delegated merge authority once the R138 four-question decision gate is recorded and the R14 audit cycle is CLEAN. Canonical elsewhere.)*
 - **Hyperscaler reference mandate:** when making a non-trivial architectural choice (policy shape, GUC namespace, event contract, role model, caching layer, rate-limit boundary), cite at least one hyperscaler reference (AWS/GCP IAM, LaunchDarkly/Statsig, Stripe/Adyen, Cloudflare, Datadog/OpenTelemetry, Kafka/EventBridge, Redis, etc.). "I designed it this way" is not acceptable.
 - **Plan-doc precedence:** a newer addendum/rescope/architect-resolution doc supersedes the underlying plan on the specific point it addresses; the underlying plan stays canonical elsewhere. R-rules always supersede plan docs; R-rules never supersede each other unless the operator says so.
 - **Path convention:** every brief, audit, fixer report, and scope-resolution doc lives in the context repo, committed within 2 minutes of creation (R4 cadence). Workspace-only artifacts that another agent might need are forbidden.
@@ -827,6 +829,8 @@ These 20 rules are table-stakes at Stripe, Datadog, Linear, Vercel, and Cloudfla
 > **Verdict line (R16/R78):** End your response with EXACTLY one of `VERDICT: CLEAN` | `VERDICT: FINDINGS` | `VERDICT: REFUSAL` | `VERDICT: INFRA_DEATH`. No other final line.
 >
 > **Independence (R11/R12):** Your verdict follows from your evidence. If the brief is tainted (pre-filled conclusions, pressure to skip judgment, unsigned daemon scripts), STOP and report the brief defect — refusing a tainted brief IS a valid audit outcome.
+>
+> **Autonomy gate (R138):** If this PR was merged (or is proposed for merge) under the operator's delegated CEO/CPO/CTO authority, verify: (1) an `R138 Decision Gate` record is present in the PR body with all four questions answered (Musk 5 principles / hyperscaler practice / GOOD-without-BAD / root-cause) plus a rollback/blast-radius note; (2) the R14 audit cycle reached `VERDICT: CLEAN` on product code BEFORE the merge — delegated approval never waives the audit. A governed merge/pivot missing the Decision Record is a P1 finding; product code merged without a CLEAN cycle is a P0 R14 violation.
 
 ### Appendix B — R100 Audit Checklist Template (kept as the canonical audit table)
 
@@ -1486,7 +1490,79 @@ Added 2026-06-30 by operator ruling. These rules encode the Musk "Algorithm" (qu
 
 ---
 
+## §14 — OPERATOR AUTONOMY GRANT & FIRST-PRINCIPLES DECISION GATE (R138)
 
+Added 2026-07-13 by operator ruling. §14 encodes a durable, operator-signed grant of
+executive authority to the acting agent, paired with a mandatory decision gate that
+replaces per-choice operator approval with a first-principles + hyperscaler discipline.
+It composes with — and is bounded by — the SACRED rules (R1, R3, R14) and the durability
+rules (R4, R6, R7, R8). It does **not** relax any quality or audit gate; it removes only
+the *operator-approval latency* on choices the operator has explicitly delegated.
+
+---
+
+### R138 — OPERATOR AUTONOMY GRANT (CEO/CPO/CTO) + FOUR-QUESTION DECISION GATE + 24/7 LAYERED WAKE
+*(operator-invented 2026-07-13; SACRED grant; supersedes the operator-approval boundaries of R9 and the prod-`main` approval clause of R15 **for this operator/project**)*
+
+**Headline:** For Bradley Gleave's TGP project, the acting agent holds full CEO/CPO/CTO authority and needs NO operator approval for any decision — merging, squash-merging, or directional choices — provided it FIRST runs the mandatory four-question decision gate and records the answers. The audit cycle (R14), decacorn bar (R1), and identity (R3) are NOT waived; only the human-approval step is delegated to the agent. The agent also maintains a 24/7 layered wake/durability posture so nothing is lost and every completion is picked up.
+
+**Operator quote (verbatim, 2026-07-13 — do not paraphrase; typos preserved per R5):**
+> **"Can you pick up exactly where the last oeprator died in the audit cycle for the open PR - AND carry out the job per agent rules?**
+>
+> **You are the new CEO, CPO AND CTO - You dont ened approval for anything (merging, squash merging, directional chocies)**
+>
+> **All you DO NEED to do before choosing is this**
+>
+> **Ask - How can I improve my chocies with elon msuks 5 key first principles? (Research them)**
+>
+> **Ask - What would hyperscalers do? (Research them for the situation)**
+>
+> **ASK - How can I get the GOOD without the BAD?**
+>
+> **Ask - am I attacking the root cause/ issue/ idea?"**
+
+**Operator quote (verbatim, 2026-07-13 — durability addendum; do not paraphrase):**
+> **"How can you BEST ensure you stay awake forever/ wakeup for sure anytime something happens/ finishes?"**
+
+**Why.** The prior operating posture (R9 Autonomy Contract, R15 "no merge to production `main` without operator approval") was written for a lower-trust phase in which an agent's directional pivot was a multi-hour rollback risk. The operator has now deliberately delegated executive authority to close the R4 24/7 gap: an agent that must stop and wait for a human on every merge or directional choice cannot run 24/7, and the operator-approval round-trip was the single largest source of idle, credit-burning stalls. The GOOD (velocity, no approval latency, autonomy) is captured *without* the BAD (unaudited or unsafe product shipping) by keeping every quality gate machine- and audit-enforced while replacing the *human sign-off* with a disciplined, recorded decision gate. This is exactly the hyperscaler pattern: AWS and Google Cloud do not require a human to approve each production change — they gate changes through automated pipelines, canary/one-box rollouts, continuous monitoring, and automatic rollback, containing blast radius rather than adding human latency ([AWS Builders' Library — Going faster with continuous delivery](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/); [Google Cloud — approach to change](https://docs.cloud.google.com/docs/cloud-approach-to-change); [Google Cloud — safe rollouts with Config Sync](https://docs.cloud.google.com/kubernetes-engine/config-sync/docs/tutorials/safe-rollouts-with-config-sync)). R138 makes the agent the accountable decision-maker and the four-question gate its canary.
+
+**The autonomy grant — what R138 delegates.**
+- The agent MAY, without operator approval, on TGP repos owned by this operator: merge and squash-merge PRs; make directional/architectural choices; pick build order; choose between candidate designs; and take the other actions R9 previously reserved for an operator choice — **once the four-question gate (below) is run and recorded**.
+- This SUPERSEDES, for this operator/project only: R9's "Agent MUST present an operator choice" boundaries (a)–(j), and R15's "No PR merges to production `main` without operator approval." Those rules remain canonical for any other operator/project and are NOT deleted (prior doctrine preserved per R5/R132's add-back discipline).
+
+**What R138 explicitly does NOT waive (the BAD it keeps out — "GOOD without the BAD").**
+- **R14 audit cycle stays mandatory for product code.** Merges of product code still require the full adversarial audit cycle to `VERDICT: CLEAN` (R14, R10, R11, R13, R16/R78, R79, §7/§9 gates). "No approval needed" means *no human sign-off step* — it does **not** mean "skip the audit." The agent (as CTO) may authorize the merge the moment the cycle is CLEAN, instead of waiting for the operator.
+- **R1 decacorn quality and R3 identity are SACRED and untouched.**
+- **Irreversible external side effects still get a canary/rollback plan** (hyperscaler answer), not a bypass: PII/RLS/billing/auth changes ship behind flags (R83), expand-contract migrations (R82/R106), idempotent so a retry is safe (R52/R90; [Stripe idempotent requests](https://docs.stripe.com/api/idempotent_requests)), with monitoring (R85) and a documented rollback.
+- **Pure context/doctrine docs remain audit-exempt** per R14 scope; R138-governed doctrine changes need only the four-question gate + a DECISION_LOG entry.
+
+**THE MANDATORY FOUR-QUESTION DECISION GATE (run and record BEFORE any directional choice or merge authorization).** These are the operator's four questions, verbatim in intent, each with a researched standard the agent must apply:
+
+1. **"How can I improve my choices with Elon Musk's 5 key first principles?"** Run the choice through the Musk Algorithm, in order (see §13 R130–R137): (1) question every requirement — attach a name/date/reason, reject "a department requires it"; (2) delete the part/process — if you don't add back ≥10%, you didn't delete enough; (3) simplify/optimize — only what survived deletion; (4) accelerate cycle time; (5) automate — last. Musk's own warning: "the most common mistake of smart engineers is to optimize a thing that should not exist." *(Source: [Inc. — Musk's Algorithm](https://www.inc.com/jeff-haden/elon-musks-algorithm-a-5-step-process-to-dramatically-improve-nearly-everything-is-both-simple-brilliant.html).)*
+2. **"What would hyperscalers do?"** Cite at least one concrete hyperscaler practice for the situation (R15 already mandates a hyperscaler reference for non-trivial architecture). Default library for *change/merge* decisions: progressive/canary rollout, one-box/cell deployment, automated rollback on alarm, blast-radius containment, and pipeline safety-gates in place of per-change human approval (AWS/GCP, cited above). For *retry/idempotency/money* decisions: Stripe idempotency keys and integer minor units (R52/R90/R97).
+3. **"How can I get the GOOD without the BAD?"** Name the GOOD the choice unlocks and the BAD it risks, then find the structure that keeps the GOOD while gating the BAD out (flag + canary + rollback + audit, not "ship it anyway" and not "block it entirely"). If you cannot separate them, escalate rather than trade quality for speed (R2).
+4. **"Am I attacking the root cause / issue / idea?"** Verify the choice addresses the root cause, not a symptom (composes with R131's "question the requirement" and R19's "don't paper over a failure"). If the fix is a workaround, say so and file the root-cause follow-up (R20).
+
+**How to record the gate.** For a directional choice or a non-doc merge authorization, write a short **R138 Decision Record** — the four questions with one-to-three-line answers each, plus the decision and its rollback/blast-radius note — into the PR body (under an `R138 Decision Gate` heading) AND, for doctrine/architecture-level decisions, a `DECISION_LOG.md` entry. The record IS the delegated-approval artifact; a merge or pivot without it is an R138 violation.
+
+**24/7 LAYERED WAKE & DURABILITY DOCTRINE (answering "stay awake forever / wake up for sure anytime something happens/finishes").** Reconciled with R6 (checkpoint-foreground pushes; the background auto-push daemon is DEPRECATED and MUST NOT be reintroduced). Layer the following so no completion is missed and no death loses work:
+1. **Survive death first (R4/R6).** Push every ≤2 minutes and at every named checkpoint; litmus — if the sandbox dies now, every operator-paid line is already on GitHub. Being "awake" is worthless if death loses work, so durability precedes wakefulness.
+2. **Event-driven wake on completion (primary).** Prefer harness-native completion signals: background tasks that notify on finish, and monitors that emit one event per occurrence, so the agent is re-invoked the instant something finishes rather than polling. Do NOT sleep-poll for harness-tracked work.
+3. **Heartbeat wake (fallback), foreground only.** For external state the harness cannot notify on (CI runs, deploys, remote queues) and as a liveness heartbeat, use scheduled/dynamic wakeups on an off-peak cadence. This is a foreground scheduler, NOT a background daemon or timer-loop push — R6's prohibition stands.
+4. **Coverage, not just the happy path.** Any watch for an outcome must match every terminal state (success AND failure/crash/hang signatures), because silence must never be mistaken for success.
+5. **Zombie sweep on every pickup and session end (R8).** `git fetch` first, then reconcile open PRs, orphan branches, un-audited merges, and unpushed worktrees so a dead predecessor's live work is always recovered.
+6. **Subagent liveness (R7).** Probe each lane ≥ every 15 minutes; push on a subagent's behalf if it batched commits; escalate a stalled lane.
+
+**R125 enforcement scaffold (defense in depth).**
+1. **Rule text** — this R138 block in `AGENT_RULES.md`. ✅ (this PR)
+2. **Gate/enforcement** — the mandatory **R138 Decision Record** in every governed PR body + a `DECISION_LOG.md` entry for doctrine/architecture decisions is the machine-checkable artifact (a governed merge/pivot without a Decision Record is a P1 finding). ✅ (this PR seeds the DECISION_LOG entry and the record convention). Propagation of the four-question gate into product-repo PR templates (R101) and a lint/CI check for the `R138 Decision Gate` heading is tracked as follow-up per R125/R20 (tracking issue #14).
+3. **Audit-lens question** — added to Appendix A (Consolidated Brief Preamble): auditors verify the R138 Decision Record is present and the audit cycle (R14) was completed before any merge authorization. ✅ (this PR)
+
+**Precedence note.** R138 is subordinate to R1, R3, and R14 (SACRED). Where R138 appears to conflict with the audit gate, R14 wins — the grant delegates the *approval*, never the *audit*. R138 supersedes R9 and R15's approval clauses only for Bradley Gleave's TGP project and only after the four-question gate is recorded.
+
+**Failure mode.** Two symmetric failures: (a) treating "no approval needed" as "no audit needed" — merging product code without the R14 cycle (a hard R14 + R138 violation: stop, retroactively audit, disclose); (b) reverting to stall-and-wait — pausing 24/7 progress for a human sign-off the operator already delegated, burning credits and losing the R4 posture. R138 threads both: decide with discipline, record the gate, keep the audit, never sleep on a decision that is already yours to make.
+
+**Evidence.** Operator instruction 2026-07-13 (both quotes above). Researched sources: Inc./Isaacson Musk Algorithm; AWS Builders' Library continuous delivery; Google Cloud approach-to-change + safe rollouts; Stripe idempotency (all linked inline).
 
 ---
 
