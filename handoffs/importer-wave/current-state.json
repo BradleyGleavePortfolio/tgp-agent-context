@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T06:54:00Z",
-  "as_of_local": "2026-07-13T23:54:00-07:00",
+  "as_of_utc": "2026-07-14T07:16:00Z",
+  "as_of_local": "2026-07-14T00:16:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -26,12 +26,12 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 53 \u2014 Extension #3 SQUASH-MERGED (a8563853758b) after exact-head dual-lens CLEAN/CLEAN + CI green. Next: v0.3 site-agnostic autonomous multi-page crawl PR.",
-    "phase": "EXT_V03_AUTONOMOUS_CRAWL_BUILD",
+    "current_op": "Op 53 \u2014 Extension PR #4 generic site-agnostic bounded replay engine open @a75827d1; dual-lens angry full P0-P3 audit in flight.",
+    "phase": "EXT_PR4_DUAL_LENS_AUDIT_R1",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
     "watchdog": "bbd2c039 hourly until v0.3 done",
-    "constitution": "active; canonical AGENT_RULES addendum; watchdog wired"
+    "constitution": "canonical AGENT_RULES addendum active"
   },
   "product_model": {
     "identity": "SITE-AGNOSTIC autonomous data bridge. Coach picks prior service in TGP mobile \u2192 browser opens that site \u2192 after coach login, extension prompts Start client Import? \u2192 extension autonomously flips through many pages capturing JSON \u2192 posts to TGP scout ingest. Extension ships with the app by default.",
@@ -156,7 +156,17 @@
       "resolved_as_of": "2026-07-08"
     }
   },
-  "open_prs": [],
+  "open_prs": [
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 4,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/4",
+      "head": "a75827d1c0cf5452c1e924ddae4889c5b8b2f3f6",
+      "scope": "generic site-agnostic bounded autonomous replay core + Start/Cancel CTA; TrueCoach data adapter only",
+      "status": "dual-lens audit round 1 in flight",
+      "local_evidence": "287 tests; prod LOC 554/600; ratio 2.063; gates green"
+    }
+  ],
   "non_importer_open_backend_prs_ignored_this_wave": [
     491,
     428,
@@ -215,7 +225,7 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "IN_PROGRESS \u2014 pairing auth merged. Product NOT DONE: autonomous multi-page site-agnostic crawl + mobile import/progress + staging E2E remain.",
+  "verdict": "IN_PROGRESS \u2014 PR #4 built, not audited/merged. PR-C2 inference + Learn/Confirm and mobile remain.",
   "last_merge": {
     "pr": 504,
     "repo": "backend",
@@ -248,5 +258,17 @@
     "status": "ACTIVE",
     "decision_record": "DECISION/REAL GOAL/ROOT CAUSE/FIVE-STEP/IDIOT-INDEX/EXTREME/HYPERSCALER/GOOD-WITHOUT-BAD/EVIDENCE/ROLLBACK/NEXT",
     "watchdog": "bbd2c039 reads canonical doctrine each run"
+  },
+  "decision_record_current": {
+    "decision": "Land generic replay core before inference/UI breadth",
+    "real_goal": "Prove safe bounded site-agnostic many-page traversal and orchestration",
+    "root_cause": "Existing product had capture and one mapped extractor but no generic deterministic replay kernel",
+    "five_step": "questioned platform maps; deleted DOM/SSR packs and multi-platform breadth; simplified to injected pure engine; accelerated with fixtures/gates; automation limited to bounded replay",
+    "idiot_index": "one pure engine + declarative adapters, no new service",
+    "hyperscaler": "explicit states, budgets, abort, idempotency, failure isolation",
+    "good_without_bad": "autonomy without broad permissions/destructive methods",
+    "evidence": "dual-lens CLEAN + CI + deterministic edge tests",
+    "rollback_stop": "flag/off or revert PR; stop on P0-P3 or contract mismatch",
+    "next": "audit/fix/re-audit exact head"
   }
 }
