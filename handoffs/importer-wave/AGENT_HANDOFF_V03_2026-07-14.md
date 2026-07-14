@@ -27,7 +27,7 @@
 
 **Critical path is one PR from a major milestone.** Extension **PR #6 (EXT-C1b)** wires the merged bounded replay engine (#5) into the product runtime. It is the last piece that turns the shipped engine + capture + pairing foundation into a working end-to-end import. It is **OPEN, builder-complete, fixer-r1-complete, and NOT-yet-merge-ready (dual-lens r2 pending).** Dual-lens r1 (builder head `ab5dc61`) returned **FAIL/FAIL, convergent** on one blocking P2 (the Start Import CTA did not supply a source bearer) plus five P3s; **fixer r1 has now root-fixed all six findings at head `55f24d5`** (real ephemeral trusted-tab source-bearer handoff + the four other P3 fixes + adversarial tests) and awaits a fresh dual-lens r2 at that exact head.
 
-**Second milestone now in flight.** Mobile **PR #285 (M2)** — live extension pairing (mint + poll), default-OFF — is **OPEN, builder-complete, dual-lens r1 in progress** at head `bd9a41a` (base mobile `main` `1695517`). It replaces the M1 `awaitingExtension` placeholder with a real pairing surface backed by the verified mobile-callable endpoints `POST /extension/pair/init` + `POST /extension/pair/status`; honest terminal is `paired` only (no fabricated progress, because no mobile-readable import-progress route exists yet).
+**Second milestone now in flight.** Mobile **PR #285 (M2)** — live extension pairing (mint + poll), default-OFF — is **OPEN, builder-complete, dual-lens r1 = FINDINGS/FINDINGS (convergent), NOT merge-ready** at head `bd9a41a` (base mobile `main` `1695517`). It replaces the M1 `awaitingExtension` placeholder with a real pairing surface backed by the verified mobile-callable endpoints `POST /extension/pair/init` + `POST /extension/pair/status`; honest terminal is `paired` only (no fabricated progress, because no mobile-readable import-progress route exists yet). **Both lenses converge on the SAME two P0s — R75 banned-cast net-new additions, both TEST-ONLY** (`extensionPairApi.test.ts:94` `.catch(() => {})`; `useExtensionPairing.test.tsx:64` `as unknown as`). ALL functional/security/endpoint-truth dimensions are independently CLEAN in both lenses. The original builder is assigned fixer r1.
 
 **Status of each repo's `main` (as of this checkpoint):**
 
@@ -40,13 +40,13 @@
 
 **Active build lanes right now (subagents):**
 - `build_extension_c1b_runtime_mrkme1l6` — **EXT-C1b fixer r1: RECOVERED & PUSHED @`55f24d5`.** This subagent previously hit a step limit and returned an EMPTY response; per explicit operator direction it was resumed in the SAME sandbox/branch (no reset/reclone, no new branch, no duplicate lane) to inventory git state and push the legitimate fixer checkpoint. All six r1 findings are root-fixed with adversarial tests. Do NOT edit extension product source in parallel; coordinate, don't collide. Awaiting dual-lens r2.
-- `build_mobile_m2_pairing_progress_mrknrpnb` — **Mobile M2 builder COMPLETE; PR #285 OPEN @`bd9a41a`, dual-lens r1 in progress.**
+- `build_mobile_m2_pairing_progress_mrknrpnb` — **Mobile M2 builder COMPLETE; PR #285 OPEN @`bd9a41a`, dual-lens r1 = FINDINGS/FINDINGS (convergent P0×2, test-only R75 casts); now ASSIGNED fixer r1.**
 
 **Watchdog cron:** `bbd2c039` — hourly (foreground, conversation context), reads canonical doctrine each run, deletes itself when v0.3 E2E ship criteria are met.
 
 **Dual-lens r1 verdict for PR #6 (builder head `ab5dc61`):** Lens A FAIL (P0=0 P1=0 P2=1 P3=2). Lens B FAIL (P0=0 P1=0 P2=1 P3=3 +1 advisory). **All mandatory security invariants independently re-verified and HOLD in both lenses (no P0/P1).** The blocker was functional completeness, not a security regression. **Fixer r1 @`55f24d5` resolved all six.** Full findings + resolution in §7.
 
-**Bottom line for the next agent:** two PRs are live. (1) EXT-C1b PR #6 fixer r1 is pushed @`55f24d5` — re-dual-lens at that exact head; on CLEAN/CLEAN + CI green land via identity-safe manual squash. (2) Mobile M2 PR #285 dual-lens r1 is in progress @`bd9a41a` — carry it through its audit cycle to CLEAN/CLEAN, then manual-squash. Then packaging → staging E2E → postmortem. Do not restart either lane from scratch; probe first (R7).
+**Bottom line for the next agent:** two PRs are live. (1) EXT-C1b PR #6 fixer r1 is pushed @`55f24d5` — re-dual-lens at that exact head; on CLEAN/CLEAN + CI green land via identity-safe manual squash. (2) Mobile M2 PR #285 dual-lens r1 returned FINDINGS/FINDINGS @`bd9a41a` (convergent P0×2, test-only R75 casts + Lens A P3-1 PR-body hygiene) — the original builder is assigned fixer r1; supervise it to swap the two casts for allowed forms + add an `R100 Self-Check` to the PR body, then re-dual-lens at the new head to CLEAN/CLEAN and manual-squash. Then packaging → staging E2E → postmortem. Do not restart either lane from scratch; probe first (R7).
 
 ---
 
@@ -123,9 +123,11 @@ You are the autonomous **CEO + CPO + CTO** (R138 + Operator Constitution Addendu
 - `docs/DESIGN.md` — overall design. **STALE WARNING:** its backend-deps section claims ingest/progress/complete are not built; they ARE merged (backend #500/#501). Trust `current-state.json` over `DESIGN.md` on backend readiness.
 - `docs/first-principles.md`, `docs/ROADMAP.md` — first-principles rationale and product roadmap.
 
-**Audit reports for the live PR (this repo, `handoffs/audit-reports/`):**
-- `handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md`
-- `handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md`
+**Audit reports for the live PRs (this repo, `handoffs/audit-reports/`):**
+- `handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md` (PR #6 r1, builder head)
+- `handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md` (PR #6 r1, builder head)
+- `handoffs/audit-reports/MOBILE-PR285-LENS-A-LIVE.bd9a41a.md` (PR #285 r1 — FINDINGS P0=2/P3=1)
+- `handoffs/audit-reports/MOBILE-PR285-LENS-B-LIVE.bd9a41a.md` (PR #285 r1 — FINDINGS P0=2)
 
 ---
 
@@ -149,7 +151,7 @@ You are the autonomous **CEO + CPO + CTO** (R138 + Operator Constitution Addendu
 
 **Mobile (`growth-project-mobile`):**
 - #284 (M1) default-off post-signup Import Data entry + platform/custom picker + safe browser open + honest awaiting-extension state — merged `1695517` (2026-07-14), R3-conforming identity-safe manual squash, tree `ae76a8d` byte-identical to audited head `306f3a0`. PR CLOSED (not via merge API) with explanatory comment; head branch preserved. **First use of the new merge procedure.**
-- **#285 (M2) live extension pairing (mint+poll), default-OFF — OPEN, builder-complete, dual-lens r1 in progress.** Branch `feat/mobile-import-live-pairing`, head `bd9a41a`, base `main` `1695517`. Replaces the M1 `awaitingExtension` placeholder with a real pairing surface: auto-mints a code (`POST /api/extension/pair/init`), shows a server-authoritative countdown, and polls (`POST /api/extension/pair/status`) to `paired`/`expired`. Resilient bounded polling (backoff 2s→15s ×1.5, ≤5 consecutive transient errors → retryable `failed`), AppState pause/resume, single-flight mint with cancel-mid-mint abort, full timer teardown, fails closed (unknown/garbled/malformed never → `paired`; 401/403→`authExpired`; 404→`unavailable`). New files: `src/api/extensionPairApi.ts`, `src/hooks/useExtensionPairing.ts`, `src/components/coach/ExtensionPairingPanel.tsx`; mods to `src/analytics/events.ts` (6 PII-free events), `src/screens/coach/ImportDataScreen.tsx`, `docs/importer/MOBILE_IMPORT_DECISION.md`. Gates: prod 396/400, ratio 882/396=2.23, 295 suites/3562 tests, tsc/lint green, R3 clean. **Honesty guardrail:** no mobile-readable progress endpoint exists → truthful terminal is `paired` ("running in the extension"); never renders importing/partial/complete or any page/entity/percent. Cancel is a local abandon (no server cancel endpoint). URL: `https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/285`
+- **#285 (M2) live extension pairing (mint+poll), default-OFF — OPEN, builder-complete, dual-lens r1 = FINDINGS/FINDINGS, NOT merge-ready, builder assigned fixer r1.** Branch `feat/mobile-import-live-pairing`, head `bd9a41a`, base `main` `1695517`. Replaces the M1 `awaitingExtension` placeholder with a real pairing surface: auto-mints a code (`POST /api/extension/pair/init`), shows a server-authoritative countdown, and polls (`POST /api/extension/pair/status`) to `paired`/`expired`. Resilient bounded polling (backoff 2s→15s ×1.5, ≤5 consecutive transient errors → retryable `failed`), AppState pause/resume, single-flight mint with cancel-mid-mint abort, full timer teardown, fails closed (unknown/garbled/malformed never → `paired`; 401/403→`authExpired`; 404→`unavailable`). New files: `src/api/extensionPairApi.ts`, `src/hooks/useExtensionPairing.ts`, `src/components/coach/ExtensionPairingPanel.tsx`; mods to `src/analytics/events.ts` (6 PII-free events), `src/screens/coach/ImportDataScreen.tsx`, `docs/importer/MOBILE_IMPORT_DECISION.md`. Gates (Lens B independently reran at `bd9a41a`): tsc/lint green, 295 suites/3562 tests, prod **400/400**, ratio **882/400=2.21**, R3 clean. **Dual-lens r1 findings (see §7):** convergent P0×2 (two R75 banned-cast net-new TEST-ONLY additions) + Lens A P3-1 (PR body lacks `R100 Self-Check`); all functional/security/endpoint-truth dimensions independently CLEAN. **Honesty guardrail:** no mobile-readable progress endpoint exists → truthful terminal is `paired` ("running in the extension"); never renders importing/partial/complete or any page/entity/percent. Cancel is a local abandon (no server cancel endpoint). URL: `https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/285`
 
 **Gotcha:** mobile `CoachPairingScreen` is Day-1 client-invite pairing — NOT extension 6-digit import pairing. Do not confuse them.
 
@@ -175,7 +177,7 @@ You are the autonomous **CEO + CPO + CTO** (R138 + Operator Constitution Addendu
 | Lane | Subagent ID | State | Scope / ownership |
 |---|---|---|---|
 | EXT-C1b fixer r1 | `build_extension_c1b_runtime_mrkme1l6` | RECOVERED & PUSHED @`55f24d5` | Owned ALL PR #6 product-source edits for the fixer round; resolved the convergent P2 + all five P3s + adversarial tests. Recovered in the SAME sandbox after a step-limit/empty-response (no duplicate lane). Awaiting dual-lens r2. Do NOT edit extension source in parallel. |
-| Mobile M2 | `build_mobile_m2_pairing_progress_mrknrpnb` | PR #285 OPEN @`bd9a41a`; dual-lens r1 in progress | Live pairing (mint+poll) UX against mobile `main` `1695517`. Independent of the extension repo — no file overlap with C1b. |
+| Mobile M2 | `build_mobile_m2_pairing_progress_mrknrpnb` | PR #285 OPEN @`bd9a41a`; dual-lens r1 = FINDINGS/FINDINGS; ASSIGNED fixer r1 | Live pairing (mint+poll) UX against mobile `main` `1695517`. Independent of the extension repo — no file overlap with C1b. Fixer r1 scope: two R75 test-only cast swaps + PR-body `R100 Self-Check`; keep ratio margin, no test-trimming. |
 | Watchdog | cron `bbd2c039` | ACTIVE | Hourly foreground heartbeat; reads canonical doctrine each run; self-deletes at v0.3 E2E green. |
 
 **R7 obligation:** probe each lane ≥ every 15 min (branch, HEAD, `git log @{u}..HEAD` unpushed count, modified-file count). If unpushed commits exist, push on the subagent's behalf after verifying R3 identity. If a HEAD hasn't moved in 30+ min, escalate (sharper ping, or cancel+redispatch with the failure mode captured, or take the work synchronously). Never cancel a lane without first capturing `git status` + workspace state (R8).
@@ -211,13 +213,33 @@ You are the autonomous **CEO + CPO + CTO** (R138 + Operator Constitution Addendu
 
 ---
 
+## 7b. FINDINGS & BLOCKERS (Mobile M2 PR #285 dual-lens r1, at `bd9a41a`)
+
+**Verdict:** FINDINGS/FINDINGS, convergent. Lens A P0=2 P1=0 P2=0 **P3=1**; Lens B P0=2 P1=0 P2=0 P3=0. Reports: `handoffs/audit-reports/MOBILE-PR285-LENS-A-LIVE.bd9a41a.md`, `handoffs/audit-reports/MOBILE-PR285-LENS-B-LIVE.bd9a41a.md`.
+
+**Convergent BLOCKING P0×2 — R75 banned-cast net-new additions, both TEST-ONLY** (found independently by BOTH lenses). Benign in substance, but R75 is a doctrine-declared mechanical bright-line P0 (any positive net add of a banned cast in `src/`+`test/` = red) that admits no "benign substance" downgrade:
+- **P0-1:** `src/api/__tests__/extensionPairApi.test.ts:94` — `.catch(() => {})` (net +1, 0 removals). Fix: assert the rejection directly — `await expect(extensionPairApi.init('truecoach')).rejects.toBeDefined(); expect(spy).not.toHaveBeenCalled();` or use the two-arg `.then(spy, () => {})` rejection handler.
+- **P0-2:** `src/hooks/__tests__/useExtensionPairing.test.tsx:64` — `as unknown as typeof AppState.addEventListener` (net +1). Fix: drop the whole-signature double-cast; type the mock return concretely (e.g. `{ remove: jest.fn() } as NativeEventSubscription`) or annotate the callback params so no cast is needed.
+
+**Note on CI:** mobile CI has **no banned-token gate**, so these do NOT red CI — R75 here is enforced only by the audit. Do not rely on CI to catch them.
+
+**Lens A P3-1 (hygiene, not correctness):** the PR #285 body has a "Gates" section but no `R100 Self-Check` heading and does not disclose the +2 banned-cast additions. Fix: add the per-rule PASS/FAIL/N-A self-check to the body.
+
+**Independently CLEAN in BOTH lenses (no functional/security/contract defect):** endpoint/schema truth (`/extension/pair/init {chosen_platform}`, `/extension/pair/status {code}` body-only, status enum `pending|paired|expired`, verified against the live backend OpenAPI); default-OFF triple gating with no off-path network; mint→poll transitions; bounded backoff 2s→15s ×1.5 with 5-failure cap; AppState pause/resume; server-authoritative expiry; unmount teardown; local cancel + mid-mint race guard; single-flight mint; fail-closed on unknown/malformed (never promoted to `paired`); 401/403→`authExpired`, 404→`unavailable`; PII/secret-free telemetry (`{platform, reason}` only); honest `paired` terminal (no invented progress); accessibility (R87); Quiet Luxury `fontWeight ≤ 600`; M1 URL-hardening untouched.
+
+**Gate note:** Lens B independently re-ran gates at `bd9a41a` after a clean `npm ci`: tsc `--noEmit` exit 0; ESLint 0 errors (75 pre-existing warnings, 0 in PR files); full jest **295/295 suites, 3562/3562 tests** exit 0; prod **400/400** (R76 PASS, conservative upper bound); ratio **882/400 = 2.21** (R74 PASS); R3 clean. Lens A could NOT run gates (concurrent-agent npm-cache contention wiped in-progress installs in the shared worktree) and did not assert them on its own authority; its P0 findings stand on direct diff inspection at the exact head.
+
+**Fixer r1 constraints:** keep ratio ≥ 2 with margin (do NOT trim tests or add trivial prod); prod ≤ 400; flags default-off; no functional/security change required. Then re-audit BOTH lenses at the new exact head.
+
+---
+
 ## 8. ORDERED NEXT-AGENT RUNBOOK
 
 1. **Zombie sweep (R8) + subagent probe (R7).** `git fetch` all four repos first. Reconcile open PRs, orphan branches, un-audited merges, unpushed worktrees. Probe both active lanes (§6) for unpushed commits; push on their behalf if needed (verify R3 first).
 2. **EXT-C1b fixer r1 is DONE and pushed @`55f24d5`** (all six r1 findings root-fixed + adversarial tests; prod 398/400, ratio 2.781, 489 tests). No further fixer work is needed unless r2 surfaces new findings.
 3. **Re-dual-lens PR #6 at the exact fixer head `55f24d5`** (R124: `gh api` head.sha MUST equal local `git rev-parse HEAD`). Two independent adversarial auditors (Lens A correctness+security, Lens B tests+contracts+architecture), full P0–P3 hunt. Cycle audit→fix→re-audit until **CLEAN/CLEAN**.
 4. **Merge PR #6 via identity-safe manual squash** (§9), only when CLEAN/CLEAN + CI green. Record the R138 Decision Gate in the PR body. Update `current-state.json` (per the `live_state_update_rule`).
-5. **Mobile M2 PR #285 (`bd9a41a`)** — dual-lens r1 is in progress; carry it through its audit cycle (Lens A + Lens B, full P0–P3) to CLEAN/CLEAN, fix any findings, then merge via identity-safe manual squash. Note the confirmed blocker: no mobile-readable import-progress route, so progress/partial/complete stay deferred behind `FEATURE_SCOUT_INGEST` to a backend/extension follow-up; the honest terminal is `paired`.
+5. **Mobile M2 PR #285 (`bd9a41a`)** — dual-lens r1 returned **FINDINGS/FINDINGS (convergent P0×2 + Lens A P3-1)**; the original builder is assigned fixer r1. Supervise it to: (a) replace `.catch(() => {})` at `extensionPairApi.test.ts:94` with a direct rejection assertion; (b) replace `as unknown as typeof AppState.addEventListener` at `useExtensionPairing.test.tsx:64` with a concretely-typed mock/callback; (c) add an `R100 Self-Check` heading to the PR body disclosing per-rule PASS/FAIL/N-A and the (now-removed) casts. Keep ratio ≥ 2 with margin, no test-trimming; no functional/security change is needed (those dimensions are CLEAN in both lenses). Then re-dual-lens at the new exact head to CLEAN/CLEAN and merge via identity-safe manual squash. Confirmed blocker: no mobile-readable import-progress route, so progress/partial/complete stay deferred behind `FEATURE_SCOUT_INGEST`; the honest terminal is `paired`.
 6. **Default extension packaging** with the app download path.
 7. **Staging flags + full-loop E2E smoke + competitor dogfood** (flip `FEATURE_EXTENSION_PAIRING` / `FEATURE_SCOUT_INGEST` in staging).
 8. **Pairing security §13 + install pack + R137 postmortem** at v0.3 green. The postmortem MUST capture R3-INC-1. When v0.3 E2E ship criteria are met, the watchdog cron `bbd2c039` deletes itself.
@@ -294,6 +316,11 @@ This section is appended for the checkpoint that recorded the EXT-C1b fixer-r1 r
 
 > Provenance note: `tgp-importer-extension/background.js` was read in an earlier turn (before context compaction) and is too large to re-include; its behavior is summarized in §7 and §10b. The Mobile M2 PR #285 details recorded in §1/§5/§7 are drawn from the verified fixer/recovery deliverable and `gh` PR metadata (head `bd9a41a`, base `1695517`, state OPEN), not from a full read of the mobile source files this session.
 
+**Additionally read during the PR #285 dual-lens-r1 checkpoint update (this turn):**
+- `handoffs/importer-wave/current-state.json` and `handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md` — full (both edited this turn).
+- `handoffs/audit-reports/MOBILE-PR285-LENS-A-LIVE.bd9a41a.md` — full (the Lens A r1 report; sourced the P0×2 + P3-1 findings and CLEAN-dimension list recorded in §7b).
+- `handoffs/audit-reports/MOBILE-PR285-LENS-B-LIVE.bd9a41a.md` — present and staged this turn; its P0×2 counts + independently-reran gate figures (295/3562, prod 400, ratio 2.21) were taken from the Lens B deliverable summary surfaced to this session, and the file itself was staged for tracking. Not separately re-read line-by-line via the Read tool this turn.
+
 ---
 
 ## 11. DECISIONS / DECISION RECORD
@@ -312,6 +339,8 @@ This section is appended for the checkpoint that recorded the EXT-C1b fixer-r1 r
 
 **Resolved ruling:** dark-route guard ordering — Option A shipped via backend #503 (feature-flag middleware before auth), resolved 2026-07-08; no longer blocks merges.
 
+**Discovery note — GitHub H4 production-readiness suite (2026-07-14, record-only):** investigation of the operator's likely "H jobs" points to the **H4 production-readiness suite**. The umbrella backend PR **#457 was CLOSED UNMERGED**; its components landed piecemeal — **#458 merged**, and **#460–#466 merged**. The current suite **scans the backend `src` only**. Running it is **SAFE** (read-only, tmpdir, parallel-safe, mutates no product repo) but it is **NOT cross-repo coverage today** (backend-only). A cross-repo rollout is **SAFE WITH CONDITIONS**: serialize **per repo** and run **after the active importer PRs land**, to avoid `package.json` / workflow / test-ownership conflicts with in-flight importer work. **Decision:** do NOT start or run H4 now and do NOT modify any product repo for it; record only, and revisit the serialized per-repo rollout once EXT-C1b PR #6 and Mobile M2 PR #285 are merged. (Mirrored in `current-state.json.h4_production_readiness_discovery_2026_07_14`.)
+
 ---
 
 ## 12. HANDOFF ACCEPTANCE CHECKLIST (tick before you start executing)
@@ -329,4 +358,4 @@ This section is appended for the checkpoint that recorded the EXT-C1b fixer-r1 r
 
 ---
 
-*Prepared as a coordination/context document (audit-exempt per R14 scope). Owner: Bradley Gleave &lt;bradley@bradleytgpcoaching.com&gt;. Checkpoint: 2026-07-14 — EXT-C1b PR #6 fixer r1 COMPLETE & pushed @`55f24d5` (all six r1 findings root-fixed, dual-lens r2 pending); Mobile M2 PR #285 OPEN @`bd9a41a`, dual-lens r1 in progress. R3-INC-1 remains OPEN/accepted.*
+*Prepared as a coordination/context document (audit-exempt per R14 scope). Owner: Bradley Gleave &lt;bradley@bradleytgpcoaching.com&gt;. Checkpoint: 2026-07-14 — EXT-C1b PR #6 fixer r1 COMPLETE & pushed @`55f24d5` (all six r1 findings root-fixed, dual-lens r2 pending); Mobile M2 PR #285 OPEN @`bd9a41a`, dual-lens r1 = FINDINGS/FINDINGS (convergent P0×2 test-only R75 casts + Lens A P3-1), builder assigned fixer r1. H4 production-readiness rollout recorded as SAFE-WITH-CONDITIONS (serialize per repo, after importer PRs). R3-INC-1 remains OPEN/accepted.*

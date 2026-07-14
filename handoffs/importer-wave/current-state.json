@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T16:15:00Z",
-  "as_of_local": "2026-07-14T09:15:00-07:00",
+  "as_of_utc": "2026-07-14T17:05:00Z",
+  "as_of_local": "2026-07-14T10:05:00-07:00",
   "durable_handoff": {
     "path": "handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md",
     "purpose": "Self-contained pickup doc for the next autonomous CEO/CPO/CTO agent: executive state, end-to-end product, decision framework, build-plan pointers, product+work ledgers, open findings, ordered runbook, merge protocol, files-read appendix, decision record, acceptance checklist.",
@@ -24,10 +24,10 @@
     {
       "lane": "Mobile M2 (live pairing/progress UX)",
       "subagent_id": "build_mobile_m2_pairing_progress_mrknrpnb",
-      "state": "PR_OPEN_DUAL_LENS_R1_IN_PROGRESS",
-      "owns": "growth-project-mobile live pairing/progress UX wired to extension + scout ingest, against main 1695517.",
+      "state": "PR_OPEN_DUAL_LENS_R1_FINDINGS_ASSIGNED_FIXER_R1",
+      "owns": "growth-project-mobile live pairing/progress UX wired to extension + scout ingest, against main 1695517. Original builder now assigned FIXER r1 for PR #285.",
       "coordination": "No file overlap with EXT-C1b.",
-      "pr_note": "PR #285 OPEN @bd9a41a (base main 1695517). Default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status; typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry. Honest terminal is 'paired' only (no fabricated importing/partial/complete or page/entity/percent). Gates: prod 396/400, ratio 882/396=2.23, 295 suites/3562 tests, tsc/lint green, R3 clean. Dual-lens audit r1 IN PROGRESS. Confirmed blocker: no mobile-readable import-progress route — progress/partial/complete deferred behind FEATURE_SCOUT_INGEST to a backend/extension follow-up."
+      "pr_note": "PR #285 OPEN @bd9a41a (base main 1695517). Default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status; typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry. Honest terminal is 'paired' only (no fabricated importing/partial/complete or page/entity/percent). Gates (Lens B independently reran at bd9a41a): typecheck/lint green, 295 suites/3562 tests, prod 400/400, ratio 882/400=2.21, R3 clean. Dual-lens r1 RETURNED = FINDINGS/FINDINGS: Lens A P0=2 P1=0 P2=0 P3=1, Lens B P0=2 P1=0 P2=0 P3=0 — CONVERGENT on the SAME two R75 banned-cast NET-NEW additions, both TEST-ONLY (extensionPairApi.test.ts:94 '.catch(() => {})'; useExtensionPairing.test.tsx:64 'as unknown as'). All functional/security/endpoint-truth dimensions independently CLEAN in both lenses. NOT merge-ready; builder assigned fixer r1. Confirmed blocker (unchanged): no mobile-readable import-progress route — progress/partial/complete deferred behind FEATURE_SCOUT_INGEST to a backend/extension follow-up."
     }
   ],
   "operator": {
@@ -272,11 +272,14 @@
       "behavior": "Replaces the M1 awaitingExtension static placeholder with a real, default-OFF pairing surface. On entry auto-mints a pairing code (POST /extension/pair/init), shows it with a server-authoritative countdown, and polls (POST /extension/pair/status) to the paired/expired terminal. Resilient polling (bounded exponential backoff 2s->15s x1.5, <=5 consecutive transient errors before retryable failed); AppState pause on background / resume-or-expire on foreground; server-authoritative expiry; single-flight mint with cancel-mid-mint abort; full timer teardown on unmount; fails closed (unknown/garbled/malformed status never promoted to paired; 401/403 -> authExpired; 404 -> unavailable). Flag OFF => hook idle, zero network.",
       "honesty_guardrails": "No mobile-readable progress endpoint exists -> truthful terminal is 'paired' ('running in the extension'); never renders importing/partial/complete or any page/entity count/percentage. No server cancel endpoint -> cancel is a local abandon. PII-free telemetry: platform slug + coarse failure-reason class only, never a code/token/URL.",
       "contract_mapping": "Brief-named endpoints do not exist; real verified mobile-callable routes: POST /api/extension/pair/init (mint {pairing_code, expires_at}) and POST /api/extension/pair/status (body-only; {status: pending|paired|expired}). No mobile-readable scout/ingest progress route exists (scout/* is extension-only).",
-      "gates": "tsc --noEmit clean; ESLint 0 errors (75 pre-existing warnings, none in import-flow files); full jest 295 suites / 3562 tests pass (+42 vs baseline 3520); net prod SLOC vs main 396 (<=400 cap); test:prod PR-delta ratio 882/396=2.23 (>=2.0); feature flag default OFF (no network path when off); R3 clean (author+committer Bradley Gleave, no AI/co-author tokens)",
-      "dual_lens": "r1 IN PROGRESS at head bd9a41a",
+      "gates": "Builder-claimed: tsc clean, ESLint 0 errors, 295 suites/3562 tests, prod 396, ratio 2.23. Lens B INDEPENDENTLY RE-RAN at bd9a41a (clean npm ci): tsc --noEmit exit 0; ESLint 0 errors (75 pre-existing warnings, 0 in PR files); full jest 295/295 suites, 3562/3562 tests, exit 0; prod SLOC added 400/400 (R76 PASS, conservative upper bound); test:prod ratio 882/400=2.21 (R74 PASS); feature flag default OFF (no off-path network); R3 clean (single commit, author==committer Bradley Gleave, no AI tokens). (Lens A could not independently run gates due to concurrent-agent npm-cache contention in the shared worktree; did not assert them on its own authority; its two P0s stand on direct diff inspection.)",
+      "dual_lens": "r1 (head bd9a41a) RETURNED = FINDINGS/FINDINGS, CONVERGENT: Lens A FAIL/FINDINGS (P0=2 P1=0 P2=0 P3=1), Lens B FINDINGS (P0=2 P1=0 P2=0 P3=0). Both P0s are the SAME two R75 banned-cast NET-NEW additions, both TEST-ONLY. NOT merge-ready; builder assigned fixer r1.",
+      "dual_lens_findings": "CONVERGENT P0x2 (R75 banned-cast net-new additions, both TEST-ONLY, benign substance but R75 is a mechanical bright-line P0 admitting no substance exception): (1) src/api/__tests__/extensionPairApi.test.ts:94 '.catch(() => {})' — fix: assert rejection directly (await expect(...).rejects...; expect(spy).not.toHaveBeenCalled()) or two-arg .then(spy, () => {}); (2) src/hooks/__tests__/useExtensionPairing.test.tsx:64 'as unknown as typeof AppState.addEventListener' — fix: drop the whole-signature double-cast; type the mock/callback concretely (e.g. NativeEventSubscription) or annotate callback params. Net removals=0; mobile CI has NO banned-token gate so these do NOT red CI — doctrine enforced only by this audit. Lens A P3-1 (hygiene, not correctness): PR body lacks an 'R100 Self-Check' heading and does not disclose the +2 banned-cast additions. ALL functional/security/endpoint-truth dimensions independently CLEAN in BOTH lenses: endpoint/schema truth (/extension/pair/init {chosen_platform}, /extension/pair/status {code} body-only, status enum pending|paired|expired verified vs live backend OpenAPI), default-OFF triple gating with no off-path network, mint->poll transitions, bounded backoff 2s->15s x1.5 with 5-failure cap, AppState pause/resume, server-authoritative expiry, unmount teardown, local cancel + mid-mint race guard, single-flight mint, fail-closed unknown/malformed (never promoted to paired), 401/403->authExpired 404->unavailable, PII/secret-free telemetry ({platform,reason} only), honest paired terminal (no invented progress), accessibility (R87), Quiet Luxury fontWeight<=600, M1 URL-hardening untouched.",
+      "lens_a_report": "handoffs/audit-reports/MOBILE-PR285-LENS-A-LIVE.bd9a41a.md",
+      "lens_b_report": "handoffs/audit-reports/MOBILE-PR285-LENS-B-LIVE.bd9a41a.md",
       "blocker": "Closing the progress mirror requires a backend/extension follow-up: a mobile-readable, coach-scoped progress read (e.g. GET /api/scout/ingest/:intentId/status returning terminal success|partial|failed + coarse progress) plus intent-id linkage from a paired code, behind FEATURE_SCOUT_INGEST. Until then the mobile terminal is honestly 'paired'.",
       "merge_mechanism_planned": "identity-safe manual squash (merge_procedure_change_2026_07_14), NOT GitHub squash",
-      "note": "Builder complete; dual-lens r1 in progress. NOT merge-ready. Not self-approved."
+      "note": "Builder complete; dual-lens r1 RETURNED = FINDINGS/FINDINGS (CONVERGENT on the same two R75 test-only banned-cast lines; all functional/security/endpoint-truth CLEAN). NOT merge-ready. Original builder build_mobile_m2_pairing_progress_mrknrpnb assigned fixer r1 (replace the two banned casts with allowed forms, add R100 Self-Check to PR body, keep ratio>=2 with margin, no test-trimming), then re-audit BOTH lenses at the new exact head. Not self-approved."
     }
   ],
   "open_prs_note": "EXT-C1b: PR #6 OPEN, fixer r1 landed @55f24d5 (all six dual-lens r1 findings root-fixed + adversarial tests; recovered in the same sandbox after the fixer subagent hit a step limit with an empty response; prior builder head ab5dc61), dual-lens r2 PENDING, NOT merge-ready. MOBILE-M2: PR #285 OPEN @bd9a41a (base main 1695517), builder complete, dual-lens r1 in progress, NOT merge-ready. Ext #5 merged @5eabeec (R3-INC-1 open); mobile #284 (M1) merged @1695517. Both open PRs land (only when CLEAN/CLEAN + CI green) via identity-safe manual squash.",
@@ -316,7 +319,7 @@
       "milestone": "MOBILE-M2",
       "item": "Mobile M2: live pairing/progress UX \u2014 post-open pair/init/status luxury progress wired to extension + scout ingest",
       "status": "in_progress",
-      "note": "BUILDER COMPLETE \u2014 PR #285 OPEN @bd9a41a (base main 1695517): default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status (typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry, fails closed). Honest terminal 'paired' only \u2014 no fabricated progress. Gates prod 396/400, ratio 882/396=2.23, 295 suites/3562 tests, tsc/lint green, R3 clean. Dual-lens r1 IN PROGRESS \u2014 NOT merge-ready. Confirmed blocker: no mobile-readable import-progress route; progress/partial/complete deferred behind FEATURE_SCOUT_INGEST to a backend/extension follow-up. Merge via identity-safe manual squash."
+      "note": "BUILDER COMPLETE + dual-lens r1 = FINDINGS/FINDINGS (CONVERGENT) \u2014 PR #285 OPEN @bd9a41a (base main 1695517): default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status (typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry, fails closed). Honest terminal 'paired' only \u2014 no fabricated progress. Lens B independently reran: tsc/lint green, 295 suites/3562 tests, prod 400/400, ratio 882/400=2.21, R3 clean. Lens A P0=2/P3=1, Lens B P0=2 \u2014 same two R75 TEST-ONLY banned-cast lines; ALL functional/security/endpoint-truth CLEAN in both lenses. NOT merge-ready; original builder assigned fixer r1 (swap the two casts, add R100 Self-Check, keep ratio margin), then re-audit BOTH lenses. Confirmed blocker: no mobile-readable import-progress route; progress/partial/complete deferred behind FEATURE_SCOUT_INGEST. Merge via identity-safe manual squash."
     },
     {
       "id": 5,
@@ -585,9 +588,17 @@
       "head": "bd9a41a",
       "base": "1695517",
       "standard": "full angry adversarial ANY P0-P3, dual-lens",
-      "status": "IN_PROGRESS",
-      "gate_local": "prod 396/400, test:prod ratio 882/396=2.23, 295 suites/3562 tests, tsc/lint green, R3 clean",
-      "note": "Builder complete: default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status; typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry, fails closed. Honest terminal 'paired' only (no fabricated importing/partial/complete or page/entity/percent). Confirmed blocker: no mobile-readable import-progress route; progress/partial/complete deferred behind FEATURE_SCOUT_INGEST. Dual-lens r1 IN PROGRESS at bd9a41a."
+      "lens_a": "FINDINGS P0=2 P1=0 P2=0 P3=1",
+      "lens_b": "FINDINGS P0=2 P1=0 P2=0 P3=0",
+      "convergent": true,
+      "merge_ready": false,
+      "gate_local": "Lens B independently reran at bd9a41a: tsc --noEmit exit 0; ESLint 0 errors (75 pre-existing warnings, 0 in PR files); 295/295 suites, 3562/3562 tests exit 0; prod 400/400 (R76 PASS); ratio 882/400=2.21 (R74 PASS); R3 clean. Lens A could not run gates (concurrent-agent npm-cache contention in shared worktree) — did not assert them; its P0s stand on direct diff inspection.",
+      "findings": "CONVERGENT P0x2 = the SAME two R75 banned-cast NET-NEW additions, both TEST-ONLY (benign substance; R75 is a mechanical bright-line P0 with no substance exception): extensionPairApi.test.ts:94 '.catch(() => {})' and useExtensionPairing.test.tsx:64 'as unknown as typeof AppState.addEventListener'. Net removals=0; mobile CI has no banned-token gate so they do not red CI. Lens A P3-1: PR body lacks an 'R100 Self-Check' heading + does not disclose the +2 casts (hygiene). ALL functional/security/endpoint-truth dimensions independently CLEAN in BOTH lenses (endpoint/schema truth verified vs live backend OpenAPI; default-OFF triple gating; mint->poll; bounded backoff+5-cap; AppState pause/resume; server-authoritative expiry; teardown; cancel/mid-mint race; single-flight; fail-closed; auth 401/403->authExpired 404->unavailable; PII/secret-free telemetry; honest paired terminal; a11y; Quiet Luxury; M1 URL-hardening untouched).",
+      "reports": [
+        "handoffs/audit-reports/MOBILE-PR285-LENS-A-LIVE.bd9a41a.md",
+        "handoffs/audit-reports/MOBILE-PR285-LENS-B-LIVE.bd9a41a.md"
+      ],
+      "note": "Dual-lens r1 RETURNED = FINDINGS/FINDINGS, CONVERGENT. NOT merge-ready. Original builder build_mobile_m2_pairing_progress_mrknrpnb assigned fixer r1: replace the two banned casts with allowed forms, add R100 Self-Check to PR body, keep ratio>=2 with margin (no test-trimming), then re-audit BOTH lenses at the new exact head. Merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash. Confirmed blocker unchanged: no mobile-readable import-progress route; progress/partial/complete deferred behind FEATURE_SCOUT_INGEST."
     }
   ],
   "fixer_rounds": [
@@ -680,6 +691,24 @@
       "prior_head": "ab5dc61",
       "result": "All six dual-lens r1 findings root-fixed (convergent P2 + five P3s): real ephemeral non-persistent trusted-tab source-bearer handoff (popup passes tabId; background collectSourceToken validates tabId + chrome.tabs.get live-origin in allowlist + messages the trusted content script, accepts only {ok:true,token}, token never in DOM/telemetry/storage/logs/PR/payload, fails closed); completeIngest throws on non-2xx (no success without backend ack); source 5xx preserved as status/category via engine lastSkipStatus (no body/PII); partial/degraded/truncated surfaced distinctly (ingest_partial + amber popup style); TGP auth-loss unified to one terminal state (tgpAuthLost/isTgpAuthLost); synchronous single-flight shared across start_import + legacy start_ingest incl. races. Adversarial tests added for every fix. Recovered in the SAME sandbox after the fixer subagent hit a step limit with an empty response (no reset/reclone, no new branch, no duplicate lane). Gates prod 398/400, ratio 2.781, 489 tests, banned clean, R3 clean (author+committer both Bradley Gleave). Dual-lens r2 PENDING at 55f24d5; not merged, not self-audited.",
       "recovery": "same-sandbox recovery per explicit operator direction: inventoried git status/local HEAD/origin PR#6 head, committed+pushed the legitimate fixer checkpoint at 55f24d5 with R3 identity; PR body updated with exact evidence."
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 285,
+      "round": 1,
+      "milestone": "MOBILE-M2",
+      "status": "ASSIGNED",
+      "head": "bd9a41a",
+      "assignee": "build_mobile_m2_pairing_progress_mrknrpnb (original builder)",
+      "scope": "Resolve the convergent dual-lens r1 P0x2 (two R75 banned-cast net-new TEST-ONLY additions): (1) extensionPairApi.test.ts:94 replace '.catch(() => {})' with a direct rejection assertion; (2) useExtensionPairing.test.tsx:64 replace 'as unknown as typeof AppState.addEventListener' with a concretely-typed mock/callback. Add an 'R100 Self-Check' heading to the PR body disclosing PASS/FAIL/N-A per rule (closes Lens A P3-1). Maintain test:prod ratio >=2 with margin and prod <=400 without trimming tests. No functional/security change needed (all such dimensions CLEAN in both lenses). Then re-audit BOTH lenses at the new exact head; on CLEAN/CLEAN + CI green land via identity-safe manual squash."
     }
-  ]
+  ],
+  "h4_production_readiness_discovery_2026_07_14": {
+    "trigger": "Investigated the operator's likely 'H jobs' — GitHub H4 production-readiness suite.",
+    "finding": "H4 production-readiness suite is the likely referent. Umbrella backend PR #457 was CLOSED UNMERGED; its components landed piecemeal: #458 merged, and #460-#466 merged. The current suite scans the BACKEND src only.",
+    "safety_assessment": "Running it is SAFE: read-only, operates in a tmpdir, and can run in parallel without mutating product repos. It is NOT cross-repo coverage today (backend-only).",
+    "cross_repo_rollout": "SAFE WITH CONDITIONS. A cross-repo rollout should SERIALIZE per repo and run AFTER the active importer PRs land, to avoid package.json / workflow / test-ownership conflicts with in-flight importer work.",
+    "decision": "Do NOT start or run H4 now, and do NOT modify any product repo for it. Record only. Revisit cross-repo rollout (serialized, per-repo) once EXT-C1b PR #6 and Mobile M2 PR #285 are merged.",
+    "constraints_observed": "This note is documentation only; no H4 execution, no product-repo edits performed."
+  }
 }
