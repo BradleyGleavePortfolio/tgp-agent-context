@@ -4,8 +4,30 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T14:45:00Z",
-  "as_of_local": "2026-07-14T07:45:00-07:00",
+  "as_of_utc": "2026-07-14T15:30:00Z",
+  "as_of_local": "2026-07-14T08:30:00-07:00",
+  "durable_handoff": {
+    "path": "handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md",
+    "purpose": "Self-contained pickup doc for the next autonomous CEO/CPO/CTO agent: executive state, end-to-end product, decision framework, build-plan pointers, product+work ledgers, open findings, ordered runbook, merge protocol, files-read appendix, decision record, acceptance checklist.",
+    "read_order": "AGENT_RULES.md -> this current-state.json -> AGENT_HANDOFF_V03_2026-07-14.md",
+    "created_utc": "2026-07-14T15:30:00Z"
+  },
+  "active_lanes": [
+    {
+      "lane": "EXT-C1b fixer r1 (PR #6)",
+      "subagent_id": "build_extension_c1b_runtime_mrkme1l6",
+      "state": "ACTIVE",
+      "owns": "ALL PR #6 product-source edits for the fixer round; resolving convergent CTA source-bearer P2 + five P3s + adversarial tests under prod<=400 / ratio>=2 with margin.",
+      "coordination": "Do NOT edit tgp-importer-extension product source in parallel; probe per R7 before acting."
+    },
+    {
+      "lane": "Mobile M2 (live pairing/progress UX)",
+      "subagent_id": "build_mobile_m2_pairing_progress_mrknrpnb",
+      "state": "ACTIVE",
+      "owns": "growth-project-mobile live pairing/progress UX wired to extension + scout ingest, against main 1695517.",
+      "coordination": "No file overlap with EXT-C1b."
+    }
+  ],
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -105,10 +127,11 @@
     },
     "context": {
       "full_name": "BradleyGleavePortfolio/tgp-agent-context",
-      "main_head": "42e5ed894869c4a0a0a5916a4a8ee31f6ff7b57e",
-      "main_head_short": "42e5ed8",
-      "main_as_of": "2026-07-13T06:10:02Z",
-      "main_tip_msg": "docs(handoffs): recover stranded PR#283 Lens B audit from ephemeral scratch (R5/R8)"
+      "main_head": "e3eea1c70212b9468a98e300ed3586c0fbec7144",
+      "main_head_short": "e3eea1c",
+      "main_as_of": "2026-07-14T14:45:00Z",
+      "main_tip_msg": "docs(handoffs): EXT PR#6 Lens B dual-lens r1 = FAIL (blocking PR6-B-P2); dual-lens FAIL/FAIL CONVERGENT, not merge-ready",
+      "note": "Head prior to the AGENT_HANDOFF_V03 commit; this commit advances context main."
     },
     "mobile": {
       "full_name": "BradleyGleavePortfolio/growth-project-mobile",
