@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T08:26:00Z",
-  "as_of_local": "2026-07-14T01:26:00-07:00",
+  "as_of_utc": "2026-07-14T08:39:00Z",
+  "as_of_local": "2026-07-14T01:39:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -26,8 +26,8 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 53 \u2014 Extension fixer r2 split into PR #4 contract/state @16a03c5 and chained #5 replay @b7769b8; mobile #284 @c1cf0c1 default-off honest entry/picker/browser slice. Six-lens full audits in flight.",
-    "phase": "EXT4_EXT5_MOBILE284_DUAL_LENS_AUDIT",
+    "current_op": "Op 53 \u2014 PR #4 audit FAIL (A P2=1 P3=2; B P1=1), parent fixer active. PR #5 audit FAIL @b7769b8 (A P2=1 P3=3; B P2=3 P3=3); current dfd67be CI green but serialized behind #4. Mobile #284 CI fixed @813d1aa; audit fixer active.",
+    "phase": "EXT4_FIXER_EXT5_SERIALIZED_MOBILE284_FIXER",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
     "watchdog": "bbd2c039 active",
@@ -163,27 +163,29 @@
       "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/4",
       "head": "16a03c5",
       "scope": "blueprint contract + state machine",
-      "status": "dual-lens audit",
-      "evidence": "prod356 test768 ratio2.157 cap400"
+      "status": "audit r2 FAIL; fixer active",
+      "evidence": "prod356 test768 ratio2.157 cap400",
+      "audit": "A P2=1 P3=2; B P1=1"
     },
     {
       "repo": "tgp-importer-extension",
       "pr": 5,
       "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/5",
-      "head": "b7769b8",
+      "head": "dfd67be7f3464b770c46bcbcd463b661081c34f2",
       "base": "PR #4 branch",
       "scope": "bounded replay engine",
-      "status": "dual-lens audit",
-      "evidence": "prod285 test959 ratio3.365; suite373"
+      "status": "audit r1 FAIL on b7769b8; CI-only fix current; serialized until #4 merged",
+      "evidence": "prod285 test959 ratio3.365; suite373",
+      "audit": "A P2=1 P3=3; B P2=3 P3=3"
     },
     {
       "repo": "growth-project-mobile",
       "pr": 284,
       "url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/284",
-      "head": "c1cf0c1",
+      "head": "813d1aa6a5047fa519e744657db7dd0d42ae46ff",
       "scope": "default-off coach Import Data entry + platform/custom picker + safe browser open + honest awaiting-extension state",
-      "status": "dual-lens audit",
-      "evidence": "prod370 ratio2.09; import171 nav103"
+      "status": "CI fixer pushed; audit fixer active",
+      "evidence": "full suite 3418 pass; CI green; prod370 ratio2.105"
     }
   ],
   "non_importer_open_backend_prs_ignored_this_wave": [
@@ -244,7 +246,7 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "IN_PROGRESS \u2014 three PRs built; none mergeable until exact-head dual-lens CLEAN and CI green.",
+  "verdict": "FAIL/IN_PROGRESS \u2014 no PR mergeable. Fix all findings, re-audit exact heads.",
   "last_merge": {
     "pr": 504,
     "repo": "backend",
@@ -300,6 +302,25 @@
       "lens_b": "FAIL P0=1 P1=2 P2=2 P3=2",
       "standard": "full angry ANY P0-P3",
       "action": "fix all applicable findings; full exact-head re-audit"
+    },
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 4,
+      "round": 2,
+      "head": "16a03c5c184713e9fb6e993cdcf3cb1be4b68e89",
+      "lens_a": "FAIL P0=0 P1=0 P2=1 P3=2",
+      "lens_b": "FAIL P0=0 P1=1 P2=0 P3=0",
+      "findings": "template backslash/C0 origin escape; localhost trailing-dot; prototype inherited transition keys"
+    },
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 5,
+      "round": 1,
+      "head": "b7769b870ba931390e2a74f05764bcb4f5285134",
+      "lens_a": "FAIL P0=0 P1=0 P2=1 P3=3",
+      "lens_b": "FAIL P0=0 P1=0 P2=3 P3=3",
+      "findings": "visited scope data loss; fanout context dedupe; locked envelope incomplete; progress/synthetic ID/budgets; pinned-head CI artifact fixed at dfd67be",
+      "head_mismatch_note": "live head dfd67be after CI-only fix; must audit exact final head"
     }
   ],
   "fixer_rounds": [
