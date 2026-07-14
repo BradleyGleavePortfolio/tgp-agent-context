@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T06:48:00Z",
-  "as_of_local": "2026-07-13T23:48:00-07:00",
+  "as_of_utc": "2026-07-14T06:50:00Z",
+  "as_of_local": "2026-07-13T23:50:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -26,8 +26,8 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 53 \u2014 Extension #3 @895c3ae dual-lens CLEAN/CLEAN P0-P3=0; CI green; merge gate satisfied; squash-merge next.",
-    "phase": "EXT_PR3_CLEAN_AWAITING_AUTONOMOUS_MERGE",
+    "current_op": "Op 53 \u2014 Extension #3 SQUASH-MERGED (a8563853758b) after exact-head dual-lens CLEAN/CLEAN + CI green. Next: v0.3 site-agnostic autonomous multi-page crawl PR.",
+    "phase": "EXT_V03_AUTONOMOUS_CRAWL_BUILD",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
     "watchdog": "bbd2c039 hourly until v0.3 done"
@@ -155,17 +155,7 @@
       "resolved_as_of": "2026-07-08"
     }
   },
-  "open_prs": [
-    {
-      "repo": "extension",
-      "pr": 3,
-      "wave_3_status": "DUAL-LENS CLEAN/CLEAN P0-P3=0; CI green; exact head verified; squash-merge authorized R138",
-      "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/3",
-      "lens_a": "CLEAN P0=0 P1=0 P2=0 P3=3",
-      "head": "895c3ae663e5b8aacb67d842513b334b83d25d4e",
-      "fixer": "bound scout fetches, coalesce refresh, drop cookies/scripting, https-only hosts, pair.js catch"
-    }
-  ],
+  "open_prs": [],
   "non_importer_open_backend_prs_ignored_this_wave": [
     491,
     428,
@@ -224,7 +214,7 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "IN_PROGRESS \u2014 #3 merge gate satisfied; product not done; autonomous multi-page v0.3 remains.",
+  "verdict": "IN_PROGRESS \u2014 pairing auth merged. Product NOT DONE: autonomous multi-page site-agnostic crawl + mobile import/progress + staging E2E remain.",
   "last_merge": {
     "pr": 504,
     "repo": "backend",
@@ -237,5 +227,19 @@
     "cadence": "hourly (foreground, conversation context)",
     "next_run_local": "2026-07-14T00:27:00-07:00",
     "stop_condition": "delete self when v0.3 E2E ship criteria met"
-  }
+  },
+  "merged_prs": [
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 3,
+      "merge_commit": "a8563853758bc369b01d9f1f7e03a28db8a520ef",
+      "merged_at_utc": "2026-07-14T06:50:00Z",
+      "gate": "dual-lens CLEAN/CLEAN P0-P3=0 + CI green + exact head 895c3ae"
+    }
+  ],
+  "next_actions": [
+    "Extension PR: Start client Import CTA + autonomous site-agnostic discovery/replay across many pages",
+    "Mobile PR: post-signup Import Data \u2192 site selection \u2192 browser open \u2192 pair/init/status luxury progress",
+    "Backend/staging flags + E2E + dogfood + security/install pack"
+  ]
 }
