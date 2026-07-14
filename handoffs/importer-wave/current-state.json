@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T15:30:00Z",
-  "as_of_local": "2026-07-14T08:30:00-07:00",
+  "as_of_utc": "2026-07-14T16:15:00Z",
+  "as_of_local": "2026-07-14T09:15:00-07:00",
   "durable_handoff": {
     "path": "handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md",
     "purpose": "Self-contained pickup doc for the next autonomous CEO/CPO/CTO agent: executive state, end-to-end product, decision framework, build-plan pointers, product+work ledgers, open findings, ordered runbook, merge protocol, files-read appendix, decision record, acceptance checklist.",
@@ -16,16 +16,18 @@
     {
       "lane": "EXT-C1b fixer r1 (PR #6)",
       "subagent_id": "build_extension_c1b_runtime_mrkme1l6",
-      "state": "ACTIVE",
-      "owns": "ALL PR #6 product-source edits for the fixer round; resolving convergent CTA source-bearer P2 + five P3s + adversarial tests under prod<=400 / ratio>=2 with margin.",
-      "coordination": "Do NOT edit tgp-importer-extension product source in parallel; probe per R7 before acting."
+      "state": "RECOVERED_PUSHED",
+      "owns": "ALL PR #6 product-source edits for the fixer round; resolved convergent CTA source-bearer P2 + five P3s + adversarial tests under prod<=400 / ratio>=2 with margin.",
+      "coordination": "Do NOT edit tgp-importer-extension product source in parallel; probe per R7 before acting.",
+      "recovery_note": "This fixer subagent previously hit a step limit and returned an EMPTY response. Per explicit operator direction, recovery ran in the SAME sandbox/branch (no reset/discard/reclone, no new branch, no duplicate lane): the same subagent resumed, inventoried git state, committed and pushed the legitimate fixer checkpoint at head 55f24d5 with R3 identity. PR #6 head is now 55f24d5 (all six findings root-fixed, adversarial tests added, gates green). Awaiting dual-lens r2 at 55f24d5."
     },
     {
       "lane": "Mobile M2 (live pairing/progress UX)",
       "subagent_id": "build_mobile_m2_pairing_progress_mrknrpnb",
-      "state": "ACTIVE",
+      "state": "PR_OPEN_DUAL_LENS_R1_IN_PROGRESS",
       "owns": "growth-project-mobile live pairing/progress UX wired to extension + scout ingest, against main 1695517.",
-      "coordination": "No file overlap with EXT-C1b."
+      "coordination": "No file overlap with EXT-C1b.",
+      "pr_note": "PR #285 OPEN @bd9a41a (base main 1695517). Default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status; typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry. Honest terminal is 'paired' only (no fabricated importing/partial/complete or page/entity/percent). Gates: prod 396/400, ratio 882/396=2.23, 295 suites/3562 tests, tsc/lint green, R3 clean. Dual-lens audit r1 IN PROGRESS. Confirmed blocker: no mobile-readable import-progress route — progress/partial/complete deferred behind FEATURE_SCOUT_INGEST to a backend/extension follow-up."
     }
   ],
   "operator": {
@@ -216,10 +218,12 @@
       "title": "feat(replay): wire start_import orchestration + Start Import CTA (PR-C1b)",
       "milestone": "EXT-C1b",
       "branch": "feat/replay-c1b-wiring",
-      "head": "ab5dc61",
+      "head": "55f24d5",
+      "prior_head": "ab5dc61",
       "base": "5eabeec",
       "state": "OPEN",
       "builder_status": "COMPLETE",
+      "fixer_status": "r1 COMPLETE (recovered in same sandbox) @55f24d5 — all six dual-lens r1 findings root-fixed + adversarial tests; awaiting dual-lens r2",
       "merge_ready": false,
       "files_behavior": [
         "shared/replay/resolve.js — platform->blueprint resolver seam; unknown_platform fails closed for every unregistered id",
@@ -234,16 +238,48 @@
         "source bearer carried end-to-end so the crawl truly authenticates",
         "source 401/403 -> AuthLostError fails closed WITHOUT clearing TGP tokens (source auth loss != TGP logout; no re-pair)"
       ],
-      "gates": "prod 303/400; test:src diff ratio 2.010 (floor 2.0); 467 tests pass; banned clean; R3 clean (author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com> on ab5dc61)",
-      "dual_lens": "r1: LENS_A FAIL (P0=0 P1=0 P2=1 P3=2; blocking A-01), LENS_B FAIL (P0=0 P1=0 P2=1 P3=3 +1 advisory; blocking PR6-B-P2-cta-omits-source-bearer) -> FAIL/FAIL, CONVERGENT on the CTA source-bearer P2",
+      "gates": "at fixer head 55f24d5: prod 398/400; test:src diff ratio 2.781; 489 tests pass; banned clean; R3 clean (author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>). (Builder head ab5dc61 was: prod 303/400, ratio 2.010, 467 tests.)",
+      "fixer_r1_resolved": "All six dual-lens r1 findings root-fixed at 55f24d5: (P2) real ephemeral non-persistent trusted-tab source-bearer handoff — popup passes tabId; background collectSourceToken(tabId, allowedOrigins) validates tabId + chrome.tabs.get live-origin in allowlist + messages the trusted content script (sender.id + no-tab guard), accepts only {ok:true, token}, token never in DOM/telemetry/storage/logs/PR/payload, fails closed; (P3) completeIngest throws on non-2xx so success is never broadcast without backend ack; (P3) source 5xx preserved as status/category only via engine lastSkipStatus (no body/PII); (P3) partial/degraded/truncated surfaced distinctly (ingest_partial state + amber popup style); (P3) TGP auth-loss unified to one terminal state (tgpAuthLost/isTgpAuthLost); (P3) synchronous single-flight shared across start_import AND legacy start_ingest incl. races. Adversarial tests added for every fix.",
+      "dual_lens": "r1 (builder head ab5dc61): LENS_A FAIL (P0=0 P1=0 P2=1 P3=2; blocking A-01), LENS_B FAIL (P0=0 P1=0 P2=1 P3=3 +1 advisory; blocking PR6-B-P2-cta-omits-source-bearer) -> FAIL/FAIL, CONVERGENT on the CTA source-bearer P2. Fixer r1 landed @55f24d5; dual-lens r2 PENDING at that exact head.",
       "lens_a_report": "handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md",
       "lens_b_report": "handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md",
       "blocking_findings": "CONVERGENT P2 (BOTH lenses, independently): shipping Start Import CTA (popup.js:74) sends {kind,url} with NO sourceToken -> makeSourceFetch('') emits no Authorization header, so a real CTA-initiated crawl cannot authenticate against the bearer-gated TrueCoach proxy API (background bearer plumbing correct + e2e-tested with injected token; UI token producer missing). Lens A also A-02 (P3) completeIngest lacks res.ok check so a non-2xx /complete still broadcasts ingest_succeeded (pre-existing, now in the success blast radius), A-03 (P3) source 5xx low-signal 'import failed'. Lens B also P3: partial crawl reported as ingest_succeeded (drops the engine's honest partial/degraded signal); TGP-side auth loss throws plain Error('auth_required') not AuthLostError so the terminal status/text is muddled/order-dependent; single-flight covers start_import only, not the legacy start_ingest path. Lens B advisory: ratio 2.010 sits only 3 lines above the 2.0 floor.",
       "merge_mechanism_planned": "identity-safe manual squash (merge_procedure_change_2026_07_14), NOT GitHub squash",
-      "note": "Builder complete; dual-lens r1 RETURNED = FAIL/FAIL (both lenses converge on the CTA source-bearer P2). NOT merge-ready. Return to fixer for the blocking P2 (plumb the captured source bearer into the CTA message, OR document+flag the deferral and soften the PR 'bearer end-to-end' claim), plus the P3 findings (completeIngest res.ok; partial->succeeded fidelity; TGP-authloss status classification; single-flight scope), then re-audit BOTH lenses at the new exact fixer head."
+      "note": "Builder complete; dual-lens r1 RETURNED = FAIL/FAIL (both lenses converge on the CTA source-bearer P2). Fixer r1 landed @55f24d5 (all six findings root-fixed + adversarial tests; recovered in same sandbox after the fixer subagent hit a step limit with an empty response). NOT merge-ready — dual-lens r2 pending at 55f24d5. Merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash, never GitHub squash."
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 285,
+      "url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/285",
+      "title": "feat(import): live extension pairing (mint+poll), default-off (PR-M2)",
+      "milestone": "MOBILE-M2",
+      "branch": "feat/mobile-import-live-pairing",
+      "head": "bd9a41af9cd172563fa5582ca0e5e7e0845d8070",
+      "head_short": "bd9a41a",
+      "base": "main",
+      "base_sha": "1695517",
+      "state": "OPEN",
+      "builder_status": "COMPLETE",
+      "merge_ready": false,
+      "files_behavior": [
+        "src/api/extensionPairApi.ts (new) — typed transport for the two mobile-callable endpoints",
+        "src/hooks/useExtensionPairing.ts (new) — mint->poll state machine",
+        "src/components/coach/ExtensionPairingPanel.tsx (new) — honest lifecycle rendering",
+        "src/analytics/events.ts (mod) — 6 PII-free pairing events",
+        "src/screens/coach/ImportDataScreen.tsx (mod) — mounts the panel in awaitingExtension",
+        "docs/importer/MOBILE_IMPORT_DECISION.md (mod) — PR-M2 addendum"
+      ],
+      "behavior": "Replaces the M1 awaitingExtension static placeholder with a real, default-OFF pairing surface. On entry auto-mints a pairing code (POST /extension/pair/init), shows it with a server-authoritative countdown, and polls (POST /extension/pair/status) to the paired/expired terminal. Resilient polling (bounded exponential backoff 2s->15s x1.5, <=5 consecutive transient errors before retryable failed); AppState pause on background / resume-or-expire on foreground; server-authoritative expiry; single-flight mint with cancel-mid-mint abort; full timer teardown on unmount; fails closed (unknown/garbled/malformed status never promoted to paired; 401/403 -> authExpired; 404 -> unavailable). Flag OFF => hook idle, zero network.",
+      "honesty_guardrails": "No mobile-readable progress endpoint exists -> truthful terminal is 'paired' ('running in the extension'); never renders importing/partial/complete or any page/entity count/percentage. No server cancel endpoint -> cancel is a local abandon. PII-free telemetry: platform slug + coarse failure-reason class only, never a code/token/URL.",
+      "contract_mapping": "Brief-named endpoints do not exist; real verified mobile-callable routes: POST /api/extension/pair/init (mint {pairing_code, expires_at}) and POST /api/extension/pair/status (body-only; {status: pending|paired|expired}). No mobile-readable scout/ingest progress route exists (scout/* is extension-only).",
+      "gates": "tsc --noEmit clean; ESLint 0 errors (75 pre-existing warnings, none in import-flow files); full jest 295 suites / 3562 tests pass (+42 vs baseline 3520); net prod SLOC vs main 396 (<=400 cap); test:prod PR-delta ratio 882/396=2.23 (>=2.0); feature flag default OFF (no network path when off); R3 clean (author+committer Bradley Gleave, no AI/co-author tokens)",
+      "dual_lens": "r1 IN PROGRESS at head bd9a41a",
+      "blocker": "Closing the progress mirror requires a backend/extension follow-up: a mobile-readable, coach-scoped progress read (e.g. GET /api/scout/ingest/:intentId/status returning terminal success|partial|failed + coarse progress) plus intent-id linkage from a paired code, behind FEATURE_SCOUT_INGEST. Until then the mobile terminal is honestly 'paired'.",
+      "merge_mechanism_planned": "identity-safe manual squash (merge_procedure_change_2026_07_14), NOT GitHub squash",
+      "note": "Builder complete; dual-lens r1 in progress. NOT merge-ready. Not self-approved."
     }
   ],
-  "open_prs_note": "EXT-C1b builder complete: PR #6 OPEN @ab5dc61 (base 5eabeec), dual-lens r1 = FAIL/FAIL (CONVERGENT on the CTA source-bearer P2), NOT merge-ready, returned to fixer. Ext #5 merged @5eabeec (R3-INC-1 open); mobile #284 (M1) merged @1695517. After C1b lands (identity-safe manual squash), next is mobile M2 live pairing/progress.",
+  "open_prs_note": "EXT-C1b: PR #6 OPEN, fixer r1 landed @55f24d5 (all six dual-lens r1 findings root-fixed + adversarial tests; recovered in the same sandbox after the fixer subagent hit a step limit with an empty response; prior builder head ab5dc61), dual-lens r2 PENDING, NOT merge-ready. MOBILE-M2: PR #285 OPEN @bd9a41a (base main 1695517), builder complete, dual-lens r1 in progress, NOT merge-ready. Ext #5 merged @5eabeec (R3-INC-1 open); mobile #284 (M1) merged @1695517. Both open PRs land (only when CLEAN/CLEAN + CI green) via identity-safe manual squash.",
   "non_importer_open_backend_prs_ignored_this_wave": [
     491,
     428,
@@ -266,7 +302,7 @@
       "milestone": "EXT-C1b",
       "item": "Extension C1b runtime wiring: wire the merged bounded replay engine (#5) into product runtime \u2014 Start Import CTA + autonomous multi-page site-agnostic crawl + ingest/progress/complete (engine currently imported only by tests)",
       "status": "in_progress",
-      "note": "BUILDER COMPLETE \u2014 PR #6 OPEN @ab5dc61 (base 5eabeec): resolver seam + data-only blueprint adapter + background start_import orchestration + Start Import popup CTA; security controls (isTrustedExtensionPage gate, single-flight, tab-origin allowedOrigins, bearer end-to-end, AuthLostError 401/403 no-token-clear); gates prod 303/400, ratio 2.010, 467 tests, banned clean, R3 clean. Dual-lens r1 IN PROGRESS \u2014 NOT merge-ready. Merge via identity-safe manual squash (merge_procedure_change_2026_07_14), not GitHub squash."
+      "note": "BUILDER COMPLETE + FIXER r1 COMPLETE \u2014 PR #6 OPEN, fixer head 55f24d5 (prior builder head ab5dc61, base 5eabeec): resolver seam + data-only blueprint adapter + background start_import orchestration + Start Import popup CTA. Dual-lens r1 = FAIL/FAIL (CONVERGENT CTA source-bearer P2 + P3s); fixer r1 root-fixed all six findings (real ephemeral trusted-tab source-bearer handoff via tabId + collectSourceToken, token never persisted/logged/leaked; completeIngest throws on non-2xx; source 5xx status/category preserved via lastSkipStatus; partial/degraded/truncated surfaced as ingest_partial; TGP auth-loss unified to one terminal state; single-flight shared across start_import + legacy start_ingest) with adversarial tests. Recovered in the SAME sandbox after the fixer subagent hit a step limit with an empty response (no duplicate lane). Gates @55f24d5 prod 398/400, ratio 2.781, 489 tests, banned clean, R3 clean. Dual-lens r2 PENDING at 55f24d5 \u2014 NOT merge-ready. Merge via identity-safe manual squash (merge_procedure_change_2026_07_14), not GitHub squash."
     },
     {
       "id": 4,
@@ -279,8 +315,8 @@
       "id": 8,
       "milestone": "MOBILE-M2",
       "item": "Mobile M2: live pairing/progress UX \u2014 post-open pair/init/status luxury progress wired to extension + scout ingest",
-      "status": "pending",
-      "note": "Follows EXT-C1b."
+      "status": "in_progress",
+      "note": "BUILDER COMPLETE \u2014 PR #285 OPEN @bd9a41a (base main 1695517): default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status (typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry, fails closed). Honest terminal 'paired' only \u2014 no fabricated progress. Gates prod 396/400, ratio 882/396=2.23, 295 suites/3562 tests, tsc/lint green, R3 clean. Dual-lens r1 IN PROGRESS \u2014 NOT merge-ready. Confirmed blocker: no mobile-readable import-progress route; progress/partial/complete deferred behind FEATURE_SCOUT_INGEST to a backend/extension follow-up. Merge via identity-safe manual squash."
     },
     {
       "id": 5,
@@ -539,7 +575,19 @@
       "lens_a_report": "handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md",
       "lens_b_findings": "Independent read-only lens; did NOT read Lens A. All security invariants independently re-verified PASS (trusted-page gate requires id + no-tab + chrome-extension URL, rejects content-script sender; SSRF confined by REQUIRED allowedOrigins normalized before any fetch + HARDCODED apiBase so a look-alike host cannot swap origin, root-relative templates; synchronous single-flight in the router; source AuthLostError never calls clearTokens(); LOCKED camelCase envelope; data-only blueprint fresh per resolve). BLOCKING PR6-B-P2-cta-omits-source-bearer (P2): the sole production producer of start_import (popup.js:74) sends {kind,url} with NO sourceToken, so makeSourceFetch('') emits no Authorization header and a real CTA click against the sole registered platform (bearer-gated TrueCoach) 401s -> AuthLostError -> imports nothing; the 'bearer end-to-end' claim is proven only under test injection. Fails closed (honest) => P2 not P1. INDEPENDENTLY CONVERGENT with Lens A A-01. P3s: (1) partial-reported-as-succeeded — handleStartImport collapses result.status complete||partial both to ingest_succeeded, discarding the engine's honest partial/degraded/truncated signal (silent data loss shown as unqualified success); (2) tgp-authloss-status-muddle — makeSender throws plain Error('auth_required') not AuthLostError, so a TGP-side auth loss lands in the catch as detail 'auth_required' and overwrites the friendlier onAuthLost broadcast in an order-dependent way; (3) single-flight-only-start_import — importInFlight guards start_import only, not the legacy start_ingest path, so start_ingest can run concurrently. ADVISORY (not scored): ratio 2.010 sits only 3 lines above the R74 floor of 2.0 — a fixer round must not trim tests / add trivial prod. R3 clean at ab5dc61 (author+committer Bradley Gleave, no AI/co-author/noreply trailers).",
       "lens_b_report": "handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md",
-      "note": "Builder complete (resolver seam + data-only blueprint adapter + background start_import orchestration + Start Import popup CTA; security controls isTrustedExtensionPage gate / single-flight / tab-origin allowedOrigins / bearer end-to-end / AuthLostError 401/403 no-token-clear). Dual-lens r1 RETURNED = FAIL/FAIL, CONVERGENT on the CTA source-bearer P2 (Lens A A-01 == Lens B PR6-B-P2, independently found). All MANDATORY security invariants HOLD by both lenses (no P0/P1). NOT merge-ready — return to fixer for the blocking CTA source-bearer P2 (plumb the captured source bearer into the CTA message, OR document+flag the deferral and soften the 'bearer end-to-end' PR claim), plus the P3s (Lens A: completeIngest res.ok, source-5xx signal; Lens B: partial->succeeded fidelity, TGP-authloss classification, single-flight scope), then re-audit BOTH lenses at the new exact fixer head. On CLEAN/CLEAN + CI green, land via identity-safe manual squash (never GitHub squash)."
+      "note": "Builder complete (resolver seam + data-only blueprint adapter + background start_import orchestration + Start Import popup CTA; security controls isTrustedExtensionPage gate / single-flight / tab-origin allowedOrigins / bearer end-to-end / AuthLostError 401/403 no-token-clear). Dual-lens r1 RETURNED = FAIL/FAIL, CONVERGENT on the CTA source-bearer P2 (Lens A A-01 == Lens B PR6-B-P2, independently found). All MANDATORY security invariants HOLD by both lenses (no P0/P1). NOT merge-ready — return to fixer for the blocking CTA source-bearer P2 (plumb the captured source bearer into the CTA message, OR document+flag the deferral and soften the 'bearer end-to-end' PR claim), plus the P3s (Lens A: completeIngest res.ok, source-5xx signal; Lens B: partial->succeeded fidelity, TGP-authloss classification, single-flight scope), then re-audit BOTH lenses at the new exact fixer head. On CLEAN/CLEAN + CI green, land via identity-safe manual squash (never GitHub squash). RESOLUTION: fixer r1 landed @55f24d5 (all six root-fixed + adversarial tests); dual-lens r2 PENDING at that head."
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 285,
+      "round": 1,
+      "milestone": "MOBILE-M2",
+      "head": "bd9a41a",
+      "base": "1695517",
+      "standard": "full angry adversarial ANY P0-P3, dual-lens",
+      "status": "IN_PROGRESS",
+      "gate_local": "prod 396/400, test:prod ratio 882/396=2.23, 295 suites/3562 tests, tsc/lint green, R3 clean",
+      "note": "Builder complete: default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status; typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry, fails closed. Honest terminal 'paired' only (no fabricated importing/partial/complete or page/entity/percent). Confirmed blocker: no mobile-readable import-progress route; progress/partial/complete deferred behind FEATURE_SCOUT_INGEST. Dual-lens r1 IN PROGRESS at bd9a41a."
     }
   ],
   "fixer_rounds": [
@@ -622,6 +670,16 @@
       "round": 3,
       "head": "5d46a1b",
       "result": "unified exported PARAM_NAME_CHARS shared by blueprint + engine (one canonical :param grammar); added behavioral test; prod328 ratio3.723 tests428 CI green; fresh dual-lens r3 CLEAN/CLEAN + CI two checks pass, mergeable CLEAN"
+    },
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 6,
+      "round": 1,
+      "milestone": "EXT-C1b",
+      "head": "55f24d5",
+      "prior_head": "ab5dc61",
+      "result": "All six dual-lens r1 findings root-fixed (convergent P2 + five P3s): real ephemeral non-persistent trusted-tab source-bearer handoff (popup passes tabId; background collectSourceToken validates tabId + chrome.tabs.get live-origin in allowlist + messages the trusted content script, accepts only {ok:true,token}, token never in DOM/telemetry/storage/logs/PR/payload, fails closed); completeIngest throws on non-2xx (no success without backend ack); source 5xx preserved as status/category via engine lastSkipStatus (no body/PII); partial/degraded/truncated surfaced distinctly (ingest_partial + amber popup style); TGP auth-loss unified to one terminal state (tgpAuthLost/isTgpAuthLost); synchronous single-flight shared across start_import + legacy start_ingest incl. races. Adversarial tests added for every fix. Recovered in the SAME sandbox after the fixer subagent hit a step limit with an empty response (no reset/reclone, no new branch, no duplicate lane). Gates prod 398/400, ratio 2.781, 489 tests, banned clean, R3 clean (author+committer both Bradley Gleave). Dual-lens r2 PENDING at 55f24d5; not merged, not self-audited.",
+      "recovery": "same-sandbox recovery per explicit operator direction: inventoried git status/local HEAD/origin PR#6 head, committed+pushed the legitimate fixer checkpoint at 55f24d5 with R3 identity; PR body updated with exact evidence."
     }
   ]
 }
