@@ -2,10 +2,10 @@
   "schema_version": "1.1",
   "doc_kind": "live_state_snapshot",
   "wave": "importer-wave",
-  "op_label": "Op 53 (Wave 3 — site-agnostic capture bridge; contract freeze + pairing auth + E2E close)",
+  "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T05:52:00Z",
-  "as_of_local": "2026-07-13T22:52:00-07:00",
+  "as_of_utc": "2026-07-14T06:15:00Z",
+  "as_of_local": "2026-07-13T23:15:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -15,31 +15,37 @@
     "autonomy_mode": true,
     "merge_policy": "agent_may_squash_merge_after_dual_lens_clean_AND_CI_green",
     "r138_in_force": true,
-    "roles_this_session": ["CEO", "CPO", "CTO"]
+    "roles_this_session": [
+      "CEO",
+      "CPO",
+      "CTO"
+    ]
   },
   "supersedes": [
     "handoffs/importer-wave/current-state.json@2026-07-07T17:10:00Z (Op 52 snapshot)"
   ],
-  "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500–#503, #505–#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) — Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
+  "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 53 — live state refreshed; executing v0.1 close: dual-lens+#504 merge → fix/merge extension #3 → site-agnostic capture→ingest wire-up → mobile pair UI → staging flags → dogfood",
-    "phase": "EXECUTING_CRITICAL_PATH",
+    "current_op": "Op 53 \u2014 dual-lens FAIL on #504 fixed (400/401/500 truthfulness); re-audit pending. Extension #3 CI false-positive fix pushed. Product bar raised to v0.3 full autonomous multi-page import.",
+    "phase": "FIXER_ROUND_504_PUSHED_REAUDIT_PENDING",
     "blocked_on": null,
     "next_human_decision": null,
-    "product_model": "SITE_AGNOSTIC_CAPTURE_BRIDGE"
+    "product_model": "SITE_AGNOSTIC_AUTONOMOUS_MULTI_PAGE_IMPORT",
+    "launch_bar": "v0.3_or_no_launch"
   },
   "product_model": {
-    "identity": "Chrome extension is a SITE-AGNOSTIC data bridge. It captures JSON as it loads on ANY competitor coaching site under the coach's own browser session, then posts envelopes to TGP scout ingest bound to the coach via pairing.",
-    "not_this": "Not a per-site mapped importer suite. Not server-side credential scraping. Not TrueCoach-only forever.",
-    "day1_verification_surface": "TrueCoach remains the flagship verification surface because shapes are locked from live captures (2026-06-30), but the capture ring buffer + generic entity envelope are the product core and must work host-agnostically.",
+    "identity": "SITE-AGNOSTIC autonomous data bridge. Coach picks prior service in TGP mobile \u2192 browser opens that site \u2192 after coach login, extension prompts Start client Import? \u2192 extension autonomously flips through many pages capturing JSON \u2192 posts to TGP scout ingest. Extension ships with the app by default.",
+    "never_give_up_functionality": true,
+    "not_this": "Not a thin v0.1 TrueCoach-only stub. Not per-site hard-mapped tooling as the product core. Not server-side credential scraping.",
+    "launch_bar": "v0.3 \u2014 full autonomous multi-page import loop. No half-launch.",
     "flow": [
-      "1. Coach taps Import in TGP mobile",
-      "2. Mobile mints 6-digit pairing code (POST /api/extension/pair/init) bound to coach + optional chosen_platform hint",
-      "3. Coach installs/opens extension, enters code (POST /api/extension/pair/redeem) → coach-bound session",
-      "4. Coach navigates ANY competitor site while signed in there",
-      "5. Extension ring-buffer captures JSON responses as they load (debugger/CDP path)",
-      "6. Envelopes POST /api/scout/ingest; progress mirrors via /api/scout/progress; terminal /api/scout/ingest/complete",
-      "7. Mobile shows luxury progress; coach reviews/commits later"
+      "1. User downloads TGP (extension included by default with the app)",
+      "2. After signup, taps Import Data",
+      "3. Selects prior site/service",
+      "4. Opens that site in browser; coach logs in with their own session",
+      "5. TGP extension popup: Start client Import?",
+      "6. Autonomous multi-page crawl \u2014 extension flips through pages and captures JSON as it loads",
+      "7. Envelopes to /api/scout/ingest; progress to mobile; complete settles import"
     ],
     "flags_default_off": [
       "FEATURE_EXTENSION_PAIRING",
@@ -82,22 +88,58 @@
     },
     "mobile": {
       "full_name": "BradleyGleavePortfolio/growth-project-mobile",
-      "note": "CoachPairingScreen is Day-1 client invite pairing — NOT extension import. Extension pair/init UI still missing."
+      "note": "CoachPairingScreen is Day-1 client invite pairing \u2014 NOT extension import. Extension pair/init UI still missing."
     }
   },
   "merged_since_op52": {
     "backend": [
-      {"pr": 500, "title": "scout progress+complete", "merged": "2026-07-09"},
-      {"pr": 501, "title": "scout ingest", "merged": "2026-07-09"},
-      {"pr": 502, "title": "extension pair endpoints", "merged": "2026-07-09"},
-      {"pr": 503, "title": "R-DARK-1 feature-flag middleware (dark-route fix Option A)", "merged": "2026-07-08"},
-      {"pr": 505, "title": "governance hardening", "merged": "2026-07-11"},
-      {"pr": 506, "title": "prettier dangerfile", "merged": "post-505"},
-      {"pr": 507, "title": "SC2086 fly", "merged": "post-505"}
+      {
+        "pr": 500,
+        "title": "scout progress+complete",
+        "merged": "2026-07-09"
+      },
+      {
+        "pr": 501,
+        "title": "scout ingest",
+        "merged": "2026-07-09"
+      },
+      {
+        "pr": 502,
+        "title": "extension pair endpoints",
+        "merged": "2026-07-09"
+      },
+      {
+        "pr": 503,
+        "title": "R-DARK-1 feature-flag middleware (dark-route fix Option A)",
+        "merged": "2026-07-08"
+      },
+      {
+        "pr": 505,
+        "title": "governance hardening",
+        "merged": "2026-07-11"
+      },
+      {
+        "pr": 506,
+        "title": "prettier dangerfile",
+        "merged": "post-505"
+      },
+      {
+        "pr": 507,
+        "title": "SC2086 fly",
+        "merged": "post-505"
+      }
     ],
     "extension": [
-      {"pr": 1, "title": "capture ring buffer + sourcePlatform inference [IMPORTER-C1]", "merged": "2026-07-08"},
-      {"pr": 2, "title": "DESIGN v0.3 mobile-app-initiated pairing", "merged": "2026-07-08"}
+      {
+        "pr": 1,
+        "title": "capture ring buffer + sourcePlatform inference [IMPORTER-C1]",
+        "merged": "2026-07-08"
+      },
+      {
+        "pr": 2,
+        "title": "DESIGN v0.3 mobile-app-initiated pairing",
+        "merged": "2026-07-08"
+      }
     ]
   },
   "resolved_rulings": {
@@ -111,60 +153,83 @@
     {
       "repo": "backend",
       "pr": 504,
-      "branch": "feat/importer-openapi-contract-freeze",
-      "head": "31add499ba04b98d40afc6c64aad64c8c58f4a54",
-      "base_main": "7b6a2438a831a0107a51c439306abfcb16215800",
-      "title": "feat(contract): freeze tgp-importer OpenAPI slice + truthful error envelope",
-      "mergeable": true,
-      "merge_state_status": "CLEAN",
-      "ci": "GREEN (no failing checks)",
-      "wave_3_status": "OPEN — dual-lens audit IN FLIGHT this op before squash-merge",
-      "scope": "7 importer routes, 17 schemas, shared ErrorEnvelope + RateLimitError, drift tests, LOC/TEST exempts in title",
+      "head_pre_fix": "31add499ba04b98d40afc6c64aad64c8c58f4a54",
+      "wave_3_status": "FIXER_ROUND_1 pushed after dual-lens FAIL (Lens A P1x2+P3; Lens B P1+P2). Re-audit required before merge.",
+      "audit_round_1": {
+        "lens_a": "FAIL P0=0 P1=2 P2=0 P3=1",
+        "lens_b": "FAIL P0=0 P1=1 P2=1 P3=0",
+        "reports": [
+          "handoffs/audit-reports/PR504-LENS-A-LIVE.31add499.md",
+          "handoffs/audit-reports/PR504-LENS-B-LIVE.31add499.md"
+        ]
+      },
+      "fixer_round_1": "Document reachable ValidationPipe 400 on refresh/status/progress/complete; JwtAuth 401 on init/status; redeem 500; regen OpenAPI; 55 contract tests green.",
       "url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/504"
     },
     {
       "repo": "extension",
       "pr": 3,
-      "branch": "feat/session-established-handler",
-      "head": "da0400b03bfa8801fcf2365d4a6f47fc03d53a0f",
-      "base_main": "fdea3b4d43ba681093d7f98f6f3f16c04ba701bf",
-      "title": "feat(auth): handle session_established in background router [IMPORTER-C2]",
-      "mergeable": true,
-      "merge_state_status": "UNSTABLE",
-      "ci": "UNSTABLE — pull_request CI job 'Banned-token net' FAIL; push-event CI SUCCESS; local npm test 207/207 pass; local npm run gates all OK (banned/loc/flags/ratio 2.084)",
-      "wave_3_status": "OPEN — fix CI banned-token PR-path, dual-lens, then merge",
+      "wave_3_status": "CI fix pushed (ignore synthetic PR merge commits in R3 gate + checkout PR head). Dual-lens pending after CI green.",
       "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/3"
     }
   ],
-  "non_importer_open_backend_prs_ignored_this_wave": [491, 428, 427, "dependabot 471-485"],
-  "critical_path_todos": [
-    {"id": 1, "item": "Dual-lens CLEAN + squash-merge backend #504 contract freeze", "status": "in_progress"},
-    {"id": 2, "item": "Fix extension #3 CI banned-token on PR event + dual-lens CLEAN + merge", "status": "pending"},
-    {"id": 3, "item": "Extension v0.1 wire-up: site-agnostic capture → scout ingest/progress/complete; retire legacy login; ship pair popup", "status": "pending"},
-    {"id": 4, "item": "Mobile coach Import screen: pair/init + status + progress mirror (NOT Day1 CoachPairingScreen)", "status": "pending"},
-    {"id": 5, "item": "Staging enable FEATURE_EXTENSION_PAIRING + FEATURE_SCOUT_INGEST; smoke redeem→ingest→complete", "status": "pending"},
-    {"id": 6, "item": "Dogfood on live competitor session (TrueCoach first verification surface; capture path host-agnostic)", "status": "pending"},
-    {"id": 7, "item": "Pairing security pass DESIGN §13.1–13.2 against staging", "status": "pending"},
-    {"id": 8, "item": "Update THIS live state after every PR audit round / fix round / merge", "status": "standing_rule"},
-    {"id": 9, "item": "Internal unpacked-Chrome install pack + coach runbook", "status": "pending"},
-    {"id": 10, "item": "Post v0.1 green only: logout revoke endpoint OR second-site verification capture — not both; not A02 CSV lane", "status": "blocked_on_v0_1"}
+  "non_importer_open_backend_prs_ignored_this_wave": [
+    491,
+    428,
+    427,
+    "dependabot 471-485"
   ],
-  "live_state_update_rule": "Update handoffs/importer-wave/current-state.json on every dual-lens audit completion (per round), every fixer round completion, and every squash-merge. Never leave open-PR status stale across ops.",
+  "critical_path_todos": [
+    {
+      "id": 1,
+      "item": "Re-dual-lens #504 at new head; CLEAN \u2192 squash-merge",
+      "status": "in_progress"
+    },
+    {
+      "id": 2,
+      "item": "Extension #3 CI green + dual-lens CLEAN + merge",
+      "status": "in_progress"
+    },
+    {
+      "id": 3,
+      "item": "v0.3 extension: Start Import CTA + autonomous multi-page site-agnostic crawl + ingest/progress/complete",
+      "status": "pending"
+    },
+    {
+      "id": 4,
+      "item": "Mobile: post-signup Import Data \u2192 site pick \u2192 open browser \u2192 pair/progress luxury UX",
+      "status": "pending"
+    },
+    {
+      "id": 5,
+      "item": "Default extension packaging with app download path",
+      "status": "pending"
+    },
+    {
+      "id": 6,
+      "item": "Staging flags + full-loop smoke + competitor dogfood",
+      "status": "pending"
+    },
+    {
+      "id": 7,
+      "item": "Pairing security \u00a713 + install pack + R137 postmortem at v0.3 green",
+      "status": "pending"
+    }
+  ],
+  "live_state_update_rule": "Update this file after every dual-lens audit completion (per round), every fixer round, and every squash-merge.",
   "next_actions_ordered": [
-    "Push this Op 53 live-state snapshot to tgp-agent-context main.",
-    "Dual-lens audit backend #504 @ 31add499; if CLEAN squash-merge; update live state.",
-    "Diagnose extension #3 PR-event banned-token failure (local gates green); fix; dual-lens; merge; update live state.",
-    "Build extension site-agnostic capture→ingest wire-up PR (generic envelope; TrueCoach only as verification surface).",
-    "Build mobile Import/Pair screen against pair/init+status.",
-    "Staging flags + smoke + dogfood.",
-    "R137 postmortem when v0.1 E2E green."
+    "Re-audit #504 both lenses at fixer head; merge if CLEAN.",
+    "Confirm extension #3 CI green; dual-lens; merge.",
+    "Build v0.3 autonomous multi-page capture product (not v0.1 stub).",
+    "Mobile Import Data full flow.",
+    "Staging E2E + dogfood."
   ],
   "gotchas_new_this_session": [
-    "CoachPairingScreen on mobile is client-invite Day-1 — do NOT confuse with extension 6-digit import pairing.",
+    "CoachPairingScreen on mobile is client-invite Day-1 \u2014 do NOT confuse with extension 6-digit import pairing.",
     "Extension DESIGN.md backend-deps section is STALE (claims ingest/progress/complete not built; they are merged via #500/#501).",
-    "Extension #3: push CI green, pull_request CI red on banned-token step — diagnose as PR-base pathspec / commit-identity gate, not test suite.",
+    "Extension #3: push CI green, pull_request CI red on banned-token step \u2014 diagnose as PR-base pathspec / commit-identity gate, not test suite.",
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
-    "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane — do not conflate with extension capture bridge."
+    "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "IN_PROGRESS — Op 53 executing. Live state refreshed. Critical path: #504 dual-lens+merge → #3 fix+merge → site-agnostic E2E close."
+  "verdict": "IN_PROGRESS \u2014 v0.3 bar locked; #504 fixer pushed post dual-lens FAIL; re-audit next; extension CI fix pushed."
 }
