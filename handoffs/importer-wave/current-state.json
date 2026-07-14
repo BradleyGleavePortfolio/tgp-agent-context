@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T07:29:00Z",
-  "as_of_local": "2026-07-14T00:29:00-07:00",
+  "as_of_utc": "2026-07-14T07:31:00Z",
+  "as_of_local": "2026-07-14T00:31:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -26,8 +26,8 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 53 \u2014 PR #4 audit r1 @a75827d1 FAIL. Lens A P1=3 P2=3 P3=2; Lens B P0=1 P1=2 P2=2 P3=2. CI false-green traced to NUL/binary undercount. No merge.",
-    "phase": "EXT_PR4_AUDIT_R1_FAIL",
+    "current_op": "Op 53 \u2014 PR #4 fixer r1 @6bb3b17: split wiring/CTA to PR-C1b, corrected false evidence, CI green. Remaining audit findings + strict 400-LOC doctrine entering fixer r2.",
+    "phase": "EXT_PR4_FIXER_R2",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
     "watchdog": "bbd2c039 hourly until v0.3 done",
@@ -161,10 +161,10 @@
       "repo": "tgp-importer-extension",
       "pr": 4,
       "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/4",
-      "head": "a75827d1c0cf5452c1e924ddae4889c5b8b2f3f6",
-      "scope": "generic site-agnostic bounded autonomous replay core + Start/Cancel CTA; TrueCoach data adapter only",
-      "status": "dual-lens audit round 1 in flight",
-      "local_evidence": "287 tests; prod LOC 554/600; ratio 2.063; gates green"
+      "head": "6bb3b17f0849bd997b2e3b2fc6bb12bf2a421d0f",
+      "scope": "pure generic replay core only; wiring/CTA deferred PR-C1b",
+      "status": "CI fixer r1 pushed; further audit fixer r2 required",
+      "local_evidence": "286 tests; prod 545/600 CI, but canonical strict cap 400 still open; ratio 2.068"
     }
   ],
   "non_importer_open_backend_prs_ignored_this_wave": [
@@ -225,7 +225,7 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "FAIL \u2014 PR #4 @a75827d1 not mergeable. False evidence, LOC/ratio, partial completion, concurrency, origin confinement, trust boundary, dedupe findings.",
+  "verdict": "IN_PROGRESS/FAIL \u2014 CI green after split, but P0-P3 audit findings and strict doctrine cap remain; do not merge.",
   "last_merge": {
     "pr": 504,
     "repo": "backend",
