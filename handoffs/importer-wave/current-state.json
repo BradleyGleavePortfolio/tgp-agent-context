@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T06:28:00Z",
-  "as_of_local": "2026-07-13T23:28:00-07:00",
+  "as_of_utc": "2026-07-14T06:30:00Z",
+  "as_of_local": "2026-07-13T23:30:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -29,7 +29,8 @@
     "current_op": "Op 53 \u2014 #504 MERGED. Extension #3 fixer round pushed (28d2287) after full dual-lens FAIL/P3s; full re-audit in flight. Audit standard: angry adversarial ANY P0-P3 every round.",
     "phase": "EXT_PR3_REAUDIT_AFTER_FIXER",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round_not_just_prior_findings",
-    "launch_bar": "v0.3_or_no_launch"
+    "launch_bar": "v0.3_or_no_launch",
+    "watchdog": "active hourly until v0.3 done"
   },
   "product_model": {
     "identity": "SITE-AGNOSTIC autonomous data bridge. Coach picks prior service in TGP mobile \u2192 browser opens that site \u2192 after coach login, extension prompts Start client Import? \u2192 extension autonomously flips through many pages capturing JSON \u2192 posts to TGP scout ingest. Extension ships with the app by default.",
@@ -229,5 +230,12 @@
     "repo": "backend",
     "at": "2026-07-14T06:24:59Z",
     "sha": "e6c3082755c8"
+  },
+  "watchdog": {
+    "id": "bbd2c039",
+    "name": "Importer v0.3 watchdog",
+    "cadence": "hourly (foreground, conversation context)",
+    "next_run_local": "2026-07-14T00:27:00-07:00",
+    "stop_condition": "delete self when v0.3 E2E ship criteria met"
   }
 }
