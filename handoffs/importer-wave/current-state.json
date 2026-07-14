@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T11:11:00Z",
-  "as_of_local": "2026-07-14T04:11:00-07:00",
+  "as_of_utc": "2026-07-14T11:13:00Z",
+  "as_of_local": "2026-07-14T04:13:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -26,8 +26,8 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 53 \u2014 Ext #4 @b02298a dual-lens CLEAN/CLEAN P0-P3=0; exact head + CI green; R138 squash-merge gate satisfied.",
-    "phase": "EXT4_CLEAN_MERGE_GATE",
+    "current_op": "Op 53 \u2014 Ext #4 SQUASH-MERGED a6e248aa20c7 after CLEAN/CLEAN. Next: retarget/reconcile #5 engine onto main, fix engine audit findings, full re-audit.",
+    "phase": "EXT5_ENGINE_FIXER_AFTER_PARENT_MERGE",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
     "watchdog": "bbd2c039 active",
@@ -159,16 +159,6 @@
   "open_prs": [
     {
       "repo": "tgp-importer-extension",
-      "pr": 4,
-      "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/4",
-      "head": "b02298a42c16db4cb2906918b7b5ad0b239de0b4",
-      "scope": "blueprint contract + state machine",
-      "status": "CLEAN/CLEAN; merge authorized",
-      "evidence": "prod400 ratio2.4 tests375 CI green",
-      "audit": "A P2=1 P3=2; B P1=1"
-    },
-    {
-      "repo": "tgp-importer-extension",
       "pr": 5,
       "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/5",
       "head": "dfd67be7f3464b770c46bcbcd463b661081c34f2",
@@ -246,7 +236,7 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "IN_PROGRESS \u2014 PR #4 merge gate satisfied; product not done.",
+  "verdict": "IN_PROGRESS \u2014 blueprint/state merged; engine #5, wiring/inference/mobile/E2E remain.",
   "last_merge": {
     "pr": 504,
     "repo": "backend",
@@ -267,6 +257,13 @@
       "merge_commit": "a8563853758bc369b01d9f1f7e03a28db8a520ef",
       "merged_at_utc": "2026-07-14T06:50:00Z",
       "gate": "dual-lens CLEAN/CLEAN P0-P3=0 + CI green + exact head 895c3ae"
+    },
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 4,
+      "merge_commit": "a6e248aa20c724f4e1a2ca3eb81e98f9b8ab25cb",
+      "merged_at_utc": "2026-07-14T11:13:00Z",
+      "gate": "dual-lens CLEAN/CLEAN P0-P3=0 exact head b02298a + CI green"
     }
   ],
   "next_actions": [
