@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T09:46:00Z",
-  "as_of_local": "2026-07-14T02:46:00-07:00",
+  "as_of_utc": "2026-07-14T10:36:00Z",
+  "as_of_local": "2026-07-14T03:36:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -26,8 +26,8 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 53 \u2014 Ext #4 fixer r4 @8972807: repeated-dot + required non-empty allowedOrigins capability, prod400 ratio2.36 CI green; dual-lens re-audit r4. Mobile #284 Lens A r2 P3=1 duplicate URL state; fixer r3 active; Lens B pending. #5 serialized.",
-    "phase": "EXT4_REAUDIT_R4_MOBILE284_FIXER_R3",
+    "current_op": "Op 53 \u2014 Ext #4 re-audit r4: Lens A CLEAN, Lens B FAIL P3=3 (cap truth, stale head, benign path overreject); fixer r5 active. Mobile #284 fixer r3 @176c7f2 green; fresh dual-lens re-audit r3. #5 serialized.",
+    "phase": "EXT4_FIXER_R5_MOBILE284_REAUDIT_R3",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
     "watchdog": "bbd2c039 active",
@@ -163,7 +163,7 @@
       "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/4",
       "head": "8972807",
       "scope": "blueprint contract + state machine",
-      "status": "dual-lens re-audit r4",
+      "status": "Lens A CLEAN/Lens B P3=3; fixer r5 active",
       "evidence": "prod400 ratio2.36 tests373 CI green",
       "audit": "A P2=1 P3=2; B P1=1"
     },
@@ -182,10 +182,10 @@
       "repo": "growth-project-mobile",
       "pr": 284,
       "url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/284",
-      "head": "77a1e6c",
+      "head": "176c7f2",
       "scope": "default-off coach Import Data entry + platform/custom picker + safe browser open + honest awaiting-extension state",
-      "status": "Lens A r2 P3=1 URL state desync; fixer r3 active; Lens B pending",
-      "evidence": "prod397 ratio2.20 full3467 CI green"
+      "status": "dual-lens re-audit r3",
+      "evidence": "prod394 ratio2.25 tests3468 CI green"
     }
   ],
   "non_importer_open_backend_prs_ignored_this_wave": [
@@ -246,7 +246,7 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "IN_PROGRESS \u2014 exact-head audits/fixers active; no merge yet.",
+  "verdict": "IN_PROGRESS \u2014 ext4 accuracy fixer; mobile exact-head re-audit; no merge yet.",
   "last_merge": {
     "pr": 504,
     "repo": "backend",
@@ -339,6 +339,15 @@
       "lens_a": "CLEAN P0-P3=0",
       "lens_b": "FAIL P0=0 P1=0 P2=0 P3=2",
       "findings": "repeated trailing-dot localhost; name-based SSRF without required allowedOrigins"
+    },
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 4,
+      "round": 4,
+      "head": "8972807a50d4996518ef9f9e5ee308ef4c30a04d",
+      "lens_a": "CLEAN P0-P3=0",
+      "lens_b": "FAIL P0=0 P1=0 P2=0 P3=3",
+      "findings": "CI cap wording inaccurate; stale PR head line; benign query containing :// overrejected"
     }
   ],
   "fixer_rounds": [
@@ -386,6 +395,13 @@
       "round": 4,
       "head": "8972807",
       "result": "strip all trailing dots; required validated non-empty allowedOrigins exact capability; prod400 ratio2.36 tests373 CI green"
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 284,
+      "round": 3,
+      "head": "176c7f2",
+      "result": "single URL source of truth + custom re-entry reset; stale test vocabulary removed; prod394 ratio2.25 tests3468 CI green"
     }
   ]
 }
