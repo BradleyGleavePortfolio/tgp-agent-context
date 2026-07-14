@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T12:50:00Z",
-  "as_of_local": "2026-07-14T05:50:00-07:00",
+  "as_of_utc": "2026-07-14T13:20:00Z",
+  "as_of_local": "2026-07-14T06:20:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -26,8 +26,8 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 53 \u2014 Ext #5 fixer r3 @5d46a1b PASSES fresh independent dual-lens: Lens A CLEAN P0-P3=0 AND Lens B CLEAN P0-P3=0 (PARAM_NAME_CHARS unified across blueprint+engine); prod328 ratio3.723 tests428, GitHub CI two checks pass, mergeable CLEAN. Mobile #284 doc-only PR-body correction COMPLETE @306f3a0 (code head unchanged): body now cites exact head + raw prod 527, no stale 885cf9b/526; final r6 closure audits in progress, CI/CodeQL green.",
-    "phase": "EXT5_DUAL_LENS_CLEAN_R3_MERGEABLE_MOBILE284_BODY_FIXED_R6_AUDIT_IN_PROGRESS",
+    "current_op": "Op 53 \u2014 Ext #5 MERGED 2026-07-14T12:06:01Z as GitHub squash 5eabeec after exact-head dual-lens CLEAN/CLEAN + green CI; product tree accepted. OPEN R3 INCIDENT: GitHub synthesized commit identity (author BradleyGleavePortfolio <bradleyapple1031@gmail.com>, committer GitHub <noreply@github.com>) instead of mandated Bradley Gleave identity. A metadata-only rewrite candidate was built and verified but deliberately NOT pushed \u2014 rewriting published shared main provenance is destructive; origin/main remains 5eabeec. Incident is OPEN (not hidden, not fixed); merge procedure changed prospectively. Mobile #284 @306f3a0 r6 closure: independent Lens A CLEAN + Lens B CLEAN, all P0-P3=0, live body fixed, code unchanged, CI+CodeQL green, mergeable \u2014 ready for the new manual identity-safe squash procedure (NOT GitHub squash).",
+    "phase": "EXT5_MERGED_5eabeec_R3_IDENTITY_INCIDENT_OPEN_MOBILE284_R6_DUAL_CLEAN_READY_FOR_MANUAL_SQUASH",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
     "watchdog": "bbd2c039 active",
@@ -64,6 +64,29 @@
     "R138_autonomy": "Agent may squash-merge after dual-lens CLEAN + CI green without human approval.",
     "R137_postmortem": "Every wave closes with handoffs/<wave>/postmortem.md."
   },
+  "r3_process_incidents": [
+    {
+      "id": "R3-INC-1",
+      "status": "OPEN_ACCEPTED_NOT_FIXED",
+      "repo": "tgp-importer-extension",
+      "pr": 5,
+      "commit": "5eabeec0ee53735753059f72581148052c9f2ac4",
+      "discovered_utc": "2026-07-14T12:10:00Z",
+      "summary": "PR #5 was landed via GitHub-generated squash merge. GitHub synthesized the merge commit identity: author BradleyGleavePortfolio <bradleyapple1031@gmail.com>, committer GitHub <noreply@github.com>. This does NOT satisfy R3 (both author AND committer must be Bradley Gleave <bradley@bradleytgpcoaching.com>).",
+      "product_tree_status": "ACCEPTED — audited tree at 5d46a1b is CLEAN/CLEAN; only the commit-envelope identity metadata is non-conforming.",
+      "remediation_considered": "A metadata-only rewrite candidate (byte-identical tree/parent/message/dates, identity corrected to Bradley Gleave) was built and fully verified locally.",
+      "remediation_decision": "NOT PUSHED. Force-pushing a rewrite over already-published shared main is a destructive provenance-altering operation and was deliberately declined. origin/main remains 5eabeec (unchanged). The candidate object is unreferenced and will be garbage-collected.",
+      "honesty_note": "This incident is recorded as an OPEN, ACCEPTED landmine. It is NOT hidden and NOT silently fixed. The published 5eabeec commit retains its GitHub-synthesized identity.",
+      "prospective_fix": "See merge_procedure_change_2026_07_14 — future TGP merges use a manual identity-safe squash so R3 identity is correct at creation time, never requiring a published-history rewrite."
+    }
+  ],
+  "merge_procedure_change_2026_07_14": {
+    "trigger": "R3-INC-1 — GitHub-generated squash stamps a non-Bradley author/committer identity that R3 forbids, and correcting it after publish would require a destructive force-push over shared main.",
+    "old_procedure": "Agent used GitHub squash-merge (UI/API) after dual-lens CLEAN + CI green (R138).",
+    "new_procedure": "Do NOT use GitHub-generated squash for future TGP merges. Instead: (1) build a local/manual squash commit whose tree is exactly the audited exact-head tree, with BOTH author and committer set to Bradley Gleave <bradley@bradleytgpcoaching.com>; (2) lease-safe fast-forward main to that commit (--force-with-lease pinned to the known base, aborts on divergence — fast-forward only, no history rewrite); (3) close the PR referencing the landed commit.",
+    "scope": "Applies to extension, backend, and mobile TGP repos going forward. Prior grandfathered history (including 5eabeec) is NOT rewritten.",
+    "supersedes_note": "Refines R138 autonomy: merge remains agent-permitted after dual-lens CLEAN + CI green, but the mechanism changes from GitHub squash to identity-safe manual squash + lease-safe fast-forward."
+  },
   "repos": {
     "backend": {
       "full_name": "BradleyGleavePortfolio/growth-project-backend",
@@ -74,10 +97,11 @@
     },
     "extension": {
       "full_name": "BradleyGleavePortfolio/tgp-importer-extension",
-      "main_head": "fdea3b4d43ba681093d7f98f6f3f16c04ba701bf",
-      "main_head_short": "fdea3b4",
-      "main_as_of": "2026-07-08T20:38:08Z",
-      "main_tip_msg": "feat(capture): debugger attach + ring buffer + sourcePlatform inference [IMPORTER-C1] (#1)"
+      "main_head": "5eabeec0ee53735753059f72581148052c9f2ac4",
+      "main_head_short": "5eabeec",
+      "main_as_of": "2026-07-14T12:06:01Z",
+      "main_tip_msg": "feat(replay): add bounded site-agnostic replay engine (#5)",
+      "main_head_r3_note": "R3-INC-1 OPEN: this published tip carries GitHub-synthesized identity (author BradleyGleavePortfolio, committer GitHub), NOT Bradley Gleave. Grandfathered — not rewritten. See r3_process_incidents."
     },
     "context": {
       "full_name": "BradleyGleavePortfolio/tgp-agent-context",
@@ -158,28 +182,18 @@
   },
   "open_prs": [
     {
-      "repo": "tgp-importer-extension",
-      "pr": 5,
-      "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/5",
-      "head": "5d46a1b",
-      "base": "main @ a6e248a",
-      "scope": "bounded replay engine",
-      "status": "fixer r3 @5d46a1b PASSES fresh dual-lens CLEAN/CLEAN; GitHub CI two checks pass; mergeable CLEAN",
-      "evidence": "prod328 ratio3.723 tests428 CI 2/2 checks pass",
-      "audit": "r2 @5f55abc: A FAIL P3=1, B FAIL P3=1 (same finding) → r3 @5d46a1b: A CLEAN P0-P3=0, B CLEAN P0-P3=0",
-      "reports": [
-        "handoffs/audit-reports/EXT-PR5-LENS-A-LIVE.5d46a1b.md",
-        "handoffs/audit-reports/EXT-PR5-LENS-B-LIVE.5d46a1b.md"
-      ]
-    },
-    {
       "repo": "growth-project-mobile",
       "pr": 284,
       "url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/284",
       "head": "306f3a0",
       "scope": "default-off coach Import Data entry + platform/custom picker + safe browser open + honest awaiting-extension state",
-      "status": "doc-only PR-body correction COMPLETE (code head 306f3a0 unchanged): body now cites exact head 306f3a0 + raw prod 527, no stale 885cf9b/526; final r6 closure audits in progress; CI/CodeQL green",
-      "evidence": "prod394 ratios canonical2.29 raw2.03 (527/1069) tests3470 (292 suites) CI/CodeQL green"
+      "status": "r6 CLOSURE COMPLETE (code head 306f3a0 unchanged): independent Lens A CLEAN + Lens B CLEAN, all P0-P3=0; live PR body fixed (cites exact head 306f3a0 + raw prod 527, no stale 885cf9b/526); CI+CodeQL green; mergeable. READY TO MERGE via new manual identity-safe squash procedure (NOT GitHub squash).",
+      "evidence": "prod394 ratios canonical2.29 raw2.03 (527/1069) tests3470 (292 suites) CI/CodeQL green; r6 dual-lens CLEAN/CLEAN",
+      "reports": [
+        "handoffs/audit-reports/MOBILE-PR284-LENS-A-LIVE.306f3a0-r6.md",
+        "handoffs/audit-reports/MOBILE-PR284-LENS-B-LIVE.306f3a0-r6.md"
+      ],
+      "merge_procedure": "manual identity-safe squash + lease-safe fast-forward (merge_procedure_change_2026_07_14), NOT GitHub squash"
     }
   ],
   "non_importer_open_backend_prs_ignored_this_wave": [
@@ -240,12 +254,13 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "IN_PROGRESS \u2014 ext#5 fixer r3 @5d46a1b PASSES fresh dual-lens CLEAN/CLEAN + CI 2/2, mergeable CLEAN (no merge performed this task); mobile#284 doc-only PR-body correction complete (code head 306f3a0 unchanged), final r6 closure audits in progress.",
+  "verdict": "IN_PROGRESS \u2014 ext#5 MERGED @5eabeec (dual-lens CLEAN/CLEAN + CI green; product tree accepted) with OPEN R3-INC-1 identity incident (GitHub-synthesized identity; NOT rewritten, not hidden); merge procedure changed prospectively to manual identity-safe squash. mobile#284 @306f3a0 r6 closure dual-lens CLEAN/CLEAN, CI+CodeQL green, mergeable \u2014 ready for manual identity-safe squash (no merge performed this task).",
   "last_merge": {
-    "pr": 504,
-    "repo": "backend",
-    "at": "2026-07-14T06:24:59Z",
-    "sha": "e6c3082755c8"
+    "pr": 5,
+    "repo": "tgp-importer-extension",
+    "at": "2026-07-14T12:06:01Z",
+    "sha": "5eabeec0ee53735753059f72581148052c9f2ac4",
+    "r3_note": "GitHub-synthesized identity — R3-INC-1 OPEN; published tip grandfathered (not rewritten)"
   },
   "watchdog": {
     "id": "bbd2c039",
@@ -268,6 +283,15 @@
       "merge_commit": "a6e248aa20c724f4e1a2ca3eb81e98f9b8ab25cb",
       "merged_at_utc": "2026-07-14T11:13:00Z",
       "gate": "dual-lens CLEAN/CLEAN P0-P3=0 exact head b02298a + CI green"
+    },
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 5,
+      "merge_commit": "5eabeec0ee53735753059f72581148052c9f2ac4",
+      "merged_at_utc": "2026-07-14T12:06:01Z",
+      "gate": "dual-lens CLEAN/CLEAN P0-P3=0 exact head 5d46a1b + GitHub CI two checks pass; prod328 ratio3.723 tests428",
+      "merge_mechanism": "GitHub-generated squash",
+      "r3_status": "NON-CONFORMING — see r3_process_incidents R3-INC-1 (GitHub-synthesized identity; accepted+grandfathered, published tip NOT rewritten)"
     }
   ],
   "next_actions": [
@@ -289,9 +313,9 @@
     "idiot_index": "one pure engine + declarative adapters, no new service",
     "hyperscaler": "explicit states, budgets, abort, idempotency, failure isolation",
     "good_without_bad": "autonomy without broad permissions/destructive methods",
-    "evidence": "ext#5 r2 both lenses FAIL P3=1 (digit-led :param grammar mismatch) → fixer r3 @5d46a1b unified exported PARAM_NAME_CHARS across blueprint+engine + behavioral test; fresh dual-lens r3 CLEAN/CLEAN P0-P3=0, prod328 ratio3.723 tests428, CI two checks pass, mergeable CLEAN; mobile#284 r5 code-clean, doc-only PR-body correction now complete (exact head + raw527, no stale 885cf9b/526)",
-    "rollback_stop": "flag/off or revert PR; stop on P0-P3 or contract mismatch",
-    "next": "ext#5 @5d46a1b is dual-lens CLEAN + CI green + mergeable — eligible to squash-merge per R14/R138; mobile#284 final r6 closure audits in progress then merge-eligible"
+    "evidence": "ext#5 r2 both lenses FAIL P3=1 (digit-led :param grammar mismatch) → fixer r3 @5d46a1b unified exported PARAM_NAME_CHARS + behavioral test; fresh dual-lens r3 CLEAN/CLEAN P0-P3=0, prod328 ratio3.723 tests428, CI green → MERGED 2026-07-14T12:06:01Z as GitHub squash 5eabeec (product tree accepted). Post-merge R3 verification exposed R3-INC-1: GitHub synthesized commit identity (author BradleyGleavePortfolio, committer GitHub) rather than Bradley Gleave. A verified metadata-only rewrite candidate was built but deliberately NOT pushed — rewriting published shared main is destructive; origin/main stays 5eabeec, incident left OPEN and visible. mobile#284 @306f3a0 r6 closure dual-lens CLEAN/CLEAN (code unchanged, body corrected), CI+CodeQL green, mergeable.",
+    "rollback_stop": "flag/off or revert PR; stop on P0-P3 or contract mismatch. NEVER force-push rewrite of published shared main to fix identity — accept + grandfather + fix procedure forward.",
+    "next": "Adopt merge_procedure_change_2026_07_14: future TGP merges (incl. mobile#284) use manual identity-safe squash (audited tree + author&committer Bradley Gleave) then lease-safe fast-forward + close PR — never GitHub squash. mobile#284 is dual-lens CLEAN + CI/CodeQL green and ready for that procedure. R3-INC-1 remains OPEN/accepted; capture in R137 postmortem."
   },
   "audit_rounds": [
     {
@@ -407,6 +431,20 @@
       "reports": [
         "handoffs/audit-reports/EXT-PR5-LENS-A-LIVE.5d46a1b.md",
         "handoffs/audit-reports/EXT-PR5-LENS-B-LIVE.5d46a1b.md"
+      ]
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 284,
+      "round": 6,
+      "head": "306f3a0",
+      "lens_a": "CLEAN P0-P3=0",
+      "lens_b": "CLEAN P0-P3=0",
+      "gate": "exact head 306f3a0 (code unchanged) + CI + CodeQL green; prod394 canonical ratio2.29 raw2.03 (527/1069) tests3470 (292 suites); mergeable",
+      "findings": "closure round: prior r5 doc-only P3s resolved via live PR-body correction (cites exact head 306f3a0 + raw prod 527, no stale 885cf9b/526); no code change; no new P0-P3",
+      "reports": [
+        "handoffs/audit-reports/MOBILE-PR284-LENS-A-LIVE.306f3a0-r6.md",
+        "handoffs/audit-reports/MOBILE-PR284-LENS-B-LIVE.306f3a0-r6.md"
       ]
     }
   ],
