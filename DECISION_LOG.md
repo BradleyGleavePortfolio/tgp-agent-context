@@ -55,3 +55,40 @@ Newest first.
 **Scope confirmation.** Operator (via ask_user_question 2026-06-30 17:03 PDT) selected "All eight (R130–R137)" and "Push now" (do not wait for wave close).
 
 **Companion doctrine.** R131 obliges this rules addition itself to be revisitable. Re-verification date: 2026-12-30.
+
+---
+
+## 2026-07-13 — Adopt Autonomous CEO/CPO/CTO Operating Constitution
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Constitutional doctrine
+**Canonical file:** `AGENT_RULES.md` — Operator Constitution Addendum
+
+### Decision record
+
+**DECISION:** Preserve the operator's constitution verbatim inside the single canonical `AGENT_RULES.md`; apply it proportionally to every importer decision and require concise decision records without exposing raw chain-of-thought.
+
+**REAL GOAL:** Keep autonomous execution fast while making consequential choices evidence-based, reversible, root-cause-oriented, and operable at hyperscaler quality.
+
+**ROOT CAUSE:** Prior doctrine contained the component principles, but the decision sequence, option-selection discipline, extreme tests, good-without-bad synthesis, and standard record were fragmented.
+
+**FIVE-STEP RESULT:**
+- **Questioned:** A second canonical rules file was rejected because `AGENT_RULES.md` is the sole source of truth.
+- **Deleted:** No duplicate constitution file or approval ceremony was added.
+- **Simplified:** One verbatim addendum and one standard decision-record shape.
+- **Accelerated:** The recurring importer watchdog now loads the same canonical doctrine each run.
+- **Automated last:** Automation only enforces the already-simplified decision record and execution loop.
+
+**IDIOT-INDEX RESULT:** Added no new service, dependency, state machine, or approval handoff; one source of truth governs all roles.
+
+**EXTREME TEST:** At 100× work volume or after agent/session failure, the canonical rules plus live state and pushed commits remain sufficient to resume safely.
+
+**HYPERSCALER LENS:** Small reversible PRs, exact-head audits, CI gates, canonical state, bounded failure, rollback, and observable evidence remain mandatory.
+
+**GOOD WITHOUT BAD:** Preserve autonomous velocity and broad executive ownership while retaining independent audits, security boundaries, irreversible-action gates, and project doctrine precedence.
+
+**EVIDENCE REQUIRED:** Exact constitution text in `AGENT_RULES.md`; watchdog references that canonical section; dual-lens CLEAN and CI remain merge gates; live state updated after audit/fix/merge.
+
+**ROLLBACK / STOP:** Constitutional changes require an explicit operator instruction and signed doctrine commit. Product execution stops only at proven v0.3 E2E completion or a genuine external blocker.
+
+**NEXT ACTION:** Build the narrowest end-to-end autonomous crawl unit: Start Import CTA → site-agnostic discovery/replay → bounded ingest/progress, then independently audit it.

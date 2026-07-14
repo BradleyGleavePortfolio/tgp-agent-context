@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T06:50:00Z",
-  "as_of_local": "2026-07-13T23:50:00-07:00",
+  "as_of_utc": "2026-07-14T06:54:00Z",
+  "as_of_local": "2026-07-13T23:54:00-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -30,7 +30,8 @@
     "phase": "EXT_V03_AUTONOMOUS_CRAWL_BUILD",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
-    "watchdog": "bbd2c039 hourly until v0.3 done"
+    "watchdog": "bbd2c039 hourly until v0.3 done",
+    "constitution": "active; canonical AGENT_RULES addendum; watchdog wired"
   },
   "product_model": {
     "identity": "SITE-AGNOSTIC autonomous data bridge. Coach picks prior service in TGP mobile \u2192 browser opens that site \u2192 after coach login, extension prompts Start client Import? \u2192 extension autonomously flips through many pages capturing JSON \u2192 posts to TGP scout ingest. Extension ships with the app by default.",
@@ -241,5 +242,11 @@
     "Extension PR: Start client Import CTA + autonomous site-agnostic discovery/replay across many pages",
     "Mobile PR: post-signup Import Data \u2192 site selection \u2192 browser open \u2192 pair/init/status luxury progress",
     "Backend/staging flags + E2E + dogfood + security/install pack"
-  ]
+  ],
+  "operating_constitution": {
+    "canonical": "AGENT_RULES.md#operator-constitution-addendum--2026-07-13",
+    "status": "ACTIVE",
+    "decision_record": "DECISION/REAL GOAL/ROOT CAUSE/FIVE-STEP/IDIOT-INDEX/EXTREME/HYPERSCALER/GOOD-WITHOUT-BAD/EVIDENCE/ROLLBACK/NEXT",
+    "watchdog": "bbd2c039 reads canonical doctrine each run"
+  }
 }
