@@ -4,8 +4,8 @@
   "wave": "importer-wave",
   "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
   "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T06:36:00Z",
-  "as_of_local": "2026-07-13T23:36:00-07:00",
+  "as_of_utc": "2026-07-14T06:42:30Z",
+  "as_of_local": "2026-07-13T23:42:30-07:00",
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -26,8 +26,8 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 53 \u2014 Ext #3 head 76d229e after residual P3 fixer (bound truecoach fetch + DESIGN least-privilege). Full dual-lens re-audit r2 in flight. Watchdog bbd2c039 hourly active.",
-    "phase": "EXT_PR3_REAUDIT_R2",
+    "current_op": "Op 53 \u2014 Ext #3 head 895c3ae: root-cause fetchWithTimeout composes caller AbortSignal. Dual-lens re-audit r3 in flight. Watchdog bbd2c039 active.",
+    "phase": "EXT_PR3_REAUDIT_R3",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
     "watchdog": "bbd2c039 hourly until v0.3 done"
@@ -159,10 +159,10 @@
     {
       "repo": "extension",
       "pr": 3,
-      "wave_3_status": "Fixer r2 after residual P3s; dual-lens re-audit r2 in flight",
+      "wave_3_status": "Root-cause signal composition fix; dual-lens re-audit r3",
       "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/3",
       "lens_a": "CLEAN P0=0 P1=0 P2=0 P3=3",
-      "head": "76d229e08c5e5209c56597db5fdc9d6dfff0ddac",
+      "head": "895c3ae663e5b8aacb67d842513b334b83d25d4e",
       "fixer": "bound scout fetches, coalesce refresh, drop cookies/scripting, https-only hosts, pair.js catch"
     }
   ],
@@ -224,7 +224,7 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "IN_PROGRESS \u2014 #3 re-audit r2; then merge if CLEAN; then v0.3 autonomous crawl build",
+  "verdict": "IN_PROGRESS \u2014 #3 re-audit r3; merge when CLEAN+CI; then autonomous multi-page crawl",
   "last_merge": {
     "pr": 504,
     "repo": "backend",
