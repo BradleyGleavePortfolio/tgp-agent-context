@@ -96,6 +96,37 @@
     "product_code_touched": false,
     "audit_exempt": "Documentation-only context-repo commit \u2014 no R14 code audit required (R14 scope)."
   },
+  "billing_scope_exclusion": {
+    "op_label": "Op 55 \u2014 billing scope exclusion (docs/state only) under R5",
+    "canonical_docs": [
+      "handoffs/importer-wave/OPERATOR_HANDOFF.md \u00a70 (verbatim directive + binding effect)",
+      "handoffs/importer-wave/current-state.json (this object)"
+    ],
+    "operator_quote_verbatim": "Hmm - ok then forget it - we just need to grab workout, client history, messaging, ect. and leave JUST billing info behind.",
+    "quote_handling": "Preserved byte-for-byte (including original spelling 'ect.') per R5. Do NOT paraphrase or 'correct' the quote.",
+    "applies_to": ["v0.3 importer capture", "v1.0 importer capture"],
+    "excluded_family": "billing",
+    "excluded_examples": [
+      "payment credentials",
+      "payment methods",
+      "card data",
+      "processor vault tokens",
+      "billing profiles",
+      "subscription payment instruments",
+      "billing migration"
+    ],
+    "importer_must_not": "capture, stage, log, reconstruct, or claim completion for any billing data",
+    "in_scope_non_billing": [
+      "workouts",
+      "client history",
+      "messages",
+      "all other explicitly authorized accessible records"
+    ],
+    "accounting_rule": "Billing is accounted as an explicit 'excluded' family with reason \u2014 it is NOT a failure, gap, skipped item, or missing-recall defect. Completeness accounting: staged = reconstructed + skipped + failed by family, with billing carried as 'excluded' (reason: operator directive, out of scope), never counted toward skipped/failed or incomplete recall.",
+    "does_not_change": "AGENT_RULES, architecture, build order, PR-C1c scope, D1/D2 -> IMPORTER-F -> PR-M3 order, or production code. Documentation/state only.",
+    "product_code_touched": false,
+    "audit_exempt": "Documentation-only context-repo commit \u2014 no R14 code audit required (R14 scope)."
+  },
   "immutable_doctrine_in_force": {
     "R3_authorship": "Every commit shows Bradley Gleave <bradley@bradleytgpcoaching.com> as author AND committer.",
     "R3_CLARIFY_1_2026_07_06": "R3 forbidden-token scan uses word-boundary anchored patterns only.",
@@ -835,7 +866,7 @@
   "truth_boundaries": {
     "ingestion_is_not_reconstruction": "Ingestion/staging (ScoutIngestEntity writes + counts) is NOT canonical reconstruction into TGP entities. Backend status counts raw staged rows only.",
     "no_e2e_proof_yet": "No certified end-to-end run proves source discovery -> canonical TGP reconstruction -> review. Do not infer or claim completion.",
-    "staging_vs_canonical": "Staging evidence is not canonical reconstruction evidence. Completion must satisfy staged = reconstructed + skipped + failed by family, with reasons.",
+    "staging_vs_canonical": "Staging evidence is not canonical reconstruction evidence. Completion must satisfy staged = reconstructed + skipped + failed by family, with reasons. Billing is an explicit 'excluded' family (see billing_scope_exclusion): out of scope for v0.3 and v1.0 capture, never captured/staged/logged/reconstructed, and never counted as skipped/failed or an incomplete-recall defect — accounted as 'excluded' with reason.",
     "no_truecoach_mapper": "Backend has no TrueCoach mapper; 'truecoach' is only a pairing slug. Mobile 'paired' is a dead-end with no honest PROGRESS/REVIEW/COMPLETION."
   },
   "next_pr_order": {

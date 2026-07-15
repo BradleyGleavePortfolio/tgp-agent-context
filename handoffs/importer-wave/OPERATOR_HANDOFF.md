@@ -10,7 +10,12 @@
 
 ## 0. MISSION (verbatim operator directives — do not paraphrase)
 
-Two verbatim operator statements govern this wave. Both are preserved byte-for-byte per R5.
+**Billing scope exclusion (verbatim operator directive, 2026-07-15 — preserved byte-for-byte per R5, including original spelling):**
+> "Hmm - ok then forget it - we just need to grab workout, client history, messaging, ect. and leave JUST billing info behind."
+
+**Binding effect (canonical, v0.3 and v1.0 importer capture).** Billing is an **explicit excluded data family**. The importer MUST NOT capture, stage, log, reconstruct, or claim completion for any billing data — including payment credentials, payment methods, card data, processor vault tokens, billing profiles, subscription payment instruments, and billing migration. This is a deliberate scope boundary, **not a failure, gap, or missing recall**. Authorized non-billing product data remains fully in scope — workouts, client history, messages, and every other explicitly authorized accessible record. Completeness accounting treats billing as `excluded` with this reason; it is never counted as `skipped`, `failed`, or an incomplete-recall defect. This directive does not change AGENT_RULES, architecture, build order, PR-C1c scope, or the D1/D2 → IMPORTER-F → PR-M3 order.
+
+Two further verbatim operator statements govern this wave. Both are preserved byte-for-byte per R5.
 
 **Product mission (verbatim):**
 > “a site-agnostic, browser-agnostic, ultra-easy migration system that autonomously learns competitor sites, captures all user-authorized accessible data, maps it into TGP's canonical model, reconstructs it deterministically, and presents honest progress in a restrained-luxury UI. TrueCoach is only the first proving adapter.”
@@ -173,7 +178,7 @@ All final commits are authored AND committed as `Bradley Gleave <bradley@bradley
 - Bounded concurrency, retries, timeouts, backpressure, and per-run fault isolation.
 - Default-off flags; unsafe/unknown states fail closed; non-critical UI degrades honestly.
 - Contract changes additive; generated OpenAPI byte-pinned and versioned.
-- Durable terminal and reconciliation evidence. Completion must satisfy `staged = reconstructed + skipped + failed` by family, with reasons.
+- Durable terminal and reconciliation evidence. Completion must satisfy `staged = reconstructed + skipped + failed` by family, with reasons. **Billing is an explicit `excluded` family (see §0):** it is out of scope for v0.3 and v1.0 capture, never captured/staged/logged/reconstructed, and never counted as `skipped`, `failed`, or an incomplete-recall defect — it is accounted as `excluded` with reason.
 - Luxury UI is restrained, accessible, and truthful: no invented percentage, completion, or certainty.
 - Every P0-P3 fixed; fresh dual independent CLEAN on exact SHA before routine integration; verify merged main.
 
@@ -302,7 +307,7 @@ All final commits are authored AND committed as `Bradley Gleave <bradley@bradley
 
 Fully solved means:
 - A user pairs once, selects any supported platform, and the system learns/uses a bounded adapter without browser-specific product coupling.
-- Every user-authorized accessible record is discovered or explicitly accounted as inaccessible/skipped/failed.
+- Every user-authorized accessible record is discovered or explicitly accounted as inaccessible/skipped/failed — except the deliberately `excluded` billing family (see §0), which is out of scope and accounted as `excluded` with reason, never as skipped/failed.
 - Source payloads map deterministically into canonical TGP entities.
 - Replay is idempotent and crash-safe.
 - The operator and user can see staged, reconstructed, skipped, failed, and ambiguous counts without false completion.

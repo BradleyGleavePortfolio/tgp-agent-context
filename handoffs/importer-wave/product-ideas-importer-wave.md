@@ -5,6 +5,8 @@
 **Origin turn:** DARK_ROUTE_GUARD_ORDERING decision turn (Op 52 → successor handoff).
 **Purpose:** R5 (never lose anything). These are product directions, not committed work. Candidates for `roadmap/specs/A02-import-tooling.md` amendment and the v0.4+ roadmap.
 
+> **Scope note (2026-07-15, Op 55):** Billing is now an explicit **excluded** data family for v0.3 and v1.0 importer capture per operator directive (see `OPERATOR_HANDOFF.md` §0 and `current-state.json` `billing_scope_exclusion`). The billing references below (idea #2 "Reading billing"; idea #3 "Billing-gaps") are retained as historical brainstorming only and are **not** in scope — the importer must not capture, stage, log, reconstruct, or claim completion for billing data.
+
 ---
 
 ## 1. Pairing as a device-flow, not a password workaround
