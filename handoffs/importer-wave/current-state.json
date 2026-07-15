@@ -2,10 +2,11 @@
   "schema_version": "1.1",
   "doc_kind": "live_state_snapshot",
   "wave": "importer-wave",
-  "op_label": "Op 53 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; contract fix round)",
-  "successor_label": "Agent 54",
-  "as_of_utc": "2026-07-14T19:05:00Z",
-  "as_of_local": "2026-07-14T12:05:00-07:00",
+  "op_label": "Op 54 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; product-mission correction under R5)",
+  "successor_label": "Agent 55",
+  "as_of_utc": "2026-07-15T00:00:00Z",
+  "as_of_local": "2026-07-14T17:00:00-07:00",
+  "mission_correction_note": "2026-07-15 (Op 54): canonical product-mission corrected under R5 \u2014 see product_mission_correction_2026_07_15 and roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md. Documentation-only; the live-lane/PR state below is unchanged and authoritative.",
   "durable_handoff": {
     "path": "handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md",
     "purpose": "Self-contained pickup doc for the next autonomous CEO/CPO/CTO agent: executive state, end-to-end product, decision framework, build-plan pointers, product+work ledgers, open findings, ordered runbook, merge protocol, files-read appendix, decision record, acceptance checklist.",
@@ -76,6 +77,41 @@
       "FEATURE_EXTENSION_PAIRING",
       "FEATURE_SCOUT_INGEST"
     ]
+  },
+  "product_mission_correction_2026_07_15": {
+    "op_label": "Op 54 — canonical product-mission correction under R5",
+    "canonical_doc": "roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md",
+    "operator_quote_verbatim": "WRONG - your building a site agnsotics, ultra easy to use, browser agnostic tool that can seamlessly and autonymously pull ALL data from any comeptitors site - send to TGP Database, and be reconstructed to our set values instantly with a luxury UI while doing so!",
+    "quote_handling": "Preserved byte-for-byte (including original spelling) at the top of the durable record per R5. Do NOT paraphrase or 'correct' the quote.",
+    "what_it_fixes": "Prior canonical wording (chiefly roadmap/M-IMPORTER-EXTENSION_v1.md as originally written) mistook TrueCoach v0.3 for the overall product and implied Chrome-only + a per-competitor mapped-extractor treadmill. That framing is WRONG. TrueCoach on Chrome is the FIRST proving adapter / vertical slice only.",
+    "mission": "Site-agnostic, browser-agnostic acquisition; autonomous learning/blueprint induction across competitor sites; extraction of ALL user-authorized accessible data; completeness/accounting so omissions are explicit; normalization into one canonical TGP import envelope; deterministic reconstruction into TGP's defined entities/values; idempotent replay; honest progress/partial/failure reporting; and an ultra-easy restrained-luxury UI.",
+    "legal_security_invariants": [
+      "No credential storage on TGP servers",
+      "User-authorized access only (human-click anchored)",
+      "No bypass of source access controls (safe methods only; ride the session, never break it)",
+      "Fail closed on ambiguous mappings (never guess a value)",
+      "Never claim inaccessible data was imported (honest accounting by construction)",
+      "Source bearer in-memory single-run only; never DOM/telemetry/storage/logs/PR/payload",
+      "SSRF confinement via allowedOrigins normalized before any fetch"
+    ],
+    "five_distinctions": {
+      "mission": "North star (site-agnostic + browser-agnostic + autonomous + deterministic reconstruction + luxury UI). Never a single PR.",
+      "first_proof": "TrueCoach on a Chrome MV3 host — one site + one browser host proving the whole pipeline end-to-end. A vertical slice, not the product boundary.",
+      "current_state": "The live PRs in this snapshot (EXT-C1b PR #6 @55f24d5 merge-ready; Mobile M2 PR #285 @10414c4 dual-lens r2 in progress) — unchanged and authoritative.",
+      "v0_3_completion": "Full autonomous multi-page import loop for the first proof, default-flagged, honestly reported, packaged, staging E2E green, R137 postmortem. Does NOT require a 2nd site, 2nd browser, or auto-induction. Current launch bar ('v0.3 or no launch').",
+      "v1_0_acceptance": "Mission made testable: >=3 sites, >=2 browser hosts on the same kernel, autonomous blueprint induction for an unseen site, completeness/reconciliation accounting, deterministic + idempotent reconstruction, honest partial/failure reporting, luxury UI passes R1 crit, all §2 invariants hold under adversarial audit."
+    },
+    "pr_graph_workstreams": [
+      "WS1 extension core/runtime (background.js, popup/*.js, shared/replay/*, content/main.js)",
+      "WS2 browser portability (NEW host/ adapter layer; engine.js read-only)",
+      "WS3 autonomous learning/blueprint induction (NEW shared/induction/*)",
+      "WS4 canonical mapping/reconstruction (backend reconstruct* + idempotent upsert + reconciliation report)",
+      "WS5 backend orchestration/progress (ingest/progress/complete/event_log/pair — mostly merged)",
+      "WS6 luxury UI (mobile import/pairing/progress/review screens; extension popup HTML/CSS only)"
+    ],
+    "decision": "Split mission from build-plan (Option C): new canonical mission doc + verbatim quote; demote M-IMPORTER-EXTENSION_v1.md to first-vertical-slice build-plan (subordinate on framing); reconcile state + handoff wording; add the six-workstream PR graph. Documentation only — no product code changed. Reversible by reverting the commit.",
+    "product_code_touched": false,
+    "audit_exempt": "Documentation-only context-repo commit — no R14 code audit required (R14 scope)."
   },
   "immutable_doctrine_in_force": {
     "R3_authorship": "Every commit shows Bradley Gleave <bradley@bradleytgpcoaching.com> as author AND committer.",

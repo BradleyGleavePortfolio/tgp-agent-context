@@ -8,6 +8,21 @@
 
 ---
 
+## 0-MISSION. PRODUCT-MISSION CORRECTION (2026-07-15, Op 54 — READ BEFORE §0)
+
+**Operator mission correction (verbatim, 2026-07-15 — do not paraphrase; preserved per R5):**
+> "WRONG - your building a site agnsotics, ultra easy to use, browser agnostic tool that can seamlessly and autonymously pull ALL data from any comeptitors site - send to TGP Database, and be reconstructed to our set values instantly with a luxury UI while doing so!"
+
+**What this fixes.** The canonical product mission is now recorded, unambiguously, in **`roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md`** (this quote is at its top). The mission is **site-agnostic, browser-agnostic, autonomously-learning acquisition of ALL user-authorized data → TGP database → deterministic reconstruction into TGP's set values → luxury UI, with honest completeness accounting**. **TrueCoach on Chrome is the FIRST proving adapter / vertical slice only — never the product.** `roadmap/M-IMPORTER-EXTENSION_v1.md` is now the *first-vertical-slice build-plan*, subordinate on mission framing.
+
+**The five distinctions (see mission doc §3):** MISSION (north star) ≠ FIRST PROOF (TrueCoach/Chrome slice) ≠ CURRENT STATE (the live PRs below — unchanged and authoritative) ≠ v0.3 COMPLETION (full autonomous loop for the first proof, the current launch bar) ≠ v1.0 ACCEPTANCE (mission made testable: ≥3 sites, ≥2 browser hosts, auto-induced blueprint, completeness accounting, deterministic idempotent reconstruction, honest reporting, luxury UI).
+
+**Legal/security invariants (mission doc §2, binding on every PR):** no source-credential storage on TGP servers; user-authorized access only (human-click anchored); no bypass of source access controls; fail closed on ambiguous mappings; never claim inaccessible data was imported; source bearer in-memory single-run only; SSRF confinement via `allowedOrigins`.
+
+**Nothing about the live implementation state below changes** — this correction is a documentation/mission reconciliation (audit-exempt per R14 scope). The v0.3 work (PR #6, PR #285) is preserved intact as the first end-to-end proof. See the mission doc's PR graph (§6) for the six-workstream parallelization that carries the wave from the proof to v1.0.
+
+---
+
 ## 0. READ THIS FIRST — the one non-negotiable order
 
 1. Read `AGENT_RULES.md` (the single canonical constitution — there is no other rules file). SACRED rules tied at the top: **R1** (decacorn quality), **R3** (operator identity on every commit), **R14** (no merge without a CLEAN dual-lens audit cycle). **R138** grants you full CEO/CPO/CTO autonomy *after* you run and record the four-question decision gate — it never waives R1/R3/R14.

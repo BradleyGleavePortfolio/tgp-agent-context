@@ -6,6 +6,17 @@ Format: `YYYY-MM-DD · short-id · category · ruling (verbatim where possible)`
 
 ---
 
+## 2026-07-15 · MISSION-CORRECTION · importer · site-agnostic/browser-agnostic; TrueCoach = first proof only
+
+**Verbatim:**
+> "WRONG - your building a site agnsotics, ultra easy to use, browser agnostic tool that can seamlessly and autonymously pull ALL data from any comeptitors site - send to TGP Database, and be reconstructed to our set values instantly with a luxury UI while doing so!"
+
+**Effect:** The importer product mission is **site-agnostic, browser-agnostic, autonomously-learning acquisition of ALL user-authorized data → TGP database → deterministic reconstruction into TGP's set values → luxury UI, with honest completeness accounting.** TrueCoach on a Chrome MV3 host is the **first proving adapter / vertical slice only**, not the product. `roadmap/M-IMPORTER-EXTENSION_v1.md` is demoted to the first-vertical-slice build-plan and is subordinate on mission framing.
+
+**Authoritative location:** `roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md` (verbatim quote at top; R138 decision gate; ≥3 options weighed → Option C selected; six-workstream PR graph; v0.3 vs v1.0 acceptance criteria). Live v0.3 state preserved in `handoffs/importer-wave/current-state.json` + `AGENT_HANDOFF_V03_2026-07-14.md`. Full decision record in `DECISION_LOG.md` (2026-07-15). Documentation-only; no product code changed.
+
+---
+
 ## 2026-06-19 · DISSOLUTION · ranking · Bucket B dissolved into Bucket A
 
 **Verbatim:**

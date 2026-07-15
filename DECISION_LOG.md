@@ -6,6 +6,31 @@ Newest first.
 
 ---
 
+## 2026-07-15 — Importer product-mission correction (site-agnostic/browser-agnostic; TrueCoach = first proof, not the product)
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Product-mission correction (R5) + documentation reconciliation
+**Files touched:** `roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md` (new canonical mission doc), `roadmap/M-IMPORTER-EXTENSION_v1.md` (demoted to first-vertical-slice build-plan), `handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md` (§0-MISSION preamble), `handoffs/importer-wave/current-state.json` (`product_mission_correction_2026_07_15` block), `DECISION_LOG.md`, `roadmap/OPERATOR_DECISIONS_LOG.md`. **No product code changed.**
+
+**Operator quote (verbatim, 2026-07-15 — do not paraphrase; preserved per R5):**
+> "WRONG - your building a site agnsotics, ultra easy to use, browser agnostic tool that can seamlessly and autonymously pull ALL data from any comeptitors site - send to TGP Database, and be reconstructed to our set values instantly with a luxury UI while doing so!"
+
+**Summary.** The operator corrected the importer mission: the product is **site-agnostic, browser-agnostic, autonomously-learning acquisition of ALL user-authorized data → TGP database → deterministic reconstruction into TGP's set values → luxury UI, with honest completeness accounting.** Prior canonical wording (chiefly `M-IMPORTER-EXTENSION_v1.md`) mistook **TrueCoach v0.3** — one proving adapter — for the whole product, and implied Chrome-only + a per-competitor mapped-extractor treadmill. TrueCoach on Chrome is now recorded explicitly as the **first proving adapter / vertical slice only.**
+
+**Decision (R138 gate recorded in `M-IMPORTER-PRODUCT-MISSION_v1.md` §4; three options weighed in §5).** Selected **Option C** — split the mission (new canonical doc, verbatim quote at top) from the build-plan (`M-IMPORTER-EXTENSION_v1.md`, demoted to the first vertical slice), reconcile the state + handoff wording, and add a six-workstream PR graph (extension core, browser portability, autonomous learning, canonical mapping/reconstruction, backend orchestration/progress, luxury UI) that carries the wave from the proof to v1.0. Rejected Option A (leave stale wording — fails the correction + R5) and Option B (rip out TrueCoach/Chrome and build full generality before shipping — discards the audited, merge-ready v0.3 proof; violates R4 + "automate last").
+
+**What is preserved.** The live v0.3 implementation (EXT-C1b PR #6 @`55f24d5` merge-ready; Mobile M2 PR #285 @`10414c4` dual-lens r2 in progress) is unchanged and authoritative — it is the first end-to-end proof. The engine (#5) is already `chrome.*`-free and host-injected, so the mission architecture is already partly built.
+
+**Legal/security invariants clarified (mission doc §2, hard constraints R136):** no source-credential storage on TGP servers; user-authorized access only; no bypass of source access controls; fail closed on ambiguous mappings; never claim inaccessible data was imported.
+
+**Five distinctions made explicit (mission doc §3):** MISSION ≠ FIRST PROOF ≠ CURRENT STATE ≠ v0.3 COMPLETION (current launch bar) ≠ v1.0 ACCEPTANCE (mission made testable).
+
+**Audit exemption.** Pure context/documentation reconciliation — exempt from the product audit cycle (R14 scope). Reversible by reverting the commit; no runtime/flag/data impact.
+
+**Companion doctrine.** Subject to R131 — revisitable. Re-verification date: 2026-10-15.
+
+---
+
 ## 2026-07-13 — Add R138 (Operator Autonomy Grant + Four-Question Decision Gate + 24/7 Layered Wake)
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>

@@ -1,16 +1,18 @@
-# M-IMPORTER-EXTENSION v1 — Canonical Import Path
+# M-IMPORTER-EXTENSION v1 — First Vertical Slice Build-Plan
 
-**Status:** ACTIVE (replaces M-NEW-LIVE substrate + onboarding + reconciler + profile-truecoach briefs — all SHELVED via ruling #9)
+> **MISSION-FRAMING CORRECTION (2026-07-15, Op 54).** This document is the **build-plan for the FIRST VERTICAL SLICE** (TrueCoach on a Chrome MV3 host), **not** the product mission. An earlier version of this doc mistook that slice for the whole product. The canonical product mission is **site-agnostic, browser-agnostic, autonomously-learning acquisition + deterministic TGP reconstruction + luxury UI** — see **`roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md`** (verbatim operator correction at its top). On any mission-framing question, that doc governs and this one is subordinate. The per-platform extractor tables and the Chrome MV3 specifics below are **the first proving slice + optional specialization**, never the product boundary. TrueCoach is the first *proving adapter*, not the product.
+
+**Status:** ACTIVE build-plan for the first vertical slice (subordinate to `M-IMPORTER-PRODUCT-MISSION_v1.md` on mission framing). Replaces M-NEW-LIVE substrate + onboarding + reconciler + profile-truecoach briefs — all SHELVED via ruling #9.
 **Owner:** Bradley Gleave (R0/R3)
-**Adopted:** 2026-06-27 (Op 50.5)
-**LOC budget:** ~2,100 prod LOC total across all 6 platforms
+**Adopted:** 2026-06-27 (Op 50.5); mission-framing corrected 2026-07-15 (Op 54)
+**LOC budget:** ~2,100 prod LOC for the Day-1 slice; per-platform extractor budgets below are *optional specialization*, not a product-completeness requirement.
 
 ---
 
-## 0. One-sentence metaphor
+## 0. One-sentence metaphor (applies to every site + every browser host)
 
 **"The coach is the key. The extension is just the hand that turns it."**
-We never see the password. We never relay the MFA code. We only ride the session the coach already opened in their own browser tab, with their finger on the trigger.
+We never see the password. We never relay the MFA code. We only ride the session the coach already opened in their own browser tab, with their finger on the trigger. This trust model is **site-agnostic and browser-agnostic** — it holds for any competitor site the authorized user can reach, on any browser host, not just TrueCoach on Chrome.
 
 ## 1. Hyperscaler precedent (R-META-2)
 
@@ -92,7 +94,9 @@ This pattern — browser-extension-as-data-bridge under the user's own session �
 
 NOTE: Total exceeds the 2100 LOC headline because the headline assumed Day-1 (TrueCoach only). Full 6-platform coverage is ~4900 LOC over the week — still ~50% of the killed M-NEW-LIVE budget.
 
-## 5. Day-1 scope (operator self-test target)
+## 5. Day-1 scope (operator self-test target — the FIRST PROOF, not the product)
+
+> This Day-1 scope is the **first end-to-end proof** (§3.2 of `M-IMPORTER-PRODUCT-MISSION_v1.md`): one site (TrueCoach) + one browser host (Chrome MV3) chosen to prove the whole pipeline. It is a vertical slice; it does not define or bound the product. The engine it exercises is already the site-agnostic, host-injected kernel.
 
 Only the following ship Day-1:
 1. `manifest.json` + `background.js` + `content-script.ts` + `popup`
