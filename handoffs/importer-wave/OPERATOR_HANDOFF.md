@@ -4,7 +4,7 @@
 > **Doc kind:** Durable coordination/context documentation (audit-exempt per R14 scope).
 > **Author identity:** Bradley Gleave <bradley@bradleytgpcoaching.com> (R3 — author AND committer on every commit; no AI/agent/co-author tokens).
 > **Supersedes:** `handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md` (now a superseded redirect stub). `handoffs/importer-wave/HANDOFF_WAVE2.md` is retained as a historical Op-52/Wave-2 artifact only.
-> **Reconciled from:** three completed read-only live-repo audits (extension, backend, mobile) + the Op-55 state reconciliation session. This file plus `AGENT_RULES.md` and `handoffs/importer-wave/current-state.json` are the durable sources of truth. Nothing material remains only in a temporary source file.
+> **Reconciled from:** three completed read-only live-repo audits (extension, backend, mobile) + the Op-55 state reconciliation session + the Op-56 PR-C1c #7 merge reconciliation. This file plus `AGENT_RULES.md` and `handoffs/importer-wave/current-state.json` are the durable sources of truth. Nothing material remains only in a temporary source file.
 
 ---
 
@@ -53,7 +53,7 @@ Two further verbatim operator statements govern this wave. Both are preserved by
 3. This durable operator handoff (`handoffs/importer-wave/OPERATOR_HANDOFF.md`).
 4. Any linked importer-wave architecture, decision, acceptance, and audit documents. Delete or mark stale contradictory state rather than preserving multiple truths.
 
-### 1.2 Extension at `a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1`
+### 1.2 Extension at `4f116836ddb5449524dd51e995a7e4c012f79493` (post PR-C1c #7; parent `a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1`)
 Repo: https://github.com/BradleyGleavePortfolio/tgp-importer-extension
 1. `extractors/truecoach/net.js`
 2. `background.js`
@@ -119,7 +119,7 @@ Repo: https://github.com/BradleyGleavePortfolio/growth-project-mobile
 ## 2. Canonical coordinates, completed integrations, and rollback facts
 
 **Context repo:** https://github.com/BradleyGleavePortfolio/tgp-agent-context
-- Live main after state reconciliation: `c3aad5e3fcf08d3034fdf550aec4884a6e3f924d`
+- Live main before the Op 56 reconcile: `6316860491550820d0bef6cb888b0adc498a79da`; advanced by this Op 56 PR-C1c reconcile commit (see `repos.context` in the canonical JSON for the exact live head).
 - Canonical JSON: `handoffs/importer-wave/current-state.json`
 
 **Mobile:** https://github.com/BradleyGleavePortfolio/growth-project-mobile
@@ -137,11 +137,13 @@ Repo: https://github.com/BradleyGleavePortfolio/growth-project-mobile
 - Dual independent CLEAN, identity-safe squash-equivalent, feature flag default-off.
 
 **Extension:** https://github.com/BradleyGleavePortfolio/tgp-importer-extension
-- Live main: `a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1`
-- PR #6 (EXT-C1b): https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/6
-- Approved head: `55f24d57c625cbd2745ad3fc9226e6d41168d02a`
-- Rollback parent: `5eabeec0ee53735753059f72581148052c9f2ac4`
-- Baseline: 489/489 tests pass; `manifest.json` version `0.3.0`, `version_name` `0.3.0-rc.1`; `PAIRING_ENABLED=true`.
+- Live main: `4f116836ddb5449524dd51e995a7e4c012f79493` (PR-C1c #7 squash merge)
+- PR #7 (PR-C1c): https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/7
+- Audited PR head: `0ea894ec2fb16e6a08bb9b4556cbab4250a07e63` — **both Lens A and Lens B CLEAN** on this exact head
+- Rollback parent: `a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1` (prior tip, PR #6 EXT-C1b)
+- Post-merge verification: **31 files / 514 tests PASS**; banned/LOC/flags/ratio gates PASS; flags default-off; **no release, publish, production flag, auth/PII, billing, or other PR changes**. PR-C1c produced the golden real TrueCoach client-payload fixture feeding backend D1.
+- Prior integration — PR #6 (EXT-C1b): https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/6 — approved head `55f24d57c625cbd2745ad3fc9226e6d41168d02a`, rollback parent `5eabeec0ee53735753059f72581148052c9f2ac4` (now the parent of the PR-C1c tip).
+- Baseline: `manifest.json` version `0.3.0`, `version_name` `0.3.0-rc.1`; `PAIRING_ENABLED=true`.
 
 All final commits are authored AND committed as `Bradley Gleave <bradley@bradleytgpcoaching.com>`, no AI/co-author tokens, non-force fail-on-drift integration. **No production flag enablement or deploy has occurred.**
 
@@ -188,8 +190,12 @@ All final commits are authored AND committed as `Bradley Gleave <bradley@bradley
 
 **PR-C1c FIRST → then resolve backend D1/D2 and implement client reconstruction (IMPORTER-F) → then mobile review handoff (PR-M3) ONLY after authoritative roster materialization.**
 
-### 5.1 Next PR 1 — Extension PR-C1c (first dependency, unblocked)
+**Order status (2026-07-15, Op 56):** PR-C1c is **COMPLETE** — extension PR #7 (audited head `0ea894e`, both Lens A + Lens B CLEAN) merged to extension main `4f116836ddb5449524dd51e995a7e4c012f79493`; 31 files / 514 tests PASS, gates PASS, flags default-off. **Next active leg = resolve backend D1 (golden fixture) + D2 (canonical target).** IMPORTER-F remains blocked until BOTH D1 and D2 resolve; PR-M3 remains blocked until authoritative roster materialization. Order UNCHANGED.
+
+### 5.1 Next PR 1 — Extension PR-C1c ✅ COMPLETE (merged as PR #7)
 **Goal:** deterministic evidence that generic TrueCoach replay reproduces the verified request contract and completes a real fixture-shaped run.
+
+**Status:** MERGED — extension main `4f116836ddb5449524dd51e995a7e4c012f79493` (audited head `0ea894ec2fb16e6a08bb9b4556cbab4250a07e63`, dual CLEAN; 31 files / 514 tests PASS; gates PASS; flags default-off; no release/publish/prod-flag/auth-PII/billing/other change). The golden real TrueCoach client-payload fixture required by D1 was produced by this PR. The spec below is retained for provenance.
 
 **Root cause:**
 - `extractors/truecoach/net.js#authHeaders` sends `Authorization`, `Role: Trainer`, `Accept: application/json, text/html`.
@@ -343,7 +349,7 @@ For each consequential decision, record:
 - **GOOD WITHOUT BAD:** contract parity without broad permissions or engine coupling.
 - **EVIDENCE REQUIRED:** full 489+ suite green, LOC ≤400, test:src ≥2, banned/flag gates, token-leak assertions, icon present.
 - **ROLLBACK / STOP:** flag-off / revert PR; hard stop if the notes fixture contradicts `itemsPath:["notes"]`.
-- **NEXT ACTION:** land PR-C1c with the icon in the same PR; produce the golden client fixture (D1) for IMPORTER-F.
+- **NEXT ACTION:** ✅ DONE — PR-C1c landed as extension PR #7 (merge `4f116836ddb5449524dd51e995a7e4c012f79493`, dual CLEAN @`0ea894e`, 31 files / 514 tests PASS) and produced the golden client fixture. Remaining: commit that golden fixture into the backend at `test/fixtures/truecoach/clients.golden.json` (D1) and resolve D2 (canonical target) before IMPORTER-F.
 
 ### 9.2 Decision record — DR-IMPORTER-F (first client reconstruction)
 - **DECISION:** Build a default-off, client-only reconstruction pass with a full reconciliation ledger, gated on D1 (golden fixture) and D2 (canonical target).
@@ -376,10 +382,10 @@ For each consequential decision, record:
 ## 10. 60-second operator recovery
 
 1. Read context `AGENT_RULES.md`, canonical JSON (`handoffs/importer-wave/current-state.json`), then this durable handoff.
-2. Verify the four live main SHAs with GitHub before any mutation (context `c3aad5e…`, mobile `b8165be…`, backend `95e2c63…`, extension `a8a6af6b…`).
+2. Verify the four live main SHAs with GitHub before any mutation (context — see `repos.context` in the canonical JSON, advanced by the Op 56 reconcile commit; mobile `b8165be…`, backend `95e2c63…`, extension `4f11683…` post PR-C1c #7).
 3. Ensure production flags remain off.
 4. Check the active PR head exactly matches its audited SHA and CI (R124 both-ways).
 5. If drift or any P0-P3 exists, stop integration and resume the same fixer lane.
 6. For importer runtime uncertainty, fail closed, preserve evidence, do not infer completion.
-7. Rollback: mobile `b8165be` → parent `1695517`; backend `95e2c63` → parent `e6c3082`; extension current parent `5eabeec` (all recorded in canonical JSON).
+7. Rollback: mobile `b8165be` → parent `1695517`; backend `95e2c63` → parent `e6c3082`; extension `4f11683` → parent `a8a6af6b` (PR-C1c #7 rollback); prior extension tip `a8a6af6b` → parent `5eabeec` (all recorded in canonical JSON).
 8. Update canonical JSON immediately after every merge or stop-condition change.

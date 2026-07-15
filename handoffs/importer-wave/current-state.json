@@ -2,11 +2,11 @@
   "schema_version": "1.1",
   "doc_kind": "live_state_snapshot",
   "wave": "importer-wave",
-  "op_label": "Op 55 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; RECONCILE: EXT-C1b #6 + Mobile M2 #285 + Backend progress-read #508 all integrated to their mains, identity-safe squash-equivalent, dual CLEAN, flags default-off; next node = TrueCoach end-to-end vertical proof)",
-  "successor_label": "Agent 56",
-  "as_of_utc": "2026-07-15T17:00:00Z",
-  "as_of_local": "2026-07-15T10:00:00-07:00",
-  "mission_correction_note": "2026-07-15 (Op 54): canonical product-mission corrected under R5 \u2014 see product_mission_correction_2026_07_15 and roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md. Op 55 (2026-07-15) reconciliation: the three importer PRs below (EXT-C1b #6, Mobile M2 #285, Backend progress-read #508) are now INTEGRATED to their mains identity-safe; mission unchanged \u2014 site-agnostic/browser-agnostic, TrueCoach on Chrome is the first proving adapter only. Op 55 (2026-07-15): the single durable operator entry point is now handoffs/importer-wave/OPERATOR_HANDOFF.md; AGENT_HANDOFF_V03 superseded to a redirect stub (no competing handoffs).",
+  "op_label": "Op 56 (Wave 3 - v0.3 site-agnostic autonomous import; RECONCILE: Extension PR-C1c #7 MERGED to extension main (dual CLEAN @0ea894e -> squash merge 4f11683), flags default-off, no production enablement/deploy; PR-C1c leg COMPLETE; next = resolve D1 golden fixture + D2 canonical target, then backend IMPORTER-F, then mobile PR-M3. Build order unchanged.)",
+  "successor_label": "Agent 57",
+  "as_of_utc": "2026-07-15T18:30:00Z",
+  "as_of_local": "2026-07-15T11:30:00-07:00",
+  "mission_correction_note": "2026-07-15 (Op 54): canonical product-mission corrected under R5 \u2014 see product_mission_correction_2026_07_15 and roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md. Op 55 (2026-07-15) reconciliation: the three importer PRs below (EXT-C1b #6, Mobile M2 #285, Backend progress-read #508) are now INTEGRATED to their mains identity-safe; mission unchanged \u2014 site-agnostic/browser-agnostic, TrueCoach on Chrome is the first proving adapter only. Op 55 (2026-07-15): the single durable operator entry point is now handoffs/importer-wave/OPERATOR_HANDOFF.md; AGENT_HANDOFF_V03 superseded to a redirect stub (no competing handoffs). Op 56 (2026-07-15): Extension PR-C1c #7 (audited head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63, both Lens A + Lens B CLEAN) merged to extension main via squash merge commit 4f116836ddb5449524dd51e995a7e4c012f79493 (prior main / parent-rollback a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1); post-merge 31 files / 514 tests PASS, banned/LOC/flags/ratio gates PASS; no release, publish, production-flag, auth/PII, or billing change. PR-C1c leg COMPLETE; immutable build order unchanged (D1 + D2 -> IMPORTER-F -> PR-M3). Mission unchanged; billing remains an explicit excluded family.",
   "durable_handoff": {
     "path": "handoffs/importer-wave/OPERATOR_HANDOFF.md",
     "purpose": "Single authoritative operator entry point for the importer wave: verbatim operator directives, exact read order/paths/SHAs/PR URLs, current end-to-end truth and truth boundaries, completed work + rollback facts, flags/CI risk, measurable v1.0 certification, selected PR-C1c/IMPORTER-F/PR-M3 specs + dependencies, acceptance tests, deliberate deferrals, standard decision records, and 60-second recovery.",
@@ -35,8 +35,8 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 55 \u2014 CANONICAL STATE RECONCILIATION (docs/state only): three importer PRs verified INTEGRATED to their mains identity-safe, dual CLEAN, flags default-off, no production enablement/deploy. (1) EXT-C1b PR #6 approved head 55f24d57c625cbd2745ad3fc9226e6d41168d02a \u2192 extension main a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (parent/rollback 5eabeec0ee53735753059f72581148052c9f2ac4); author+committer Bradley Gleave. (2) Mobile M2 PR #285 approved head dce19c508320b2d7e2987aebbdb16983bf04cb63 \u2192 mobile main b8165beaa3804fe8a145214b772f97a3ae9eab65 (parent/rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8); identity-safe squash-equivalent, dual CLEAN, post-main CI green, pairing flag default-off. (3) Backend PR #508 approved head ab13f49c3d6631c0e922e46b0334770a73bd4b3a \u2192 backend main 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 (parent/rollback e6c3082755c89e51c18db9562f84b7b8898ce102); identity-safe squash-equivalent, dual CLEAN, core post-main correctness CI green, flag default-off; build-sbom/release-please failures are pre-existing automation debt (also on prior main), recorded as operational risk \u2014 system NOT called fully green. Critical-path nodes for mobile pairing (M2/#285) and backend progress-read (#508) read COMPLETED; next active node = TrueCoach end-to-end vertical proof, then internal cross-browser install/runbook, autonomous site learning, completeness/reconstruction, luxury UI, 3-site/2-browser certification. R3-INC-1 remains OPEN/accepted (ext #5 tip). --- Prior (Op 54): Op 54 \u2014 RECONCILE: (a) EXT-C1b PR #6 @55f24d5 dual-lens r2 = CLEAN/CLEAN CONVERGENT (Lens A + Lens B + combined EXT-PR6-R2-LIVE.55f24d5.md, all 0 P0-P3), CI GREEN, R124 both-ways verified \u2014 MERGE-READY, identity-safe integration NOW IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash, never force-push published main). (b) MOBILE-M2 PR #285 fixer r1 landed @10414c4 (prior builder head bd9a41a): both convergent TEST-ONLY R75 banned-cast P0s swapped for allowed forms + R100 Self-Check heading added to PR body (closes Lens A P3-1); full jest 295 suites/3562 tests, CI + CodeQL green, prod unchanged <=400, ratio>=2 (no test-trimming), R3 clean; dual-lens r2 IN PROGRESS at 10414c4, NOT merge-ready until r2 CLEAN/CLEAN + CI green. H4 decision + R3-INC-1 preserved untouched. --- Op 53 \u2014 UPDATE: EXT-C1b PR #6 dual-lens r2 at exact fixer head 55f24d5 (R124 both-ways local==gh headRefOid) = CLEAN/CLEAN, CONVERGENT. Both lenses 0 P0-P3; all six r1 findings root-fixed + independently re-verified by diff inspection; gates independently executed green (check:banned OK, check:loc prod 398/removed 34, check:flags PAIRING_ENABLED sole-auth-path, check:ratio 2.781, vitest 30 files/489 tests exit 0); banned sweep over all added lines NONE; R3 clean on ab5dc61+55f24d5. Reports EXT-PR6-LENS-A-LIVE.55f24d5.md + EXT-PR6-LENS-B-LIVE.55f24d5.md. PR #6 MERGE-READY pending CI-green + R124 re-check; land via identity-safe manual squash + lease-safe fast-forward (never GitHub squash, never force-push published main). Audit read-only (R13) \u2014 not merged, not self-approved. --- Prior (builder r1) context: Op 53 \u2014 Extension C1b BUILDER COMPLETE: PR #6 OPEN (feat/replay-c1b-wiring, head ab5dc61, base main 5eabeec) wires the merged bounded replay engine (#5) into product runtime \u2014 resolver seam (shared/replay/resolve.js), data-only blueprint adapter (extractors/truecoach/blueprint.js), background start_import orchestration, and the Start Import popup CTA. Security controls landed: isTrustedExtensionPage gate (not extension-id alone), synchronous single-flight guard, observed tab-origin injected as allowedOrigins, source bearer end-to-end, source 401/403 -> AuthLostError fails closed WITHOUT clearing TGP tokens. Gates: prod 303/400, test:src ratio 2.010, 467 tests pass, banned clean, R3 clean (author+committer both Bradley Gleave on ab5dc61). Dual-lens r1: LENS A RETURNED = FAIL (P0=0 P1=0 P2=1 P3=2; blocking A-01 = shipping Start Import CTA never supplies sourceToken so a real crawl cannot authenticate against a bearer-gated source \u2014 background bearer MANDATE met + e2e-tested, UI token producer missing; P3 A-02 completeIngest lacks res.ok check (pre-existing, reused), P3 A-03 source 5xx low-signal 'import failed'); all MANDATORY controls independently re-verified and HOLD; report handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md. LENS B RETURNED = FAIL (P0=0 P1=0 P2=1 P3=3 +1 advisory; blocking PR6-B-P2-cta-omits-source-bearer = the SAME CTA source-bearer gap, independently found \u2014 CONVERGENT with Lens A; P3s: partial crawl reported as ingest_succeeded, TGP-side auth loss throws plain Error not AuthLostError (status muddle), single-flight covers start_import only not legacy start_ingest; advisory: ratio 2.010 only 3 lines above the 2.0 floor); all security invariants independently re-verified and HOLD; report handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md. Dual-lens r1 = FAIL/FAIL, CONVERGENT on the CTA source-bearer P2. NOT merge-ready \u2014 return to fixer for the blocking P2 (plumb the captured source bearer into the CTA, or document+flag the deferral and soften the 'bearer end-to-end' claim) plus the P3 findings, then re-audit BOTH lenses. Merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash, never GitHub squash. Mobile #284 (M1) already MERGED @1695517 (identity-safe manual squash, R3-conforming). Ext #5 MERGED @5eabeec with R3-INC-1 (GitHub-synthesized identity) OPEN/accepted/grandfathered \u2014 not rewritten, not hidden.",
-    "phase": "EXT_C1b_PR6_OPEN_55f24d5_DUAL_LENS_R2_CLEAN_CLEAN_CONVERGENT_CI_GREEN_R124_VERIFIED_MERGE_READY_IDENTITY_SAFE_INTEGRATION_IN_PROGRESS_MOBILE_M2_PR285_OPEN_10414c4_FIXER_R1_COMPLETE_R75x2_AND_R100_RESOLVED_CI_CODEQL_GREEN_DUAL_LENS_R2_IN_PROGRESS_MOBILE284_M1_MERGED_1695517_EXT5_R3INC1_OPEN",
+    "current_op": "Op 56 \u2014 CANONICAL STATE RECONCILIATION (docs/state only) after verified Extension PR-C1c #7 merge: PR-C1c (extension replay contract parity + real fixture e2e + icon) audited head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63 returned dual CLEAN (Lens A + Lens B on that exact head) and merged to extension main via squash merge commit 4f116836ddb5449524dd51e995a7e4c012f79493 (prior main / parent-rollback a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1); post-merge verification 31 files / 514 tests PASS, banned/LOC/flags/ratio gates PASS; no release, publish, production-flag, auth/PII, or billing change; extension importer flags remain default-off with no production enablement/deploy. PR-C1c leg COMPLETE. Per the immutable build order the NEXT active node is to RESOLVE D1 (commit the golden real TrueCoach client payload fixture produced by PR-C1c) and D2 (decide canonical client target; NOT decided in this reconcile; default recommendation invite-pending roster shell, not full auth User); backend IMPORTER-F stays BLOCKED until BOTH D1 and D2 resolve; mobile PR-M3 stays BLOCKED until authoritative roster materialization. Auth/PII semantics and billing scope exclusion unchanged; plan not reordered. R3-INC-1 remains OPEN/accepted (ext #5 tip). --- Prior (Op 55) \u2014 CANONICAL STATE RECONCILIATION (docs/state only): three importer PRs verified INTEGRATED to their mains identity-safe, dual CLEAN, flags default-off, no production enablement/deploy. (1) EXT-C1b PR #6 approved head 55f24d57c625cbd2745ad3fc9226e6d41168d02a \u2192 extension main a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (parent/rollback 5eabeec0ee53735753059f72581148052c9f2ac4); author+committer Bradley Gleave. (2) Mobile M2 PR #285 approved head dce19c508320b2d7e2987aebbdb16983bf04cb63 \u2192 mobile main b8165beaa3804fe8a145214b772f97a3ae9eab65 (parent/rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8); identity-safe squash-equivalent, dual CLEAN, post-main CI green, pairing flag default-off. (3) Backend PR #508 approved head ab13f49c3d6631c0e922e46b0334770a73bd4b3a \u2192 backend main 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 (parent/rollback e6c3082755c89e51c18db9562f84b7b8898ce102); identity-safe squash-equivalent, dual CLEAN, core post-main correctness CI green, flag default-off; build-sbom/release-please failures are pre-existing automation debt (also on prior main), recorded as operational risk \u2014 system NOT called fully green. Critical-path nodes for mobile pairing (M2/#285) and backend progress-read (#508) read COMPLETED; next active node = TrueCoach end-to-end vertical proof, then internal cross-browser install/runbook, autonomous site learning, completeness/reconstruction, luxury UI, 3-site/2-browser certification. R3-INC-1 remains OPEN/accepted (ext #5 tip). --- Prior (Op 54): Op 54 \u2014 RECONCILE: (a) EXT-C1b PR #6 @55f24d5 dual-lens r2 = CLEAN/CLEAN CONVERGENT (Lens A + Lens B + combined EXT-PR6-R2-LIVE.55f24d5.md, all 0 P0-P3), CI GREEN, R124 both-ways verified \u2014 MERGE-READY, identity-safe integration NOW IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash, never force-push published main). (b) MOBILE-M2 PR #285 fixer r1 landed @10414c4 (prior builder head bd9a41a): both convergent TEST-ONLY R75 banned-cast P0s swapped for allowed forms + R100 Self-Check heading added to PR body (closes Lens A P3-1); full jest 295 suites/3562 tests, CI + CodeQL green, prod unchanged <=400, ratio>=2 (no test-trimming), R3 clean; dual-lens r2 IN PROGRESS at 10414c4, NOT merge-ready until r2 CLEAN/CLEAN + CI green. H4 decision + R3-INC-1 preserved untouched. --- Op 53 \u2014 UPDATE: EXT-C1b PR #6 dual-lens r2 at exact fixer head 55f24d5 (R124 both-ways local==gh headRefOid) = CLEAN/CLEAN, CONVERGENT. Both lenses 0 P0-P3; all six r1 findings root-fixed + independently re-verified by diff inspection; gates independently executed green (check:banned OK, check:loc prod 398/removed 34, check:flags PAIRING_ENABLED sole-auth-path, check:ratio 2.781, vitest 30 files/489 tests exit 0); banned sweep over all added lines NONE; R3 clean on ab5dc61+55f24d5. Reports EXT-PR6-LENS-A-LIVE.55f24d5.md + EXT-PR6-LENS-B-LIVE.55f24d5.md. PR #6 MERGE-READY pending CI-green + R124 re-check; land via identity-safe manual squash + lease-safe fast-forward (never GitHub squash, never force-push published main). Audit read-only (R13) \u2014 not merged, not self-approved. --- Prior (builder r1) context: Op 53 \u2014 Extension C1b BUILDER COMPLETE: PR #6 OPEN (feat/replay-c1b-wiring, head ab5dc61, base main 5eabeec) wires the merged bounded replay engine (#5) into product runtime \u2014 resolver seam (shared/replay/resolve.js), data-only blueprint adapter (extractors/truecoach/blueprint.js), background start_import orchestration, and the Start Import popup CTA. Security controls landed: isTrustedExtensionPage gate (not extension-id alone), synchronous single-flight guard, observed tab-origin injected as allowedOrigins, source bearer end-to-end, source 401/403 -> AuthLostError fails closed WITHOUT clearing TGP tokens. Gates: prod 303/400, test:src ratio 2.010, 467 tests pass, banned clean, R3 clean (author+committer both Bradley Gleave on ab5dc61). Dual-lens r1: LENS A RETURNED = FAIL (P0=0 P1=0 P2=1 P3=2; blocking A-01 = shipping Start Import CTA never supplies sourceToken so a real crawl cannot authenticate against a bearer-gated source \u2014 background bearer MANDATE met + e2e-tested, UI token producer missing; P3 A-02 completeIngest lacks res.ok check (pre-existing, reused), P3 A-03 source 5xx low-signal 'import failed'); all MANDATORY controls independently re-verified and HOLD; report handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md. LENS B RETURNED = FAIL (P0=0 P1=0 P2=1 P3=3 +1 advisory; blocking PR6-B-P2-cta-omits-source-bearer = the SAME CTA source-bearer gap, independently found \u2014 CONVERGENT with Lens A; P3s: partial crawl reported as ingest_succeeded, TGP-side auth loss throws plain Error not AuthLostError (status muddle), single-flight covers start_import only not legacy start_ingest; advisory: ratio 2.010 only 3 lines above the 2.0 floor); all security invariants independently re-verified and HOLD; report handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md. Dual-lens r1 = FAIL/FAIL, CONVERGENT on the CTA source-bearer P2. NOT merge-ready \u2014 return to fixer for the blocking P2 (plumb the captured source bearer into the CTA, or document+flag the deferral and soften the 'bearer end-to-end' claim) plus the P3 findings, then re-audit BOTH lenses. Merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash, never GitHub squash. Mobile #284 (M1) already MERGED @1695517 (identity-safe manual squash, R3-conforming). Ext #5 MERGED @5eabeec with R3-INC-1 (GitHub-synthesized identity) OPEN/accepted/grandfathered \u2014 not rewritten, not hidden.",
+    "phase": "EXT_C1c_PR7_MERGED_0ea894e_TO_EXT_MAIN_4f11683_DUAL_LENS_CLEAN_31FILES_514TESTS_BANNED_LOC_FLAGS_RATIO_GATES_PASS_FLAGS_DEFAULT_OFF_NO_PROD_ENABLE__NEXT_RESOLVE_D1_GOLDEN_FIXTURE_AND_D2_CANONICAL_TARGET__IMPORTER_F_BLOCKED_UNTIL_D1_AND_D2__PR_M3_BLOCKED_UNTIL_AUTHORITATIVE_ROSTER__PRIOR_EXTC1b_PR6_a8a6af6_MOBILE_M2_PR285_b8165be_BACKEND_PR508_95e2c63_INTEGRATED__EXT5_R3INC1_OPEN",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
     "watchdog": "bbd2c039 active",
@@ -174,21 +174,21 @@
     },
     "extension": {
       "full_name": "BradleyGleavePortfolio/tgp-importer-extension",
-      "main_head": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
-      "main_head_short": "a8a6af6",
-      "main_as_of": "2026-07-14T13:38:39Z",
-      "main_tip_msg": "feat(replay): wire start_import orchestration + Start Import CTA (PR-C1b)",
-      "main_head_r3_note": "R3-CONFORMING: EXT-C1b PR #6 (approved head 55f24d57c625cbd2745ad3fc9226e6d41168d02a) integrated via identity-safe squash-equivalent; tip a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>, single parent = rollback commit 5eabeec0ee53735753059f72581148052c9f2ac4. Prior tip 5eabeec (ext #5) carried GitHub-synthesized identity (R3-INC-1) \u2014 grandfathered, not rewritten; it is now the parent of this identity-safe tip.",
-      "rollback_commit": "5eabeec0ee53735753059f72581148052c9f2ac4",
+      "main_head": "4f116836ddb5449524dd51e995a7e4c012f79493",
+      "main_head_short": "4f11683",
+      "main_as_of": "2026-07-15T18:30:00Z",
+      "main_tip_msg": "PR-C1c (#7) squash merge to extension main",
+      "main_head_r3_note": "PR-C1c EXT #7 (audited PR head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63) MERGED to extension main as squash merge commit 4f116836ddb5449524dd51e995a7e4c012f79493; parent = prior tip a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (PR-C1b #6). Both Lens A and Lens B returned CLEAN on the exact audited head 0ea894e. Post-merge verification: 31 files / 514 tests PASS; banned/LOC/flags/ratio gates PASS; flags default-off; NO release, publish, production-flag, auth/PII, billing, or other PR changes. (R3 identity for the merge commit is not asserted here beyond the provided verification packet.)",
+      "rollback_commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
       "baseline": "489/489 tests pass; manifest.json version 0.3.0, version_name 0.3.0-rc.1; PAIRING_ENABLED=true."
     },
     "context": {
       "full_name": "BradleyGleavePortfolio/tgp-agent-context",
-      "main_head": "e7af008ef0db00cfbf4e1be07ae71a44afbfd8b0",
-      "main_head_short": "e7af008",
-      "main_as_of": "2026-07-15T00:00:00Z",
-      "main_tip_msg": "docs(importer): correct canonical mission \u2014 site-agnostic/browser-agnostic; TrueCoach = first proof only",
-      "note": "Verified live == HEAD prior to this Op 55 reconciliation commit; this canonical-state reconciliation commit advances context main."
+      "main_head": "6316860491550820d0bef6cb888b0adc498a79da",
+      "main_head_short": "6316860",
+      "main_as_of": "2026-07-15T18:30:00Z",
+      "main_tip_msg": "docs(importer-wave): mark billing an explicit excluded family (v0.3/v1.0)",
+      "note": "Verified live == HEAD (6316860) prior to this Op 56 PR-C1c reconciliation commit; a billing-scope docs commit landed after Op 55 and had superseded the stale e7af008 field. This Op 56 canonical-state reconciliation commit advances context main further."
     },
     "mobile": {
       "full_name": "BradleyGleavePortfolio/growth-project-mobile",
@@ -268,6 +268,15 @@
         "title": "EXT-C1b runtime wiring (start_import + Start Import CTA)",
         "merged": "2026-07-14",
         "sha": "a8a6af6b1b3e"
+      },
+      {
+        "pr": 7,
+        "title": "PR-C1c (TrueCoach client-payload capture + golden fixture production)",
+        "merged": "2026-07-15",
+        "sha": "4f116836ddb5",
+        "audited_head": "0ea894ec2fb1",
+        "dual_lens": "CLEAN@0ea894e",
+        "post_merge": "31 files / 514 tests PASS; banned/LOC/flags/ratio gates PASS; flags default-off"
       }
     ],
     "mobile": [
@@ -287,7 +296,7 @@
     }
   },
   "open_prs": [],
-  "open_prs_note": "Op 55: NO open importer PRs. All three integrated identity-safe to their mains: EXT-C1b #6@55f24d57c625cbd2745ad3fc9226e6d41168d02a\u2192a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (rollback 5eabeec0ee53735753059f72581148052c9f2ac4); Mobile M2 #285@dce19c508320b2d7e2987aebbdb16983bf04cb63\u2192b8165beaa3804fe8a145214b772f97a3ae9eab65 (rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8); Backend #508@ab13f49c3d6631c0e922e46b0334770a73bd4b3a\u219295e2c6378e0b1b734328a7fdf6b9a6e33465a663 (rollback e6c3082755c89e51c18db9562f84b7b8898ce102). All author+committer Bradley Gleave, single-parent squash-equivalent, non-force, flags default-off. Next active node = TrueCoach end-to-end vertical proof (no open PR yet).",
+  "open_prs_note": "Op 56: NO open importer PRs. Extension PR-C1c #7 (audited head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63, both Lens A + Lens B CLEAN) MERGED to extension main as squash merge 4f116836ddb5449524dd51e995a7e4c012f79493 (parent a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1); post-merge 31 files / 514 tests PASS, gates PASS, flags default-off, no release/publish/prod-flag/auth-PII/billing/other change. Prior three remain integrated identity-safe: EXT-C1b #6@55f24d57c625cbd2745ad3fc9226e6d41168d02a\u2192a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (now parent of the PR-C1c tip); Mobile M2 #285@dce19c508320b2d7e2987aebbdb16983bf04cb63\u2192b8165beaa3804fe8a145214b772f97a3ae9eab65 (rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8); Backend #508@ab13f49c3d6631c0e922e46b0334770a73bd4b3a\u219295e2c6378e0b1b734328a7fdf6b9a6e33465a663 (rollback e6c3082755c89e51c18db9562f84b7b8898ce102). Next active node = resolve backend D1 (commit the golden real TrueCoach client payload fixture produced by PR-C1c) and D2 (decide canonical client target \u2014 OPERATOR decision, NOT decided here); IMPORTER-F blocked until both D1 and D2; mobile PR-M3 blocked until authoritative roster materialization. Build order unchanged.",
   "non_importer_open_backend_prs_ignored_this_wave": [
     491,
     428,
@@ -329,6 +338,27 @@
       "note": "Mobile M2 PR #285 (approved head dce19c508320b2d7e2987aebbdb16983bf04cb63) INTEGRATED to mobile main b8165beaa3804fe8a145214b772f97a3ae9eab65 via identity-safe squash-equivalent (parent/rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8); dual CLEAN, post-main CI green, pairing flag default-off. Author+committer Bradley Gleave."
     },
     {
+      "id": 11,
+      "milestone": "EXT-C1c",
+      "item": "Extension C1c: TrueCoach client-payload capture producing the golden real client-payload fixture (PR #7)",
+      "status": "completed",
+      "note": "PR-C1c EXT #7 (audited head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63, both Lens A + Lens B CLEAN) MERGED to extension main as squash merge 4f116836ddb5449524dd51e995a7e4c012f79493 (parent a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1). Post-merge 31 files / 514 tests PASS; banned/LOC/flags/ratio gates PASS; flags default-off; no release/publish/prod-flag/auth-PII/billing/other change. PR-C1c leg of the immutable build order is COMPLETE."
+    },
+    {
+      "id": 12,
+      "milestone": "IMPORTER-F.D1",
+      "item": "Backend D1: commit the golden real TrueCoach client payload fixture (produced by PR-C1c) at test/fixtures/truecoach/clients.golden.json; feeds IMPORTER-F acceptance (deterministic golden fixture; staged = reconstructed + skipped + failed).",
+      "status": "pending",
+      "note": "NEXT ACTIVE node. Unblocked by PR-C1c #7. IMPORTER-F remains blocked until BOTH D1 and D2 resolve."
+    },
+    {
+      "id": 13,
+      "milestone": "IMPORTER-F.D2",
+      "item": "Backend D2: decide canonical client target. Default recommendation: invite-pending roster shell, NOT full auth User (avoid identity collision/provisioning risk). OPERATOR decision — NOT decided in this reconcile.",
+      "status": "pending",
+      "note": "Open operator decision. Must be resolved (alongside D1) before IMPORTER-F. Not decided here."
+    },
+    {
       "id": 5,
       "item": "Default extension packaging with app download path",
       "status": "pending"
@@ -353,14 +383,18 @@
     {
       "id": 10,
       "milestone": "TC-E2E",
-      "item": "TrueCoach end-to-end vertical proof: full autonomous multi-page import loop for the first proving adapter (TrueCoach on Chrome MV3), default-flagged, honestly reported \u2014 the NEXT ACTIVE node now that EXT-C1b #6 + Mobile M2 #285 + Backend #508 are integrated.",
+      "item": "TrueCoach end-to-end vertical proof: full autonomous multi-page import loop for the first proving adapter (TrueCoach on Chrome MV3), default-flagged, honestly reported \u2014 downstream of D1 golden fixture + D2 canonical target + IMPORTER-F.",
       "status": "pending",
-      "note": "Next active node. Then: internal cross-browser install/runbook -> autonomous site learning (blueprint induction) -> completeness/reconstruction accounting -> luxury UI -> 3-site/2-browser v1.0 certification."
+      "note": "Downstream of D1 (id 12) + D2 (id 13) + IMPORTER-F. PR-C1c #7 (id 11) now complete produced the golden fixture that feeds D1. Then: internal cross-browser install/runbook -> autonomous site learning (blueprint induction) -> completeness/reconstruction accounting -> luxury UI -> 3-site/2-browser v1.0 certification."
     }
   ],
   "live_state_update_rule": "Update this file after every dual-lens audit completion (per round), every fixer round, and every squash-merge.",
   "next_actions_ordered": [
-    "TrueCoach end-to-end vertical proof: full autonomous multi-page import loop for the first proving adapter (TrueCoach on Chrome MV3), default-flagged, honestly reported \u2014 NEXT ACTIVE node.",
+    "Resolve backend D1: commit the golden real TrueCoach client payload fixture (produced by PR-C1c #7) at test/fixtures/truecoach/clients.golden.json \u2014 NEXT ACTIVE node.",
+    "Resolve backend D2: decide canonical client target (default recommendation: invite-pending roster shell, NOT full auth User) \u2014 OPERATOR decision, not decided in this reconcile.",
+    "IMPORTER-F: only after BOTH D1 and D2 resolve (deterministic golden fixture; staged = reconstructed + skipped + failed). Blocked until then.",
+    "Mobile PR-M3: blocked until authoritative roster materialization.",
+    "TrueCoach end-to-end vertical proof: full autonomous multi-page import loop for the first proving adapter (TrueCoach on Chrome MV3), default-flagged, honestly reported \u2014 downstream of IMPORTER-F.",
     "Internal cross-browser install/runbook.",
     "Autonomous site learning (blueprint induction for an unseen site).",
     "Completeness / reconstruction accounting.",
@@ -376,16 +410,25 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "OP55_RECONCILE_ALL_THREE_IMPORTER_PRS_INTEGRATED_IDENTITY_SAFE_FLAGS_DEFAULT_OFF \u2014 EXT-C1b #6@55f24d57c625cbd2745ad3fc9226e6d41168d02a\u2192ext main a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (rollback 5eabeec0ee53735753059f72581148052c9f2ac4); Mobile M2 #285@dce19c508320b2d7e2987aebbdb16983bf04cb63\u2192mobile main b8165beaa3804fe8a145214b772f97a3ae9eab65 (rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8, dual CLEAN, post-main CI green); Backend #508@ab13f49c3d6631c0e922e46b0334770a73bd4b3a\u2192backend main 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 (rollback e6c3082755c89e51c18db9562f84b7b8898ce102, dual CLEAN, core correctness CI green; build-sbom/release-please pre-existing automation debt = operational risk, not fully green). All identity-safe squash-equivalent (author+committer Bradley Gleave), single-parent, non-force. Next active node = TrueCoach end-to-end vertical proof. No production flag enablement/deployment. --- Prior: EXT_C1b_PR6_R2_CLEAN_CLEAN_CI_GREEN_MERGE_READY_INTEGRATION_IN_PROGRESS__MOBILE_M2_PR285_FIXER_R1_COMPLETE_DUAL_LENS_R2_IN_PROGRESS \u2014 EXT PR #6 dual-lens r2 at exact fixer head 55f24d5 (R124 both-ways verified) = LENS A CLEAN (0 P0-P3) + LENS B CLEAN (0 P0-P3) + combined EXT-PR6-R2-LIVE.55f24d5.md, CONVERGENT; all six r1 findings root-fixed + independently re-verified; gates green (banned clean, prod 398/cap, ratio 2.781, 489 vitest tests); R3 clean on ab5dc61+55f24d5; CI green; MERGE-READY, identity-safe integration IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash); audit itself read-only. Mobile M2 PR #285 fixer r1 COMPLETE @10414c4 (prior head bd9a41a): both TEST-ONLY R75 banned-cast P0s + R100 Self-Check resolved; 295 suites/3562 tests, CI + CodeQL green, prod <=400, ratio>=2, R3 clean; dual-lens r2 IN PROGRESS, NOT merge-ready until r2 CLEAN/CLEAN + CI green. --- Prior (builder r1): DUAL_LENS_R1_FAIL_FAIL \u2014 EXT-C1b BUILDER COMPLETE: PR #6 OPEN @ab5dc61 (base 5eabeec) wires replay engine (#5) into runtime (resolver seam, data-only blueprint adapter, background start_import orchestration, Start Import popup CTA) with security controls (isTrustedExtensionPage gate, synchronous single-flight, tab-origin allowedOrigins, bearer end-to-end, AuthLostError 401/403 without TGP-token clear); gates prod 303/400, ratio 2.010, 467 tests, banned clean, R3 clean. Dual-lens r1 RETURNED = FAIL/FAIL, CONVERGENT: LENS A FAIL (P2=1 blocking [A-01 CTA omits sourceToken]; P3=2 [A-02 completeIngest no res.ok check, A-03 source-5xx low-signal]); LENS B FAIL (P2=1 blocking [PR6-B-P2 CTA omits source bearer \u2014 the SAME gap, independently found]; P3=3 [partial reported as ingest_succeeded, TGP-authloss plain-Error status muddle, single-flight only start_import]; +1 advisory ratio-margin). All MANDATORY security invariants independently re-verified by BOTH lenses and HOLD (no P0/P1). NOT merge-ready; return to fixer for the blocking CTA source-bearer P2 (plumb the token or document+flag the deferral) plus the P3s, then re-audit BOTH lenses at the new exact head; merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash. mobile#284 (M1) MERGED @1695517 (identity-safe manual squash, R3-conforming). ext#5 MERGED @5eabeec with R3-INC-1 (GitHub-synthesized identity) still OPEN/accepted/grandfathered (not rewritten, not hidden).",
+  "verdict": "OP56_EXT_PR_C1c_#7_MERGED_TO_EXT_MAIN__DUAL_LENS_CLEAN@0ea894e__SQUASH_MERGE_4f11683__31FILES_514TESTS_PASS__GATES_PASS__FLAGS_DEFAULT_OFF \u2014 Extension PR-C1c #7 (audited head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63, both Lens A + Lens B CLEAN) MERGED to extension main as squash merge 4f116836ddb5449524dd51e995a7e4c012f79493 (parent a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1); post-merge 31 files / 514 tests PASS, banned/LOC/flags/ratio gates PASS, no release/publish/prod-flag/auth-PII/billing/other change. Prior three remain integrated: EXT-C1b #6\u2192a8a6af6b1b3e (now parent of PR-C1c tip); Mobile M2 #285\u2192b8165beaa380 (rollback 1695517); Backend #508\u2192 95e2c6378e0b (rollback e6c3082, build-sbom/release-please pre-existing automation debt = operational risk, not fully green). Immutable build order preserved: PR-C1c COMPLETE \u2192 resolve backend D1 (golden fixture) + D2 (canonical target, OPERATOR decision, NOT decided here) \u2192 IMPORTER-F (blocked until both) \u2192 mobile PR-M3 (blocked until authoritative roster). No production flag enablement/deployment. --- Prior (Op 55): OP55_RECONCILE_ALL_THREE_IMPORTER_PRS_INTEGRATED_IDENTITY_SAFE_FLAGS_DEFAULT_OFF \u2014 EXT-C1b #6@55f24d57c625cbd2745ad3fc9226e6d41168d02a\u2192ext main a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (rollback 5eabeec0ee53735753059f72581148052c9f2ac4); Mobile M2 #285@dce19c508320b2d7e2987aebbdb16983bf04cb63\u2192mobile main b8165beaa3804fe8a145214b772f97a3ae9eab65 (rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8, dual CLEAN, post-main CI green); Backend #508@ab13f49c3d6631c0e922e46b0334770a73bd4b3a\u2192backend main 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 (rollback e6c3082755c89e51c18db9562f84b7b8898ce102, dual CLEAN, core correctness CI green; build-sbom/release-please pre-existing automation debt = operational risk, not fully green). All identity-safe squash-equivalent (author+committer Bradley Gleave), single-parent, non-force. --- Prior: EXT_C1b_PR6_R2_CLEAN_CLEAN_CI_GREEN_MERGE_READY_INTEGRATION_IN_PROGRESS__MOBILE_M2_PR285_FIXER_R1_COMPLETE_DUAL_LENS_R2_IN_PROGRESS \u2014 EXT PR #6 dual-lens r2 at exact fixer head 55f24d5 (R124 both-ways verified) = LENS A CLEAN (0 P0-P3) + LENS B CLEAN (0 P0-P3) + combined EXT-PR6-R2-LIVE.55f24d5.md, CONVERGENT; all six r1 findings root-fixed + independently re-verified; gates green (banned clean, prod 398/cap, ratio 2.781, 489 vitest tests); R3 clean on ab5dc61+55f24d5; CI green; MERGE-READY, identity-safe integration IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash); audit itself read-only. Mobile M2 PR #285 fixer r1 COMPLETE @10414c4 (prior head bd9a41a): both TEST-ONLY R75 banned-cast P0s + R100 Self-Check resolved; 295 suites/3562 tests, CI + CodeQL green, prod <=400, ratio>=2, R3 clean; dual-lens r2 IN PROGRESS, NOT merge-ready until r2 CLEAN/CLEAN + CI green. --- Prior (builder r1): DUAL_LENS_R1_FAIL_FAIL \u2014 EXT-C1b BUILDER COMPLETE: PR #6 OPEN @ab5dc61 (base 5eabeec) wires replay engine (#5) into runtime (resolver seam, data-only blueprint adapter, background start_import orchestration, Start Import popup CTA) with security controls (isTrustedExtensionPage gate, synchronous single-flight, tab-origin allowedOrigins, bearer end-to-end, AuthLostError 401/403 without TGP-token clear); gates prod 303/400, ratio 2.010, 467 tests, banned clean, R3 clean. Dual-lens r1 RETURNED = FAIL/FAIL, CONVERGENT: LENS A FAIL (P2=1 blocking [A-01 CTA omits sourceToken]; P3=2 [A-02 completeIngest no res.ok check, A-03 source-5xx low-signal]); LENS B FAIL (P2=1 blocking [PR6-B-P2 CTA omits source bearer \u2014 the SAME gap, independently found]; P3=3 [partial reported as ingest_succeeded, TGP-authloss plain-Error status muddle, single-flight only start_import]; +1 advisory ratio-margin). All MANDATORY security invariants independently re-verified by BOTH lenses and HOLD (no P0/P1). NOT merge-ready; return to fixer for the blocking CTA source-bearer P2 (plumb the token or document+flag the deferral) plus the P3s, then re-audit BOTH lenses at the new exact head; merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash. mobile#284 (M1) MERGED @1695517 (identity-safe manual squash, R3-conforming). ext#5 MERGED @5eabeec with R3-INC-1 (GitHub-synthesized identity) still OPEN/accepted/grandfathered (not rewritten, not hidden).",
   "last_merge": {
-    "pr": 508,
-    "repo": "growth-project-backend",
-    "approved_head": "ab13f49c3d6631c0e922e46b0334770a73bd4b3a",
-    "at": "2026-07-15T16:04:51Z",
-    "main_after": "95e2c6378e0b1b734328a7fdf6b9a6e33465a663",
-    "rollback_commit": "e6c3082755c89e51c18db9562f84b7b8898ce102",
-    "mechanism": "identity-safe squash-equivalent (author+committer both Bradley Gleave), single-parent, non-force",
-    "r3_note": "R3-CONFORMING; dual CLEAN; core post-main correctness CI green; flag default-off; build-sbom/release-please pre-existing automation debt (operational risk)."
+    "pr": 7,
+    "repo": "tgp-importer-extension",
+    "milestone": "PR-C1c",
+    "audited_head": "0ea894ec2fb16e6a08bb9b4556cbab4250a07e63",
+    "at": "2026-07-15T18:30:00Z",
+    "main_after": "4f116836ddb5449524dd51e995a7e4c012f79493",
+    "rollback_commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
+    "mechanism": "squash merge on extension main",
+    "verification_note": "Both Lens A and Lens B CLEAN on audited head 0ea894e; post-merge 31 files / 514 tests PASS; banned/LOC/flags/ratio gates PASS; flags default-off; no release/publish/prod-flag/auth-PII/billing/other change.",
+    "prior_last_merge": {
+      "pr": 508,
+      "repo": "growth-project-backend",
+      "approved_head": "ab13f49c3d6631c0e922e46b0334770a73bd4b3a",
+      "main_after": "95e2c6378e0b1b734328a7fdf6b9a6e33465a663",
+      "rollback_commit": "e6c3082755c89e51c18db9562f84b7b8898ce102",
+      "r3_note": "R3-CONFORMING; dual CLEAN; core post-main correctness CI green; flag default-off; build-sbom/release-please pre-existing automation debt (operational risk)."
+    }
   },
   "watchdog": {
     "id": "bbd2c039",
@@ -465,10 +508,26 @@
       "mechanism": "identity-safe squash-equivalent (author+committer both Bradley Gleave), single-parent, non-force",
       "gate": "dual-lens CLEAN/CLEAN P0-P3=0 exact head ab13f49c3d6631c0e922e46b0334770a73bd4b3a + core post-main correctness CI green; flag default-off",
       "operational_risk": "build-sbom / release-please automation checks fail post-main \u2014 pre-existing automation debt also on prior main, NOT an importer regression; system NOT fully green while open."
+    },
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 7,
+      "milestone": "PR-C1c",
+      "audited_head": "0ea894ec2fb16e6a08bb9b4556cbab4250a07e63",
+      "merge_commit": "4f116836ddb5449524dd51e995a7e4c012f79493",
+      "rollback_commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
+      "merged_at_utc": "2026-07-15T18:30:00Z",
+      "pr_url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/7",
+      "mechanism": "squash merge on extension main (parent = prior tip a8a6af6b1b3e)",
+      "gate": "dual-lens Lens A + Lens B CLEAN on exact audited head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63; post-merge 31 files / 514 tests PASS; banned/LOC/flags/ratio gates PASS; flags default-off",
+      "scope_note": "No release, publish, production flag, auth/PII, billing, or other PR changes. Produced the golden real TrueCoach client-payload fixture feeding backend D1."
     }
   ],
   "next_actions": [
-    "TrueCoach end-to-end vertical proof (first proving adapter; default-flagged; honest reporting) \u2014 next active node.",
+    "Resolve backend D1: commit the golden real TrueCoach client payload fixture (produced by PR-C1c #7) at test/fixtures/truecoach/clients.golden.json \u2014 next active node.",
+    "Resolve backend D2: decide canonical client target (default recommendation: invite-pending roster shell, NOT full auth User) \u2014 OPERATOR decision, not decided in this reconcile.",
+    "IMPORTER-F only after BOTH D1 and D2 resolve; mobile PR-M3 blocked until authoritative roster materialization.",
+    "TrueCoach end-to-end vertical proof (first proving adapter; default-flagged; honest reporting) \u2014 downstream of IMPORTER-F.",
     "Internal cross-browser install/runbook + autonomous site learning.",
     "Completeness/reconstruction accounting + luxury UI + 3-site/2-browser v1.0 certification."
   ],
@@ -832,6 +891,36 @@
     "next_active_node": "TrueCoach end-to-end vertical proof (id 10).",
     "recorded_utc": "2026-07-15T17:00:00Z"
   },
+  "decision_record_op56_reconcile_2026_07_15": {
+    "decision": "Reconcile the single canonical live-state snapshot to the VERIFIED merge of Extension PR-C1c #7 to extension main; remove all stale PR-C1c blocker/head/audit status; preserve the immutable build order.",
+    "why": "PR-C1c was the FIRST (and previously only open) leg of the importer build order. It has now merged with dual-lens CLEAN and a passing post-merge verification, so the canonical snapshot must record proven facts and advance the next active node to D1/D2 without contradiction and without reordering the plan.",
+    "pr_url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/7",
+    "verified_facts": {
+      "audited_pr_head": "0ea894ec2fb16e6a08bb9b4556cbab4250a07e63",
+      "dual_lens": "Both Lens A and Lens B returned CLEAN on the exact audited head 0ea894e.",
+      "squash_merge_commit_extension_main": "4f116836ddb5449524dd51e995a7e4c012f79493",
+      "parent": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
+      "post_merge_verification": "31 files / 514 tests PASS; banned/LOC/flags/ratio gates PASS; flags default-off.",
+      "scope": "NO release, publish, production flag, auth/PII, billing, or other PR changes."
+    },
+    "invariants_held": [
+      "Immutable build order preserved: PR-C1c COMPLETE -> resolve backend D1 (golden fixture) + D2 (canonical target) -> IMPORTER-F (blocked until both) -> mobile PR-M3 (blocked until authoritative roster). Plan NOT reordered.",
+      "D2 NOT decided in this reconcile (remains an open OPERATOR decision).",
+      "auth/PII semantics unchanged.",
+      "Billing remains an explicit 'excluded' family (see billing_scope_exclusion): never captured/staged/logged/reconstructed, never counted as skipped/failed/incomplete-recall.",
+      "All importer flags default-off; NO production flag enablement and NO deployment.",
+      "R3-INC-1 (ext #5 GitHub-synthesized identity) remains OPEN/accepted/grandfathered."
+    ],
+    "d1_canonical": {
+      "definition": "Commit a golden real TrueCoach client payload fixture from the extension (produced by PR-C1c).",
+      "target_path": "test/fixtures/truecoach/clients.golden.json (backend)",
+      "acceptance": "Deterministic golden fixture feeding IMPORTER-F acceptance: staged = reconstructed + skipped + failed (by family, with reasons); billing accounted as 'excluded', never as skipped/failed/incomplete-recall.",
+      "note": "NOT implemented in this context repo — canonical docs do not require context-only evidence for D1; it is a backend deliverable."
+    },
+    "next_active_node": "Resolve backend D1 (id 12) — commit the golden real TrueCoach client payload fixture produced by PR-C1c — and surface D2 (id 13) as an OPEN operator decision. IMPORTER-F stays blocked until BOTH resolve; PR-M3 stays blocked until authoritative roster materialization.",
+    "context_repo_commit": "This Op 56 canonical-state reconciliation advances context main from 6316860491550820d0bef6cb888b0adc498a79da; documentation/state-only (R14 scope), R3 author+committer Bradley Gleave.",
+    "recorded_utc": "2026-07-15T18:30:00Z"
+  },
   "active_lanes_closed_op55": [
     {
       "lane": "EXT-C1b fixer r1 (PR #6)",
@@ -855,7 +944,7 @@
     {
       "lane": "none-active",
       "state": "ALL_IMPORTER_LANES_INTEGRATED",
-      "note": "Op 55: no active build/audit lane. EXT-C1b PR #6, Mobile M2 PR #285, and Backend progress-read PR #508 are all integrated to their mains identity-safe (see repos, merged_prs, critical_path_todos). Prior Op 54 lane records preserved verbatim under active_lanes_closed_op55. Next active node = TrueCoach end-to-end vertical proof (id 10)."
+      "note": "Op 56: no active build/audit lane. Extension PR-C1c #7 (audited head 0ea894e, dual CLEAN) MERGED to extension main 4f11683; PR-C1c leg COMPLETE. EXT-C1b PR #6, Mobile M2 PR #285, and Backend progress-read PR #508 remain integrated to their mains identity-safe (see repos, merged_prs, critical_path_todos). Prior Op 54 lane records preserved verbatim under active_lanes_closed_op55. Next active node = resolve backend D1 golden fixture (id 12) + D2 canonical target (id 13, OPERATOR decision, not decided here); IMPORTER-F blocked until both; PR-M3 blocked until authoritative roster. Build order unchanged."
     }
   ],
   "operator_entry_point": {
@@ -876,6 +965,11 @@
       "PR-M3 (mobile honest review handoff; blocked on authoritative roster materialization)"
     ],
     "rule": "PR-C1c FIRST; then resolve backend D1/D2 and implement client reconstruction; then mobile review handoff ONLY after authoritative roster materialization. Do not reorder.",
+    "progress": {
+      "PR-C1c": "COMPLETE — extension PR #7 (audited head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63, both Lens A + Lens B CLEAN) MERGED to extension main as squash merge 4f116836ddb5449524dd51e995a7e4c012f79493; 31 files / 514 tests PASS, gates PASS, flags default-off, no release/publish/prod-flag/auth-PII/billing/other change. Immutable order UNCHANGED; next leg = resolve D1 + D2.",
+      "IMPORTER-F": "BLOCKED until BOTH D1 and D2 resolve.",
+      "PR-M3": "BLOCKED until authoritative roster materialization."
+    },
     "blockers": {
       "IMPORTER-F.D1": "Commit a golden real TrueCoach client payload fixture from the extension (produced by PR-C1c).",
       "IMPORTER-F.D2": "Decide canonical client target. Default recommendation: invite-pending roster shell, NOT full auth User (avoid identity collision/provisioning risk).",
