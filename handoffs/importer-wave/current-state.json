@@ -2,36 +2,17 @@
   "schema_version": "1.1",
   "doc_kind": "live_state_snapshot",
   "wave": "importer-wave",
-  "op_label": "Op 54 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; product-mission correction under R5)",
-  "successor_label": "Agent 55",
-  "as_of_utc": "2026-07-15T00:00:00Z",
-  "as_of_local": "2026-07-14T17:00:00-07:00",
-  "mission_correction_note": "2026-07-15 (Op 54): canonical product-mission corrected under R5 \u2014 see product_mission_correction_2026_07_15 and roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md. Documentation-only; the live-lane/PR state below is unchanged and authoritative.",
+  "op_label": "Op 55 (Wave 3 \u2014 v0.3 site-agnostic autonomous import; RECONCILE: EXT-C1b #6 + Mobile M2 #285 + Backend progress-read #508 all integrated to their mains, identity-safe squash-equivalent, dual CLEAN, flags default-off; next node = TrueCoach end-to-end vertical proof)",
+  "successor_label": "Agent 56",
+  "as_of_utc": "2026-07-15T17:00:00Z",
+  "as_of_local": "2026-07-15T10:00:00-07:00",
+  "mission_correction_note": "2026-07-15 (Op 54): canonical product-mission corrected under R5 \u2014 see product_mission_correction_2026_07_15 and roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md. Op 55 (2026-07-15) reconciliation: the three importer PRs below (EXT-C1b #6, Mobile M2 #285, Backend progress-read #508) are now INTEGRATED to their mains identity-safe; mission unchanged \u2014 site-agnostic/browser-agnostic, TrueCoach on Chrome is the first proving adapter only.",
   "durable_handoff": {
     "path": "handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md",
     "purpose": "Self-contained pickup doc for the next autonomous CEO/CPO/CTO agent: executive state, end-to-end product, decision framework, build-plan pointers, product+work ledgers, open findings, ordered runbook, merge protocol, files-read appendix, decision record, acceptance checklist.",
     "read_order": "AGENT_RULES.md -> this current-state.json -> AGENT_HANDOFF_V03_2026-07-14.md",
     "created_utc": "2026-07-14T15:30:00Z"
   },
-  "active_lanes": [
-    {
-      "lane": "EXT-C1b fixer r1 (PR #6)",
-      "subagent_id": "build_extension_c1b_runtime_mrkme1l6",
-      "state": "DUAL_LENS_R2_CLEAN_CLEAN_MERGE_READY",
-      "owns": "ALL PR #6 product-source edits for the fixer round; resolved convergent CTA source-bearer P2 + five P3s + adversarial tests under prod<=400 / ratio>=2 with margin.",
-      "coordination": "Do NOT edit tgp-importer-extension product source in parallel; probe per R7 before acting.",
-      "recovery_note": "This fixer subagent previously hit a step limit and returned an EMPTY response. Per explicit operator direction, recovery ran in the SAME sandbox/branch (no reset/discard/reclone, no new branch, no duplicate lane): the same subagent resumed, inventoried git state, committed and pushed the legitimate fixer checkpoint at head 55f24d5 with R3 identity. PR #6 head is now 55f24d5 (all six findings root-fixed, adversarial tests added, gates green).",
-      "r2_note": "Dual-lens r2 completed at exact fixer head 55f24d5 (R124 both-ways local==gh headRefOid). LENS A CLEAN (0 P0-P3) + LENS B CLEAN (0 P0-P3), CONVERGENT. All six r1 findings root-fixed and independently re-verified; gates independently executed green (check:banned OK, check:loc prod 398/removed 34, check:flags OK, check:ratio 2.781, vitest 30 files/489 tests exit 0); banned sweep over all added lines NONE; R3 clean on ab5dc61+55f24d5. Reports: EXT-PR6-LENS-A-LIVE.55f24d5.md + EXT-PR6-LENS-B-LIVE.55f24d5.md. MERGE-READY pending CI-green + R124 re-check at merge; land via identity-safe manual squash + lease-safe fast-forward (never GitHub squash, never force-push published main). Audit read-only (R13) — not merged, not self-approved."
-    },
-    {
-      "lane": "Mobile M2 (live pairing/progress UX)",
-      "subagent_id": "build_mobile_m2_pairing_progress_mrknrpnb",
-      "state": "PR_OPEN_DUAL_LENS_R1_FINDINGS_ASSIGNED_FIXER_R1",
-      "owns": "growth-project-mobile live pairing/progress UX wired to extension + scout ingest, against main 1695517. Original builder now assigned FIXER r1 for PR #285.",
-      "coordination": "No file overlap with EXT-C1b.",
-      "pr_note": "PR #285 OPEN @bd9a41a (base main 1695517). Default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status; typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry. Honest terminal is 'paired' only (no fabricated importing/partial/complete or page/entity/percent). Gates (Lens B independently reran at bd9a41a): typecheck/lint green, 295 suites/3562 tests, prod 400/400, ratio 882/400=2.21, R3 clean. Dual-lens r1 RETURNED = FINDINGS/FINDINGS: Lens A P0=2 P1=0 P2=0 P3=1, Lens B P0=2 P1=0 P2=0 P3=0 — CONVERGENT on the SAME two R75 banned-cast NET-NEW additions, both TEST-ONLY (extensionPairApi.test.ts:94 '.catch(() => {})'; useExtensionPairing.test.tsx:64 'as unknown as'). All functional/security/endpoint-truth dimensions independently CLEAN in both lenses. NOT merge-ready; builder assigned fixer r1. Confirmed blocker (unchanged): no mobile-readable import-progress route — progress/partial/complete deferred behind FEATURE_SCOUT_INGEST to a backend/extension follow-up."
-    }
-  ],
   "operator": {
     "name": "Bradley Gleave",
     "email": "bradley@bradleytgpcoaching.com",
@@ -52,7 +33,7 @@
   ],
   "supersedes_note": "Op 53 supersedes Op 52. Wave 2 backend/extension foundation largely MERGED since Op 52: backend #500\u2013#503, #505\u2013#507; extension #1 (capture ring buffer) + #2 (DESIGN v0.3). Dark-route ordering resolved via #503 (R-DARK-1 middleware) \u2014 Option A shipped. Product model restated: SITE-AGNOSTIC JSON capture on ANY competitor site (not per-platform mapped tooling). Open critical path: backend #504 contract freeze (CI green, dual-lens pending), extension #3 pairing auth (local gates green; PR CI banned-token step red on pull_request event only).",
   "headline_status": {
-    "current_op": "Op 54 \u2014 RECONCILE: (a) EXT-C1b PR #6 @55f24d5 dual-lens r2 = CLEAN/CLEAN CONVERGENT (Lens A + Lens B + combined EXT-PR6-R2-LIVE.55f24d5.md, all 0 P0-P3), CI GREEN, R124 both-ways verified \u2014 MERGE-READY, identity-safe integration NOW IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash, never force-push published main). (b) MOBILE-M2 PR #285 fixer r1 landed @10414c4 (prior builder head bd9a41a): both convergent TEST-ONLY R75 banned-cast P0s swapped for allowed forms + R100 Self-Check heading added to PR body (closes Lens A P3-1); full jest 295 suites/3562 tests, CI + CodeQL green, prod unchanged <=400, ratio>=2 (no test-trimming), R3 clean; dual-lens r2 IN PROGRESS at 10414c4, NOT merge-ready until r2 CLEAN/CLEAN + CI green. H4 decision + R3-INC-1 preserved untouched. --- Op 53 \u2014 UPDATE: EXT-C1b PR #6 dual-lens r2 at exact fixer head 55f24d5 (R124 both-ways local==gh headRefOid) = CLEAN/CLEAN, CONVERGENT. Both lenses 0 P0-P3; all six r1 findings root-fixed + independently re-verified by diff inspection; gates independently executed green (check:banned OK, check:loc prod 398/removed 34, check:flags PAIRING_ENABLED sole-auth-path, check:ratio 2.781, vitest 30 files/489 tests exit 0); banned sweep over all added lines NONE; R3 clean on ab5dc61+55f24d5. Reports EXT-PR6-LENS-A-LIVE.55f24d5.md + EXT-PR6-LENS-B-LIVE.55f24d5.md. PR #6 MERGE-READY pending CI-green + R124 re-check; land via identity-safe manual squash + lease-safe fast-forward (never GitHub squash, never force-push published main). Audit read-only (R13) \u2014 not merged, not self-approved. --- Prior (builder r1) context: Op 53 \u2014 Extension C1b BUILDER COMPLETE: PR #6 OPEN (feat/replay-c1b-wiring, head ab5dc61, base main 5eabeec) wires the merged bounded replay engine (#5) into product runtime \u2014 resolver seam (shared/replay/resolve.js), data-only blueprint adapter (extractors/truecoach/blueprint.js), background start_import orchestration, and the Start Import popup CTA. Security controls landed: isTrustedExtensionPage gate (not extension-id alone), synchronous single-flight guard, observed tab-origin injected as allowedOrigins, source bearer end-to-end, source 401/403 -> AuthLostError fails closed WITHOUT clearing TGP tokens. Gates: prod 303/400, test:src ratio 2.010, 467 tests pass, banned clean, R3 clean (author+committer both Bradley Gleave on ab5dc61). Dual-lens r1: LENS A RETURNED = FAIL (P0=0 P1=0 P2=1 P3=2; blocking A-01 = shipping Start Import CTA never supplies sourceToken so a real crawl cannot authenticate against a bearer-gated source \u2014 background bearer MANDATE met + e2e-tested, UI token producer missing; P3 A-02 completeIngest lacks res.ok check (pre-existing, reused), P3 A-03 source 5xx low-signal 'import failed'); all MANDATORY controls independently re-verified and HOLD; report handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md. LENS B RETURNED = FAIL (P0=0 P1=0 P2=1 P3=3 +1 advisory; blocking PR6-B-P2-cta-omits-source-bearer = the SAME CTA source-bearer gap, independently found \u2014 CONVERGENT with Lens A; P3s: partial crawl reported as ingest_succeeded, TGP-side auth loss throws plain Error not AuthLostError (status muddle), single-flight covers start_import only not legacy start_ingest; advisory: ratio 2.010 only 3 lines above the 2.0 floor); all security invariants independently re-verified and HOLD; report handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md. Dual-lens r1 = FAIL/FAIL, CONVERGENT on the CTA source-bearer P2. NOT merge-ready \u2014 return to fixer for the blocking P2 (plumb the captured source bearer into the CTA, or document+flag the deferral and soften the 'bearer end-to-end' claim) plus the P3 findings, then re-audit BOTH lenses. Merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash, never GitHub squash. Mobile #284 (M1) already MERGED @1695517 (identity-safe manual squash, R3-conforming). Ext #5 MERGED @5eabeec with R3-INC-1 (GitHub-synthesized identity) OPEN/accepted/grandfathered \u2014 not rewritten, not hidden.",
+    "current_op": "Op 55 \u2014 CANONICAL STATE RECONCILIATION (docs/state only): three importer PRs verified INTEGRATED to their mains identity-safe, dual CLEAN, flags default-off, no production enablement/deploy. (1) EXT-C1b PR #6 approved head 55f24d57c625cbd2745ad3fc9226e6d41168d02a \u2192 extension main a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (parent/rollback 5eabeec0ee53735753059f72581148052c9f2ac4); author+committer Bradley Gleave. (2) Mobile M2 PR #285 approved head dce19c508320b2d7e2987aebbdb16983bf04cb63 \u2192 mobile main b8165beaa3804fe8a145214b772f97a3ae9eab65 (parent/rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8); identity-safe squash-equivalent, dual CLEAN, post-main CI green, pairing flag default-off. (3) Backend PR #508 approved head ab13f49c3d6631c0e922e46b0334770a73bd4b3a \u2192 backend main 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 (parent/rollback e6c3082755c89e51c18db9562f84b7b8898ce102); identity-safe squash-equivalent, dual CLEAN, core post-main correctness CI green, flag default-off; build-sbom/release-please failures are pre-existing automation debt (also on prior main), recorded as operational risk \u2014 system NOT called fully green. Critical-path nodes for mobile pairing (M2/#285) and backend progress-read (#508) read COMPLETED; next active node = TrueCoach end-to-end vertical proof, then internal cross-browser install/runbook, autonomous site learning, completeness/reconstruction, luxury UI, 3-site/2-browser certification. R3-INC-1 remains OPEN/accepted (ext #5 tip). --- Prior (Op 54): Op 54 \u2014 RECONCILE: (a) EXT-C1b PR #6 @55f24d5 dual-lens r2 = CLEAN/CLEAN CONVERGENT (Lens A + Lens B + combined EXT-PR6-R2-LIVE.55f24d5.md, all 0 P0-P3), CI GREEN, R124 both-ways verified \u2014 MERGE-READY, identity-safe integration NOW IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash, never force-push published main). (b) MOBILE-M2 PR #285 fixer r1 landed @10414c4 (prior builder head bd9a41a): both convergent TEST-ONLY R75 banned-cast P0s swapped for allowed forms + R100 Self-Check heading added to PR body (closes Lens A P3-1); full jest 295 suites/3562 tests, CI + CodeQL green, prod unchanged <=400, ratio>=2 (no test-trimming), R3 clean; dual-lens r2 IN PROGRESS at 10414c4, NOT merge-ready until r2 CLEAN/CLEAN + CI green. H4 decision + R3-INC-1 preserved untouched. --- Op 53 \u2014 UPDATE: EXT-C1b PR #6 dual-lens r2 at exact fixer head 55f24d5 (R124 both-ways local==gh headRefOid) = CLEAN/CLEAN, CONVERGENT. Both lenses 0 P0-P3; all six r1 findings root-fixed + independently re-verified by diff inspection; gates independently executed green (check:banned OK, check:loc prod 398/removed 34, check:flags PAIRING_ENABLED sole-auth-path, check:ratio 2.781, vitest 30 files/489 tests exit 0); banned sweep over all added lines NONE; R3 clean on ab5dc61+55f24d5. Reports EXT-PR6-LENS-A-LIVE.55f24d5.md + EXT-PR6-LENS-B-LIVE.55f24d5.md. PR #6 MERGE-READY pending CI-green + R124 re-check; land via identity-safe manual squash + lease-safe fast-forward (never GitHub squash, never force-push published main). Audit read-only (R13) \u2014 not merged, not self-approved. --- Prior (builder r1) context: Op 53 \u2014 Extension C1b BUILDER COMPLETE: PR #6 OPEN (feat/replay-c1b-wiring, head ab5dc61, base main 5eabeec) wires the merged bounded replay engine (#5) into product runtime \u2014 resolver seam (shared/replay/resolve.js), data-only blueprint adapter (extractors/truecoach/blueprint.js), background start_import orchestration, and the Start Import popup CTA. Security controls landed: isTrustedExtensionPage gate (not extension-id alone), synchronous single-flight guard, observed tab-origin injected as allowedOrigins, source bearer end-to-end, source 401/403 -> AuthLostError fails closed WITHOUT clearing TGP tokens. Gates: prod 303/400, test:src ratio 2.010, 467 tests pass, banned clean, R3 clean (author+committer both Bradley Gleave on ab5dc61). Dual-lens r1: LENS A RETURNED = FAIL (P0=0 P1=0 P2=1 P3=2; blocking A-01 = shipping Start Import CTA never supplies sourceToken so a real crawl cannot authenticate against a bearer-gated source \u2014 background bearer MANDATE met + e2e-tested, UI token producer missing; P3 A-02 completeIngest lacks res.ok check (pre-existing, reused), P3 A-03 source 5xx low-signal 'import failed'); all MANDATORY controls independently re-verified and HOLD; report handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md. LENS B RETURNED = FAIL (P0=0 P1=0 P2=1 P3=3 +1 advisory; blocking PR6-B-P2-cta-omits-source-bearer = the SAME CTA source-bearer gap, independently found \u2014 CONVERGENT with Lens A; P3s: partial crawl reported as ingest_succeeded, TGP-side auth loss throws plain Error not AuthLostError (status muddle), single-flight covers start_import only not legacy start_ingest; advisory: ratio 2.010 only 3 lines above the 2.0 floor); all security invariants independently re-verified and HOLD; report handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md. Dual-lens r1 = FAIL/FAIL, CONVERGENT on the CTA source-bearer P2. NOT merge-ready \u2014 return to fixer for the blocking P2 (plumb the captured source bearer into the CTA, or document+flag the deferral and soften the 'bearer end-to-end' claim) plus the P3 findings, then re-audit BOTH lenses. Merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash, never GitHub squash. Mobile #284 (M1) already MERGED @1695517 (identity-safe manual squash, R3-conforming). Ext #5 MERGED @5eabeec with R3-INC-1 (GitHub-synthesized identity) OPEN/accepted/grandfathered \u2014 not rewritten, not hidden.",
     "phase": "EXT_C1b_PR6_OPEN_55f24d5_DUAL_LENS_R2_CLEAN_CLEAN_CONVERGENT_CI_GREEN_R124_VERIFIED_MERGE_READY_IDENTITY_SAFE_INTEGRATION_IN_PROGRESS_MOBILE_M2_PR285_OPEN_10414c4_FIXER_R1_COMPLETE_R75x2_AND_R100_RESOLVED_CI_CODEQL_GREEN_DUAL_LENS_R2_IN_PROGRESS_MOBILE284_M1_MERGED_1695517_EXT5_R3INC1_OPEN",
     "audit_standard": "angry_adversarial_full_P0_P3_hunt_every_round",
     "launch_bar": "v0.3_or_no_launch",
@@ -79,7 +60,7 @@
     ]
   },
   "product_mission_correction_2026_07_15": {
-    "op_label": "Op 54 — canonical product-mission correction under R5",
+    "op_label": "Op 54 \u2014 canonical product-mission correction under R5",
     "canonical_doc": "roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md",
     "operator_quote_verbatim": "WRONG - your building a site agnsotics, ultra easy to use, browser agnostic tool that can seamlessly and autonymously pull ALL data from any comeptitors site - send to TGP Database, and be reconstructed to our set values instantly with a luxury UI while doing so!",
     "quote_handling": "Preserved byte-for-byte (including original spelling) at the top of the durable record per R5. Do NOT paraphrase or 'correct' the quote.",
@@ -96,22 +77,22 @@
     ],
     "five_distinctions": {
       "mission": "North star (site-agnostic + browser-agnostic + autonomous + deterministic reconstruction + luxury UI). Never a single PR.",
-      "first_proof": "TrueCoach on a Chrome MV3 host — one site + one browser host proving the whole pipeline end-to-end. A vertical slice, not the product boundary.",
-      "current_state": "The live PRs in this snapshot (EXT-C1b PR #6 @55f24d5 merge-ready; Mobile M2 PR #285 @10414c4 dual-lens r2 in progress) — unchanged and authoritative.",
+      "first_proof": "TrueCoach on a Chrome MV3 host \u2014 one site + one browser host proving the whole pipeline end-to-end. A vertical slice, not the product boundary.",
+      "current_state": "The live PRs in this snapshot (EXT-C1b PR #6 @55f24d5 merge-ready; Mobile M2 PR #285 @10414c4 dual-lens r2 in progress) \u2014 unchanged and authoritative.",
       "v0_3_completion": "Full autonomous multi-page import loop for the first proof, default-flagged, honestly reported, packaged, staging E2E green, R137 postmortem. Does NOT require a 2nd site, 2nd browser, or auto-induction. Current launch bar ('v0.3 or no launch').",
-      "v1_0_acceptance": "Mission made testable: >=3 sites, >=2 browser hosts on the same kernel, autonomous blueprint induction for an unseen site, completeness/reconciliation accounting, deterministic + idempotent reconstruction, honest partial/failure reporting, luxury UI passes R1 crit, all §2 invariants hold under adversarial audit."
+      "v1_0_acceptance": "Mission made testable: >=3 sites, >=2 browser hosts on the same kernel, autonomous blueprint induction for an unseen site, completeness/reconciliation accounting, deterministic + idempotent reconstruction, honest partial/failure reporting, luxury UI passes R1 crit, all \u00a72 invariants hold under adversarial audit."
     },
     "pr_graph_workstreams": [
       "WS1 extension core/runtime (background.js, popup/*.js, shared/replay/*, content/main.js)",
       "WS2 browser portability (NEW host/ adapter layer; engine.js read-only)",
       "WS3 autonomous learning/blueprint induction (NEW shared/induction/*)",
       "WS4 canonical mapping/reconstruction (backend reconstruct* + idempotent upsert + reconciliation report)",
-      "WS5 backend orchestration/progress (ingest/progress/complete/event_log/pair — mostly merged)",
+      "WS5 backend orchestration/progress (ingest/progress/complete/event_log/pair \u2014 mostly merged)",
       "WS6 luxury UI (mobile import/pairing/progress/review screens; extension popup HTML/CSS only)"
     ],
-    "decision": "Split mission from build-plan (Option C): new canonical mission doc + verbatim quote; demote M-IMPORTER-EXTENSION_v1.md to first-vertical-slice build-plan (subordinate on framing); reconcile state + handoff wording; add the six-workstream PR graph. Documentation only — no product code changed. Reversible by reverting the commit.",
+    "decision": "Split mission from build-plan (Option C): new canonical mission doc + verbatim quote; demote M-IMPORTER-EXTENSION_v1.md to first-vertical-slice build-plan (subordinate on framing); reconcile state + handoff wording; add the six-workstream PR graph. Documentation only \u2014 no product code changed. Reversible by reverting the commit.",
     "product_code_touched": false,
-    "audit_exempt": "Documentation-only context-repo commit — no R14 code audit required (R14 scope)."
+    "audit_exempt": "Documentation-only context-repo commit \u2014 no R14 code audit required (R14 scope)."
   },
   "immutable_doctrine_in_force": {
     "R3_authorship": "Every commit shows Bradley Gleave <bradley@bradleytgpcoaching.com> as author AND committer.",
@@ -134,52 +115,56 @@
       "commit": "5eabeec0ee53735753059f72581148052c9f2ac4",
       "discovered_utc": "2026-07-14T12:10:00Z",
       "summary": "PR #5 was landed via GitHub-generated squash merge. GitHub synthesized the merge commit identity: author BradleyGleavePortfolio <bradleyapple1031@gmail.com>, committer GitHub <noreply@github.com>. This does NOT satisfy R3 (both author AND committer must be Bradley Gleave <bradley@bradleytgpcoaching.com>).",
-      "product_tree_status": "ACCEPTED — audited tree at 5d46a1b is CLEAN/CLEAN; only the commit-envelope identity metadata is non-conforming.",
+      "product_tree_status": "ACCEPTED \u2014 audited tree at 5d46a1b is CLEAN/CLEAN; only the commit-envelope identity metadata is non-conforming.",
       "remediation_considered": "A metadata-only rewrite candidate (byte-identical tree/parent/message/dates, identity corrected to Bradley Gleave) was built and fully verified locally.",
       "remediation_decision": "NOT PUSHED. Force-pushing a rewrite over already-published shared main is a destructive provenance-altering operation and was deliberately declined. origin/main remains 5eabeec (unchanged). The candidate object is unreferenced and will be garbage-collected.",
       "honesty_note": "This incident is recorded as an OPEN, ACCEPTED landmine. It is NOT hidden and NOT silently fixed. The published 5eabeec commit retains its GitHub-synthesized identity.",
-      "prospective_fix": "See merge_procedure_change_2026_07_14 — future TGP merges use a manual identity-safe squash so R3 identity is correct at creation time, never requiring a published-history rewrite."
+      "prospective_fix": "See merge_procedure_change_2026_07_14 \u2014 future TGP merges use a manual identity-safe squash so R3 identity is correct at creation time, never requiring a published-history rewrite."
     }
   ],
   "merge_procedure_change_2026_07_14": {
-    "trigger": "R3-INC-1 — GitHub-generated squash stamps a non-Bradley author/committer identity that R3 forbids, and correcting it after publish would require a destructive force-push over shared main.",
+    "trigger": "R3-INC-1 \u2014 GitHub-generated squash stamps a non-Bradley author/committer identity that R3 forbids, and correcting it after publish would require a destructive force-push over shared main.",
     "old_procedure": "Agent used GitHub squash-merge (UI/API) after dual-lens CLEAN + CI green (R138).",
-    "new_procedure": "Do NOT use GitHub-generated squash for future TGP merges. Instead: (1) build a local/manual squash commit whose tree is exactly the audited exact-head tree, with BOTH author and committer set to Bradley Gleave <bradley@bradleytgpcoaching.com>; (2) lease-safe fast-forward main to that commit (--force-with-lease pinned to the known base, aborts on divergence — fast-forward only, no history rewrite); (3) close the PR referencing the landed commit.",
+    "new_procedure": "Do NOT use GitHub-generated squash for future TGP merges. Instead: (1) build a local/manual squash commit whose tree is exactly the audited exact-head tree, with BOTH author and committer set to Bradley Gleave <bradley@bradleytgpcoaching.com>; (2) lease-safe fast-forward main to that commit (--force-with-lease pinned to the known base, aborts on divergence \u2014 fast-forward only, no history rewrite); (3) close the PR referencing the landed commit.",
     "scope": "Applies to extension, backend, and mobile TGP repos going forward. Prior grandfathered history (including 5eabeec) is NOT rewritten.",
     "supersedes_note": "Refines R138 autonomy: merge remains agent-permitted after dual-lens CLEAN + CI green, but the mechanism changes from GitHub squash to identity-safe manual squash + lease-safe fast-forward."
   },
   "repos": {
     "backend": {
       "full_name": "BradleyGleavePortfolio/growth-project-backend",
-      "main_head": "e6c3082755c8",
-      "main_head_short": "7b6a2438",
-      "main_as_of": "2026-07-11T16:25:48Z",
-      "main_tip_msg": "feat(contract): freeze tgp-importer OpenAPI slice + truthful error envelope (#504)"
+      "main_head": "95e2c6378e0b1b734328a7fdf6b9a6e33465a663",
+      "main_head_short": "95e2c63",
+      "main_as_of": "2026-07-15T16:04:51Z",
+      "main_tip_msg": "feat(scout): tenant-scoped import-status read for mobile progress UI (#508)",
+      "main_head_r3_note": "R3-CONFORMING: Backend PR #508 (approved head ab13f49c3d6631c0e922e46b0334770a73bd4b3a) integrated via identity-safe squash-equivalent; tip 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>, single parent = rollback commit e6c3082755c89e51c18db9562f84b7b8898ce102. Dual CLEAN, core post-main correctness CI green, import-status read flag default-off. OPERATIONAL RISK (not an importer regression): build-sbom / release-please automation checks fail post-main \u2014 pre-existing automation debt also present on the prior main, NOT introduced by #508; system is NOT to be called fully green while this automation debt is open.",
+      "rollback_commit": "e6c3082755c89e51c18db9562f84b7b8898ce102"
     },
     "extension": {
       "full_name": "BradleyGleavePortfolio/tgp-importer-extension",
-      "main_head": "5eabeec0ee53735753059f72581148052c9f2ac4",
-      "main_head_short": "5eabeec",
-      "main_as_of": "2026-07-14T12:06:01Z",
-      "main_tip_msg": "feat(replay): add bounded site-agnostic replay engine (#5)",
-      "main_head_r3_note": "R3-INC-1 OPEN: this published tip carries GitHub-synthesized identity (author BradleyGleavePortfolio, committer GitHub), NOT Bradley Gleave. Grandfathered — not rewritten. See r3_process_incidents."
+      "main_head": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
+      "main_head_short": "a8a6af6",
+      "main_as_of": "2026-07-14T13:38:39Z",
+      "main_tip_msg": "feat(replay): wire start_import orchestration + Start Import CTA (PR-C1b)",
+      "main_head_r3_note": "R3-CONFORMING: EXT-C1b PR #6 (approved head 55f24d57c625cbd2745ad3fc9226e6d41168d02a) integrated via identity-safe squash-equivalent; tip a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>, single parent = rollback commit 5eabeec0ee53735753059f72581148052c9f2ac4. Prior tip 5eabeec (ext #5) carried GitHub-synthesized identity (R3-INC-1) \u2014 grandfathered, not rewritten; it is now the parent of this identity-safe tip.",
+      "rollback_commit": "5eabeec0ee53735753059f72581148052c9f2ac4"
     },
     "context": {
       "full_name": "BradleyGleavePortfolio/tgp-agent-context",
-      "main_head": "e3eea1c70212b9468a98e300ed3586c0fbec7144",
-      "main_head_short": "e3eea1c",
-      "main_as_of": "2026-07-14T14:45:00Z",
-      "main_tip_msg": "docs(handoffs): EXT PR#6 Lens B dual-lens r1 = FAIL (blocking PR6-B-P2); dual-lens FAIL/FAIL CONVERGENT, not merge-ready",
-      "note": "Head prior to the AGENT_HANDOFF_V03 commit; this commit advances context main."
+      "main_head": "e7af008ef0db00cfbf4e1be07ae71a44afbfd8b0",
+      "main_head_short": "e7af008",
+      "main_as_of": "2026-07-15T00:00:00Z",
+      "main_tip_msg": "docs(importer): correct canonical mission \u2014 site-agnostic/browser-agnostic; TrueCoach = first proof only",
+      "note": "Verified live == HEAD prior to this Op 55 reconciliation commit; this canonical-state reconciliation commit advances context main."
     },
     "mobile": {
       "full_name": "BradleyGleavePortfolio/growth-project-mobile",
-      "main_head": "169551777a95f9b1e89e4a8a5f75bf53ae23dcd8",
-      "main_head_short": "1695517",
-      "main_as_of": "2026-07-14T13:50:00Z",
-      "main_tip_msg": "feat(import): add default-off post-signup import entry (#284)",
-      "main_head_r3_note": "R3-CONFORMING: identity-safe manual squash, author+committer both Bradley Gleave; tree ae76a8d byte-identical to audited head 306f3a0.",
-      "note": "CoachPairingScreen is Day-1 client invite pairing \u2014 NOT extension import. Extension pair/init UI still missing (mobile M2 live pairing/progress)."
+      "main_head": "b8165beaa3804fe8a145214b772f97a3ae9eab65",
+      "main_head_short": "b8165be",
+      "main_as_of": "2026-07-15T11:09:50Z",
+      "main_tip_msg": "feat(import): live extension pairing (mint+poll), default-off (PR-M2) (#285)",
+      "main_head_r3_note": "R3-CONFORMING: Mobile M2 PR #285 (approved head dce19c508320b2d7e2987aebbdb16983bf04cb63) integrated via identity-safe squash-equivalent; tip b8165beaa3804fe8a145214b772f97a3ae9eab65 author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>, single parent = rollback commit 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8 (prior M1 #284 tip). Dual CLEAN, post-main CI green, pairing flag default-off.",
+      "note": "Mobile M1 (#284) = Day-1 post-signup import entry; Mobile M2 (#285) = live extension pairing/progress UX (mint+poll), now integrated, default-off.",
+      "rollback_commit": "169551777a95f9b1e89e4a8a5f75bf53ae23dcd8"
     }
   },
   "merged_since_op52": {
@@ -225,6 +210,12 @@
         "merged": "2026-07-14",
         "sha": "e6c3082755c8",
         "dual_lens": "CLEAN@c20651bb"
+      },
+      {
+        "pr": 508,
+        "title": "tenant-scoped import-status read for mobile progress UI",
+        "merged": "2026-07-15",
+        "sha": "95e2c6378e0b"
       }
     ],
     "extension": [
@@ -237,6 +228,20 @@
         "pr": 2,
         "title": "DESIGN v0.3 mobile-app-initiated pairing",
         "merged": "2026-07-08"
+      },
+      {
+        "pr": 6,
+        "title": "EXT-C1b runtime wiring (start_import + Start Import CTA)",
+        "merged": "2026-07-14",
+        "sha": "a8a6af6b1b3e"
+      }
+    ],
+    "mobile": [
+      {
+        "pr": 285,
+        "title": "live extension pairing (mint+poll) M2 default-off",
+        "merged": "2026-07-15",
+        "sha": "b8165beaa380"
       }
     ]
   },
@@ -247,87 +252,8 @@
       "resolved_as_of": "2026-07-08"
     }
   },
-  "open_prs": [
-    {
-      "repo": "tgp-importer-extension",
-      "pr": 6,
-      "url": "https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/6",
-      "title": "feat(replay): wire start_import orchestration + Start Import CTA (PR-C1b)",
-      "milestone": "EXT-C1b",
-      "branch": "feat/replay-c1b-wiring",
-      "head": "55f24d5",
-      "prior_head": "ab5dc61",
-      "base": "5eabeec",
-      "state": "OPEN",
-      "builder_status": "COMPLETE",
-      "fixer_status": "r1 COMPLETE (recovered in same sandbox) @55f24d5 — all six dual-lens r1 findings root-fixed + adversarial tests; dual-lens r2 = CLEAN/CLEAN CONVERGENT at 55f24d5; CI green @55f24d5; identity-safe integration now IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash, never force-push published main)",
-      "merge_ready": true,
-      "integration_status": "IN PROGRESS @55f24d5 — CI green + R124 both-ways verified; landing via identity-safe manual squash + lease-safe fast-forward per merge_procedure_change_2026_07_14. Audit itself read-only (R13); integration performed as the operator merge step, not a self-approval.",
-      "files_behavior": [
-        "shared/replay/resolve.js — platform->blueprint resolver seam; unknown_platform fails closed for every unregistered id",
-        "extractors/truecoach/blueprint.js — data-only verification adapter (JSON-serializable, no executable extraction logic)",
-        "background.js — start_import orchestration wiring the bounded replay engine into runtime",
-        "popup/popup.js + popup/popup.html — Start Import CTA + dependency-injected wiring (real-behavior tested)"
-      ],
-      "security_controls": [
-        "start_import gated by isTrustedExtensionPage (full trusted-extension-page shape, NOT extension-id alone)",
-        "synchronous single-flight guard (importInFlight) rejects concurrent runs",
-        "observed tab origin injected as allowedOrigins (SSRF confinement)",
-        "source bearer carried end-to-end so the crawl truly authenticates",
-        "source 401/403 -> AuthLostError fails closed WITHOUT clearing TGP tokens (source auth loss != TGP logout; no re-pair)"
-      ],
-      "gates": "at fixer head 55f24d5: prod 398/400; test:src diff ratio 2.781; 489 tests pass; banned clean; R3 clean (author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>). (Builder head ab5dc61 was: prod 303/400, ratio 2.010, 467 tests.)",
-      "fixer_r1_resolved": "All six dual-lens r1 findings root-fixed at 55f24d5: (P2) real ephemeral non-persistent trusted-tab source-bearer handoff — popup passes tabId; background collectSourceToken(tabId, allowedOrigins) validates tabId + chrome.tabs.get live-origin in allowlist + messages the trusted content script (sender.id + no-tab guard), accepts only {ok:true, token}, token never in DOM/telemetry/storage/logs/PR/payload, fails closed; (P3) completeIngest throws on non-2xx so success is never broadcast without backend ack; (P3) source 5xx preserved as status/category only via engine lastSkipStatus (no body/PII); (P3) partial/degraded/truncated surfaced distinctly (ingest_partial state + amber popup style); (P3) TGP auth-loss unified to one terminal state (tgpAuthLost/isTgpAuthLost); (P3) synchronous single-flight shared across start_import AND legacy start_ingest incl. races. Adversarial tests added for every fix.",
-      "dual_lens": "r1 (builder head ab5dc61): LENS_A FAIL (P0=0 P1=0 P2=1 P3=2; blocking A-01), LENS_B FAIL (P0=0 P1=0 P2=1 P3=3 +1 advisory; blocking PR6-B-P2-cta-omits-source-bearer) -> FAIL/FAIL, CONVERGENT on the CTA source-bearer P2. Fixer r1 landed @55f24d5. r2 (fixer head 55f24d5, R124 both-ways verified): LENS_A CLEAN (0 P0-P3), LENS_B CLEAN (0 P0-P3) -> CLEAN/CLEAN, CONVERGENT; all six r1 findings root-fixed + re-verified; gates green (banned clean, prod 398, ratio 2.781, 489 tests). MERGE-READY pending CI-green + R124 re-check at merge.",
-      "lens_a_report": "handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.55f24d5.md",
-      "lens_b_report": "handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.55f24d5.md",
-      "combined_r2_report": "handoffs/audit-reports/EXT-PR6-R2-LIVE.55f24d5.md",
-      "lens_reports_r1": [
-        "handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md",
-        "handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md"
-      ],
-      "blocking_findings": "CONVERGENT P2 (BOTH lenses, independently): shipping Start Import CTA (popup.js:74) sends {kind,url} with NO sourceToken -> makeSourceFetch('') emits no Authorization header, so a real CTA-initiated crawl cannot authenticate against the bearer-gated TrueCoach proxy API (background bearer plumbing correct + e2e-tested with injected token; UI token producer missing). Lens A also A-02 (P3) completeIngest lacks res.ok check so a non-2xx /complete still broadcasts ingest_succeeded (pre-existing, now in the success blast radius), A-03 (P3) source 5xx low-signal 'import failed'. Lens B also P3: partial crawl reported as ingest_succeeded (drops the engine's honest partial/degraded signal); TGP-side auth loss throws plain Error('auth_required') not AuthLostError so the terminal status/text is muddled/order-dependent; single-flight covers start_import only, not the legacy start_ingest path. Lens B advisory: ratio 2.010 sits only 3 lines above the 2.0 floor.",
-      "merge_mechanism_planned": "identity-safe manual squash (merge_procedure_change_2026_07_14), NOT GitHub squash",
-      "note": "Builder complete; dual-lens r1 = FAIL/FAIL (convergent CTA source-bearer P2). Fixer r1 landed @55f24d5 (all six findings root-fixed + adversarial tests; recovered in same sandbox). Dual-lens r2 @55f24d5 = CLEAN/CLEAN, CONVERGENT (Lens A + Lens B + combined EXT-PR6-R2-LIVE.55f24d5.md, all 0 P0-P3). CI green @55f24d5; R124 both-ways verified. NOW: identity-safe integration IN PROGRESS — landing via identity-safe manual squash + lease-safe fast-forward, never GitHub squash, never force-push published main. Audit itself was read-only (R13); integration is the operator merge step, not a self-approval."
-    },
-    {
-      "repo": "growth-project-mobile",
-      "pr": 285,
-      "url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/285",
-      "title": "feat(import): live extension pairing (mint+poll), default-off (PR-M2)",
-      "milestone": "MOBILE-M2",
-      "branch": "feat/mobile-import-live-pairing",
-      "head": "10414c4",
-      "head_short": "10414c4",
-      "prior_head": "bd9a41a",
-      "base": "main",
-      "base_sha": "1695517",
-      "state": "OPEN",
-      "builder_status": "COMPLETE",
-      "fixer_status": "r1 COMPLETE @10414c4 (prior builder head bd9a41a) — both convergent dual-lens r1 P0s resolved (the two TEST-ONLY R75 banned-cast net-new additions swapped for allowed forms) + Lens A P3-1 resolved (R100 Self-Check heading added to PR body). Full jest 295 suites/3562 tests, CI + CodeQL green, prod unchanged (<=400), ratio>=2 (no test-trimming), R3 clean (author==committer Bradley Gleave). Dual-lens r2 IN PROGRESS at 10414c4.",
-      "merge_ready": false,
-      "files_behavior": [
-        "src/api/extensionPairApi.ts (new) — typed transport for the two mobile-callable endpoints",
-        "src/hooks/useExtensionPairing.ts (new) — mint->poll state machine",
-        "src/components/coach/ExtensionPairingPanel.tsx (new) — honest lifecycle rendering",
-        "src/analytics/events.ts (mod) — 6 PII-free pairing events",
-        "src/screens/coach/ImportDataScreen.tsx (mod) — mounts the panel in awaitingExtension",
-        "docs/importer/MOBILE_IMPORT_DECISION.md (mod) — PR-M2 addendum"
-      ],
-      "behavior": "Replaces the M1 awaitingExtension static placeholder with a real, default-OFF pairing surface. On entry auto-mints a pairing code (POST /extension/pair/init), shows it with a server-authoritative countdown, and polls (POST /extension/pair/status) to the paired/expired terminal. Resilient polling (bounded exponential backoff 2s->15s x1.5, <=5 consecutive transient errors before retryable failed); AppState pause on background / resume-or-expire on foreground; server-authoritative expiry; single-flight mint with cancel-mid-mint abort; full timer teardown on unmount; fails closed (unknown/garbled/malformed status never promoted to paired; 401/403 -> authExpired; 404 -> unavailable). Flag OFF => hook idle, zero network.",
-      "honesty_guardrails": "No mobile-readable progress endpoint exists -> truthful terminal is 'paired' ('running in the extension'); never renders importing/partial/complete or any page/entity count/percentage. No server cancel endpoint -> cancel is a local abandon. PII-free telemetry: platform slug + coarse failure-reason class only, never a code/token/URL.",
-      "contract_mapping": "Brief-named endpoints do not exist; real verified mobile-callable routes: POST /api/extension/pair/init (mint {pairing_code, expires_at}) and POST /api/extension/pair/status (body-only; {status: pending|paired|expired}). No mobile-readable scout/ingest progress route exists (scout/* is extension-only).",
-      "gates": "Builder-claimed: tsc clean, ESLint 0 errors, 295 suites/3562 tests, prod 396, ratio 2.23. Lens B INDEPENDENTLY RE-RAN at bd9a41a (clean npm ci): tsc --noEmit exit 0; ESLint 0 errors (75 pre-existing warnings, 0 in PR files); full jest 295/295 suites, 3562/3562 tests, exit 0; prod SLOC added 400/400 (R76 PASS, conservative upper bound); test:prod ratio 882/400=2.21 (R74 PASS); feature flag default OFF (no off-path network); R3 clean (single commit, author==committer Bradley Gleave, no AI tokens). (Lens A could not independently run gates due to concurrent-agent npm-cache contention in the shared worktree; did not assert them on its own authority; its two P0s stand on direct diff inspection.)",
-      "dual_lens": "r1 (head bd9a41a) RETURNED = FINDINGS/FINDINGS, CONVERGENT: Lens A FAIL/FINDINGS (P0=2 P1=0 P2=0 P3=1), Lens B FINDINGS (P0=2 P1=0 P2=0 P3=0). Both P0s are the SAME two R75 banned-cast NET-NEW additions, both TEST-ONLY. Fixer r1 landed @10414c4 resolving both P0s + the P3-1 Self-Check. r2 (head 10414c4) IN PROGRESS — re-audit BOTH lenses at the exact fixer head (R124 both-ways at merge). NOT merge-ready until r2 returns CLEAN/CLEAN + CI green.",
-      "dual_lens_findings": "CONVERGENT P0x2 (R75 banned-cast net-new additions, both TEST-ONLY, benign substance but R75 is a mechanical bright-line P0 admitting no substance exception): (1) src/api/__tests__/extensionPairApi.test.ts:94 '.catch(() => {})' — fix: assert rejection directly (await expect(...).rejects...; expect(spy).not.toHaveBeenCalled()) or two-arg .then(spy, () => {}); (2) src/hooks/__tests__/useExtensionPairing.test.tsx:64 'as unknown as typeof AppState.addEventListener' — fix: drop the whole-signature double-cast; type the mock/callback concretely (e.g. NativeEventSubscription) or annotate callback params. Net removals=0; mobile CI has NO banned-token gate so these do NOT red CI — doctrine enforced only by this audit. Lens A P3-1 (hygiene, not correctness): PR body lacks an 'R100 Self-Check' heading and does not disclose the +2 banned-cast additions. ALL functional/security/endpoint-truth dimensions independently CLEAN in BOTH lenses: endpoint/schema truth (/extension/pair/init {chosen_platform}, /extension/pair/status {code} body-only, status enum pending|paired|expired verified vs live backend OpenAPI), default-OFF triple gating with no off-path network, mint->poll transitions, bounded backoff 2s->15s x1.5 with 5-failure cap, AppState pause/resume, server-authoritative expiry, unmount teardown, local cancel + mid-mint race guard, single-flight mint, fail-closed unknown/malformed (never promoted to paired), 401/403->authExpired 404->unavailable, PII/secret-free telemetry ({platform,reason} only), honest paired terminal (no invented progress), accessibility (R87), Quiet Luxury fontWeight<=600, M1 URL-hardening untouched.",
-      "lens_a_report": "handoffs/audit-reports/MOBILE-PR285-LENS-A-LIVE.bd9a41a.md",
-      "lens_b_report": "handoffs/audit-reports/MOBILE-PR285-LENS-B-LIVE.bd9a41a.md",
-      "blocker": "Closing the progress mirror requires a backend/extension follow-up: a mobile-readable, coach-scoped progress read (e.g. GET /api/scout/ingest/:intentId/status returning terminal success|partial|failed + coarse progress) plus intent-id linkage from a paired code, behind FEATURE_SCOUT_INGEST. Until then the mobile terminal is honestly 'paired'.",
-      "merge_mechanism_planned": "identity-safe manual squash (merge_procedure_change_2026_07_14), NOT GitHub squash",
-      "note": "Builder complete; dual-lens r1 RETURNED = FINDINGS/FINDINGS (CONVERGENT on the same two R75 test-only banned-cast lines; all functional/security/endpoint-truth CLEAN). Fixer r1 landed @10414c4 (prior builder head bd9a41a): both TEST-ONLY R75 banned casts swapped for allowed forms + R100 Self-Check heading added to the PR body (closes Lens A P3-1); full jest 295 suites/3562 tests, CI + CodeQL green, prod unchanged <=400, ratio>=2 (no test-trimming), R3 clean. Dual-lens r2 IN PROGRESS at 10414c4 — re-audit BOTH lenses at the exact fixer head. NOT merge-ready until r2 CLEAN/CLEAN + CI green; then land via identity-safe manual squash. Not self-approved."
-    }
-  ],
-  "open_prs_note": "EXT-C1b: PR #6 OPEN @55f24d5 (prior builder head ab5dc61), dual-lens r2 = CLEAN/CLEAN CONVERGENT (Lens A + Lens B + combined EXT-PR6-R2-LIVE.55f24d5.md), CI green, R124 both-ways verified — MERGE-READY, identity-safe integration IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash, never force-push published main). MOBILE-M2: PR #285 OPEN @10414c4 (prior builder head bd9a41a, base main 1695517), fixer r1 landed resolving both TEST-ONLY R75 P0s + R100 Self-Check (295 suites/3562 tests, CI + CodeQL green, prod <=400, ratio>=2, R3 clean); dual-lens r2 IN PROGRESS, NOT merge-ready until r2 CLEAN/CLEAN + CI green. Ext #5 merged @5eabeec (R3-INC-1 open); mobile #284 (M1) merged @1695517. Both open PRs land (only when CLEAN/CLEAN + CI green) via identity-safe manual squash.",
+  "open_prs": [],
+  "open_prs_note": "Op 55: NO open importer PRs. All three integrated identity-safe to their mains: EXT-C1b #6@55f24d57c625cbd2745ad3fc9226e6d41168d02a\u2192a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (rollback 5eabeec0ee53735753059f72581148052c9f2ac4); Mobile M2 #285@dce19c508320b2d7e2987aebbdb16983bf04cb63\u2192b8165beaa3804fe8a145214b772f97a3ae9eab65 (rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8); Backend #508@ab13f49c3d6631c0e922e46b0334770a73bd4b3a\u219295e2c6378e0b1b734328a7fdf6b9a6e33465a663 (rollback e6c3082755c89e51c18db9562f84b7b8898ce102). All author+committer Bradley Gleave, single-parent squash-equivalent, non-force, flags default-off. Next active node = TrueCoach end-to-end vertical proof (no open PR yet).",
   "non_importer_open_backend_prs_ignored_this_wave": [
     491,
     428,
@@ -338,19 +264,21 @@
     {
       "id": 1,
       "item": "Re-dual-lens #504 at new head; CLEAN \u2192 squash-merge",
-      "status": "in_progress"
+      "status": "completed",
+      "note": "#504 merged 2026-07-14 (backend main ancestor, tip e6c3082755c8 prior to #508); dual-lens CLEAN@c20651bb."
     },
     {
       "id": 2,
       "item": "Extension #3 CI green + dual-lens CLEAN + merge",
-      "status": "in_progress"
+      "status": "completed",
+      "note": "Extension #3 merged 2026-07-14 (merge_commit a8563853758bc369b01d9f1f7e03a28db8a520ef); dual-lens CLEAN/CLEAN + CI green @895c3ae."
     },
     {
       "id": 3,
       "milestone": "EXT-C1b",
       "item": "Extension C1b runtime wiring: wire the merged bounded replay engine (#5) into product runtime \u2014 Start Import CTA + autonomous multi-page site-agnostic crawl + ingest/progress/complete (engine currently imported only by tests)",
-      "status": "in_progress",
-      "note": "BUILDER COMPLETE + FIXER r1 COMPLETE \u2014 PR #6 OPEN, fixer head 55f24d5 (prior builder head ab5dc61, base 5eabeec): resolver seam + data-only blueprint adapter + background start_import orchestration + Start Import popup CTA. Dual-lens r1 = FAIL/FAIL (CONVERGENT CTA source-bearer P2 + P3s); fixer r1 root-fixed all six findings (real ephemeral trusted-tab source-bearer handoff via tabId + collectSourceToken, token never persisted/logged/leaked; completeIngest throws on non-2xx; source 5xx status/category preserved via lastSkipStatus; partial/degraded/truncated surfaced as ingest_partial; TGP auth-loss unified to one terminal state; single-flight shared across start_import + legacy start_ingest) with adversarial tests. Recovered in the SAME sandbox after the fixer subagent hit a step limit with an empty response (no duplicate lane). Gates @55f24d5 prod 398/400, ratio 2.781, 489 tests, banned clean, R3 clean. Dual-lens r2 PENDING at 55f24d5 \u2014 NOT merge-ready. Merge via identity-safe manual squash (merge_procedure_change_2026_07_14), not GitHub squash."
+      "status": "completed",
+      "note": "EXT-C1b PR #6 (approved head 55f24d57c625cbd2745ad3fc9226e6d41168d02a) INTEGRATED to extension main a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 via identity-safe squash-equivalent (parent/rollback 5eabeec0ee53735753059f72581148052c9f2ac4); dual-lens r2 CLEAN/CLEAN, CI green, R124 both-ways verified, flag default-off. Author+committer Bradley Gleave."
     },
     {
       "id": 4,
@@ -363,8 +291,8 @@
       "id": 8,
       "milestone": "MOBILE-M2",
       "item": "Mobile M2: live pairing/progress UX \u2014 post-open pair/init/status luxury progress wired to extension + scout ingest",
-      "status": "in_progress",
-      "note": "BUILDER COMPLETE + dual-lens r1 = FINDINGS/FINDINGS (CONVERGENT) \u2014 PR #285 OPEN @bd9a41a (base main 1695517): default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status (typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry, fails closed). Honest terminal 'paired' only \u2014 no fabricated progress. Lens B independently reran: tsc/lint green, 295 suites/3562 tests, prod 400/400, ratio 882/400=2.21, R3 clean. Lens A P0=2/P3=1, Lens B P0=2 \u2014 same two R75 TEST-ONLY banned-cast lines; ALL functional/security/endpoint-truth CLEAN in both lenses. NOT merge-ready; original builder assigned fixer r1 (swap the two casts, add R100 Self-Check, keep ratio margin), then re-audit BOTH lenses. Confirmed blocker: no mobile-readable import-progress route; progress/partial/complete deferred behind FEATURE_SCOUT_INGEST. Merge via identity-safe manual squash."
+      "status": "completed",
+      "note": "Mobile M2 PR #285 (approved head dce19c508320b2d7e2987aebbdb16983bf04cb63) INTEGRATED to mobile main b8165beaa3804fe8a145214b772f97a3ae9eab65 via identity-safe squash-equivalent (parent/rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8); dual CLEAN, post-main CI green, pairing flag default-off. Author+committer Bradley Gleave."
     },
     {
       "id": 5,
@@ -380,16 +308,32 @@
       "id": 7,
       "item": "Pairing security \u00a713 + install pack + R137 postmortem at v0.3 green",
       "status": "pending"
+    },
+    {
+      "id": 9,
+      "milestone": "BACKEND-PROGRESS",
+      "item": "Backend tenant-scoped import-status read endpoint for mobile progress UI (PR #508)",
+      "status": "completed",
+      "note": "PR #508 (approved head ab13f49c3d6631c0e922e46b0334770a73bd4b3a) INTEGRATED to backend main 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 via identity-safe squash-equivalent (parent/rollback e6c3082755c89e51c18db9562f84b7b8898ce102); dual CLEAN, core post-main correctness CI green, flag default-off. build-sbom/release-please failures = pre-existing automation debt (operational risk), not an importer regression. Author+committer Bradley Gleave."
+    },
+    {
+      "id": 10,
+      "milestone": "TC-E2E",
+      "item": "TrueCoach end-to-end vertical proof: full autonomous multi-page import loop for the first proving adapter (TrueCoach on Chrome MV3), default-flagged, honestly reported \u2014 the NEXT ACTIVE node now that EXT-C1b #6 + Mobile M2 #285 + Backend #508 are integrated.",
+      "status": "pending",
+      "note": "Next active node. Then: internal cross-browser install/runbook -> autonomous site learning (blueprint induction) -> completeness/reconstruction accounting -> luxury UI -> 3-site/2-browser v1.0 certification."
     }
   ],
   "live_state_update_rule": "Update this file after every dual-lens audit completion (per round), every fixer round, and every squash-merge.",
   "next_actions_ordered": [
-    "EXT-C1b: wire merged replay engine (#5) into extension runtime — Start Import CTA + autonomous site-agnostic multi-page crawl + ingest/progress/complete.",
-    "Mobile M2: live pairing/progress luxury UX wired to extension + scout ingest.",
-    "Default extension packaging with app download path.",
-    "Staging flags + full-loop E2E smoke + competitor dogfood.",
-    "R137 postmortem (include R3-INC-1) at v0.3 green.",
-    "All new merges via identity-safe manual squash (merge_procedure_change_2026_07_14), never GitHub squash."
+    "TrueCoach end-to-end vertical proof: full autonomous multi-page import loop for the first proving adapter (TrueCoach on Chrome MV3), default-flagged, honestly reported \u2014 NEXT ACTIVE node.",
+    "Internal cross-browser install/runbook.",
+    "Autonomous site learning (blueprint induction for an unseen site).",
+    "Completeness / reconstruction accounting.",
+    "Luxury UI pass (R1 crit).",
+    "3-site / 2-browser v1.0 certification.",
+    "R137 postmortem (include R3-INC-1 + backend build-sbom/release-please automation debt) at v0.3 green.",
+    "All new merges via identity-safe squash-equivalent (merge_procedure_change_2026_07_14), never GitHub squash, never force-push published main."
   ],
   "gotchas_new_this_session": [
     "CoachPairingScreen on mobile is client-invite Day-1 \u2014 do NOT confuse with extension 6-digit import pairing.",
@@ -398,14 +342,16 @@
     "Product is SITE-AGNOSTIC: do not plan per-competitor tooling as the core path.",
     "A02-import-tooling.md (Trainerize CSV etc.) is a DIFFERENT lane \u2014 do not conflate with extension capture bridge."
   ],
-  "verdict": "EXT_C1b_PR6_R2_CLEAN_CLEAN_CI_GREEN_MERGE_READY_INTEGRATION_IN_PROGRESS__MOBILE_M2_PR285_FIXER_R1_COMPLETE_DUAL_LENS_R2_IN_PROGRESS \u2014 EXT PR #6 dual-lens r2 at exact fixer head 55f24d5 (R124 both-ways verified) = LENS A CLEAN (0 P0-P3) + LENS B CLEAN (0 P0-P3) + combined EXT-PR6-R2-LIVE.55f24d5.md, CONVERGENT; all six r1 findings root-fixed + independently re-verified; gates green (banned clean, prod 398/cap, ratio 2.781, 489 vitest tests); R3 clean on ab5dc61+55f24d5; CI green; MERGE-READY, identity-safe integration IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash); audit itself read-only. Mobile M2 PR #285 fixer r1 COMPLETE @10414c4 (prior head bd9a41a): both TEST-ONLY R75 banned-cast P0s + R100 Self-Check resolved; 295 suites/3562 tests, CI + CodeQL green, prod <=400, ratio>=2, R3 clean; dual-lens r2 IN PROGRESS, NOT merge-ready until r2 CLEAN/CLEAN + CI green. --- Prior (builder r1): DUAL_LENS_R1_FAIL_FAIL \u2014 EXT-C1b BUILDER COMPLETE: PR #6 OPEN @ab5dc61 (base 5eabeec) wires replay engine (#5) into runtime (resolver seam, data-only blueprint adapter, background start_import orchestration, Start Import popup CTA) with security controls (isTrustedExtensionPage gate, synchronous single-flight, tab-origin allowedOrigins, bearer end-to-end, AuthLostError 401/403 without TGP-token clear); gates prod 303/400, ratio 2.010, 467 tests, banned clean, R3 clean. Dual-lens r1 RETURNED = FAIL/FAIL, CONVERGENT: LENS A FAIL (P2=1 blocking [A-01 CTA omits sourceToken]; P3=2 [A-02 completeIngest no res.ok check, A-03 source-5xx low-signal]); LENS B FAIL (P2=1 blocking [PR6-B-P2 CTA omits source bearer \u2014 the SAME gap, independently found]; P3=3 [partial reported as ingest_succeeded, TGP-authloss plain-Error status muddle, single-flight only start_import]; +1 advisory ratio-margin). All MANDATORY security invariants independently re-verified by BOTH lenses and HOLD (no P0/P1). NOT merge-ready; return to fixer for the blocking CTA source-bearer P2 (plumb the token or document+flag the deferral) plus the P3s, then re-audit BOTH lenses at the new exact head; merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash. mobile#284 (M1) MERGED @1695517 (identity-safe manual squash, R3-conforming). ext#5 MERGED @5eabeec with R3-INC-1 (GitHub-synthesized identity) still OPEN/accepted/grandfathered (not rewritten, not hidden).",
+  "verdict": "OP55_RECONCILE_ALL_THREE_IMPORTER_PRS_INTEGRATED_IDENTITY_SAFE_FLAGS_DEFAULT_OFF \u2014 EXT-C1b #6@55f24d57c625cbd2745ad3fc9226e6d41168d02a\u2192ext main a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (rollback 5eabeec0ee53735753059f72581148052c9f2ac4); Mobile M2 #285@dce19c508320b2d7e2987aebbdb16983bf04cb63\u2192mobile main b8165beaa3804fe8a145214b772f97a3ae9eab65 (rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8, dual CLEAN, post-main CI green); Backend #508@ab13f49c3d6631c0e922e46b0334770a73bd4b3a\u2192backend main 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 (rollback e6c3082755c89e51c18db9562f84b7b8898ce102, dual CLEAN, core correctness CI green; build-sbom/release-please pre-existing automation debt = operational risk, not fully green). All identity-safe squash-equivalent (author+committer Bradley Gleave), single-parent, non-force. Next active node = TrueCoach end-to-end vertical proof. No production flag enablement/deployment. --- Prior: EXT_C1b_PR6_R2_CLEAN_CLEAN_CI_GREEN_MERGE_READY_INTEGRATION_IN_PROGRESS__MOBILE_M2_PR285_FIXER_R1_COMPLETE_DUAL_LENS_R2_IN_PROGRESS \u2014 EXT PR #6 dual-lens r2 at exact fixer head 55f24d5 (R124 both-ways verified) = LENS A CLEAN (0 P0-P3) + LENS B CLEAN (0 P0-P3) + combined EXT-PR6-R2-LIVE.55f24d5.md, CONVERGENT; all six r1 findings root-fixed + independently re-verified; gates green (banned clean, prod 398/cap, ratio 2.781, 489 vitest tests); R3 clean on ab5dc61+55f24d5; CI green; MERGE-READY, identity-safe integration IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash); audit itself read-only. Mobile M2 PR #285 fixer r1 COMPLETE @10414c4 (prior head bd9a41a): both TEST-ONLY R75 banned-cast P0s + R100 Self-Check resolved; 295 suites/3562 tests, CI + CodeQL green, prod <=400, ratio>=2, R3 clean; dual-lens r2 IN PROGRESS, NOT merge-ready until r2 CLEAN/CLEAN + CI green. --- Prior (builder r1): DUAL_LENS_R1_FAIL_FAIL \u2014 EXT-C1b BUILDER COMPLETE: PR #6 OPEN @ab5dc61 (base 5eabeec) wires replay engine (#5) into runtime (resolver seam, data-only blueprint adapter, background start_import orchestration, Start Import popup CTA) with security controls (isTrustedExtensionPage gate, synchronous single-flight, tab-origin allowedOrigins, bearer end-to-end, AuthLostError 401/403 without TGP-token clear); gates prod 303/400, ratio 2.010, 467 tests, banned clean, R3 clean. Dual-lens r1 RETURNED = FAIL/FAIL, CONVERGENT: LENS A FAIL (P2=1 blocking [A-01 CTA omits sourceToken]; P3=2 [A-02 completeIngest no res.ok check, A-03 source-5xx low-signal]); LENS B FAIL (P2=1 blocking [PR6-B-P2 CTA omits source bearer \u2014 the SAME gap, independently found]; P3=3 [partial reported as ingest_succeeded, TGP-authloss plain-Error status muddle, single-flight only start_import]; +1 advisory ratio-margin). All MANDATORY security invariants independently re-verified by BOTH lenses and HOLD (no P0/P1). NOT merge-ready; return to fixer for the blocking CTA source-bearer P2 (plumb the token or document+flag the deferral) plus the P3s, then re-audit BOTH lenses at the new exact head; merge (only when CLEAN/CLEAN + CI green) via identity-safe manual squash. mobile#284 (M1) MERGED @1695517 (identity-safe manual squash, R3-conforming). ext#5 MERGED @5eabeec with R3-INC-1 (GitHub-synthesized identity) still OPEN/accepted/grandfathered (not rewritten, not hidden).",
   "last_merge": {
-    "pr": 284,
-    "repo": "growth-project-mobile",
-    "at": "2026-07-14T13:50:00Z",
-    "sha": "169551777a95f9b1e89e4a8a5f75bf53ae23dcd8",
-    "mechanism": "identity-safe manual squash + lease-checked fast-forward",
-    "r3_note": "R3-CONFORMING — author+committer both Bradley Gleave; first use of merge_procedure_change_2026_07_14"
+    "pr": 508,
+    "repo": "growth-project-backend",
+    "approved_head": "ab13f49c3d6631c0e922e46b0334770a73bd4b3a",
+    "at": "2026-07-15T16:04:51Z",
+    "main_after": "95e2c6378e0b1b734328a7fdf6b9a6e33465a663",
+    "rollback_commit": "e6c3082755c89e51c18db9562f84b7b8898ce102",
+    "mechanism": "identity-safe squash-equivalent (author+committer both Bradley Gleave), single-parent, non-force",
+    "r3_note": "R3-CONFORMING; dual CLEAN; core post-main correctness CI green; flag default-off; build-sbom/release-please pre-existing automation debt (operational risk)."
   },
   "watchdog": {
     "id": "bbd2c039",
@@ -436,7 +382,7 @@
       "merged_at_utc": "2026-07-14T12:06:01Z",
       "gate": "dual-lens CLEAN/CLEAN P0-P3=0 exact head 5d46a1b + GitHub CI two checks pass; prod328 ratio3.723 tests428",
       "merge_mechanism": "GitHub-generated squash",
-      "r3_status": "NON-CONFORMING — see r3_process_incidents R3-INC-1 (GitHub-synthesized identity; accepted+grandfathered, published tip NOT rewritten)"
+      "r3_status": "NON-CONFORMING \u2014 see r3_process_incidents R3-INC-1 (GitHub-synthesized identity; accepted+grandfathered, published tip NOT rewritten)"
     },
     {
       "repo": "growth-project-mobile",
@@ -449,14 +395,48 @@
       "parent": "09b6cac809438b8e9e54494c6330f06415caca53",
       "tree": "ae76a8d924ccd012243ae266b3d4f0d1c593e654",
       "tree_equality": "byte-identical to PR head 306f3a0 (git diff 1695517 306f3a0 empty)",
-      "r3_status": "CONFORMING — author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>; forbidden-token scan clean (verified on remote via gh api)",
+      "r3_status": "CONFORMING \u2014 author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>; forbidden-token scan clean (verified on remote via gh api)",
       "pr_state": "CLOSED via gh pr close (not merge API) with explanatory comment; head branch feat/mobile-import-data-entry preserved"
+    },
+    {
+      "repo": "tgp-importer-extension",
+      "pr": 6,
+      "milestone": "EXT-C1b",
+      "approved_head": "55f24d57c625cbd2745ad3fc9226e6d41168d02a",
+      "merge_commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
+      "rollback_commit": "5eabeec0ee53735753059f72581148052c9f2ac4",
+      "merged_at_utc": "2026-07-14T13:38:39Z",
+      "mechanism": "identity-safe squash-equivalent (author+committer both Bradley Gleave), single-parent, non-force",
+      "gate": "dual-lens r2 CLEAN/CLEAN P0-P3=0 exact head 55f24d57c625cbd2745ad3fc9226e6d41168d02a + CI green + R124 both-ways; flag default-off"
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 285,
+      "milestone": "M2",
+      "approved_head": "dce19c508320b2d7e2987aebbdb16983bf04cb63",
+      "merge_commit": "b8165beaa3804fe8a145214b772f97a3ae9eab65",
+      "rollback_commit": "169551777a95f9b1e89e4a8a5f75bf53ae23dcd8",
+      "merged_at_utc": "2026-07-15T11:09:50Z",
+      "mechanism": "identity-safe squash-equivalent (author+committer both Bradley Gleave), single-parent, non-force",
+      "gate": "dual-lens CLEAN/CLEAN P0-P3=0 exact head dce19c508320b2d7e2987aebbdb16983bf04cb63 + post-main CI green; pairing flag default-off"
+    },
+    {
+      "repo": "growth-project-backend",
+      "pr": 508,
+      "milestone": "BACKEND-PROGRESS",
+      "approved_head": "ab13f49c3d6631c0e922e46b0334770a73bd4b3a",
+      "merge_commit": "95e2c6378e0b1b734328a7fdf6b9a6e33465a663",
+      "rollback_commit": "e6c3082755c89e51c18db9562f84b7b8898ce102",
+      "merged_at_utc": "2026-07-15T16:04:51Z",
+      "mechanism": "identity-safe squash-equivalent (author+committer both Bradley Gleave), single-parent, non-force",
+      "gate": "dual-lens CLEAN/CLEAN P0-P3=0 exact head ab13f49c3d6631c0e922e46b0334770a73bd4b3a + core post-main correctness CI green; flag default-off",
+      "operational_risk": "build-sbom / release-please automation checks fail post-main \u2014 pre-existing automation debt also on prior main, NOT an importer regression; system NOT fully green while open."
     }
   ],
   "next_actions": [
-    "EXT-C1b PR: wire replay engine into runtime \u2014 Start client Import CTA + autonomous site-agnostic discovery/replay across many pages (identity-safe manual squash)",
-    "Mobile M2 PR: post-open pair/init/status luxury progress wired to extension + scout ingest",
-    "Backend/staging flags + E2E + dogfood + security/install pack"
+    "TrueCoach end-to-end vertical proof (first proving adapter; default-flagged; honest reporting) \u2014 next active node.",
+    "Internal cross-browser install/runbook + autonomous site learning.",
+    "Completeness/reconstruction accounting + luxury UI + 3-site/2-browser v1.0 certification."
   ],
   "operating_constitution": {
     "canonical": "AGENT_RULES.md#operator-constitution-addendum--2026-07-13",
@@ -472,9 +452,9 @@
     "idiot_index": "one pure engine + declarative adapters, no new service",
     "hyperscaler": "explicit states, budgets, abort, idempotency, failure isolation",
     "good_without_bad": "autonomy without broad permissions/destructive methods",
-    "evidence": "ext#5 dual-lens r3 CLEAN/CLEAN @5d46a1b → MERGED as GitHub squash 5eabeec (tree accepted), which exposed R3-INC-1 (GitHub-synthesized identity); rewrite candidate built but NOT pushed (destructive), incident left OPEN/visible, and merge procedure changed. mobile#284 (M1) then MERGED @1695517 as the FIRST use of merge_procedure_change_2026_07_14: identity-safe manual squash of the exact audited tree (ae76a8d, byte-identical to 306f3a0) onto growth-project-mobile main by normal lease-checked fast-forward (09b6cac..1695517, no force), author+committer both Bradley Gleave, forbidden-token scan clean, GitHub checks + CodeQL green, r6 dual-lens CLEAN/CLEAN; PR #284 CLOSED with explanatory comment, head branch preserved. This proves the identity-safe path lands R3-conforming commits without any published-history rewrite.",
-    "rollback_stop": "flag/off or revert PR; stop on P0-P3 or contract mismatch. NEVER force-push rewrite of published shared main to fix identity — accept + grandfather + fix procedure forward (as done for R3-INC-1).",
-    "next": "EXT-C1b PR #6 @55f24d5 dual-lens r2 = CLEAN/CLEAN CONVERGENT (both lenses + combined EXT-PR6-R2-LIVE.55f24d5.md, 0 P0-P3), CI green, R124 both-ways verified — MERGE-READY, identity-safe integration IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash, never force-push published main); on completion confirm local==remote and PR #6 CLOSED with explanatory comment + head branch preserved. Mobile M2 PR #285 fixer r1 COMPLETE @10414c4 (both TEST-ONLY R75 banned casts swapped + R100 Self-Check added; 295 suites/3562 tests, CI + CodeQL green, prod <=400, ratio>=2, R3 clean). NEXT for mobile: run dual-lens r2 at the exact fixer head 10414c4 (R124 both-ways); on CLEAN/CLEAN + CI green land via identity-safe manual squash. H4 production-readiness cross-repo rollout stays deferred (serialize per-repo AFTER PR #6 + PR #285 land). R3-INC-1 remains OPEN/accepted — capture in R137 postmortem. --- Prior (builder r1): EXT-C1b builder is COMPLETE as PR #6 @ab5dc61 (base 5eabeec): resolver seam + data-only blueprint adapter + background start_import orchestration + Start Import popup CTA, with the mandatory wiring-layer controls (isTrustedExtensionPage gate, synchronous single-flight, tab-origin allowedOrigins, bearer end-to-end, source AuthLostError 401/403 that never clears TGP tokens); gates prod 303/400, ratio 2.010, 467 tests, banned clean, R3 clean. NOW: dual-lens r1 (angry adversarial, any P0-P3) RETURNED = FAIL/FAIL, CONVERGENT — LENS A FAIL (P2=1 blocking A-01 [CTA never supplies sourceToken]; P3=2 A-02/A-03); LENS B FAIL (P2=1 blocking PR6-B-P2 [SAME CTA source-bearer gap, independently found]; P3=3 [partial->ingest_succeeded, TGP-authloss plain-Error status muddle, single-flight only start_import]; +1 advisory ratio-margin). All MANDATORY controls independently HOLD by both lenses (no P0/P1). NOT merge-ready — return to fixer for the blocking CTA source-bearer P2 (plumb captured source bearer into the CTA, or document+flag the deferral), plus the P3s, then re-audit BOTH lenses at the new exact head; on CLEAN/CLEAN + CI green, land via identity-safe manual squash (never GitHub squash). Then mobile M2 live pairing/progress UX. R3-INC-1 remains OPEN/accepted — capture in R137 postmortem.",
+    "evidence": "ext#5 dual-lens r3 CLEAN/CLEAN @5d46a1b \u2192 MERGED as GitHub squash 5eabeec (tree accepted), which exposed R3-INC-1 (GitHub-synthesized identity); rewrite candidate built but NOT pushed (destructive), incident left OPEN/visible, and merge procedure changed. mobile#284 (M1) then MERGED @1695517 as the FIRST use of merge_procedure_change_2026_07_14: identity-safe manual squash of the exact audited tree (ae76a8d, byte-identical to 306f3a0) onto growth-project-mobile main by normal lease-checked fast-forward (09b6cac..1695517, no force), author+committer both Bradley Gleave, forbidden-token scan clean, GitHub checks + CodeQL green, r6 dual-lens CLEAN/CLEAN; PR #284 CLOSED with explanatory comment, head branch preserved. This proves the identity-safe path lands R3-conforming commits without any published-history rewrite.",
+    "rollback_stop": "flag/off or revert PR; stop on P0-P3 or contract mismatch. NEVER force-push rewrite of published shared main to fix identity \u2014 accept + grandfather + fix procedure forward (as done for R3-INC-1).",
+    "next": "Op 55 RECONCILE (docs/state only): all three importer PRs INTEGRATED identity-safe, flags default-off, no production enablement/deploy. EXT-C1b #6@55f24d57c625cbd2745ad3fc9226e6d41168d02a\u2192ext main a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (rollback 5eabeec0ee53735753059f72581148052c9f2ac4); Mobile M2 #285@dce19c508320b2d7e2987aebbdb16983bf04cb63\u2192mobile main b8165beaa3804fe8a145214b772f97a3ae9eab65 (rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8, dual CLEAN, post-main CI green); Backend #508@ab13f49c3d6631c0e922e46b0334770a73bd4b3a\u2192backend main 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 (rollback e6c3082755c89e51c18db9562f84b7b8898ce102, dual CLEAN, core correctness CI green; build-sbom/release-please pre-existing automation debt = operational risk, NOT fully green). Next active node = TrueCoach end-to-end vertical proof, then internal cross-browser install/runbook, autonomous site learning, completeness/reconstruction, luxury UI, 3-site/2-browser certification. R3-INC-1 remains OPEN/accepted \u2014 capture in R137 postmortem. --- Prior: EXT-C1b PR #6 @55f24d5 dual-lens r2 = CLEAN/CLEAN CONVERGENT (both lenses + combined EXT-PR6-R2-LIVE.55f24d5.md, 0 P0-P3), CI green, R124 both-ways verified \u2014 MERGE-READY, identity-safe integration IN PROGRESS (manual squash + lease-safe fast-forward, never GitHub squash, never force-push published main); on completion confirm local==remote and PR #6 CLOSED with explanatory comment + head branch preserved. Mobile M2 PR #285 fixer r1 COMPLETE @10414c4 (both TEST-ONLY R75 banned casts swapped + R100 Self-Check added; 295 suites/3562 tests, CI + CodeQL green, prod <=400, ratio>=2, R3 clean). NEXT for mobile: run dual-lens r2 at the exact fixer head 10414c4 (R124 both-ways); on CLEAN/CLEAN + CI green land via identity-safe manual squash. H4 production-readiness cross-repo rollout stays deferred (serialize per-repo AFTER PR #6 + PR #285 land). R3-INC-1 remains OPEN/accepted \u2014 capture in R137 postmortem. --- Prior (builder r1): EXT-C1b builder is COMPLETE as PR #6 @ab5dc61 (base 5eabeec): resolver seam + data-only blueprint adapter + background start_import orchestration + Start Import popup CTA, with the mandatory wiring-layer controls (isTrustedExtensionPage gate, synchronous single-flight, tab-origin allowedOrigins, bearer end-to-end, source AuthLostError 401/403 that never clears TGP tokens); gates prod 303/400, ratio 2.010, 467 tests, banned clean, R3 clean. NOW: dual-lens r1 (angry adversarial, any P0-P3) RETURNED = FAIL/FAIL, CONVERGENT \u2014 LENS A FAIL (P2=1 blocking A-01 [CTA never supplies sourceToken]; P3=2 A-02/A-03); LENS B FAIL (P2=1 blocking PR6-B-P2 [SAME CTA source-bearer gap, independently found]; P3=3 [partial->ingest_succeeded, TGP-authloss plain-Error status muddle, single-flight only start_import]; +1 advisory ratio-margin). All MANDATORY controls independently HOLD by both lenses (no P0/P1). NOT merge-ready \u2014 return to fixer for the blocking CTA source-bearer P2 (plumb captured source bearer into the CTA, or document+flag the deferral), plus the P3s, then re-audit BOTH lenses at the new exact head; on CLEAN/CLEAN + CI green, land via identity-safe manual squash (never GitHub squash). Then mobile M2 live pairing/progress UX. R3-INC-1 remains OPEN/accepted \u2014 capture in R137 postmortem.",
     "evidence_ext_c1b": "PR #6 OPEN, branch feat/replay-c1b-wiring, exact head ab5dc61, base main 5eabeec. Files/behavior: shared/replay/resolve.js (platform->blueprint resolver, unknown_platform fails closed), extractors/truecoach/blueprint.js (data-only verification adapter, no executable extraction logic), background.js (start_import orchestration), popup/popup.{js,html} (Start Import CTA + DI wiring). Security: trusted-extension-page gate (not id-alone), synchronous single-flight, tab-origin allowedOrigins, bearer end-to-end, source 401/403 AuthLostError fails closed without clearing TGP tokens. Gates: prod 303/400, test:src ratio 2.010 (floor 2.0), 467 tests pass, banned clean, R3 clean (author+committer both Bradley Gleave on ab5dc61). Dual-lens r1 = FAIL/FAIL (CONVERGENT on the CTA source-bearer P2; Lens A P2x1/P3x2, Lens B P2x1/P3x3 +1 advisory); NOT merge-ready; returned to fixer."
   },
   "audit_rounds": [
@@ -619,11 +599,11 @@
       "standard": "full angry adversarial ANY P0-P3",
       "gate_local": "prod 303/400, test:src ratio 2.010, 467 tests, banned clean, R3 clean",
       "merge_ready": false,
-      "lens_a_findings": "All MANDATORY controls independently re-verified and HOLD (trust gate rejects content-script sender; synchronous single-flight; tab-origin allowedOrigins enforced by normalizeBlueprint inside runReplay BEFORE any fetch; source 401/403 AuthLostError fails closed without clearing TGP tokens; bearer threaded at orchestration layer). BLOCKING A-01 (P2): shipping Start Import CTA never supplies sourceToken (requestStartImport sends only {kind,url}), so makeSourceFetch('') emits no Authorization header and a real CTA-initiated crawl cannot authenticate against a bearer-gated source — the PR-C1b bearer MANDATE is met at the background layer (e2e-tested with injected token) but the UI token producer is missing; either plumb the captured source bearer into the CTA or document+flag the deferral. A-02 (P3): completeIngest (pre-existing, now in success-path blast radius) does not check res.ok, so a non-2xx complete still broadcasts ingest_succeeded. A-03 (P3): source 5xx surfaces as low-signal 'import failed' (status code dropped); credentials:'include' is intended session reuse bounded by allowedOrigins (informational).",
+      "lens_a_findings": "All MANDATORY controls independently re-verified and HOLD (trust gate rejects content-script sender; synchronous single-flight; tab-origin allowedOrigins enforced by normalizeBlueprint inside runReplay BEFORE any fetch; source 401/403 AuthLostError fails closed without clearing TGP tokens; bearer threaded at orchestration layer). BLOCKING A-01 (P2): shipping Start Import CTA never supplies sourceToken (requestStartImport sends only {kind,url}), so makeSourceFetch('') emits no Authorization header and a real CTA-initiated crawl cannot authenticate against a bearer-gated source \u2014 the PR-C1b bearer MANDATE is met at the background layer (e2e-tested with injected token) but the UI token producer is missing; either plumb the captured source bearer into the CTA or document+flag the deferral. A-02 (P3): completeIngest (pre-existing, now in success-path blast radius) does not check res.ok, so a non-2xx complete still broadcasts ingest_succeeded. A-03 (P3): source 5xx surfaces as low-signal 'import failed' (status code dropped); credentials:'include' is intended session reuse bounded by allowedOrigins (informational).",
       "lens_a_report": "handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.ab5dc61.md",
-      "lens_b_findings": "Independent read-only lens; did NOT read Lens A. All security invariants independently re-verified PASS (trusted-page gate requires id + no-tab + chrome-extension URL, rejects content-script sender; SSRF confined by REQUIRED allowedOrigins normalized before any fetch + HARDCODED apiBase so a look-alike host cannot swap origin, root-relative templates; synchronous single-flight in the router; source AuthLostError never calls clearTokens(); LOCKED camelCase envelope; data-only blueprint fresh per resolve). BLOCKING PR6-B-P2-cta-omits-source-bearer (P2): the sole production producer of start_import (popup.js:74) sends {kind,url} with NO sourceToken, so makeSourceFetch('') emits no Authorization header and a real CTA click against the sole registered platform (bearer-gated TrueCoach) 401s -> AuthLostError -> imports nothing; the 'bearer end-to-end' claim is proven only under test injection. Fails closed (honest) => P2 not P1. INDEPENDENTLY CONVERGENT with Lens A A-01. P3s: (1) partial-reported-as-succeeded — handleStartImport collapses result.status complete||partial both to ingest_succeeded, discarding the engine's honest partial/degraded/truncated signal (silent data loss shown as unqualified success); (2) tgp-authloss-status-muddle — makeSender throws plain Error('auth_required') not AuthLostError, so a TGP-side auth loss lands in the catch as detail 'auth_required' and overwrites the friendlier onAuthLost broadcast in an order-dependent way; (3) single-flight-only-start_import — importInFlight guards start_import only, not the legacy start_ingest path, so start_ingest can run concurrently. ADVISORY (not scored): ratio 2.010 sits only 3 lines above the R74 floor of 2.0 — a fixer round must not trim tests / add trivial prod. R3 clean at ab5dc61 (author+committer Bradley Gleave, no AI/co-author/noreply trailers).",
+      "lens_b_findings": "Independent read-only lens; did NOT read Lens A. All security invariants independently re-verified PASS (trusted-page gate requires id + no-tab + chrome-extension URL, rejects content-script sender; SSRF confined by REQUIRED allowedOrigins normalized before any fetch + HARDCODED apiBase so a look-alike host cannot swap origin, root-relative templates; synchronous single-flight in the router; source AuthLostError never calls clearTokens(); LOCKED camelCase envelope; data-only blueprint fresh per resolve). BLOCKING PR6-B-P2-cta-omits-source-bearer (P2): the sole production producer of start_import (popup.js:74) sends {kind,url} with NO sourceToken, so makeSourceFetch('') emits no Authorization header and a real CTA click against the sole registered platform (bearer-gated TrueCoach) 401s -> AuthLostError -> imports nothing; the 'bearer end-to-end' claim is proven only under test injection. Fails closed (honest) => P2 not P1. INDEPENDENTLY CONVERGENT with Lens A A-01. P3s: (1) partial-reported-as-succeeded \u2014 handleStartImport collapses result.status complete||partial both to ingest_succeeded, discarding the engine's honest partial/degraded/truncated signal (silent data loss shown as unqualified success); (2) tgp-authloss-status-muddle \u2014 makeSender throws plain Error('auth_required') not AuthLostError, so a TGP-side auth loss lands in the catch as detail 'auth_required' and overwrites the friendlier onAuthLost broadcast in an order-dependent way; (3) single-flight-only-start_import \u2014 importInFlight guards start_import only, not the legacy start_ingest path, so start_ingest can run concurrently. ADVISORY (not scored): ratio 2.010 sits only 3 lines above the R74 floor of 2.0 \u2014 a fixer round must not trim tests / add trivial prod. R3 clean at ab5dc61 (author+committer Bradley Gleave, no AI/co-author/noreply trailers).",
       "lens_b_report": "handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.ab5dc61.md",
-      "note": "Builder complete (resolver seam + data-only blueprint adapter + background start_import orchestration + Start Import popup CTA; security controls isTrustedExtensionPage gate / single-flight / tab-origin allowedOrigins / bearer end-to-end / AuthLostError 401/403 no-token-clear). Dual-lens r1 RETURNED = FAIL/FAIL, CONVERGENT on the CTA source-bearer P2 (Lens A A-01 == Lens B PR6-B-P2, independently found). All MANDATORY security invariants HOLD by both lenses (no P0/P1). NOT merge-ready — return to fixer for the blocking CTA source-bearer P2 (plumb the captured source bearer into the CTA message, OR document+flag the deferral and soften the 'bearer end-to-end' PR claim), plus the P3s (Lens A: completeIngest res.ok, source-5xx signal; Lens B: partial->succeeded fidelity, TGP-authloss classification, single-flight scope), then re-audit BOTH lenses at the new exact fixer head. On CLEAN/CLEAN + CI green, land via identity-safe manual squash (never GitHub squash). RESOLUTION: fixer r1 landed @55f24d5 (all six root-fixed + adversarial tests); dual-lens r2 PENDING at that head."
+      "note": "Builder complete (resolver seam + data-only blueprint adapter + background start_import orchestration + Start Import popup CTA; security controls isTrustedExtensionPage gate / single-flight / tab-origin allowedOrigins / bearer end-to-end / AuthLostError 401/403 no-token-clear). Dual-lens r1 RETURNED = FAIL/FAIL, CONVERGENT on the CTA source-bearer P2 (Lens A A-01 == Lens B PR6-B-P2, independently found). All MANDATORY security invariants HOLD by both lenses (no P0/P1). NOT merge-ready \u2014 return to fixer for the blocking CTA source-bearer P2 (plumb the captured source bearer into the CTA message, OR document+flag the deferral and soften the 'bearer end-to-end' PR claim), plus the P3s (Lens A: completeIngest res.ok, source-5xx signal; Lens B: partial->succeeded fidelity, TGP-authloss classification, single-flight scope), then re-audit BOTH lenses at the new exact fixer head. On CLEAN/CLEAN + CI green, land via identity-safe manual squash (never GitHub squash). RESOLUTION: fixer r1 landed @55f24d5 (all six root-fixed + adversarial tests); dual-lens r2 PENDING at that head."
     },
     {
       "repo": "tgp-importer-extension",
@@ -638,12 +618,12 @@
       "convergent": true,
       "merge_ready": true,
       "gate_local": "gates independently executed at 55f24d5 (clean node_modules): check:banned OK (source patterns + R3 identity); check:loc prod_added=398 prod_removed=34 cap=600 OK; check:flags PAIRING_ENABLED=true sole-auth-path OK; check:ratio prod 398/test 1107 = 2.781 floor 2 OK; npm test (vitest) 30 files / 489 tests pass exit 0. Banned sweep over ALL added lines (prod+test) = NONE (the two .catch(()=>undefined) are project-doctrine-exempt best-effort broadcasts, gate-clean). R3 clean on both branch commits ab5dc61+55f24d5.",
-      "findings": "Zero P0-P3 in either lens. All six r1 findings root-fixed and re-verified by direct diff inspection at 55f24d5: (r1-P2 CTA source-bearer) collectSourceToken(tabId, allowedOrigins) re-reads live tab origin + requires it in allowlist + queries trusted content collector (wireCollector sender.id gate), accepts only {ok:true,token}, token memory-only (never DOM/storage/logs/telemetry/PR/payload), fails closed on nav/missing script; (r1-P3) completeIngest throws complete N on non-2xx + complete_timeout on bounded timeout; (r1-P3) engine lastSkipStatus preserves status-number/category only (no body/PII) surfaced via failDetail/partialDetail; (r1-P3) partial maps to distinct ingest_partial (amber), not ingest_succeeded; (r1-P3) TGP double-401 -> tgpAuthLost+clearTokens (pairing) vs SOURCE 401/403 -> AuthLostError WITHOUT clearTokens (source re-login) — two distinct fail-closed paths; (r1-P3) importInFlight set synchronously in router, shared across start_import + legacy start_ingest. SSRF confined by REQUIRED https allowedOrigins; sender trust via isTrustedExtensionPage (id + extension-origin URL + no tab); fresh blueprint per run; VERBATIM entity envelope.",
+      "findings": "Zero P0-P3 in either lens. All six r1 findings root-fixed and re-verified by direct diff inspection at 55f24d5: (r1-P2 CTA source-bearer) collectSourceToken(tabId, allowedOrigins) re-reads live tab origin + requires it in allowlist + queries trusted content collector (wireCollector sender.id gate), accepts only {ok:true,token}, token memory-only (never DOM/storage/logs/telemetry/PR/payload), fails closed on nav/missing script; (r1-P3) completeIngest throws complete N on non-2xx + complete_timeout on bounded timeout; (r1-P3) engine lastSkipStatus preserves status-number/category only (no body/PII) surfaced via failDetail/partialDetail; (r1-P3) partial maps to distinct ingest_partial (amber), not ingest_succeeded; (r1-P3) TGP double-401 -> tgpAuthLost+clearTokens (pairing) vs SOURCE 401/403 -> AuthLostError WITHOUT clearTokens (source re-login) \u2014 two distinct fail-closed paths; (r1-P3) importInFlight set synchronously in router, shared across start_import + legacy start_ingest. SSRF confined by REQUIRED https allowedOrigins; sender trust via isTrustedExtensionPage (id + extension-origin URL + no tab); fresh blueprint per run; VERBATIM entity envelope.",
       "reports": [
         "handoffs/audit-reports/EXT-PR6-LENS-A-LIVE.55f24d5.md",
         "handoffs/audit-reports/EXT-PR6-LENS-B-LIVE.55f24d5.md"
       ],
-      "note": "Dual-lens r2 RETURNED = CLEAN/CLEAN, CONVERGENT at exact fixer head 55f24d5. R14 axis met on both lenses. MERGE-READY pending CI-green + R124 re-check at merge time. Land via identity-safe manual squash + lease-safe fast-forward (merge_procedure_change_2026_07_14) — NEVER GitHub squash, NEVER force-push published main. Audit was read-only (R13); not merged, not self-approved. R3-INC-1 on ext main tip 5eabeec remains OPEN/accepted/grandfathered (untouched)."
+      "note": "Dual-lens r2 RETURNED = CLEAN/CLEAN, CONVERGENT at exact fixer head 55f24d5. R14 axis met on both lenses. MERGE-READY pending CI-green + R124 re-check at merge time. Land via identity-safe manual squash + lease-safe fast-forward (merge_procedure_change_2026_07_14) \u2014 NEVER GitHub squash, NEVER force-push published main. Audit was read-only (R13); not merged, not self-approved. R3-INC-1 on ext main tip 5eabeec remains OPEN/accepted/grandfathered (untouched)."
     },
     {
       "repo": "growth-project-mobile",
@@ -657,7 +637,7 @@
       "lens_b": "FINDINGS P0=2 P1=0 P2=0 P3=0",
       "convergent": true,
       "merge_ready": false,
-      "gate_local": "Lens B independently reran at bd9a41a: tsc --noEmit exit 0; ESLint 0 errors (75 pre-existing warnings, 0 in PR files); 295/295 suites, 3562/3562 tests exit 0; prod 400/400 (R76 PASS); ratio 882/400=2.21 (R74 PASS); R3 clean. Lens A could not run gates (concurrent-agent npm-cache contention in shared worktree) — did not assert them; its P0s stand on direct diff inspection.",
+      "gate_local": "Lens B independently reran at bd9a41a: tsc --noEmit exit 0; ESLint 0 errors (75 pre-existing warnings, 0 in PR files); 295/295 suites, 3562/3562 tests exit 0; prod 400/400 (R76 PASS); ratio 882/400=2.21 (R74 PASS); R3 clean. Lens A could not run gates (concurrent-agent npm-cache contention in shared worktree) \u2014 did not assert them; its P0s stand on direct diff inspection.",
       "findings": "CONVERGENT P0x2 = the SAME two R75 banned-cast NET-NEW additions, both TEST-ONLY (benign substance; R75 is a mechanical bright-line P0 with no substance exception): extensionPairApi.test.ts:94 '.catch(() => {})' and useExtensionPairing.test.tsx:64 'as unknown as typeof AppState.addEventListener'. Net removals=0; mobile CI has no banned-token gate so they do not red CI. Lens A P3-1: PR body lacks an 'R100 Self-Check' heading + does not disclose the +2 casts (hygiene). ALL functional/security/endpoint-truth dimensions independently CLEAN in BOTH lenses (endpoint/schema truth verified vs live backend OpenAPI; default-OFF triple gating; mint->poll; bounded backoff+5-cap; AppState pause/resume; server-authoritative expiry; teardown; cancel/mid-mint race; single-flight; fail-closed; auth 401/403->authExpired 404->unavailable; PII/secret-free telemetry; honest paired terminal; a11y; Quiet Luxury; M1 URL-hardening untouched).",
       "reports": [
         "handoffs/audit-reports/MOBILE-PR285-LENS-A-LIVE.bd9a41a.md",
@@ -767,15 +747,81 @@
       "prior_head": "bd9a41a",
       "assignee": "build_mobile_m2_pairing_progress_mrknrpnb (original builder)",
       "scope": "Resolve the convergent dual-lens r1 P0x2 (two R75 banned-cast net-new TEST-ONLY additions): (1) extensionPairApi.test.ts:94 replace '.catch(() => {})' with a direct rejection assertion; (2) useExtensionPairing.test.tsx:64 replace 'as unknown as typeof AppState.addEventListener' with a concretely-typed mock/callback. Add an 'R100 Self-Check' heading to the PR body disclosing PASS/FAIL/N-A per rule (closes Lens A P3-1). Maintain test:prod ratio >=2 with margin and prod <=400 without trimming tests. No functional/security change needed (all such dimensions CLEAN in both lenses). Then re-audit BOTH lenses at the new exact head; on CLEAN/CLEAN + CI green land via identity-safe manual squash.",
-      "result": "Fixer r1 landed @10414c4 (prior head bd9a41a): both TEST-ONLY R75 banned casts swapped for allowed forms + R100 Self-Check heading added to the PR body (closes Lens A P3-1). Full jest 295 suites/3562 tests, CI + CodeQL green, prod unchanged <=400, ratio>=2 (no test-trimming), R3 clean (author==committer Bradley Gleave). Dual-lens r2 IN PROGRESS at 10414c4 — re-audit BOTH lenses at the exact fixer head; NOT merge-ready until r2 CLEAN/CLEAN + CI green."
+      "result": "Fixer r1 landed @10414c4 (prior head bd9a41a): both TEST-ONLY R75 banned casts swapped for allowed forms + R100 Self-Check heading added to the PR body (closes Lens A P3-1). Full jest 295 suites/3562 tests, CI + CodeQL green, prod unchanged <=400, ratio>=2 (no test-trimming), R3 clean (author==committer Bradley Gleave). Dual-lens r2 IN PROGRESS at 10414c4 \u2014 re-audit BOTH lenses at the exact fixer head; NOT merge-ready until r2 CLEAN/CLEAN + CI green."
     }
   ],
   "h4_production_readiness_discovery_2026_07_14": {
-    "trigger": "Investigated the operator's likely 'H jobs' — GitHub H4 production-readiness suite.",
+    "trigger": "Investigated the operator's likely 'H jobs' \u2014 GitHub H4 production-readiness suite.",
     "finding": "H4 production-readiness suite is the likely referent. Umbrella backend PR #457 was CLOSED UNMERGED; its components landed piecemeal: #458 merged, and #460-#466 merged. The current suite scans the BACKEND src only.",
     "safety_assessment": "Running it is SAFE: read-only, operates in a tmpdir, and can run in parallel without mutating product repos. It is NOT cross-repo coverage today (backend-only).",
     "cross_repo_rollout": "SAFE WITH CONDITIONS. A cross-repo rollout should SERIALIZE per repo and run AFTER the active importer PRs land, to avoid package.json / workflow / test-ownership conflicts with in-flight importer work.",
     "decision": "Do NOT start or run H4 now, and do NOT modify any product repo for it. Record only. Revisit cross-repo rollout (serialized, per-repo) once EXT-C1b PR #6 and Mobile M2 PR #285 are merged.",
     "constraints_observed": "This note is documentation only; no H4 execution, no product-repo edits performed."
-  }
+  },
+  "decision_record_op55_reconcile_2026_07_15": {
+    "decision": "Reconcile the single canonical live-state snapshot to the proven integrated facts for EXT-C1b #6, Mobile M2 #285, and Backend progress-read #508.",
+    "why": "All three importer PRs landed on their respective mains identity-safe since the Op 54 snapshot; the snapshot must record proven facts, exact SHAs, rollback commits, and reconciled node statuses without contradiction.",
+    "verified_live": {
+      "context_main": "e7af008ef0db00cfbf4e1be07ae71a44afbfd8b0",
+      "extension": {
+        "pr": 6,
+        "approved_head": "55f24d57c625cbd2745ad3fc9226e6d41168d02a",
+        "main_after": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
+        "rollback_commit": "5eabeec0ee53735753059f72581148052c9f2ac4",
+        "pr_state": "CLOSED",
+        "identity": "author+committer Bradley Gleave"
+      },
+      "mobile": {
+        "pr": 285,
+        "approved_head": "dce19c508320b2d7e2987aebbdb16983bf04cb63",
+        "main_after": "b8165beaa3804fe8a145214b772f97a3ae9eab65",
+        "rollback_commit": "169551777a95f9b1e89e4a8a5f75bf53ae23dcd8",
+        "pr_state": "CLOSED",
+        "identity": "author+committer Bradley Gleave"
+      },
+      "backend": {
+        "pr": 508,
+        "approved_head": "ab13f49c3d6631c0e922e46b0334770a73bd4b3a",
+        "main_after": "95e2c6378e0b1b734328a7fdf6b9a6e33465a663",
+        "rollback_commit": "e6c3082755c89e51c18db9562f84b7b8898ce102",
+        "pr_state": "CLOSED",
+        "identity": "author+committer Bradley Gleave"
+      }
+    },
+    "invariants_held": [
+      "Universal mission unchanged: site-agnostic/browser-agnostic; TrueCoach on Chrome is the first proving adapter only.",
+      "All integrations identity-safe squash-equivalent (single parent, non-force); author+committer both Bradley Gleave.",
+      "All importer flags default-off; NO production flag enablement and NO deployment.",
+      "R3-INC-1 (ext #5 GitHub-synthesized identity) remains OPEN/accepted/grandfathered \u2014 not rewritten."
+    ],
+    "operational_risk": "Backend build-sbom/release-please automation checks fail post-main \u2014 pre-existing automation debt also present on prior main, NOT an importer regression; system is NOT called fully green while open. Capture in R137 postmortem.",
+    "next_active_node": "TrueCoach end-to-end vertical proof (id 10).",
+    "recorded_utc": "2026-07-15T17:00:00Z"
+  },
+  "active_lanes_closed_op55": [
+    {
+      "lane": "EXT-C1b fixer r1 (PR #6)",
+      "subagent_id": "build_extension_c1b_runtime_mrkme1l6",
+      "state": "DUAL_LENS_R2_CLEAN_CLEAN_MERGE_READY",
+      "owns": "ALL PR #6 product-source edits for the fixer round; resolved convergent CTA source-bearer P2 + five P3s + adversarial tests under prod<=400 / ratio>=2 with margin.",
+      "coordination": "Do NOT edit tgp-importer-extension product source in parallel; probe per R7 before acting.",
+      "recovery_note": "This fixer subagent previously hit a step limit and returned an EMPTY response. Per explicit operator direction, recovery ran in the SAME sandbox/branch (no reset/discard/reclone, no new branch, no duplicate lane): the same subagent resumed, inventoried git state, committed and pushed the legitimate fixer checkpoint at head 55f24d5 with R3 identity. PR #6 head is now 55f24d5 (all six findings root-fixed, adversarial tests added, gates green).",
+      "r2_note": "Dual-lens r2 completed at exact fixer head 55f24d5 (R124 both-ways local==gh headRefOid). LENS A CLEAN (0 P0-P3) + LENS B CLEAN (0 P0-P3), CONVERGENT. All six r1 findings root-fixed and independently re-verified; gates independently executed green (check:banned OK, check:loc prod 398/removed 34, check:flags OK, check:ratio 2.781, vitest 30 files/489 tests exit 0); banned sweep over all added lines NONE; R3 clean on ab5dc61+55f24d5. Reports: EXT-PR6-LENS-A-LIVE.55f24d5.md + EXT-PR6-LENS-B-LIVE.55f24d5.md. MERGE-READY pending CI-green + R124 re-check at merge; land via identity-safe manual squash + lease-safe fast-forward (never GitHub squash, never force-push published main). Audit read-only (R13) \u2014 not merged, not self-approved."
+    },
+    {
+      "lane": "Mobile M2 (live pairing/progress UX)",
+      "subagent_id": "build_mobile_m2_pairing_progress_mrknrpnb",
+      "state": "PR_OPEN_DUAL_LENS_R1_FINDINGS_ASSIGNED_FIXER_R1",
+      "owns": "growth-project-mobile live pairing/progress UX wired to extension + scout ingest, against main 1695517. Original builder now assigned FIXER r1 for PR #285.",
+      "coordination": "No file overlap with EXT-C1b.",
+      "pr_note": "PR #285 OPEN @bd9a41a (base main 1695517). Default-off real pairing via verified mobile-callable POST /extension/pair/init + POST /extension/pair/status; typed transport + mint->poll state machine + honest lifecycle panel; bounded polling/backoff, AppState pause/resume, cancel-mid-mint abort, server-authoritative expiry. Honest terminal is 'paired' only (no fabricated importing/partial/complete or page/entity/percent). Gates (Lens B independently reran at bd9a41a): typecheck/lint green, 295 suites/3562 tests, prod 400/400, ratio 882/400=2.21, R3 clean. Dual-lens r1 RETURNED = FINDINGS/FINDINGS: Lens A P0=2 P1=0 P2=0 P3=1, Lens B P0=2 P1=0 P2=0 P3=0 \u2014 CONVERGENT on the SAME two R75 banned-cast NET-NEW additions, both TEST-ONLY (extensionPairApi.test.ts:94 '.catch(() => {})'; useExtensionPairing.test.tsx:64 'as unknown as'). All functional/security/endpoint-truth dimensions independently CLEAN in both lenses. NOT merge-ready; builder assigned fixer r1. Confirmed blocker (unchanged): no mobile-readable import-progress route \u2014 progress/partial/complete deferred behind FEATURE_SCOUT_INGEST to a backend/extension follow-up."
+    }
+  ],
+  "active_lanes": [
+    {
+      "lane": "none-active",
+      "state": "ALL_IMPORTER_LANES_INTEGRATED",
+      "note": "Op 55: no active build/audit lane. EXT-C1b PR #6, Mobile M2 PR #285, and Backend progress-read PR #508 are all integrated to their mains identity-safe (see repos, merged_prs, critical_path_todos). Prior Op 54 lane records preserved verbatim under active_lanes_closed_op55. Next active node = TrueCoach end-to-end vertical proof (id 10)."
+    }
+  ]
 }
