@@ -6,12 +6,14 @@
   "successor_label": "Agent 56",
   "as_of_utc": "2026-07-15T17:00:00Z",
   "as_of_local": "2026-07-15T10:00:00-07:00",
-  "mission_correction_note": "2026-07-15 (Op 54): canonical product-mission corrected under R5 \u2014 see product_mission_correction_2026_07_15 and roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md. Op 55 (2026-07-15) reconciliation: the three importer PRs below (EXT-C1b #6, Mobile M2 #285, Backend progress-read #508) are now INTEGRATED to their mains identity-safe; mission unchanged \u2014 site-agnostic/browser-agnostic, TrueCoach on Chrome is the first proving adapter only.",
+  "mission_correction_note": "2026-07-15 (Op 54): canonical product-mission corrected under R5 \u2014 see product_mission_correction_2026_07_15 and roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md. Op 55 (2026-07-15) reconciliation: the three importer PRs below (EXT-C1b #6, Mobile M2 #285, Backend progress-read #508) are now INTEGRATED to their mains identity-safe; mission unchanged \u2014 site-agnostic/browser-agnostic, TrueCoach on Chrome is the first proving adapter only. Op 55 (2026-07-15): the single durable operator entry point is now handoffs/importer-wave/OPERATOR_HANDOFF.md; AGENT_HANDOFF_V03 superseded to a redirect stub (no competing handoffs).",
   "durable_handoff": {
-    "path": "handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md",
-    "purpose": "Self-contained pickup doc for the next autonomous CEO/CPO/CTO agent: executive state, end-to-end product, decision framework, build-plan pointers, product+work ledgers, open findings, ordered runbook, merge protocol, files-read appendix, decision record, acceptance checklist.",
-    "read_order": "AGENT_RULES.md -> this current-state.json -> AGENT_HANDOFF_V03_2026-07-14.md",
-    "created_utc": "2026-07-14T15:30:00Z"
+    "path": "handoffs/importer-wave/OPERATOR_HANDOFF.md",
+    "purpose": "Single authoritative operator entry point for the importer wave: verbatim operator directives, exact read order/paths/SHAs/PR URLs, current end-to-end truth and truth boundaries, completed work + rollback facts, flags/CI risk, measurable v1.0 certification, selected PR-C1c/IMPORTER-F/PR-M3 specs + dependencies, acceptance tests, deliberate deferrals, standard decision records, and 60-second recovery.",
+    "read_order": "AGENT_RULES.md -> handoffs/importer-wave/current-state.json -> handoffs/importer-wave/OPERATOR_HANDOFF.md",
+    "created_utc": "2026-07-15T18:00:00Z",
+    "supersedes": "handoffs/importer-wave/AGENT_HANDOFF_V03_2026-07-14.md (now a SUPERSEDED redirect stub; full prior text in git history)",
+    "historical_only": "handoffs/importer-wave/HANDOFF_WAVE2.md (Op-52/Wave-2 artifact; not a current operator handoff)"
   },
   "operator": {
     "name": "Bradley Gleave",
@@ -136,7 +138,7 @@
       "main_head_short": "95e2c63",
       "main_as_of": "2026-07-15T16:04:51Z",
       "main_tip_msg": "feat(scout): tenant-scoped import-status read for mobile progress UI (#508)",
-      "main_head_r3_note": "R3-CONFORMING: Backend PR #508 (approved head ab13f49c3d6631c0e922e46b0334770a73bd4b3a) integrated via identity-safe squash-equivalent; tip 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>, single parent = rollback commit e6c3082755c89e51c18db9562f84b7b8898ce102. Dual CLEAN, core post-main correctness CI green, import-status read flag default-off. OPERATIONAL RISK (not an importer regression): build-sbom / release-please automation checks fail post-main \u2014 pre-existing automation debt also present on the prior main, NOT introduced by #508; system is NOT to be called fully green while this automation debt is open.",
+      "main_head_r3_note": "R3-CONFORMING: Backend PR #508 (approved head ab13f49c3d6631c0e922e46b0334770a73bd4b3a) integrated via identity-safe squash-equivalent; tip 95e2c6378e0b1b734328a7fdf6b9a6e33465a663 author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>, single parent = rollback commit e6c3082755c89e51c18db9562f84b7b8898ce102. Dual CLEAN, core post-main correctness CI green, import-status read flag default-off. OPERATIONAL RISK (not an importer regression): build-sbom / release-please automation checks fail post-main \u2014 pre-existing automation debt also present on the prior main, NOT introduced by #508; system is NOT to be called fully green while this automation debt is open. CI-RISK DETAIL: build-sbom + release-please failed IDENTICALLY on the prior main due to pre-existing 'lefthook: not found' automation debt (not an importer regression); do NOT call the entire system green.",
       "rollback_commit": "e6c3082755c89e51c18db9562f84b7b8898ce102"
     },
     "extension": {
@@ -146,7 +148,8 @@
       "main_as_of": "2026-07-14T13:38:39Z",
       "main_tip_msg": "feat(replay): wire start_import orchestration + Start Import CTA (PR-C1b)",
       "main_head_r3_note": "R3-CONFORMING: EXT-C1b PR #6 (approved head 55f24d57c625cbd2745ad3fc9226e6d41168d02a) integrated via identity-safe squash-equivalent; tip a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 author+committer both Bradley Gleave <bradley@bradleytgpcoaching.com>, single parent = rollback commit 5eabeec0ee53735753059f72581148052c9f2ac4. Prior tip 5eabeec (ext #5) carried GitHub-synthesized identity (R3-INC-1) \u2014 grandfathered, not rewritten; it is now the parent of this identity-safe tip.",
-      "rollback_commit": "5eabeec0ee53735753059f72581148052c9f2ac4"
+      "rollback_commit": "5eabeec0ee53735753059f72581148052c9f2ac4",
+      "baseline": "489/489 tests pass; manifest.json version 0.3.0, version_name 0.3.0-rc.1; PAIRING_ENABLED=true."
     },
     "context": {
       "full_name": "BradleyGleavePortfolio/tgp-agent-context",
@@ -823,5 +826,30 @@
       "state": "ALL_IMPORTER_LANES_INTEGRATED",
       "note": "Op 55: no active build/audit lane. EXT-C1b PR #6, Mobile M2 PR #285, and Backend progress-read PR #508 are all integrated to their mains identity-safe (see repos, merged_prs, critical_path_todos). Prior Op 54 lane records preserved verbatim under active_lanes_closed_op55. Next active node = TrueCoach end-to-end vertical proof (id 10)."
     }
-  ]
+  ],
+  "operator_entry_point": {
+    "required": true,
+    "path": "handoffs/importer-wave/OPERATOR_HANDOFF.md",
+    "note": "The next operator MUST read this after AGENT_RULES.md and this JSON. It is the single non-competing handoff; AGENT_HANDOFF_V03 is a superseded redirect stub."
+  },
+  "truth_boundaries": {
+    "ingestion_is_not_reconstruction": "Ingestion/staging (ScoutIngestEntity writes + counts) is NOT canonical reconstruction into TGP entities. Backend status counts raw staged rows only.",
+    "no_e2e_proof_yet": "No certified end-to-end run proves source discovery -> canonical TGP reconstruction -> review. Do not infer or claim completion.",
+    "staging_vs_canonical": "Staging evidence is not canonical reconstruction evidence. Completion must satisfy staged = reconstructed + skipped + failed by family, with reasons.",
+    "no_truecoach_mapper": "Backend has no TrueCoach mapper; 'truecoach' is only a pairing slug. Mobile 'paired' is a dead-end with no honest PROGRESS/REVIEW/COMPLETION."
+  },
+  "next_pr_order": {
+    "order": [
+      "PR-C1c (extension replay contract parity + real fixture e2e + icon)",
+      "IMPORTER-F (backend first client-only reconstruction; blocked on D1 golden fixture + D2 canonical target)",
+      "PR-M3 (mobile honest review handoff; blocked on authoritative roster materialization)"
+    ],
+    "rule": "PR-C1c FIRST; then resolve backend D1/D2 and implement client reconstruction; then mobile review handoff ONLY after authoritative roster materialization. Do not reorder.",
+    "blockers": {
+      "IMPORTER-F.D1": "Commit a golden real TrueCoach client payload fixture from the extension (produced by PR-C1c).",
+      "IMPORTER-F.D2": "Decide canonical client target. Default recommendation: invite-pending roster shell, NOT full auth User (avoid identity collision/provisioning risk).",
+      "PR-M3.precondition": "Verify reconstructed TrueCoach clients materialize in the exact coach roster read by /v1/coach/me/clients, OR intentionally consume a coach-scoped mobile status contract. If neither, do not build."
+    },
+    "spec_source": "handoffs/importer-wave/OPERATOR_HANDOFF.md sections 5.1/5.2/5.3"
+  }
 }
