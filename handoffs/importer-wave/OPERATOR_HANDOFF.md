@@ -51,7 +51,8 @@ Two further verbatim operator statements govern this wave. Both are preserved by
 1. `AGENT_RULES.md`
 2. `handoffs/importer-wave/current-state.json`
 3. This durable operator handoff (`handoffs/importer-wave/OPERATOR_HANDOFF.md`).
-4. Any linked importer-wave architecture, decision, acceptance, and audit documents. Delete or mark stale contradictory state rather than preserving multiple truths.
+4. `handoffs/importer-wave/R3_MERGE_RUNBOOK.md` — the ONLY permitted mechanism to land an importer-wave PR on any production `main` (git-native squash + PLAIN fast-forward; server-side merges forbidden). Read before any `main` landing.
+5. Any linked importer-wave architecture, decision, acceptance, and audit documents. Delete or mark stale contradictory state rather than preserving multiple truths.
 
 ### 1.2 Extension at `4f116836ddb5449524dd51e995a7e4c012f79493` (post PR-C1c #7; parent `a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1`)
 Repo: https://github.com/BradleyGleavePortfolio/tgp-importer-extension
@@ -141,7 +142,7 @@ Repo: https://github.com/BradleyGleavePortfolio/growth-project-mobile
   - Merged-main verification: jest fixture spec **5/5 pass**, strict `tsc` exit 0, **15 pre-merge CI checks green**, billing excluded, no auth/PII/RLS/flags/mobile changes.
   - **R3-INC-2 — NOT R3-COMPLIANT MERGE COMMIT.** The source PR head `81f0b70` was R3-clean (author+committer both Bradley Gleave), but the GitHub server-created squash commit `1718293` is author `BradleyGleavePortfolio <bradleyapple1031@gmail.com>`, committer `GitHub`. This does **not** satisfy R3. It is recorded honestly as an OPEN operational/process finding (`handoffs/process-findings/2026-07-16-backend-pr509-r3-merge-identity.md`, canonical JSON `r3_process_incidents` R3-INC-2); backend main is **not** rewritten/force-pushed and this commit is **not** claimed R3-clean. Cause under investigation; blast radius is identity metadata only (code/test content verified).
 - **Prior — PR #508 (progress-read):** https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/508 — approved head `ab13f49c3d6631c0e922e46b0334770a73bd4b3a`, integrated to `95e2c6378e0b1b734328a7fdf6b9a6e33465a663` (now the parent of the D1 tip), rollback parent `e6c3082755c89e51c18db9562f84b7b8898ce102`. Dual independent CLEAN, identity-safe squash-equivalent, feature flag default-off.
-- **HARD GATE (R3-INC-2):** no further production-main merges on ANY TGP repo until a non-destructive R3-compliant merge path is proven (identity-safe manual squash + lease-safe fast-forward per the merge-procedure change).
+- **R3-INC-2 GATE — CLEARED / PROVEN FORWARD (Op 58).** The non-destructive R3-compliant merge path is now codified in `handoffs/importer-wave/R3_MERGE_RUNBOOK.md` (git-native squash via `git commit-tree` + **PLAIN fast-forward push**; **NO `--force`, NO `--force-with-lease` anywhere on `main`, NO admin bypass**; mandatory preflight + post-push identity checks) and is empirically proven by backend PR #508 / `95e2c63`. **Server-side squash / `gh pr merge` / REST-GraphQL merge endpoints / GitHub web edit-commit are FORBIDDEN for production `main`.** Reversible importer work has REOPENED; IMPORTER-F is now blocked **ONLY on D2**. The historical merge commit `1718293` is grandfathered (not rewritten, not claimed R3-clean).
 
 **Extension:** https://github.com/BradleyGleavePortfolio/tgp-importer-extension
 - Live main: `4f116836ddb5449524dd51e995a7e4c012f79493` (PR-C1c #7 squash merge)
@@ -197,7 +198,7 @@ Identity-safe integrations authored AND committed as `Bradley Gleave <bradley@br
 
 **PR-C1c FIRST → then resolve backend D1/D2 and implement client reconstruction (IMPORTER-F) → then mobile review handoff (PR-M3) ONLY after authoritative roster materialization.**
 
-**Order status (2026-07-16, Op 57):** PR-C1c is **COMPLETE** (extension PR #7, audited head `0ea894e`, dual CLEAN, merged to extension main `4f116836ddb5449524dd51e995a7e4c012f79493`). **Backend D1 is COMPLETE** — the golden fixture is committed to the backend via PR #509 (audited head `81f0b70`, base `95e2c63`) squash-merged to backend main `171829326c50778af25c38aa10ff09665e58b512`; test-only, zero production LOC, dual CLEAN. ⚠️ The D1 merge commit `1718293` is **NOT R3-compliant** (R3-INC-2; content verified, identity-only defect). **D2 remains OPEN/PROTECTED (NOT decided).** **Next active leg = (a) R3 merge-path remediation (HARD GATE) and (b) resolve D2.** IMPORTER-F remains blocked until **BOTH** D2 resolves **AND** the R3 merge-path is remediated; PR-M3 remains blocked until authoritative roster materialization. Order UNCHANGED.
+**Order status (2026-07-16, Op 58):** PR-C1c is **COMPLETE** (extension PR #7, audited head `0ea894e`, dual CLEAN, merged to extension main `4f116836ddb5449524dd51e995a7e4c012f79493`). **Backend D1 is COMPLETE** — the golden fixture is committed to the backend via PR #509 (audited head `81f0b70`, base `95e2c63`) squash-merged to backend main `171829326c50778af25c38aa10ff09665e58b512`; test-only, zero production LOC, dual CLEAN. ⚠️ The D1 merge commit `1718293` is **NOT R3-compliant** (R3-INC-2; content verified, identity-only defect) and is grandfathered. **R3 merge-path: REMEDIATED / PROVEN FORWARD (Op 58)** — see `handoffs/importer-wave/R3_MERGE_RUNBOOK.md`; reversible importer work has REOPENED. **D2 remains OPEN/PROTECTED (NOT decided).** **Next active leg = resolve D2** (the R3 merge-path gate is cleared). IMPORTER-F remains blocked **ONLY on D2**; PR-M3 remains blocked until authoritative roster materialization. Order UNCHANGED.
 
 ### 5.1 Next PR 1 — Extension PR-C1c ✅ COMPLETE (merged as PR #7)
 **Goal:** deterministic evidence that generic TrueCoach replay reproduces the verified request contract and completes a real fixture-shaped run.
@@ -240,7 +241,7 @@ Identity-safe integrations authored AND committed as `Bradley Gleave <bradley@br
 **Blocking dependencies:**
 - **D1: ✅ RESOLVED (Op 57).** The golden real TrueCoach client payload fixture is committed to the backend at `test/fixtures/truecoach/clients.golden.json` via PR #509 (merged to backend main `1718293`). Byte-pinned; jest 5/5; test-only; dual CLEAN. (Merge-commit identity non-conforming — R3-INC-2; content verified.)
 - **D2: ⛔ OPEN / PROTECTED.** Decide canonical client target. **Default recommendation: invite-pending roster shell, not full auth `User`**, to avoid identity collision / provisioning risk. OPERATOR decision — not decided in Op 57.
-- **R3 merge-path remediation: ⛔ HARD GATE.** No further production-main merges until a non-destructive R3-compliant merge path is proven (identity-safe manual squash + lease-safe fast-forward). IMPORTER-F must not merge until this clears. See R3-INC-2.
+- **R3 merge-path remediation: ✅ REMEDIATED / PROVEN FORWARD (Op 58).** The non-destructive R3-compliant merge path is codified in `handoffs/importer-wave/R3_MERGE_RUNBOOK.md` (git-native squash via `git commit-tree` + PLAIN fast-forward push; no `--force`/`--force-with-lease`/admin bypass; mandatory preflight + post-push identity checks) and proven by backend PR #508 / `95e2c63`. When IMPORTER-F is built it MUST land via that runbook. Server-side squash / `gh pr merge` / REST-GraphQL merge endpoints / web edit-commit remain FORBIDDEN for production `main`. This is no longer a blocker; **IMPORTER-F is blocked ONLY on D2.**
 
 **Proposed files:**
 - `src/scout/scout-reconstruct.service.ts`
@@ -278,7 +279,7 @@ Identity-safe integrations authored AND committed as `Bradley Gleave <bradley@br
 7. Reject running intent.
 8. OpenAPI 1.1.0 → 1.2.0 byte-pinned drift test.
 
-**Stop** if D2 is unresolved OR the R3 merge-path hard gate is not yet remediated (D1 is resolved). Do not build a multi-family adapter, auth user provisioning, or a generic mapping DSL yet. Note: `test/fixtures/truecoach/clients.golden.json` already landed via D1 PR #509 — reuse it, do not re-create it.
+**Stop** if D2 is unresolved (D1 is resolved; the R3 merge-path is remediated per `R3_MERGE_RUNBOOK.md`). Do not build a multi-family adapter, auth user provisioning, or a generic mapping DSL yet. Note: `test/fixtures/truecoach/clients.golden.json` already landed via D1 PR #509 — reuse it, do not re-create it. When merging IMPORTER-F, use the git-native runbook path only — never a server-side merge.
 
 ### 5.3 Next PR 3 — Mobile PR-M3 (blocked on authoritative roster materialization)
 **Current dead-end:** `src/components/coach/ExtensionPairingPanel.tsx` paired card says progress/final result appear in the extension and provides no onward navigation. Mobile consumes only `/extension/pair/init` and `/extension/pair/status`.
@@ -306,7 +307,7 @@ Identity-safe integrations authored AND committed as `Bradley Gleave <bradley@br
 - All importer flags are **default-off**. No production flag enablement or deploy has occurred.
 - Extension: `PAIRING_ENABLED=true` is the sole-auth-path flag inside the extension baseline (not a production launch switch).
 - **Backend CI operational risk (do NOT call the system fully green):** post-main correctness jobs are green, but `build-sbom` and `release-please` failed **identically on the prior main** due to pre-existing `lefthook: not found` automation debt. This is NOT an importer regression and is NOT a launch blocker, but it is an open operational risk to resolve separately.
-- **R3 merge-identity operational risk — R3-INC-2 (OPEN):** backend D1 PR #509 was landed via a GitHub-generated squash, so backend main tip `1718293` carries a non-Bradley author/committer identity that R3 forbids (author `BradleyGleavePortfolio`, committer `GitHub`). The source head `81f0b70` was R3-clean; only the merge-commit envelope is non-conforming and the code/test content is verified. This is a **repeat** of R3-INC-1 despite the merge-procedure change. **HARD GATE:** no further production-main merges on any TGP repo until a non-destructive R3-compliant merge path is proven. Do NOT rewrite/force-push shared main and do NOT claim `1718293` is R3-clean. Full record: `handoffs/process-findings/2026-07-16-backend-pr509-r3-merge-identity.md`.
+- **R3 merge-identity — R3-INC-2 (CONTAINED / remediation PROVEN FORWARD, Op 58):** backend D1 PR #509 was landed via a GitHub-generated squash, so backend main tip `1718293` carries a non-Bradley author/committer identity that R3 forbids (author `BradleyGleavePortfolio`, committer `GitHub`). The source head `81f0b70` was R3-clean; only the merge-commit envelope is non-conforming and the code/test content is verified. This was a repeat of R3-INC-1. **Forward fix (Op 58):** the git-native squash + PLAIN fast-forward path is now codified in `handoffs/importer-wave/R3_MERGE_RUNBOOK.md` and empirically proven by backend PR #508 / `95e2c63`; server-side squash / `gh pr merge` / REST-GraphQL merge endpoints / web edit-commit are FORBIDDEN for production `main`; `--force-with-lease` is used nowhere on `main`. The historical commit `1718293` is grandfathered — do NOT rewrite/force-push shared main and do NOT claim `1718293` is R3-clean. Full records: `handoffs/process-findings/2026-07-16-backend-pr509-r3-merge-identity.md` and the runbook.
 
 ---
 
@@ -358,7 +359,7 @@ For each consequential decision, record:
 - **GOOD WITHOUT BAD:** contract parity without broad permissions or engine coupling.
 - **EVIDENCE REQUIRED:** full 489+ suite green, LOC ≤400, test:src ≥2, banned/flag gates, token-leak assertions, icon present.
 - **ROLLBACK / STOP:** flag-off / revert PR; hard stop if the notes fixture contradicts `itemsPath:["notes"]`.
-- **NEXT ACTION:** ✅ DONE — PR-C1c landed as extension PR #7 (merge `4f116836ddb5449524dd51e995a7e4c012f79493`, dual CLEAN @`0ea894e`, 31 files / 514 tests PASS) and produced the golden client fixture. ✅ D1 DONE (Op 57) — that golden fixture is now committed into the backend at `test/fixtures/truecoach/clients.golden.json` via PR #509 (merged to backend main `1718293`; test-only; dual CLEAN; ⚠️ merge commit not R3-clean — R3-INC-2). Remaining before IMPORTER-F: remediate the R3 merge-path (HARD GATE) and resolve D2 (canonical target).
+- **NEXT ACTION:** ✅ DONE — PR-C1c landed as extension PR #7 (merge `4f116836ddb5449524dd51e995a7e4c012f79493`, dual CLEAN @`0ea894e`, 31 files / 514 tests PASS) and produced the golden client fixture. ✅ D1 DONE (Op 57) — that golden fixture is now committed into the backend at `test/fixtures/truecoach/clients.golden.json` via PR #509 (merged to backend main `1718293`; test-only; dual CLEAN; ⚠️ merge commit not R3-clean — R3-INC-2). Remaining before IMPORTER-F: resolve D2 (canonical target) — the R3 merge-path is already remediated/proven forward (`R3_MERGE_RUNBOOK.md`).
 
 ### 9.2 Decision record — DR-IMPORTER-F (first client reconstruction)
 - **DECISION:** Build a default-off, client-only reconstruction pass with a full reconciliation ledger, gated on D1 (golden fixture) and D2 (canonical target).
@@ -370,8 +371,8 @@ For each consequential decision, record:
 - **HYPERSCALER LENS:** per-row fault isolation, tenant RLS, no oracle, deterministic IDs.
 - **GOOD WITHOUT BAD:** real reconstruction without identity collision or provisioning risk.
 - **EVIDENCE REQUIRED:** acceptance tests 1–8 in §5.2; byte-pinned contract.
-- **ROLLBACK / STOP:** `FEATURE_SCOUT_RECONSTRUCT=false`; STOP if D2 unresolved OR the R3 merge-path hard gate is not remediated (D1 is resolved via PR #509).
-- **NEXT ACTION:** remediate the R3 merge-path (HARD GATE) and resolve D2, then implement; D1 is complete (golden fixture landed at `test/fixtures/truecoach/clients.golden.json`); do not start PR-M3 until roster materialization is authoritative.
+- **ROLLBACK / STOP:** `FEATURE_SCOUT_RECONSTRUCT=false`; STOP if D2 unresolved (D1 is resolved via PR #509; the R3 merge-path is remediated per `R3_MERGE_RUNBOOK.md`).
+- **NEXT ACTION:** resolve D2, then implement and land via the git-native `R3_MERGE_RUNBOOK.md` path (never a server-side merge); D1 is complete (golden fixture landed at `test/fixtures/truecoach/clients.golden.json`); the R3 merge-path is remediated/proven forward; do not start PR-M3 until roster materialization is authoritative.
 
 ### 9.3 Decision record — DR-PR-M3 (mobile honest review handoff)
 - **DECISION:** Replace the mobile paired dead-end with a truthful, roster-derived review CTA — only after reconstruction materializes clients in the authoritative roster.

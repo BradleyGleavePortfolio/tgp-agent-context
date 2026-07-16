@@ -6,6 +6,28 @@ Newest first.
 
 ---
 
+## 2026-07-16 (Op 58) — R3 merge-path remediation: git-native squash + PLAIN fast-forward runbook adopted; server-side merges forbidden for production `main`
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Operational/process remediation (R3 / R5 / R102) + documentation reconciliation
+**Files touched:** `handoffs/importer-wave/R3_MERGE_RUNBOOK.md` (new), `handoffs/importer-wave/current-state.json`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`, `DECISION_LOG.md`. **No product code changed; no AGENT_RULES.md verbatim edit. Documentation/state only — audit-exempt per R14 scope.**
+
+**Summary.** Codified the fix for the R3-INC-1 / R3-INC-2 recurrence (GitHub server-side squash stamping a non-Bradley author/committer). A new canonical runbook, `handoffs/importer-wave/R3_MERGE_RUNBOOK.md`, makes the **git-native squash + PLAIN fast-forward push** the SOLE mandated mechanism for landing any importer-wave PR on any production `main`. Server-side merges are **FORBIDDEN for `main`**: the GitHub squash UI button, `gh pr merge` (any mode), the REST/GraphQL merge endpoints, and GitHub web edit/commit flows — each re-authors the commit and violates R3.
+
+**Root cause (from the read-only investigation).** GitHub's server-side squash **cannot** set author AND committer to `Bradley Gleave <bradley@bradleytgpcoaching.com>` — it forces committer=`GitHub` (to sign) and author=account identity. The defect is **avoidable, not inherent**: backend **PR #508** landed `95e2c6378e0b1b734328a7fdf6b9a6e33465a663` on backend `main` with full R3 author AND committer via a git-native squash-and-push one commit before the defect. That is the empirical proof the R3-clean path exists.
+
+**Mandated path (fail-safe by construction).** (1) verify exact audited head + base with R124 both-ways and confirm base == live remote `main` tip (drift guard); (2) `git commit-tree` with tree == audited-head tree, single parent == pinned base, BOTH author AND committer forced to Bradley Gleave via env + `-c`; (3) **mandatory preflight identity check** (author, committer, tree, parent) before any push; (4) **PLAIN fast-forward push** (`git push origin <sha>:main`) with **NO `--force`, NO `--force-with-lease` ANYWHERE on `main`, NO admin bypass** — git's own non-fast-forward rejection is the drift guard, and on rejection the response is STOP and re-audit, never force; (5) **mandatory post-push verification** of remote identity + tree + required checks; STOP if branch protection rejects (no unprotect, no bypass). The sequence contains no force flag and pins the commit's single parent to the audited base, so it **cannot force-push and cannot land a drifting SHA**.
+
+**Supersession (no AGENT_RULES edit).** This runbook **refines** `merge_procedure_change_2026_07_14`: where that entry said "lease-safe fast-forward (`--force-with-lease` pinned to the known base)", on `main` we now use a **PLAIN fast-forward** and `--force-with-lease` is used **nowhere on `main`** (it remains permitted only for `wip/*` snapshot branches per R6/R161). AGENT_RULES.md is untouched; R3/R14/R15/R102 are unchanged and unrelaxed. (Per the footer rule, no AGENT_RULES change means no rule-change entry is owed; this is a process/runbook decision.)
+
+**R3-INC-2 disposition.** Remediation **PROVEN FORWARD**; incident **CONTAINED**. The historical GitHub-synthesized merge commit `171829326c50778af25c38aa10ff09665e58b512` is **GRANDFATHERED — NOT rewritten, NOT force-pushed, and NOT claimed R3-clean** (the canonical-identity copy of the D1 work survives on `refs/pull/509/head` = `81f0b70`). Residual (non-blocking): close the cause investigation of why #509 used the GitHub squash path; optional operator-gated R3/R102 verbatim tightening to name the runbook.
+
+**Scope preserved.** Reversible importer work **REOPENS** under the runbook. **D2 remains OPEN/PROTECTED — NOT decided here.** IMPORTER-F is now blocked **ONLY on D2** (the R3 merge-path gate is cleared; D1 is complete). PR-M3 remains blocked until authoritative roster materialization. Immutable build order, billing exclusion (`excluded` family), auth/PII/RLS/flags doctrine, and backend/mobile product code are all unchanged; no flag enablement or deploy.
+
+**Audit exemption.** Pure context/state documentation reconciliation — exempt from the product audit cycle (R14 scope). Reversible by reverting the commit; no runtime/flag/data impact.
+
+---
+
 ## 2026-07-16 — Backend D1 COMPLETE (golden TrueCoach fixture, PR #509) + R3-INC-2 merge-identity incident recorded
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
