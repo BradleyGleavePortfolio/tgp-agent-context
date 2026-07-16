@@ -6,6 +6,43 @@ Newest first.
 
 ---
 
+## 2026-07-16 — Backend D1 COMPLETE (golden TrueCoach fixture, PR #509) + R3-INC-2 merge-identity incident recorded
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Canonical state reconciliation (docs/state only) + operational/process finding (R3 / R5)
+**Files touched:** `handoffs/importer-wave/current-state.json`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`, `DECISION_LOG.md`, `handoffs/process-findings/2026-07-16-backend-pr509-r3-merge-identity.md` (new). **No product code changed; documentation/state only — audit-exempt per R14 scope.**
+
+### Part 1 — Backend D1 marked COMPLETE
+
+**Summary.** The golden real TrueCoach client-payload fixture produced by extension PR-C1c (#7) has been committed to the backend at `test/fixtures/truecoach/clients.golden.json` via **backend PR #509** and squash-merged to backend main. D1 (the golden-fixture prerequisite for IMPORTER-F) is now **COMPLETE**.
+
+**Verified facts.**
+- PR #509: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/509
+- Base `95e2c6378e0b1b734328a7fdf6b9a6e33465a663`; audited PR head `81f0b70a54a512a454289dade7755b34902e3564`.
+- Fresh **Lens A CLEAN** and **Lens B CLEAN** after the PR-body fixer update; no drift.
+- Squash-merged `2026-07-16T00:44:49Z`; backend main now `171829326c50778af25c38aa10ff09665e58b512`.
+- Fixture/spec: `test/fixtures/truecoach/clients.golden.json` + `test/truecoach-golden-fixture.spec.ts`; source extension path `test/fixtures/cdp-traces/truecoach-clients.json` @ `4f116836ddb5449524dd51e995a7e4c012f79493`.
+- Provenance byte-pin: blob sha1 `826fc5124a1cb6d45c9fbb87b5d3437974b8c3c2`, 2668 bytes, sha256 `af0387fea53dac5a9622c7de6d142c53986b6f4995784eccd6c51f204557e71f`.
+- Merged-main verification: jest fixture spec **5/5 pass**; strict `tsc` exit 0; **15 pre-merge CI checks green**; **zero production LOC**; **billing excluded**; no auth/PII/RLS/flags/mobile changes.
+
+**Build-order effect.** Immutable order preserved: PR-C1c COMPLETE → **D1 COMPLETE** → **D2 OPEN/PROTECTED (NOT decided here)** → IMPORTER-F (blocked until D2 **and** R3 merge-path remediation) → PR-M3 (blocked until authoritative roster). D2, auth/PII/RLS/billing doctrine, and build order are unchanged by this reconcile.
+
+### Part 2 — R3-INC-2 (merge-identity incident) recorded honestly
+
+**Summary.** The source PR head `81f0b70` was **R3-clean** (author AND committer both Bradley Gleave <bradley@bradleytgpcoaching.com>). However, PR #509 was landed via a **GitHub server-created squash merge**, and the resulting merge commit `171829326c50778af25c38aa10ff09665e58b512` is **author `BradleyGleavePortfolio <bradleyapple1031@gmail.com>`, committer `GitHub <noreply@github.com>` — NOT R3-compliant.** This is a **repeat of R3-INC-1** (same GitHub-squash identity failure) despite `merge_procedure_change_2026_07_14`, which mandated identity-safe manual squash + lease-safe fast-forward for future TGP merges.
+
+**Decision.**
+- Record R3-INC-2 as an **OPEN operational/process finding** with the exact SHA, cause **under investigation**, and **bounded blast radius (identity metadata only; code/test content verified)**.
+- **Do NOT rewrite or force-push shared backend main** (destructive provenance alteration; declined consistent with R3-INC-1). backend main remains `1718293`.
+- **Do NOT mislabel the merge commit as R3-compliant** anywhere in canonical state.
+- **HARD GATE:** no further production-main merges on ANY TGP repo (extension, backend, mobile) until a **non-destructive R3-compliant merge path is proven**. IMPORTER-F is additionally blocked on this gate.
+
+**Prospective fix.** Prove and adopt the identity-safe manual squash + lease-safe fast-forward path on a real TGP merge before any further production-main merge; investigate why #509 bypassed it and close the gap so GitHub-generated squash cannot be used for TGP production merges.
+
+**Audit exemption.** Pure context/state documentation reconciliation — exempt from the product audit cycle (R14 scope). Reversible by reverting the commit; no runtime/flag/data impact.
+
+---
+
 ## 2026-07-15 — Importer product-mission correction (site-agnostic/browser-agnostic; TrueCoach = first proof, not the product)
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
