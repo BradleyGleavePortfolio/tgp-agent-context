@@ -6,6 +6,57 @@ Newest first.
 
 ---
 
+## 2026-07-16 (Op 59) — D2 DECIDED: imported clients are invite-pending, non-login tenant-owned canonical `Person`/roster records (hardened Option 1); IMPORTER-F unblocked
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Architecture decision (importer canonical client target, D2) + documentation reconciliation
+**Files touched:** `DECISION_LOG.md`, `handoffs/importer-wave/current-state.json`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`. **No product code changed; no AGENT_RULES.md edit. Documentation/state only — audit-exempt per R14 scope.**
+
+**Operator directive (this session).** Research cybersecurity and RLS, select the top D2 option, and go with it. This is an explicit operator authorization to close the previously OPEN/PROTECTED D2 node.
+
+**DECISION.** Imported clients live as **invite-pending, non-login `Person`/roster records owned by the coach/tenant** (hardened Option 1). **No `AuthPrincipal` or credential is created during import.** A `Person` is linked to an `AuthPrincipal` only after an explicit, **credential-verified claim** and **verified ownership**, through a **unique `AccountLink`**. Email is **unverified imported data** — never a canonical id and never an automatic linking key. Canonical model: opaque server-issued `person_id`; tenant-scoped `external_ref {source_platform, source_person_id}` as the idempotency/dedup key; states `InvitePending → Invited → Claimed → Suspended → Deleted`. Claim tokens are single-use, single-tenant, short-lived (≤5 min), unguessable; claim is atomic (create `AuthPrincipal` + `AccountLink` + flip `status→Claimed` in one transaction, or roll back all three). Rollback and erasure cascade imported data and links. Billing/payment credentials/methods/cards/vault tokens/profiles/subscription instruments remain **explicitly excluded** (see `billing_scope_exclusion`).
+
+**REAL GOAL.** Immediate, deterministic, coach-visible import continuity with **zero premature credentials** and **one canonical source of truth**, while keeping tenant isolation, consent, deletion, and auditability intact.
+
+**ROOT CAUSE (why D2 blocked IMPORTER-F).** The placement choice fixes the authorization key (tenant vs subject uid), the dedup/idempotency key, the linking gate, and the deletion cascade. None of those can be designed until the record's relationship to a credential is fixed — so `ScoutIngestEntity`→canonical reconstruction cannot begin without D2.
+
+**OPTIONS WEIGHED.**
+- **Option 1 — invite-pending non-login roster shell (SELECTED, hardened).** One tenant-owned `Person` record, no credential; deterministic credential-verified link on claim.
+- **Option 2 — create a full auth `User` at import (REJECTED).** Manufactures phantom credentialed accounts keyed on unverified imported email — the account-takeover / auto-email-linking pattern vendors warn against; email-uniqueness collisions; unverified recovery paths; high blast radius (a bug can create/claim real logins across tenants).
+- **Option 3 — separate staging identity as source of truth (REJECTED).** Two live PII stores duplicate truth, invite drift, and multiply tenant-isolation and deletion-failure surface with no offsetting benefit at TGP scale.
+
+**FIVE-STEP RESULT (Musk Algorithm).** (1) *Questioned the requirement* — import needs a person *record*, not a *login*; the "login at import" requirement is false (Entra/SCIM prove records exist without credentials). (2) *Deleted* — premature credentials, temp passwords, and any second identity store. (3) *Simplified* — one `Person` entity + a `status` flag (SCIM `active` pattern). (4) *Accelerated* — deterministic import completes instantly; coach sees the roster immediately; verification deferred to claim. (5) *Automated last* — automate claim/link/verification only after the manual invite→claim path is proven; automatic email-linking is explicitly **not** automated.
+
+**IDIOT-INDEX RESULT.** Option 1's cost ≈ the intrinsic cost of storing one person row. Options 2 and 3 pay full auth-principal / second-store overhead for the same contact — a high idiot index for no functional gain.
+
+**EXTREME TEST.** 10× (10k clients, one import): O(1) per row via opaque id + `external_ref` upsert; Option 2 would provision 10k credential-less logins (Cognito's "confirmed but no verified recovery" liability at scale). 100× (same human across coaches): correctly two independent tenant-scoped `Person` rows (NIST: identifiers bound to a single subscriber; no cross-association); Option 2's email-keyed logins collide (`AliasExistsException`) and can leak across tenants. Worst case (hostile competitor export): no credentials minted, so a poisoned import can at most create quarantined non-login roster rows inside one tenant, contained by fail-closed RLS and reversible via rollback/erasure.
+
+**HYPERSCALER LENS.** *Copy (evidence-backed):* credential-less pending record (Microsoft Entra External ID), prestaged profile linked before first sign-in (AWS Cognito `AdminLinkProviderForUser`), stable opaque `id` + `externalId` dedup + `active` status + write-only password (SCIM RFC 7643/7644), record-then-bind + no-email-identifiers + single-use short-lived link tokens (NIST SP 800-63C-4), fail-closed RLS + no exposed service key (Supabase), deny-by-default + opaque ids + every-request object checks (OWASP). *Do NOT copy:* full IdP/federation stack, pairwise PPIs / FAL2 machinery, SCIM bulk protocol, temp-password issuance, enterprise directory ops.
+
+**RLS INTENT (vendor-neutral).** Deny-by-default / fail-closed; RLS enabled on every exposed table with nothing granted until a policy allows it. Pre-claim roster rows are **tenant/coach-scoped** (no end-user `auth.uid()` exists yet — a subject-uid predicate would silently fail). Post-claim rows are **subject-uid + tenant scoped**. The importer runs a server-only controlled path; RLS-bypassing service/`bypassrls` credentials are never exposed to the browser or customers. Every request gets an object-level tenant check; ids are opaque and non-guessable.
+
+**GOOD WITHOUT BAD.** Keep deterministic import, roster continuity, no premature credential, single source of truth, credentialed explicit claim + deterministic link, tenant isolation + fail-closed authz, idempotent replay, rollback, audit, deletion. Exclude duplicate staging truth, automatic email-only linking, phantom logins, cross-tenant leakage, billing ingestion, and heavy enterprise identity infra.
+
+**EVIDENCE REQUIRED (met).** Primary-source research report (fetched this session, every claim inline-cited): `/home/user/workspace/D2_universal_importer_identity_decision_report.md`. Primary sources: [Microsoft Entra External ID — B2B guest properties](https://learn.microsoft.com/en-us/entra/external-id/user-properties); [AWS Cognito — federated linking / prestaging](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation-consolidate-users.html); [AWS Cognito — email alias uniqueness](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html); [AWS Cognito — sign-up/admin states](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html); [SCIM RFC 7643](https://www.rfc-editor.org/rfc/rfc7643); [SCIM RFC 7644](https://www.rfc-editor.org/rfc/pdfrfc/rfc7644.txt.pdf); [NIST SP 800-63-4](https://csrc.nist.gov/pubs/sp/800/63/4/final); [NIST SP 800-63C-4 federation](https://pages.nist.gov/800-63-4/sp800-63c.html); [Auth0 — account linking concept](https://auth0.com/docs/manage-users/user-accounts/user-account-linking); [Auth0 — link user accounts](https://auth0.com/docs/manage-users/user-accounts/user-account-linking/link-user-accounts); [Firebase — account linking](https://firebase.google.com/docs/auth/web/account-linking); [Supabase — Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security); [OWASP — Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html); [GDPR Art. 5](https://gdpr-info.eu/art-5-gdpr/); [GDPR Art. 17](https://gdpr-info.eu/art-17-gdpr/).
+
+**ROLLBACK / STOP.** If claim volume or fraud shows the manual invite→claim path cannot scale, revisit *automation of claim* (step 5) — never revert to auto-creating logins. **Stop condition:** any design that mints a credential before verified ownership, or that uses email as a canonical/linking key. Reversible by reverting this commit (docs/state only; no runtime/flag/data impact).
+
+**NEXT ACTION.** IMPORTER-F is now **unblocked** (D1 COMPLETE; the R3 merge-path is remediated/proven-forward per `R3_MERGE_RUNBOOK.md`; D2 DECIDED here). Build the default-off client-only reconstruction pass with the §4 canonical model — `Person` (opaque id, `tenant_id`, `external_ref`, `status`, unverified emails), `AuthPrincipal`, `AccountLink`, single-use `ClaimToken`; fail-closed tenant RLS; idempotent `external_ref` upsert; cascade delete/rollback — and land it via the git-native `R3_MERGE_RUNBOOK.md` path only (never a server-side merge). PR-M3 stays blocked until authoritative roster materialization.
+
+### R138 four-question decision gate
+1. **Musk's 5 principles.** Applied above (FIVE-STEP RESULT): questioned the "login at import" requirement (false requirement), deleted premature credentials and any second store, simplified to one `Person` + status, accelerated with instant deterministic import, automated claim last. "Don't optimize a thing that should not exist" — a phantom credentialed account should not exist.
+2. **What would hyperscalers do.** Entra, Cognito, SCIM, NIST 800-63C, Auth0, Firebase, Supabase, OWASP all structurally separate a record/profile from an authentication principal and gate linking on verified ownership + credential proof — copied above; heavy federation machinery deliberately not copied.
+3. **GOOD without the BAD.** Roster continuity and instant import (GOOD) without phantom logins, auto-email-linking, cross-tenant leakage, or a duplicate store (BAD) — gated by credential-verified atomic claim, opaque ids, and fail-closed tenant RLS.
+4. **Root cause.** Attacks the root cause: the record↔credential relationship is fixed (record exists credential-free; credential bound only on verified claim), which unblocks the authorization key, dedup key, linking gate, and deletion cascade that IMPORTER-F needs.
+
+**Invariants preserved.** AGENT_RULES.md untouched; R3/R14/R15/R102 unchanged and unrelaxed. Immutable build order preserved: PR-C1c COMPLETE → D1 COMPLETE → **D2 DECIDED** → IMPORTER-F (unblocked; land via `R3_MERGE_RUNBOOK.md`) → PR-M3 (blocked until authoritative roster). Billing remains an explicit `excluded` family; auth/PII/RLS/flags doctrine unchanged; all importer flags default-off; no production flag enablement and no deploy; backend/mobile/extension product code untouched.
+
+**Audit exemption.** Pure context/state documentation — exempt from the product audit cycle (R14 scope). The IMPORTER-F *implementation* PR that consumes this decision remains fully subject to R14 dual-lens audit + the R3 merge runbook.
+
+**Companion doctrine.** Subject to R131 — revisitable. Re-verification date: 2026-10-16.
+
+---
+
 ## 2026-07-16 (Op 58) — R3 merge-path remediation: git-native squash + PLAIN fast-forward runbook adopted; server-side merges forbidden for production `main`
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
