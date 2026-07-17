@@ -6,6 +6,39 @@ Newest first.
 
 ---
 
+## 2026-07-17 (Op 60) — IMPORTER-F LANDED: invite-pending roster reconstruction on backend `main` via the git-native `R3_MERGE_RUNBOOK` path (first R3-CLEAN backend product landing)
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Milestone landing (importer product code, IMPORTER-F) + documentation reconciliation
+**Files touched (context repo):** `DECISION_LOG.md`, `handoffs/importer-wave/current-state.json`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`, `handoffs/importer-wave/R3_MERGE_RUNBOOK.md` (§5 stale-wording reconcile only — doctrine/mechanics unchanged). **No product code changed here; no AGENT_RULES.md edit. Documentation/state only — audit-exempt per R14 scope.**
+
+**LANDING.** Backend PR #510 (audited head `c5f86c858a83bec1f46cfe71a52ef3fbb70a5acb`, base `171829326c50778af25c38aa10ff09665e58b512`) reconstructs settled crawl clients into invite-pending, non-login tenant-owned canonical `Person`/roster records per the DECIDED D2 model (Op 59). It landed via the git-native `R3_MERGE_RUNBOOK.md` path — git `commit-tree` + PLAIN fast-forward push, **no `--force`, no `--force-with-lease`, no admin bypass, no server-side merge** — as backend `main` **`1e6b3bf434cb58fbe65cea92a480755f0e414fb6`**.
+
+**Verified evidence (independently re-checked via `gh` this session):**
+- **Identity:** author == committer == `Bradley Gleave <bradley@bradleytgpcoaching.com>`; no AI/co-author tokens. **R3-CLEAN** — the first R3-CLEAN backend-`main` product landing of the wave.
+- **Tree integrity:** landed tree `98589b74a354f7292e95386548523e3c796819d9`, byte-identical to the audited head tree.
+- **Parent:** single parent `1718293…` (prior tip) → linear/fast-forwardable; parent D1 commit `1718293` REMAINS NOT R3-compliant (R3-INC-2, grandfathered) — neither rewritten nor claimed clean.
+- **PR state:** #510 **closed**, `merged=false` (expected for the git-native path; matches the PR #508 precedent); closed with a landed-SHA comment — not a UI merge and not an approval review.
+- **Separation of duties:** landed by an independent R3 merge operator (not builder, not auditor); no approval review submitted.
+- **Audit/fixes:** both exact-head dual-lens audits CLEAN, **0 open P0–P3 after all five P3 fixes**; R124 both-ways verified; drift guard PASS (base == prior tip, no drift).
+- **CI:** post-merge core CI GREEN (build-and-test, Deploy app, rls-live-tests, mwb-3-live-tests, CodeQL JS/TS, rls-floor-guard, actionlint, shellcheck). `build-sbom` + `release-please` remain **pre-existing** red on BOTH base `1718293` and new main `1e6b3bf` (`lefthook: not found` automation debt; NOT an importer regression).
+- **Safety:** feature is dark — the route returns a uniform 404 unless BOTH `FEATURE_SCOUT_INGEST` and `FEATURE_SCOUT_RECONSTRUCT` == `"true"`; both default-off, no flag enabled by this landing. Billing remains an explicit excluded family.
+
+**Operational findings (recorded, non-blocking):**
+1. **Backend `main` is NOT branch-protected** (`branches/main/protection` → 404) despite the runbook's "protected `main`" / R102 framing. Not a STOP trigger — the drift guard is git's own non-fast-forward rejection (verified no drift), not server-side protection. Operator should reconcile intent: enable protection or update the runbook wording. Mechanics unchanged either way.
+2. **Pre-existing main-only automation debt persists** (`build-sbom`, `release-please`); worth a separate fix, not introduced here.
+3. **Stale wording reconciled:** `R3_MERGE_RUNBOOK.md` §5 said "D2 remains OPEN/PROTECTED … IMPORTER-F remains BLOCKED on D2" (Op-58 wording), now superseded by Op 59 (D2 DECIDED) and Op 60 (IMPORTER-F LANDED). Updated in this Op **without weakening** the runbook's git-native merge doctrine or mechanics.
+
+**Order / next.** Immutable build order unchanged (PR-C1c → D1 → D2 → IMPORTER-F → PR-M3). Authoritative roster materialization is now LANDED, so **PR-M3 (mobile honest review handoff) is the next eligible ordered lane** — NOT dispatched this Op; mobile untouched. Before building PR-M3, verify reconstructed clients materialize in the exact roster read by `/v1/coach/me/clients`.
+
+**Rollback / stop.** Forward-only, non-destructive: `git revert 1e6b3bf` via a normal reviewed PR. NO history rewrite / force-push over shared `main` (forbidden by runbook §5 / R4 / R102; reserved to the operator). This context reconcile is docs/state only and reverts by reverting the Op 60 commit.
+
+**Invariants preserved.** AGENT_RULES.md not edited; D2 decision (Op 59) unchanged; R3_MERGE_RUNBOOK git-native mechanics unchanged and not weakened; billing exclusion preserved; production flags default-off (none enabled); no mobile dispatch/modification; context reconcile landed R3-clean by plain fast-forward, audit-exempt per R14 scope.
+
+**Evidence URLs.** PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/510 · Landed commit: https://github.com/BradleyGleavePortfolio/growth-project-backend/commit/1e6b3bf434cb58fbe65cea92a480755f0e414fb6 · Close comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/510#issuecomment-4997666736
+
+---
+
 ## 2026-07-16 (Op 59) — D2 DECIDED: imported clients are invite-pending, non-login tenant-owned canonical `Person`/roster records (hardened Option 1); IMPORTER-F unblocked
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
