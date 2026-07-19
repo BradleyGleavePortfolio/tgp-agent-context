@@ -6,6 +6,41 @@ Newest first.
 
 ---
 
+## 2026-07-19 (Op 62) — PR-M3 LANDED via an OPERATOR-AUTHORIZED ONE-TIME BYPASS of the R3 merge doctrine (recorded honestly as R3-INC-3 — NOT R3-clean, NOT rewritten, NOT normalized)
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Milestone landing (importer product code, mobile PR-M3 — honest roster-derived review CTA) + **deliberate one-time R3/runbook exception** + documentation reconciliation
+**Files touched (context repo):** `DECISION_LOG.md`, `handoffs/importer-wave/current-state.json`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`. **No product code changed here. `AGENT_RULES.md` is UNCHANGED — the operator authorized a one-time bypass, NOT a permanent doctrine rewrite. `R3_MERGE_RUNBOOK.md` is UNCHANGED — it remains the sole default merge doctrine; this landing is an explicitly-recorded exception TO it, not a relaxation OF it. Documentation/state only — audit-exempt per R14 scope.**
+
+**LANDING.** Mobile PR #287 (audited head `95c9aea1b2905440a37cb9762e4486e45747165c`, base `b8165beaa3804fe8a145214b772f97a3ae9eab65`) delivers the honest roster-derived review CTA on the paired panel (`useRosterReviewDelta`, typed CTA, analytics slug, flag default-off; Rule 18 baseline guard anchoring only on a successful load). It landed as mobile `main` **`e3a824f335ef75934fe860165ffc9c41a7b7956b`**.
+
+**THE BYPASS (honest, deliberate, authorized).** The merge executors **refused** to author-AND-committer-force `Bradley Gleave <bradley@bradleytgpcoaching.com>` as the git-native `R3_MERGE_RUNBOOK` requires — they declined the forced-identity `commit-tree` as **provenance impersonation** of a human. Rather than block PR-M3 indefinitely, the operator authorized a one-time bypass (**verbatim: "just merge it under whatever name - a one time bypass"**) and it landed via the **FORBIDDEN** server-side path `gh pr merge 287 --repo BradleyGleavePortfolio/growth-project-mobile --squash --delete-branch`. This is the **FIRST DELIBERATE** R3/runbook deviation — distinct from the ACCIDENTAL R3-INC-1 (extension #5/`5eabeec`) and R3-INC-2 (backend #509/`1718293`). It is recorded as **R3-INC-3**, is **NOT R3-clean**, is **NOT rewritten/force-pushed**, and is **NOT to be normalized**.
+
+**Verified evidence (independently re-checked via `gh` this session):**
+- **Identity (NON-R3-CLEAN, honest):** git author `BradleyGleavePortfolio <bradleyapple1031@gmail.com>`; git committer `GitHub <noreply@github.com>` (login `web-flow`); squash body carries a `Co-authored-by: Bradley Gleave <bradley@bradleytgpcoaching.com>` trailer. These are the standard `gh pr merge --squash` records — **not** forced to Bradley-as-committer, and nothing hidden or rewritten. Not claimed R3-clean anywhere.
+- **Tree integrity:** landed tree `91799bbc22aee2ee5608a925e16df2b61c6a84be`, **byte-identical** to the audited head (`95c9aea`) tree.
+- **Parent:** single parent `b8165be…` (clean single-parent squash onto the exact expected base; no drift).
+- **PR state:** #287 **MERGED** (mergedBy `BradleyGleavePortfolio`, mergedAt `2026-07-19T02:04:36Z`, mergeCommit `e3a824f`) — contrast the git-native path where PRs close `merged=false`. Head branch `feat/import-roster-review-pr-m3` **deleted** by `--delete-branch` (`gh api` → 404; not a zombie).
+- **Pre-merge gate (re-resolved immediately before mutation, clean/no drift):** live `main` == expected base `b8165be`; PR head == audited `95c9aea`; `mergeable` MERGEABLE, `mergeStateStatus` CLEAN; head checks green (Analyze actions/js-ts, CodeQL, Typecheck+lint+test).
+- **Audit (as reported by the landing executor):** dual-lens exact-head CLEAN at `95c9aea`; behavioral tests added for the Rule 18 guard; suite 296 files / 3577 tests green (delta 3→5=2 / 3→3). R124 both-ways verified (live `gh` PR head.sha == audited `95c9aea`). Figures recorded faithfully; the mobile suite was not re-run by this context reconcile.
+- **CI:** post-merge CI GREEN on `e3a824f` (Analyze actions, Analyze javascript-typescript, Typecheck+lint+test); CodeQL green on the audited head pre-merge.
+- **Safety:** review CTA behind a default-off flag; no flag enabled; no migration; mobile-only presentation reading the already-authorized coach-scoped reconstructed roster. Billing remains an explicit excluded family.
+
+**Operational findings (recorded, non-blocking):**
+1. **R3-INC-3 is the first DELIBERATE R3/runbook deviation** (R3-INC-1/2 were accidental). It is authorized, transparent, and honestly non-R3-clean — explicitly NOT normalized into doctrine.
+2. **Standing tension:** the executors' refusal to author+committer-force Bradley conflicts with the runbook's git-native identity requirement. Prospective fix (NOT decided here, operator to weigh): (a) provision an execution environment/signing identity that legitimately maps to `bradley@bradleytgpcoaching.com` so the git-native path is honest, or (b) operator formally amends R3/the runbook. Until then the runbook is the mandatory default and any further deviation requires fresh explicit operator authorization.
+3. **Server-side landing specifics:** unlike the backend git-native landings (#508/#510/#511), #287 shows state MERGED and the source branch auto-deleted — expected for the authorized platform path.
+
+**Order / next.** Immutable build order (PR-C1c → D1 → D2 → IMPORTER-F → IMPORTER-G → PR-M3) is now **fully LANDED**. Next lane: **TrueCoach end-to-end vertical proof** — prove one real coach's data (workout, client history, messaging) flows extension-crawl → backend reconstruct → mobile review, end-to-end. **TrueCoach is only the first proving adapter; the core stays site-agnostic/browser-agnostic.** Billing remains excluded. NOT dispatched this Op.
+
+**Rollback / stop.** Forward-only, non-destructive: `git revert e3a824f` via a normal reviewed PR on mobile. **NEVER** history-rewrite / force-push over shared mobile `main` to "fix" the identity (forbidden by R4/R102/runbook §5; reserved to the operator). `e3a824f` is grandfathered exactly like R3-INC-1/2 — the non-R3-clean identity stands on the record, honestly. This context reconcile is docs/state only and reverts by reverting the Op 62 commit.
+
+**Invariants preserved.** AGENT_RULES.md not edited (one-time bypass, not doctrine rewrite); R3_MERGE_RUNBOOK.md not edited (remains the sole default doctrine); R3-INC-1/2 dispositions unchanged (grandfathered, not rewritten), R3-INC-3 added honestly alongside; billing exclusion preserved; importer/review flags default-off (none enabled); mission remains site-agnostic/browser-agnostic; `e3a824f` not claimed R3-clean anywhere; context reconcile itself landed R3-clean by the normal context-repo commit convention, audit-exempt per R14 scope.
+
+**Evidence URLs.** PR: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/287 · Landed commit: https://github.com/BradleyGleavePortfolio/growth-project-mobile/commit/e3a824f335ef75934fe860165ffc9c41a7b7956b
+
+---
+
 ## 2026-07-18 (Op 61) — IMPORTER-G LANDED: coach-scoped reconstructed invite-pending roster READ on backend `main` via the git-native `R3_MERGE_RUNBOOK` path (backend bridge realizing the PR-M3 precondition)
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
