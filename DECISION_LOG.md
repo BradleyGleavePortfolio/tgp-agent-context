@@ -6,6 +6,46 @@ Newest first.
 
 ---
 
+## 2026-07-19 (Op 63) — V0 SCOPE DECISION: **DEFER MESSAGING** — the TrueCoach end-to-end vertical proof v1 covers **clients + workouts + client history**; messaging becomes a later specialized lane, not a generic v1 entity (R138-governed directional decision)
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** R138-governed directional/scope decision for the next lane (TrueCoach end-to-end vertical proof) — **docs/state only**
+**Files touched (context repo):** `DECISION_LOG.md`, `handoffs/importer-wave/current-state.json`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`. **No product code changed. `AGENT_RULES.md` UNCHANGED — an R138 directional decision needs only the four-question gate + this entry, not a protected-rule change. `R3_MERGE_RUNBOOK.md` UNCHANGED — sole default merge doctrine; NO permanent R3 change. Documentation/state only — audit-exempt per R14 scope (R138 explicitly keeps doctrine/directional docs audit-exempt).**
+
+**DECISION.** Per the operator's explicit ruling (**verbatim: "Defer messaging"**), the v1 TrueCoach end-to-end vertical proof (IMPORT-VERT) covers three data families — **CLIENTS, WORKOUTS, and CLIENT HISTORY**, all already captured and staged today. **Messaging is DEFERRED to a later specialized lane** (its own extractor + reconstruction contract) rather than being built as a generic entity family in v1. Consequent operator-directed resolutions:
+1. **Next step is BACKEND-FIRST = IMPORTER-H** — backend multi-family reconstruct: parametrize the hardcoded `RECONSTRUCT_ENTITY_TYPE='clients'` path to also reconstruct workouts + client history into canonical TGP entities under the D2 identity model. No extension messaging lane precedes v1, because these families need no new capture.
+2. **Deterministic golden fixtures** gate build/audit; **real-account end-to-end validation is deferred to V5** (staging full-loop dogfood).
+3. **Mobile review UX** for the proof is the **minimal honest per-family counts/reasons screen** (`staged = reconstructed + skipped + failed` with reasons; no invented completion/percentage) — **not** the full diff/suggested-fixes luxury surface (deferred enhancement).
+4. **Blueprint induction / autonomous site learning** is a **separate follow-on lane**, not part of v1.
+5. **Branch controls unchanged** — the git-native non-fast-forward drift guard remains the control on product mains; enabling server-side protection stays a separate operator-reconcile item.
+6. **No permanent R3 change** — R3 and the runbook remain the sole default doctrine; every V-PR lands git-native; the standing executor-identity tension (R3-INC-3) is resolved separately before the first V-PR land.
+
+The v1 stack is therefore a BACKEND-FIRST dependency-ordered V-PR chain: **IMPORTER-H → IMPORTER-I** (mobile-readable per-family review read contract) **→ PR-M4** (mobile minimal honest counts/reasons) **→ V5** (staging dogfood + real-account validation).
+
+**R138 FOUR-QUESTION DECISION GATE (the delegated-approval artifact).**
+1. **First principles (Musk algorithm).** *Question* the requirement that the proof must exercise every mission family at once — its real job is to de-risk the pipeline, which three already-captured families do. *Delete* the biggest part: greenfield messaging (and any generic-messaging-entity build), plus blueprint induction and luxury review UX, from v1 — removing the longest pole. *Simplify* what survives: reuse the existing clients-only reconstruct/roster path, parametrized for workouts + history (one path, not per-family engines). *Accelerate*: deterministic golden fixtures give fast, repeatable build/audit. *Automate last*: no new automation/flags. Musk's warning applied — don't optimize a generic messaging entity that should not exist in v1.
+2. **Hyperscaler lens (evidence).** Ship the thinnest vertical slice that exercises the whole pipeline, behind flags, on deterministic fixtures before real data — the AWS/GCP progressive-delivery + canary pattern (small blast radius first, widen later). Deferring real-account validation to a staging dogfood (V5) mirrors canary/one-box rollout before production; keeping every family behind the existing default-off scout flags is blast-radius containment by feature gating, not added human latency ([AWS Builders' Library — continuous delivery](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/); [Google Cloud — safe rollouts](https://docs.cloud.google.com/kubernetes-engine/config-sync/docs/tutorials/safe-rollouts-with-config-sync)). Multi-family reconstruct as one parametrized path over a single contract is the platform pattern of one generalized pipeline over per-type forks.
+3. **GOOD without the BAD (customer value + risks/mitigations).** **Customer value:** a faster, lower-risk end-to-end proof on data that already exists — proving capture → stage → reconstruct → honest review for the families a migrating coach cares about first (their clients, workouts, and history), which is the actual go-to-market trust surface. **BAD gated out:** (a) messaging looking "done" when deferred → recorded as an explicit deferred specialized lane; `truth_boundaries.no_e2e_proof_yet` still holds. (b) a clients-only shortcut masquerading as multi-family → IMPORTER-H must genuinely reconstruct workouts + history with per-family accounting (R109 "No Half-Ass"), verified by dual-lens audit. (c) fixture-only proof mistaken for real-world validation → real-account validation explicitly deferred to V5; no e2e completion claimed. Structure keeping GOOD while gating BAD: default-off flags + deterministic fixtures + honest per-family accounting + R14 dual-lens audit per V-PR + git-native R3 land.
+4. **Root cause.** Attacks the real blocker: the lane was stalled on an undecided scope (greenfield messaging forced extension-first and a longer path). Deciding scope — defer messaging, go backend-first with families that exist — removes the actual blocker, not a symptom, and papers over no quality gate (R14 audit, R3 identity, D2 model, billing exclusion, default-off posture all preserved).
+
+**REJECTED ALTERNATIVES.**
+- **Include messaging in v1** (extension-first EXT-MSG capture then downstream) — greenfield across all three repos, longest pole, delays proving the pipeline on data that already exists. Operator ruled defer.
+- **Build messaging as a generic v1 entity family** — messaging's threaded/participant-scoped capture + reconstruction shape warrants its own specialized lane, not the generic clients/workouts path.
+- **Full luxury review UX in v1** (diff-by-family + suggested fixes + single commit) — minimal honest counts/reasons proves the review leg; luxury surface is a later enhancement.
+- **Bundle blueprint induction into this lane** — separate follow-on; bundling blows lane scope and LOC caps.
+- **Real-account validation as an IMPORTER-H build/audit gate** — deterministic fixtures gate build/audit; real-account validation batched to V5.
+- **Amend R3 / the runbook to ease the first V-PR land** — no permanent R3 change; git-native path stays mandatory; identity tension resolved separately.
+
+**EVIDENCE REQUIRED (downstream, not this docs decision).** IMPORTER-H: deterministic byte-pinned golden fixtures for workouts + client history; acceptance tests extending IMPORTER-F 1–8 per family; honest `staged = reconstructed + skipped + failed` accounting; R74 test:src ≥ 2.0; R75 banned-cast net +0; R23/R76 ≤400 prod LOC (R86 escape hatch if cohesive); byte-pinned OpenAPI drift; dual-lens R14 CLEAN at exact head; R124 both-ways; git-native R3 land.
+
+**ROLLBACK / STOP.** Docs/state only — reversible by reverting the Op 63 commit; no runtime/flag/data impact. Downstream STOP conditions (unchanged): any P0–P3 open; any HEAD/base drift; a fixture contradiction; any design that mints a credential before verified ownership or uses email as a canonical/linking key (D2 hard stop); billing data appearing in any capture/stage/reconstruct path.
+
+**NEXT ACTION.** Dispatch **IMPORTER-H** (backend multi-family reconstruct) as the first V-PR, on deterministic golden fixtures, default-off, landed via the git-native `R3_MERGE_RUNBOOK.md` path — but only after the R138 four-question gate is carried in its PR body and its R14 dual-lens cycle is CLEAN. **NOT dispatched this Op.** Resolve the R3 executor-identity question before the first product-main land.
+
+**Invariants preserved.** `AGENT_RULES.md` not edited (R138 directional decision); `R3_MERGE_RUNBOOK.md` not edited (no permanent R3 change; git-native path mandatory); D2 model, billing exclusion, and the fully-LANDED immutable build order unchanged; mission remains site-agnostic/browser-agnostic (messaging deferred within v1, not dropped from the product); branch controls unchanged; all importer flags default-off (none enabled); no product code changed; `truth_boundaries.no_e2e_proof_yet` still holds; context decision landed R3-clean by the normal context-repo commit convention, audit-exempt per R14 scope.
+
+---
+
 ## 2026-07-19 (Op 62) — PR-M3 LANDED via an OPERATOR-AUTHORIZED ONE-TIME BYPASS of the R3 merge doctrine (recorded honestly as R3-INC-3 — NOT R3-clean, NOT rewritten, NOT normalized)
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>

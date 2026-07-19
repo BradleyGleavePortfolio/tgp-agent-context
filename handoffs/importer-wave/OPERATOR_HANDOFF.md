@@ -299,7 +299,7 @@ Identity-safe integrations authored AND committed as `Bradley Gleave <bradley@br
 
 **Deferrals (unchanged):** progress mirror, per-client approval, persisted client TTL, extension-presence signal.
 
-**Next active leg → TrueCoach end-to-end vertical proof** (see §9.2): prove one real coach's data (workout, client history, messaging) flows extension-crawl → backend reconstruct → mobile review, end-to-end. TrueCoach is ONLY the first proving adapter; the core stays site-agnostic. Billing remains excluded. The immutable build order (PR-C1c → D1 → D2 → IMPORTER-F → IMPORTER-G → PR-M3) is now fully LANDED.
+**Next active leg → TrueCoach end-to-end vertical proof** (scope DECIDED Op 63, see §9.5): operator ruled **"Defer messaging"** — v1 covers **clients + workouts + client history** (all already captured/staged); messaging is a later specialized lane, NOT a generic v1 entity. **BACKEND-FIRST** dependency-ordered V-PR stack: **IMPORTER-H** (multi-family reconstruct) → **IMPORTER-I** (mobile-readable per-family review read) → **PR-M4** (mobile minimal honest counts/reasons) → **V5** (staging full-loop dogfood; real-account validation deferred to V5). Build/audit on deterministic golden fixtures; blueprint induction a separate follow-on; branch controls unchanged; **no permanent R3 change**. TrueCoach is ONLY the first proving adapter; the core stays site-agnostic. Billing remains excluded. The immutable build order (PR-C1c → D1 → D2 → IMPORTER-F → IMPORTER-G → PR-M3) is now fully LANDED.
 
 ---
 
@@ -320,6 +320,7 @@ Identity-safe integrations authored AND committed as `Bradley Gleave <bradley@br
 - **PR-C1c:** discovery inference, extra entity families, logout, new backend contracts, recall accounting.
 - **IMPORTER-F:** multi-family adapter, auth user provisioning, generic mapping DSL.
 - **PR-M3:** progress mirror, per-client approval, persisted client TTL, extension-presence signal.
+- **TrueCoach vertical proof v1 (Op 63 "Defer messaging"):** **messaging** (a later specialized lane, own extractor/reconstruction contract — NOT a generic v1 entity); **autonomous blueprint induction / site learning** (separate follow-on); **full luxury review UX** (diff-by-family + suggested fixes + single commit — v1 ships minimal honest counts/reasons); **real-account end-to-end validation** (deferred to V5; build/audit uses deterministic golden fixtures). Billing remains excluded (not a deferral — permanently out of scope).
 
 ---
 
@@ -407,6 +408,20 @@ For each consequential decision, record:
 - **EVIDENCE REQUIRED (met):** primary-source research report `/home/user/workspace/D2_universal_importer_identity_decision_report.md` (every claim inline-cited): Microsoft Entra External ID, AWS Cognito, SCIM RFC 7643/7644, NIST SP 800-63-4 / 800-63C-4, Auth0, Firebase, Supabase RLS, OWASP Authorization Cheat Sheet, GDPR Art.5/17.
 - **ROLLBACK / STOP:** If claim volume or fraud shows the manual invite→claim path can't scale, revisit *automation of claim* (step 5) — never revert to auto-creating logins. Stop condition: any design that mints a credential before verified ownership, or uses email as a canonical/linking key. Docs/state only — reversible by reverting the Op 59 commit.
 - **NEXT ACTION:** ✅ DECIDED under explicit operator authorization (research cybersecurity + RLS, select the top D2 option, go). IMPORTER-F is now UNBLOCKED — build per §5.2 / §9.2 against this model and land ONLY via the git-native `R3_MERGE_RUNBOOK.md` path; PR-M3 stays blocked until authoritative roster materialization.
+
+### 9.5 Decision record — DR-V0-DEFER-MESSAGING (TrueCoach vertical-proof v1 scope) — DECIDED (Op 63)
+*(Full R138 four-question decision gate + rejected alternatives: DECISION_LOG.md Op-63; structured state: `current-state.json` `decision_record_op63_v0_defer_messaging_2026_07_19`. Summarized here in the §9 record shape — not duplicated.)*
+- **DECISION:** Operator ruled **"Defer messaging."** The v1 TrueCoach end-to-end vertical proof covers **clients + workouts + client history** (all already captured/staged). Messaging is deferred to a **later specialized lane** (own extractor + reconstruction contract), NOT a generic v1 entity. Next step is **BACKEND-FIRST = IMPORTER-H** (multi-family reconstruct) → IMPORTER-I (mobile-readable per-family review read) → PR-M4 (mobile minimal honest counts/reasons) → V5 (staging full-loop dogfood). Build/audit on deterministic golden fixtures; real-account validation deferred to V5; minimal honest counts/reasons UX (not luxury diff); blueprint induction a separate follow-on; branch controls unchanged; **no permanent R3 change**.
+- **REAL GOAL:** a faster, lower-risk end-to-end proof on data that already exists — the families a migrating coach cares about first (clients, workouts, history) — proving capture → stage → reconstruct → honest review.
+- **ROOT CAUSE:** the lane was stalled on undecided scope; greenfield messaging (no extractor/bucket/downstream in any repo) forced extension-first and a longer path. Deciding scope removes the actual blocker.
+- **FIVE-STEP RESULT:** Questioned "must include all families at once" → Deleted greenfield messaging + blueprint induction + luxury UX from v1 (longest pole removed) → Simplified to one parametrized reconstruct path over workouts + history → Accelerated with deterministic golden fixtures → Automated last (no new flags/automation).
+- **IDIOT-INDEX RESULT:** parametrize the existing clients-only reconstruct/roster path; no per-family engines, no generic messaging entity, no new flags.
+- **EXTREME TEST:** IMPORTER-H must genuinely reconstruct workouts + history with per-family `staged=reconstructed+skipped+failed` accounting (a clients-clone shortcut fails R109); poison-row isolation and idempotent replay per family.
+- **HYPERSCALER LENS:** thinnest vertical slice behind flags, validated on deterministic fixtures before real data; real-account validation as a staging canary (V5) — AWS/GCP progressive-delivery/blast-radius containment.
+- **GOOD WITHOUT BAD:** faster real-family proof (GOOD) without over-claiming (messaging recorded as deferred, not done; real-account validation deferred to V5; `truth_boundaries.no_e2e_proof_yet` holds), gated by default-off flags + honest accounting + R14 audit per V-PR + git-native R3 land.
+- **EVIDENCE REQUIRED (downstream):** byte-pinned golden fixtures for workouts + client history; acceptance tests extending IMPORTER-F 1–8 per family; R74 ratio ≥2, R75 banned-cast +0, R23/R76 LOC (R86 hatch if cohesive), byte-pinned OpenAPI drift, dual-lens R14 CLEAN at exact head, R124 both-ways.
+- **ROLLBACK / STOP:** docs/state only — revert the Op 63 commit. Downstream hard stops unchanged: never mint a credential before verified ownership; never use email as a canonical/linking key; billing never captured/staged/reconstructed.
+- **NEXT ACTION:** dispatch **IMPORTER-H** as the first V-PR (deterministic fixtures, default-off, git-native R3 land) after its PR body carries the R138 gate and its R14 cycle is CLEAN. **NOT dispatched this Op.** Resolve the R3 executor-identity question before the first product-main land.
 
 ---
 
