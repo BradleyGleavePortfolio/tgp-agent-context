@@ -6,6 +6,39 @@ Newest first.
 
 ---
 
+## 2026-07-19 (Op 64) — IMPORTER-H LANDED: site-agnostic MULTI-FAMILY reconstruction (clients + workouts + client history) on backend `main` via the git-native `R3_MERGE_RUNBOOK` path (first V-PR of the TrueCoach vertical proof; executes the Op-63 "Defer messaging" scope)
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Milestone landing (importer product code, IMPORTER-H — backend multi-family reconstruct) + documentation reconciliation
+**Governing decision:** the Op-63 R138 four-question directional gate (**"Defer messaging"**; see the Op 63 entry below + `decision_record_op63_v0_defer_messaging_2026_07_19`). This Op is a **reconcile of a completed landing that executes that decision**, NOT a new directional decision — so no fresh R138 gate is re-run; the Op-63 gate is the delegated-approval artifact for this lane.
+**Files touched (context repo):** `DECISION_LOG.md`, `handoffs/importer-wave/current-state.json`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`. **No product code changed here; no AGENT_RULES.md edit. `R3_MERGE_RUNBOOK.md` is UNCHANGED — its git-native doctrine/mechanics remain true and were followed verbatim; nothing there is stale to reconcile. Documentation/state only — audit-exempt per R14 scope.**
+
+**LANDING.** Backend PR #512 (audited head `43c226366fd9e248f3a8d4a8ed26bdfd54b64805`, base `77bb4a04f6e087886e6f27c5129d17dc5162f356`) parametrizes the hardcoded clients-only `RECONSTRUCT_ENTITY_TYPE='clients'` reconstruct/roster path into site-agnostic **MULTI-FAMILY** reconstruction — **clients + workouts + client history** — into canonical TGP entities under the D2 identity model, with honest per-family `staged = reconstructed + skipped + failed`. **Billing EXCLUDED; messaging DEFERRED** (per Op 63). It landed via the git-native `R3_MERGE_RUNBOOK.md` path — git `commit-tree` squash + PLAIN fast-forward push, **no `--force`, no `--force-with-lease`, no admin bypass, no server-side merge** — as backend `main` **`f9b81cf73289bfe74087dfe6327e52e460fb44f6`**.
+
+**Verified evidence (as reported by the backend lane / re-checkable via `gh`):**
+- **Identity:** author == committer == `Bradley Gleave <bradley@bradleytgpcoaching.com>`; no AI/co-author tokens. **R3-CLEAN** — the fourth R3-CLEAN backend-`main` landing via the git-native path (after #508/`95e2c63`, IMPORTER-F #510/`1e6b3bf`, IMPORTER-G #511/`77bb4a0`).
+- **Tree integrity:** landed tree byte-identical to the audited head (`43c2263`) tree.
+- **Parent:** single parent `77bb4a0…` (IMPORTER-G tip) → linear/fast-forwardable; drift guard held (base == prior tip, no drift); R124 both-ways verified (live PR head == audited head).
+- **PR state:** #512 **closed**, NOT server-merged (expected for the git-native path; matches the #508/#510/#511 precedent); closed with a landed-SHA comment. Feature branch **DELETED** (not a zombie).
+- **Audit:** two dual independent exact-head audits at `43c2263` CLEAN, **zero P0–P3**. The sole P3 (a dead field) surfaced at an earlier head `a1f7606` and was fixed **DELETE-FIRST** at `43c2263`, then re-audited **FRESH dual CLEAN**. All exact-head PR checks green.
+- **Quality gates:** **R76 [LOC-EXEMPT]** operator waiver (R100 escape hatch; an operator waiver, NOT a bypass and NOT an R109 metric-gaming split); **R74** test:src ratio **2.12** (≥ 2.0); **R75** banned-cast net **ZERO**.
+- **Safety:** feature dark behind `FEATURE_SCOUT_INGEST` + `FEATURE_SCOUT_RECONSTRUCT` (both default-off; **no new flag**); the path is dark unless both are `"true"`. Billing remains an explicit excluded family; messaging deferred (not built as a v1 entity).
+
+**Operational findings (recorded, non-blocking):**
+1. **Post-merge `build-sbom` and `release-please` FAILED — PRE-EXISTING automation debt, NOT IMPORTER-H regressions.** `build-sbom`: npm `prepare` runs `lefthook install` under a production-only install where the lefthook devDependency is absent → exit 127. `release-please`: GitHub Actions lacks permission to create/approve PRs. Both were already red on prior main `77bb4a0`; IMPORTER-H changed no package/workflow/SBOM/release-config file. Inherited debt to fix separately; not gating.
+2. **Post-merge CI on `f9b81cf` is now TERMINAL and VERIFIED** (supersedes the Op-64 "still running" tracked state). **Core CI GREEN** — build-and-test, rls-live-tests, mwb-3-live-tests, rls-floor-guard, CodeQL JS/TS, Deploy app. The only red is the two pre-existing non-regression automation jobs in finding 1 (`build-sbom`, `release-please`), both already red on prior main `77bb4a0`. Per-job run URLs (success + both failures with prior-main comparison) live in `current-state.json` `decision_record_op64_importer_h_landed_2026_07_19.postmerge_ci_evidence` — not duplicated here.
+3. **Backend `main` remains NOT branch-protected** (as recorded since Op 60). The drift guard is git's own non-fast-forward rejection (verified: no drift), not server-side protection. Operator to reconcile intent. Unchanged this Op.
+
+**Order / next.** IMPORTER-H is the first V-PR of the TrueCoach end-to-end vertical proof and is now LANDED. **NEXT dependency = IMPORTER-I** (backend coach-scoped mobile-readable per-family review/progress read contract; OpenAPI bump + R80 byte-pinned drift). Existing order **preserved: IMPORTER-I → PR-M4 → V5.** IMPORTER-I **NOT dispatched this Op** — awaits its own R14 dual-lens cycle on its build PR.
+
+**Rollback / stop.** Forward-only, non-destructive: `git revert f9b81cf` via a normal reviewed PR. NO history rewrite / force-push over shared `main` (forbidden by runbook §5 / R4 / R102; reserved to the operator). This context reconcile is docs/state only and reverts by reverting the Op 64 commit.
+
+**Invariants preserved.** AGENT_RULES.md not edited; R3_MERGE_RUNBOOK git-native mechanics unchanged and not weakened; D2 decision (Op 59) unchanged; billing exclusion preserved; messaging deferred within v1 (not dropped from the product); production flags default-off (none enabled); no mobile dispatch/modification; mission remains site-agnostic/browser-agnostic (TrueCoach is only the first proving adapter, not product scope); `truth_boundaries.no_e2e_proof_yet` still holds (no end-to-end completion claimed); context reconcile landed R3-clean by plain fast-forward, audit-exempt per R14 scope.
+
+**Evidence URLs.** PR: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/512 · Landed commit: https://github.com/BradleyGleavePortfolio/growth-project-backend/commit/f9b81cf73289bfe74087dfe6327e52e460fb44f6
+
+---
+
 ## 2026-07-19 (Op 63) — V0 SCOPE DECISION: **DEFER MESSAGING** — the TrueCoach end-to-end vertical proof v1 covers **clients + workouts + client history**; messaging becomes a later specialized lane, not a generic v1 entity (R138-governed directional decision)
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
