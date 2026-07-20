@@ -18,6 +18,8 @@ This quote is the top of the durable record. Every importer doc, brief, and deci
 
 **What the operator corrected.** Prior canonical wording (chiefly `roadmap/M-IMPORTER-EXTENSION_v1.md` as originally written) mistook **TrueCoach v0.3** — a single proving adapter — for the **overall product**. It also implied a Chrome-only extension and a per-competitor mapped-extractor treadmill. That framing is now explicitly **WRONG**. TrueCoach is the *first proving adapter / vertical slice only*.
 
+**Doctrine binding (Op 65, `roadmap/rulings/R-SITE-AGNOSTIC-1_2026-07-20.md`).** Read "first proving adapter" throughout this wave as **one interchangeable validation adapter** — a concrete target chosen to *validate* the generic, site-agnostic, browser-agnostic kernel. TrueCoach is expressly **not** an MVP, a privileged or mandatory first phase, an architecture driver, or a release-sequencing assumption; the product is site-agnostic **from inception**. The word "first" denotes validation-order convenience only and confers no product privilege. No canonical contract, schema, entity family, or endpoint may encode any single site's semantics. Prior decision records and handoff provenance retain their original wording (R5/R132); this pointer is the forward-binding interpretation.
+
 ---
 
 ## 1. THE MISSION (approved product goal)
