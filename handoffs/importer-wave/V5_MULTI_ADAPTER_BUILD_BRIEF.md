@@ -3,7 +3,7 @@
 - **Brief ID:** V5-MULTI-ADAPTER
 - **Date:** 2026-07-20 (Op 68)
 - **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com> (R0/R3; R138 autonomy in force)
-- **Status:** APPROVED — STACK LOCKED. Not yet dispatched — each PR runs its own R14 dual-lens cycle + git-native `R3_MERGE_RUNBOOK.md` landing.
+- **Status:** APPROVED — STACK LOCKED. **PR-1 LANDED (Op 69)** as backend main `8a860561d5b7f8273e761dc9353d938cd02061a2` (PR #514, base/parent `f92a689`, R3-clean plain non-force fast-forward, dual exact-head audits CLEAN P0=P1=P2=P3=0, prod CI + Deploy green, branch `feat/scout-source-mapper-registry` deleted). Frozen seam = `SourceMapper` (`sourcePlatform` + `mapClient` + `mapEntity`); TrueCoach the sole current registration, behavior-identical, contract 1.4.0 byte-identical. **PR-2a ∥ PR-2b now UNBLOCKED** (parallel only after the Op-69 reconcile lands; core-diff-zero gate armed). PR-3, PR-4 not yet dispatched — each remaining PR runs its own R14 dual-lens cycle + git-native `R3_MERGE_RUNBOOK.md` landing.
 - **Lane position:** last leg of the TrueCoach vertical proof — `IMPORTER-H (LANDED) → IMPORTER-I (LANDED) → PR-M4 (LANDED) → V5 (THIS)`. Do not reorder.
 - **Governing decision:** Op-63 "Defer messaging" R138 directional gate (the vertical-proof scope). This brief tightens the *definition* of the already-planned V5 leg + records verified product-repo facts; it is not a new directional decision, so no fresh R138 gate is re-run. Full record: DECISION_LOG Op-68 + `current-state.json` `decision_record_op68_v5_stack_lock_2026_07_20`.
 - **Rule authority:** context-repo `AGENT_RULES.md` is canonical for every leaf repo per [[R-RULE-AUTHORITY-1_2026-07-20]]. Doctrine framing per [[R-SITE-AGNOSTIC-1_2026-07-20]].
@@ -137,7 +137,7 @@ The canonical `truth_boundaries.no_truecoach_mapper` and OPERATOR_HANDOFF §3 as
 - **GOOD WITHOUT BAD:** genuine multi-adapter proof without core coupling, flag sprawl, new storage, or dishonest completion.
 - **EVIDENCE REQUIRED:** §6 gates; core-diff-zero proof (§4).
 - **ROLLBACK / STOP:** all flags default-off (dark); forward-only `git revert`; §6 STOP conditions.
-- **NEXT ACTION:** dispatch **PR-1** (backend thin registry) against this brief at live backend main `f92a689` (verify with GitHub before mutation); land via the git-native `R3_MERGE_RUNBOOK.md` path; then PR-2a ∥ PR-2b.
+- **NEXT ACTION:** ✅ **PR-1 LANDED (Op 69)** as backend main `8a860561` (PR #514, base/parent `f92a689`, R3-clean plain fast-forward, dual exact-head CLEAN, branch deleted) — the frozen `SourceMapper` seam. **Now dispatch PR-2a ∥ PR-2b** (backend `conformance_alpha` mapper + one registration + fixtures/tests ∥ extension data-only `conformance_alpha` blueprint + fixtures/conformance tests) against this brief, parallel only after the Op-69 reconcile lands; each via the git-native `R3_MERGE_RUNBOOK.md` path; core-diff-zero gate armed; then PR-3, PR-4.
 
 ---
 

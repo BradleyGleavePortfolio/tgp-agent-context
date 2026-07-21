@@ -6,6 +6,35 @@ Newest first.
 
 ---
 
+## 2026-07-21 (Op 69) — V5 PR-1 LANDED: the thin `source_platform → mapper` registry seam (frozen `SourceMapper`) landed on backend `main`, freezing the mapper interface and unblocking adapter #2; docs/state reconcile of a completed backend landing
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Documentation/state reconciliation of a completed backend landing (V5 PR-1). No product code changed in this Op; no `AGENT_RULES.md` edit. Audit-exempt per R14 scope — PR-1 itself was fully R14-audited at its own head.
+**Governing decision:** the Op-63 R138 four-question directional gate (**"Defer messaging"**) + the Op-68 V5 stack lock (`decision_record_op68_v5_stack_lock_2026_07_20`). **NEITHER re-run** — this records a completed leg of the already-locked stack, not a new directional decision. Executed under the standing R138 autonomy grant.
+**Files touched (context repo):** `handoffs/importer-wave/current-state.json`, `DECISION_LOG.md`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`, `handoffs/importer-wave/V5_MULTI_ADAPTER_BUILD_BRIEF.md` (status advanced to PR-1 LANDED). **Documentation/state only.**
+
+**What landed.** **V5 PR-1** — the thin `source_platform → mapper` registry seam — landed on backend `growth-project-backend` `main` as **`8a860561d5b7f8273e761dc9353d938cd02061a2`** (PR **#514**, base/parent **`f92a689838a0ae948e53f4cf4fad50991d17ec00`**), the **FIRST** PR of the Op-68-locked V5 multi-adapter stack and the **ONLY** prerequisite that unblocks adapter #2. It replaced the hard-wired `families.ts` dispatch with a **frozen `SourceMapper` seam** (interface `sourcePlatform` + `mapClient` + `mapEntity`, registry keyed by `source_platform`). **TrueCoach is the SOLE current registration and is NOT architecturally privileged.** **BEHAVIOR-IDENTICAL:** no behavior/family/flag/contract/DTO/schema/migration/OpenAPI/UI change; contract stays **1.4.0 byte-identical (R80)**.
+
+**Landing (R3-clean, plain fast-forward).** Landed by a **PLAIN non-force fast-forward** (`f92a689..8a860561 → main`; **NO** force, **NO** `--force-with-lease`, **NO** admin bypass, **NO** server-side merge button, **NO** rebase). **INDEPENDENTLY VERIFIED against GitHub:** live backend `main` == audited head == PR #514 `mergeCommit` == `8a860561`; **single parent** `f92a689`; **author == committer == Bradley Gleave <bradley@bradleytgpcoaching.com>**; commit message **AI/co-author-token clean**; PR #514 **MERGED** (`mergedAt 2026-07-21T00:52:16Z`); source branch `feat/scout-source-mapper-registry` **safe-deleted** (verified gone). This is the **SIXTH** R3-CLEAN backend-main git-native landing (after #508, IMPORTER-F #510, IMPORTER-G #511, IMPORTER-H #512, IMPORTER-I #513).
+
+**Audits + CI.** **Dual exact-head audits CLEAN, P0=P1=P2=P3=0.** **Production CI + Deploy succeeded.** The two PRE-EXISTING, diff-independent infrastructure failures (`build-sbom` + `release-please`) **REMAIN in their SEPARATE lane per Rule 14 / R68** — NOT folded into this or any product PR.
+
+**Next allowed work (parallel ONLY after this reconcile lands).** **V5 PR-2a (backend)** — `conformance_alpha` mapper + **exactly one** `source_platform → mapper` registration + deterministic golden fixtures/tests — **∥ PARALLEL WITH V5 PR-2b (extension)** — data-only `conformance_alpha` blueprint + recorded CDP fixtures + conformance tests. Engine untouched. **Core-diff-zero gate now ARMED.** Each owes its own R14 dual-lens + git-native R3 landing. **Not started this Op.**
+
+**Op-68 constraints preserved.** No engine/DTO/schema/migration/OpenAPI/contract/UI changes for adapter #2; **cross-run resume and autonomous blueprint induction remain DEFERRED** (separate pre-build-reviewed slices, not claimed by V5); **mobile is a NO-OP** unless the PR-3 end-to-end proof reveals a contract mismatch.
+
+**Truth-boundary movement.** The hard-wired-dispatch half of `truth_boundaries.no_truecoach_mapper` is now **CLOSED** (mapping is `source_platform`-dispatched via the frozen `SourceMapper` registry). The only remaining boundary is `truth_boundaries.no_multi_adapter_proof_yet` — **no ≥2-adapter end-to-end proof yet**; do NOT claim the core is proven site-agnostic until adapter #2 lands at ZERO core diff AND PR-3 passes.
+
+**Canonical state updated.** `repos.backend.main_head` **`f92a689` → `8a860561`** (+ short/as_of/tip_msg/r3_note/rollback); `repos.context.main_head` **`6f59a71` → `c50a5ef`** (Op-68 tip; this Op advances context main by one plain fast-forward); `decision_record_op69_pr1_landed_2026_07_21` recorded; op label / headline / phase advanced to **Op 69**; `successor_label` → **Agent 69**; `as_of_utc/local` → 2026-07-21; `next_pr_order` (rule + `progress.V5-PR-1` added + `progress.V5` updated) + vertical-proof `v_pr_stack` V5 entry + `blockers.TrueCoach-vertical-proof.precondition` note PR-1 landed / PR-2a∥PR-2b unblocked.
+
+**Rollback / stop.** Reverts by reverting the Op-69 commit (docs/state only). Downstream hard stops unchanged: adapter #2 (`conformance_alpha`) MUST land with **ZERO core changes** (core-diff-zero gate); never a TrueCoach clone/config-variant; never an adapter-specific core contract, second progress system, or `Deleted` erasure state; billing never captured; cross-run resume is a separate slice, not claimed by V5. **NO history rewrite / force-push over shared main.**
+
+**Invariants preserved.** `AGENT_RULES.md` not edited; `R3_MERGE_RUNBOOK.md` mechanics unchanged; D2 decision unchanged; billing exclusion preserved; messaging deferred; production flags default-off; **mission remains site-agnostic — TrueCoach is only one interchangeable validation adapter, not privileged by being first** (R-SITE-AGNOSTIC-1); context reconcile landed R3-clean by plain fast-forward, audit-exempt per R14 scope.
+
+**Evidence URLs.** Backend PR-1 landed: https://github.com/BradleyGleavePortfolio/growth-project-backend/commit/8a860561d5b7f8273e761dc9353d938cd02061a2 · PR #514: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/514 · Backend base/parent: https://github.com/BradleyGleavePortfolio/growth-project-backend/commit/f92a689838a0ae948e53f4cf4fad50991d17ec00 · Context main pre-Op-69 base: https://github.com/BradleyGleavePortfolio/tgp-agent-context/commit/c50a5efe3a46f5ca8d98e005bdce51ece01c2636
+
+---
+
 ## 2026-07-20 (Op 68) — V5 STACK LOCK + `no_truecoach_mapper` CORRECTION: the last leg of the site-agnostic TrueCoach vertical proof is defined into a smallest-canonical, dependency-ordered PR stack with a core-diff-zero pass gate; the stale truth boundary is corrected under R5
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
