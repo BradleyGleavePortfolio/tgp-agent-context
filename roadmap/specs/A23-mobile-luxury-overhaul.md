@@ -42,7 +42,7 @@ A23 is the roadmap-item **umbrella** making "every mobile screen reaches the Lux
 - [ ] Motion ≤300ms; tap targets ≥44×44pt; text contrast WCAG AA (DOCTRINE_INVARIANTS §8) on every overhauled screen.
 - [ ] Token discipline: no hardcoded hex outside `tokens.ts`; every overhauled screen exports the `stillwater` meta const (Stillwater lints green).
 - [ ] Doctrine-pin tests (`quietLuxuryDoctrine.test.ts` and siblings) stay green across the wave.
-- [ ] Each PR dual-CLEAN (Lens A + Lens B) per R14/R72.
+- [ ] Each PR dual-CLEAN (Lens A + Lens B) per R11 (auditor independence) + R14 (merge gate), audits exhaustive per R10.
 
 ## Doctrine flags
 
