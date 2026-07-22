@@ -275,3 +275,23 @@ Format: `YYYY-MM-DD · short-id · category · ruling (verbatim where possible)`
 **Authoritative location:** This log. AGENT_RULES.md R109 ("No Half-Ass") is the doctrinal neighbor; the "no dark merges" rule extends R109's "never a stub / never fake" into "never a permanently-hidden real route."
 
 **R3 footer:** Committed as Bradley Gleave <bradley@bradleytgpcoaching.com>. Zero AI/Claude/agent/Co-authored-by tokens.
+
+---
+
+## 2026-07-22 · A-NUMBERING · roadmap · mobile luxury overhaul filed as A23 (A14 collision reconciled)
+
+**Verbatim (owner directive, 2026-07-22):**
+> "A14 - Mobile screen overhaul per LUXURY DOCTRINE (visual improvements per pages)"
+
+**Collision:** A14 is already the owner-approved **"AI Program Generation"** item (`NEW_A_ITEMS_BACKLOG.md` A14; `IDIOT_INDEX_RULINGS.md` §2.2.1–2.2.5; cross-referenced in `ZION_DATA_CAPTURE_CHECKLIST.md` and throughout the tree). The owner's requested label "A14" therefore collides with a distinct, pre-existing, owner-approved scope.
+
+**Ruling:** File the mobile screen overhaul at the **next free contiguous A-number, A23** — do NOT overwrite or renumber A14. Rationale, per doctrine:
+1. **Preserve existing owner-approved scope** — A14 (AI Program Generation) stays as-is; A1–A13 statuses untouched.
+2. **Contiguous + discoverable** — A23 is the next number after the A14–A22 backlog; the canonical list stays gap-free (A14–A23).
+3. **No cross-reference breakage** — A14 is cited across many docs; renumbering it would silently rot those references (R5 never-lose).
+
+**Effect:** A23 = "Mobile Screen Overhaul (Luxury Doctrine visual pass)" added to `NEW_A_ITEMS_BACKLOG.md` (summary table + full section + sequencing) with a matching spec stub at `roadmap/specs/A23-mobile-luxury-overhaul.md`. Status: **NEW · PLANNING-ONLY · AUDIT-FIRST**. It is **Tier 5 (Mobile design & UX polish)** in the locked pyramid, executed via the existing Stillwater lanes (`POST_H_LADDER.md` §6) against the existing Luxury Doctrine (`design-targets/mobile/CATALOG.md`). No implementation authorized; no screen designs invented; implementation dispatch gated on explicit operator approval (§7.6). This entry is documentation-only; no product code changed.
+
+**Authoritative location:** This log + `NEW_A_ITEMS_BACKLOG.md` (A14–A23 header note + A23 section) + `roadmap/specs/A23-mobile-luxury-overhaul.md`.
+
+**R3 footer:** Committed as Bradley Gleave <bradley@bradleytgpcoaching.com>. Zero AI/Claude/agent/Co-authored-by tokens.

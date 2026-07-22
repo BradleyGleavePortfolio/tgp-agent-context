@@ -1,8 +1,10 @@
-# New A-Items Backlog (A14–A22)
+# New A-Items Backlog (A14–A23)
 
-**Source:** Musk-framework audit 2026-06-19.
+**Source:** Musk-framework audit 2026-06-19. A23 appended 2026-07-22 (owner directive — see number-collision reconciliation note below).
 **Status:** Owner-approved direction; stubs pending operator spec passes.
-**Cross-refs:** `IDIOT_INDEX_RULINGS.md` for design rationale; `ZION_DATA_CAPTURE_CHECKLIST.md` for data dependencies.
+**Cross-refs:** `IDIOT_INDEX_RULINGS.md` for design rationale; `ZION_DATA_CAPTURE_CHECKLIST.md` for data dependencies; `design-targets/mobile/CATALOG.md` (Luxury Doctrine) + `POST_H_LADDER.md` Tier 5 for A23.
+
+> **Number-collision reconciliation (2026-07-22).** The owner directed adding *"A14 — Mobile screen overhaul per LUXURY DOCTRINE (visual improvements per pages)"*. **A14 is already owner-approved as "AI Program Generation"** (this file + `IDIOT_INDEX_RULINGS.md` §2.2, cross-referenced across the tree). Per doctrine — preserve existing owner-approved scope, keep the list contiguous, do not renumber a cross-referenced item — the mobile overhaul is filed at the next free contiguous number, **A23**, not A14. See `OPERATOR_DECISIONS_LOG.md` 2026-07-22 · A-NUMBERING entry.
 
 ---
 
@@ -19,8 +21,9 @@
 | **A20** | Behavioral Personalization Engine | New | 25-35 | ZION fully live |
 | **A21** | Payment Fee Margin Layer | Added to A13a | 3-5 | A13 in flight |
 | **A22** | TGP Cash Flow Forecast | Post-A13 | 15-20 | A13 in production |
+| **A23** | Mobile Screen Overhaul (Luxury Doctrine visual pass) | **NEW · PLANNING-ONLY · AUDIT-FIRST** | TBD by page-by-page audit (Tier 5; overlaps Stillwater T5.A–T5.D) | Tier 1–4 gates; `design-targets/mobile/CATALOG.md`; Stillwater primitives (T5.A) |
 
-**Total new operator scope (max): ~128-180 operators** added on top of existing A1-A13 roadmap.
+**Total new operator scope (max): ~128-180 operators** added on top of existing A1-A13 roadmap (A14–A22). **A23 operator scope is deliberately unscoped until the page-by-page visual audit runs** — it is UX polish (Tier 5) and is estimate-set by the audit, not pre-committed here.
 
 ---
 
@@ -301,6 +304,42 @@ Total time from input to coach-approved program: **<2 minutes.**
 
 ---
 
+## A23 — Mobile Screen Overhaul (Luxury Doctrine visual pass)
+
+**Status:** **NEW · PLANNING-ONLY · AUDIT-FIRST.** No implementation authorized by this entry. No screen designs invented here.
+
+**Owner directive (verbatim, 2026-07-22):**
+> "A14 - Mobile screen overhaul per LUXURY DOCTRINE (visual improvements per pages)"
+
+**Filed as A23, not A14** — A14 is the owner-approved "AI Program Generation" item; see the number-collision reconciliation note at the top of this file and `OPERATOR_DECISIONS_LOG.md` 2026-07-22 · A-NUMBERING.
+
+### What this item is
+
+A **page-by-page visual audit of the mobile app against the existing Luxury Doctrine**, followed by visual-improvement PRs that close the gap between each shipped screen and the doctrine bar. The Luxury Doctrine already exists — this item does not author a new one:
+
+- **The bar:** `design-targets/mobile/CATALOG.md` — the Mobile Luxury Target Catalog (universal design language: parchment ground, single sage accent `#1F3A1F`, serif display, hairline dividers, one primary CTA per screen, Maya/Roman voice) plus 10 per-screen luxury references. Operator directive on that catalog: *"THESE IMAGES ARE THE BAR, NOT THE BLUEPRINT … at the same par."*
+- **The primitives:** Stillwater Tier 5 (`POST_H_LADDER.md` §6) — `CompletionMoment`, `useHaptic`, `useSpring`, `QuietSkeleton`, `CalmError`, token-discipline + banned-vocabulary lints. A23 rides these primitives; it does not re-invent them.
+
+### Relationship to Stillwater (avoid duplication)
+
+A23 is the **roadmap-item umbrella** for the luxury visual overhaul; the Stillwater Tier-5 lanes (T5.A primitives/lints, T5.B eight redesigns, T5.C TM/web mobile screens, T5.D quarter sweep) are the **execution lanes** that satisfy it. A23 does not fork or replace those lanes — it makes the "every mobile screen reaches the Luxury Doctrine bar" goal discoverable as a first-class A-item and holds the page-by-page audit that drives lane prioritisation.
+
+### Audit-first dispatch (measures distance from the bar)
+
+Like the VERIFY-NEEDED items, A23 begins with an audit, not a build. The audit enumerates **every shipped mobile screen** and scores each against the catalog's universal design language + patterns table, producing a prioritised gap list. Scope/operator estimate is set by that audit — not pre-committed here.
+
+### Doctrine flags
+
+- **Tier 5 (Mobile design & UX polish)** — lowest band of the locked priority pyramid (`POST_H_LADDER.md`: Infrastructure → Security → Data → Unique features → **Mobile design & UX polish**). A23 sits **behind the Tier 1–4 gates**; it must not jump the pyramid.
+- **Approval gate:** planning-only. Implementation dispatch requires explicit operator approval per `POST_H_LADDER.md` §7.6 ("adding a lane requires operator approval"; the pyramid is authority on tier placement).
+- **No screen designs invented** in planning: the catalog is the bar, per-screen planner briefs are written at dispatch time citing the matching catalog folder and stating match-vs-diverge explicitly (per `CATALOG.md`).
+- **Voice/copy (R107, DOCTRINE_INVARIANTS §10):** Maya voice on operator surfaces, Roman voice in celebration moments only; no exclamation points, no unrequested emoji, no hype vocabulary — enforced by the Stillwater banned-vocabulary lint.
+- **Motion/a11y (DOCTRINE_INVARIANTS §8):** ≤300ms transitions, 44×44pt tap targets, WCAG AA contrast on every overhauled screen.
+
+**Est. operators:** TBD by the page-by-page audit (Tier 5; overlaps Stillwater T5.A–T5.D). Deliberately unscoped here.
+
+---
+
 ## Cross-Cutting Themes
 
 ### Theme 1: Most A14-A22 items depend on ZION
@@ -331,6 +370,7 @@ A14 and A15 are flagged VERIFY-NEEDED. Before any operator scopes new work on th
 10. **A18** (wearable auto-logging, post-A6 mature).
 11. **A22** (cash flow forecast).
 12. **STAGE_4_ARCHITECTURE_PASS** before Stage 4 chapter scoping.
+13. **A23** (mobile luxury visual overhaul) — Tier 5 UX polish; runs behind the Tier 1–4 gates via the Stillwater lanes. Audit-first; operator approval required before dispatch.
 
 ---
 
