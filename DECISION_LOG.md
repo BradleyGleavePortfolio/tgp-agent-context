@@ -15,12 +15,14 @@ Newest first.
 
 ### Exact heads recorded (this reconciliation)
 - **context** (`tgp-agent-context`): `ed5729af3ec117d1e671302d5d3ce5120c8ec1e2` (drift-verified live == local at reconcile time).
-- **backend** (`growth-project-backend`): `4cb05effb760d3f89a15f59d2983ab5a8e0d43d7` **after H-Jobs PR #519 landed** (was `9c1bcbd` at Op 72).
+- **backend** (`growth-project-backend`): `07ff974079eb1da02f1de4f5ecd18c1f223afeae` **after H-Jobs PR #521 landed** (parent `4cb05eff` = the PR #519 tip; chain `9c1bcbd` @ Op 72 → `4cb05eff` @ #519 → `07ff974` @ #521). Backend `main_as_of` is an Op-73 observed-at refresh timestamp (`2026-07-23T01:14:04Z`), not the backend commit committer time (not independently fetched in this docs-only reconcile).
 - **extension**: `95be0222df3d47d787566743c8781005d8fbec69` (unchanged).
 - **mobile**: `a5933fd6de5616493de75f0db907098b149b955c` (unchanged).
 
-### H-Jobs (PR #519) engineering correction — recorded, not re-litigated
-The H-Jobs landing carries an engineering correction: **`test-deploy-readiness` is the only PR-eligible required-check candidate**; the **strict release gate (`deploy-readiness-gate`) must NEVER be a PR-required status context** (it is skipped in PR mode by design). Because **branch protection is not applied** on backend `main` (`branches/main/protection` → 404) and **production secrets are not wired**, operational enforcement remains **operator/admin/secret-dependent** — the check exists in code but is not mechanically enforced at the gate. No claim that enforcement is live.
+### H-Jobs (PR #519, PR #521) engineering corrections — recorded, not re-litigated
+The H-Jobs #519 landing carries an engineering correction: **`test-deploy-readiness` is the only PR-eligible required-check candidate**; the **strict release gate (`deploy-readiness-gate`) must NEVER be a PR-required status context** (it is skipped in PR mode by design). Because **branch protection is not applied** on backend `main` (`branches/main/protection` → 404) and **production secrets are not wired**, operational enforcement remains **operator/admin/secret-dependent** — the check exists in code but is not mechanically enforced at the gate. No claim that enforcement is live.
+
+**PR #521 (operator-key generator / artifact repair) — recorded (refresh):** H-Jobs #521 landed backend `main` `4cb05eff → 07ff974`, a **deterministic operator-key generator / artifact repair**: **truthful runtime env names** (including `STRIPE_SECRET_KEY` + `STRIPE_WEBHOOK_SECRET`), valid **`readiness:keys` scripts + drift tests**, **empty-env generation**. **No secret values committed; no settings / branch-protection / credentials applied.** Operational enforcement remains **admin/secret-dependent** — this repairs the generator/artifact and env-name truthfulness only; it does NOT wire secrets or apply protection, and makes no claim that enforcement is live.
 
 ### AUTHORITATIVE SUPERSESSION MAP (newest-wins; historical prose retained)
 | Item | STALE status (superseded) | NEWEST truth (this Op) | What remains |
@@ -48,10 +50,10 @@ The H-Jobs landing carries an engineering correction: **`test-deploy-readiness` 
 `AGENT_RULES.md` not edited; `R3_MERGE_RUNBOOK.md` mechanics unchanged; D2 unchanged; billing exclusion preserved; **all flags remain default-OFF**; **no live-data completion claim**; mission remains **site-agnostic** (TrueCoach is one interchangeable validation adapter, R-SITE-AGNOSTIC-1); historical logs **retained, not rewritten**.
 
 ### Rollback / stop
-This Op is docs/state only — forward-only `git revert` of the reconcile commit restores the Op-72 snapshot (no product surface, no flags, no runtime change). If any recorded SHA (context `ed5729a`; backend `4cb05eff`; extension `95be0222`; mobile `a5933fd`) later differs from GitHub live state, treat as **INFRA_DEATH** per R124 and re-verify before acting. **NO history rewrite / force-push over shared main.** This entry authorizes SCOPE only; C1/M5/extension builds each require their own exact-head dual-lens audit + CI before any landing, and live enablement is separately operator-gated.
+This Op is docs/state only — forward-only `git revert` of the reconcile commit restores the Op-72 snapshot (no product surface, no flags, no runtime change). If any recorded SHA (context `ed5729a`; backend `07ff974` after #521, parent `4cb05eff`; extension `95be0222`; mobile `a5933fd`) later differs from GitHub live state, treat as **INFRA_DEATH** per R124 and re-verify before acting. **NO history rewrite / force-push over shared main.** This entry authorizes SCOPE only; C1/M5/extension builds each require their own exact-head dual-lens audit + CI before any landing, and live enablement is separately operator-gated.
 
 ### Evidence URLs
-Ruling: `roadmap/rulings/R-ONBOARDING-ROLE-GATE-1_2026-07-22.md` · Context main `ed5729a`: https://github.com/BradleyGleavePortfolio/tgp-agent-context/commit/ed5729af3ec117d1e671302d5d3ce5120c8ec1e2 · Backend H-Jobs PR #519: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/519
+Ruling: `roadmap/rulings/R-ONBOARDING-ROLE-GATE-1_2026-07-22.md` · Context main `ed5729a`: https://github.com/BradleyGleavePortfolio/tgp-agent-context/commit/ed5729af3ec117d1e671302d5d3ce5120c8ec1e2 · Backend H-Jobs PR #519: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/519 · Backend H-Jobs PR #521 (operator-key generator/artifact repair): https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/521
 
 ---
 

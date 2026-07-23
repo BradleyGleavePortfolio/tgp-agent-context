@@ -13,7 +13,7 @@
 - **Related:** [[OPERATOR_HANDOFF]], [[R-SCOUT-READINESS-1_2026-07-22]], [[R-SITE-AGNOSTIC-1_2026-07-20]], [[R-RULE-AUTHORITY-1_2026-07-20]]; `AGENT_RULES.md` R138 (operator autonomy + four-question gate), R83 (default-off flags), R14/R3/R124, R100 (§7 hyperscaler quality); Luxury Doctrine P0 anti-patterns (permission-front onboarding, feature-dump first screen, unescapable steps; accessibility floor 44×44pt / WCAG AA; one-sitting onboarding).
 
 ## Exact heads at ruling time
-- context `ed5729af3ec117d1e671302d5d3ce5120c8ec1e2` · backend `4cb05effb760d3f89a15f59d2983ab5a8e0d43d7` (after H-Jobs PR #519) · extension `95be0222df3d47d787566743c8781005d8fbec69` · mobile `a5933fd6de5616493de75f0db907098b149b955c`.
+- context `ed5729af3ec117d1e671302d5d3ce5120c8ec1e2` · backend `07ff974079eb1da02f1de4f5ecd18c1f223afeae` (after H-Jobs PR #521 — deterministic operator-key generator/artifact repair; parent `4cb05effb760d3f89a15f59d2983ab5a8e0d43d7` = the #519 tip) · extension `95be0222df3d47d787566743c8781005d8fbec69` · mobile `a5933fd6de5616493de75f0db907098b149b955c`.
 
 ## R138 FOUR-QUESTION DECISION GATE
 
