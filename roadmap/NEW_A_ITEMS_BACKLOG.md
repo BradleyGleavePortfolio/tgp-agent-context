@@ -6,6 +6,8 @@
 
 > **Number-collision reconciliation (2026-07-22).** The owner directed adding *"A14 — Mobile screen overhaul per LUXURY DOCTRINE (visual improvements per pages)"*. **A14 is already owner-approved as "AI Program Generation"** (this file + `IDIOT_INDEX_RULINGS.md` §2.2, cross-referenced across the tree). Per doctrine — preserve existing owner-approved scope, keep the list contiguous, do not renumber a cross-referenced item — the mobile overhaul is filed at the next free contiguous number, **A23**, not A14. See `OPERATOR_DECISIONS_LOG.md` 2026-07-22 · A-NUMBERING entry.
 
+> **NEWEST-WINS (Op 73, 2026-07-22).** **A23** (Luxury Doctrine mobile overhaul) landed **planning-only / audit-first** at context main `ed5729a` (PR #24); **A14 remains AI Program Generation** (unchanged). The **`TGP_WALLET_BORROW_CASH.md`** document already exists byte-identically and **remains legal/licensing/counsel-gated** — no build authorized. See `DECISION_LOG.md` Op-73 for the authoritative supersession map.
+
 ---
 
 ## Backlog Summary

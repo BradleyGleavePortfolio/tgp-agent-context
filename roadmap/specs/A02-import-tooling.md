@@ -1,6 +1,6 @@
 # A2 · Migration / import tooling
 
-**Status:** NOT STARTED (ZERO)
+**Status:** SUBSTRATE BUILT — DARK / DEFAULT-OFF, UNPROVEN ON LIVE ACCOUNTS (newest-wins, Op 73 · 2026-07-22) *(was: NOT STARTED (ZERO))*
 **Owner:** *(set by operator on agent dispatch)*
 **v2 source:** [`TGP-MASTER-PLAN-v2.md`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/roadmap/TGP-MASTER-PLAN-v2.md) §1.A A2
 **Tier/lane:** Tier 4 / T4.A2 (first Tier 4 lane)
@@ -8,9 +8,19 @@
 
 ---
 
+> **NEWEST-WINS SUPERSEDE (2026-07-22, Op 73 reconciliation — this block overrides the older `NOT STARTED (ZERO)` framing above/below on conflict; historical prose retained, not rewritten).**
+> The `NOT STARTED (ZERO)` / "State of build: ZERO" claim is **STALE and superseded by newest evidence** from the importer wave (see `handoffs/importer-wave/current-state.json` and `handoffs/importer-wave/R3_MERGE_RUNBOOK.md`). Production truth:
+> - The **importer "coach-is-the-key" bridge substrate exists across backend, extension, and mobile** — pairing/intent plumbing, the site-agnostic adapter surface, and a landed R3-CLEAN backend product path (IMPORTER-F, backend `main` `1e6b3bf`). This is **not** zero.
+> - **V5 multi-adapter fixture proof is complete** (adapter normalization proven against fixtures, not live accounts).
+> - The entire pipeline is **fully dark / default-OFF**: no live flag flip has occurred, and no live-account import has run end-to-end.
+> - **Real-account TrueCoach full-loop is UNPROVEN** (fixture-level only); **multi-site autonomy is LOW** (site-agnostic in design; not demonstrated across live sites).
+> **No completion/launch claim is made.** What remains is live-account proof + operator-gated flag enablement, not greenfield build. See `DECISION_LOG.md` (Op-73, 2026-07-22 · NEWEST-WINS RECONCILIATION) for the authoritative supersession map, and the C1/M5 slice authorization for the role-gated onboarding follow-on.
+
 ## State of build
 
-ZERO. No Trainerize/Everfit importer, no spreadsheet upload, no program-format converter.
+*(Historical framing below — superseded by the newest-wins block above: importer bridge substrate exists across backend/extension/mobile and V5 fixture proof is complete; the "ZERO" claim describes the ORIGINAL Trainerize-CSV/spreadsheet productization scope, which remains largely unbuilt, but the broader importer substrate is NOT zero.)*
+
+~~ZERO.~~ No dedicated Trainerize/Everfit CSV importer, spreadsheet upload, or program-format converter has shipped **for the productization scope in "What to build" below**; the site-agnostic import bridge substrate (pairing/adapter/pipeline) exists but is dark/default-off (superseded Op 73).
 
 ## What to build
 

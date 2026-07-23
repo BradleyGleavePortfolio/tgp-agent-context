@@ -1,12 +1,22 @@
 # A3 · Re-engagement automations + Dunning consolidation
 
-**Status:** MOSTLY built (substrate present, trigger UI + consolidation outstanding)
+**Status:** PARTIAL — SUBSTRATE PRESENT BUT WIRING BROKEN, DEFAULT-OFF (newest-wins, Op 73 · 2026-07-22) *(was: MOSTLY built (substrate present, trigger UI + consolidation outstanding))*
 **Owner:** *(set by operator on agent dispatch)*
 **v2 source:** [`TGP-MASTER-PLAN-v2.md`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/roadmap/TGP-MASTER-PLAN-v2.md) §1.A A3 *(promoted from old Bucket B1 on 2026-06-19 dissolution pass)*
 **Tier/lane:** Tier 4 / T4.A3
 **Rank rationale:** Operator: "important (higher)." Revenue-defense; gates retention math at launch. Folded into Bucket A as part of dissolution pass.
 
 ---
+
+> **NEWEST-WINS SUPERSEDE (2026-07-22, Op 73 reconciliation — this block overrides the older `MOSTLY built` framing above/below on conflict; historical prose retained, not rewritten).**
+> The `MOSTLY built` status **overstates readiness and is superseded by newest evidence.** The substrate classes/modules listed under "State of build" do exist, but the **runtime wiring is broken/absent**, so the feature does not function end-to-end. Evidence-backed truth:
+> - **Dunning V2 lockout state is written but the guard is NOT mounted** — `DunningState` lockout is persisted, but no request-path guard consumes it, so lockout does not actually gate access.
+> - **The V2 dispatcher/classifier has NO runtime caller** — the dunning-v2 classification/dispatch code is unreferenced by any live scheduler/webhook path.
+> - **Recovery tokens are not minted and have no route** — `PaymentRecoveryToken` exists as a model, but nothing mints one and no recovery endpoint/route serves it.
+> - **Mobile dunning API is hard-null** — the mobile client's dunning surface returns null/stubbed data (no live binding).
+> - **Re-engagement UX is absent** — no trigger-builder UI, no template library, no unified "Re-engagement" surface (matches the acceptance criteria still being unchecked).
+> - **Email/transactional credentials are operationally missing** — no provisioned provider, so even wired paths could not send.
+> **Default-OFF invariant holds; nothing is enabled.** This is a **PARTIAL with broken wiring**, not "mostly done." No completion claim. See `DECISION_LOG.md` (Op-73, 2026-07-22 · NEWEST-WINS RECONCILIATION) for the authoritative supersession map.
 
 ## State of build
 

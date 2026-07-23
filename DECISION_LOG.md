@@ -6,6 +6,55 @@ Newest first.
 
 ---
 
+## 2026-07-22 (Op 73) — NEWEST-WINS RECONCILIATION + R138 BUILD-SMALLER PRE-BUILD REVIEW for coach/PT role-gated importer onboarding (docs/state only; 0 product LOC; authorizes two separately-reviewable slices C1+M5, no flag flip, no landing)
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** (a) Documentation/state **newest-wins reconciliation** — latest evidence supersedes stale statuses across A1/A2/A3/A6 and the importer canonical state, **retaining historical prose (no silent rewrite)**; (b) an **R138 four-question pre-build review** of the new owner direction for role-gated onboarding, ruled **BUILD SMALLER**, authorizing two narrow, separately-reviewable slices. No product code changed in this Op; no `AGENT_RULES.md` edit. Audit-exempt per R14 scope (context-repo docs). **This Op RECONCILES + AUTHORIZES SCOPE; it does NOT build, land, flip a flag, or claim any product complete.**
+**Governing decision:** the new owner direction — *"During onboarding, when a user self-selects as a PT/coach rather than a client, onboarding must lead through importer steps immediately before opening the app at large."* Encoded as a new ruling `roadmap/rulings/R-ONBOARDING-ROLE-GATE-1_2026-07-22.md` (this Op).
+**Files touched (context repo):** `roadmap/specs/A01-roman-p4-closeout.md`, `roadmap/specs/A02-import-tooling.md`, `roadmap/specs/A03-reengagement-dunning.md`, `roadmap/specs/A06-wearables.md`, `roadmap/rulings/R-ONBOARDING-ROLE-GATE-1_2026-07-22.md` (**NEW**), `handoffs/importer-wave/current-state.json`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`, `DECISION_LOG.md`. **Documentation/state only; 0 production LOC.**
+
+### Exact heads recorded (this reconciliation)
+- **context** (`tgp-agent-context`): `ed5729af3ec117d1e671302d5d3ce5120c8ec1e2` (drift-verified live == local at reconcile time).
+- **backend** (`growth-project-backend`): `4cb05effb760d3f89a15f59d2983ab5a8e0d43d7` **after H-Jobs PR #519 landed** (was `9c1bcbd` at Op 72).
+- **extension**: `95be0222df3d47d787566743c8781005d8fbec69` (unchanged).
+- **mobile**: `a5933fd6de5616493de75f0db907098b149b955c` (unchanged).
+
+### H-Jobs (PR #519) engineering correction — recorded, not re-litigated
+The H-Jobs landing carries an engineering correction: **`test-deploy-readiness` is the only PR-eligible required-check candidate**; the **strict release gate (`deploy-readiness-gate`) must NEVER be a PR-required status context** (it is skipped in PR mode by design). Because **branch protection is not applied** on backend `main` (`branches/main/protection` → 404) and **production secrets are not wired**, operational enforcement remains **operator/admin/secret-dependent** — the check exists in code but is not mechanically enforced at the gate. No claim that enforcement is live.
+
+### AUTHORITATIVE SUPERSESSION MAP (newest-wins; historical prose retained)
+| Item | STALE status (superseded) | NEWEST truth (this Op) | What remains |
+|---|---|---|---|
+| **A1** Roman P4 | "IN FLIGHT; N1 `recentPushes` + F1 MMKV gate OPEN" | **Structurally complete, default-OFF**; N1/F1 **CLOSED as coding tasks** | Live Postgres uniqueness+RLS spec (real DB); flag ownership/runbook/env registration; Stripe credential ops; payment-funnel analytics; authorized flag flip + live proof (operator-gated) |
+| **A2** Import tooling | "NOT STARTED (ZERO)" | **Substrate built** across backend/extension/mobile; **V5 fixture proof complete**; fully **dark/default-OFF** | Real-account TrueCoach full-loop (UNPROVEN, fixture-only); multi-site autonomy LOW; operator-gated flag enablement + live proof |
+| **A3** Re-engagement/Dunning | "MOSTLY built" | **PARTIAL — broken/absent wiring**, default-OFF | Mount lockout guard; wire V2 dispatcher/classifier caller; mint recovery tokens + route; bind mobile dunning API (currently hard-null); build re-engagement UX; provision email creds |
+| **A6** Wearables | "3 of 6 adapters PROD; 3 outstanding" | **8 backend cloud OAuth adapters built but dark behind `FEATURE_WEARABLES_CLOUD_CONNECTORS`**; **3 mobile on-device modules built** | Backend on-device provisioning/normalizers; wire orphaned mobile nav/sync invocation; 4 providers formally DEFERRED; do NOT conflate with importer adapters |
+| **A23 / A14 / Wallet** | (A14 collision earlier reconciled at PR #24) | A23 **Luxury Doctrine mobile overhaul landed planning-only** at context main `ed5729a`; **A14 remains AI Program Generation**; Wallet "Borrow Cash" doc exists byte-identically | Wallet remains **legal/licensing/counsel-gated**; A23 remains planning-only/audit-first |
+
+### R138 FOUR-QUESTION DECISION GATE — owner direction (role-gated importer onboarding)
+- **Q1 (Musk 5 — question/delete/simplify/accelerate/automate):** Question — do we need a *new* role concept? **No.** Delete — no client self-promotion path, no new role table; **reuse existing server-provisioned coach roles** (`coach`/`sub_coach`/`gym_owner`). Simplify — insert ONE importer step into the existing onboarding sequence for coach roles only; reuse existing importer UX. Accelerate — ship the smallest reviewable contract+mobile slices, not a monolith. Automate — last; no automation added here.
+- **Q2 (hyperscaler practice):** Server-minted, durable, isolated session/intent identifiers (AWS-style opaque server-issued IDs; no client-forgeable role/intent). Onboarding is resumable and every step is skippable ("do later"), matching guided-setup patterns.
+- **Q3 (GOOD without BAD):** GOOD = coaches are led through import before the app shell opens. BAD to avoid = client friction (clients **bypass**), permission-front/feature-dump anti-patterns (Luxury Doctrine P0), unescapable steps (every importer step supports Skip/Do-later + resume), live-data exposure (flags **default-OFF**, no flip), and privilege escalation (**no client self-promotion**).
+- **Q4 (root cause):** Root need is *coach data migration at activation time*, not a UI tweak — so the durable fix is a **server contract** for paired-import intent, consumed by mobile onboarding, not a mobile-only shortcut that would re-derive trust client-side.
+
+**VERDICT: BUILD SMALLER.** Authorize only the following separately-reviewable slices, in dependency order. **No flag flip; no landing authorized by this Op.**
+
+1. **C1 — backend control-plane contract (FIRST).** Server-minted `intent_id` at pairing; a durable paired import session; secure echo/retrieval **compatible with existing token isolation**. Exact **extension compatibility must be addressed in the contract** (extension currently mints/carries its own intent). **No flag flip.** Separately reviewable.
+2. **M5 — mobile onboarding (AFTER C1 contract frozen).** Insert the importer step **between Payments and Ready**, for **coach roles only**; **reuse existing importer UX**; **Skip/Do-later + resume**; safe **unavailable-state** handling (feature dark → graceful skip, no dead-end); **suppress the orphan review CTA**; **clients bypass**; **no role self-promotion**.
+3. **Extension slice (AFTER C1 frozen, its OWN small slice).** Any extension change to consume the **server-minted** `intent_id` (instead of self-minting) is explicit and separate.
+4. **Live-account pilot + flag enablement** remain **separately gated / operator-authorized** — NOT authorized here.
+
+### Invariants preserved
+`AGENT_RULES.md` not edited; `R3_MERGE_RUNBOOK.md` mechanics unchanged; D2 unchanged; billing exclusion preserved; **all flags remain default-OFF**; **no live-data completion claim**; mission remains **site-agnostic** (TrueCoach is one interchangeable validation adapter, R-SITE-AGNOSTIC-1); historical logs **retained, not rewritten**.
+
+### Rollback / stop
+This Op is docs/state only — forward-only `git revert` of the reconcile commit restores the Op-72 snapshot (no product surface, no flags, no runtime change). If any recorded SHA (context `ed5729a`; backend `4cb05eff`; extension `95be0222`; mobile `a5933fd`) later differs from GitHub live state, treat as **INFRA_DEATH** per R124 and re-verify before acting. **NO history rewrite / force-push over shared main.** This entry authorizes SCOPE only; C1/M5/extension builds each require their own exact-head dual-lens audit + CI before any landing, and live enablement is separately operator-gated.
+
+### Evidence URLs
+Ruling: `roadmap/rulings/R-ONBOARDING-ROLE-GATE-1_2026-07-22.md` · Context main `ed5729a`: https://github.com/BradleyGleavePortfolio/tgp-agent-context/commit/ed5729af3ec117d1e671302d5d3ce5120c8ec1e2 · Backend H-Jobs PR #519: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/519
+
+---
+
 ## 2026-07-22 (Op 72) — SCOUT READINESS LANDED: backend PR #518 registered three existing importer flags as default-OFF in production readiness (config/test-only, +48/−0, 0 prod LOC, no runtime change); narrow docs/state reconcile of a completed landing
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
