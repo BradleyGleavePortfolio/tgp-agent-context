@@ -1,6 +1,6 @@
 # A3 · Re-engagement automations + Dunning consolidation
 
-**Status:** PARTIAL — SUBSTRATE PRESENT BUT WIRING BROKEN, DEFAULT-OFF (newest-wins, Op 73 · 2026-07-22) *(was: MOSTLY built (substrate present, trigger UI + consolidation outstanding))*
+**Status:** PARTIAL — DEFAULT-OFF; lockout guard now MOUNTED (A3 P0-1 FIXED/LANDED via PR #520), remaining wiring still open (newest-wins, Op 74 · 2026-07-23) *(was: PARTIAL — substrate present but wiring broken (Op 73 · 2026-07-22); was: MOSTLY built)*
 **Owner:** *(set by operator on agent dispatch)*
 **v2 source:** [`TGP-MASTER-PLAN-v2.md`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/roadmap/TGP-MASTER-PLAN-v2.md) §1.A A3 *(promoted from old Bucket B1 on 2026-06-19 dissolution pass)*
 **Tier/lane:** Tier 4 / T4.A3
@@ -8,6 +8,10 @@
 
 ---
 
+> **NEWEST-WINS SUPERSEDE (2026-07-23, Op 74 reconciliation — this block overrides the Op-73 `guard is NOT mounted` bullet below on conflict; all other Op-73 bullets stand; historical prose retained, not rewritten).**
+> **A3 P0-1 is FIXED / LANDED.** Backend dunning-v2 **PR #520** landed backend `main` `07ff974 → 5076a07` (git-native tree-preserving plain fast-forward; audited head `dcb5812`), mounting **`DunningLockoutGuard`** globally as the final `APP_GUARD` after `JwtAuthGuard`. The persisted `DunningState` lockout is now **consumed on the request path**: the entitlement-gated student-assistant surface `/ai/*` **stays LOCKED** and `/roman/*` is the **sole AI-adjacent carve-out**; the 403 wire contract is **`code` + `message`**; unit + e2e specs and CI are green. **`FEATURE_DUNNING_V2` remains default-OFF** (the guard is a HARD no-op while OFF) — **not flipped**; no dispatcher wiring, no messages sent, no credentials, no migrations.
+> **Still OPEN (the other Op-73 bullets are NOT superseded):** the V2 dispatcher/classifier has **no runtime caller** (Day-10 sweep that *sets* `locked_out_at`); **recovery tokens are not minted / no route** (recovery links); **mobile dunning API is hard-null**; **re-engagement UX is absent**; **email/transactional credentials are missing**; plus the newly-explicit gaps: **`lockout_copy` is dropped by the error envelope** (needs a whitelist/envelope change to reach the client) and a **real-DB integration test** is still owed (current coverage uses a structural Prisma stub). **A3 overall remains PARTIAL / default-OFF.** No completion claim. See `DECISION_LOG.md` (Op-74, 2026-07-23) and `current-state.json > reconciliation_op74_2026_07_23`.
+>
 > **NEWEST-WINS SUPERSEDE (2026-07-22, Op 73 reconciliation — this block overrides the older `MOSTLY built` framing above/below on conflict; historical prose retained, not rewritten).**
 > The `MOSTLY built` status **overstates readiness and is superseded by newest evidence.** The substrate classes/modules listed under "State of build" do exist, but the **runtime wiring is broken/absent**, so the feature does not function end-to-end. Evidence-backed truth:
 > - **Dunning V2 lockout state is written but the guard is NOT mounted** — `DunningState` lockout is persisted, but no request-path guard consumes it, so lockout does not actually gate access.

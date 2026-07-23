@@ -6,6 +6,35 @@ Newest first.
 
 ---
 
+## 2026-07-23 (Op 74) — NEWEST-WINS RECONCILIATION: dunning-v2 PR #520 landed (DunningLockoutGuard mounted globally); supersedes A3 P0-1 as FIXED/LANDED, remaining gaps preserved (docs/state only; 0 product LOC; no flag flip)
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Documentation/state **newest-wins reconciliation** — records a completed backend landing and supersedes one stale sub-finding (A3 P0-1) with newest evidence, **retaining all remaining gaps and historical prose (no silent rewrite)**. No product code changed in this Op; no `AGENT_RULES.md` edit. Audit-exempt per R14 scope (context-repo docs). **This Op RECORDS a completed leg; it authorizes no runtime work, flips no flag, and claims no product complete.**
+**Files touched (context repo):** `handoffs/importer-wave/current-state.json`, `handoffs/importer-wave/OPERATOR_HANDOFF.md`, `roadmap/specs/A03-reengagement-dunning.md`, `DECISION_LOG.md`. **Documentation/state only; 0 production LOC.**
+
+### Exact heads recorded (this reconciliation)
+- **context** (`tgp-agent-context`): built on `9c25a06736867d613622e19beca4f71fb42c62db` (the Op-73 landing).
+- **backend** (`growth-project-backend`): `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` **after dunning-v2 PR #520 landed** (parent `07ff974` = the PR #521 tip; chain `4cb05eff` @ #519 → `07ff974` @ #521 → `5076a07` @ #520). Backend `main_as_of` is an Op-74 observed-at timestamp (`2026-07-23T01:30:04Z`), not the backend commit committer time (backend repo not in this worktree).
+- **extension**: `95be0222df3d47d787566743c8781005d8fbec69` (unchanged). **mobile**: `a5933fd6de5616493de75f0db907098b149b955c` (unchanged).
+
+### PR #520 landing facts (recorded, not re-litigated)
+Dunning-v2 PR #520 landed backend `main` `07ff974 → 5076a07` via a **git-native tree-preserving PLAIN non-force fast-forward** (single parent `07ff974`; landed tree byte-identical to the audited head `dcb5812668a8e3d8f659e60931a4c51502be7b53`; no gh/REST merge, no force, no admin). **What landed:** `DunningLockoutGuard` mounted globally as the final `APP_GUARD` after `JwtAuthGuard` — the entitlement-gated student-assistant surface `/ai/*` **stays LOCKED**, `/roman/*` is the **sole AI-adjacent carve-out** (billing/checkout/payment-recovery/auth/health carve-outs unchanged); the 403 wire contract is **`code` + `message`** (`lockout_copy` is computed under the `@Global` `VoicePolicyService` but dropped by the `HttpExceptionFilter` envelope); unit + e2e specs and CI green at the audited head. **`FEATURE_DUNNING_V2` remains default-OFF** (the guard is a HARD no-op while OFF) — **not flipped**; **no dispatcher wiring, no messages sent, no credentials provisioned, no migrations, no mobile/API recovery mixing.** Per the landing evidence the backend landed commit carries the operator GitHub-account identity (`BradleyGleavePortfolio` noreply) — recorded truthfully, **not** claimed as an `bradley@bradleytgpcoaching.com` R3 landing.
+
+### Supersession (newest-wins; history retained)
+| Item | STALE (Op-73) | NEWEST (Op-74) | Remaining (preserved) |
+|---|---|---|---|
+| **A3 P0-1** | "Dunning V2 lockout state is written but the guard is **NOT mounted**" | **FIXED / LANDED** — `DunningLockoutGuard` mounted globally (after auth) and enforces the persisted lockout; `/ai/*` locked, `/roman/*` carve-out only (PR #520) | `lockout_copy` 403-envelope delivery; Day-10 sweep/dispatcher that **SETS** `locked_out_at`; recovery-token minting + route (recovery links); real-DB integration test (coverage uses a structural Prisma stub); mobile dunning API binding (hard-null); re-engagement UX; operator flip runbook + authorized `FEATURE_DUNNING_V2` flip |
+
+Only the guard-mount sub-item is superseded; **A3 overall remains PARTIAL / default-OFF** with the remaining gaps open. No completion claim.
+
+### Invariants preserved
+`AGENT_RULES.md` not edited; all flags remain default-OFF; **no flag flip**; no live-data completion claim; billing exclusion preserved; mission remains site-agnostic; historical logs **retained, not rewritten** (Op-73 A3 supersede block and its other bullets stand). This entry authorizes SCOPE nothing new; it records a completed backend leg only.
+
+### Evidence URLs
+Backend dunning PR #520: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/520 · Landed backend `main` `5076a07`: https://github.com/BradleyGleavePortfolio/growth-project-backend/commit/5076a07a1e54b14e3db84d3aa128fb0bb44542d7
+
+---
+
 ## 2026-07-22 (Op 73) — NEWEST-WINS RECONCILIATION + R138 BUILD-SMALLER PRE-BUILD REVIEW for coach/PT role-gated importer onboarding (docs/state only; 0 product LOC; authorizes two separately-reviewable slices C1+M5, no flag flip, no landing)
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
