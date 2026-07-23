@@ -87,12 +87,14 @@ Build-state scoring legend:
 #### A1 · Roman P4 close-out
 **Rank:** MUST DO (FIRST)
 **State:** IN FLIGHT (already on `POST_H_LADDER` Tier 1 T1.B). Backend N1 `recentPushes` pre-commit + mobile F1 MMKV gate remaining.
+> **NEWEST-WINS (Op 73, 2026-07-22):** SUPERSEDED → **structurally complete, default-OFF**; N1/F1 **CLOSED as coding tasks**. Remaining is productionization: live Postgres uniqueness+RLS spec, flag ownership/runbook/env registration, Stripe credential ops, payment-funnel analytics, authorized flag flip + live proof (operator-gated). See `roadmap/specs/A01-roman-p4-closeout.md` + `DECISION_LOG.md` Op-73.
 **Reference:** `POST_H_LADDER.md` Tier 1, `ROMAN_P4_OPTION_C_EXPLAINED.md`.
 **Why first:** Operator: "before anything else, it's in our original plans for the next operator."
 
 #### A2 · Migration / import tooling (v1 §2.10)
 **Rank:** MUST DO (#1 post-H feature after TM + infra)
 **State:** ZERO. No Trainerize/Everfit importer, no spreadsheet upload, no program-format converter.
+> **NEWEST-WINS (Op 73, 2026-07-22):** SUPERSEDED → the importer "coach-is-the-key" **substrate is built across backend/extension/mobile** and **V5 multi-adapter fixture proof is complete**; the whole pipeline is **fully dark / default-OFF**. Real-account TrueCoach full-loop is **UNPROVEN** (fixture-only) and multi-site autonomy is **LOW**. The "ZERO" above describes only the original Trainerize-CSV/spreadsheet productization scope. No completion claim. See `roadmap/specs/A02-import-tooling.md` + `handoffs/importer-wave/current-state.json`.
 **What to build:**
 - Trainerize CSV/JSON importer with field mapping to TGP schema
 - Spreadsheet importer (name, email, start date, program columns)
@@ -105,6 +107,7 @@ Build-state scoring legend:
 #### A3 · Re-engagement automations + Dunning consolidation (v1 §2.9 + post-v1 §5.8)
 **Rank:** MUST DO (IMPORTANT higher — promoted from old B1 in dissolution pass)
 **State:** MOSTLY.
+> **NEWEST-WINS (Op 73, 2026-07-22):** SUPERSEDED → **PARTIAL — wiring broken/absent**, default-OFF. The substrate classes exist but: dunning-v2 lockout state is written yet **the guard is not mounted**; the **V2 dispatcher/classifier has no runtime caller**; **recovery tokens are not minted and have no route**; the **mobile dunning API is hard-null**; **re-engagement UX is absent**; **email credentials are operationally missing**. Not "mostly done." See `roadmap/specs/A03-reengagement-dunning.md` + `DECISION_LOG.md` Op-73.
 **What's built:** `src/nudges/` (full module: coach-nudges, client-nudges, dto, service), `src/notifications/nudges/`, `CoachNudge`, `NudgeLog`, `ChurnIntervention` (full draft → edit → send workflow with idempotency, alert linkage, risk_score_at_draft), `ptm/` module (heuristic, weighted, scheduler — churn prediction in production), `coach-alerts` controller + service. Dunning: `checkout/dunning-v2/`, `DunningState`, `DunningAttempt`, `PaymentRecoveryToken`, `PaymentReminder`, MIG `20261214_dunning_v2_lockout_recovery`.
 **What to build:**
 - Coach-configurable trigger UI ("if no login 5d, send Message A; if 10d send Message B")
@@ -145,6 +148,7 @@ Build-state scoring legend:
 #### A6 · Wearable deep — full provider parity + recovery feed (v1 §1.2)
 **Rank:** MUST DO (RED FLAG — MOAT)
 **State:** MOSTLY (Apple/Google/Samsung shipped; Whoop/Oura/Garmin enumerated only).
+> **NEWEST-WINS (Op 73, 2026-07-22):** SUPERSEDED → count is imprecise. Backend has **8 cloud OAuth adapters built but dark behind `FEATURE_WEARABLES_CLOUD_CONNECTORS`** (default-off); mobile has **3 on-device modules built**; backend **lacks on-device connection provisioning/normalizers** for the mobile syncs; **mobile nav/sync invocation is orphaned**; **4 providers formally DEFERRED**. "Shipped" = code-present-behind-flag, not live. Do NOT conflate with importer adapters. See `roadmap/specs/A06-wearables.md` + `DECISION_LOG.md` Op-73.
 **What's built:** `WearableConnection`, `WearableMetricDef`, `WearableSample`, `WearableProcessedEvent`, `WearableInsightCache`, `WearableUserMetricPreference`. Mobile adapters: `services/health/{healthkit, healthConnect, samsungHealth, onDeviceConnect}`. Hooks: `useHealthKitSync`, `useHealthConnectSync`, `useSamsungHealthSync`. Community-side surfacing: `community/wearable-prompts/`.
 **What to build:**
 - Whoop adapter (webhook + OAuth; their developer API)
