@@ -117,7 +117,7 @@ P0-AUDIT first, alone. Then W-IMP and W-DUN alternate on the backend token; mobi
 
 ## §4 — Dependencies
 
-**Hard (violating these breaks correctness):** P0-AUDIT → all backend · I1 frozen → I2, I3 · I4 → I5, I6 · DUN-1 → all dunning · DUN-2 → DUN-3, DUN-6 · DUN-3 → DUN-8 · D1–DUN-10 → DUN-11 · I4–I6 → I7.
+**Hard (violating these breaks correctness):** P0-AUDIT → all backend · I1 frozen → I2, I3 · I4 → I5, I6 · DUN-1 → all dunning · DUN-2 → DUN-3, DUN-6 · DUN-3 → DUN-8 · DUN-1–DUN-10 → DUN-11 · I4–I6 → I7.
 
 **Soft (sequencing only):** DUN-4 before DUN-6 (replay needs observability to be verifiable) · DUN-8 before DUN-9.
 

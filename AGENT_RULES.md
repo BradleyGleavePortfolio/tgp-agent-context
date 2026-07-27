@@ -110,7 +110,7 @@ earlier rule overlap (e.g. the LOC cap), the **stricter wording governs**.
 - For amends: add `--amend --reset-author`.
 - No agent names. No assistant names. No `Dynasia G`, no `claude-bot`, no `auto-merge`, no `Co-Authored-by` trailers, no AI/Claude/Computer/Agent tokens anywhere in author, committer, or message.
 - The prior `Dynasia G <dynasia@trygrowthproject.com>` convention is **RETIRED**. Prior history is grandfathered — do not rewrite it; only new commits must carry Bradley's identity.
-- For `gh pr merge`, verify the resulting commit's author trailer is Bradley Gleave before the push completes.
+- ~~For `gh pr merge`, verify the resulting commit's author trailer is Bradley Gleave before the push completes.~~ — **SUPERSEDED as to `main` (Op 74, 2026-07-27).** Original wording retained above, not deleted (R5/R132). **`gh pr merge` is FORBIDDEN on any production `main`** — it mints a server-side commit whose committer is GitHub, which is precisely how **R3-INC-1/2/3** happened. The operative identity-safe procedure for landing on `main` is the **git-native manual squash + plain fast-forward** path in [`handoffs/importer-wave/R3_MERGE_RUNBOOK.md`](handoffs/importer-wave/R3_MERGE_RUNBOOK.md), which keeps author **and** committer under operator control. Where `gh pr merge` remains permissible at all (non-production **integration** branches only, see the R14 landing-mechanism note in §3), the author-trailer verification above still applies.
 
 **Failure mode.** Any commit authored under a non-Bradley identity is a hard R3 violation and pollutes the only durable ownership record.
 
@@ -355,7 +355,20 @@ earlier rule overlap (e.g. the LOC cap), the **stricter wording governs**.
 5. If anything else (any non-empty findings, including P3) → DO NOT MERGE. Dispatch a fixer to close EVERY finding P0–P3 inclusive ("CLEAR OF ANY P0-P3S IN ANY REGARD"). Fixer commits per R3, pushes, CI re-greens.
 6. Re-audit — fresh adversarial pass on the new head SHA, same exhaustiveness bar.
 7. Cycle audit → fix → re-audit until CLEAN_NO_FINDINGS.
-8. Only then: `gh pr merge --squash --delete-branch`.
+8. Only then: land. ~~`gh pr merge --squash --delete-branch`~~ — **the original step-8 wording is SUPERSEDED as to production `main` (Op 74, 2026-07-27); it is retained above verbatim as historical record, not deleted (R5/R132).**
+
+> **LANDING-MECHANISM NOTE (Op 74, 2026-07-27) — operative doctrine, highest-precedence statement of the merge path.**
+>
+> This note resolves an ambiguity that had been live at the top of the rule stack: step 8 above read as a generic instruction to finish every audit cycle with `gh pr merge --squash --delete-branch`, while the incident record and [`handoffs/importer-wave/R3_MERGE_RUNBOOK.md`](handoffs/importer-wave/R3_MERGE_RUNBOOK.md) forbid exactly that path on `main`. Since this file is the single rule authority ([`roadmap/rulings/R-RULE-AUTHORITY-1_2026-07-20.md`](roadmap/rulings/R-RULE-AUTHORITY-1_2026-07-20.md)), the ambiguity had to be closed here.
+>
+> 1. **Autonomous approval never bypasses the audit.** R138's autonomy grant delegates the **approval** only. It never delegates the audit (R14 steps 1–7 are unconditional) and it never delegates the landing **mechanism**. There is no size, urgency, or "obviously safe" exemption.
+> 2. **Production `main` landings use the git-native procedure.** Manual squash + **plain fast-forward** only, per `R3_MERGE_RUNBOOK.md`, with author **and** committer set to `Bradley Gleave <bradley@bradleytgpcoaching.com>` via inline `git -c` flags (R3).
+> 3. **On `main`: NO server-side squash and NO `gh pr merge` (in any flag combination, including `--squash --delete-branch`, `--merge`, `--rebase`, and `--auto`).** A server-side merge mints a commit whose committer is GitHub, which is the direct cause of **R3-INC-1/2/3**. Reaching for it on `main` is an R3 violation regardless of how clean the audit was.
+> 4. **Integration branches are the only scoped exception.** On non-production **integration** branches, the pre-existing squash-merge mechanism may still be used after dual-lens CLEAN + CI green. This exception is **explicitly scoped to integration branches and confers no authority over `main`** — it may never be cited, extended by analogy, or read as a general merge permission. If a branch's production status is unclear, treat it as production and use the git-native path.
+> 5. **No force-push, ever, to land or to repair a landing** (R3-INC-1 precedent). A bad landing is recorded and remediated forward, never rewritten.
+> 6. **Repo-wide override.** Prior handoffs, dispatch briefs, build journals, and session logs elsewhere in this repository contain `gh pr merge …` / `--admin` merge instructions written for earlier waves. Those are **historical operational record** — retained, not rewritten (R5/R132) — and are **superseded by this note** wherever they would authorize a server-side landing on a production `main`. A brief that cites one of them as present-day merge authority is **defective**; this note governs.
+>
+> Machine-readable mirror: `operator.merge_policy` and `immutable_doctrine_in_force.R138_autonomy` in [`handoffs/importer-wave/current-state.json`](handoffs/importer-wave/current-state.json). If that file and this note ever disagree, **this note governs** and the JSON is the defect.
 
 **Severity inclusion.** "P0–P3s IN ANY REGARD" means P3 (style, comments, naming, missing docstrings) MUST be fixed before merge — stricter than the historical "P0–P2 must fix, P3 may defer."
 
