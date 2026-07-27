@@ -35,7 +35,11 @@
       "live_main_match": true,
       "advances_past_op73": true,
       "note": "Backend advanced ONE commit past the Op-73 recorded head 07ff974. This commit mounts the Dunning V2 Day-10 lockout guard and therefore closes the FIRST of the six A03 gaps recorded at Op 73. It is a product-code landing, so it is R14-bound; Op 74 records it, does NOT certify it, and does NOT claim A03 complete.",
-      "diffstat": { "files": 4, "additions": 395, "deletions": 48 },
+      "diffstat": {
+        "files": 4,
+        "additions": 395,
+        "deletions": 48
+      },
       "files_changed": [
         "src/app.module.ts",
         "src/checkout/dunning-v2/dunning-lockout.guard.ts",
@@ -51,7 +55,10 @@
           "rls-floor-guard",
           "rls-live-tests"
         ],
-        "red_preexisting_diff_independent": ["build-sbom", "release-please"],
+        "red_preexisting_diff_independent": [
+          "build-sbom",
+          "release-please"
+        ],
         "red_product_regressions": [],
         "note": "build-sbom and release-please were already RED on prior heads (recorded at Op 71 and Op 72) and are quarantined in a separate infra lane. They are NOT product regressions introduced by this commit."
       },
@@ -94,8 +101,13 @@
     "pins_matching_live_main": 4,
     "pins_r3_clean": 3,
     "pins_with_open_r3_violation": 1,
-    "repos_advanced_past_op73": ["backend"],
-    "repos_unchanged_since_op73": ["mobile", "extension"]
+    "repos_advanced_past_op73": [
+      "backend"
+    ],
+    "repos_unchanged_since_op73": [
+      "mobile",
+      "extension"
+    ]
   },
   "claims_explicitly_not_made": [
     "No claim that the backend dunning lockout landing was dual-lens audited per R14.",

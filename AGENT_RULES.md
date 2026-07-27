@@ -976,7 +976,16 @@ Per operator declaration 2026-06-13 ("**Lost rules are truly forever lost**"), t
 | `operator-meta/R100_AUDIT_CHECKLIST_TEMPLATE.md` | Appendix B (kept in place) |
 
 
-## §11 — DEPLOY READINESS & ENFORCEMENT INFRA (R100–R107)
+## §11 — DEPLOY READINESS & ENFORCEMENT INFRA (R100–R126)
+
+> **Heading range correction (Op 74, 2026-07-27 — navigation metadata only; no rule body,
+> headline, or operator quote was changed).** This heading previously read
+> **"(R100–R107)"**, which was accurate when the section was first added but became stale as
+> the section grew. **§11 actually defines R100 → R126** — R100–R107, then **R108** (env-var
+> switch registry), then R109–R126 — ending immediately before §12. The original "(R100–R107)"
+> wording is recorded here rather than erased (R5/R132). §13 continues at **R130**; **R127,
+> R128, and R129 do not exist and never have.** See the enumeration correction in the file
+> header and `DECISION_LOG.md` (Op 74).
 
 Added 2026-06-18 PM. §7 + §9 codified WHAT hyperscaler quality means; §11 codifies the
 machine-enforced gates that make those rules unbypassable. Where §7/§9 say "every

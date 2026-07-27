@@ -44,7 +44,7 @@
 - Spreadsheet importer (name, email, start date, program columns)
 - Branded invite emails: "Your coach [Name] has moved to TGP. Download the app to continue."
 - Program-format conversion: parse Trainerize program export → TGP `WorkoutProgram` + `WorkoutPlan` schema
-- Billing migration: detect imported clients with active subs → prompt coach to set up equivalent Stripe Connect plans
+- ~~Billing migration: detect imported clients with active subs → prompt coach to set up equivalent Stripe Connect plans~~ — **STRUCK (Op 74, 2026-07-27) — HISTORICAL RECORD ONLY, NOT BUILDABLE.** Retained visible, not deleted (R5). Contradicts the R5-protected operator billing-capture exclusion; see the Op-74 NEWEST-WINS block above and [`R-IMPORTER-AUTONOMY-1`](../rulings/R-IMPORTER-AUTONOMY-1_2026-07-27.md). **Any brief citing this bullet as scope is defective.**
 
 ## Acceptance criteria
 
@@ -52,7 +52,7 @@
 - [ ] Spreadsheet importer accepts arbitrary column orders via mapping UI
 - [ ] Branded invite emails A/B-tested for open rate ≥40%
 - [ ] Program format conversion preserves set/rep/RPE structure
-- [ ] Billing migration creates Stripe Connect plans at parity with imported sub structure
+- ~~[ ] Billing migration creates Stripe Connect plans at parity with imported sub structure~~ — **STRUCK (Op 74, 2026-07-27) — HISTORICAL RECORD ONLY, NOT BUILDABLE.** Retained visible, not deleted (R5). This criterion is **not** part of acceptance and can never be satisfied: the importer must never capture, stage, log, reconstruct, or claim completion for any billing data. Billing is an explicit `excluded` family with a reason — **not** a failure.
 - [ ] Idempotency: re-uploading same file produces no duplicates
 - [ ] All PRs dual-CLEAN
 

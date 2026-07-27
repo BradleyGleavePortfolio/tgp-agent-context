@@ -83,20 +83,22 @@ Dunning ships **flag-gated (R83)**, behind **expand-contract migrations (R82/R10
 
 ## Acceptance evidence
 
+> **ID namespace (Op 74 review fix).** Acceptance-evidence IDs are **`DUN-E1`–`DUN-E10`** and PR-ladder rung IDs are **`DUN-1`–`DUN-11`** (see [`OWNERSHIP_AND_PR_LADDER.md`](../../handoffs/op74/OWNERSHIP_AND_PR_LADDER.md)). They were both originally written as bare `D1`–`D10`, which collided with each other **and** with the long-standing importer decision IDs `D1` (golden TrueCoach fixture, Op 57) and `D2` (canonical client target, Op 59). Bare `D1`/`D2` continue to mean **only** those historical importer decisions. Evidence IDs are **not** ordered work — a rung may satisfy several.
+
 Status is derived from these, at a named SHA. No item may be marked done by assertion.
 
 | # | Evidence | Obligation |
 |---|---|---|
-| D1 | State-machine test proving every legal transition and rejecting every illegal one | P1 |
-| D2 | Replay test proving duplicate + out-of-order events are no-ops | P2 |
-| D3 | Recovery test: token minted → served → payment → entitlement restored via the state machine | P3 |
-| D4 | Communications test: suppression honored, cadence capped, settled state stops sends | P4 |
-| D5 | Declared p99 + error budget recorded before merge; `AuditEvent` per transition | P5 |
-| D6 | Dry-run backfill produces a diff and provably zero side effects | P6 |
-| D7 | Operator can read state, reason, and history, and grant an audited exception | P7 |
-| D8 | Fault-injection test: processor down ⇒ no mass lockout | P8 |
-| D9 | Webhook signature verification + RLS cross-coach isolation tests | P9 |
-| D10 | R14 dual-lens CLEAN 0 P0–P3, R3-clean, flag default-OFF, rollback documented | P10 |
+| DUN-E1 | State-machine test proving every legal transition and rejecting every illegal one | P1 |
+| DUN-E2 | Replay test proving duplicate + out-of-order events are no-ops | P2 |
+| DUN-E3 | Recovery test: token minted → served → payment → entitlement restored via the state machine | P3 |
+| DUN-E4 | Communications test: suppression honored, cadence capped, settled state stops sends | P4 |
+| DUN-E5 | Declared p99 + error budget recorded before merge; `AuditEvent` per transition | P5 |
+| DUN-E6 | Dry-run backfill produces a diff and provably zero side effects | P6 |
+| DUN-E7 | Operator can read state, reason, and history, and grant an audited exception | P7 |
+| DUN-E8 | Fault-injection test: processor down ⇒ no mass lockout | P8 |
+| DUN-E9 | Webhook signature verification + RLS cross-coach isolation tests | P9 |
+| DUN-E10 | R14 dual-lens CLEAN 0 P0–P3, R3-clean, flag default-OFF, rollback documented | P10 |
 
 **Gap ledger at the Op-74 baseline** (from Op 73, updated by baseline evidence — 1 of 6 closed):
 

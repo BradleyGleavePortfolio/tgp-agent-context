@@ -93,33 +93,35 @@ I1/I3 are the Op-73 R138 **BUILD-SMALLER** slices, carried forward **unchanged**
 
 ### W-DUN ladder — dunning bar
 
+> **ID namespace (Op 74 review fix).** Dunning rungs are **`DUN-1`–`DUN-11`** and dunning acceptance-evidence IDs are **`DUN-E1`–`DUN-E10`** ([`R-DUNNING-BAR-1`](../../roadmap/rulings/R-DUNNING-BAR-1_2026-07-27.md)). Both were originally written as bare `D1`–`D10`, which collided with each other **and** with the long-standing importer decision IDs `D1` (golden TrueCoach fixture, Op 57) and `D2` (canonical client target, Op 59). **Bare `D1`/`D2` anywhere in this repo continue to mean only those historical importer decisions** — they are unchanged and unrenamed (R5).
+
 | Rung | Repo | Scope | Depends on | Token |
 |---|---|---|---|---|
-| **D1** | backend | **P1** — explicit billing/entitlement state machine; entitlement as derived projection | P0-AUDIT | backend |
-| **D2** | backend | **P2** — idempotency keys + duplicate/out-of-order safety; wire V2 dispatcher/classifier caller *(closes gap 2)* | D1 | backend |
-| **D3** | backend | **P3** — mint recovery tokens (single-use, expiring) + route *(closes gap 3)* | D1, D2 | backend |
-| **D4** | backend | **P5** — declared p99 + error budget, `AuditEvent` per transition, funnel metrics | D1 | backend |
-| **D5** | backend | **P8** + **P9** — safe degradation, circuit breakers, webhook signature verification, RLS isolation | D1 | backend |
-| **D6** | backend | **P6** — replay/backfill with provably side-effect-free dry-run | D1, D2, D4 | backend |
-| **D7** | backend | **P7** — operator tooling: inspect state/reason/history, audited time-boxed exception | D1, D4 | backend |
-| **D8** | mobile | Bind mobile dunning API (currently hard-null) *(closes gap 4)* | D1, D3 | none |
-| **D9** | mobile | Re-engagement UX + Roman-voiced surfaces *(closes gap 5)* | D8 | none |
-| **D10** | ops | **P4** — provision email/transactional credentials, suppression, cadence caps *(closes gap 6, blocker B5)* | — (ops track) | none |
-| **D11** | — | **P10** — cohort-canaried enablement with auto-rollback | D1–D10 + §7 | — |
+| **DUN-1** | backend | **P1** — explicit billing/entitlement state machine; entitlement as derived projection | P0-AUDIT | backend |
+| **DUN-2** | backend | **P2** — idempotency keys + duplicate/out-of-order safety; wire V2 dispatcher/classifier caller *(closes gap 2)* | DUN-1 | backend |
+| **DUN-3** | backend | **P3** — mint recovery tokens (single-use, expiring) + route *(closes gap 3)* | DUN-1, DUN-2 | backend |
+| **DUN-4** | backend | **P5** — declared p99 + error budget, `AuditEvent` per transition, funnel metrics | DUN-1 | backend |
+| **DUN-5** | backend | **P8** + **P9** — safe degradation, circuit breakers, webhook signature verification, RLS isolation | DUN-1 | backend |
+| **DUN-6** | backend | **P6** — replay/backfill with provably side-effect-free dry-run | DUN-1, DUN-2, DUN-4 | backend |
+| **DUN-7** | backend | **P7** — operator tooling: inspect state/reason/history, audited time-boxed exception | DUN-1, DUN-4 | backend |
+| **DUN-8** | mobile | Bind mobile dunning API (currently hard-null) *(closes gap 4)* | DUN-1, DUN-3 | none |
+| **DUN-9** | mobile | Re-engagement UX + Roman-voiced surfaces *(closes gap 5)* | DUN-8 | none |
+| **DUN-10** | ops | **P4** — provision email/transactional credentials, suppression, cadence caps *(closes gap 6, blocker B5)* | — (ops track) | none |
+| **DUN-11** | — | **P10** — cohort-canaried enablement with auto-rollback | DUN-1–DUN-10 + §7 | — |
 
 ### Interleaving
 
-P0-AUDIT first, alone. Then W-IMP and W-DUN alternate on the backend token; mobile (I3, D8, D9), extension (I2, I5), and ops (D10) run in parallel off-token. Suggested backend order: `P0-AUDIT → I1 → D1 → D2 → I4 → D3 → D4 → D5 → I6 → D6 → D7`.
+P0-AUDIT first, alone. Then W-IMP and W-DUN alternate on the backend token; mobile (I3, DUN-8, DUN-9), extension (I2, I5), and ops (DUN-10) run in parallel off-token. Suggested backend order: `P0-AUDIT → I1 → DUN-1 → DUN-2 → I4 → DUN-3 → DUN-4 → DUN-5 → I6 → DUN-6 → DUN-7`.
 
 ---
 
 ## §4 — Dependencies
 
-**Hard (violating these breaks correctness):** P0-AUDIT → all backend · I1 frozen → I2, I3 · I4 → I5, I6 · D1 → all dunning · D2 → D3, D6 · D3 → D8 · D1–D10 → D11 · I4–I6 → I7.
+**Hard (violating these breaks correctness):** P0-AUDIT → all backend · I1 frozen → I2, I3 · I4 → I5, I6 · DUN-1 → all dunning · DUN-2 → DUN-3, DUN-6 · DUN-3 → DUN-8 · D1–DUN-10 → DUN-11 · I4–I6 → I7.
 
-**Soft (sequencing only):** D4 before D6 (replay needs observability to be verifiable) · D8 before D9.
+**Soft (sequencing only):** DUN-4 before DUN-6 (replay needs observability to be verifiable) · DUN-8 before DUN-9.
 
-**External / out-of-band:** email credentials (**B5**) block D10 → P4 · branch protection + production secrets (**B3**) block D11 and I7 · `build-sbom` / `release-please` (**B4**) stay quarantined and are never folded into a product PR.
+**External / out-of-band:** email credentials (**B5**) block DUN-10 → P4 · branch protection + production secrets (**B3**) block DUN-11 and I7 · `build-sbom` / `release-please` (**B4**) stay quarantined and are never folded into a product PR.
 
 ---
 
@@ -149,7 +151,7 @@ P0-AUDIT first, alone. Then W-IMP and W-DUN alternate on the backend token; mobi
 
 **W-IMP bar evidence:** E1–E9 in [`R-IMPORTER-AUTONOMY-1`](../../roadmap/rulings/R-IMPORTER-AUTONOMY-1_2026-07-27.md) — core-diff-zero, ≥3 structurally different sites, ≥2 browser hosts, byte-pinned contract, honest per-family accounting, autonomy-not-hand-mapping, isolation + erasure, idempotent replay, and real-account proof as its own separate deferred gate.
 
-**W-DUN bar evidence:** D1–D10 in [`R-DUNNING-BAR-1`](../../roadmap/rulings/R-DUNNING-BAR-1_2026-07-27.md) — state machine, replay no-op, recovery round-trip, communications discipline, SLO + audit events, dry-run backfill, operator tooling, fault-injection no-mass-lockout, webhook + RLS security, audited rollout.
+**W-DUN bar evidence:** DUN-E1–DUN-E10 in [`R-DUNNING-BAR-1`](../../roadmap/rulings/R-DUNNING-BAR-1_2026-07-27.md) — state machine, replay no-op, recovery round-trip, communications discipline, SLO + audit events, dry-run backfill, operator tooling, fault-injection no-mass-lockout, webhook + RLS security, audited rollout.
 
 **Status is derived, never asserted.** A status claim without evidence at a named SHA is a **P0** finding (R-DUNNING-BAR-1 §2). This is the standing remedy for the five-week false "MOSTLY built" A03 status.
 
@@ -163,7 +165,7 @@ P0-AUDIT first, alone. Then W-IMP and W-DUN alternate on the backend token; mobi
 1. E1–E8 satisfied at a named SHA. 2. All W-IMP rungs R14-CLEAN and landed. 3. Consent, security, audit, rollback gates verified live. 4. Billing-capture exclusion verified per adapter. 5. Branch protection + secrets resolved (**B3**). 6. Fresh **R138** gate for the flip. 7. Cohort canary + auto-rollback. 8. **E9 real-account proof is its own gate** and remains **DEFERRED** — E1–E8 do not discharge it.
 
 ### Gate B — Dunning activation
-1. D1–D10 satisfied at a named SHA. 2. All six A03 gaps closed (**1 of 6** closed at baseline). 3. Email credentials provisioned (**B5**). 4. Fault-injection proves no mass lockout. 5. Rollback proven, not asserted (R82/R106). 6. Branch protection + secrets resolved (**B3**). 7. Fresh **R138** gate for the flip. 8. Cohort canary + auto-rollback on alarm — never big-bang.
+1. DUN-E1–DUN-E10 satisfied at a named SHA. 2. All six A03 gaps closed (**1 of 6** closed at baseline). 3. Email credentials provisioned (**B5**). 4. Fault-injection proves no mass lockout. 5. Rollback proven, not asserted (R82/R106). 6. Branch protection + secrets resolved (**B3**). 7. Fresh **R138** gate for the flip. 8. Cohort canary + auto-rollback on alarm — never big-bang.
 
 **Both gates:** flags stay **default-OFF** until the gate passes; enablement is operator-authorized; **nothing in Op 74 authorizes any flip.**
 
@@ -175,9 +177,9 @@ P0-AUDIT first, alone. Then W-IMP and W-DUN alternate on the backend token; mobi
 |---|---|---|---|
 | **B1** | R3-INC-4 — backend `5076a07a` author/committer not Bradley Gleave; published on shared `main` | P1 | Record only; **no force-push** |
 | **B2** | No discoverable R14 audit or R138 Decision Record for `5076a07a` (money path) | P1 | **P0-AUDIT**, then all backend rungs |
-| **B3** | Backend branch protection absent (404); production secrets unwired | P1 | Gate A, Gate B, D11, I7 |
+| **B3** | Backend branch protection absent (404); production secrets unwired | P1 | Gate A, Gate B, DUN-11, I7 |
 | **B4** | `build-sbom` + `release-please` RED | P2 | Quarantined; never folded into a product PR |
-| **B5** | Email/transactional credentials unprovisioned | P2 | D10, P4, Gate B |
+| **B5** | Email/transactional credentials unprovisioned | P2 | DUN-10, P4, Gate B |
 | **B6** | Rule gap R127–R129 permanent | P3 | Documented; never renumbered (R5) |
 
 ---
