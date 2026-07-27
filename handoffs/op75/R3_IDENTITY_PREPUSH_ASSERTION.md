@@ -91,6 +91,16 @@ if git show -s --format='%B' "$SHA" \
    | grep -Eiq 'co-authored-by|claude|anthropic|\bAI\b|\bagent\b|generated with|assistant'; then
   echo "R3 FAIL: forbidden token in commit message" >&2; exit 1
 fi
+# NOTE: check 2 is deliberately a blunt substring scan and WILL fire on prose that merely
+# *discusses* the banned tokens - e.g. a commit whose body says "added `agent` to the token
+# regex". That is a known false-positive class, demonstrated by commit 2e5cd2dd in this very
+# PR, whose body trips this check while carrying ZERO attribution trailers
+# (`git show -s --format='%(trailers)'` is empty) and the correct R3 identity on both author
+# and committer. The gate is intentionally NOT loosened: a narrower pattern that only
+# inspected trailer lines would miss the free-form "Generated with ..." footer that R3 exists
+# to catch. Operator disposition on a check-2 hit: read the matched line, and if it is prose
+# rather than an attribution, record the override in the PR body with the matched line quoted.
+# Silently rewording the commit to dodge the grep is NOT acceptable - it hides the evidence.
 
 # --- 3. Trailer hygiene: no signature trailers smuggling a second identity ---
 if git show -s --format='%B' "$SHA" | grep -Eiq '^Signed-off-by:.*(noreply|users\.noreply)'; then
