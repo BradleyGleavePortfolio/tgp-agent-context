@@ -87,8 +87,20 @@ Three properties the runbook's inline assert lacks: it runs as **one command**, 
 > branch (`2e5cd2dd`, `7331a0cf`) hit that state, so the contradiction was load-bearing, not
 > hypothetical. Splitting the scan into **2a shape-matched attribution** (unoverridable) and **2b
 > vocabulary** (overridable only with an empty forbidden-trailer proof) makes the distinction
-> executable. **Nothing is weakened:** 2b is the round-2 pattern character-for-character, and 2a is
-> strictly *additional* hard failure that the round-2 gate did not have.
+> executable.
+>
+> **No check is weakened — stated precisely, because the broader claim is not what the code proves.**
+> (i) **2b is retained character-for-character** from the round-2 gate, so every string that used to
+> stop a push still stops it; 2b is the backstop for any attribution 2a cannot shape-match.
+> (ii) **2a hard-fails canonical attribution positions** — a trailer key at line start, or a
+> recognised footer opener with at most a 4-character decoration — and is strictly *additional* hard
+> failure the round-2 gate did not have. (iii) **Other vocabulary forms return exit 3, not exit 1.**
+> Measured, not assumed: a mid-line `Co-authored-by:` embedded in prose, and a `Generated with` footer
+> carrying a prefix longer than 4 characters, both land on **3**. That is by design — 2a matches
+> *positions*, not vocabulary — and it is **never a silent pass**: exit 3 blocks the push until an
+> append-only override record naming that exact SHA and quoting the matched lines verbatim exists, so
+> a reviewer cannot dispose of one without reading it. Do not read this section as a claim that every
+> vocabulary form hard-fails; it does not, and the exit-3 path is the reason that is safe.
 
 > **CANONICAL SOURCE: [`r3-identity-gate.sh`](r3-identity-gate.sh)** (`handoffs/op75/`, mode `100755`).
 > The block below is a **NON-CANONICAL MIRROR** for reading. If the two ever differ, **the script
@@ -322,10 +334,18 @@ Consequences:
   under `handoffs/op75/` (mode `100755`, outside `src/`, not referenced by any workflow, not
   installed into `.git/hooks/`). It ships as a file rather than a fenced block only so that the gate
   is genuinely executable and testable — which is what let its three exit codes be verified against
-  all four commits on this branch instead of asserted.
-- **No override for anything that indicates a second identity.** Exit **3** exists only for
-  vocabulary in prose, and only when checks 1, 2a and 3 all pass. Every real attribution signal is
-  exit **1**, which has no override path (§2.1).
+  **every** commit on this branch (`git rev-list b76d0962..HEAD`) instead of asserted. The count is
+  deliberately not written here; an earlier revision said *"all four"* and was stale one commit later
+  (R5/R132 — superseded number named, not dropped).
+- **No override for anything in a canonical attribution position.** Exit **1** covers a trailer key
+  at line start, a recognised footer opener with at most a 4-character decoration, and any non-empty
+  forbidden-trailer set; none of those has an override path (§2.1). Exit **3** covers vocabulary
+  *outside* those positions, and only when checks 1, 2a and 3 all pass. **This is not a claim that
+  every attribution-shaped string reaches exit 1** — a mid-line `Co-authored-by:` inside prose and a
+  `Generated with` footer with a longer prefix both reach **3**, measured. What holds is the weaker
+  and true statement: **no such string ever passes silently.** Exit 3 blocks the push until an
+  exact-SHA override record quoting the matched lines is appended, so the operator's judgement is
+  recorded rather than assumed.
 
 ---
 
