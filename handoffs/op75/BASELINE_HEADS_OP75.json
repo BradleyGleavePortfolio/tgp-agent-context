@@ -1,0 +1,307 @@
+{
+  "schema_version": "1.0.0",
+  "doc_kind": "audited_baseline_head_pin",
+  "op_label": "Op 75",
+  "date": "2026-07-27",
+  "operator": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+  "purpose": "Pin the four baseline HEADs that Op 75 reconciles against, plus the exact context-repo head that the P0-AUDIT dual-lens reports were produced at. Every Op-75 governance statement is true as of these exact SHAs and no others. Drift off any pin is an INFRA_DEATH signal per R124 - re-verify before acting.",
+  "verification_method": "Each SHA independently verified BOTH WAYS at Op-75 execution time: (a) fetched from the GitHub REST API, and (b) resolved locally via `git rev-parse` and/or `git ls-remote`. Verified fields: sha, tree, parents, author name/email, committer name/email, committer date, subject line. No SHA below is transcribed from a prior Op record without live re-verification.",
+  "verified_at_utc": "2026-07-27T21:30:00Z",
+  "drift_policy": "If any recorded SHA later differs from GitHub live state, treat as INFRA_DEATH per R124 and re-verify before acting. NO history rewrite. NO force-push over shared main.",
+  "build_matrix_r124": {
+    "note": "This is the canonical six-line R124 BUILD MATRIX for Op 75, reproduced verbatim at the top of BOTH audit reports.",
+    "backend_head": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+    "ctxrepo_head": "5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
+    "pr_28_head": "5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
+    "pr_28_base_origin_main": "b76d0962de53ce494fa8f869a706ff0c15aee0b6",
+    "timestamp_iso8601_utc": "2026-07-27T21:30:00Z",
+    "both_ways_evidence": [
+      {
+        "value": "backend HEAD",
+        "gh_api": "gh api repos/BradleyGleavePortfolio/growth-project-backend/commits/HEAD --jq .sha => 5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+        "local": "git ls-remote https://github.com/BradleyGleavePortfolio/growth-project-backend refs/heads/main => 5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+        "match": true
+      },
+      {
+        "value": "ctxrepo HEAD / PR #28 head",
+        "gh_api": "gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .head.sha => 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
+        "local": "git rev-parse HEAD => 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650; git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a => same",
+        "match": true
+      },
+      {
+        "value": "PR #28 base",
+        "gh_api": "gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .base.sha => b76d0962de53ce494fa8f869a706ff0c15aee0b6",
+        "local": "git rev-parse HEAD^ => b76d0962de53ce494fa8f869a706ff0c15aee0b6; git ls-remote origin refs/heads/main => same",
+        "match": true
+      }
+    ]
+  },
+  "repos": {
+    "context": {
+      "full_name": "BradleyGleavePortfolio/tgp-agent-context",
+      "head": "b76d0962de53ce494fa8f869a706ff0c15aee0b6",
+      "head_short": "b76d0962",
+      "tree": "2847e9cf26ed7ff3d400ed491e89d0c3d1170bed",
+      "parent": "9c25a06736867d613622e19beca4f71fb42c62db",
+      "subject": "docs(op74): raise the bar - autonomous site-agnostic importing + hyperscaler-quality dunning",
+      "author": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "committer": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "r3_identity": "CLEAN",
+      "live_main_match": true,
+      "advances_past_op74": true,
+      "note": "This is the Op-74 reconcile tip, the live default branch at Op-75 execution time, and the PR-#28 base. Its parent 9c25a067 is the SHA Op 74 pinned as its own context baseline - Op 74 could not record its own commit SHA, so Op 75 pins the actual Op-74 tip.",
+      "reviewed_branch_head": {
+        "branch": "docs/op75-p0-audit-5076a07a",
+        "sha": "5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
+        "parent": "b76d0962de53ce494fa8f869a706ff0c15aee0b6",
+        "tree_of_parent": "fc80dfed6a1fe1081c8c5d218bab63ab4fd73867",
+        "pr": 28,
+        "pr_url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/28",
+        "semantics": "PRIOR TIP. 5c2f0057 is the exact head that both independent reviews of the P0-AUDIT reports examined, and the head the Op-75 remediation is authored against. It is NOT the SHA of the commit that carries the Op-75 artifacts.",
+        "post_landing_sha_claimed": false,
+        "post_landing_sha_note": "DELIBERATELY NOT CLAIMED ANYWHERE. An artifact cannot record the SHA of the commit that lands it - the same constraint Op 74 recorded for the Op-73 context pin (see ../op74/BASELINE_HEADS_OP74.json repos.context.note) and Op 73 recorded for its own. The landed Op-75 SHA must be recorded by a SUBSEQUENT reconcile, never asserted in advance."
+      }
+    },
+    "backend": {
+      "full_name": "BradleyGleavePortfolio/growth-project-backend",
+      "head": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+      "head_short": "5076a07a",
+      "tree": "ba056fff8e760f3e1a12ed628c808c104ec5be0d",
+      "parent": "07ff974079eb1da02f1de4f5ecd18c1f223afeae",
+      "parents_count": 1,
+      "subject": "feat(dunning-v2): enforce Day-10 lockout via global guard mount, scoped to /roman/*",
+      "committer_date_utc": "2026-07-23T01:26:39Z",
+      "author": "BradleyGleavePortfolio <264851314+BradleyGleavePortfolio@users.noreply.github.com>",
+      "committer": "BradleyGleavePortfolio <264851314+BradleyGleavePortfolio@users.noreply.github.com>",
+      "r3_identity": "VIOLATION - R3-INC-4; see reclassification below",
+      "live_main_match": true,
+      "advances_past_op74": false,
+      "note": "Unchanged since Op 74. This is the SUBJECT of the Op-75 P0-AUDIT rung: a retroactive additive dual-lens R14 audit of an already-published money-path commit.",
+      "landing_mechanism": {
+        "classification": "GIT_NATIVE_SQUASH_PLAIN_FAST_FORWARD",
+        "compliant_with_r3_merge_runbook_section_1_1": true,
+        "evidence": [
+          "Single parent 07ff974079eb1da02f1de4f5ecd18c1f223afeae, which equals PR #520 baseRefOid - a true local squash, not a GitHub-synthesized merge.",
+          "PR #520 merged=false and GraphQL mergeCommit=null; no PR-associated commit is reachable from main.",
+          "Committer is the operator's own GitHub noreply address, NOT 'GitHub <noreply@github.com>' - so the forbidden server-side squash path was NOT used."
+        ],
+        "distinct_from": "R3-INC-1 (extension #5 5eabeec), R3-INC-2 (backend #509 1718293), R3-INC-3 - all of which were server-side merges that synthesized committer 'GitHub <noreply@github.com>'.",
+        "actual_defect": "The mandated mechanism was run with an UNASSERTED LOCAL GIT IDENTITY. R3_MERGE_RUNBOOK.md section 3.3 already contains the asserts that would have caught this; 5076a07a proves they were not run. Banning a merge button cannot prevent recurrence.",
+        "preventive_artifact": "handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md",
+        "history_rewrite": "NONE. No force-push, no rebase, no amend on backend main. Recorded, not repaired (R3-INC-1 precedent, R5)."
+      },
+      "measured_budgets_at_this_head": {
+        "source": "gh api repos/BradleyGleavePortfolio/growth-project-backend/commits/5076a07a1e54b14e3db84d3aa128fb0bb44542d7 --jq '.files[]'",
+        "supersedes": "The Op-74/first-draft claim that LOC and test:src were 'not independently recomputable' because the managed worktree is a depth-1 partial clone, and the ~2.77:1 whole-file proxy offered in its place. The premise was wrong: the commits API returns the full per-file patch. Stale wording retained in the audit reports per R5/R132.",
+        "files": [
+          { "path": "src/app.module.ts", "additions": 29, "deletions": 0, "counts_as": "production" },
+          { "path": "src/checkout/dunning-v2/dunning-lockout.guard.ts", "additions": 27, "deletions": 23, "counts_as": "production" },
+          { "path": "test/dunning-v2-lockout-guard.e2e.spec.ts", "additions": 307, "deletions": 0, "counts_as": "test" },
+          { "path": "test/dunning-v2-lockout-guard.spec.ts", "additions": 32, "deletions": 25, "counts_as": "test" }
+        ],
+        "totals": { "files": 4, "additions": 395, "deletions": 48, "patch_lines": 551 },
+        "production_loc_added": 56,
+        "test_loc_added": 339,
+        "r23_r76_cap": 400,
+        "r23_r76_verdict": "PASS - 56 of 400 (14% of cap)",
+        "r74_test_to_src": "6.05:1 (339 / 56)",
+        "r74_verdict": "PASS - requirement is >= 2.0",
+        "r75_banned_cast_net": 0,
+        "r75_scope": "FULL src/ AND test/ across the whole 551-line patch - NOT src-only. R131 names 'R75 misread as src-only' as this wave's failure mode.",
+        "r75_verdict": "PASS - net 0"
+      },
+      "test_evidence_at_this_head": {
+        "unit_spec": "test/dunning-v2-lockout-guard.spec.ts",
+        "unit_cases": 37,
+        "unit_case_breakdown": "1 normalizePath + 15 it.each ALLOWS entries + 12 it.each BLOCKS entries + 9 guard-behaviour cases",
+        "e2e_spec": "test/dunning-v2-lockout-guard.e2e.spec.ts",
+        "e2e_cases": 10,
+        "total_cases": 47,
+        "supersedes": "The first-draft figure of '14 unit cases', which counted `it(` literals and missed both it.each([...]) tables.",
+        "known_gap": "No case asserts the ALLOWED_PREFIXES allow-list against the repo's real mounted controller table. This is exactly how Lens A P1-1 (an unintended reachable route) survived. The corrected mounted-route table is a fixture requirement on DUN-1."
+      },
+      "mounted_routes_corrected": {
+        "supersedes": "First-draft route names 'scheduling/auth/google/connect', bare 'coach/billing' and 'coach/me/billing'. Corrected from the @Controller/@Get/@Post decorators at this head.",
+        "unintentionally_reachable_when_locked_out": [
+          "scheduling/auth/google/initiate",
+          "scheduling/auth/google/callback",
+          "coach/billing/status",
+          "coach/billing/portal-session"
+        ],
+        "correctly_locked": [
+          "coach/me/billing",
+          "coach/me/billing/portal-session"
+        ],
+        "cause": "The ALLOWED_PREFIXES second-segment clause at dunning-lockout.guard.ts:163."
+      },
+      "ci_at_head": {
+        "green": [
+          "build-and-test",
+          "CodeQL JS/TS (javascript-typescript)",
+          "Deploy app",
+          "mwb-3-live-tests",
+          "rls-floor-guard",
+          "rls-live-tests",
+          "comment"
+        ],
+        "red_preexisting_diff_independent": [
+          "build-sbom",
+          "release-please"
+        ],
+        "red_product_regressions": [],
+        "note": "build-sbom and release-please were already RED on prior heads (recorded at Op 71 and Op 72) and are quarantined in a separate infra lane (blocker B4). They are NOT product regressions introduced by this commit and were NOT folded into it."
+      },
+      "associated_pr": {
+        "number": 520,
+        "url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/520",
+        "title": "feat(dunning-v2): enforce Day-10 lockout by mounting guard in global chain",
+        "state": "CLOSED",
+        "merged": false,
+        "merge_commit_graphql": null,
+        "merge_commit_sha_rest": "57b6d791c17296421cc31bfd3a1f4b75ed12cf45",
+        "merge_commit_sha_rest_note": "This is a GitHub-computed TEST-MERGE commit, not a landing. `compare/main...57b6d791...` returns status 'diverged', so it is NOT reachable from main.",
+        "head_ref_oid": "dcb5812668a8e3d8f659e60931a4c51502be7b53",
+        "base_ref_oid": "07ff974079eb1da02f1de4f5ecd18c1f223afeae",
+        "created_at_utc": "2026-07-23T00:35:32Z",
+        "closed_at_utc": "2026-07-23T01:27:15Z",
+        "merged_at": null,
+        "merged_by": null,
+        "reviews_count": 0,
+        "review_decision": null,
+        "commits_pulls_api_for_landed_sha": "EMPTY ARRAY - gh api repos/.../commits/5076a07a.../pulls returns []. That endpoint lists PRs whose HEAD is the given commit; 5076a07a was never any PR's head, so its emptiness says nothing about whether a PR exists.",
+        "corrects": "handoffs/op74/BASELINE_HEADS_OP74.json repos.backend.open_blockers[1], which read 'No associated pull request found via the GitHub commits/pulls API, so no R14 dual-lens audit trail and no R138 Decision Record are discoverable for this landing.' The endpoint observation is literally correct; the INFERENCE that no PR exists is wrong. PR #520 exists and is trivially discoverable.",
+        "correct_reading": "The PR existed and the landing BYPASSED it. 5076a07a was built git-natively from 07ff9740 and fast-forwarded onto main; PR #520 was then closed unmerged 36 seconds later, its own head dcb58126 never becoming an ancestor of main. The PR carried ZERO reviews, so there was no R14 dual-lens audit inside it either, and its body is not the R138 Decision Record location for the landed commit. B2's substance - missing R14/R138 evidence for the LANDED SHA - is intact. The defect is BYPASS, not ABSENCE.",
+        "r5_r132_disposition": "The stale BASELINE_HEADS_OP74.json string is PRESERVED IN PLACE and carries an additive newest-wins correction with a forward pointer to this file. It is NOT edited or deleted."
+      },
+      "open_blockers": [
+        "B1 / R3-INC-4: author and committer are 'BradleyGleavePortfolio <264851314+BradleyGleavePortfolio@users.noreply.github.com>', NOT 'Bradley Gleave <bradley@bradleytgpcoaching.com>'. Hard R3 violation on the commit envelope. OPEN BY DESIGN - a permanent historical marker, not a work item. Reclassified at Op 75: correct git-native mechanism, wrong local operator identity.",
+        "B2: no R14 dual-lens audit and no R138 Decision Record for this money-path landing. REMEDY DRAFTED at Op 75 (handoffs/audit-reports/P0-AUDIT-A-5076a07a.md + P0-AUDIT-B-5076a07a.md). CLOSES ONLY ON LANDING of PR #28 on context main - see conditional_closures below.",
+        "B3: backend branch protection absent (branches/main/protection => 404); production secrets unwired."
+      ]
+    },
+    "mobile": {
+      "full_name": "BradleyGleavePortfolio/growth-project-mobile",
+      "head": "a5933fd6de5616493de75f0db907098b149b955c",
+      "head_short": "a5933fd",
+      "tree": "fc34a95ec33d582ccf9cc9f976c079d776513ff9",
+      "parent": "e3a824f335ef75934fe860165ffc9c41a7b7956b",
+      "subject": "feat(import): honest per-family reconstruct counts in paired panel (PR-M4)",
+      "committer_date_utc": "2026-07-20T23:03:59Z",
+      "author": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "committer": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "r3_identity": "CLEAN",
+      "live_main_match": true,
+      "advances_past_op74": false,
+      "note": "Unchanged since Op 67 (PR-M4). Matches the Op-74 record exactly. Not touched by Op 75."
+    },
+    "extension": {
+      "full_name": "BradleyGleavePortfolio/tgp-importer-extension",
+      "head": "95be0222df3d47d787566743c8781005d8fbec69",
+      "head_short": "95be0222",
+      "tree": "3725abcba7aad497f28b85322557663cb152bb80",
+      "parent": "4f116836ddb5449524dd51e995a7e4c012f79493",
+      "subject": "test(conformance): add structurally-independent conformance_alpha adapter (V5 PR-2b)",
+      "committer_date_utc": "2026-07-21T01:46:24Z",
+      "author": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "committer": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "r3_identity": "CLEAN",
+      "live_main_match": true,
+      "advances_past_op74": false,
+      "note": "Unchanged since Op 70 (V5 PR-2b), the first R3-clean extension landing. Matches the Op-74 record exactly. Not touched by Op 75."
+    }
+  },
+  "audit_reports": {
+    "lens_a": {
+      "path": "handoffs/audit-reports/P0-AUDIT-A-5076a07a.md",
+      "lens": "correctness / security / RLS",
+      "verdict_line": "VERDICT: FINDINGS - 0 P0 - 1 P1 - 3 P2 - 2 P3",
+      "counts": { "p0": 0, "p1": 1, "p2": 3, "p3": 2 },
+      "verdict_line_position": "true final line of the file (R78/R16 - exactly one VERDICT line per report)",
+      "build_matrix_at_top": true,
+      "findings": [
+        { "id": "P1-1", "summary": "ALLOWED_PREFIXES second-segment clause makes four routes reachable while locked out", "route_to": "DUN-1", "executable_now": true },
+        { "id": "P2-1", "summary": "Mounted-route table contradicts the commit message's implied lock surface", "route_to": "DUN-1", "executable_now": true },
+        { "id": "P2-2", "summary": "Lockout decision has no durable transition record", "route_to": "DUN-4", "executable_now": true },
+        { "id": "P2-3", "summary": "DunningState.locked_out_at unindexed on a per-request hot path", "route_to": "DUN-1 (index) / DUN-4 (SLO)", "executable_now": true },
+        { "id": "P3-1", "summary": "Two ALLOWED_PREFIXES recovery entries are dead", "route_to": "DUN-3", "executable_now": true },
+        { "id": "P3-2", "summary": "lockout_copy computed on every 403 then discarded by the error envelope at src/filters/not-found-envelope.ts:12-38 (+ src/filters/http-exception.filter.ts)", "route_to": "OWNERSHIP DECISION FIRST - src/filters/** is on NEITHER workstream's OWNS nor MUST-NOT-TOUCH list; then an authorized BACKEND rung; DUN-9 consumes only", "executable_now": false, "blocked_on": "Op-74 section 1 ownership assignment" }
+      ]
+    },
+    "lens_b": {
+      "path": "handoffs/audit-reports/P0-AUDIT-B-5076a07a.md",
+      "lens": "process / contract / ops / governance",
+      "verdict_line": "VERDICT: FINDINGS - 0 P0 - 2 P1 - 2 P2 - 2 P3",
+      "counts": { "p0": 0, "p1": 2, "p2": 2, "p3": 2 },
+      "verdict_line_position": "true final line of the file (R78/R16 - exactly one VERDICT line per report)",
+      "build_matrix_at_top": true,
+      "findings": [
+        { "id": "P1-1", "summary": "R3 identity violation on a money-path commit published to shared main; R3-INC-4 reclassified as git-native-mechanism / wrong-local-identity, and R3_MERGE_RUNBOOK.md recorded insufficient as written", "route_to": "recorded only; preventive artifact R3_IDENTITY_PREPUSH_ASSERTION.md", "blocker": "B1", "executable_now": "N/A - record only, no history rewrite" },
+        { "id": "P1-2", "summary": "R14/R138 evidence for a money-path change was missing and PR #520 did not supply it (bypassed, zero reviews)", "route_to": "discharged by this audit pair ON LANDING of PR #28; test-shape requirement to DUN-1", "blocker": "B2", "executable_now": true },
+        { "id": "P2-1", "summary": "FEATURE_DUNNING_V2 in no switch registry; R108's CI gate structurally cannot catch it (injectable-env read style, env-discovery.ts:196 is node-scoped)", "route_to": "DUN-1 for the registry rows; the injectable-env blind spot is cross-cutting and needs its own R138 gate", "executable_now": true },
+        { "id": "P2-2", "summary": "No declared SLO and no transition record for a guard on the universal request path; R107 citation WITHDRAWN, replaced by R86 / R99 / R126 / R-DUNNING-BAR-1 P5 / DUN-E5", "route_to": "DUN-4", "executable_now": true },
+        { "id": "P3-1", "summary": "LOC and test:src are now MEASURED at this head (56 prod LOC, 6.05:1); the earlier 'not measurable' claim and the 2.77:1 proxy are superseded", "route_to": "no rung; standing requirement to record measured budgets in every future PR body", "executable_now": "N/A - the measurement is the remedy" },
+        { "id": "P3-2", "summary": "Branch protection absent on the backend repo", "route_to": "ops track", "blocker": "B3", "executable_now": false }
+      ]
+    },
+    "combined_counts": { "p0": 0, "p1": 3, "p2": 5, "p3": 4 },
+    "r14_gate_status": "NOT CLEAN - 0 P0 but 3 P1. R14's CLEAN bar (0 P0-P3) is NOT met and is NOT claimed. Op 75 RECORDS and ROUTES the findings; it repairs none of them. The two P1s in Lens B are the B1/B2 blockers themselves; Lens A's P1 is routed to DUN-1."
+  },
+  "conditional_closures": {
+    "principle": "Status is derived, never asserted (R-DUNNING-BAR-1 section 2). A status claim without evidence at a named SHA is a P0 finding.",
+    "B2": {
+      "state_while_pr_28_unlanded": "OPEN - the evidence is drafted but not discoverable from context main, which is precisely what B2 asserts.",
+      "state_after_pr_28_lands": "CLOSED",
+      "closure_condition": "PR #28 landed on context main via the git-native plain fast-forward path in handoffs/importer-wave/R3_MERGE_RUNBOOK.md section 3, R3-clean.",
+      "consequence_of_overclaiming": "Reporting B2 closed, or the backend ladder open at I1, while PR #28 is unlanded is a status assertion without evidence and is itself a P0 finding."
+    },
+    "I1": {
+      "state": "STILL BLOCKED while PR #28 is unlanded",
+      "unblocks_when": "B2 actually closes, i.e. this PR is on context main",
+      "ladder_order": "P0-AUDIT -> I1 -> DUN-1 -> ... (handoffs/op74/OWNERSHIP_AND_PR_LADDER.md section 3)"
+    },
+    "B1": {
+      "state": "OPEN BY DESIGN - permanently, in all states. Not a work item; a historical marker. No force-push, no rebase, no amend."
+    }
+  },
+  "open_blockers_ref": {
+    "canonical_source": "handoffs/op74/OWNERSHIP_AND_PR_LADDER.md section 8",
+    "B1": { "sev": "P1", "state_at_op75": "OPEN BY DESIGN - recorded and reclassified" },
+    "B2": { "sev": "P1", "state_at_op75": "OPEN until PR #28 lands; remedy drafted" },
+    "B3": { "sev": "P1", "state_at_op75": "OPEN - ops track" },
+    "B4": { "sev": "P2", "state_at_op75": "OPEN - quarantined, never folded into a product PR" },
+    "B5": { "sev": "P2", "state_at_op75": "OPEN - unchanged" },
+    "B6": { "sev": "P3", "state_at_op75": "PERMANENT - R127-R129 gap, never renumbered (R5)" }
+  },
+  "rule_numbering_check": {
+    "canonical_enumeration": "R1-R126 and R130-R138",
+    "nonexistent": ["R127", "R128", "R129"],
+    "nonexistent_disposition": "Permanent documented gap = blocker B6. Never renumbered (R5). Citing any of them is a STOP condition (R-RULE-AUTHORITY-1 section 4).",
+    "phantom_citations_noted": "R161, cited at handoffs/importer-wave/R3_MERGE_RUNBOOK.md line 6, is outside the canonical enumeration and must be read as R6 alone.",
+    "op75_artifacts_verified": "Every rule cited in the Op-75 artifacts falls inside the canonical enumeration. No R127-R129 citation appears anywhere in them."
+  },
+  "claims_explicitly_not_made": [
+    "No claim that the Op-75 P0-AUDIT reports reach R14 CLEAN. They record 0 P0 but 3 P1 combined.",
+    "No claim that blocker B2 is closed. B2 closes ONLY on the landing of PR #28.",
+    "No claim that the backend ladder is open at I1. It opens only when B2 actually closes.",
+    "No claim that blocker B1 / R3-INC-4 is fixed. It is recorded, reclassified, and open by design.",
+    "No claim that backend history was or will be rewritten. No force-push, no rebase, no amend.",
+    "No claim that A03 re-engagement/dunning is complete - one of six recorded gaps is closed.",
+    "No claim that any feature flag was flipped. FEATURE_DUNNING_V2 remains default-OFF and is registered in no switch registry.",
+    "No claim that branch protection or production secrets are wired on any repo (B3 open).",
+    "No claim that the importer has been proven against a real source account (E9 deferred).",
+    "No claim of the post-landing Op-75 context SHA. It is structurally unrecordable here and must be pinned by a subsequent reconcile.",
+    "No production code is changed by any Op-75 artifact. Governance, docs and audit evidence only; 0 production LOC."
+  ],
+  "cross_links": {
+    "pre_build_review": "handoffs/op75/PRE_BUILD_REVIEW_OP75.md",
+    "ownership_and_ladder_op75": "handoffs/op75/OWNERSHIP_AND_LADDER_OP75.md",
+    "r3_identity_prepush_assertion": "handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md",
+    "lens_a": "handoffs/audit-reports/P0-AUDIT-A-5076a07a.md",
+    "lens_b": "handoffs/audit-reports/P0-AUDIT-B-5076a07a.md",
+    "op74_baseline": "handoffs/op74/BASELINE_HEADS_OP74.json",
+    "op74_ownership_and_ladder": "handoffs/op74/OWNERSHIP_AND_PR_LADDER.md",
+    "merge_runbook": "handoffs/importer-wave/R3_MERGE_RUNBOOK.md",
+    "machine_readable_mirror": "handoffs/importer-wave/current-state.json",
+    "decision_log": "DECISION_LOG.md"
+  }
+}

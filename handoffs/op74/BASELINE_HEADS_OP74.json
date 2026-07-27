@@ -8,6 +8,17 @@
   "verification_method": "Each SHA independently fetched from the GitHub REST API at Op-74 execution time and compared against that repository's live default branch. Verified fields: sha, author name/email, committer name/email, committer date, parents, subject line. No SHA below is transcribed from a prior Op record without live re-verification.",
   "verified_at_utc": "2026-07-27T00:00:00Z",
   "drift_policy": "If any recorded SHA later differs from GitHub live state, treat as INFRA_DEATH per R124 and re-verify before acting. NO history rewrite. NO force-push over shared main.",
+  "superseded_in_part_by": {
+    "op_label": "Op 75",
+    "date": "2026-07-27",
+    "rung": "P0-AUDIT",
+    "read_this_first": "Five statements in this file are corrected by Op 75. The stale wording is PRESERVED VERBATIM in place (R5/R132 newest-wins) and the corrections are recorded additively at `repos.backend.op75_corrections`. Nothing here is edited or deleted. Most important: `repos.backend.open_blockers[1]` ('No associated pull request found ...') infers absence from one endpoint's silence - PR #520 EXISTS but the landing BYPASSED it. B2's substance survives unchanged.",
+    "corrections_at": "repos.backend.op75_corrections",
+    "correction_ids": ["OP75-C1", "OP75-C2", "OP75-C3", "OP75-C4", "OP75-C5"],
+    "forward_pointer": "handoffs/op75/BASELINE_HEADS_OP75.json",
+    "op75_review": "handoffs/op75/PRE_BUILD_REVIEW_OP75.md",
+    "drift_recheck_at_op75": "NO DRIFT on any of the four pins. See OP75-C5."
+  },
   "repos": {
     "context": {
       "full_name": "BradleyGleavePortfolio/tgp-agent-context",
@@ -65,7 +76,105 @@
       "open_blockers": [
         "R3-INC-4: author and committer are 'BradleyGleavePortfolio <264851314+BradleyGleavePortfolio@users.noreply.github.com>', NOT 'Bradley Gleave <bradley@bradleytgpcoaching.com>'. Hard R3 violation on the commit envelope.",
         "No associated pull request found via the GitHub commits/pulls API, so no R14 dual-lens audit trail and no R138 Decision Record are discoverable for this landing."
-      ]
+      ],
+      "op75_corrections": {
+        "doc_kind": "additive_newest_wins_correction",
+        "correction_policy": "R5/R132 newest-wins. The strings in `open_blockers` above are PRESERVED VERBATIM and are NOT edited or deleted. This block supersedes them where it says so, and carries the forward pointer. Nothing in the Op-74 record is silently rewritten.",
+        "corrected_at_utc": "2026-07-27T21:30:00Z",
+        "corrected_by_op": "Op 75",
+        "corrected_at_rung": "P0-AUDIT",
+        "forward_pointer": "handoffs/op75/BASELINE_HEADS_OP75.json",
+        "supporting_evidence": [
+          "handoffs/audit-reports/P0-AUDIT-A-5076a07a.md",
+          "handoffs/audit-reports/P0-AUDIT-B-5076a07a.md",
+          "handoffs/op75/PRE_BUILD_REVIEW_OP75.md",
+          "handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md"
+        ],
+        "corrections": [
+          {
+            "id": "OP75-C1",
+            "supersedes": "open_blockers[1] — 'No associated pull request found via the GitHub commits/pulls API, so no R14 dual-lens audit trail and no R138 Decision Record are discoverable for this landing.'",
+            "status_of_stale_wording": "PRESERVED IN PLACE, superseded in part",
+            "what_was_literally_correct": "`gh api repos/BradleyGleavePortfolio/growth-project-backend/commits/5076a07a1e54b14e3db84d3aa128fb0bb44542d7/pulls` does return an EMPTY ARRAY. That observation is accurate and is why the Op-74 pass concluded no PR existed.",
+            "what_was_wrong": "The INFERENCE. That endpoint lists PRs whose HEAD is the given commit; 5076a07a was never any PR's head, so its emptiness says nothing about whether a PR exists. PR #520 exists and is trivially discoverable by querying it directly.",
+            "verified_pr_state": {
+              "number": 520,
+              "url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/520",
+              "title": "feat(dunning-v2): enforce Day-10 lockout by mounting guard in global chain",
+              "state": "CLOSED",
+              "merged": false,
+              "merge_commit_graphql": null,
+              "merge_commit_sha_rest": "57b6d791c17296421cc31bfd3a1f4b75ed12cf45",
+              "merge_commit_sha_rest_note": "GitHub-computed TEST-MERGE commit, not a landing. `compare/main...57b6d791...` => status 'diverged'; NOT reachable from main.",
+              "head_ref_oid": "dcb5812668a8e3d8f659e60931a4c51502be7b53",
+              "base_ref_oid": "07ff974079eb1da02f1de4f5ecd18c1f223afeae",
+              "created_at_utc": "2026-07-23T00:35:32Z",
+              "closed_at_utc": "2026-07-23T01:27:15Z",
+              "merged_at": null,
+              "merged_by": null,
+              "reviews_count": 0,
+              "review_decision": null
+            },
+            "correct_reading": "The PR existed and the landing BYPASSED it. 5076a07a was built git-natively from 07ff9740 and fast-forwarded onto main; PR #520 was closed unmerged 36 seconds later, its own head dcb58126 never becoming an ancestor of main. The PR carried ZERO reviews, so there was no R14 dual-lens audit inside it either, and its body is not the R138 Decision Record location for the landed commit.",
+            "conclusion_that_survives": "The B2 SUBSTANCE is intact and unchanged: no R14 dual-lens audit trail and no R138 Decision Record existed for the LANDED SHA. The defect is BYPASS, not ABSENCE. B2 is not weakened by this correction."
+          },
+          {
+            "id": "OP75-C2",
+            "supersedes": "open_blockers[0] — insofar as it was read as placing R3-INC-4 in the same incident class as R3-INC-1 / R3-INC-2 / R3-INC-3",
+            "status_of_stale_wording": "PRESERVED IN PLACE; the identity facts it states are CORRECT and unchanged. Only the implied classification is superseded.",
+            "reclassification": "R3-INC-4 is a GIT-NATIVE-MECHANISM / WRONG-LOCAL-IDENTITY incident, NOT a server-side-merge incident.",
+            "mechanism_evidence": [
+              "Single parent 07ff974079eb1da02f1de4f5ecd18c1f223afeae, equal to PR #520 baseRefOid — a true local squash, not a GitHub-synthesized merge.",
+              "PR #520 merged=false, GraphQL mergeCommit=null; no PR-associated commit is reachable from main.",
+              "Committer is the operator's OWN GitHub noreply address, NOT 'GitHub <noreply@github.com>' — so the forbidden server-side squash path was NOT used."
+            ],
+            "contrast": "R3-INC-1 (extension #5 5eabeec), R3-INC-2 (backend #509 1718293) and R3-INC-3 were server-side merges whose committer GitHub synthesizes and the operator cannot set. Their remedy — ban the merge button (R3_MERGE_RUNBOOK.md section 1.1) — was ALREADY IN FORCE at 5076a07a and WAS OBEYED, and therefore cannot prevent a recurrence of R3-INC-4.",
+            "actual_defect": "The mandated mechanism was run with an UNASSERTED LOCAL GIT IDENTITY. R3_MERGE_RUNBOOK.md section 3.3 already contains the asserts that would have caught it; 5076a07a proves they were not run.",
+            "runbook_sufficiency": "INSUFFICIENT AS WRITTEN (not incorrect): the assert lives inside a copy-paste block so skipping it is silent; it produces no artifact, so section 1.4's 'a landing without both recorded is a P1 finding' is unenforceable after the fact; it depends on ambient user.email; and with branch protection absent (B3) there is no server-side backstop.",
+            "preventive_artifact": "handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md",
+            "history_rewrite": "NONE, and none authorized. No force-push, no rebase, no amend on backend main. R3-INC-1 precedent, R5.",
+            "b1_disposition": "OPEN BY DESIGN — a permanent historical marker, not a work item. Unchanged."
+          },
+          {
+            "id": "OP75-C3",
+            "supersedes": "The Op-74-era position that R23/R76 production LOC and R74 test:src for 5076a07a were not independently recomputable (a depth-1 partial clone leaves the parent tree unavailable), and the ~2.77:1 whole-file proxy offered in its place.",
+            "status_of_stale_wording": "PRESERVED in the audit reports per R5/R132; the proxy is WITHDRAWN because it was computed from whole-file line counts rather than the diff and silently ignored src/app.module.ts.",
+            "why_the_premise_was_wrong": "The shallow worktree is not the only source. `gh api repos/.../commits/5076a07a... --jq '.files[]'` returns the full per-file patch.",
+            "measured": {
+              "production_loc_added": 56,
+              "test_loc_added": 339,
+              "totals": { "files": 4, "additions": 395, "deletions": 48, "patch_lines": 551 },
+              "r23_r76": "PASS — 56 of a 400 cap (14%)",
+              "r74_test_to_src": "6.05:1 (339 / 56) — PASS, requirement >= 2.0",
+              "r75_banned_cast_net": 0,
+              "r75_scope": "FULL src/ AND test/ across the whole 551-line patch — NOT src-only. R131 names 'R75 misread as src-only' as this wave's failure mode.",
+              "r75_verdict": "PASS — net 0"
+            },
+            "test_totals": "37 unit (1 normalizePath + 15 it.each ALLOWS + 12 it.each BLOCKS + 9 guard-behaviour) + 10 e2e = 47. Supersedes the earlier figure of '14 unit cases', which counted `it(` literals and missed both it.each([...]) tables.",
+            "standing_requirement": "Every future landing records measured production LOC, test:src and R75 net in the PR body, so the numbers survive a shallow clone."
+          },
+          {
+            "id": "OP75-C4",
+            "subject": "Op-74 claims_explicitly_not_made — one entry now has a conditional counterpart",
+            "supersedes": "nothing; ADDITIVE clarification",
+            "clarification": "Op 74 correctly stated 'No claim that the backend dunning lockout landing was dual-lens audited per R14.' Op 75 PRODUCES that audit, but it does NOT reach R14 CLEAN (0 P0 but 3 P1 combined) and does NOT close B2 until PR #28 lands on context main. Both facts must travel together.",
+            "b2_closure_condition": {
+              "state_while_pr_28_unlanded": "OPEN — the evidence is drafted but not discoverable from context main, which is precisely what B2 asserts.",
+              "state_after_pr_28_lands": "CLOSED",
+              "closure_mechanism_required": "git-native manual squash + plain fast-forward per handoffs/importer-wave/R3_MERGE_RUNBOOK.md section 3. `gh pr merge` and every server-side merge path remain FORBIDDEN.",
+              "i1_gating": "I1 stays BLOCKED until B2 actually closes.",
+              "consequence_of_overclaiming": "Reporting B2 closed, or the backend ladder open at I1, while PR #28 is unlanded is a status assertion without evidence and is itself a P0 finding (R-DUNNING-BAR-1 section 2: status is derived, never asserted)."
+            }
+          },
+          {
+            "id": "OP75-C5",
+            "subject": "Op-74 pin drift check re-run at Op 75",
+            "supersedes": "nothing; ADDITIVE verification",
+            "result": "NO DRIFT. All four Op-74 pins re-verified both ways at 2026-07-27T21:30:00Z. backend 5076a07a1e54b14e3db84d3aa128fb0bb44542d7 (unchanged), mobile a5933fd6de5616493de75f0db907098b149b955c (unchanged), extension 95be0222df3d47d787566743c8781005d8fbec69 (unchanged). Context has advanced by exactly one commit: the Op-74 pin 9c25a06736867d613622e19beca4f71fb42c62db is now the PARENT of live main b76d0962de53ce494fa8f869a706ff0c15aee0b6, which is the Op-74 reconcile tip that this JSON file itself could not record. Op 75 pins it. Same structural constraint the repos.context.note above describes for Op 73. NOT an INFRA_DEATH.",
+            "op75_pins": "handoffs/op75/BASELINE_HEADS_OP75.json"
+          }
+        ]
+      }
     },
     "mobile": {
       "full_name": "BradleyGleavePortfolio/growth-project-mobile",

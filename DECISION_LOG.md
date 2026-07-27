@@ -6,73 +6,163 @@ Newest first.
 
 ---
 
-## 2026-07-27 (Op 75) — P0-AUDIT DISCHARGED: retroactive adversarial dual-lens R14 audit of backend `5076a07a`; blocker **B2 CLOSED**, **B1 confirmed open-by-design**; eight findings recorded and routed to dunning rungs; no history rewritten (audit evidence only; 0 production LOC; no build, no landing, no flag flip)
+## 2026-07-27 (Op 75) — P0-AUDIT EVIDENCE PRODUCED: retroactive adversarial dual-lens R14 audit of backend `5076a07a`; **B2 closes on landing of PR #28, not before**; **B1 open by design and reclassified** (R3-INC-4 is an *unasserted-identity* incident, not a forbidden-mechanism one); twelve findings recorded and routed; one finding blocked on an ownership decision; no history rewritten (governance/audit evidence only; 0 production LOC; no build, no landing, no flag flip, no completion claim)
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
-**Category:** Execution of ladder rung **`P0-AUDIT`** — the prerequisite rung published at `handoffs/op74/OWNERSHIP_AND_PR_LADDER.md` §3, which blocks **all** backend work. Audit evidence only; **0 production LOC**.
-**Governing decision:** rung `P0-AUDIT` mandates a *"Retroactive adversarial R14 audit of baseline `5076a07a` (Day-10 lockout guard); record **R3-INC-4**; file findings as their own PR if any"*, with the standing constraint *"**Do not force-push** (R3-INC-1 precedent)."* Both discharged.
+**Category:** Execution of ladder rung **`P0-AUDIT`** — the prerequisite rung published at [`handoffs/op74/OWNERSHIP_AND_PR_LADDER.md`](handoffs/op74/OWNERSHIP_AND_PR_LADDER.md) §3, which blocks **all** backend work. Governance / audit evidence only; **0 production LOC**. Audit-exempt per R14 scope (context-repo docs).
+**Governing decision:** rung `P0-AUDIT` mandates a *"Retroactive adversarial R14 audit of baseline `5076a07a` (Day-10 lockout guard); record **R3-INC-4**; file findings as their own PR if any"*, with the standing constraint *"**Do not force-push** (R3-INC-1 precedent)."* Both honoured. The R138 four-question gate for this Op is recorded at [`handoffs/op75/PRE_BUILD_REVIEW_OP75.md`](handoffs/op75/PRE_BUILD_REVIEW_OP75.md) and machine-readably at `handoffs/importer-wave/current-state.json` → `decision_record_op75_p0_audit_discharge_2026_07_27`.
 
-**Files touched (context repo):** `handoffs/audit-reports/P0-AUDIT-A-5076a07a.md` (**NEW**), `handoffs/audit-reports/P0-AUDIT-B-5076a07a.md` (**NEW**), `DECISION_LOG.md`. **No product repo touched. No history rewritten — no force-push, no rebase, no amend.**
+> **CORRECTED at the replacement-owner review pass (2026-07-27).** This entry previously headlined *"blocker **B2 CLOSED**"*, carried a *"### Blocker B2 — CLOSED"* section, stated the ladder was *"unblocked from `I1`"*, cited *"14 unit cases"*, routed Lens A P3-2 to **`DUN-9`**, listed only **three** touched files, and reported *"eight findings"*. **Every one of those was an overclaim or an error:** B2 cannot close until this branch is reachable from `main` (asserting otherwise is itself a P0 under [`R-DUNNING-BAR-1`](roadmap/rulings/R-DUNNING-BAR-1_2026-07-27.md) §2, *status is derived, never asserted*); the true unit count is **37** (+10 e2e = **47**); `DUN-9` is a **mobile** rung and cannot change a backend error envelope; nine files are touched; the combined finding count is **twelve**. The stale wording is recorded here rather than erased (R5/R132) and the accurate account follows.
+
+**Files touched (context repo) — exhaustive, nine paths:**
+
+| Path | Change | Kind |
+|---|---|---|
+| [`handoffs/audit-reports/P0-AUDIT-A-5076a07a.md`](handoffs/audit-reports/P0-AUDIT-A-5076a07a.md) | rewritten at this pass | Lens A deliverable |
+| [`handoffs/audit-reports/P0-AUDIT-B-5076a07a.md`](handoffs/audit-reports/P0-AUDIT-B-5076a07a.md) | rewritten at this pass | Lens B deliverable |
+| [`handoffs/op75/PRE_BUILD_REVIEW_OP75.md`](handoffs/op75/PRE_BUILD_REVIEW_OP75.md) | **NEW** | per-Op reconciliation review (third record surface) |
+| [`handoffs/op75/BASELINE_HEADS_OP75.json`](handoffs/op75/BASELINE_HEADS_OP75.json) | **NEW** | four audited head pins, both-ways verified |
+| [`handoffs/op75/OWNERSHIP_AND_LADDER_OP75.md`](handoffs/op75/OWNERSHIP_AND_LADDER_OP75.md) | **NEW** | ownership/ladder **pointer + delta** (no canonical text copied) |
+| [`handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md`](handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md) | **NEW** | preventive R3 identity gate |
+| [`handoffs/op74/BASELINE_HEADS_OP74.json`](handoffs/op74/BASELINE_HEADS_OP74.json) | **additive correction only** — `superseded_in_part_by` + `repos.backend.op75_corrections`; the false B2 string preserved **verbatim** | Op-74 pin, newest-wins |
+| [`handoffs/importer-wave/current-state.json`](handoffs/importer-wave/current-state.json) | Op-75 mirror; all prior wording preserved under `*_stale_op74` / `*_prior_op74` keys | machine-readable state |
+| `DECISION_LOG.md` | this entry | narrative log |
+
+**No product repo touched. No history rewritten — no force-push, no rebase, no amend, no branch deletion. No flag flipped. 0 production LOC.**
 
 ### Baseline verified both ways (R124)
 
-| Repo | Op-74 pin | Live at Op 75 | Drift |
-|---|---|---|---|
-| `growth-project-backend` | `5076a07a` | `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` (`git rev-parse HEAD` **and** `git ls-remote origin HEAD`) | **none** |
-| `tgp-agent-context` | `9c25a06` → superseded by the Op-74 landing itself | `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | expected |
+Canonical pin: [`handoffs/op75/BASELINE_HEADS_OP75.json`](handoffs/op75/BASELINE_HEADS_OP75.json). Each head was fetched from the GitHub API **and** resolved locally; both agree.
 
-**No INFRA_DEATH.** The backend pin has **not** moved; `5076a07a` is still live `main`.
+| Repo | Head | Tree | Parent | Drift off the Op-74 pin |
+|---|---|---|---|---|
+| `growth-project-backend` | `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` | `ba056fff8e760f3e1a12ed628c808c104ec5be0d` | `07ff974079eb1da02f1de4f5ecd18c1f223afeae` (single) | **none** |
+| `tgp-agent-context` | `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | `2847e9cf26ed7ff3d400ed491e89d0c3d1170bed` | `9c25a06736867d613622e19beca4f71fb42c62db` | expected — the Op-74 landing itself |
+| `growth-project-mobile` | `a5933fd6de5616493de75f0db907098b149b955c` | `fc34a95ec33d582ccf9cc9f976c079d776513ff9` | `e3a824f335ef75934fe860165ffc9c41a7b7956b` | **none** |
+| `tgp-importer-extension` | `95be0222df3d47d787566743c8781005d8fbec69` | `3725abcba7aad497f28b85322557663cb152bb80` | `4f116836ddb5449524dd51e995a7e4c012f79493` | **none** |
 
-### Verdicts
+**No INFRA_DEATH.** Reviewed branch head is `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650`, parent `b76d0962…` = live `main` = PR #28 `base.sha`. **The post-landing context SHA is deliberately not claimed anywhere** — an artifact cannot record the SHA of the commit that lands it (Op-73/Op-74 precedent).
+
+**Backend CI at `5076a07a`:** `build-and-test`, `CodeQL JS/TS`, `Deploy app`, `mwb-3-live-tests`, `rls-floor-guard`, `rls-live-tests`, `comment` **GREEN**; `build-sbom` + `release-please` **RED but pre-existing and diff-independent** (blocker **B4**, quarantined, never folded into a product PR).
+
+### Verdicts and the R14 bar
 
 - **Lens A** (correctness / security / RLS) — `FINDINGS — 0 P0 · 1 P1 · 3 P2 · 2 P3`
 - **Lens B** (process / contract / ops / governance) — `FINDINGS — 0 P0 · 2 P1 · 2 P2 · 2 P3`
+- **Combined — 0 P0 · 3 P1 · 5 P2 · 4 P3.**
 
-**0 P0 across both lenses.** The two most dangerous properties of a globally-mounted guard both hold and are test-covered: the **flag-OFF hard no-op** (`dunning-lockout.guard.ts:80`) and **fail-open on lookup error** (`:99-105`). No path can mass-lock on a TGP-side fault.
+**R14 CLEAN is 0 P0–P3. That bar is NOT met and is NOT claimed.** Two of the three P1s *are* blockers **B1** and **B2** — the audit's own subject matter, not new defects.
 
-### The headline finding (Lens A P1-1) — allow-list second-segment leak
+**0 P0.** The three most dangerous properties of a globally-mounted guard hold, and were verified by execution rather than assumed: **flag-OFF hard no-op** (`dunning-lockout.guard.ts:80`), **unauthenticated passthrough** (`:93-94`), **fail-open on lookup error** (`:99-105`). No path can mass-lock on a TGP-side fault. `FEATURE_DUNNING_V2` is default-OFF, so **no finding is live**.
 
-`isAllowedWhileLocked` (`dunning-lockout.guard.ts:163`) admits **any** path whose **second** segment is one of eight `ALLOWED_PREFIXES` tokens, not just coach-scoped billing variants. `src/scheduling/google-oauth/google-oauth.controller.ts:44` mounts `@Controller('scheduling/auth/google')` — second segment `auth` — so a locked-out client can complete Google Calendar OAuth while the lockout is in force. Verified by executing the head's own `normalizePath` + `isAllowedWhileLocked` against the mounted controller table.
+### Measured budgets — the "not measurable" claim is superseded
 
-The **inverse** defect (Lens A P2-1) is the same line: the repo's real coach billing route is `v1/coach/me/billing` (`src/billing/coach-billing.controller.ts:21,26`), where `billing` is segment **three** — so the carve-out the clause was written for does **not** actually cover it.
+An earlier pass deferred these as unmeasurable. They are now measured at this exact head from the commit's own patch (4 files, +395/−48):
 
-Not exploitable today: `FEATURE_DUNNING_V2` is default-OFF and the guard hard-no-ops. Hence P1, not P0. **Both are preconditions of Gate B, not of `I1`.**
+| Budget | Rule | Measured | Verdict |
+|---|---|---|---|
+| Production LOC | R23 / R76 (≤400) | **56** (`src/app.module.ts` +29, guard +27) | PASS |
+| test:src ratio | R74 (≥2.0) | **6.05:1** (339 test LOC ÷ 56) | PASS |
+| Banned-cast net additions | R75, counted across **`src/` + `test/`** | **net 0** | PASS |
+| Test evidence | R14 Q4 | **37 unit + 10 e2e = 47** | recorded |
 
-### Findings routed (not fixed here)
+R131 names *"R75 misread as src-only"* as this wave's failure mode; the count above is the full `src/` **plus** `test/` count, stated so it cannot be re-narrowed.
 
-Every finding lives in `src/checkout/**` or `DunningState` — **W-DUN territory**, on the W-IMP MUST-NOT-TOUCH list (§1). Repairing them inside `P0-AUDIT` would breach §1 and stop-condition §5.2. `P0-AUDIT` therefore **records and routes**:
+### Findings and dispositions — twelve, none fixed here
 
-| Finding | Sev | Rung |
+Every code finding lives in `src/checkout/**` or `DunningState` — **W-DUN territory**, on the W-IMP MUST-NOT-TOUCH list. Repairing them inside `P0-AUDIT` would breach Op-74 §1 and stop-condition §5.2. `P0-AUDIT` **records and routes**:
+
+| Finding | Sev | Disposition | Executable now? |
+|---|---|---|---|
+| A P1-1 — four routes reachable while locked out (`isAllowedWhileLocked` second-segment clause, `dunning-lockout.guard.ts:163`) | P1 | **DUN-1** | yes |
+| A P2-1 — mounted-route table contradicts the commit message's scope claim | P2 | **DUN-1** | yes |
+| A P2-2 — no durable record of a lockout transition | P2 | **DUN-4** | yes |
+| A P2-3 — `locked_out_at` unindexed on a per-request hot path (`prisma/schema.prisma:3815`, indexes `:3824-3826`) | P2 | **DUN-1** (index) / **DUN-4** (SLO) | yes |
+| A P3-1 — two dead recovery allow-list prefixes (no controller) | P3 | **DUN-3** | yes |
+| A P3-2 — `lockout_copy` (`:112-119`) discarded by the shared envelope at `src/filters/not-found-envelope.ts:12-38` | P3 | **BLOCKED — ownership decision first** (see below) | **no** |
+| B P1-1 — **R3-INC-4** identity (blocker **B1**) | P1 | record only + [preventive gate](handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md) | N/A |
+| B P1-2 — missing R14/R138 evidence (blocker **B2**) | P1 | **discharged on landing of PR #28**; the table-driven test-shape requirement → **DUN-1** | yes |
+| B P2-1 — `FEATURE_DUNNING_V2` in **no** registry | P2 | **DUN-1** (register the flag); the fleet-wide blind-spot audit needs its **own R138 gate** | yes / no |
+| B P2-2 — no declared p99, no error budget, no transition record for a universal-path guard | P2 | **DUN-4** | yes |
+| B P3-1 — budgets now measured, superseding the "not measurable" claim | P3 | **no rung — measurement *is* the remedy** | N/A |
+| B P3-2 — backend branch protection absent (`branches/main/protection` → 404, blocker **B3**) | P3 | ops track | no |
+
+**No finding blocks the W-IMP ladder.** All are preconditions of **Gate B**, not of `I1`.
+
+**Two corrections to earlier routing, both material:**
+
+1. **Lens A P3-2 was routed to `DUN-9`, which is a *mobile* rung** ([Op-74 §3](handoffs/op74/OWNERSHIP_AND_PR_LADDER.md): *"Re-engagement UX + Roman-voiced surfaces"*). A mobile rung cannot change a backend error envelope, so the routing was **unexecutable, not merely suboptimal**. Root cause: **`src/filters/**` appears on neither workstream's OWNS list nor either MUST-NOT-TOUCH list** — it is an **unowned cross-cutting backend surface**. Required order: (i) assign `src/filters/**` in Op-74 §1, or declare it a shared surface with a named serialization point as §2 does for `app.module.ts`; (ii) route the fix to an **authorized backend rung** (candidate `DUN-4`, else a fresh R138-gated rung); (iii) `DUN-9` **consumes** the envelope, never produces it. Until (i) lands the finding is **recorded and blocked**, and Op 75 says so rather than inventing an owner.
+2. **The R107 citation attached to Lens A P2-2 / Lens B P2-2 is withdrawn.** R107 governs an `audit_log` row for PII-touching **mutations**, and `model AuditLog` already exists at `prisma/schema.prisma:1499`. A read-only 403 decision is neither a mutation nor PII-touching. The correct citations are **R86** (declared p99 before merge), **R99** (budget burn freezes the path), **R126** (telemetry as contract) and `R-DUNNING-BAR-1` **P5** / **DUN-E5**. Citing a rule that does not reach the facts weakens every other citation beside it.
+
+**Lens B P2-1 is worth naming twice.** `FEATURE_DUNNING_V2` is absent from `prod-switches.yml` (226 switches), `.env.example` (892 lines) **and** `ENV_RULES`. R108's discovery scanner (`test/prod-readiness/env-discovery.ts:196`) is node-scoped to `process.env.*` / `process['env'].*`, but the flag is read as `env[…]` on a **function parameter** (`dunning-v2.feature.ts:34-36`) — so discovery never sees it, the registry is never exceeded, and CI stays green. The importer flags are registered with this exact read style spelled out; the master switch of a billing state machine has no row at all. No live risk (absent ⇒ OFF), but at **Gate B** the operator has no entry to flip.
+
+### R3-INC-4 (blocker B1) — RECLASSIFIED; disposition unchanged
+
+`5076a07a` is authored **and** committed as `BradleyGleavePortfolio <264851314+BradleyGleavePortfolio@users.noreply.github.com>` — both wrong, not a committer-only slip, on the envelope of a money-path change already published on shared `main`.
+
+**The reclassification is the substance of this finding.** R3-INC-1 (extension #5 `5eabeec`), R3-INC-2 (backend #509 `1718293`) and R3-INC-3 were **server-side merges**, where GitHub synthesizes the committer as `GitHub <noreply@github.com>` and the operator cannot set it. `5076a07a` is **not** that:
+
+| Evidence | Implication |
+|---|---|
+| **Single parent** `07ff974079eb1da02f1de4f5ecd18c1f223afeae`, equal to PR #520 `baseRefOid` | a true **local squash** — no GitHub-synthesized merge commit |
+| PR #520 `merged=false`, GraphQL `mergeCommit=null`; the REST `merge_commit_sha` `57b6d791c17296421cc31bfd3a1f4b75ed12cf45` is a GitHub **test-merge** that `compare/main...` reports as **diverged** (ahead 3, behind 1) | nothing GitHub produced is reachable from `main` |
+| Committer is the operator's **own** GitHub noreply address, **not** `GitHub <noreply@github.com>` | the **forbidden server-side path was not used** |
+
+So **the mechanism was right and the identity was wrong** — a different incident class with a different cause. Consequence: **the R3-INC-1/2/3 remedy (ban the merge button) was already in force here and was obeyed, so it cannot prevent a recurrence.** [`R3_MERGE_RUNBOOK.md`](handoffs/importer-wave/R3_MERGE_RUNBOOK.md) §1.4 already calls both identity checks MANDATORY and §3.3 already contains the exact asserts that would have caught this; `5076a07a` is proof they were not run. The runbook is **insufficient as written** — not incorrect, insufficient — because the assert is buried in a copy-paste block, produces **no artifact**, depends on **ambient identity**, and has **no server-side backstop** (**B3**). Remedy filed forward as [`handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md`](handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md): a one-command gate that exits non-zero and emits a pasteable evidence block.
+
+The doctrinal sentence to carry forward: **using the mandated git-native path proves the *mechanism* was compliant and proves nothing about *identity*; a landing is R3-clean only when both are separately asserted and separately recorded.**
+
+**Disposition unchanged: `OPEN_ACCEPTED_NOT_FIXED`.** Rewriting published shared `main` is a larger integrity loss than the defect it repairs (R3-INC-1 precedent, R5). `origin/main` remains `5076a07a`, untouched. The commit *message* is clean — 0 AI / agent / Claude / Anthropic / `Co-Authored-By` tokens. **B1 stays open by design as a permanent historical marker, not a work item.**
+
+### Blocker B2 — evidence corrected; **closes on landing, not before**
+
+> **CORRECTED (newest-wins, R5/R132).** Op 74 recorded that *"no associated pull request found via the GitHub commits/pulls API, so no R14 dual-lens audit trail and no R138 Decision Record are discoverable for this landing."* That string is **preserved verbatim** at `handoffs/op74/BASELINE_HEADS_OP74.json` → `repos.backend.open_blockers[1]` and is corrected additively there, not deleted.
+
+The endpoint statement was **literally true** — `commits/5076a07a…/pulls` does return an empty array — but the **inference was wrong**. That endpoint lists only PRs whose **head** is the commit, and `5076a07a` was never a PR head. **PR #520 exists**: `feat(dunning-v2): enforce Day-10 lockout via global guard mount` (head `dcb5812…`), **CLOSED**, `merged=false`, `mergeCommit=null`, **zero reviews**, closed **36 seconds after** the landing commit. The audit trail was not absent because no PR existed; it was absent because **the git-native landing bypassed the PR, which was then closed unreviewed**. Inferring absence from one endpoint's silence is the error, and it is corrected rather than restated.
+
+**B2's substance — missing R14 dual-lens evidence and a missing R138 Decision Record for a money-path change with product-wide blast radius — remains OPEN until this branch is reachable from `main`:**
+
+| PR #28 state | B2 | `I1` |
 |---|---|---|
-| A P1-1 allow-list second-segment leak | P1 | **DUN-1** |
-| A P2-1 real coach billing route not carved out | P2 | **DUN-1** |
-| A P2-2 free-text `status` silently releases the lockout | P2 | **DUN-1** |
-| A P2-3 `locked_out_at` unindexed on a per-request hot path | P2 | **DUN-1** (index) / **DUN-4** (SLO) |
-| A P3-1 `payment-recovery` / `recover` allow-list entries are dead (no controller) | P3 | **DUN-3** |
-| A P3-2 `lockout_copy` computed then dropped by the error envelope | P3 | **DUN-9** |
-| B P2-1 `FEATURE_DUNNING_V2` in **no** registry; R108's CI gate structurally cannot catch it | P2 | **DUN-1** + registry-convention item |
-| B P2-2 no `AuditEvent` and no declared p99 for a universal-path guard | P2 | **DUN-4** |
+| open / this branch unlanded | **OPEN** | **BLOCKED** |
+| landed on context `main`, R3-clean, plain fast-forward | **CLOSED** | permitted |
 
-**Lens B P2-1 is worth naming twice.** The flag is absent from `prod-switches.yml` (226 switches), `.env.example` (892 lines), **and** `ENV_RULES`. R108's discovery scanner (`test/prod-readiness/env-discovery.ts:196`) is node-scoped to `process.env.*`, but the flag is read as `env[FEATURE_DUNNING_V2_ENV]` on a **function parameter** — so discovery never sees it, never exceeds the registry, and CI stays green. The importer flags (`FEATURE_SCOUT_INGEST`, `FEATURE_SCOUT_RECONSTRUCT`) **are** registered with this exact read style spelled out in their descriptions; the master switch of a billing state machine has no row at all. No live risk (absent ⇒ OFF), but at **Gate B** the operator has no entry to flip.
+Drafting the audit is not discharging it: until the landing commit is reachable from `main`, the evidence is not discoverable by anyone reading the repo, which is precisely what B2 asserts. **Reporting B2 closed, or the ladder open at `I1`, while this PR is unlanded is a status assertion without evidence and is itself a P0 finding** ([`R-DUNNING-BAR-1`](roadmap/rulings/R-DUNNING-BAR-1_2026-07-27.md) §2: *status is derived, never asserted*).
 
-### R3-INC-4 (blocker B1) — confirmed, disposition unchanged
+The retroactive R138 four-question reconstruction also surfaced the **root cause** of Lens A P1-1: Question 4's evidence is **37 unit + 10 e2e = 47** cases, but every one asserts the allow-list against **hand-picked example paths**, never against the **mounted controller table**. A route that accidentally matches was therefore unobservable to review. *A table-driven test enumerating every mounted controller against the allow-list is a requirement on `DUN-1`.*
 
-Author **and** committer are `BradleyGleavePortfolio <264851314+…@users.noreply.github.com>` — both wrong, not a committer-only slip. Lens B **confirms** the standing `OPEN_ACCEPTED_NOT_FIXED` disposition rather than reopening it: rewriting published shared `main` is a larger integrity loss than the defect it repairs (R3-INC-1 precedent, R5). **`origin/main` remains `5076a07a`, untouched.** The commit *message* is clean — 0 AI/agent/Claude/Anthropic/`Co-Authored-By` tokens; the violation is confined to the identity trailers. **B1 stays open by design as a permanent historical marker, not a work item.**
+### Evidence URLs
 
-### Blocker B2 — CLOSED
+- PR #28 (this branch) — https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/28
+- PR #520 (the bypassed backend PR) — https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/520
+- Audited backend commit — https://github.com/BradleyGleavePortfolio/growth-project-backend/commit/5076a07a1e54b14e3db84d3aa128fb0bb44542d7
+- Context `main` base — https://github.com/BradleyGleavePortfolio/tgp-agent-context/commit/b76d0962de53ce494fa8f869a706ff0c15aee0b6
 
-The missing artifact was the R14 dual-lens trail and the R138 Decision Record for a money-path change with product-wide blast radius. Both are now landed: two lens documents produced against the exact head, each carrying a R124 BUILD MATRIX and an explicit `VERDICT:` line, plus a **retroactive R138 four-question gate** reconstructed in Lens B.
+### Required landing mechanism for PR #28 (non-negotiable)
 
-That reconstruction surfaced the actual root cause of Lens A P1-1. Question 4's evidence is 14 unit cases + 10 over-the-wire e2e cases — but every one asserts the allow-list against **hand-picked example paths**, never against the **mounted controller table**. A route that accidentally matches was therefore unobservable to review. *A table-driven test enumerating every mounted controller against the allow-list is a requirement on `DUN-1`.*
+1. **Git-native manual squash + plain fast-forward only** — [`R3_MERGE_RUNBOOK.md`](handoffs/importer-wave/R3_MERGE_RUNBOOK.md) §3. The only push is `git push origin <sha>:main`.
+2. **`gh pr merge` is FORBIDDEN** in every variant (`--merge`, `--squash`, `--rebase`), as are the green UI button, the REST/GraphQL merge endpoints, and GitHub web edit/commit flows. They re-author the commit and violate R3.
+3. **No `--force`, no `-f`, no `--force-with-lease`, no `+refspec`, no admin bypass, no temporary unprotect** — anywhere on `main`.
+4. **Pre-push identity assertion is mandatory and must produce a recorded artifact** — [`R3_IDENTITY_PREPUSH_ASSERTION.md`](handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md). Author **and** committer exactly `Bradley Gleave <bradley@bradleytgpcoaching.com>`; 0 AI / agent / `Co-Authored-By` tokens.
+5. **Post-push verification is mandatory and must be recorded** — remote tip equals the pushed SHA; `gh api …/commits/<sha>` author **and** committer emails both `bradley@bradleytgpcoaching.com`.
+6. **Base pinned to `b76d0962de53ce494fa8f869a706ff0c15aee0b6`.** If live `main` has moved the plain push is a non-fast-forward and git rejects it — **that rejection is the drift guard**. Correct response: **STOP and re-audit at the new base.** Never force.
+7. **Close PR #28 with a comment naming the landed SHA.** Do not click merge; `merged=false` is the expected end state, as with PR #510 / `1e6b3bf`.
 
 ### Rollback / stop
-Additive documentation only — forward-only `git revert` removes the two audit reports and this entry; no product surface, no flag, no runtime change. **No history rewrite / force-push over shared `main`, in this Op or as a remedy for B1.**
+
+Additive governance documentation only — a forward-only `git revert` of the single landing commit removes all nine paths. **No product surface, no schema, no migration, no workflow, no flag, no runtime change to roll back.** `FEATURE_DUNNING_V2` is untouched and default-OFF: not flipped, not registered, not defaulted anywhere by this Op. **No history rewrite / force-push over shared `main`, in this Op or as a remedy for B1.** Reverting Op 75 does not reopen a repaired defect — it removes evidence: **B2 would revert to OPEN** and `I1` would re-block. That is the correct consequence, not a bug.
+
+**Stop conditions in force:** drift off any [`BASELINE_HEADS_OP75.json`](handoffs/op75/BASELINE_HEADS_OP75.json) pin → INFRA_DEATH (R124) · a cited rule number outside `R1–R126` / `R130–R138` → STOP, never invent (`R127`–`R129` **do not exist**, **B6**, permanent; `R161` cited at `R3_MERGE_RUNBOOK.md` line 6 is a phantom and must be read as **R6** alone) · a finding routed to a rung that cannot execute it → re-route, do not improvise (triggered once, by Lens A P3-2) · a status asserted without evidence at a named SHA → P0 · no credentials, secrets or live DB access were needed or used · the two cross-cutting items (`src/filters/**` ownership, the injectable-env registry audit) each need their **own R138 gate** before anyone acts on them.
 
 ### Unresolved blockers carried forward
-**B1** R3-INC-4 (P1, **open by design**, record-only, no force-push) · ~~**B2**~~ **CLOSED by this Op** · **B3** backend branch protection absent (404) + production secrets unwired (P1, blocks both activation gates; it is the mechanism by which a non-R3 identity reached shared `main`) · **B4** `build-sbom`/`release-please` RED (P2, quarantined) · **B5** email/transactional credentials unprovisioned (P2, blocks P4/Gate B) · **B6** permanent R127–R129 numbering gap (P3, documented, never renumbered).
+
+**B1** R3-INC-4 (P1, **open by design**, record-only, **reclassified** as *unasserted-identity*, preventive gate filed, no force-push) · **B2** missing R14/R138 evidence for `5076a07a` (P1, **remedy drafted; CLOSES ON LANDING of PR #28, not before**; blocks `I1` until then) · **B3** backend branch protection absent (404) + production secrets unwired (P1, blocks both activation gates; it is why nothing outside the operator's own terminal can reject a non-R3 identity) · **B4** `build-sbom` / `release-please` RED (P2, pre-existing, quarantined, confirmed not folded into the product commit) · **B5** email/transactional credentials unprovisioned (P2, blocks P4 / Gate B) · **B6** permanent `R127`–`R129` numbering gap (P3, documented, never renumbered).
 
 ### Effect on the ladder
-With **B2** closed, the backend ladder is unblocked from **`I1`** onward (§3 suggested order `P0-AUDIT → I1 → DUN-1 → …`). **All flags remain default-OFF. Nothing in this Op authorizes a build, a merge, a flag flip, or a completion claim.**
+
+**None yet.** `P0-AUDIT` evidence is produced but not landed, so **B2 remains OPEN and `I1` remains BLOCKED**. Op 75 adds no rung, removes none, renumbers none, reorders none, and dispatches none. It takes no backend write token (S3) and does not touch `app.module.ts` (S2). **All flags remain default-OFF. Nothing in this Op authorizes a build, a merge, a flag flip, a lane dispatch, or a completion claim.**
+
+**VERDICT: EVIDENCE PRODUCED, NOT DISCHARGED — 0 P0 · 3 P1 · 5 P2 · 4 P3 combined; R14 CLEAN not met and not claimed; B2 closes on landing of PR #28, not before; B1 open by design and reclassified; 0 production LOC; no history rewritten.**
 
 ---
 
