@@ -6,6 +6,76 @@ Newest first.
 
 ---
 
+## 2026-07-27 (Op 75) — P0-AUDIT DISCHARGED: retroactive adversarial dual-lens R14 audit of backend `5076a07a`; blocker **B2 CLOSED**, **B1 confirmed open-by-design**; eight findings recorded and routed to dunning rungs; no history rewritten (audit evidence only; 0 production LOC; no build, no landing, no flag flip)
+
+**Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
+**Category:** Execution of ladder rung **`P0-AUDIT`** — the prerequisite rung published at `handoffs/op74/OWNERSHIP_AND_PR_LADDER.md` §3, which blocks **all** backend work. Audit evidence only; **0 production LOC**.
+**Governing decision:** rung `P0-AUDIT` mandates a *"Retroactive adversarial R14 audit of baseline `5076a07a` (Day-10 lockout guard); record **R3-INC-4**; file findings as their own PR if any"*, with the standing constraint *"**Do not force-push** (R3-INC-1 precedent)."* Both discharged.
+
+**Files touched (context repo):** `handoffs/audit-reports/P0-AUDIT-A-5076a07a.md` (**NEW**), `handoffs/audit-reports/P0-AUDIT-B-5076a07a.md` (**NEW**), `DECISION_LOG.md`. **No product repo touched. No history rewritten — no force-push, no rebase, no amend.**
+
+### Baseline verified both ways (R124)
+
+| Repo | Op-74 pin | Live at Op 75 | Drift |
+|---|---|---|---|
+| `growth-project-backend` | `5076a07a` | `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` (`git rev-parse HEAD` **and** `git ls-remote origin HEAD`) | **none** |
+| `tgp-agent-context` | `9c25a06` → superseded by the Op-74 landing itself | `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | expected |
+
+**No INFRA_DEATH.** The backend pin has **not** moved; `5076a07a` is still live `main`.
+
+### Verdicts
+
+- **Lens A** (correctness / security / RLS) — `FINDINGS — 0 P0 · 1 P1 · 3 P2 · 2 P3`
+- **Lens B** (process / contract / ops / governance) — `FINDINGS — 0 P0 · 2 P1 · 2 P2 · 2 P3`
+
+**0 P0 across both lenses.** The two most dangerous properties of a globally-mounted guard both hold and are test-covered: the **flag-OFF hard no-op** (`dunning-lockout.guard.ts:80`) and **fail-open on lookup error** (`:99-105`). No path can mass-lock on a TGP-side fault.
+
+### The headline finding (Lens A P1-1) — allow-list second-segment leak
+
+`isAllowedWhileLocked` (`dunning-lockout.guard.ts:163`) admits **any** path whose **second** segment is one of eight `ALLOWED_PREFIXES` tokens, not just coach-scoped billing variants. `src/scheduling/google-oauth/google-oauth.controller.ts:44` mounts `@Controller('scheduling/auth/google')` — second segment `auth` — so a locked-out client can complete Google Calendar OAuth while the lockout is in force. Verified by executing the head's own `normalizePath` + `isAllowedWhileLocked` against the mounted controller table.
+
+The **inverse** defect (Lens A P2-1) is the same line: the repo's real coach billing route is `v1/coach/me/billing` (`src/billing/coach-billing.controller.ts:21,26`), where `billing` is segment **three** — so the carve-out the clause was written for does **not** actually cover it.
+
+Not exploitable today: `FEATURE_DUNNING_V2` is default-OFF and the guard hard-no-ops. Hence P1, not P0. **Both are preconditions of Gate B, not of `I1`.**
+
+### Findings routed (not fixed here)
+
+Every finding lives in `src/checkout/**` or `DunningState` — **W-DUN territory**, on the W-IMP MUST-NOT-TOUCH list (§1). Repairing them inside `P0-AUDIT` would breach §1 and stop-condition §5.2. `P0-AUDIT` therefore **records and routes**:
+
+| Finding | Sev | Rung |
+|---|---|---|
+| A P1-1 allow-list second-segment leak | P1 | **DUN-1** |
+| A P2-1 real coach billing route not carved out | P2 | **DUN-1** |
+| A P2-2 free-text `status` silently releases the lockout | P2 | **DUN-1** |
+| A P2-3 `locked_out_at` unindexed on a per-request hot path | P2 | **DUN-1** (index) / **DUN-4** (SLO) |
+| A P3-1 `payment-recovery` / `recover` allow-list entries are dead (no controller) | P3 | **DUN-3** |
+| A P3-2 `lockout_copy` computed then dropped by the error envelope | P3 | **DUN-9** |
+| B P2-1 `FEATURE_DUNNING_V2` in **no** registry; R108's CI gate structurally cannot catch it | P2 | **DUN-1** + registry-convention item |
+| B P2-2 no `AuditEvent` and no declared p99 for a universal-path guard | P2 | **DUN-4** |
+
+**Lens B P2-1 is worth naming twice.** The flag is absent from `prod-switches.yml` (226 switches), `.env.example` (892 lines), **and** `ENV_RULES`. R108's discovery scanner (`test/prod-readiness/env-discovery.ts:196`) is node-scoped to `process.env.*`, but the flag is read as `env[FEATURE_DUNNING_V2_ENV]` on a **function parameter** — so discovery never sees it, never exceeds the registry, and CI stays green. The importer flags (`FEATURE_SCOUT_INGEST`, `FEATURE_SCOUT_RECONSTRUCT`) **are** registered with this exact read style spelled out in their descriptions; the master switch of a billing state machine has no row at all. No live risk (absent ⇒ OFF), but at **Gate B** the operator has no entry to flip.
+
+### R3-INC-4 (blocker B1) — confirmed, disposition unchanged
+
+Author **and** committer are `BradleyGleavePortfolio <264851314+…@users.noreply.github.com>` — both wrong, not a committer-only slip. Lens B **confirms** the standing `OPEN_ACCEPTED_NOT_FIXED` disposition rather than reopening it: rewriting published shared `main` is a larger integrity loss than the defect it repairs (R3-INC-1 precedent, R5). **`origin/main` remains `5076a07a`, untouched.** The commit *message* is clean — 0 AI/agent/Claude/Anthropic/`Co-Authored-By` tokens; the violation is confined to the identity trailers. **B1 stays open by design as a permanent historical marker, not a work item.**
+
+### Blocker B2 — CLOSED
+
+The missing artifact was the R14 dual-lens trail and the R138 Decision Record for a money-path change with product-wide blast radius. Both are now landed: two lens documents produced against the exact head, each carrying a R124 BUILD MATRIX and an explicit `VERDICT:` line, plus a **retroactive R138 four-question gate** reconstructed in Lens B.
+
+That reconstruction surfaced the actual root cause of Lens A P1-1. Question 4's evidence is 14 unit cases + 10 over-the-wire e2e cases — but every one asserts the allow-list against **hand-picked example paths**, never against the **mounted controller table**. A route that accidentally matches was therefore unobservable to review. *A table-driven test enumerating every mounted controller against the allow-list is a requirement on `DUN-1`.*
+
+### Rollback / stop
+Additive documentation only — forward-only `git revert` removes the two audit reports and this entry; no product surface, no flag, no runtime change. **No history rewrite / force-push over shared `main`, in this Op or as a remedy for B1.**
+
+### Unresolved blockers carried forward
+**B1** R3-INC-4 (P1, **open by design**, record-only, no force-push) · ~~**B2**~~ **CLOSED by this Op** · **B3** backend branch protection absent (404) + production secrets unwired (P1, blocks both activation gates; it is the mechanism by which a non-R3 identity reached shared `main`) · **B4** `build-sbom`/`release-please` RED (P2, quarantined) · **B5** email/transactional credentials unprovisioned (P2, blocks P4/Gate B) · **B6** permanent R127–R129 numbering gap (P3, documented, never renumbered).
+
+### Effect on the ladder
+With **B2** closed, the backend ladder is unblocked from **`I1`** onward (§3 suggested order `P0-AUDIT → I1 → DUN-1 → …`). **All flags remain default-OFF. Nothing in this Op authorizes a build, a merge, a flag flip, or a completion claim.**
+
+---
+
 ## 2026-07-27 (Op 74) — PRODUCT-BAR RAISE + GOVERNANCE RECONCILIATION: autonomous site-agnostic/browser-agnostic importing supersedes the one-site v0.3 ceiling; hyperscaler-quality dunning becomes the product bar with ten platform obligations; four audited baseline HEADs pinned; six governance defects reconciled without rewriting history (docs/doctrine only; 0 product LOC; no build, no landing, no flag flip)
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>
