@@ -9,8 +9,27 @@
 This document is the single canonical constitution for every TGP operator, builder,
 fixer, auditor, architect, and scheduler. It consolidates every prior R-rule, the
 R100 Hyperscaler Quality Mandate (55 rules), and 20 new hyperscaler-grade rules into
-one continuous, gap-free enumeration (R1 → R107). Navigate R1 to R107 in order; you will
-never hit a missing number.
+one continuous enumeration that began at R1 → R107.
+
+> **Enumeration correction (Op 74, 2026-07-27 — navigation metadata only; no rule body or
+> operator quote was changed).** This header previously read "one continuous, gap-free
+> enumeration (R1 → R107). Navigate R1 to R107 in order; you will never hit a missing
+> number." That was accurate when written and is now stale in two ways, corrected here per
+> R-RULE-AUTHORITY-1 §4 (a cited-but-nonexistent rule is a STOP condition, so the canonical
+> range must be stated truthfully). **The enumeration actually in force is R1 → R126 and
+> R130 → R138.**
+>
+> 1. **The range extends past R107.** R108–R126 (hyperscaler/infra rules) and R130–R138
+>    (§13 First-Principles Doctrine, added 2026-06-30, plus R138 added 2026-07-13) are all
+>    defined below and all binding.
+> 2. **The enumeration is NOT gap-free. R127, R128, and R129 do not exist and never have.**
+>    Per R5's lost-forever discipline, this gap is **documented, never renumbered and never
+>    fake-filled** — a hallucinated canonical rule is worse than a missing one. Skipping
+>    from R126 to R130 is correct and expected.
+>
+> **Any citation outside R1–R126 / R130–R138 is a miscitation, not a rule** — treat it as a
+> STOP condition and raise it. Known example reconciled at Op 74: **R161 is a phantom**
+> (see the Reconciliation note at the head of §13). See `DECISION_LOG.md` (Op 74).
 
 **Reading convention.** Each rule carries: a one-line **headline**; a verbatim
 **operator quote** where the rule originated from an operator utterance (the operator's
@@ -760,6 +779,15 @@ These 20 rules are table-stakes at Stripe, Datadog, Linear, Vercel, and Cloudfla
 **Headline:** Instrumentation is not optional — every new endpoint emits the three core signals. **Why:** "you cannot improve what you do not instrument"; Datadog/Honeycomb treat RED metrics (Rate, Errors, Duration) as a hard floor. **How to comply (P1):** request-count counter, latency histogram, and error-class metric on every new user-facing endpoint; auditor verifies emission, not just declaration. **Failure mode:** a regression in a new endpoint is invisible until users complain.
 
 ### R86 — SLO defined for every user-facing path before merge
+
+> **Disambiguation (Op 74, 2026-07-27 — navigation metadata only; no rule body changed).**
+> The token "R86" appears in this file with **three different meanings**. Exactly one is canonical:
+> 1. **CANONICAL — R86 = this rule: SLO defined for every user-facing path before merge.** Any bare "R86" resolves here.
+> 2. **LEGACY LABEL, NOT THIS RULE — the LOC soft cap.** The pre-consolidation `operator-meta/R86_LOC_SOFT_CAP.md` became **R23** (see the redirect table in the Appendix). The strings `R86 EXCEPTION REQUESTED` and the `r86-exception-requested` tag survive **only** as the historical names of the **R23/R76** LOC-cap escape hatch, kept so existing PR bodies and CI tags stay valid. They do **not** refer to this SLO rule.
+> 3. **KNOWN TYPO — "R86 (PII)".** One occurrence in the R118 rationale reads "R86 (PII)". **PII is R98.** The rule body is left unedited (it is prose, not a normative clause); read that reference as **R98**.
+>
+> Cite **R23/R76** for the LOC cap, **R98** for PII, and **R86** only for SLOs. See `DECISION_LOG.md` (Op 74).
+
 **Headline:** Every user-facing path declares a p99 latency budget and an error budget before it merges. **Why:** an SLO is the contract for "good enough"; without it, performance regressions have no objective gate. **How to comply (P1):** SLO documented in the PR (p99 target + error budget) for any new user-facing path; tied to the R85 telemetry so the SLO is measurable. **Failure mode:** silent latency/error creep with no threshold that triggers action.
 
 ### R87 — Accessibility: WCAG 2.2 AA on every user-facing surface
@@ -1461,6 +1489,11 @@ them as table-stakes, not as nice-to-haves.
 ---
 
 ## §13 — FIRST-PRINCIPLES DOCTRINE (R130 – R137)
+
+> **Numbering + miscitation note (Op 74, 2026-07-27 — navigation metadata only; no rule body or operator quote changed).**
+> - **The jump from R126 to R130 is intentional and correct. R127, R128, and R129 do not exist and never have.** Per R5's lost-forever discipline the gap is documented, **never renumbered and never fake-filled**.
+> - **R138 follows this section** (added 2026-07-13). The canonical enumeration in force is **R1 → R126 and R130 → R138** — see the enumeration correction in the file header.
+> - **R161 is a PHANTOM — it does not exist and never has.** It is cited once, in `DECISION_LOG.md` (the 2026-07-16 Op-58 merge-runbook entry), as "permitted only for `wip/*` snapshot branches per R6/R161". The substance of that citation is fully and correctly carried by **R6** (checkpoint-driven foreground pushes), which mandates `git push --force-with-lease origin HEAD:wip/<lane>-snapshot` for builder/fixer snapshot branches. **Read that citation as R6 alone.** The historical DECISION_LOG prose is **retained, not rewritten** (R5/R132); Op 74 annotates it in place rather than editing the record. Per R-RULE-AUTHORITY-1 §4, encountering a cited rule number that does not exist is a **STOP condition to raise, never a licence to invent rule text**.
 
 Added 2026-06-30 by operator ruling. These rules encode the Musk "Algorithm" (question / delete / simplify / accelerate / automate) plus a measurement layer (Idiot Index, cycle-time ledger) and a constraint audit that separates real limits from self-imposed ones. They apply to code, rules, workflows, subagent dispatch chains, and this rules file itself. Rules R131 and R136 are the meta-doctrine: no rule in this document is exempt from being questioned.
 

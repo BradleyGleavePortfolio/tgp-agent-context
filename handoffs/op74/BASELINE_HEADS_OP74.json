@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0.0",
+  "doc_kind": "audited_baseline_head_pin",
+  "op_label": "Op 74",
+  "date": "2026-07-27",
+  "operator": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+  "purpose": "Pin the four audited baseline HEADs that Op 74 reconciles against. Every Op-74 governance statement is true as of these exact SHAs and no others. Drift off any pin is an INFRA_DEATH signal per R124 - re-verify before acting.",
+  "verification_method": "Each SHA independently fetched from the GitHub REST API at Op-74 execution time and compared against that repository's live default branch. Verified fields: sha, author name/email, committer name/email, committer date, parents, subject line. No SHA below is transcribed from a prior Op record without live re-verification.",
+  "verified_at_utc": "2026-07-27T00:00:00Z",
+  "drift_policy": "If any recorded SHA later differs from GitHub live state, treat as INFRA_DEATH per R124 and re-verify before acting. NO history rewrite. NO force-push over shared main.",
+  "repos": {
+    "context": {
+      "full_name": "BradleyGleavePortfolio/tgp-agent-context",
+      "head": "9c25a06736867d613622e19beca4f71fb42c62db",
+      "head_short": "9c25a06",
+      "parent": "ed5729af3ec117d1e671302d5d3ce5120c8ec1e2",
+      "subject": "docs(reconcile): Op-73 newest-wins reconciliation + R138 BUILD-SMALLER scope for role-gated importer onboarding",
+      "committer_date_utc": "2026-07-23T01:26:37Z",
+      "author": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "committer": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "r3_identity": "CLEAN",
+      "live_main_match": true,
+      "note": "This is the Op-73 reconcile tip and the parent of the Op-74 branch. Op 73 recorded context head 'ed5729a', which was its own PARENT - the Op-73 entry could not record its own commit SHA. Op 74 pins the actual Op-73 tip."
+    },
+    "backend": {
+      "full_name": "BradleyGleavePortfolio/growth-project-backend",
+      "head": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+      "head_short": "5076a07",
+      "parent": "07ff974079eb1da02f1de4f5ecd18c1f223afeae",
+      "subject": "feat(dunning-v2): enforce Day-10 lockout via global guard mount, scoped to /roman/*",
+      "committer_date_utc": "2026-07-23T01:26:39Z",
+      "author": "BradleyGleavePortfolio <264851314+BradleyGleavePortfolio@users.noreply.github.com>",
+      "committer": "BradleyGleavePortfolio <264851314+BradleyGleavePortfolio@users.noreply.github.com>",
+      "r3_identity": "VIOLATION - see R3-INC-4",
+      "live_main_match": true,
+      "advances_past_op73": true,
+      "note": "Backend advanced ONE commit past the Op-73 recorded head 07ff974. This commit mounts the Dunning V2 Day-10 lockout guard and therefore closes the FIRST of the six A03 gaps recorded at Op 73. It is a product-code landing, so it is R14-bound; Op 74 records it, does NOT certify it, and does NOT claim A03 complete.",
+      "diffstat": { "files": 4, "additions": 395, "deletions": 48 },
+      "files_changed": [
+        "src/app.module.ts",
+        "src/checkout/dunning-v2/dunning-lockout.guard.ts",
+        "test/dunning-v2-lockout-guard.e2e.spec.ts",
+        "test/dunning-v2-lockout-guard.spec.ts"
+      ],
+      "ci_at_head": {
+        "green": [
+          "build-and-test",
+          "CodeQL JS/TS (javascript-typescript)",
+          "Deploy app",
+          "mwb-3-live-tests",
+          "rls-floor-guard",
+          "rls-live-tests"
+        ],
+        "red_preexisting_diff_independent": ["build-sbom", "release-please"],
+        "red_product_regressions": [],
+        "note": "build-sbom and release-please were already RED on prior heads (recorded at Op 71 and Op 72) and are quarantined in a separate infra lane. They are NOT product regressions introduced by this commit."
+      },
+      "open_blockers": [
+        "R3-INC-4: author and committer are 'BradleyGleavePortfolio <264851314+BradleyGleavePortfolio@users.noreply.github.com>', NOT 'Bradley Gleave <bradley@bradleytgpcoaching.com>'. Hard R3 violation on the commit envelope.",
+        "No associated pull request found via the GitHub commits/pulls API, so no R14 dual-lens audit trail and no R138 Decision Record are discoverable for this landing."
+      ]
+    },
+    "mobile": {
+      "full_name": "BradleyGleavePortfolio/growth-project-mobile",
+      "head": "a5933fd6de5616493de75f0db907098b149b955c",
+      "head_short": "a5933fd",
+      "parent": "e3a824f335ef75934fe860165ffc9c41a7b7956b",
+      "subject": "feat(import): honest per-family reconstruct counts in paired panel (PR-M4)",
+      "committer_date_utc": "2026-07-20T23:03:59Z",
+      "author": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "committer": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "r3_identity": "CLEAN",
+      "live_main_match": true,
+      "advances_past_op73": false,
+      "note": "Unchanged since Op 67 (PR-M4). Matches the Op-73 record exactly."
+    },
+    "extension": {
+      "full_name": "BradleyGleavePortfolio/tgp-importer-extension",
+      "head": "95be0222df3d47d787566743c8781005d8fbec69",
+      "head_short": "95be022",
+      "parent": "4f116836ddb5449524dd51e995a7e4c012f79493",
+      "subject": "test(conformance): add structurally-independent conformance_alpha adapter (V5 PR-2b)",
+      "committer_date_utc": "2026-07-21T01:46:24Z",
+      "author": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "committer": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "r3_identity": "CLEAN",
+      "live_main_match": true,
+      "advances_past_op73": false,
+      "note": "Unchanged since Op 70 (V5 PR-2b), the first R3-clean extension landing. Matches the Op-73 record exactly."
+    }
+  },
+  "summary": {
+    "pins_verified": 4,
+    "pins_matching_live_main": 4,
+    "pins_r3_clean": 3,
+    "pins_with_open_r3_violation": 1,
+    "repos_advanced_past_op73": ["backend"],
+    "repos_unchanged_since_op73": ["mobile", "extension"]
+  },
+  "claims_explicitly_not_made": [
+    "No claim that the backend dunning lockout landing was dual-lens audited per R14.",
+    "No claim that A03 re-engagement/dunning is complete - one of six recorded gaps is closed.",
+    "No claim that any feature flag was flipped or that any live-account proof exists.",
+    "No claim that branch protection or production secrets are wired on any repo.",
+    "No claim that the importer has been proven against a real source account."
+  ]
+}
