@@ -88,7 +88,7 @@ C="$(git show -s --format='%cn <%ce>' "$SHA")"
 
 # --- 2. Message hygiene: zero AI / agent / co-author tokens ---
 if git show -s --format='%B' "$SHA" \
-   | grep -Eiq 'co-authored-by|claude|anthropic|\bAI\b|generated with|assistant'; then
+   | grep -Eiq 'co-authored-by|claude|anthropic|\bAI\b|\bagent\b|generated with|assistant'; then
   echo "R3 FAIL: forbidden token in commit message" >&2; exit 1
 fi
 

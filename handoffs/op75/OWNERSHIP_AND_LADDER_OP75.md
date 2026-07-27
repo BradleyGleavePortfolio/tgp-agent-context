@@ -98,9 +98,9 @@ rung definitions live in Op-74 §3.
 
 | Finding | Sev | Rung | Executable now? |
 |---|---|---|---|
-| A P1-1 — four routes reachable while locked out | P1 | **DUN-1** | yes |
-| A P2-1 — mounted-route table contradicts the commit message | P2 | **DUN-1** | yes |
-| A P2-2 — no durable lockout transition record | P2 | **DUN-4** | yes |
+| A P1-1 — **two** unintended routes reachable while locked out (`scheduling/auth/google/initiate`, `scheduling/auth/google/callback`) | P1 | **DUN-1** | yes |
+| A P2-1 — `billing` carve-out misses `v1/coach/me/billing`; the two `coach/billing/*` routes are reachable **by design** | P2 | **DUN-1** | yes |
+| A P2-2 — `status: 'active'` narrows the lockout read; a free-text `status` silently un-locks (state machine) | P2 | **DUN-1** | yes |
 | A P2-3 — `locked_out_at` unindexed on a hot path | P2 | **DUN-1** (index) / **DUN-4** (SLO) | yes |
 | A P3-1 — two dead recovery prefixes | P3 | **DUN-3** | yes |
 | A P3-2 — `lockout_copy` discarded by the error envelope | P3 | **§3 ownership decision first** | **no** |
@@ -113,6 +113,16 @@ rung definitions live in Op-74 §3.
 
 **No finding blocks the W-IMP ladder.** All are preconditions of **Gate B**, not of `I1`.
 `FEATURE_DUNNING_V2` remains default-OFF, so none is live.
+
+> **Correction, second remediation pass (R5/R132 — prior wording preserved here, not deleted).**
+> The `A P2-2` row previously read *"no durable lockout transition record | P2 | **DUN-4**"*. That
+> is **Lens B P2-2**, listed on its own row above. Lens A P2-2 is the free-text `status` lockout-read
+> defect and belongs to **`DUN-1`**, because `DUN-4` cannot change a Prisma predicate or add a
+> schema constraint. The `A P1-1` row previously read *"four routes reachable while locked out"*;
+> only **two** are unintended (see the canonical finding text in
+> [`P0-AUDIT-A-5076a07a.md`](../audit-reports/P0-AUDIT-A-5076a07a.md)).
+> This file is a **routing index, not canonical**: finding text is canonical in the two audit
+> reports; rung definitions are canonical in [Op-74 §3](../op74/OWNERSHIP_AND_PR_LADDER.md).
 
 ## §6 — What Op 75 does not change
 

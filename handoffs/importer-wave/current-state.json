@@ -298,7 +298,7 @@
           "p3": 4
         },
         "r14_clean": false,
-        "r14_clean_note": "R14's CLEAN bar is 0 P0-P3. It is NOT met and is NOT claimed. Two of the three P1s ARE blockers B1 and B2 - the audit's own subject matter, not new defects. The third (Lens A P1-1, four routes reachable while locked out) is routed to DUN-1.",
+        "r14_clean_note": "R14's CLEAN bar is 0 P0-P3. It is NOT met and is NOT claimed. Two of the three P1s ARE blockers B1 and B2 - the audit's own subject matter, not new defects. The third (Lens A P1-1, TWO unintended routes reachable while locked out) is routed to DUN-1.",
         "r138_decision_record": "Retroactively reconstructed in Lens B (four-question gate) because none existed at landing time.",
         "r124_build_matrix": {
           "backend_head": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
@@ -337,10 +337,15 @@
         "mounted_routes_corrected": {
           "unintentionally_reachable_when_locked_out": [
             "scheduling/auth/google/initiate",
-            "scheduling/auth/google/callback",
+            "scheduling/auth/google/callback"
+          ],
+          "unintentionally_reachable_count": 2,
+          "reachable_by_design_via_intended_billing_prefix": [
             "coach/billing/status",
             "coach/billing/portal-session"
           ],
+          "reachable_by_design_note": "These two are matched by the INTENDED billing prefix in ALLOWED_PREFIXES; they are a deliberate recovery carve-out, not a bypass. The defect Lens A P2-1 records is the ASYMMETRY: v1/coach/me/billing is LOCKED while coach/billing/* is reachable. Canonical text: handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:152.",
+          "unintentionally_reachable_stale_op75_first_pass": "Earlier passes listed FOUR routes here, folding the two by-design billing routes into the unintended set and overstating the P1 blast radius by 2x. Only the two scheduling/auth/google/* routes are unintended. Canonical text: handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:102.",
           "correctly_locked": [
             "coach/me/billing",
             "coach/me/billing/portal-session"
@@ -2140,7 +2145,7 @@
       {
         "id": "LENS-A P1-1",
         "sev": "P1",
-        "summary": "ALLOWED_PREFIXES second-segment clause (dunning-lockout.guard.ts:163) makes four routes reachable while locked out: scheduling/auth/google/initiate, scheduling/auth/google/callback, coach/billing/status, coach/billing/portal-session.",
+        "summary": "ALLOWED_PREFIXES second-segment clause (dunning-lockout.guard.ts:163) makes TWO UNINTENDED routes reachable while locked out: scheduling/auth/google/initiate and scheduling/auth/google/callback. coach/billing/status and coach/billing/portal-session are also reachable but BY DESIGN via the intended billing recovery prefix; their asymmetry with the LOCKED v1/coach/me/billing is Lens A P2-1, a P2, not part of this P1.", "summary_stale_op75_first_pass": "Earlier wording listed all FOUR routes as the P1, overstating the unintended blast radius 2x.",
         "route_to": "DUN-1",
         "executable_now": true,
         "repaired_by_op75": false
@@ -2156,8 +2161,11 @@
       {
         "id": "LENS-A P2-2",
         "sev": "P2",
-        "summary": "The lockout decision leaves no durable transition record.",
-        "route_to": "DUN-4",
+        "summary": "status: 'active' narrows the lockout read: findFirst({ where: { ..., status: 'active' } }) at dunning-lockout.guard.ts:127-140 against status String @default(\"active\") with no enum or CHECK at prisma/schema.prisma:3785, so any other string silently un-locks a client whose locked_out_at is still populated - a billing/entitlement STATE MACHINE defect.",
+        "summary_stale_op75_first_pass": "'The lockout decision leaves no durable transition record.' routed to DUN-4 - that is LENS-B P2-2, recorded separately in this same array. DUN-4 cannot change a Prisma predicate or add a schema constraint, so the prior routing was UNEXECUTABLE.",
+        "route_to_stale_op75_first_pass": "DUN-4",
+        "canonical_text": "handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:183",
+        "route_to": "DUN-1",
         "executable_now": true,
         "repaired_by_op75": false
       },
@@ -2363,6 +2371,15 @@
         "note": "Unchanged since Op 70. Not touched by Op 75."
       },
       "drift": "NONE on any pin. No INFRA_DEATH.",
+        "canonicity": "NON-CANONICAL MIRROR of the R124 BUILD MATRIX. The single canonical matrix is the six-line block reproduced verbatim identically at the top of handoffs/audit-reports/P0-AUDIT-A-5076a07a.md and handoffs/audit-reports/P0-AUDIT-B-5076a07a.md. If this block disagrees with those, THE REPORTS WIN and this copy is the defect. No mirror introduces an independent value.",
+        "sha_role_labels": {
+          "5076a07a1e54b14e3db84d3aa128fb0bb44542d7": "AUDITED BACKEND TARGET",
+          "5c2f0057cd0ba4f5cba3b2dd2e6e718927549650": "PRIOR REVIEW INPUT (audit-execution SHA) - a prior tip, not the current branch tip",
+          "6871b5bfb059977ffb3ecaa54dfa7035436fd165": "REMEDIATED CONTENT INPUT (first-remediation tip; parent of the second-remediation commit) - also a prior tip",
+          "b76d0962de53ce494fa8f869a706ff0c15aee0b6": "PR #28 BASE - stable across remediation passes",
+          "current_branch_tip": "NOT RECORDED HERE BY CONSTRUCTION - see self_reference_constraint"
+        },
+        "self_reference_constraint": "An immutable committed file cannot contain the SHA of the commit that contains it; the SHA hashes a tree that includes this file. Every SHA here is the stable BASE or a PRIOR TIP. The exact current head, parent and tree are attested in the PR #28 BODY - mutable metadata that does not alter any git SHA - and verified with `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .head.sha` against `git rev-parse HEAD` and `git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a`.",
       "pin_file": "handoffs/op75/BASELINE_HEADS_OP75.json"
     },
     "reconciliations_performed": [

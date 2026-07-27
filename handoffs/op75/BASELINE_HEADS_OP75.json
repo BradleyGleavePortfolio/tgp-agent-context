@@ -9,7 +9,18 @@
   "verified_at_utc": "2026-07-27T21:30:00Z",
   "drift_policy": "If any recorded SHA later differs from GitHub live state, treat as INFRA_DEATH per R124 and re-verify before acting. NO history rewrite. NO force-push over shared main.",
   "build_matrix_r124": {
-    "note": "This is the canonical six-line R124 BUILD MATRIX for Op 75, reproduced verbatim at the top of BOTH audit reports.",
+    "canonicity": "NON-CANONICAL MIRROR",
+    "note": "This block MIRRORS the single canonical R124 BUILD MATRIX for Op 75, which is the six-line block reproduced VERBATIM IDENTICALLY at the top of both audit reports (handoffs/audit-reports/P0-AUDIT-A-5076a07a.md and handoffs/audit-reports/P0-AUDIT-B-5076a07a.md). Those two reports are the canonical artifact family. If this block ever disagrees with them, THE REPORTS WIN and this copy is the defect. Prior wording called this block itself canonical; that created two competing canonical surfaces (R5/R132: superseded wording named, not deleted).",
+    "canonical_source": ["handoffs/audit-reports/P0-AUDIT-A-5076a07a.md", "handoffs/audit-reports/P0-AUDIT-B-5076a07a.md"],
+    "note_stale_op75_first_pass": "This is the canonical six-line R124 BUILD MATRIX for Op 75, reproduced verbatim at the top of BOTH audit reports.",
+    "sha_role_labels": {
+      "5076a07a1e54b14e3db84d3aa128fb0bb44542d7": "AUDITED BACKEND TARGET - the subject of the P0-AUDIT rung. Immutable; still live backend main.",
+      "5c2f0057cd0ba4f5cba3b2dd2e6e718927549650": "PRIOR REVIEW INPUT - the exact ctxrepo head both independent reviews of the audit reports examined. A prior tip, not the current branch tip.",
+      "6871b5bfb059977ffb3ecaa54dfa7035436fd165": "REMEDIATED CONTENT INPUT - the first-remediation-pass tip, and the parent of the second-remediation commit. Also a prior tip, not the current branch tip.",
+      "b76d0962de53ce494fa8f869a706ff0c15aee0b6": "PR #28 BASE - live default branch; stable across all remediation passes.",
+      "current_branch_tip": "NOT RECORDED IN THIS FILE BY CONSTRUCTION. See self_reference_constraint."
+    },
+    "self_reference_constraint": "An immutable committed file cannot contain the SHA of the commit that contains it: the SHA is a hash over a tree that includes this file, so writing the value in would change it. Therefore every SHA in this file is either the stable BASE or a PRIOR TIP. The exact current head, its parent and its tree are attested in the PR #28 BODY, which is mutable metadata and does not alter any git SHA. Reviewers verify the live tip with `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .head.sha` cross-checked against `git rev-parse HEAD` and `git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a`. No in-file claim to pin the current head is made, because any such claim would be false by construction.",
     "backend_head": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
     "ctxrepo_head": "5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
     "pr_28_head": "5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
@@ -23,16 +34,26 @@
         "match": true
       },
       {
-        "value": "ctxrepo HEAD / PR #28 head",
-        "gh_api": "gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .head.sha => 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
-        "local": "git rev-parse HEAD => 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650; git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a => same",
-        "match": true
+        "value": "ctxrepo PRIOR TIP (audit-execution SHA / prior review input)",
+        "sha": "5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
+        "role": "PRIOR REVIEW INPUT - not the current PR #28 head",
+        "gh_api_at_capture": "gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .head.sha => 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
+        "local_at_capture": "git rev-parse HEAD => 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650",
+        "captured_at_utc": "2026-07-27T21:30:00Z",
+        "match_at_capture": true,
+        "match_now": "NOT ASSERTED - the branch head has advanced by remediation commits and these commands no longer return this value. Re-running them is EXPECTED to differ; that is fix-forward, not drift.",
+        "still_verifiable_as": "git cat-file -e 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650 (the commit remains reachable as an ancestor of the branch tip: git merge-base --is-ancestor 5c2f0057 HEAD)",
+        "current_head_attested_in": "PR #28 body - see self_reference_constraint above",
+        "match_stale_op75_first_pass": "This row previously asserted a bare \"match\": true on live-API output, which stopped being true the moment the branch advanced."
       },
       {
-        "value": "PR #28 base",
+        "value": "PR #28 base (live main)",
+        "sha": "b76d0962de53ce494fa8f869a706ff0c15aee0b6",
+        "role": "PR #28 BASE - stable across remediation passes; only the head advances",
         "gh_api": "gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .base.sha => b76d0962de53ce494fa8f869a706ff0c15aee0b6",
-        "local": "git rev-parse HEAD^ => b76d0962de53ce494fa8f869a706ff0c15aee0b6; git ls-remote origin refs/heads/main => same",
-        "match": true
+        "local": "git ls-remote origin refs/heads/main => b76d0962de53ce494fa8f869a706ff0c15aee0b6",
+        "match": true,
+        "note": "`git rev-parse HEAD^` equalled this value only while the branch had exactly one commit. After the remediation commits it does not; the base is now reached via `git merge-base HEAD origin/main`. Prior wording cited HEAD^ unconditionally (R5/R132)."
       }
     ]
   },
@@ -124,10 +145,15 @@
         "supersedes": "First-draft route names 'scheduling/auth/google/connect', bare 'coach/billing' and 'coach/me/billing'. Corrected from the @Controller/@Get/@Post decorators at this head.",
         "unintentionally_reachable_when_locked_out": [
           "scheduling/auth/google/initiate",
-          "scheduling/auth/google/callback",
+          "scheduling/auth/google/callback"
+        ],
+        "unintentionally_reachable_count": 2,
+        "reachable_by_design_via_intended_billing_prefix": [
           "coach/billing/status",
           "coach/billing/portal-session"
         ],
+        "reachable_by_design_note": "These two are matched by the INTENDED billing prefix in ALLOWED_PREFIXES; they are a deliberate recovery carve-out, not a bypass. The defect Lens A P2-1 records is the ASYMMETRY: v1/coach/me/billing is LOCKED while coach/billing/* is reachable. Canonical text: handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:152.",
+        "unintentionally_reachable_stale_op75_first_pass": "Earlier passes listed FOUR routes here, folding the two by-design billing routes into the unintended set and overstating the P1 blast radius by 2x. Only the two scheduling/auth/google/* routes are unintended. Canonical text: handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:102.",
         "correctly_locked": [
           "coach/me/billing",
           "coach/me/billing/portal-session"
@@ -219,9 +245,9 @@
       "verdict_line_position": "true final line of the file (R78/R16 - exactly one VERDICT line per report)",
       "build_matrix_at_top": true,
       "findings": [
-        { "id": "P1-1", "summary": "ALLOWED_PREFIXES second-segment clause makes four routes reachable while locked out", "route_to": "DUN-1", "executable_now": true },
-        { "id": "P2-1", "summary": "Mounted-route table contradicts the commit message's implied lock surface", "route_to": "DUN-1", "executable_now": true },
-        { "id": "P2-2", "summary": "Lockout decision has no durable transition record", "route_to": "DUN-4", "executable_now": true },
+        { "id": "P1-1", "summary": "ALLOWED_PREFIXES second-segment clause makes TWO unintended routes reachable while locked out: /api/scheduling/auth/google/initiate and /api/scheduling/auth/google/callback", "unintended_reachable_count": 2, "route_to": "DUN-1", "executable_now": true },
+        { "id": "P2-1", "summary": "The billing carve-out does not cover v1/coach/me/billing (LOCKED) while it does cover coach/billing/status and coach/billing/portal-session (REACHABLE BY DESIGN via the intended billing prefix) - an asymmetric lock surface, not a bypass", "route_to": "DUN-1", "executable_now": true },
+        { "id": "P2-2", "summary": "status: 'active' narrows the lockout read - findFirst({ where: { ..., status: 'active' } }) at dunning-lockout.guard.ts:127-140 against status String @default(\"active\") with no enum or CHECK at prisma/schema.prisma:3785, so any other string silently un-locks a client whose locked_out_at is still populated; a billing/entitlement STATE MACHINE defect", "route_to": "DUN-1", "executable_now": true, "correction_op75_second_pass": "Previously recorded as 'Lockout decision has no durable transition record' routed to DUN-4. That is LENS-B P2-2, recorded separately below. DUN-4 (declared p99 + error budget, AuditEvent per transition, funnel metrics) cannot change a Prisma predicate or add a schema constraint, so the prior routing was UNEXECUTABLE. Canonical finding text: handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:183.", "route_to_stale_op75_first_pass": "DUN-4" },
         { "id": "P2-3", "summary": "DunningState.locked_out_at unindexed on a per-request hot path", "route_to": "DUN-1 (index) / DUN-4 (SLO)", "executable_now": true },
         { "id": "P3-1", "summary": "Two ALLOWED_PREFIXES recovery entries are dead", "route_to": "DUN-3", "executable_now": true },
         { "id": "P3-2", "summary": "lockout_copy computed on every 403 then discarded by the error envelope at src/filters/not-found-envelope.ts:12-38 (+ src/filters/http-exception.filter.ts)", "route_to": "OWNERSHIP DECISION FIRST - src/filters/** is on NEITHER workstream's OWNS nor MUST-NOT-TOUCH list; then an authorized BACKEND rung; DUN-9 consumes only", "executable_now": false, "blocked_on": "Op-74 section 1 ownership assignment" }
@@ -267,7 +293,7 @@
     "canonical_source": "handoffs/op74/OWNERSHIP_AND_PR_LADDER.md section 8",
     "B1": { "sev": "P1", "state_at_op75": "OPEN BY DESIGN - recorded and reclassified" },
     "B2": { "sev": "P1", "state_at_op75": "OPEN until PR #28 lands; remedy drafted" },
-    "B3": { "sev": "P1", "state_at_op75": "OPEN - ops track" },
+    "B3": { "sev": "P1", "sev_note": "B3 is a P1 as a STANDING BLOCKER (an unprotected default branch on a money-path repo is a P1 governance exposure). Lens B records it as finding P3-2 - a P3 - because within the scope of THIS audit it is an ops-track observation about repo configuration, not a defect in the audited commit. The two severities are on different axes and do not contradict: blocker severity = standing exposure; finding severity = weight inside this audit. Both are correct as written.", "finding_sev_in_lens_b": "P3", "state_at_op75": "OPEN - ops track" },
     "B4": { "sev": "P2", "state_at_op75": "OPEN - quarantined, never folded into a product PR" },
     "B5": { "sev": "P2", "state_at_op75": "OPEN - unchanged" },
     "B6": { "sev": "P3", "state_at_op75": "PERMANENT - R127-R129 gap, never renumbered (R5)" }

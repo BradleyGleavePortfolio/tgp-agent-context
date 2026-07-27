@@ -12,7 +12,7 @@
     "op_label": "Op 75",
     "date": "2026-07-27",
     "rung": "P0-AUDIT",
-    "read_this_first": "Five statements in this file are corrected by Op 75. The stale wording is PRESERVED VERBATIM in place (R5/R132 newest-wins) and the corrections are recorded additively at `repos.backend.op75_corrections`. Nothing here is edited or deleted. Most important: `repos.backend.open_blockers[1]` ('No associated pull request found ...') infers absence from one endpoint's silence - PR #520 EXISTS but the landing BYPASSED it. B2's substance survives unchanged.",
+    "read_this_first": "Three statements in this file are CORRECTED by Op 75 (OP75-C1, OP75-C2, OP75-C3) and two facts are ADDED that supersede nothing (OP75-C4, OP75-C5, each carrying \"supersedes\": \"nothing; ADDITIVE\"). Prior wording said \"Five statements ... are corrected\", which mislabelled the two additions as corrections (R5/R132: superseded wording named, not deleted). The stale wording is PRESERVED VERBATIM in place (R5/R132 newest-wins) and the corrections are recorded additively at `repos.backend.op75_corrections`. Nothing here is edited or deleted. Most important: `repos.backend.open_blockers[1]` ('No associated pull request found ...') infers absence from one endpoint's silence - PR #520 EXISTS but the landing BYPASSED it. B2's substance survives unchanged.",
     "corrections_at": "repos.backend.op75_corrections",
     "correction_ids": ["OP75-C1", "OP75-C2", "OP75-C3", "OP75-C4", "OP75-C5"],
     "forward_pointer": "handoffs/op75/BASELINE_HEADS_OP75.json",

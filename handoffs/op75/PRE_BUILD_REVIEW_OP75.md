@@ -7,6 +7,15 @@
 - PR #28 base (origin/main): `b76d0962de53ce494fa8f869a706ff0c15aee0b6`
 - timestamp (ISO 8601 UTC): `2026-07-27T21:30:00Z`
 
+> **This matrix is a NON-CANONICAL MIRROR.** The single canonical R124 BUILD MATRIX for Op 75 is the
+> six-line block reproduced **verbatim identically** at the top of both audit reports —
+> [`P0-AUDIT-A-5076a07a.md`](../audit-reports/P0-AUDIT-A-5076a07a.md) and
+> [`P0-AUDIT-B-5076a07a.md`](../audit-reports/P0-AUDIT-B-5076a07a.md). If this block ever disagrees
+> with those, **the reports win** and this copy is the defect. `ctxrepo HEAD` / `PR #28 head`
+> `5c2f0057` is the **audit-execution SHA** — the exact head both independent reviews examined and
+> the parent lineage this remediation is authored against. It is **not** the SHA of the commit that
+> carries this file, and no post-landing SHA is claimed here (see §9).
+
 - **Op:** 75 · **Date:** 2026-07-27 · **Operator:** Bradley Gleave \<bradley@bradleytgpcoaching.com\>
 - **Status:** ACTIVE — governance / audit evidence only. **Authorizes no build, no landing, no flag
   flip, no completion claim.** 0 production LOC.
@@ -61,6 +70,34 @@ any history, or open a new rung.
 
 ---
 
+## §2a — R138 four-question decision gate
+
+Duplicated here in full so this narrative is **self-contained** — a reader should not have to open a
+70-key JSON file to find out whether the gate was answered. **Canonical machine-readable location:**
+[`handoffs/importer-wave/current-state.json`](../importer-wave/current-state.json) →
+`decision_record_op75_p0_audit_discharge_2026_07_27.r138_four_question_gate`. If the two ever
+disagree, **the JSON wins** and this copy is the defect.
+
+**Q1 — What is the smallest change that delivers the value?**
+Execute exactly one ladder rung: the retroactive adversarial dual-lens R14 audit of backend 5076a07a, plus the minimum record surfaces the rung needs to be discoverable and reproducible - two audit reports, one baseline pin file, one reconciliation review, one ownership/ladder pointer (delta only, no canonical text duplicated), one preventive identity gate, and the two standing mirrors (current-state.json, DECISION_LOG.md). No rung is dispatched, no finding is repaired, no production file is touched. 0 production LOC.
+
+**Q2 — What could this break?**
+Nothing executable. Every changed path is a docs/JSON governance record. The real risks are INFORMATIONAL and were mitigated explicitly: (a) a reader concluding B2 is closed when it is not - mitigated by making every B2 statement conditional on landing, in all four surfaces; (b) a reader concluding the audit is R14 CLEAN - mitigated by stating combined 0 P0 / 3 P1 / 5 P2 / 4 P3 and 'CLEAN not met, not claimed' everywhere; (c) silently overwriting Op-74 history - mitigated by R5/R132 preservation: every stale string is retained in place or under a *_stale_op74 / *_prior_op74 key, and the historical Op-74 record blocks are retained byte-for-byte; (d) a finding routed to a rung that cannot execute it - the DUN-9 misrouting was found and corrected.
+
+**Q3 — Is it reversible?**
+Yes, completely: `git revert` of the single Op-75 landing commit. No migration, no schema, no workflow, no flag, no production code. Reverting does not reopen a repaired defect - it REMOVES EVIDENCE, so B2 would revert to OPEN and rung I1 would re-block. That is the correct consequence, not a bug. Backend history is untouched in both directions.
+
+**Q4 — What evidence proves it works?**
+Starting head verified before editing: git rev-parse HEAD == git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a == gh api .../pulls/28 --jq .head.sha == 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650. Parentage verified on live main: git rev-parse HEAD^ == git ls-remote origin refs/heads/main == gh api .../pulls/28 --jq .base.sha == b76d0962de53ce494fa8f869a706ff0c15aee0b6. All four repo heads verified BOTH WAYS with tree, parent and identity; no drift, no INFRA_DEATH. Backend budgets recomputed from the commits API rather than the shallow worktree: 56 prod LOC, 6.05:1, R75 net 0 across src/+test/. Test totals recounted case by case: 37 + 10 = 47. Route names re-read from the @Controller/@Get/@Post decorators. PR #520 state fetched field by field. All three JSON artifacts parse. Every relative cross-link resolves. Every rule citation falls inside R1-R126 / R130-R138 with zero R127-R129 citations. Exactly one VERDICT line per audit report, on its true final line.
+
+> **On Q4's SHA evidence.** The head equality in Q4 (`… == 5c2f0057…`) was true **at
+> audit-execution time**, which is what an R138 gate records: the state the decision was made
+> against. It is **not** a claim about the current branch tip — the branch has since advanced by
+> remediation commits, and no committed artifact can name the tip that carries it (see §9). The
+> live tip is attested in the **PR #28 body**.
+
+---
+
 ## §3 — Audit outcome and the R14 bar
 
 | Lens | P0 | P1 | P2 | P3 |
@@ -71,7 +108,12 @@ any history, or open a new rung.
 
 **R14 CLEAN is 0 P0–P3. That bar is NOT met and is NOT claimed.** Two of the three P1s *are*
 blockers B1 and B2 — i.e. the audit's own subject matter, not new defects. The third (Lens A P1-1,
-four routes reachable while locked out) is routed to `DUN-1`.
+**two** unintended routes reachable while locked out — `/api/scheduling/auth/google/initiate` and
+`/api/scheduling/auth/google/callback`) is routed to `DUN-1`. The two `coach/billing/*` routes are
+also reachable under lockout but **by design**, via the intended `billing` recovery prefix; their
+asymmetry with the LOCKED `v1/coach/me/billing` is **Lens A P2-1**, a P2. Earlier Op-75 wording
+counted all four as the P1 and overstated the unintended blast radius twofold (R5/R132: prior
+wording named here, not deleted).
 
 The most dangerous properties of the audited commit **do** hold, and were verified rather than
 assumed: flag-OFF hard no-op (`dunning-lockout.guard.ts:80`), unauthenticated passthrough
@@ -197,7 +239,7 @@ own **R138** gate per §5 stop condition 2.
 
 | Artifact | Rollback |
 |---|---|
-| Every Op-75 file | `git revert` of the single landing commit. All eight touched paths are docs / JSON governance records. |
+| Every Op-75 file | `git revert` of the single landing commit. All **nine** touched paths are docs / JSON governance records. |
 | Production behaviour | **None to roll back.** 0 production LOC; no code, schema, migration, workflow or flag touched. |
 | `FEATURE_DUNNING_V2` | **Untouched, default-OFF.** Not flipped, not registered, not defaulted anywhere by this Op. |
 | Backend history | **Untouched.** No force-push, no rebase, no amend. |
@@ -211,8 +253,8 @@ OPEN**, and `I1` would re-block. That is the correct consequence, not a bug.
 
 | Check | Result |
 |---|---|
-| Starting head matches the assigned SHA | ✅ `git rev-parse HEAD` = `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650`; `git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a` = same |
-| PR parentage still on live `main` | ✅ `git rev-parse HEAD^` = `b76d0962de53ce494fa8f869a706ff0c15aee0b6` = `git ls-remote origin refs/heads/main` = `gh api …/pulls/28 --jq .base.sha` |
+| Starting head matched the assigned SHA **at audit-execution time** | ✅ `git rev-parse HEAD` = `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650` — true when this review was written. **This row is historical and does NOT describe the current branch tip;** see the self-reference note below. |
+| PR base still on live `main` | ✅ `b76d0962de53ce494fa8f869a706ff0c15aee0b6` = `git ls-remote origin refs/heads/main` = `gh api …/pulls/28 --jq .base.sha`, re-verified each pass. The **base** is stable across remediation passes; only the head advances. |
 | All four repo heads verified **both ways** | ✅ `gh api` vs `git ls-remote` / `git rev-parse`; see [`BASELINE_HEADS_OP75.json`](BASELINE_HEADS_OP75.json) `build_matrix_r124.both_ways_evidence` |
 | No drift on any pin | ✅ no INFRA_DEATH |
 | JSON artifacts parse | ✅ `BASELINE_HEADS_OP75.json`, `BASELINE_HEADS_OP74.json`, `current-state.json` |
@@ -220,12 +262,26 @@ OPEN**, and `I1` would re-block. That is the correct consequence, not a bug.
 | Rule numbering valid | ✅ all citations inside `R1–R126` / `R130–R138`; zero `R127`–`R129` citations |
 | Exactly one `VERDICT:` line per audit report, on the true final line | ✅ both (R78/R16) |
 | Commit identity | ✅ author == committer == `Bradley Gleave <bradley@bradleytgpcoaching.com>`; 0 AI / agent / `Co-Authored-By` tokens |
-| Diff is intentional | ✅ eight paths, all governance/docs/evidence; **0 production LOC** |
+| Diff is intentional | ✅ **nine** paths, all governance/docs/evidence; **0 production LOC** |
 | No flag activation | ✅ `FEATURE_DUNNING_V2` untouched and default-OFF |
+
+> **Self-reference constraint — why no row here pins the current head.** An immutable committed file
+> cannot contain the SHA of the commit that contains it: the SHA is a hash over the tree that
+> includes this file, so writing it in would change it. Every SHA above is therefore either the
+> **base** (`b76d0962`, stable) or a **prior tip** (`5c2f0057`, the audit-execution input;
+> `6871b5bf`, the first-remediation content input). Neither is the tip after this pass.
+> **The exact current head, its parent, and its tree are attested in the PR #28 body**, which is
+> mutable metadata and does not alter any git SHA. Reviewers verify the live tip with
+> `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq '.head.sha'` cross-checked
+> against `git rev-parse HEAD` / `git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a`.
+> Any in-file claim to pin the current head would be false by construction, so none is made.
+> *(Prior passes asserted `match: true` on rows quoting live API output; those assertions were true
+> only at the moment of capture and are restated above as historical. R5/R132: superseded wording is
+> marked, not deleted.)*
 
 ---
 
 *Author: Bradley Gleave \<bradley@bradleytgpcoaching.com\> (R3). Governance and audit evidence
 only; 0 production LOC.*
 
-VERDICT: RECONCILED — `P0-AUDIT` evidence produced and routed; **B2 closes on landing, not before**; B1 recorded and reclassified, open by design; 0 P0 across both lenses, R14 CLEAN not met and not claimed.
+VERDICT: FINDINGS — `P0-AUDIT` evidence produced and routed; **B2 closes on landing, not before**; B1 recorded and reclassified, open by design; 0 P0 across both lenses, R14 CLEAN not met and not claimed.

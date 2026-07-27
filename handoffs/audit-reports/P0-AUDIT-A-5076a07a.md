@@ -7,6 +7,35 @@
 - PR #28 base (origin/main): `b76d0962de53ce494fa8f869a706ff0c15aee0b6`
 - timestamp (ISO 8601 UTC): `2026-07-27T21:30:00Z`
 
+> **CANONICAL R124 MATRIX — this artifact family is the single source of truth.** The six-line block
+> above, reproduced **verbatim identically** in [Lens A](P0-AUDIT-A-5076a07a.md) and
+> [Lens B](P0-AUDIT-B-5076a07a.md), is the **only canonical** R124 BUILD MATRIX for Op 75. Every
+> other surface that shows these values — [`BASELINE_HEADS_OP75.json`](../op75/BASELINE_HEADS_OP75.json)
+> `build_matrix_r124`, [`PRE_BUILD_REVIEW_OP75.md`](../op75/PRE_BUILD_REVIEW_OP75.md),
+> [`DECISION_LOG.md`](../../DECISION_LOG.md), [`current-state.json`](../importer-wave/current-state.json)
+> — is an explicitly labelled **non-canonical mirror** carrying a forward pointer here. If a mirror
+> disagrees, **these two reports win** and the mirror is the defect. No mirror may introduce an
+> independent or contradictory value.
+>
+> **True role of each SHA** (labels matter, because two of these are prior tips, not current state):
+>
+> | SHA | Role |
+> |---|---|
+> | `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` | **Audited backend target** — the subject of this rung. Immutable, and still live backend `main`. |
+> | `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650` | **Prior review input** — the exact ctxrepo head both independent reviews of these reports examined. A prior tip. |
+> | `6871b5bfb059977ffb3ecaa54dfa7035436fd165` | **Remediated content input** — the first-remediation tip; parent of the second-remediation commit. Also a prior tip. |
+> | `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | **PR #28 base** — live default branch, stable across every remediation pass. |
+> | *(current branch tip)* | **Not recorded in any committed artifact.** See the self-reference constraint below. |
+>
+> **Self-reference constraint.** An immutable committed file cannot contain the SHA of the commit that
+> contains it: that SHA is a hash over a tree that includes this file, so writing the value in would
+> change it. So the `ctxrepo HEAD` / `PR #28 head` lines above name a **prior tip**, never the tip
+> that carries this document — and this document makes **no claim** to pin itself. The exact current
+> head, its parent and its tree are attested in the **PR #28 body**, which is mutable metadata and
+> does not alter any git SHA. Reviewers verify the live tip with
+> `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq '.head.sha'` cross-checked
+> against `git rev-parse HEAD` and `git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a`.
+
 **Rung:** `P0-AUDIT` ([`OWNERSHIP_AND_PR_LADDER.md` §3](../op74/OWNERSHIP_AND_PR_LADDER.md)) ·
 **Subject:** `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` — *"feat(dunning-v2): enforce Day-10 lockout via global guard mount, scoped to /roman/\*"* ·
 **Companion:** [Lens B](P0-AUDIT-B-5076a07a.md) ·
@@ -22,8 +51,8 @@ repeated identically at the top of [Lens B](P0-AUDIT-B-5076a07a.md). The evidenc
 | Value | `gh api` | local `git rev-parse` / `git ls-remote` | Match |
 |---|---|---|---|
 | backend HEAD | `gh api repos/…/growth-project-backend/commits/HEAD --jq .sha` → `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` | `git ls-remote https://…/growth-project-backend refs/heads/main` → `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` | ✅ |
-| ctxrepo HEAD / PR #28 head | `gh api repos/…/tgp-agent-context/pulls/28 --jq .head.sha` → `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650` | `git rev-parse HEAD` → `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650`; `git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a` → same | ✅ |
-| PR #28 base | `gh api …/pulls/28 --jq .base.sha` → `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | `git rev-parse HEAD^` and `git ls-remote origin refs/heads/main` → both `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | ✅ |
+| ctxrepo **prior tip** (audit-execution SHA / prior review input) | `gh api repos/…/tgp-agent-context/pulls/28 --jq .head.sha` → `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650` **at capture, 2026-07-27T21:30:00Z** | `git rev-parse HEAD` → same **at capture**. Still verifiable now as an ancestor: `git merge-base --is-ancestor 5c2f0057 HEAD` | ✅ **at capture only** — re-running these commands today is *expected* to return the advanced tip. That is fix-forward, **not** drift. |
+| PR #28 base (live `main`) | `gh api …/pulls/28 --jq .base.sha` → `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | `git ls-remote origin refs/heads/main` → `b76d0962de53ce494fa8f869a706ff0c15aee0b6`; base reached locally via `git merge-base HEAD origin/main` | ✅ **still true** — the base is stable; only the head advances. *(Prior wording cited `git rev-parse HEAD^`, true only while the branch had exactly one commit — R5/R132.)* |
 
 Backend commit envelope at the audited SHA (`gh api …/commits/5076a07a…`):
 tree `ba056fff8e760f3e1a12ed628c808c104ec5be0d` · single parent
@@ -90,7 +119,9 @@ worktree; see [Lens B P3-1](P0-AUDIT-B-5076a07a.md#p3-1--loc-and-testsrc-are-now
 - **Production LOC added: 56** (`29 + 27`). **R23/R76 ≤ 400 — PASS**, at 14% of the cap.
 - **Test lines added: 339** (`307 + 32`). **R74 test:src = 339 ÷ 56 = 6.05:1** — **PASS**,
   3.0× the 2.0 floor.
-- **R75 banned-cast net = 0**, computed over **`src/` AND `test/`** in the full 551-line patch:
+- **R75 banned-cast net = 0**, computed over **`src/` AND `test/`** across all **551** raw
+  unified-diff lines of the patch (added + removed + hunk headers + context — **not** 395 + 48,
+  which counts only changed lines):
   0 added and 0 removed occurrences of `@ts-ignore` / `as any` / `as unknown as` / `as never` /
   `Coming soon`. Scoping the R75 grep to `src/` only is the misread named in
   [R131](../../AGENT_RULES.md); it is stated here as the full-surface measurement.
@@ -346,7 +377,7 @@ silently rewritten.
 | 5 | P3-2 routing | mobile **`DUN-9`** — unexecutable | ownership decision on unowned `src/filters/**`, then an authorized **backend** rung; `DUN-9` consumes only |
 | 6 | Unit test count | 14 | **37** unit (1 `normalizePath` + 15 ALLOWS + 12 BLOCKS + 9 guard) + **10** e2e = **47** |
 | 7 | LOC / ratio | absent (deferred as unmeasurable) | **56** production LOC; **6.05:1** test:src; both measured from the commits API |
-| 8 | R75 scope | "0 `as any` … in the guard" (src-scoped, the R131-named misread) | net **0** across **`src/` + `test/`** over the full 551-line patch |
+| 8 | R75 scope | "0 `as any` … in the guard" (src-scoped, the R131-named misread) | net **0** across **`src/` + `test/`** over all **551** raw unified-diff lines |
 | 9 | Verdict line | `## VERDICT:` heading at line 14, above the findings | exactly one `VERDICT:` line, on the **true final line** (R78/R16) |
 
 *Author: Bradley Gleave \<bradley@bradleytgpcoaching.com\> (R3). Audit evidence only; 0

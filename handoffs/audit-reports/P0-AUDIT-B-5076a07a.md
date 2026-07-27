@@ -7,6 +7,35 @@
 - PR #28 base (origin/main): `b76d0962de53ce494fa8f869a706ff0c15aee0b6`
 - timestamp (ISO 8601 UTC): `2026-07-27T21:30:00Z`
 
+> **CANONICAL R124 MATRIX — this artifact family is the single source of truth.** The six-line block
+> above, reproduced **verbatim identically** in [Lens A](P0-AUDIT-A-5076a07a.md) and
+> [Lens B](P0-AUDIT-B-5076a07a.md), is the **only canonical** R124 BUILD MATRIX for Op 75. Every
+> other surface that shows these values — [`BASELINE_HEADS_OP75.json`](../op75/BASELINE_HEADS_OP75.json)
+> `build_matrix_r124`, [`PRE_BUILD_REVIEW_OP75.md`](../op75/PRE_BUILD_REVIEW_OP75.md),
+> [`DECISION_LOG.md`](../../DECISION_LOG.md), [`current-state.json`](../importer-wave/current-state.json)
+> — is an explicitly labelled **non-canonical mirror** carrying a forward pointer here. If a mirror
+> disagrees, **these two reports win** and the mirror is the defect. No mirror may introduce an
+> independent or contradictory value.
+>
+> **True role of each SHA** (labels matter, because two of these are prior tips, not current state):
+>
+> | SHA | Role |
+> |---|---|
+> | `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` | **Audited backend target** — the subject of this rung. Immutable, and still live backend `main`. |
+> | `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650` | **Prior review input** — the exact ctxrepo head both independent reviews of these reports examined. A prior tip. |
+> | `6871b5bfb059977ffb3ecaa54dfa7035436fd165` | **Remediated content input** — the first-remediation tip; parent of the second-remediation commit. Also a prior tip. |
+> | `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | **PR #28 base** — live default branch, stable across every remediation pass. |
+> | *(current branch tip)* | **Not recorded in any committed artifact.** See the self-reference constraint below. |
+>
+> **Self-reference constraint.** An immutable committed file cannot contain the SHA of the commit that
+> contains it: that SHA is a hash over a tree that includes this file, so writing the value in would
+> change it. So the `ctxrepo HEAD` / `PR #28 head` lines above name a **prior tip**, never the tip
+> that carries this document — and this document makes **no claim** to pin itself. The exact current
+> head, its parent and its tree are attested in the **PR #28 body**, which is mutable metadata and
+> does not alter any git SHA. Reviewers verify the live tip with
+> `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq '.head.sha'` cross-checked
+> against `git rev-parse HEAD` and `git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a`.
+
 **Rung:** `P0-AUDIT` ([`OWNERSHIP_AND_PR_LADDER.md` §3](../op74/OWNERSHIP_AND_PR_LADDER.md)) ·
 **Subject:** `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` — *"feat(dunning-v2): enforce Day-10 lockout via global guard mount, scoped to /roman/\*"* ·
 **Companion:** [Lens A](P0-AUDIT-A-5076a07a.md) ·
@@ -24,8 +53,8 @@ verification, not two.
 | Value | `gh api` | local `git rev-parse` / `git ls-remote` | Match |
 |---|---|---|---|
 | backend HEAD | `gh api repos/BradleyGleavePortfolio/growth-project-backend/commits/HEAD --jq .sha` → `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` | `git ls-remote https://github.com/BradleyGleavePortfolio/growth-project-backend refs/heads/main` → `5076a07a1e54b14e3db84d3aa128fb0bb44542d7` | ✅ |
-| ctxrepo HEAD / PR #28 head | `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .head.sha` → `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650` | `git rev-parse HEAD` → `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650`; `git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a` → same | ✅ |
-| PR #28 base | `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .base.sha` → `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | `git rev-parse HEAD^` and `git ls-remote origin refs/heads/main` → both `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | ✅ |
+| ctxrepo **prior tip** (audit-execution SHA / prior review input) | `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .head.sha` → `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650` **at capture, 2026-07-27T21:30:00Z** | `git rev-parse HEAD` → same **at capture**. Still verifiable now as an ancestor: `git merge-base --is-ancestor 5c2f0057 HEAD` | ✅ **at capture only** — re-running these commands today is *expected* to return the advanced tip. That is fix-forward, **not** drift. |
+| PR #28 base (live `main`) | `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .base.sha` → `b76d0962de53ce494fa8f869a706ff0c15aee0b6` | `git ls-remote origin refs/heads/main` → `b76d0962de53ce494fa8f869a706ff0c15aee0b6`; base reached locally via `git merge-base HEAD origin/main` | ✅ **still true** — the base is stable; only the head advances. *(Prior wording cited `git rev-parse HEAD^`, true only while the branch had exactly one commit — R5/R132.)* |
 
 Backend commit envelope at the audited SHA (`gh api …/commits/5076a07a1e54b14e3db84d3aa128fb0bb44542d7`):
 tree `ba056fff8e760f3e1a12ed628c808c104ec5be0d` · **single** parent
@@ -252,15 +281,22 @@ table in Lens A **P2-1** is its fixture.
 | `src/common/env-validation.ts` `ENV_RULES` | **no** |
 
 R108 is enforced by `test/prod-readiness/env-discovery.ts`, which fails the build when discovery
-exceeds the registry. It does not fire here because of *how the flag is read*
-(`src/checkout/dunning-v2/dunning-v2.feature.ts:34-36`):
+exceeds the registry. It does not fire here because of *how the flag is read* — the token constant
+at `src/checkout/dunning-v2/dunning-v2.feature.ts:25` and the reader at **`:32-36`**:
 
 ```ts
-export const FEATURE_DUNNING_V2_ENV = 'FEATURE_DUNNING_V2';
-export function isDunningV2Enabled(env: NodeJS.ProcessEnv = process.env): boolean {
-  return (env[FEATURE_DUNNING_V2_ENV] ?? '').toLowerCase() === 'true';
-}
+// CONDENSED QUOTE — :25 and :32-36 are NOT contiguous, and the signature is reflowed
+// onto one line. Per-line provenance is in the trailing comments.
+export const FEATURE_DUNNING_V2_ENV = 'FEATURE_DUNNING_V2';                          // :25
+export function isDunningV2Enabled(env: NodeJS.ProcessEnv = process.env): boolean {  // :32-34
+  return (env[FEATURE_DUNNING_V2_ENV] ?? '').toLowerCase() === 'true';               // :35
+}                                                                                    // :36
 ```
+
+> **Citation corrected (Op-75 second remediation pass).** This block was previously cited as
+> `:34-36` while quoting the `:25` constant, presenting a condensed excerpt as a contiguous quote.
+> The reader function spans **`:32-36`**; the constant is at **`:25`**. Substance unchanged.
+> Prior citation recorded rather than silently replaced (R5/R132).
 
 The discovery scanner is **node-scoped to `process.env.*` / `process['env'].*`**
 (`env-discovery.ts:196` — *"Node-scoped: only `process.env.*` and `process['env'].*` are
@@ -352,13 +388,18 @@ Measured from `gh api repos/BradleyGleavePortfolio/growth-project-backend/commit
 | `src/checkout/dunning-v2/dunning-lockout.guard.ts` | 27 | 23 | production |
 | `test/dunning-v2-lockout-guard.e2e.spec.ts` | 307 | 0 | test |
 | `test/dunning-v2-lockout-guard.spec.ts` | 32 | 25 | test |
-| **Total** | **395** | **48** | 551-line patch |
+| **Total** | **395** | **48** | **551** raw unified-diff lines |
+
+**On 395 + 48 ≠ 551.** The 551 figure is the **raw unified-diff line count** of the patch — added
+lines, removed lines, **plus** hunk headers (`@@ … @@`) and unchanged context lines. It is the
+surface the R75 banned-cast scan reads, which is why it is quoted beside the ± totals rather than
+derived from them.
 
 | Gate | Requirement | Measured | Verdict |
 |---|---|---|---|
 | R23 / R76 | ≤ 400 production LOC | **56** (29 + 27 added) | **PASS** — 14 % of cap |
 | R74 | test:src ≥ 2.0 | **339 ÷ 56 = 6.05:1** | **PASS** |
-| R75 | banned-cast net additions ≤ 0, across **`src/` + `test/`** | **net 0** over the whole 551-line patch, both trees | **PASS** |
+| R75 | banned-cast net additions ≤ 0, across **`src/` + `test/`** | **net 0** over all **551** raw unified-diff lines (incl. headers + context), both trees | **PASS** |
 
 The R75 scope note is deliberate: **R131** names *"R75 misread as src-only"* as this wave's
 failure mode, so the count is stated across `src/` **and** `test/` rather than for the guard alone.
