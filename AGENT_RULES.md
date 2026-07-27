@@ -9,8 +9,27 @@
 This document is the single canonical constitution for every TGP operator, builder,
 fixer, auditor, architect, and scheduler. It consolidates every prior R-rule, the
 R100 Hyperscaler Quality Mandate (55 rules), and 20 new hyperscaler-grade rules into
-one continuous, gap-free enumeration (R1 → R107). Navigate R1 to R107 in order; you will
-never hit a missing number.
+one continuous enumeration that began at R1 → R107.
+
+> **Enumeration correction (Op 74, 2026-07-27 — navigation metadata only; no rule body or
+> operator quote was changed).** This header previously read "one continuous, gap-free
+> enumeration (R1 → R107). Navigate R1 to R107 in order; you will never hit a missing
+> number." That was accurate when written and is now stale in two ways, corrected here per
+> R-RULE-AUTHORITY-1 §4 (a cited-but-nonexistent rule is a STOP condition, so the canonical
+> range must be stated truthfully). **The enumeration actually in force is R1 → R126 and
+> R130 → R138.**
+>
+> 1. **The range extends past R107.** R108–R126 (hyperscaler/infra rules) and R130–R138
+>    (§13 First-Principles Doctrine, added 2026-06-30, plus R138 added 2026-07-13) are all
+>    defined below and all binding.
+> 2. **The enumeration is NOT gap-free. R127, R128, and R129 do not exist and never have.**
+>    Per R5's lost-forever discipline, this gap is **documented, never renumbered and never
+>    fake-filled** — a hallucinated canonical rule is worse than a missing one. Skipping
+>    from R126 to R130 is correct and expected.
+>
+> **Any citation outside R1–R126 / R130–R138 is a miscitation, not a rule** — treat it as a
+> STOP condition and raise it. Known example reconciled at Op 74: **R161 is a phantom**
+> (see the Reconciliation note at the head of §13). See `DECISION_LOG.md` (Op 74).
 
 **Reading convention.** Each rule carries: a one-line **headline**; a verbatim
 **operator quote** where the rule originated from an operator utterance (the operator's
@@ -91,7 +110,7 @@ earlier rule overlap (e.g. the LOC cap), the **stricter wording governs**.
 - For amends: add `--amend --reset-author`.
 - No agent names. No assistant names. No `Dynasia G`, no `claude-bot`, no `auto-merge`, no `Co-Authored-by` trailers, no AI/Claude/Computer/Agent tokens anywhere in author, committer, or message.
 - The prior `Dynasia G <dynasia@trygrowthproject.com>` convention is **RETIRED**. Prior history is grandfathered — do not rewrite it; only new commits must carry Bradley's identity.
-- For `gh pr merge`, verify the resulting commit's author trailer is Bradley Gleave before the push completes.
+- ~~For `gh pr merge`, verify the resulting commit's author trailer is Bradley Gleave before the push completes.~~ — **SUPERSEDED as to `main` (Op 74, 2026-07-27).** Original wording retained above, not deleted (R5/R132). **`gh pr merge` is FORBIDDEN on any production `main`** — it mints a server-side commit whose committer is GitHub, which is precisely how **R3-INC-1/2/3** happened. The operative identity-safe procedure for landing on `main` is the **git-native manual squash + plain fast-forward** path in [`handoffs/importer-wave/R3_MERGE_RUNBOOK.md`](handoffs/importer-wave/R3_MERGE_RUNBOOK.md), which keeps author **and** committer under operator control. Where `gh pr merge` remains permissible at all (non-production **integration** branches only, see the R14 landing-mechanism note in §3), the author-trailer verification above still applies.
 
 **Failure mode.** Any commit authored under a non-Bradley identity is a hard R3 violation and pollutes the only durable ownership record.
 
@@ -336,7 +355,20 @@ earlier rule overlap (e.g. the LOC cap), the **stricter wording governs**.
 5. If anything else (any non-empty findings, including P3) → DO NOT MERGE. Dispatch a fixer to close EVERY finding P0–P3 inclusive ("CLEAR OF ANY P0-P3S IN ANY REGARD"). Fixer commits per R3, pushes, CI re-greens.
 6. Re-audit — fresh adversarial pass on the new head SHA, same exhaustiveness bar.
 7. Cycle audit → fix → re-audit until CLEAN_NO_FINDINGS.
-8. Only then: `gh pr merge --squash --delete-branch`.
+8. Only then: land. ~~`gh pr merge --squash --delete-branch`~~ — **the original step-8 wording is SUPERSEDED as to production `main` (Op 74, 2026-07-27); it is retained above verbatim as historical record, not deleted (R5/R132).**
+
+> **LANDING-MECHANISM NOTE (Op 74, 2026-07-27) — operative doctrine, highest-precedence statement of the merge path.**
+>
+> This note resolves an ambiguity that had been live at the top of the rule stack: step 8 above read as a generic instruction to finish every audit cycle with `gh pr merge --squash --delete-branch`, while the incident record and [`handoffs/importer-wave/R3_MERGE_RUNBOOK.md`](handoffs/importer-wave/R3_MERGE_RUNBOOK.md) forbid exactly that path on `main`. Since this file is the single rule authority ([`roadmap/rulings/R-RULE-AUTHORITY-1_2026-07-20.md`](roadmap/rulings/R-RULE-AUTHORITY-1_2026-07-20.md)), the ambiguity had to be closed here.
+>
+> 1. **Autonomous approval never bypasses the audit.** R138's autonomy grant delegates the **approval** only. It never delegates the audit (R14 steps 1–7 are unconditional) and it never delegates the landing **mechanism**. There is no size, urgency, or "obviously safe" exemption.
+> 2. **Production `main` landings use the git-native procedure.** Manual squash + **plain fast-forward** only, per `R3_MERGE_RUNBOOK.md`, with author **and** committer set to `Bradley Gleave <bradley@bradleytgpcoaching.com>` via inline `git -c` flags (R3).
+> 3. **On `main`: NO server-side squash and NO `gh pr merge` (in any flag combination, including `--squash --delete-branch`, `--merge`, `--rebase`, and `--auto`).** A server-side merge mints a commit whose committer is GitHub, which is the direct cause of **R3-INC-1/2/3**. Reaching for it on `main` is an R3 violation regardless of how clean the audit was.
+> 4. **Integration branches are the only scoped exception.** On non-production **integration** branches, the pre-existing squash-merge mechanism may still be used after dual-lens CLEAN + CI green. This exception is **explicitly scoped to integration branches and confers no authority over `main`** — it may never be cited, extended by analogy, or read as a general merge permission. If a branch's production status is unclear, treat it as production and use the git-native path.
+> 5. **No force-push, ever, to land or to repair a landing** (R3-INC-1 precedent). A bad landing is recorded and remediated forward, never rewritten.
+> 6. **Repo-wide override.** Prior handoffs, dispatch briefs, build journals, and session logs elsewhere in this repository contain `gh pr merge …` / `--admin` merge instructions written for earlier waves. Those are **historical operational record** — retained, not rewritten (R5/R132) — and are **superseded by this note** wherever they would authorize a server-side landing on a production `main`. A brief that cites one of them as present-day merge authority is **defective**; this note governs.
+>
+> Machine-readable mirror: `operator.merge_policy` and `immutable_doctrine_in_force.R138_autonomy` in [`handoffs/importer-wave/current-state.json`](handoffs/importer-wave/current-state.json). If that file and this note ever disagree, **this note governs** and the JSON is the defect.
 
 **Severity inclusion.** "P0–P3s IN ANY REGARD" means P3 (style, comments, naming, missing docstrings) MUST be fixed before merge — stricter than the historical "P0–P2 must fix, P3 may defer."
 
@@ -760,6 +792,15 @@ These 20 rules are table-stakes at Stripe, Datadog, Linear, Vercel, and Cloudfla
 **Headline:** Instrumentation is not optional — every new endpoint emits the three core signals. **Why:** "you cannot improve what you do not instrument"; Datadog/Honeycomb treat RED metrics (Rate, Errors, Duration) as a hard floor. **How to comply (P1):** request-count counter, latency histogram, and error-class metric on every new user-facing endpoint; auditor verifies emission, not just declaration. **Failure mode:** a regression in a new endpoint is invisible until users complain.
 
 ### R86 — SLO defined for every user-facing path before merge
+
+> **Disambiguation (Op 74, 2026-07-27 — navigation metadata only; no rule body changed).**
+> The token "R86" appears in this file with **three different meanings**. Exactly one is canonical:
+> 1. **CANONICAL — R86 = this rule: SLO defined for every user-facing path before merge.** Any bare "R86" resolves here.
+> 2. **LEGACY LABEL, NOT THIS RULE — the LOC soft cap.** The pre-consolidation `operator-meta/R86_LOC_SOFT_CAP.md` became **R23** (see the redirect table in the Appendix). The strings `R86 EXCEPTION REQUESTED` and the `r86-exception-requested` tag survive **only** as the historical names of the **R23/R76** LOC-cap escape hatch, kept so existing PR bodies and CI tags stay valid. They do **not** refer to this SLO rule.
+> 3. **KNOWN TYPO — "R86 (PII)".** One occurrence in the R118 rationale reads "R86 (PII)". **PII is R98.** The rule body is left unedited (it is prose, not a normative clause); read that reference as **R98**.
+>
+> Cite **R23/R76** for the LOC cap, **R98** for PII, and **R86** only for SLOs. See `DECISION_LOG.md` (Op 74).
+
 **Headline:** Every user-facing path declares a p99 latency budget and an error budget before it merges. **Why:** an SLO is the contract for "good enough"; without it, performance regressions have no objective gate. **How to comply (P1):** SLO documented in the PR (p99 target + error budget) for any new user-facing path; tied to the R85 telemetry so the SLO is measurable. **Failure mode:** silent latency/error creep with no threshold that triggers action.
 
 ### R87 — Accessibility: WCAG 2.2 AA on every user-facing surface
@@ -948,7 +989,16 @@ Per operator declaration 2026-06-13 ("**Lost rules are truly forever lost**"), t
 | `operator-meta/R100_AUDIT_CHECKLIST_TEMPLATE.md` | Appendix B (kept in place) |
 
 
-## §11 — DEPLOY READINESS & ENFORCEMENT INFRA (R100–R107)
+## §11 — DEPLOY READINESS & ENFORCEMENT INFRA (R100–R126)
+
+> **Heading range correction (Op 74, 2026-07-27 — navigation metadata only; no rule body,
+> headline, or operator quote was changed).** This heading previously read
+> **"(R100–R107)"**, which was accurate when the section was first added but became stale as
+> the section grew. **§11 actually defines R100 → R126** — R100–R107, then **R108** (env-var
+> switch registry), then R109–R126 — ending immediately before §12. The original "(R100–R107)"
+> wording is recorded here rather than erased (R5/R132). §13 continues at **R130**; **R127,
+> R128, and R129 do not exist and never have.** See the enumeration correction in the file
+> header and `DECISION_LOG.md` (Op 74).
 
 Added 2026-06-18 PM. §7 + §9 codified WHAT hyperscaler quality means; §11 codifies the
 machine-enforced gates that make those rules unbypassable. Where §7/§9 say "every
@@ -1461,6 +1511,11 @@ them as table-stakes, not as nice-to-haves.
 ---
 
 ## §13 — FIRST-PRINCIPLES DOCTRINE (R130 – R137)
+
+> **Numbering + miscitation note (Op 74, 2026-07-27 — navigation metadata only; no rule body or operator quote changed).**
+> - **The jump from R126 to R130 is intentional and correct. R127, R128, and R129 do not exist and never have.** Per R5's lost-forever discipline the gap is documented, **never renumbered and never fake-filled**.
+> - **R138 follows this section** (added 2026-07-13). The canonical enumeration in force is **R1 → R126 and R130 → R138** — see the enumeration correction in the file header.
+> - **R161 is a PHANTOM — it does not exist and never has.** It is cited once, in `DECISION_LOG.md` (the 2026-07-16 Op-58 merge-runbook entry), as "permitted only for `wip/*` snapshot branches per R6/R161". The substance of that citation is fully and correctly carried by **R6** (checkpoint-driven foreground pushes), which mandates `git push --force-with-lease origin HEAD:wip/<lane>-snapshot` for builder/fixer snapshot branches. **Read that citation as R6 alone.** The historical DECISION_LOG prose is **retained, not rewritten** (R5/R132); Op 74 annotates it in place rather than editing the record. Per R-RULE-AUTHORITY-1 §4, encountering a cited rule number that does not exist is a **STOP condition to raise, never a licence to invent rule text**.
 
 Added 2026-06-30 by operator ruling. These rules encode the Musk "Algorithm" (question / delete / simplify / accelerate / automate) plus a measurement layer (Idiot Index, cycle-time ledger) and a constraint audit that separates real limits from self-imposed ones. They apply to code, rules, workflows, subagent dispatch chains, and this rules file itself. Rules R131 and R136 are the meta-doctrine: no rule in this document is exempt from being questioned.
 

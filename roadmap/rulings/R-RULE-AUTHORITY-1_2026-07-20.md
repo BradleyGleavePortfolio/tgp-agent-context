@@ -22,6 +22,11 @@ The canonical `AGENT_RULES.md` already answers this in its own header:
 
 R15 (AUDIT-CYCLE OPERATING DOCTRINE) further fixes that **GitHub is the only source of truth** — "GitHub is the only place that lives forever." R4's path convention (AGENT_RULES.md line 363) requires that "every brief, audit, fixer report, and **scope-resolution doc** lives in the context repo."
 
+> **Forward pointer (Op 74, 2026-07-27 — additive; this ruling remains ACTIVE and its substance is unmodified).**
+> Two clarifications were filed downstream and bind alongside this ruling:
+> - **Extension repository authority is now stated explicitly** in [`R-CROSS-REPO-AUTHORITY-2_2026-07-27`](R-CROSS-REPO-AUTHORITY-2_2026-07-27.md). `tgp-importer-extension` was always in scope (see the Scope line above), but had no quotable operational pointer of its own; R-CROSS-REPO-AUTHORITY-2 installs one at parity with backend and mobile. No exception and no additional burden is created for the extension.
+> - **The rule range in §1 below is corrected.** §1 reads "currently R1→R107 plus R109–R138". The enumeration actually in force is **R1 → R126 and R130 → R138**: R108 **does** exist (env-var switch registry), and **R127, R128, and R129 do not exist and never have**. That gap is permanent and is documented, never renumbered (R5). The original §1 wording is **retained, not rewritten** (R5/R132); read it through this correction. See the enumeration correction in the `AGENT_RULES.md` header and `DECISION_LOG.md` (Op 74).
+
 ## The ruling
 
 1. **Single canonical authority.** The `AGENT_RULES.md` at the head of the **context repo** (`BradleyGleavePortfolio/tgp-agent-context`, `main`) is the sole canonical rule text for every TGP repo. Its enumeration (currently R1→R107 plus R109–R138) governs everywhere, including any leaf repo whose local rules file is absent, shorter, or stale.
