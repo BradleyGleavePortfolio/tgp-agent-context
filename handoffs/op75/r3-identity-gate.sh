@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# r3-identity-gate.sh — run IMMEDIATELY before `git push origin <sha>:main`, and again after.
+# Never rewrites history; never pushes; never forces.
+#
+# EXIT CODES (machine-observable; the landing procedure keys off these, not off "non-zero"):
+#   0 = R3-IDENTITY-GATE: PASS                 -> push permitted
+#   1 = R3-IDENTITY-GATE: HARD FAIL            -> STOP. Never push. No override exists.
+#   3 = R3-IDENTITY-GATE: OVERRIDE_REQUIRED    -> push permitted ONLY with an append-only
+#                                                 PR-body override record (see §2.1).
+set -uo pipefail
+
+R3_IDENT='Bradley Gleave <bradley@bradleytgpcoaching.com>'
+SHA="${1:?usage: r3-identity-gate.sh <full-40-char-sha> [repo-full-name]}"
+REPO="${2:-}"
+MSG="$(git show -s --format='%B' "$SHA")"
+
+# --- 1. Envelope identity: author AND committer, both exact. No override, ever. ---
+A="$(git show -s --format='%an <%ae>' "$SHA")"
+C="$(git show -s --format='%cn <%ce>' "$SHA")"
+[ "$A" = "$R3_IDENT" ] || { echo "R3-IDENTITY-GATE: HARD FAIL author:    $A"    >&2; exit 1; }
+[ "$C" = "$R3_IDENT" ] || { echo "R3-IDENTITY-GATE: HARD FAIL committer: $C"    >&2; exit 1; }
+
+# --- 2a. HARD attribution scan: trailer-shaped or footer-shaped credit. No override, ever. ---
+# These patterns match ATTRIBUTION POSITIONS, not vocabulary: a trailer key at line start, or a
+# recognised footer opener. Any hit is a real co-author/attribution claim.
+HARD_RE='^[[:space:]]*(co-authored-by|signed-off-by|assisted-by|generated-by|authored-by|reviewed-by|helped-by|on-behalf-of)[[:space:]]*:|^[[:space:]]*(.{0,4}[[:space:]]*)?generated with[[:space:]]|^[[:space:]]*(.{0,4}[[:space:]]*)?(created|written|produced) (with|by) (claude|anthropic|an? (AI|assistant|agent))'
+if HARD_HITS="$(printf '%s\n' "$MSG" | grep -Ein "$HARD_RE")"; then
+  echo "R3-IDENTITY-GATE: HARD FAIL - attribution in an attribution position:" >&2
+  printf '%s\n' "$HARD_HITS" >&2
+  exit 1
+fi
+
+# --- 2b. BROAD token scan, deliberately UNCHANGED and UNWEAKENED from the original gate. ---
+# A hit here means the vocabulary appears SOMEWHERE. It may be a real attribution 2a could not
+# shape-match, or it may be prose that merely discusses the tokens. 2b never silently passes.
+BROAD_RE='co-authored-by|claude|anthropic|\bAI\b|\bagent\b|generated with|assistant'
+SOFT_HITS="$(printf '%s\n' "$MSG" | grep -Ein "$BROAD_RE" || true)"
+
+# --- 3. Trailer hygiene: the forbidden-trailer set must be empty. ---
+# Structural proof, independent of prose. `%(trailers)` parses only true trailer blocks.
+ALL_TRAILERS="$(git show -s --format='%(trailers)' "$SHA")"
+FORBIDDEN_TRAILERS="$(printf '%s\n' "$ALL_TRAILERS" \
+  | grep -Ei '^[[:space:]]*(co-authored-by|assisted-by|generated-by|helped-by|on-behalf-of)[[:space:]]*:|^[[:space:]]*signed-off-by:.*(noreply|users\.noreply)' || true)"
+if [ -n "$FORBIDDEN_TRAILERS" ]; then
+  echo "R3-IDENTITY-GATE: HARD FAIL - forbidden trailer present:" >&2
+  printf '%s\n' "$FORBIDDEN_TRAILERS" >&2
+  exit 1
+fi
+
+# --- 4. Ambient config, recorded so a mismatch is visible even when the commit passes ---
+CFG="$(git config user.name || true) <$(git config user.email || true)>"
+
+# --- 5. Post-push only: GitHub's view must agree (run again AFTER the push) ---
+if [ -n "$REPO" ]; then
+  GA="$(gh api "repos/$REPO/commits/$SHA" --jq '.commit.author.email')"
+  GC="$(gh api "repos/$REPO/commits/$SHA" --jq '.commit.committer.email')"
+  [ "$GA" = 'bradley@bradleytgpcoaching.com' ] || { echo "R3-IDENTITY-GATE: HARD FAIL gh author:    $GA" >&2; exit 1; }
+  [ "$GC" = 'bradley@bradleytgpcoaching.com' ] || { echo "R3-IDENTITY-GATE: HARD FAIL gh committer: $GC" >&2; exit 1; }
+fi
+
+# --- 6. Verdict + evidence block (paste into the landing record; absence of this = P1 per §1.4) ---
+if [ -n "$SOFT_HITS" ]; then
+  cat <<EOF
+R3-IDENTITY-GATE: OVERRIDE_REQUIRED
+  sha             = $SHA
+  author          = $A
+  committer       = $C
+  ambient config  = $CFG
+  hard attribution= 0 (check 2a clean)
+  forbidden trailers = 0 (empty; structural proof via %(trailers))
+  broad token hits:
+$(printf '%s\n' "$SOFT_HITS" | sed 's/^/    /')
+  github verified = ${REPO:-not-checked}
+  checked_at_utc  = $(date -u +%Y-%m-%dT%H:%M:%SZ)
+  DISPOSITION REQUIRED: push ONLY with an append-only PR-body override record naming this exact
+  SHA, the matched lines above verbatim, the empty-forbidden-trailer proof, the reviewer
+  disposition, and the reason. Rewording the commit to dodge the scan is NOT permitted.
+EOF
+  exit 3
+fi
+
+cat <<EOF
+R3-IDENTITY-GATE: PASS
+  sha             = $SHA
+  author          = $A
+  committer       = $C
+  ambient config  = $CFG
+  message tokens  = 0 forbidden (checks 2a and 2b both clean)
+  forbidden trailers = 0 (empty)
+  github verified = ${REPO:-not-checked}
+  checked_at_utc  = $(date -u +%Y-%m-%dT%H:%M:%SZ)
+EOF
+exit 0

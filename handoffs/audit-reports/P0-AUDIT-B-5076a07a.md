@@ -247,23 +247,54 @@ ladder open at `I1`, while PR #28 is unlanded is a **status assertion without ev
 **P0** finding under [`R-DUNNING-BAR-1`](../../roadmap/rulings/R-DUNNING-BAR-1_2026-07-27.md) §2
 ("status is derived, never asserted").
 
-#### Retroactive R138 four-question gate (reconstructed, `5076a07a`)
+#### Retroactive `R138 Decision Gate` (reconstructed, `5076a07a`)
 
-| # | Question | Reconstructed answer |
+Reconstructed against **R138's four canonical questions** ([`AGENT_RULES.md`](../../AGENT_RULES.md)
+§14, lines 1593–1602), because this table is the **R138 half of B2's closure evidence** and a gate
+answering different questions could not discharge it.
+
+| # | R138 question (canonical) | Reconstructed answer for `5076a07a` |
 |---|---|---|
-| 1 | What is the smallest change that delivers the value? | Mounting the already-written, already-tested `DunningLockoutGuard` as the terminal `APP_GUARD`. The guard existed; only the mount was new. **56 production LOC** (Lens A, measured). Genuinely minimal. |
-| 2 | What could this break? | Every authenticated route — the guard is global. Mitigated by the flag-OFF hard no-op (`:80`), unauthenticated passthrough (`:93-94`) and fail-open on lookup error (`:99-105`). All three verified in Lens A. Residual, unmitigated: the allow-list's second-segment clause (`:163`) makes two routes reachable that the message implies are locked — Lens A **P1-1** / **P2-1**. |
-| 3 | Is it reversible? | Yes, two ways: delete one `APP_GUARD` provider line, or leave `FEATURE_DUNNING_V2` unset. The flag is the live rollback **and** the default. **No migration, no data write** — the guard is read-only, so no expand-contract or down-migration obligation (R82/R106). |
-| 4 | What evidence proves it works? | **47 tests**: **37** unit cases in `test/dunning-v2-lockout-guard.spec.ts` (1 `normalizePath` + 15 `it.each` ALLOWS + 12 `it.each` BLOCKS + 9 guard-behaviour) and **10** over-the-wire cases in `test/dunning-v2-lockout-guard.e2e.spec.ts` — covering flag-OFF no-op, 403 on protected routes, billing/auth/health not bricked, `/roman/*` reachable, `/ai/chat` still locked, and envelope contents. Measured **test:src = 339 ÷ 56 = 6.05:1**, well over R74's 2.0. **Gap:** no case asserts the allow-list against the repo's **real mounted controller table** — which is exactly how Lens A **P1-1** survived. |
+| 1 | **"How can I improve my choices with Elon Musk's 5 key first principles?"** | **(1) Question the requirement:** lock dunning-delinquent coaches out of paid surfaces — survives, it is the revenue-protection reason the guard exists. **(2) Delete the part:** the change is *almost* pure deletion of work — the `DunningLockoutGuard` was already written and already tested, so only the `APP_GUARD` mount was new. **56 production LOC** (Lens A, measured), genuinely minimal. **(3) Simplify what survived:** one terminal global guard rather than a decorator on every protected controller — fewer places to forget. **(4) Accelerate:** a global mount needs no per-controller follow-up PRs. **(5) Automate last:** correctly *not* reached — no alarm, no auto-rollback, which is finding **P2-2** below, not a step skipped in error. **Where the algorithm was not run:** step 1 was never applied to the *allow-list*. `ALLOWED_PREFIXES` carries two entries for prefixes that do not exist (Lens A **P3-1**) — requirements no one questioned, attached to no name, date or reason. |
+| 2 | **"What would hyperscalers do?"** | **Practice cited: flag-gated progressive rollout with the flag as the live rollback (AWS/GCP), plus blast-radius containment.** Applied, and applied well: `FEATURE_DUNNING_V2` is **default-OFF**, and flag-OFF is a hard no-op at the top of the guard (`dunning-lockout.guard.ts:80`) — so the blast radius of the mount itself is zero until someone opts in. Containment is layered: unauthenticated passthrough (`:93-94`) and **fail-open** on lookup error (`:99-105`), so a database blip degrades to "not locked out" rather than bricking every authenticated route. All three verified in Lens A. **Where the hyperscaler answer was NOT applied:** *automated rollback on alarm* and *one-box/canary staging* are both absent. There is no declared p99, no error budget, and no `AuditEvent` per lockout transition, so no alarm can fire and no canary signal exists — the flag is a **manual** rollback only. That is finding **P2-2**, routed to **DUN-4**. |
+| 3 | **"How can I get the GOOD without the BAD?"** | **GOOD:** delinquent accounts stop consuming paid compute, enforced in exactly one place that cannot be forgotten. **BAD:** a global guard sits in front of *every* authenticated route, so a defect brings down the product, and an over-broad lock traps a paying customer outside the very routes they need to pay. The separating structure is the four-layer carve-out — flag-OFF no-op, unauth passthrough, fail-open, and an allow-list keeping billing/auth/health reachable **while** locked out — which is the right shape: keep the GOOD, gate the BAD, do not "ship it anyway" and do not "block it entirely". **But the gating leaks in both directions, and that is the substance of this audit.** Too permissive: the second-segment clause (`:157-164`, tested at `:163`) makes `scheduling/auth/google/initiate` and `/callback` reachable while locked out, which the lockout message implies are locked — Lens A **P1-1**. Too restrictive: the carve-out misses `v1/coach/me/billing`, so a customer can be locked out of a route they need in order to cure the delinquency — Lens A **P2-1**. A GOOD-without-BAD answer that was *recorded* would have had to enumerate the allow-list against the real route table to make that claim, which is precisely the step that was never taken. |
+| 4 | **"Am I attacking the root cause / issue / idea?"** | **Yes — mounting the guard attacks the actual root cause.** The guard's logic was already correct and tested; the reason delinquent accounts were still being served is that nothing *invoked* it. A terminal `APP_GUARD` mount fixes that at the source rather than adding per-route checks, and it is reversible two ways: delete one provider line, or leave `FEATURE_DUNNING_V2` unset. The flag is both the live rollback **and** the default. **No migration and no data write** — the guard is read-only, so no expand-contract or down-migration obligation (R82/R106). **Root cause NOT attacked, one level up:** the lockout **read** is `findFirst({ status: 'active' })` (`:127-140`) against a free-text `status` column with no enum and no CHECK constraint (`prisma/schema.prisma:3785`), so any unrecognised status value silently un-locks the account. Narrowing a predicate is a symptom fix; the root cause is an unconstrained state column — Lens A **P2-2**, routed to **DUN-1**. Filed, not papered over (R20). |
 
-> **CORRECTED at the Op-75 remediation pass (2026-07-27).** Q4 previously read *"14 unit cases
+**Decision, and its rollback / blast-radius note.** Decision: mount the guard globally behind a
+default-OFF flag. **Blast radius:** every authenticated route, bounded to zero while the flag is
+unset. **Rollback:** unset `FEATURE_DUNNING_V2`, or remove the single `APP_GUARD` provider; no
+migration to reverse, no data written.
+
+**Verification evidence (`47` tests).** **37** unit cases in `test/dunning-v2-lockout-guard.spec.ts`
+(1 `normalizePath` + 15 `it.each` ALLOWS + 12 `it.each` BLOCKS + 9 guard-behaviour) and **10**
+over-the-wire cases in `test/dunning-v2-lockout-guard.e2e.spec.ts` — covering flag-OFF no-op, 403 on
+protected routes, billing/auth/health not bricked, `/roman/*` reachable, `/ai/chat` still locked, and
+envelope contents. Measured **test:src = 339 ÷ 56 = 6.05:1**, well over R74's 2.0. **Gap:** no case
+asserts the allow-list against the repo's **real mounted controller table** — which is exactly how
+Lens A **P1-1** survived.
+
+> **CORRECTED at the third remediation pass (2026-07-27) — R5/R132, prior wording preserved.** This
+> table previously asked *"What is the smallest change that delivers the value? / What could this
+> break? / Is it reversible? / What evidence proves it works?"*. **Those are not R138's four
+> questions**, and this gate is the one offered as **B2 closure evidence**, so the mismatch mattered
+> most here. The four canonical questions are now asked verbatim in intent, and **every prior answer
+> is retained**, remapped to where it belongs: *smallest change* → Q1 step 2 (delete) and Q4
+> (reversibility); *what could this break* → Q3's BAD and the blast-radius note; *is it reversible* →
+> Q4 and the rollback note; *what evidence proves it works* → the **Verification evidence** paragraph,
+> which R138's recording clause requires alongside the four questions rather than as one of them. The
+> heading is renamed to the **`R138 Decision Gate`** form required by `AGENT_RULES.md` line 1601.
+> Reconstructing the gate does **not** retroactively satisfy it: `5076a07a` still landed with no such
+> record, which is why **B2 stays open until PR #28 lands**.
+
+> **CORRECTED at the Op-75 remediation pass (2026-07-27).** The verification-evidence figure — then
+> carried as "Q4", now the **Verification evidence** paragraph above — previously read *"14 unit cases
 > (`test/dunning-v2-lockout-guard.spec.ts`, 167 lines) + 10 over-the-wire e2e cases"*. The unit
 > figure was a count of `it(` literals that missed both `it.each([…])` tables. Recounted at the
 > exact head: **37 unit + 10 e2e = 47**. Retained per R5/R132.
 
-Question 4's gap is the transferable lesson: the tests assert the allow-list against **hand-picked
-example paths**, never against the mounted route table, so an accidentally-matching route was
-unobservable. **That test shape is a requirement on `DUN-1`**, and the corrected mounted-route
+The **Verification evidence** gap is the transferable lesson: the tests assert the allow-list against
+**hand-picked example paths**, never against the mounted route table, so an accidentally-matching
+route was unobservable. **That test shape is a requirement on `DUN-1`**, and the corrected mounted-route
 table in Lens A **P2-1** is its fixture.
 
 **Route to:** **B2 CLOSED on landing of PR #28** — not before. Test-shape requirement → **DUN-1**.

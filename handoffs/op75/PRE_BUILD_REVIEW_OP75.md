@@ -27,7 +27,8 @@
 - **Deliverables:** [Lens A](../audit-reports/P0-AUDIT-A-5076a07a.md) ·
   [Lens B](../audit-reports/P0-AUDIT-B-5076a07a.md)
 - **Ladder / ownership for this Op:** [`OWNERSHIP_AND_LADDER_OP75.md`](OWNERSHIP_AND_LADDER_OP75.md)
-- **Preventive artifact:** [`R3_IDENTITY_PREPUSH_ASSERTION.md`](R3_IDENTITY_PREPUSH_ASSERTION.md)
+- **Preventive artifact:** [`R3_IDENTITY_PREPUSH_ASSERTION.md`](R3_IDENTITY_PREPUSH_ASSERTION.md) +
+  the executable [`r3-identity-gate.sh`](r3-identity-gate.sh) (operator-invoked; no hook, no CI wiring)
 
 ---
 
@@ -57,7 +58,7 @@ document is the **third record surface** the Op needs — alongside the machine-
 | # | Action | Artifact |
 |---|---|---|
 | 1 | Produced the retroactive dual-lens R14 audit of `5076a07a` at its exact head | [Lens A](../audit-reports/P0-AUDIT-A-5076a07a.md), [Lens B](../audit-reports/P0-AUDIT-B-5076a07a.md) |
-| 2 | Reconstructed the missing R138 four-question gate for `5076a07a` | [Lens B §P1-2](../audit-reports/P0-AUDIT-B-5076a07a.md) |
+| 2 | Reconstructed the missing **`R138 Decision Gate`** for `5076a07a`, against R138's four canonical questions | [Lens B §P1-2](../audit-reports/P0-AUDIT-B-5076a07a.md) |
 | 3 | Pinned and both-ways-verified all four repo heads with tree, parent and identity | [`BASELINE_HEADS_OP75.json`](BASELINE_HEADS_OP75.json) |
 | 4 | Measured the budgets an earlier pass had deferred as unmeasurable | **56** prod LOC · **6.05:1** test:src · **R75 net 0** across `src/` + `test/` |
 | 5 | Corrected the PR-#520 / B2 evidence, preserving the stale wording (R5/R132) | Lens B §P1-2, [`BASELINE_HEADS_OP74.json`](../op74/BASELINE_HEADS_OP74.json) correction block |
@@ -70,28 +71,62 @@ any history, or open a new rung.
 
 ---
 
-## §2a — R138 four-question decision gate
+## §2a — R138 Decision Gate
 
 Duplicated here in full so this narrative is **self-contained** — a reader should not have to open a
 70-key JSON file to find out whether the gate was answered. **Canonical machine-readable location:**
 [`handoffs/importer-wave/current-state.json`](../importer-wave/current-state.json) →
-`decision_record_op75_p0_audit_discharge_2026_07_27.r138_four_question_gate`. If the two ever
+`decision_record_op75_p0_audit_discharge_2026_07_27.r138_decision_gate`. If the two ever
 disagree, **the JSON wins** and this copy is the defect.
 
-**Q1 — What is the smallest change that delivers the value?**
-Execute exactly one ladder rung: the retroactive adversarial dual-lens R14 audit of backend 5076a07a, plus the minimum record surfaces the rung needs to be discoverable and reproducible - two audit reports, one baseline pin file, one reconciliation review, one ownership/ladder pointer (delta only, no canonical text duplicated), one preventive identity gate, and the two standing mirrors (current-state.json, DECISION_LOG.md). No rung is dispatched, no finding is repaired, no production file is touched. 0 production LOC.
+The four questions below are **R138's canonical four**, quoted from
+[`AGENT_RULES.md`](../../AGENT_RULES.md) §14 R138 (lines 1593–1602), followed by the decision and its
+rollback / blast-radius note that the same rule's *"How to record the gate"* clause also requires.
 
-**Q2 — What could this break?**
-Nothing executable. Every changed path is a docs/JSON governance record. The real risks are INFORMATIONAL and were mitigated explicitly: (a) a reader concluding B2 is closed when it is not - mitigated by making every B2 statement conditional on landing, in all four surfaces; (b) a reader concluding the audit is R14 CLEAN - mitigated by stating combined 0 P0 / 3 P1 / 5 P2 / 4 P3 and 'CLEAN not met, not claimed' everywhere; (c) silently overwriting Op-74 history - mitigated by R5/R132 preservation: every stale string is retained in place or under a *_stale_op74 / *_prior_op74 key, and the historical Op-74 record blocks are retained byte-for-byte; (d) a finding routed to a rung that cannot execute it - the DUN-9 misrouting was found and corrected.
+**Q1 — "How can I improve my choices with Elon Musk's 5 key first principles?"**
+Run in order. **(1) Question every requirement:** the requirement is Op-74 §3's `P0-AUDIT` rung, gating all backend work — name Bradley Gleave, date 2026-07-27, reason B2 asserts that `5076a07a` landed with no discoverable R14/R138 evidence. It survives questioning: the audit is the evidence, so deleting it deletes the gate's purpose. **(2) Delete the part:** the first draft carried a duplicated copy of Op-74's canonical ownership lists, ladder, stop conditions and blocker table. All of it was deleted — `OWNERSHIP_AND_LADDER_OP75.md` is now a pointer + delta only, because a second copy of canonical text guarantees drift. That is well over the ≥10% add-back threshold: nothing deleted was added back. **(3) Simplify what survived:** one rung, two audit reports, one baseline pin, one reconciliation review, one pointer, one preventive gate, two standing mirrors. **(4) Accelerate cycle time:** the dual-lens split lets both lenses be written against one frozen SHA without serialization on a backend write token (S3 not taken). **(5) Automate last — and deliberately not yet:** the identity gate ships as an operator-invoked script, *not* a hook or a required check, because automating it touches CI and needs its own gate (§4 of [`R3_IDENTITY_PREPUSH_ASSERTION.md`](R3_IDENTITY_PREPUSH_ASSERTION.md)). Automating before the manual step is proven is the mistake Musk's step 5 exists to prevent.
 
-**Q3 — Is it reversible?**
-Yes, completely: `git revert` of the single Op-75 landing commit. No migration, no schema, no workflow, no flag, no production code. Reverting does not reopen a repaired defect - it REMOVES EVIDENCE, so B2 would revert to OPEN and rung I1 would re-block. That is the correct consequence, not a bug. Backend history is untouched in both directions.
+**Q2 — "What would hyperscalers do?"**
+**Concrete practice cited: pipeline safety-gates in place of per-change human approval, and blast-radius containment (AWS/GCP).** Two applications. (a) The reason `5076a07a` reached `main` with a wrong committer is that R3 was enforced by an assert inside a copy-paste block — a human step with no artifact. The hyperscaler answer is a **gate that emits evidence**, which is what §2's `r3-identity-gate.sh` now does: one command, three machine-observable exit codes, a pasteable record. Absence of the record is now distinguishable from absence of the check, which was Lens B **P1-1**'s core complaint. (b) Blast-radius containment is why `FEATURE_DUNNING_V2` stays default-OFF and why this Op dispatches no rung: the audit's twelve findings are preconditions of **Gate B**, so none is live. A second practice, **automated rollback on alarm**, is the named gap — Lens B **P2-2** records that the guard has no declared p99, no error budget and no `AuditEvent` per transition, so today there is nothing for an alarm to fire on. Routed to **DUN-4**.
 
-**Q4 — What evidence proves it works?**
-Starting head verified before editing: git rev-parse HEAD == git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a == gh api .../pulls/28 --jq .head.sha == 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650. Parentage verified on live main: git rev-parse HEAD^ == git ls-remote origin refs/heads/main == gh api .../pulls/28 --jq .base.sha == b76d0962de53ce494fa8f869a706ff0c15aee0b6. All four repo heads verified BOTH WAYS with tree, parent and identity; no drift, no INFRA_DEATH. Backend budgets recomputed from the commits API rather than the shallow worktree: 56 prod LOC, 6.05:1, R75 net 0 across src/+test/. Test totals recounted case by case: 37 + 10 = 47. Route names re-read from the @Controller/@Get/@Post decorators. PR #520 state fetched field by field. All three JSON artifacts parse. Every relative cross-link resolves. Every rule citation falls inside R1-R126 / R130-R138 with zero R127-R129 citations. Exactly one VERDICT line per audit report, on its true final line.
+**Q3 — "How can I get the GOOD without the BAD?"**
+**GOOD:** the R14/R138 evidence for `5076a07a` becomes discoverable in-repo, B2 can close, and `I1` unblocks — without touching backend code or reopening a landed commit. **BAD, four risks, each gated rather than accepted:** (a) a reader concluding **B2 is closed when it is not** — gated by making every B2 statement explicitly conditional on landing in all four surfaces; (b) a reader concluding the audit is **R14 CLEAN** — gated by stating the combined **0 P0 / 3 P1 / 5 P2 / 4 P3** and *"CLEAN not met, not claimed"* everywhere, and by `VERDICT: FINDINGS`; (c) **silently overwriting Op-74 history** — gated by R5/R132 preservation: every stale string is retained in place or under a `*_stale_op74` / `*_prior_op74` / `*_stale_op75_first_pass` key, and the historical Op-74 blocks are byte-for-byte intact; (d) a finding **routed to a rung that cannot execute it** — the `DUN-9` misrouting (a mobile rung asked to change a backend error envelope) was caught and corrected, and `src/filters/**` is recorded as **unowned and blocked** rather than given an invented owner. Nothing here required trading quality for speed, so no R2 escalation.
 
-> **On Q4's SHA evidence.** The head equality in Q4 (`… == 5c2f0057…`) was true **at
-> audit-execution time**, which is what an R138 gate records: the state the decision was made
+**Q4 — "Am I attacking the root cause / issue / idea?"**
+**Yes for the two P1s, and the root causes are named rather than papered over.** For Lens B **P1-1**: the root cause of R3-INC-4 is *unasserted identity*, which is a **different incident class** from R3-INC-1/2/3 (*forbidden mechanism*). The existing remedy — ban the merge button — was already in force here **and was obeyed**, so it structurally could not have prevented this; attacking the symptom would have meant re-banning something that was not used. The remedy therefore targets the assertion gap, not the mechanism. For Lens A **P1-1**: the root cause is not the two leaking routes but the **test shape** — the suite asserts `ALLOWED_PREFIXES` against hand-picked example paths and never against the repo's real mounted controller table, which is exactly why an accidentally-matching route was unobservable (see the **Verification evidence** gap in [`P0-AUDIT-B-5076a07a.md`](../audit-reports/P0-AUDIT-B-5076a07a.md)'s reconstructed `R138 Decision Gate`). Fixing only the prefixes would leave the blind spot intact, so the **test-shape requirement is routed to `DUN-1`** alongside the fix. **Acknowledged workarounds, filed not hidden (R20):** the identity gate is local and cannot bind a push that skips it — closing that requires **B3** branch protection, which is recorded as an open blocker; and `src/filters/**` needs an Op-74 §1 ownership assignment before Lens A **P3-2** is executable at all.
+
+### Decision, and its rollback / blast-radius note
+
+**Decision:** execute and land the `P0-AUDIT` rung as governance evidence only — no rung dispatched, no finding repaired, no production file touched, no flag flipped, 0 production LOC.
+
+**Blast radius:** nothing executable. Every changed path is a docs/JSON governance record. No migration, no schema, no workflow, no flag, no production code.
+
+**Rollback:** `git revert` of the Op-75 landing commit, in one step. Note the asymmetry deliberately: reverting does **not** reopen a repaired defect, because nothing was repaired — it **removes evidence**, so **B2 returns to OPEN and `I1` re-blocks**. That is the correct consequence, not a bug. Backend history is untouched in both directions.
+
+**Evidence the decision was executed as described** (this is verification, not one of the four questions — see the R5/R132 note below): starting head verified before editing, `git rev-parse HEAD` == `git ls-remote origin refs/heads/docs/op75-p0-audit-5076a07a` == `gh api .../pulls/28 --jq .head.sha` == `5c2f0057cd0ba4f5cba3b2dd2e6e718927549650`. Parentage verified on live `main`: `git rev-parse HEAD^` == `git ls-remote origin refs/heads/main` == `gh api .../pulls/28 --jq .base.sha` == `b76d0962de53ce494fa8f869a706ff0c15aee0b6`. All four repo heads verified **both ways** with tree, parent and identity; no drift, no INFRA_DEATH. Backend budgets recomputed from the commits API rather than the shallow worktree: **56** prod LOC, **6.05:1**, R75 net **0** across `src/`+`test/`. Test totals recounted case by case: **37 + 10 = 47**. Route names re-read from the `@Controller`/`@Get`/`@Post` decorators. PR #520 state fetched field by field. All three JSON artifacts parse. Every relative cross-link resolves. Every rule citation falls inside `R1`–`R126` / `R130`–`R138` with zero `R127`–`R129` citations. Exactly one `VERDICT:` line per audit report, on its true final line.
+
+> **CORRECTED at the third remediation pass (2026-07-27) — R5/R132, prior wording preserved below.**
+> This gate previously asked *"Q1 What is the smallest change that delivers the value? / Q2 What could
+> this break? / Q3 Is it reversible? / Q4 What evidence proves it works?"*. **Those are not R138's four
+> questions.** [`AGENT_RULES.md`](../../AGENT_RULES.md) §14 R138 defines them as *"the operator's four
+> questions, verbatim in intent"*: Musk's 5 first principles → hyperscaler practice → GOOD without the
+> BAD → root cause. The substitution was **Op-75-local and undisclosed**: `decision_record_op59_reconcile_2026_07_16.r138_gate`
+> uses `musk_5` / `hyperscalers` / `good_without_bad` / `root_cause`, Op-63 uses
+> `q1_first_principles_musk_algorithm` / `q2_hyperscaler_lens_evidence` / `q3_good_without_bad` /
+> `q4_root_cause`, and [`DECISION_LOG.md`](../../DECISION_LOG.md) restates the canonical four verbatim.
+> Because this gate is the **named evidence for blocker B2**, a gate answering the wrong questions is
+> incomplete evidence for the blocker it is offered to close (`AGENT_RULES.md` line 874 grades a
+> governed change with an absent Decision Record a **P1**; line 1592 confirms docs-only changes are
+> **not** exempt).
+>
+> **No answer was discarded.** The prior four were a blast-radius / reversibility / verification note,
+> which R138's *"How to record the gate"* clause **also** requires — so they are retained above under
+> **Decision, and its rollback / blast-radius note**, which is where they belong. The heading is also
+> renamed from *"R138 four-question decision gate"* to **`R138 Decision Gate`**, the exact heading
+> `AGENT_RULES.md` line 1601 requires.
+
+> **On the SHA evidence above.** The head equality (`… == 5c2f0057…`) was true **at
+> audit-execution time**, which is what an R138 record captures: the state the decision was made
 > against. It is **not** a claim about the current branch tip — the branch has since advanced by
 > remediation commits, and no committed artifact can name the tip that carries it (see §9). The
 > live tip is attested in the **PR #28 body**.
@@ -239,7 +274,7 @@ own **R138** gate per §5 stop condition 2.
 
 | Artifact | Rollback |
 |---|---|
-| Every Op-75 file | `git revert` of the single landing commit. All **nine** touched paths are docs / JSON governance records. |
+| Every Op-75 file | `git revert` of the single landing commit. All **ten** touched paths are docs / JSON governance records, plus one operator-invoked shell script that no workflow references. |
 | Production behaviour | **None to roll back.** 0 production LOC; no code, schema, migration, workflow or flag touched. |
 | `FEATURE_DUNNING_V2` | **Untouched, default-OFF.** Not flipped, not registered, not defaulted anywhere by this Op. |
 | Backend history | **Untouched.** No force-push, no rebase, no amend. |
@@ -262,8 +297,12 @@ OPEN**, and `I1` would re-block. That is the correct consequence, not a bug.
 | Rule numbering valid | ✅ all citations inside `R1–R126` / `R130–R138`; zero `R127`–`R129` citations |
 | Exactly one `VERDICT:` line per audit report, on the true final line | ✅ both (R78/R16) |
 | Commit identity | ✅ author == committer == `Bradley Gleave <bradley@bradleytgpcoaching.com>`; 0 AI / agent / `Co-Authored-By` tokens |
-| Diff is intentional | ✅ **nine** paths, all governance/docs/evidence; **0 production LOC** |
+| Diff is intentional | ✅ **ten** paths, all governance/docs/evidence; **0 production LOC** |
 | No flag activation | ✅ `FEATURE_DUNNING_V2` untouched and default-OFF |
+| **Every internal `file:line` citation re-derived from the FINAL file** | ✅ **added at the third pass, and it is the check that was missing.** The second pass grew Lens A by **+31** lines (355 → 386) and left seven citations pointing at `:102` / `:152` / `:183`, correct only at the prior tip. Re-derive, never carry forward: `grep -n '^### P[0-9]-[0-9]' handoffs/audit-reports/P0-AUDIT-A-5076a07a.md` and confirm every citing surface — [`BASELINE_HEADS_OP75.json`](BASELINE_HEADS_OP75.json), [`current-state.json`](../importer-wave/current-state.json), [`DECISION_LOG.md`](../../DECISION_LOG.md) — matches. **Any edit above a finding re-breaks every pointer below it, so this row is mandatory on every future pass.** Each citation now also carries its heading text, so a stale number is self-evident rather than silently wrong. |
+| `R138 Decision Gate` asks R138's four **canonical** questions | ✅ Musk 5 first principles · *"What would hyperscalers do?"* (concrete practice cited) · *"How can I get the GOOD without the BAD?"* · *"Am I attacking the root cause?"* — in **all four** surfaces: §2a above, `current-state.json` → `…r138_decision_gate`, the Lens B reconstructed gate, and the PR #28 body. Verify: `grep -ci 'musk\|hyperscaler\|good without' ` on each. Prior non-canonical set preserved at `…r138_four_question_gate_stale_op75_first_pass` (R5/R132). |
+| Identity gate is **executable** and its doc copy has not drifted | ✅ [`r3-identity-gate.sh`](r3-identity-gate.sh) is canonical (mode `100755`); the fenced block in [`R3_IDENTITY_PREPUSH_ASSERTION.md`](R3_IDENTITY_PREPUSH_ASSERTION.md) §2 is a labelled mirror. Asserted byte-identical by extracting the fenced block from the shebang to its closing fence and diffing it against the script — the exact `awk` invocation is given in the mirror label in §2 of that file, and its output is **empty** at this SHA. |
+| Gate exercised against **every** commit on this branch, exit codes recorded | ✅ `5c2f0057` **0** `PASS` · `6871b5bf` **0** `PASS` · `2e5cd2dd` **3** `OVERRIDE_REQUIRED` · `7331a0cf` **3** `OVERRIDE_REQUIRED` · this pass's head **0** `PASS`. Both exit-3 commits carry a §2.2 override record with the matched line verbatim and an empty-forbidden-trailer proof. Hard-fail path verified separately against synthetic `Co-Authored-By:` / `Generated with` / `Signed-off-by: …noreply` inputs — all **exit 1**, no override path. |
 
 > **Self-reference constraint — why no row here pins the current head.** An immutable committed file
 > cannot contain the SHA of the commit that contains it: the SHA is a hash over the tree that
