@@ -389,9 +389,11 @@ by this pass; no override exists for any of them.
 | `Co-authored-by: Someone <s@example.com>` | **1** |
 | `Assisted-by: …` · `Helped-by: …` · `On-behalf-of: …` | **1** each |
 | `Reviewed-by: …` · `Authored-by: …` · `Generated-by: …` | **1** each |
-| `Signed-off-by: X <x@users.noreply.github.com>` | **1** |
+| `Signed-off-by: X <x@users.noreply.github.com>` — **overlaps three classes; counted once, here.** It is a line-start key (this table), it reads as a **footer/identity** form of the kind table C collects, and its `users.noreply` address makes it look like an identity case. It is **not** a C row and **not** a D row. Whichever class a reader assigns it to, the 22-case total counts it exactly once — in `2K`, as one of 2a's eight keys. | **1** |
 
-**C — footer openers and decorations.** Unchanged by this pass.
+**C — footer openers and decorations.** Unchanged by this pass. **`Signed-off-by: …` is deliberately
+absent from this table** even though it reads like a footer: it is a table-B key, and listing it here
+too is exactly the double-count that produced the fifth pass's phantom total of 23.
 
 | Body line | Exit |
 |---|---|
@@ -415,17 +417,33 @@ for s in $(git rev-list --reverse b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD
 done
 ```
 
-The invariant asserted carries **no cardinality on either side**:
+The invariant asserted **carries no branch count.** It states membership by exact SHA:
 
 - **Every** commit returned by that command returns **0 or 3**, never 1.
-- **Exactly two SHAs return 3**, and both are named: `2e5cd2dddb9d0e8cf656a27e25c96f37f93008d2` and
-  `7331a0cff14131c49c095c387c269b7a1569e63c`. Each carries an override record in §2.2 quoting its
-  matched line verbatim with an empty-forbidden-trailer proof.
+- The exit-3 set **is** `{2e5cd2dddb9d0e8cf656a27e25c96f37f93008d2, 7331a0cff14131c49c095c387c269b7a1569e63c}`
+  — membership, not a tally. Each member carries an override record in §2.2 quoting its matched line
+  verbatim with an empty-forbidden-trailer proof. Re-derive the set instead of trusting this list:
+
+```
+git rev-list --reverse b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD | while read -r s; do
+  handoffs/op75/r3-identity-gate.sh "$s" >/dev/null 2>&1; [ $? = 3 ] && echo "$s"
+done
+```
+
 - **Every other SHA the command returns returned 0 at capture.** That set is defined by subtraction
   from the command's output, so it cannot go stale as the branch grows.
 
-Strengthening 2b changed **no** exit code on this branch: the two named exit-3 commits still match on
+Strengthening 2b changed **no** exit code on this branch: both named exit-3 commits still match on
 the same lines quoted in §2.2, and no commit moved off 0. That is the regression proof for this pass.
+
+> **CORRECTED at the seventh pass (R5/R132 — superseded wording named, not deleted).** The lead-in
+> above previously read *"carries **no cardinality on either side**"* while the bullet directly beneath
+> it read *"**Exactly two** SHAs return 3."* Self-contradictory as written. The substance was never
+> wrong — both SHAs are named individually, so the exit-3 side was an enumeration rather than a
+> maintained tally, and the staleness-prone exit-0 side genuinely is count-free. The defect was the
+> word *"either"*, which claimed more than the evidence beneath it. Fixed by scoping the claim to the
+> side it is true of, and by restating the exit-3 side as set membership with its own derivation
+> command, so the set is re-derived rather than read.
 
 > **CORRECTED at the sixth pass (R5/R132 — superseded wording named, not deleted).** This paragraph
 > previously ended *"and the **four** exit-0 commits still return 0."* That was true only while the

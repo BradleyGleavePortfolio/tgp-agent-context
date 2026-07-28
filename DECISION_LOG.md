@@ -88,12 +88,27 @@ Newest first.
 >    unchanged. This is the same self-reference constraint already stated for SHAs in the note below,
 >    which was not applied to digests.**
 > 4. **PR-body JSON pointer did not resolve** — the body cited `repos.backend.open_blockers_ref.B3.sev_note`;
->    `open_blockers_ref` is a **top-level** key of `BASELINE_HEADS_OP75.json` (`:292`), so the quoted
->    path returns `null`. The quoted sentence is verbatim present at the correct path (`:296`), so the
+>    `open_blockers_ref` is a **top-level** key of `BASELINE_HEADS_OP75.json`, so the quoted
+>    path returns `null`. The quoted sentence is verbatim present at the correct path, so the
 >    finding-rejection built on it stands — but the defect sat **inside the very paragraph arguing that
 >    pointers must be re-derived rather than trusted**, which is why it is recorded rather than quietly
->    fixed. Verified with `jq -e '.open_blockers_ref.B3.sev_note'` before correcting the body. Also
->    absent from every committed file.
+>    fixed. Verified structurally, not by line number:
+>    `jq -e 'has("open_blockers_ref")'` returns `true`,
+>    `jq -e '.repos.backend.open_blockers_ref.B3.sev_note'` returns `null` (the body's error), and
+>    `jq -e '.open_blockers_ref.B3.sev_note'` returns the quoted sentence. Also absent from every
+>    committed file.
+>
+>    *(**Line citations withdrawn at the seventh pass — a repeat of a class this log has already
+>    corrected more than once, which is why the fix this time is mechanical rather than another
+>    re-derivation.** This bullet previously located those two keys at `:292` and `:296`. Correct
+>    when written; wrong by one at `ec4b1a10`, because the sixth pass's own rename hunk inserted a
+>    line above them. The dangerous half is that `:296` did not become invalid — it moved **inside
+>    blocker `B2`**, so it still resolved, to the wrong record. A number that is merely stale looks
+>    broken to a reader; a number that lands on a neighbouring record looks fine. That asymmetry is
+>    the whole argument for the `jq` paths above: a property path either resolves or it does not, and
+>    it survives every reflow. The old numbers are recorded here, struck, rather than deleted —
+>    R5/R132 — and `handoffs/op75/verify-citations.sh` now **rejects** JSON line citations outright so
+>    this class cannot return.)*
 >
 > **Nothing was rejected from this review.** All four findings reproduced exactly as described on first
 > attempt. Two of the four were body-only, so the committed diff for this pass is confined to the two
@@ -176,11 +191,18 @@ Newest first.
 >    hand-maintained commit counts.** §2.3 table E and the `current-state.json` mirror both ended
 >    *"and the **four** exit-0 commits still return 0"* — true only while the branch had six commits,
 >    and false the moment the fifth pass's own commit landed. Both now state a command plus an
->    invariant with **no cardinality on either side**: every SHA returned by
+>    invariant that **carries no branch count**: every SHA returned by
 >    `git rev-list --reverse b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD` exits `0` or `3` and never
->    `1`; **exactly two SHAs exit 3 and both are named** (`2e5cd2dd…`, `7331a0cf…`), each with a §2.2
->    override record quoting its matched line verbatim; every other SHA the command returns exited `0`
+>    `1`; the exit-3 set **is** `{2e5cd2dd…, 7331a0cf…}` — stated as membership with its own
+>    derivation command, not as a tally — each member carrying a §2.2 override record quoting its
+>    matched line verbatim; every other SHA the command returns exited `0`
 >    at capture — a set defined **by subtraction**, so it cannot go stale as the branch grows.
+>    *(**Wording corrected again at the seventh pass.** This bullet, and the §2.3 table E it describes,
+>    both said the invariant carried "no cardinality on **either** side" and then said "**exactly
+>    two** SHAs exit 3" in the next breath. The evidence was always sound — both SHAs are named, so
+>    that side is an enumeration, and the staleness-prone exit-0 side really is count-free — but the
+>    word "either" over-claimed, inside the very record written to abolish over-claimed counts. Now
+>    scoped to the side it holds for.)*
 > 2. **P3 as filed — the PR body's synthetic-case total double-counted `Signed-off-by`.** The body
 >    reported **23** cases with **5** footer/decoration forms. §2.3 table C has **four** rows; the
 >    phantom fifth was `Signed-off-by: X <x@users.noreply.github.com>`, already counted among table B's
@@ -198,7 +220,10 @@ Newest first.
 >    what it reads, because the title is what reviewers trust.**
 > 4. **`pr_28_head` named a capture-time tip as if it were the current head.** The key predates this
 >    remediation and read as *the* PR head while actually holding `5c2f0057…`, the head that was
->    reviewed as **input** — five remediation commits ago. Renamed to **`pr_28_reviewed_input_head`** in
+>    reviewed as **input**, several remediation commits back
+>    (`git rev-list --count 5c2f0057cd0ba4f5cba3b2dd2e6e718927549650..HEAD`, which is where that number
+>    belongs — the prose said "**five**" until the seventh pass removed it rather than re-increment it).
+>    Renamed to **`pr_28_reviewed_input_head`** in
 >    both labelled mirrors, each carrying a note recording the rename, that no consumer breaks
 >    (verified by `grep -rn pr_28_head`, which now returns only the notes), and that the **canonical
 >    R124 six-line block is deliberately unchanged** because its labels are md5-pinned. The old name is
@@ -224,7 +249,59 @@ Newest first.
 > its purest form — a stale count inside the anti-stale-count record, and a mis-titled control inside
 > the control-titling review.
 
-**Files touched (context repo) — exhaustive. Ten paths at the sixth pass, and this is the one place
+> **CORRECTED A SEVENTH TIME at the seventh remediation pass (2026-07-28).** A seventh independent
+> review, and the class held for the seventh time: **the sixth pass broke a citation with the very hunk
+> that fixed the sixth review's naming defect.** Named here, not erased (R5/R132):
+>
+> 1. **A pointer drifted into a *different record*, which is worse than drifting into nothing.** The
+>    sixth pass's rename hunk added one line near the top of
+>    [`BASELINE_HEADS_OP75.json`](handoffs/op75/BASELINE_HEADS_OP75.json) and shifted everything below
+>    it by one. Two citations in this log located `open_blockers_ref` and `B3.sev_note` at `:292` and
+>    `:296`; they became `:293`/`:297`, and `:296` **still resolved — inside blocker `B2`**. A citation
+>    that lands on a neighbouring record reads as correct to anyone who does not open the file, so it
+>    is strictly more dangerous than one that dangles. **Both line citations are withdrawn** in favour
+>    of `jq` property paths, which resolve or do not and survive every reflow. The substantive claims
+>    were never affected: `jq -e '.open_blockers_ref.B3.sev_note'` returns the quoted sentence verbatim.
+> 2. **The §9 control that existed to catch exactly this over-stated its own coverage.** Its title
+>    claimed *"every internal `file:line` citation re-derived"*; the command beside it greped only the
+>    Lens A finding headings, so no citation into a JSON file was ever within reach. Fixed by
+>    **replacing the prose control with an executable one** — [`verify-citations.sh`](handoffs/op75/verify-citations.sh),
+>    the eleventh path in the table below. It resolves every anchored in-repo `path:line` and asserts
+>    the line is in range, **rejects** line citations into JSON outright (a JSON line number is
+>    verifiable for existence but never for correctness — precisely how `:296` survived), reports
+>    backend targets without failing them, and reports unanchored `` `:N` `` refs for
+>    ACTIVE-vs-HISTORICAL classification. It uses the gate's own three-state idiom: **0 PASS / 1 FAIL /
+>    3 CLASSIFY_REQUIRED**. This is the second pass in a row to replace a control that was believed to
+>    run with one that does. **A control's coverage must be executable, not asserted** — the sixth pass
+>    fixed a control's *title*; this one fixes the fact that it was prose at all.
+> 3. **A self-contradiction inside the record written to abolish counts.** §2.3 table E said the
+>    invariant carried *"no cardinality on **either** side"* and then, one bullet later, *"**exactly
+>    two** SHAs return 3"*. The evidence was always sound — both SHAs are named, so that side is an
+>    enumeration, and the exit-0 side genuinely is count-free — but the word *"either"* claimed more
+>    than what sat beneath it. Now scoped to the side it holds for, with the exit-3 side restated as
+>    **set membership plus its own derivation command**.
+> 4. **Two more hand-maintained totals, both already stale or heading there.** The rename note said
+>    *"five remediation commits have landed since"* (now `git rev-list --count`), and the
+>    `current-state.json` mirror said *"the first of the **five** passes"* — an ordinal that goes stale
+>    on every subsequent pass. Both removed rather than re-incremented. The same note claimed a
+>    `grep -rn pr_28_head` sweep *"returns only this note"*, singular, while several notes record the
+>    rename; this log already had it right in the plural. The claim is now **structural**:
+>    `jq '[paths|.[-1]|strings|select(.==$k)]|length' --arg k pr_28_head` returns `0` on every mirror,
+>    which is the property that actually matters and cannot be miscounted.
+> 5. **The `Signed-off-by` synthetic case is now marked in the table itself.** It overlaps three
+>    classes — line-start key, footer/identity form, `users.noreply` address — and a reader
+>    re-deriving the total from the tables could reasonably place it in table C and reach 23. The row
+>    now says, in the table, that it is **counted once, in `2K`**, and table C says why it is
+>    deliberately absent from there. `K=8 C=4 D=2 total=22` re-derives unchanged.
+>
+> **One defect this pass was self-inflicted and caught by running the rule.** The first draft of
+> correction 1 above opened with *"the fifth time a pointer in this log has drifted"* — a
+> hand-maintained count, written into the correction that removes hand-maintained counts, in the same
+> edit session that removed two others. It was replaced before commit. That is the class in its purest
+> form yet, and it is recorded rather than quietly dropped because **the pattern is now predictive: the
+> most likely place for the next defect is inside this block.**
+
+**Files touched (context repo) — exhaustive. Eleven paths at the seventh pass, and this is the one place
 the number is authoritative rather than restated.** Per the general rule adopted above, the count sits
 beside the command that returns it, so a reviewer re-derives instead of trusting it:
 `git diff --name-only b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD` (add `| wc -l` for the count;
@@ -243,6 +320,7 @@ below is the authoritative membership list; every other surface points here rath
 | [`handoffs/op75/r3-identity-gate.sh`](handoffs/op75/r3-identity-gate.sh) | **NEW at the third pass** — the tenth path | the gate as an **executable** script (mode `100755`), operator-invoked; **not** a git hook, **not** a CI check, outside `src/`, 0 production LOC. Canonical over the fenced mirror in the `.md`. |
 | [`handoffs/op74/BASELINE_HEADS_OP74.json`](handoffs/op74/BASELINE_HEADS_OP74.json) | **additive correction only** — `superseded_in_part_by` + `repos.backend.op75_corrections`; the false B2 string preserved **verbatim** | Op-74 pin, newest-wins |
 | [`handoffs/importer-wave/current-state.json`](handoffs/importer-wave/current-state.json) | Op-75 mirror; all prior wording preserved under `*_stale_op74` / `*_prior_op74` keys | machine-readable state |
+| [`handoffs/op75/verify-citations.sh`](handoffs/op75/verify-citations.sh) | **NEW at the seventh pass** — the eleventh path | the citation control as an **executable** script (mode `100755`), replacing the §9 prose row that claimed a coverage its command did not have. Three exit states, `r3-identity-gate.sh` idiom: **0** PASS · **1** FAIL (out-of-range citation, or a JSON target cited by line) · **3** CLASSIFY_REQUIRED (unanchored `` `:N` `` refs need a human ACTIVE/HISTORICAL call). **3 is the expected terminal state at this head.** |
 | `DECISION_LOG.md` | this entry | narrative log |
 
 **No product repo touched. No history rewritten — no force-push, no rebase, no amend, no branch deletion. No flag flipped. 0 production LOC.**
@@ -501,7 +579,7 @@ Both independent reviewers returned the **same single finding**, and it was agai
 
 | # | Finding | Severity | Disposition |
 |---|---|---|---|
-| 1 | The Op-74 audit trail **misstated its own `AGENT_RULES.md` change scope.** The file list said "navigation metadata only" and the edit-scope subsection said "four navigation-metadata blocks only … no How-to-comply … was altered" — accurate when written, but **falsified by the second pass**, which changed R3 *How to comply* (`:113`) and added an operative rule to R14 (`:358–369`). The second-pass disclosure above then contradicted it, so the log no longer truthfully preserved the scope of a change to the **authoritative rule file** | blocking | **FIXED.** File list → "navigation metadata **+ two review-driven merge-doctrine corrections in R3 and R14**". Edit-scope subsection rewritten into categories **(a)** and **(b)** with a per-site table, prefaced by a correction block that records the stale wording verbatim rather than erasing it (R5/R132), and cross-linked with the second-pass row above so the two are complementary, not duplicative. Only the **mechanically verifiable** narrower assertions are retained: no rule renumbered/added/removed, no headline altered, no Failure-mode clause altered, **no operator verbatim quote altered** (every baseline line inside an `Operator quote (verbatim…)` section is still present byte-identical to baseline `9c25a06`; proven by exhaustion — exactly five baseline lines were replaced across the whole Op and none is a quote, headline, Failure-mode clause, or rule header), all superseded wording retained visible. |
+| 1 | The Op-74 audit trail **misstated its own `AGENT_RULES.md` change scope.** The file list said "navigation metadata only" and the edit-scope subsection said "four navigation-metadata blocks only … no How-to-comply … was altered" — accurate when written, but **falsified by the second pass**, which changed R3 *How to comply* (`AGENT_RULES.md:113`) and added an operative rule to R14 (`AGENT_RULES.md:358-369`). The second-pass disclosure above then contradicted it, so the log no longer truthfully preserved the scope of a change to the **authoritative rule file** | blocking | **FIXED.** File list → "navigation metadata **+ two review-driven merge-doctrine corrections in R3 and R14**". Edit-scope subsection rewritten into categories **(a)** and **(b)** with a per-site table, prefaced by a correction block that records the stale wording verbatim rather than erasing it (R5/R132), and cross-linked with the second-pass row above so the two are complementary, not duplicative. Only the **mechanically verifiable** narrower assertions are retained: no rule renumbered/added/removed, no headline altered, no Failure-mode clause altered, **no operator verbatim quote altered** (every baseline line inside an `Operator quote (verbatim…)` section is still present byte-identical to baseline `9c25a06`; proven by exhaustion — exactly five baseline lines were replaced across the whole Op and none is a quote, headline, Failure-mode clause, or rule header), all superseded wording retained visible. |
 
 ### Fourth dual-review pass on PR #27 — one blocker, resolved in-branch (2026-07-27)
 
