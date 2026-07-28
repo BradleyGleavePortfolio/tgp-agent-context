@@ -309,6 +309,64 @@ claim about a control be falsifiable by running the control. Reproduce with:
 handoffs/op75/r3-identity-gate.sh <sha>; echo "exit=$?"
 ```
 
+**Case total, and how to re-derive it instead of trusting it.** Tables A–D below are **22 distinct
+synthetic cases** — A and B are the same key set in two positions, C is footer openers and
+decorations, D is the controls — so the total is `2K + |C| + |D|` where `K` is 2a's key-set size taken
+from the script, not from this page. **Do not count table rows to get there:** table B compresses
+several keys into one row with the words *"… each"*, so a naive row count under-reports. Derive it:
+
+```
+K=$(grep -m1 '^HARD_RE=' handoffs/op75/r3-identity-gate.sh \
+      | grep -oE '\(([a-z-]+\|)+[a-z-]+\)' | head -1 | tr -d '()' | tr '|' '\n' | wc -l)
+C=$(awk '/^\*\*C — footer openers/{s=1;next} /^\*\*D — controls/{s=0} \
+         s&&/^\|/&&!/^\|---/&&!/^\| Body line/{c++} END{print c+0}' \
+      handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md)
+D=$(awk '/^\*\*D — controls/{s=1;next} /^\*\*E — every commit/{s=0} \
+         s&&/^\|/&&!/^\|---/&&!/^\| Case/{c++} END{print c+0}' \
+      handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md)
+echo "K=$K C=$C D=$D total=$((2*K+C+D))"
+```
+
+At this SHA that prints `K=8 C=4 D=2 total=22`. **`Signed-off-by: X <x@users.noreply.github.com>`
+belongs to table B and is counted once, there.** It is *also* the input that exercises check 3's
+forbidden-trailer arm, but exercising two checks does not make it two cases.
+
+> **CORRECTED at the sixth pass (R5/R132 — superseded count named, not deleted).** The fifth pass's
+> PR-body validation summary reported **23** synthetic cases with **5** footer/decoration forms. That
+> was wrong twice over: table C has four rows, and the phantom fifth "footer form" was
+> `Signed-off-by: X <x@users.noreply.github.com>`, already counted in table B's eight line-start
+> keys. **The correct figures are 22 cases and 4 footer/decoration forms.** The tables themselves were
+> always right; only the restated total drifted — which is precisely why the total is now accompanied
+> by the instruction to re-derive it. See the general rule in §9 of
+> [`PRE_BUILD_REVIEW_OP75.md`](PRE_BUILD_REVIEW_OP75.md).
+>
+> **Second correction, same pass, same paragraph.** The re-derivation instruction written above this
+> block *first* said to *"simply count the table rows in A, B, C and D"*. **Run, that returns 18, not
+> 22** — table B compresses eight keys into four rows using *"… each"*. So the sixth pass's own fix for
+> a bad number shipped, for one draft, with a bad derivation of the same number. It was caught by
+> running it, which is the only reason this note exists rather than a seventh review finding.
+> **Recorded because the pattern is now six-for-six: the correction is the most likely place for the
+> next defect, so the correction is what must be executed, not just read back.**
+
+**The key set is derived from the script, not maintained by hand.** Every "eight keys" claim in this
+document and in §9 of [`PRE_BUILD_REVIEW_OP75.md`](PRE_BUILD_REVIEW_OP75.md) resolves to the output of:
+
+```
+grep -m1 '^HARD_RE=' handoffs/op75/r3-identity-gate.sh \
+  | grep -oE '\(([a-z-]+\|)+[a-z-]+\)' | head -1 | tr -d '()' | tr '|' '\n' | sort
+```
+
+**The 2a/2b coupling rule is executable, not advisory.** Keys in 2a absent from 2b must be the empty
+set; any output from this command is the silent-pass regression of the fourth pass returning:
+
+```
+comm -23 \
+  <(grep -m1 '^HARD_RE='  handoffs/op75/r3-identity-gate.sh \
+      | grep -oE '\(([a-z-]+\|)+[a-z-]+\)' | head -1 | tr -d '()' | tr '|' '\n' | sort) \
+  <(grep -m1 '^BROAD_RE=' handoffs/op75/r3-identity-gate.sh \
+      | sed "s/^BROAD_RE='//;s/'\$//" | tr '|' '\n' | sort)
+```
+
 **A — the eight keys 2a recognises, mid-sentence (body line `see the <key>: key discussed mid sentence`).**
 Before this pass, only the first returned 3; the other seven returned **0**.
 
@@ -350,11 +408,32 @@ by this pass; no override exists for any of them.
 | Author/committer not the R3 identity | **1** |
 
 **E — every commit on this branch, derived not enumerated.** Run
-`for s in $(git rev-list --reverse b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD); do handoffs/op75/r3-identity-gate.sh "$s"; done`.
-The invariant asserted is **not** a count: *every commit returns 0 or 3, and every 3 carries an override
-record in §2.2 above*. Strengthening 2b changed **no** exit code on this branch — the two exit-3 commits
-match on the same lines quoted in §2.2, and the four exit-0 commits still return 0. That is the
-regression proof for this pass.
+
+```
+for s in $(git rev-list --reverse b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD); do
+  handoffs/op75/r3-identity-gate.sh "$s"; echo "$s exit=$?"
+done
+```
+
+The invariant asserted carries **no cardinality on either side**:
+
+- **Every** commit returned by that command returns **0 or 3**, never 1.
+- **Exactly two SHAs return 3**, and both are named: `2e5cd2dddb9d0e8cf656a27e25c96f37f93008d2` and
+  `7331a0cff14131c49c095c387c269b7a1569e63c`. Each carries an override record in §2.2 quoting its
+  matched line verbatim with an empty-forbidden-trailer proof.
+- **Every other SHA the command returns returned 0 at capture.** That set is defined by subtraction
+  from the command's output, so it cannot go stale as the branch grows.
+
+Strengthening 2b changed **no** exit code on this branch: the two named exit-3 commits still match on
+the same lines quoted in §2.2, and no commit moved off 0. That is the regression proof for this pass.
+
+> **CORRECTED at the sixth pass (R5/R132 — superseded wording named, not deleted).** This paragraph
+> previously ended *"and the **four** exit-0 commits still return 0."* That was true only while the
+> branch had six commits, and the fifth pass wrote it into a section it had just created to end exactly
+> this class of defect — a manually maintained cardinality in a document whose own §9 policy forbids
+> them. The count is now derived by subtraction from the `git rev-list` output and the two named
+> override SHAs, so no number is maintained by hand. **A cardinality about branch commits is only ever
+> written as a command plus an invariant.**
 
 ### Where it sits in the runbook sequence
 

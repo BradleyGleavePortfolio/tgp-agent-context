@@ -163,7 +163,74 @@ Newest first.
 > were measurable, so a clean second opinion only shows the class is hard to see by reading. This pass
 > is the first of the five to change the **executable** gate rather than the prose describing it.
 
-**Files touched (context repo) — exhaustive, ten paths:**
+> **CORRECTED A SIXTH TIME at the sixth remediation pass (2026-07-28).** A sixth independent review at
+> exact head `e9887fc8` re-derived the whole evidence surface and confirmed it: all eight 2a keys at
+> line start → `1` and mid-line → `3`, neutral → `0`, wrong identity → `1`, 2a/2b coupling complete,
+> the branch-wide loop `0`-or-`3` with exactly the two recorded overrides, the canonical R124 digest
+> `0afb8191a6f59807bc9fc1aef39d68a2`, one `VERDICT:` line per report on its true final line, the
+> relative-link sweep with zero broken, and head/tree/parent/base/date/identity matching GitHub and
+> local git. It found **no P0 and no P1**, and **one P3 plus three defects this pass volunteers as the
+> same class**. Named here, not erased (R5/R132):
+>
+> 1. **The fifth pass wrote a hand-maintained commit count into the very record created to abolish
+>    hand-maintained commit counts.** §2.3 table E and the `current-state.json` mirror both ended
+>    *"and the **four** exit-0 commits still return 0"* — true only while the branch had six commits,
+>    and false the moment the fifth pass's own commit landed. Both now state a command plus an
+>    invariant with **no cardinality on either side**: every SHA returned by
+>    `git rev-list --reverse b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD` exits `0` or `3` and never
+>    `1`; **exactly two SHAs exit 3 and both are named** (`2e5cd2dd…`, `7331a0cf…`), each with a §2.2
+>    override record quoting its matched line verbatim; every other SHA the command returns exited `0`
+>    at capture — a set defined **by subtraction**, so it cannot go stale as the branch grows.
+> 2. **P3 as filed — the PR body's synthetic-case total double-counted `Signed-off-by`.** The body
+>    reported **23** cases with **5** footer/decoration forms. §2.3 table C has **four** rows; the
+>    phantom fifth was `Signed-off-by: X <x@users.noreply.github.com>`, already counted among table B's
+>    eight line-start keys. It exercises check 3's forbidden-trailer arm as well, but **exercising two
+>    checks does not make it two cases**. Corrected to **22 cases / 4 footer forms** in the body, and
+>    §2.3 now carries the total *with the instruction to re-derive it* rather than the bare digits.
+> 3. **A control was standing in for a guarantee it never made.** The §9 row titled *"No active prose
+>    carries an independent artifact count"* was read — including by the passes that wrote it — as a
+>    general count-drift control. Measured, its ERE matches one shape only: the spelled words
+>    `eight`/`nine`/`ten` near the literal token `path`. It returns **zero hits** for
+>    `four exit-0 commits`, `23 synthetic gate cases`, `10 paths changed` and `seven commits`. So it
+>    could not have caught defects 1 or 2, and the row's title said otherwise. Renamed to
+>    **"Path-label wording scan"** with its measured blind spots stated, and a **separate general rule**
+>    added beside it (below) to cover what no grep can enumerate. **A control's title must describe
+>    what it reads, because the title is what reviewers trust.**
+> 4. **`pr_28_head` named a capture-time tip as if it were the current head.** The key predates this
+>    remediation and read as *the* PR head while actually holding `5c2f0057…`, the head that was
+>    reviewed as **input** — five remediation commits ago. Renamed to **`pr_28_reviewed_input_head`** in
+>    both labelled mirrors, each carrying a note recording the rename, that no consumer breaks
+>    (verified by `grep -rn pr_28_head`, which now returns only the notes), and that the **canonical
+>    R124 six-line block is deliberately unchanged** because its labels are md5-pinned. The old name is
+>    **not** retained as a data key: retaining a misleading name is the defect, so R5/R132 is satisfied
+>    by preserving it in prose inside the rename note instead.
+>
+> **Rule adopted this pass — active cardinality claims are command-derived at review time.** No grep
+> can enumerate the counts in a prose corpus, so this is stated as a rule rather than a pattern, and it
+> deliberately **introduces no number of its own**: active prose may state a count only when the command
+> that returns it sits beside it, so a reviewer re-derives instead of trusting digits. A count with no
+> adjacent command is a defect **even while it is still correct**, because correctness is the transient
+> state. Where the count is not load-bearing, prefer a command plus a cardinality-free invariant. This
+> applies to every noun, spelled or in digits — paths, commits, cases, controls, findings, rules.
+> Numbers preserved as superseded history are exempt, being quoted and labelled as such. The "eight
+> keys" figure is now itself derived from the script by a committed command in §2.3, and the 2a/2b
+> coupling rule is likewise **executable** — a `comm -23` that must return the empty set.
+>
+> **Nothing was rejected from this review.** The single filed P3 reproduced exactly as described. The
+> other three were found by turning the reviewer's own method — *re-derive, do not re-read* — on the
+> fifth pass's corrections, which is how three of the six passes have found their worst defects.
+> **The recurring class is now explicit: every pass so far has introduced at least one defect inside the
+> artifact it wrote to fix the previous pass's defect.** Defects 1 and 3 of this pass are that class in
+> its purest form — a stale count inside the anti-stale-count record, and a mis-titled control inside
+> the control-titling review.
+
+**Files touched (context repo) — exhaustive. Ten paths at the sixth pass, and this is the one place
+the number is authoritative rather than restated.** Per the general rule adopted above, the count sits
+beside the command that returns it, so a reviewer re-derives instead of trusting it:
+`git diff --name-only b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD` (add `| wc -l` for the count;
+live equivalent `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .changed_files`).
+**If the command and this heading disagree, the command wins and the heading is the defect.** The table
+below is the authoritative membership list; every other surface points here rather than recounting.
 
 | Path | Change | Kind |
 |---|---|---|
