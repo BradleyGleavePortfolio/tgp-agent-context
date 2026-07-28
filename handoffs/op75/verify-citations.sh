@@ -125,7 +125,11 @@ open(p, "wb").write(b)
 PYEOF
   out="$("$0" 2>&1)"; rc=$?
   n="$(printf '%s\n' "$out" | sed -n 's/^json_line_citations *= *\([0-9]*\).*/\1/p')"
-  hits="$(printf '%s\n' "$out" | grep -c 'JSON-LINE-CITATION' || true)"
+  # Match the EMISSION shape, not the bare token. The failure footer prints a remediation legend
+  # that also contains `JSON-LINE-CITATION`, so counting the token alone reports one finding as two
+  # and fails a correct script. Found by running this self-test against the fixed double count: the
+  # tally read 1 and the line count read 2, which is the assertion being wrong, not the code.
+  hits="$(printf '%s\n' "$out" | grep -c 'JSON-LINE-CITATION (use a jq path)' || true)"
   restore; trap - EXIT
   git diff --quiet -- "$V" && tree="restored clean" || tree="NOT RESTORED"
   echo "=== self-test: one injected JSON line citation ==="
