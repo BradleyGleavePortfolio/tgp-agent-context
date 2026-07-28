@@ -89,18 +89,36 @@ Three properties the runbook's inline assert lacks: it runs as **one command**, 
 > vocabulary** (overridable only with an empty forbidden-trailer proof) makes the distinction
 > executable.
 >
-> **No check is weakened — stated precisely, because the broader claim is not what the code proves.**
-> (i) **2b is retained character-for-character** from the round-2 gate, so every string that used to
-> stop a push still stops it; 2b is the backstop for any attribution 2a cannot shape-match.
-> (ii) **2a hard-fails canonical attribution positions** — a trailer key at line start, or a
-> recognised footer opener with at most a 4-character decoration — and is strictly *additional* hard
-> failure the round-2 gate did not have. (iii) **Other vocabulary forms return exit 3, not exit 1.**
-> Measured, not assumed: a mid-line `Co-authored-by:` embedded in prose, and a `Generated with` footer
-> carrying a prefix longer than 4 characters, both land on **3**. That is by design — 2a matches
-> *positions*, not vocabulary — and it is **never a silent pass**: exit 3 blocks the push until an
-> append-only override record naming that exact SHA and quoting the matched lines verbatim exists, so
-> a reviewer cannot dispose of one without reading it. Do not read this section as a claim that every
-> vocabulary form hard-fails; it does not, and the exit-3 path is the reason that is safe.
+> **CORRECTED — fifth pass, 2026-07-27 (R5/R132; the fourth-pass wording of this paragraph is
+> preserved immediately below and is superseded, not deleted).** The fourth pass wrote:
+>
+> > *"(i) **2b is retained character-for-character** from the round-2 gate … (iii) **Other vocabulary
+> > forms return exit 3, not exit 1.** … it is **never a silent pass**."*
+>
+> Clause (i) was accurate as a statement about bytes and **wrong as a safety claim**, which made
+> clause (iii) false. Check 2a listed **eight** trailer keys but anchored them at line start, while
+> the round-2 `BROAD_RE` that (i) froze carried only **one** of the eight (`co-authored-by`). The
+> other seven — `assisted-by`, `helped-by`, `on-behalf-of`, `reviewed-by`, `authored-by`,
+> `generated-by`, `signed-off-by` — therefore appeared in **neither** check once they were off line
+> start, and **exited 0 silently**. Measured on synthetic commits carrying the correct envelope
+> identity, all seven passed. Byte-freezing 2b was the reason the invariant could not hold, so the
+> freeze is abandoned rather than the invariant.
+>
+> **What the code proves now — every row below is a measured exit code, not an inference.**
+> (i) **2b is a superset of 2a's key set.** All eight keys are matched case-insensitively **anywhere**
+> in the message, alongside the round-2 vocabulary (`claude`, `anthropic`, `\bAI\b`, `\bagent\b`,
+> `generated with`, `assistant`), which is retained verbatim — so nothing 2b used to catch is now
+> missed, and the seven silent-pass keys are closed. (ii) **2a hard-fails canonical attribution
+> positions** — a trailer key at line start, or a recognised footer opener with at most a 4-character
+> decoration — and is strictly *additional* hard failure the round-2 gate did not have; all eight keys
+> at line start return **1**. (iii) **The same vocabulary off a canonical position returns exit 3, not
+> exit 1**: all eight keys mid-sentence, and a `Generated with` footer carrying a prefix longer than
+> 4 characters, land on **3**. That is by design — 2a matches *positions*, not vocabulary. (iv) **No
+> key 2a recognises can now reach exit 0 anywhere in the message.** Exit 3 is **never a silent pass**:
+> it blocks the push until an append-only override record naming that exact SHA and quoting the matched
+> lines verbatim exists, so a reviewer cannot dispose of one without reading it. Do not read this
+> section as a claim that every vocabulary form hard-fails; it does not, and the exit-3 path is the
+> reason that is safe. The full matrix, including all eight keys in both positions, is at §2.3.
 
 > **CANONICAL SOURCE: [`r3-identity-gate.sh`](r3-identity-gate.sh)** (`handoffs/op75/`, mode `100755`).
 > The block below is a **NON-CANONICAL MIRROR** for reading. If the two ever differ, **the script
@@ -145,10 +163,19 @@ if HARD_HITS="$(printf '%s\n' "$MSG" | grep -Ein "$HARD_RE")"; then
   exit 1
 fi
 
-# --- 2b. BROAD token scan, deliberately UNCHANGED and UNWEAKENED from the original gate. ---
+# --- 2b. BROAD token scan: every key 2a recognises, plus assistant vocabulary, ANYWHERE. ---
 # A hit here means the vocabulary appears SOMEWHERE. It may be a real attribution 2a could not
 # shape-match, or it may be prose that merely discusses the tokens. 2b never silently passes.
-BROAD_RE='co-authored-by|claude|anthropic|\bAI\b|\bagent\b|generated with|assistant'
+#
+# SUPERSEDED (fifth pass, 2026-07-27) — the prior wording claimed this pattern was "deliberately
+# UNCHANGED and UNWEAKENED from the original gate". That was retained through the fourth pass and
+# was measurably wrong as an invariant: 2a listed eight trailer keys but anchored them at line
+# start, while the prior pattern carried only `co-authored-by` of the eight. The other seven
+# therefore reached NEITHER check off line start and exited 0 silently (measured). The pattern is
+# no longer byte-frozen; it is now a superset of 2a's key set, so every key 2a recognises reaches
+# at least exit 3 wherever it appears. Nothing previously caught is now missed: the prior tokens
+# are retained verbatim below.
+BROAD_RE='co-authored-by|assisted-by|helped-by|on-behalf-of|reviewed-by|authored-by|generated-by|signed-off-by|claude|anthropic|\bAI\b|\bagent\b|generated with|generated by|assistant'
 SOFT_HITS="$(printf '%s\n' "$MSG" | grep -Ein "$BROAD_RE" || true)"
 
 # --- 3. Trailer hygiene: the forbidden-trailer set must be empty. ---
@@ -270,6 +297,65 @@ committer = Bradley Gleave <bradley@bradleytgpcoaching.com>
 > `2e5cd2dd` only. That gap was found in external review. It is closed here rather than by loosening
 > the pattern or by rewriting either commit message — both are forbidden.
 
+## §2.3 — Measured exit matrix (fifth pass, 2026-07-27)
+
+Every row is an **observed exit code** from `r3-identity-gate.sh` run against a synthetic commit whose
+envelope identity is already correct, so checks 1 and 5 are not the cause of any non-zero result. This
+section exists because §9 of [`PRE_BUILD_REVIEW_OP75.md`](PRE_BUILD_REVIEW_OP75.md) requires that a
+claim about a control be falsifiable by running the control. Reproduce with:
+
+```
+# in a throwaway repo, commit each body with author == committer == the R3 identity, then:
+handoffs/op75/r3-identity-gate.sh <sha>; echo "exit=$?"
+```
+
+**A — the eight keys 2a recognises, mid-sentence (body line `see the <key>: key discussed mid sentence`).**
+Before this pass, only the first returned 3; the other seven returned **0**.
+
+| Key | Exit before fifth pass | Exit now |
+|---|---|---|
+| `co-authored-by` | 3 | **3** |
+| `assisted-by` | **0 (silent pass)** | **3** |
+| `helped-by` | **0 (silent pass)** | **3** |
+| `on-behalf-of` | **0 (silent pass)** | **3** |
+| `reviewed-by` | **0 (silent pass)** | **3** |
+| `authored-by` | **0 (silent pass)** | **3** |
+| `generated-by` | **0 (silent pass)** | **3** |
+| `signed-off-by` | **0 (silent pass)** | **3** |
+
+**B — the same eight keys at line start (canonical attribution position).** All hard-fail, unchanged
+by this pass; no override exists for any of them.
+
+| Body line | Exit |
+|---|---|
+| `Co-authored-by: Someone <s@example.com>` | **1** |
+| `Assisted-by: …` · `Helped-by: …` · `On-behalf-of: …` | **1** each |
+| `Reviewed-by: …` · `Authored-by: …` · `Generated-by: …` | **1** each |
+| `Signed-off-by: X <x@users.noreply.github.com>` | **1** |
+
+**C — footer openers and decorations.** Unchanged by this pass.
+
+| Body line | Exit |
+|---|---|
+| `Generated with something` (bare opener) | **1** |
+| `>>> Generated with something` (≤4-char decoration) | **1** |
+| `the footer text Generated with something` (>4-char prefix) | **3** |
+| `created with claude here` | **1** |
+
+**D — controls.**
+
+| Case | Exit |
+|---|---|
+| Neutral body, no attribution vocabulary | **0** |
+| Author/committer not the R3 identity | **1** |
+
+**E — every commit on this branch, derived not enumerated.** Run
+`for s in $(git rev-list --reverse b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD); do handoffs/op75/r3-identity-gate.sh "$s"; done`.
+The invariant asserted is **not** a count: *every commit returns 0 or 3, and every 3 carries an override
+record in §2.2 above*. Strengthening 2b changed **no** exit code on this branch — the two exit-3 commits
+match on the same lines quoted in §2.2, and the four exit-0 commits still return 0. That is the
+regression proof for this pass.
+
 ### Where it sits in the runbook sequence
 
 | Runbook step | Gate |
@@ -339,13 +425,19 @@ Consequences:
   (R5/R132 — superseded number named, not dropped).
 - **No override for anything in a canonical attribution position.** Exit **1** covers a trailer key
   at line start, a recognised footer opener with at most a 4-character decoration, and any non-empty
-  forbidden-trailer set; none of those has an override path (§2.1). Exit **3** covers vocabulary
-  *outside* those positions, and only when checks 1, 2a and 3 all pass. **This is not a claim that
-  every attribution-shaped string reaches exit 1** — a mid-line `Co-authored-by:` inside prose and a
-  `Generated with` footer with a longer prefix both reach **3**, measured. What holds is the weaker
-  and true statement: **no such string ever passes silently.** Exit 3 blocks the push until an
-  exact-SHA override record quoting the matched lines is appended, so the operator's judgement is
-  recorded rather than assumed.
+  forbidden-trailer set; none of those has an override path (§2.1). Exit **3** covers the same
+  vocabulary *outside* those positions, and only when checks 1, 2a and 3 all pass. **This is not a
+  claim that every attribution-shaped string reaches exit 1** — all eight trailer keys mid-sentence,
+  and a `Generated with` footer with a >4-character prefix, reach **3**, measured (§2.3).
+  **CORRECTED, fifth pass (R5/R132).** The fourth pass wrote here: *"What holds is the weaker and true
+  statement: **no such string ever passes silently.**"* That was **false when written** — 2b then
+  carried only `co-authored-by` of the eight keys 2a lists, so the other seven reached exit **0**
+  off line start. Superseded, not deleted. 2b is now a superset of 2a's key set, so the statement is
+  true **as of this SHA and by measurement, not by reasoning**: no key 2a recognises reaches exit 0
+  anywhere in the message (§2.3 table A). Exit 3 blocks the push until an exact-SHA override record
+  quoting the matched lines is appended, so the operator's judgement is recorded rather than assumed.
+  If a key is ever added to 2a, it must be added to 2b in the same change and §2.3 re-measured;
+  otherwise this bullet silently becomes false again.
 
 ---
 
