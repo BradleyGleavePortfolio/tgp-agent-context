@@ -387,6 +387,120 @@ Newest first.
 > the classification and reopens it as a failure — a judgement that can go stale is one that must be
 > able to expire.
 
+> **CORRECTED A NINTH TIME at the ninth remediation pass (2026-07-28).** A ninth independent review at
+> exact head `382e0a17` re-ran every control in this branch and reproduced every figure in the PR body,
+> including the side-by-side mutation proof that the eighth pass rests on. It found no defect in the
+> citation machinery. **It found the defect one layer above it: two of the §9 control rows were
+> invisible on github.com.** Fixed forward; nothing rewritten.
+>
+> 1. **Two control rows were silently truncated by the Markdown renderer, at the exact point where they
+>    hand the reader the command to re-derive their claim.** In GitHub-Flavored Markdown a pipe
+>    character delimits a table cell **even inside a code span**, and any cell beyond the header's
+>    column count is **discarded** — no warning, no ellipsis, no diff. Two §9 rows carried shell
+>    pipelines with bare pipes, so the renderer cut one mid-command and cut the other after nine
+>    characters of its verify command, destroying its entire body: the measured-scope paragraph, all
+>    three permitted classification classes, and an R5/R132 correction record. **A reviewer on
+>    github.com saw a green tick with its evidence invisible.** That is this branch's own defining
+>    failure — *a control a reader trusts* — reappearing in the **presentation** of the controls rather
+>    than in the controls themselves, and **eight passes of running the commands could not detect it,
+>    because the bytes were correct and only the rendering was not.** Remedy: every executable command
+>    in §9 is lifted out of the table into a named fenced block (`V1`–`V7`), which has no cell
+>    semantics, and each row now references its anchor. The shell text is copy-pasteable **and** the
+>    prose is visible; neither correctness is traded for the other.
+> 2. **The defect class is now an executable control, not a resolution.**
+>    [`verify-rendering.sh`](handoffs/op75/verify-rendering.sh) enforces the structural rule that
+>    decides the whole class — *a table row may not produce more cells than its header defines* —
+>    offline and deterministically over every markdown file this branch changes, and with `--render`
+>    confirms the conclusion against **GitHub's own `/markdown` API** by asserting that the tail of
+>    every table row survives into the rendered output. Tails are **derived from each row**, never
+>    hand-listed, so the probe cannot go stale the way an enumerated list would. If `--render` is
+>    requested and cannot be performed the script **fails**, because an unavailable check is not a
+>    passing check. Its first useful act was to reject **the row announcing itself**: the first draft of
+>    that row spelled two pipes literally while describing the pipe defect, and the gate discarded it.
+>    Recorded because a control that catches its own author on its first run is the only kind of
+>    evidence this branch accepts.
+> 3. **The rule-numbering row published a command that could not run, and the correction record beside
+>    it blamed the wrong layer.** The fourth pass had unescaped its pipes to fix a regex bug; the eighth
+>    pass re-escaped them; under `-E` a backslash-escaped pipe is a **literal pipe**, so the token scan
+>    matched nothing and the subtraction pipeline died with `grep` reporting `No such file or directory`
+>    for a pipe it had been handed as a filename. The two conventions cannot both be right, because the
+>    dialects disagree: in ERE the escape is a literal, in BRE it **is** the alternation, and in a table
+>    cell the unescaped form is destroyed by the renderer. **This is why the fenced block is the fix and
+>    the escaping debate is not** — but fencing alone is not sufficient either, and this pass proved
+>    that on itself. Two of the blocks written **during this pass**, `V5` and `V6`, were lifted out of
+>    their cells with the escape correctly dropped and **`-E` not added**. In BRE an unescaped pipe is a
+>    literal, so each searched for its own pattern as a one-line string and matched exactly one line:
+>    **the block quoting itself.** `V5` published `9, 0, 0` where the true per-surface totals are
+>    `12, 21, 3`, and `V6` claimed 16 hits where the command returned 1. Both were caught by **running
+>    them at this head**, not by reading them — a pass that had only proofread its own remedy would
+>    have shipped two fresh broken commands inside the fix for broken commands. The rule that survives
+>    is narrower than "use a fenced block": **pick one dialect, state it, and put it where the renderer
+>    cannot rewrite it.** Both commands now carry `-E` and their published outputs are the measured
+>    ones. Both commands now sit in `V2` with valid unescaped ERE alternation
+>    and real shell pipes, executed at this head: the token scan returns **106** lines and the
+>    subtraction leaves a residue of **7**, every line of which is classified in the block. The residue
+>    was **not** driven to zero by widening the exclusion list, because that would make the control pass
+>    by making it blinder. The row-315 correction record is amended to name **Markdown cell escaping**
+>    as the reason rather than leaving the escape blanket-condemned.
+> 4. **The R161 phantom inventory undercounted itself inside a STOP-condition block, and contradicted
+>    the rule file it defers to.** Standing Op-74 wording said the phantom is *"cited once, in
+>    `DECISION_LOG.md`"*; this branch had added statements naming a *different* singular site,
+>    `R3_MERGE_RUNBOOK.md` line 6, with no supersession note. **Both singular claims are false.** The
+>    citation is carried as an authority at three live sites — the Op-58 merge-runbook entry in this
+>    log, the `R3_MERGE_RUNBOOK.md` header, and the `supersession_note` scalar in `current-state.json`
+>    — and the third had never been annotated at all, in a file this branch edits heavily. Every live
+>    site is now **annotated in place**, original wording retained verbatim (R5/R132); both "cited once"
+>    claims are named as superseded **by re-derivation** rather than deleted; and no surface restates
+>    the set, because a hand-maintained inventory inside a governance file is precisely what went stale.
+>    All of them point at `git grep -n 'per R6/R161'` instead, with the caveat that the same command
+>    also returns diagnostic quotations and the annotations themselves, so its hits must be **read**,
+>    not tallied. **Nothing about R161 itself changes: it still does not exist, its substance is still
+>    carried by R6 alone, every citation is still read as R6, and no R161 rule text is invented
+>    anywhere.**
+> 5. **`AGENT_RULES.md` edit scope, stated per the footer rule that requires this entry.** Exactly
+>    **one** line is added to that file by Op 75: a single additive bullet in the **§13** header block,
+>    immediately beneath the existing R161 phantom bullet, which is **retained verbatim and not
+>    rewritten**. It supersedes only the navigational claim *"cited once, in `DECISION_LOG.md`"* and
+>    points at the re-derivation command. **No rule body, no rule number, no operator quote and no
+>    enumeration is altered; no rule is added, removed or renumbered; R127–R129 remain permanently
+>    absent (B6).** Verify the scope rather than trusting this paragraph:
+>    `git diff --stat b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD -- AGENT_RULES.md`. *(The file
+>    carries mixed line endings — several hundred CRLF lines among its total — so it must be edited in
+>    byte mode; a text-mode write normalises them and produces a whole-file diff that buries the one
+>    real change. That happened once during this pass and was reverted before committing.)*
+> 6. **Three defects inside the eighth pass's own citation script.** All are corrected, and the one with
+>    a measurable symptom is now guarded by a mutation test the script runs on itself.
+>    - **The ledger format header disagreed with the parser it documents.** The header printed the `ADJ`
+>      fields in a different order from the order on disk, while the reader keys on field 2 and takes
+>      its value from field 3. The data and the parser always agreed; the **documentation** of them did
+>      not, which is how a future editor writes a record the reader silently misreads. The header now
+>      states the on-disk order for both record kinds.
+>    - **`json_line_citations` was double-counted for citations targeting a `.json` file from inside a
+>      JSON artifact** — charged once by the anchored check and again by the caller re-scanning the same
+>      scalar. Injecting **one** citation reported **two**. The verdict was unaffected, but a control
+>      whose entire purpose is that its numbers can be trusted must not inflate them. Fixed with an
+>      explicit consumed-flag, and locked in by a new **`--self-test`** mode that injects one citation
+>      at byte level, asserts the tally is exactly one, restores the file and **refuses to run at all**
+>      if the target already has uncommitted changes. Proven side by side on one mutated tree: the
+>      committed eighth-pass script reported `json_line_citations = 2`; this one reports `1`.
+>    - **The escaped-citation comment demonstrated the opposite of its claim.** Its "with escapes"
+>      example printed the **decoded** form, so it could not show the thing it existed to show, and it
+>      asserted a property against a condition that does not arise here. Rewritten to the measured
+>      facts: neither mirror contains a single `\uXXXX` escape at this head, the check that establishes
+>      that is printed, and it is noted that the check **exits 1 while reporting zero** — which is
+>      `grep` saying "no match", not an error. Stated because a zero from a command that also signals
+>      failure is exactly the sort of result an earlier pass wrote down without running. The `jq`
+>      reading is then framed as what it is: a **structural** guarantee that holds whether or not
+>      escapes are present, not a defect discovered in the tree.
+>
+> **What the ninth pass changes about how this branch verifies itself.** Every previous pass verified
+> its artifacts by **executing what they contained**. That is necessary and it is not sufficient: it
+> reads the bytes, and a reader reads the rendering. Nine passes, nine times a defect landed inside the
+> artifact written to fix the previous pass — and this time it landed in a layer no previous control
+> could see. The remedy is not vigilance but a **gate**, which is why this pass ships one rather than a
+> promise to check. **A control is not verified until the form a reader receives it in has been
+> verified.**
+
 **Files touched (context repo) — exhaustive, and this is the one place the membership list is
 authoritative rather than restated.** The heading no longer spells a number at all *(eighth pass: it
 read "Eleven paths at the seventh pass", which is a hand-maintained cardinality embedded in a
@@ -411,6 +525,9 @@ below is the authoritative membership list; every other surface points here rath
 | [`handoffs/importer-wave/current-state.json`](handoffs/importer-wave/current-state.json) | Op-75 mirror; all prior wording preserved under `*_stale_op74` / `*_prior_op74` keys | machine-readable state |
 | [`handoffs/op75/verify-citations.sh`](handoffs/op75/verify-citations.sh) | **NEW at the seventh pass, rewritten at the eighth** | the citation control as an **executable** script (mode `100755`). The seventh-pass version replaced a §9 prose row that claimed a coverage its command did not have, but it only **range-checked** line numbers — which cannot detect a line inserted above a citation, the exact drift it was written for. It now **content-pins** every anchored in-repo citation, reads both changed JSON mirrors through `jq` (escaped citations included), rejects JSON line citations, and adjudicates unanchored refs against the ledger. Three exit states, `r3-identity-gate.sh` idiom: **0** PASS · **1** FAIL (drift, unpinned, out-of-range, JSON line citation, stale ledger) · **3** CLASSIFY_REQUIRED. **3 is the terminal state at this head, and the script prints a distinct text saying so only when nothing is unclassified.** |
 | [`handoffs/op75/CITATION_LEDGER.tsv`](handoffs/op75/CITATION_LEDGER.tsv) | **NEW at the eighth pass** | inert data read by the script above: a `PIN` record per anchored in-repo citation holding the SHA-1 of the text at that span, and an `ADJ` record per unanchored `` `:N` `` reference holding its class keyed on a digest of the citing text — so editing the text voids the adjudication instead of silently carrying it forward. |
+| [`handoffs/op75/verify-rendering.sh`](handoffs/op75/verify-rendering.sh) | **NEW at the ninth pass** | the rendering control as an **executable** script (mode `100755`). Check **A** is the gate: offline and deterministic, it rejects any table row that produces more cells than its header defines, which is the whole defect class and is decidable from the bytes alone. Check **B**, under `--render`, confirms that conclusion against GitHub's own `/markdown` API by asserting the tail of every row survives — tails derived per row, never hand-listed. `--render` requested and unavailable is a **failure**, not a skip. Two exit states: **0** PASS · **1** FAIL. |
+| [`AGENT_RULES.md`](AGENT_RULES.md) | **additive correction only, one line** — a single §13 bullet beneath the R161 phantom bullet, which is retained verbatim | rule file. **No rule body, number, quote or enumeration altered.** Scope stated in the ninth-pass block above and verifiable with `git diff --stat b76d0962…..HEAD -- AGENT_RULES.md`. |
+| [`handoffs/importer-wave/R3_MERGE_RUNBOOK.md`](handoffs/importer-wave/R3_MERGE_RUNBOOK.md) | **additive correction only, one line** — the third live `R6/R161` site annotated in place at the ninth pass; line 6 retained verbatim | merge runbook; doctrine and mechanics unchanged |
 | `DECISION_LOG.md` | this entry | narrative log |
 
 **No product repo touched. No history rewritten — no force-push, no rebase, no amend, no branch deletion. No flag flipped. 0 production LOC.**
@@ -540,7 +657,7 @@ The retroactive [`R138 Decision Gate`](handoffs/audit-reports/P0-AUDIT-B-5076a07
 
 Additive governance documentation only — a forward-only `git revert` of the single landing commit removes **every path in the exhaustive "Files touched" table above**, whatever its current length. That sentence deliberately carries **no independent count**: the stale *"nine paths"* it replaces was written before `r3-identity-gate.sh` was added and became a fresh internal contradiction against the table in the same document (R5/R132 — the superseded number is named here, not silently dropped). The authoritative count is `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .changed_files`. **No product surface, no schema, no migration, no workflow, no flag, no runtime change to roll back.** `FEATURE_DUNNING_V2` is untouched and default-OFF: not flipped, not registered, not defaulted anywhere by this Op. **No history rewrite / force-push over shared `main`, in this Op or as a remedy for B1.** Reverting Op 75 does not reopen a repaired defect — it removes evidence: **B2 would revert to OPEN** and `I1` would re-block. That is the correct consequence, not a bug.
 
-**Stop conditions in force:** drift off any [`BASELINE_HEADS_OP75.json`](handoffs/op75/BASELINE_HEADS_OP75.json) pin → INFRA_DEATH (R124) · a cited rule number outside `R1–R126` / `R130–R138` → STOP, never invent (`R127`–`R129` **do not exist**, **B6**, permanent; `R161` cited at `R3_MERGE_RUNBOOK.md` line 6 is a phantom and must be read as **R6** alone) · a finding routed to a rung that cannot execute it → re-route, do not improvise (triggered once, by Lens A P3-2) · a status asserted without evidence at a named SHA → P0 · no credentials, secrets or live DB access were needed or used · the two cross-cutting items (`src/filters/**` ownership, the injectable-env registry audit) each need their **own R138 gate** before anyone acts on them.
+**Stop conditions in force:** drift off any [`BASELINE_HEADS_OP75.json`](handoffs/op75/BASELINE_HEADS_OP75.json) pin → INFRA_DEATH (R124) · a cited rule number outside `R1–R126` / `R130–R138` → STOP, never invent (`R127`–`R129` **do not exist**, **B6**, permanent; `R161` is a phantom and must be read as **R6** alone; it is carried at **more than one site**, so re-derive with `git grep -n 'per R6/R161'` rather than trusting a single location — R5/R132, superseding this clause's prior singular wording "cited at `R3_MERGE_RUNBOOK.md` line 6", which is named rather than deleted) · a finding routed to a rung that cannot execute it → re-route, do not improvise (triggered once, by Lens A P3-2) · a status asserted without evidence at a named SHA → P0 · no credentials, secrets or live DB access were needed or used · the two cross-cutting items (`src/filters/**` ownership, the injectable-env registry audit) each need their **own R138 gate** before anyone acts on them.
 
 ### Unresolved blockers carried forward
 
@@ -593,7 +710,7 @@ Ruling `roadmap/rulings/R-CROSS-REPO-AUTHORITY-2_2026-07-27.md` (**NEW**), exten
 | 2 | **Missing Op 70** | A complete `decision_record_op70_v5_complete_2026_07_21` exists in `current-state.json`, but **`DECISION_LOG.md` has no Op-70 entry** — the log jumps Op 71 → Op 69. A decision recorded in state but not in the log is half-lost (R5). | **Backfilled below in true newest-first date order** (between Op 71 and Op 69), clearly labelled as a **reconstruction from the surviving JSON record**, never presented as an original contemporaneous entry. |
 | 3 | **Stale importer billing language** | `A02-import-tooling.md` still lists *"Billing migration: detect imported clients with active subs → prompt coach to set up equivalent Stripe Connect plans"* and a matching acceptance criterion. These **directly contradict** the R5-protected operator-verbatim billing-capture exclusion binding on both v0.3 and v1.0. | **Struck from scope** via an Op-74 newest-wins block quoting the operator verbatim. The bullets remain **visible as historical record, not deleted** — they are simply **not buildable**, and any brief citing them is defective. Explicitly **not** in tension with Decision 2: dunning governs TGP's **own** billing state, never source-site billing data. |
 | 4 | **R138 vs the newest autonomy mandate** | Risk that Op-73's **BUILD SMALLER** verdict could be read as capping the product bar. | **Both stand.** R138's authorized slices (C1 → M5 → extension → gated pilot) survive **intact and unmodified** and are carried into the ladder as I1/I3/I2. **R138 governs how large a slice may be; R-IMPORTER-AUTONOMY-1 governs what the finished product must do.** A BUILD-SMALLER verdict may **never** be cited as evidence that the product bar is smaller. |
-| 5 | **R161 miscitation** | **R161 does not exist and never has.** Cited once, in the 2026-07-16 Op-58 merge-runbook entry, as *"permitted only for `wip/*` snapshot branches per R6/R161"*. | The substance is fully carried by **R6** alone. **Annotated in place** at that entry and in the `AGENT_RULES.md` §13 header; the historical paragraph is **retained verbatim, not rewritten** (R5/R132). Per R-RULE-AUTHORITY-1 §4 a nonexistent cited rule is a **STOP condition, never a licence to invent**. |
+| 5 | **R161 miscitation** | **R161 does not exist and never has.** Cited once, in the 2026-07-16 Op-58 merge-runbook entry, as *"permitted only for `wip/*` snapshot branches per R6/R161"*. | The substance is fully carried by **R6** alone. **Annotated in place** at that entry and in the `AGENT_RULES.md` §13 header; the historical paragraph is **retained verbatim, not rewritten** (R5/R132). Per R-RULE-AUTHORITY-1 §4 a nonexistent cited rule is a **STOP condition, never a licence to invent**. *(R5/R132 — superseded wording named, not deleted, Op-75 ninth pass 2026-07-28: **"Cited once, in the 2026-07-16 Op-58 merge-runbook entry"** is superseded by re-derivation. The phantom is carried at **more than one site**; that entry is one of them, and this cell is not the inventory. The set is not restated here — a hand-maintained inventory is what went stale in the first place — so re-derive it with `git grep -n 'per R6/R161'` and read each hit as either a live citation or a diagnostic quotation of one. Every previously unannotated live site is now annotated in place. **R161 still does not exist, its substance is still R6 alone, and no R161 text is invented anywhere.**)* |
 | 6 | **R86 overload** | "R86" carries **three** meanings: the canonical **SLO** rule; the legacy **LOC soft-cap** label (that file became **R23**; the `R86 EXCEPTION REQUESTED` string and `r86-exception-requested` tag survive only as historical names of the R23/R76 escape hatch); and a **typo** — one occurrence in the R118 rationale reads "R86 (PII)" when **PII is R98**. | **Disambiguation block added at R86's definition.** Cite **R23/R76** for the LOC cap, **R98** for PII, **R86** only for SLOs. No rule body edited. |
 | 7 | **Rules header / range inconsistency** | Header claimed *"one continuous, gap-free enumeration (R1 → R107) … you will never hit a missing number."* Reality: rules extend to **R138**, and the enumeration is **not** gap-free — **R127, R128, R129 do not exist.** R-RULE-AUTHORITY-1 §1's "R1→R107 plus R109–R138" is also wrong (R108 exists). | Header **enumeration correction** added: the range in force is **R1 → R126 and R130 → R138**; the R127–R129 gap is **documented, never renumbered or fake-filled** (R5 lost-forever discipline). §13 carries a matching numbering note; the **§11 heading**, which read *"(R100–R107)"* while the section actually defines **R100 → R126**, is corrected with its original wording recorded rather than erased; R-RULE-AUTHORITY-1 §1 carries an additive correction with its original wording retained. |
 

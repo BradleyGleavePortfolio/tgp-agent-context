@@ -17,10 +17,27 @@
 # WHAT ELSE THE PREVIOUS VERSION MISSED: SCOPE. It read six markdown files. Two changed JSON mirrors
 # — `handoffs/importer-wave/current-state.json` and `handoffs/op75/BASELINE_HEADS_OP75.json` — carry
 # live `path:line` citations and frozen correction prose, and were simply not read, so the control was
-# blind to the very drift class it claimed to cover. Both are now in scope. They are read with `jq`,
-# not `grep`: a JSON string may spell a citation with escapes (`P0-AUDIT-B-...md:99`), and
-# raw `grep` on the file bytes yields the garbage token `u0030-AUDIT-B-...md:99` while `jq` yields the
-# real `P0-AUDIT-B-5076a07a.md:99`. Escaped citations therefore no longer bypass extraction.
+# blind to the very drift class it claimed to cover. Both are now in scope, and they are read with
+# `jq` rather than `grep` — a STRUCTURAL choice, not a fix for anything observed in these files.
+#
+#   Neither mirror contains a single `\uXXXX` escape at this head. Verify, do not take it on trust:
+#     grep -c '\\u[0-9a-fA-F]\{4\}' handoffs/importer-wave/current-state.json \
+#                                    handoffs/op75/BASELINE_HEADS_OP75.json
+#   prints `…current-state.json:0` and `…BASELINE_HEADS_OP75.json:0`, and EXITS 1 — which is grep
+#   reporting "no match", not an error. Stated because a zero from a command that also signals
+#   failure is exactly the sort of result a previous pass wrote down without running.
+#
+# So the paragraph below states a property of the READER, not a defect found in the tree. `jq` emits
+# the decoded string, so extraction sees what the document MEANS; `grep` sees the file bytes, so it
+# sees what the document is SPELLED as, and the two differ whenever a citation carries an escape.
+# Demonstrated on a constructed input (a JSON string spelling the leading `P` as `\u0050`):
+#
+#   file bytes:  {"note": "see \u0050RE_BUILD_REVIEW_OP75.md:99 for detail"}
+#   raw grep  -> \u0050RE_BUILD_REVIEW_OP75.md:99      (unresolvable; a silent miss)
+#   jq        -> PRE_BUILD_REVIEW_OP75.md:99            (the real target)
+#
+# Reading through `jq` therefore holds whether or not escapes are currently present, which is the
+# point: it cannot regress the day someone's editor writes one.
 #
 # UNANCHORED REFERENCES ARE ADJUDICATED, NOT COUNTED. A bare `` `:99-105` `` names no path, so no
 # machine can resolve it. Each is recorded in the ledger against a digest of the citing text with an
@@ -51,8 +68,10 @@
 #   (d) unanchored             `` `:99-105` `` -> adjudicated in the ledger (see above).
 #
 # LEDGER FORMAT (handoffs/op75/CITATION_LEDGER.tsv, tab-separated, `#` comments):
-#   PIN <target>:<span>  <sha1-12 of that span's text>
-#   ADJ <class>  <sha1-12 of citing file + citing text>  <citing file>  <excerpt>
+# Field order below is the ORDER ON DISK, in the order the parser reads it — `ledger_get` keys on
+# field 2 and takes its value from field 3 for both record kinds, so the two must agree:
+#   PIN  <target>:<span>  <sha1-12 of that span's text>
+#   ADJ  <sha1-12 of citing file + citing text>  <class>  <citing file>  <excerpt>
 # Regenerate skeleton rows with `--write-ledger`; classes must then be set by hand. `--write-ledger`
 # never overwrites an existing record, so a hand-made adjudication cannot be clobbered by a rerun.
 set -uo pipefail
@@ -83,6 +102,44 @@ JSONLINE_RE='\.json([^:]{0,14}[^0-9:])?:[0-9]'
 JSONBARE_RE='(^|[^0-9A-Za-z_]):[0-9]+(-[0-9]+)?'
 VALID_CLASSES='BACKEND_EXCERPT FROZEN_CORRECTION'
 
+# --- --self-test -----------------------------------------------------------------------------------
+# A control that has not been demonstrated failing has not been demonstrated. This mode injects ONE
+# JSON line citation into a real artifact, re-runs this script against the mutated tree, and asserts
+# the tally is exactly 1 — the regression guard for a double count that reported 2 for one injection.
+# It restores the file and refuses to report success unless `git diff` confirms the tree came back.
+if [ "${1:-}" = "--self-test" ]; then
+  V="handoffs/op75/BASELINE_HEADS_OP75.json"
+  git diff --quiet -- "$V" || { echo "SELF-TEST: REFUSED — $V already has uncommitted changes"; exit 1; }
+  BK="$(mktemp)"; cp "$V" "$BK"
+  restore() { cp "$BK" "$V"; rm -f "$BK"; }
+  trap 'restore' EXIT
+  # Byte-level insertion after the opening brace: a re-serialised file would differ everywhere and
+  # make the resulting tally harder to attribute to the injection.
+  python3 - "$V" <<'PYEOF'
+import sys
+p = sys.argv[1]
+b = open(p, "rb").read()
+i = b.index(b"{") + 1
+b = b[:i] + b'\n  "self_test_injected_json_line_citation": "see handoffs/op75/BASELINE_HEADS_OP75.json:42 for detail",' + b[i:]
+open(p, "wb").write(b)
+PYEOF
+  out="$("$0" 2>&1)"; rc=$?
+  n="$(printf '%s\n' "$out" | sed -n 's/^json_line_citations *= *\([0-9]*\).*/\1/p')"
+  hits="$(printf '%s\n' "$out" | grep -c 'JSON-LINE-CITATION' || true)"
+  restore; trap - EXIT
+  git diff --quiet -- "$V" && tree="restored clean" || tree="NOT RESTORED"
+  echo "=== self-test: one injected JSON line citation ==="
+  echo "  json_line_citations tally = ${n:-<unparsed>}   (expected 1)"
+  echo "  JSON-LINE-CITATION lines  = $hits   (expected 1)"
+  echo "  verifier exit on mutated tree = $rc   (expected 1: any json line citation is a hard fail)"
+  echo "  working tree after restore = $tree"
+  if [ "$n" = "1" ] && [ "$hits" = "1" ] && [ "$rc" = "1" ] && [ "$tree" = "restored clean" ]; then
+    echo "SELF-TEST: PASS"; exit 0
+  fi
+  echo "SELF-TEST: FAIL"; exit 1
+fi
+
+
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 touch "$TMP/live_pins" "$TMP/live_adj"
 [ -f "$LEDGER" ] || : > "$LEDGER"
@@ -107,6 +164,12 @@ resolve() {
 }
 
 ok=0; broken=0; drifted=0; unpinned=0; crossrepo=0; jsonline=0
+# Set by check_anchored when it has already charged a JSON line citation for the scalar currently
+# being scanned. The JSON caller re-scans the same scalar with JSONLINE_RE to catch citations that
+# CITE_RE does not reach, and without this flag a `.json`-targeted citation is charged twice — the
+# tally inflates in the direction that flatters the control, which is the wrong direction to be
+# wrong in for a script whose whole claim is that its numbers can be trusted. Exercised by --self-test.
+consumed_jsonline=0
 unanch=0; adjudicated=0; unclassified=0; badclass=0; stale=0; missing=0
 
 # Emit one extracted record: KIND, citing file, human locator, payload.
@@ -119,7 +182,7 @@ check_anchored() {
     crossrepo=$((crossrepo+1)); echo "  CROSS-REPO  $f ($loc) -> $cite"; return
   fi
   if [ "${target##*.}" = "json" ]; then
-    jsonline=$((jsonline+1))
+    jsonline=$((jsonline+1)); consumed_jsonline=1
     echo "  JSON-LINE-CITATION (use a jq path)  $f ($loc) -> $cite  [resolves to $target]"
     return
   fi
@@ -200,12 +263,13 @@ for f in "${JSON_ARTIFACTS[@]}"; do
   while IFS=$'\t' read -r jpath val; do
     [ -n "${val:-}" ] || continue
     found=0
+    consumed_jsonline=0
     while IFS= read -r cite; do
       [ -n "$cite" ] || continue
       found=1
       check_anchored "$f" ".$jpath" "$cite"
     done < <(printf '%s' "$val" | grep -oE "$CITE_RE" || true)
-    if printf '%s' "$val" | grep -qE "$JSONLINE_RE"; then
+    if [ "$consumed_jsonline" = 0 ] && printf '%s' "$val" | grep -qE "$JSONLINE_RE"; then
       jsonline=$((jsonline+1))
       printf '  JSON-LINE-CITATION (use a jq path)  %s (.%s) | %.72s\n' "$f" "$jpath" "$val"
       continue

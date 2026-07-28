@@ -508,8 +508,11 @@ Consequences:
 - **No new rule number.** This document invents no rule. It enforces existing **R3** and existing
   runbook §1.4. The canonical enumeration is `R1–R126` and `R130–R138`; `R127`–`R129` **do not
   exist** (blocker **B6**, permanent, never renumbered) and are cited nowhere here.
-  *(Note: `R161`, cited at [`R3_MERGE_RUNBOOK.md`](../importer-wave/R3_MERGE_RUNBOOK.md) line 6, is
-  outside the enumeration and must be read as **R6** alone.)*
+  *(Note: `R161` is outside the enumeration and must be read as **R6** alone. It is carried at
+  **more than one site**, not one — re-derive with `git grep -n 'per R6/R161'`; each live site is
+  annotated in place. R5/R132: the prior singular wording, "cited at
+  [`R3_MERGE_RUNBOOK.md`](../importer-wave/R3_MERGE_RUNBOOK.md) line 6", is named as superseded
+  rather than deleted, and no R161 rule text is invented.)*
 - **No CI/workflow change, no hook installed, no production code.** 0 production LOC. Wiring this
   as a `pre-push` hook or a required check is a **separate, R138-gated** decision, and would touch
   CI — which [Op-74 §5](../op74/OWNERSHIP_AND_PR_LADDER.md) stop condition 2 requires a fresh gate
