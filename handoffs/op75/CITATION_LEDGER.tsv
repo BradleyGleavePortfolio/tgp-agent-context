@@ -1,0 +1,55 @@
+# CITATION_LEDGER.tsv - read by handoffs/op75/verify-citations.sh. Tab-separated; lines starting with # are comments.
+# PIN <target>:<span> <sha1-12 of the text at that span>   ADJ <sha1-12 of citing-file|citing-text> <class> <citing file> <excerpt>
+PIN	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:102	2795460bd8ea
+PIN	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:183	4d810a04450e
+PIN	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:214	ec006354b8af
+PIN	AGENT_RULES.md:113	80c03af92b59
+PIN	AGENT_RULES.md:358	4910ba5b1172
+PIN	AGENT_RULES.md:360	64382f490598
+PIN	AGENT_RULES.md:358-369	fcda4af6d40e
+ADJ	f98c6549f455	BACKEND_EXCERPT	DECISION_LOG.md	> **One review finding is REJECTED, with evidence.** The review claimed the "Node-scoped" sentence i
+ADJ	1393419700a8	BACKEND_EXCERPT	DECISION_LOG.md	> **CORRECTED A THIRD TIME at the third remediation pass (2026-07-27).** A third independent review 
+ADJ	965e29296ea2	FROZEN_CORRECTION	DECISION_LOG.md	> 1. **The pass that fixed the Lens A P2-2 transcription broke every pointer *to* it.** The second p
+ADJ	8424fe39815e	FROZEN_CORRECTION	DECISION_LOG.md	> re-derivation.** This bullet previously located those two keys at `:292` and `:296`. Correct
+ADJ	af7114920341	FROZEN_CORRECTION	DECISION_LOG.md	> line above them. The dangerous half is that `:296` did not become invalid  it moved **inside
+ADJ	7cb7d60c22f8	FROZEN_CORRECTION	DECISION_LOG.md	> it by one. Two citations in this log located `open_blockers_ref` and `B3.sev_note` at `:292` and
+ADJ	00d0059dce2f	FROZEN_CORRECTION	DECISION_LOG.md	> `:296`; they became `:293`/`:297`, and `:296` **still resolved  inside blocker `B2`**. A citation
+ADJ	1e6031c2f480	FROZEN_CORRECTION	DECISION_LOG.md	> verifiable for existence but never for correctness  precisely how `:296` survived), reports
+ADJ	416ad772be60	BACKEND_EXCERPT	DECISION_LOG.md	**0 P0.** The three most dangerous properties of a globally-mounted guard hold, and were verified by
+ADJ	a7ba4d315022	BACKEND_EXCERPT	DECISION_LOG.md	| A P2-3  `locked_out_at` unindexed on a per-request hot path (`prisma/schema.prisma:3815`, indexes 
+ADJ	0b029b1e8961	BACKEND_EXCERPT	DECISION_LOG.md	| A P3-2  `lockout_copy` (`:112-119`) discarded by the shared envelope at `src/filters/not-found-env
+ADJ	ea9a72df798a	FROZEN_CORRECTION	DECISION_LOG.md	2. **The row previously printed as "A P2-2  no durable record of a lockout transition  DUN-4" descri
+ADJ	b3df801c311e	BACKEND_EXCERPT	handoffs/op75/PRE_BUILD_REVIEW_OP75.md	(`:93-94`), fail-open on lookup error (`:99-105`). `FEATURE_DUNNING_V2` is default-OFF, so no
+ADJ	acc35e13a38d	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	(comment at `:157-161`). It is not scoped to a billing head  it admits **any** path whose second
+ADJ	52760bb8ad84	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	segment is one of the eight `ALLOWED_PREFIXES` tokens (`:45-54`), regardless of the first segment.
+ADJ	9e58c4764c08	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	`@Controller('scheduling/auth/google')` with `@Get('initiate')` (`:48`) and `@Get('callback')`
+ADJ	56a84aa1bdfd	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	(`:70`). Its second segment is `auth`.
+ADJ	723c5a81ab20	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	happens not to be in the list  the comment at `:159-161` asserts this as if it were a design
+ADJ	47e93ddc4b0e	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	Not exploitable today (`FEATURE_DUNNING_V2` is default-OFF and the guard hard-no-ops at `:80`),
+ADJ	2e2e2b8027e6	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	The inverse of P1-1. `normalizePath` (`:145-153`) strips a leading `v1/`, so the two coach
+ADJ	4fd1ad8a2726	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	(`:127-140`), so a coach who is not also a client is never locked; but a coach who *is* a client
+ADJ	879b9755d02c	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	**releases the lockout** while `locked_out_at` remains non-null (`:3815`) and
+ADJ	825cbe767ab2	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	- **Fail-open on lookup error** (`:99-105`)  correct. An infra fault cannot mass-lock. This is
+ADJ	28ee9a4686f7	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	- **Flag-OFF hard no-op** (`:80`)  `isDunningV2Enabled()` returns `true` only for the exact
+ADJ	4d0ba61ecc07	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	 before reading `req`, so v1 deployments are provably unaffected. Covered at `:84`.
+ADJ	7911211d65d7	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	 (`app.module.ts:396` `JwtAuthGuard`  `:408` `UserThrottlerGuard`  `:432` `RolesGuard` 
+ADJ	5e546d4e975b	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	 `:460` lockout). `req.user.id` is therefore populated when the lockout guard runs. Correct.
+ADJ	5f7115fc4aa9	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md	- **Unauthenticated passthrough** (`:93-94`)  `if (!userId) return true`. Correct given the
+ADJ	e3ae6a5111c3	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-B-5076a07a.md	hard no-op (`dunning-lockout.guard.ts:80`) and fail-open on lookup error (`:99-105`)  both hold.
+ADJ	e3c8ed146405	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-B-5076a07a.md	| 2 | **"What would hyperscalers do?"** | **Practice cited: flag-gated progressive rollout with the 
+ADJ	589493b44716	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-B-5076a07a.md	| 3 | **"How can I get the GOOD without the BAD?"** | **GOOD:** delinquent accounts stop consuming p
+ADJ	69f6bc85a3e3	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-B-5076a07a.md	| 4 | **"Am I attacking the root cause / issue / idea?"** | **Yes  mounting the guard attacks the ac
+ADJ	03f28c9e93e5	BACKEND_EXCERPT	handoffs/audit-reports/P0-AUDIT-B-5076a07a.md	at `src/checkout/dunning-v2/dunning-v2.feature.ts:25` and the reader at **`:32-36`**:
+ADJ	4708c07f0ce0	FROZEN_CORRECTION	handoffs/audit-reports/P0-AUDIT-B-5076a07a.md	> `:34-36` while quoting the `:25` constant, presenting a condensed excerpt as a contiguous quote.
+ADJ	98e1b5f428b5	FROZEN_CORRECTION	handoffs/audit-reports/P0-AUDIT-B-5076a07a.md	> The reader function spans **`:32-36`**; the constant is at **`:25`**. Substance unchanged.
+ADJ	1efee93ed9f4	BACKEND_EXCERPT	handoffs/importer-wave/current-state.json	Op 75 - P0-AUDIT DISCHARGE (docs/doctrine/evidence/state only, 0 product LOC, R14-exempt, R3-clean p
+ADJ	102d97881e83	BACKEND_EXCERPT	handoffs/importer-wave/current-state.json	AUDITED AT OP 75. Supersedes the Op-74 wording preserved at product_tree_status_stale_op74 ('NOT AUD
+ADJ	e9ac9d5e2e54	FROZEN_CORRECTION	handoffs/importer-wave/current-state.json	These two are matched by the INTENDED billing prefix in ALLOWED_PREFIXES; they are a deliberate reco
+PIN	handoffs/audit-reports/P0-AUDIT-A-5076a07a.md:133	2815b2e36474
+ADJ	41cb424f95ee	FROZEN_CORRECTION	handoffs/importer-wave/current-state.json	Earlier passes listed FOUR routes here, folding the two by-design billing routes into the unintended
+ADJ	6fc0d7bfd04e	BACKEND_EXCERPT	handoffs/importer-wave/current-state.json	unauthenticated passthrough (:93-94)
+ADJ	0c4b0836ae3a	BACKEND_EXCERPT	handoffs/importer-wave/current-state.json	fail-open on lookup error (:99-105)
+ADJ	fe24962ed894	FROZEN_CORRECTION	handoffs/importer-wave/current-state.json	RE-DERIVED at the third remediation pass (2026-07-27) from the final 386-line Lens A file. This key 
+ADJ	333931222db4	FROZEN_CORRECTION	handoffs/op75/BASELINE_HEADS_OP75.json	These two are matched by the INTENDED billing prefix in ALLOWED_PREFIXES; they are a deliberate reco
+ADJ	9094e95aff17	FROZEN_CORRECTION	handoffs/op75/BASELINE_HEADS_OP75.json	Earlier passes listed FOUR routes here, folding the two by-design billing routes into the unintended
+ADJ	910fbce9d74b	FROZEN_CORRECTION	handoffs/op75/BASELINE_HEADS_OP75.json	Previously recorded as 'Lockout decision has no durable transition record' routed to DUN-4. That is 

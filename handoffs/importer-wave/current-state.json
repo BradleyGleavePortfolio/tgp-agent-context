@@ -2146,16 +2146,18 @@
     },
     "authorizes": "NOTHING to build, land, or flip. Audit evidence, doctrine, classification and routing only.",
     "files_touched": [
+      "DECISION_LOG.md",
       "handoffs/audit-reports/P0-AUDIT-A-5076a07a.md",
       "handoffs/audit-reports/P0-AUDIT-B-5076a07a.md",
+      "handoffs/importer-wave/current-state.json",
+      "handoffs/op74/BASELINE_HEADS_OP74.json",
       "handoffs/op75/BASELINE_HEADS_OP75.json",
-      "handoffs/op75/PRE_BUILD_REVIEW_OP75.md",
+      "handoffs/op75/CITATION_LEDGER.tsv",
       "handoffs/op75/OWNERSHIP_AND_LADDER_OP75.md",
+      "handoffs/op75/PRE_BUILD_REVIEW_OP75.md",
       "handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md",
       "handoffs/op75/r3-identity-gate.sh",
-      "handoffs/op74/BASELINE_HEADS_OP74.json",
-      "handoffs/importer-wave/current-state.json",
-      "DECISION_LOG.md"
+      "handoffs/op75/verify-citations.sh"
     ],
     "production_loc": 0,
     "findings_and_dispositions": [
@@ -2354,7 +2356,20 @@
       "handoffs/importer-wave/current-state.json",
       "DECISION_LOG.md"
     ],
-    "files_touched_note": "TEN paths as of the third remediation pass (2026-07-27). handoffs/op75/r3-identity-gate.sh was added at that pass so the R3 identity gate is genuinely executable rather than a fenced code block; it is operator-invoked, mode 100755, outside src/, referenced by no workflow, and NOT installed as a git hook. It is canonical over the mirrored fenced block in R3_IDENTITY_PREPUSH_ASSERTION.md section 2, and the two are asserted byte-identical. Still 0 production LOC. The prior nine-path set is preserved at files_touched_prior_nine_path_set_stale_op75_second_pass per R5/R132. UNCHANGED at the fourth, fifth and sixth remediation passes: each edited existing paths and added none. ELEVENTH PATH ADDED AT THE SEVENTH REMEDIATION PASS (2026-07-28): handoffs/op75/verify-citations.sh, the citation control as an executable script (mode 100755, operator-invoked, outside src/, referenced by no workflow, not a git hook), replacing a section-9 prose row whose title claimed to re-derive every internal file:line citation while its command greped only the Lens A finding headings - which is how a one-line shift in BASELINE_HEADS_OP75.json broke two DECISION_LOG.md pointers, one of which then resolved to the WRONG blocker. Same three-state exit idiom as r3-identity-gate.sh: 0 PASS, 1 FAIL, 3 CLASSIFY_REQUIRED; 3 is the expected terminal state. Still 0 production LOC. DO NOT READ THE SPELLED WORD ABOVE AS THE LIVE COUNT: the authoritative count is `git diff --name-only b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD | wc -l`, live equivalent `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .changed_files`, and the authoritative membership list is the exhaustive Files touched table in DECISION_LOG.md. If a command and this note disagree, the command wins and this note is the defect; see files_touched_count_policy_fourth_pass.",
+    "files_touched_prior_ten_path_set_stale_op75_third_through_seventh_pass": [
+      "handoffs/audit-reports/P0-AUDIT-A-5076a07a.md",
+      "handoffs/audit-reports/P0-AUDIT-B-5076a07a.md",
+      "handoffs/op75/BASELINE_HEADS_OP75.json",
+      "handoffs/op75/PRE_BUILD_REVIEW_OP75.md",
+      "handoffs/op75/OWNERSHIP_AND_LADDER_OP75.md",
+      "handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md",
+      "handoffs/op75/r3-identity-gate.sh",
+      "handoffs/op74/BASELINE_HEADS_OP74.json",
+      "handoffs/importer-wave/current-state.json",
+      "DECISION_LOG.md"
+    ],
+    "files_touched_note": "ACTIVE MEMBERSHIP LIST, MECHANICALLY DERIVED, STATING NO COUNT. The files_touched array above is the verbatim output of `git diff --name-only b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD` at the head that carries this record; the live cardinality, if one is needed, is `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .changed_files`. The array is not maintained by hand and this note states no number. If a command and this array disagree, the command wins and this array is the defect. WHAT THE EIGHTH REMEDIATION PASS FIXED (2026-07-28): the array had omitted handoffs/op75/verify-citations.sh ever since that file was added, while the note sitting immediately beside it named the file - so the machine-readable list and its own prose contradicted each other inside a single record, and any consumer reading the array (which is the newest-wins mirror's active membership list) received the wrong artifact set. The remedy was structural rather than another hand-count: the array is now regenerated from the diff command above. The superseded array is preserved verbatim at files_touched_prior_ten_path_set_stale_op75_third_through_seventh_pass and the superseded note at files_touched_note_stale_op75_seventh_pass, per R5/R132. WHAT THE NON-DOCUMENT PATHS ARE. handoffs/op75/r3-identity-gate.sh (added at the third pass) makes the R3 identity gate executable instead of a fenced code block, and is canonical over the byte-identical mirror in R3_IDENTITY_PREPUSH_ASSERTION.md section 2. handoffs/op75/verify-citations.sh (added at the seventh pass, rewritten at the eighth) is the citation control; the seventh-pass version range-checked line numbers, which cannot detect a line insertion above a citation, so the eighth-pass version content-pins every anchored in-repo citation and reads the two JSON mirrors through jq rather than grep. handoffs/op75/CITATION_LEDGER.tsv (added at the eighth pass) carries those content pins and the adjudication of every unanchored reference. The scripts are operator-invoked, mode 100755, outside src/, referenced by no workflow, and NOT installed as git hooks; the ledger is inert data. Still 0 production LOC. See files_touched_count_policy_fourth_pass.",
+    "files_touched_note_stale_op75_seventh_pass": "TEN paths as of the third remediation pass (2026-07-27). handoffs/op75/r3-identity-gate.sh was added at that pass so the R3 identity gate is genuinely executable rather than a fenced code block; it is operator-invoked, mode 100755, outside src/, referenced by no workflow, and NOT installed as a git hook. It is canonical over the mirrored fenced block in R3_IDENTITY_PREPUSH_ASSERTION.md section 2, and the two are asserted byte-identical. Still 0 production LOC. The prior nine-path set is preserved at files_touched_prior_nine_path_set_stale_op75_second_pass per R5/R132. UNCHANGED at the fourth, fifth and sixth remediation passes: each edited existing paths and added none. ELEVENTH PATH ADDED AT THE SEVENTH REMEDIATION PASS (2026-07-28): handoffs/op75/verify-citations.sh, the citation control as an executable script (mode 100755, operator-invoked, outside src/, referenced by no workflow, not a git hook), replacing a section-9 prose row whose title claimed to re-derive every internal file:line citation while its command greped only the Lens A finding headings - which is how a one-line shift in BASELINE_HEADS_OP75.json broke two DECISION_LOG.md pointers, one of which then resolved to the WRONG blocker. Same three-state exit idiom as r3-identity-gate.sh: 0 PASS, 1 FAIL, 3 CLASSIFY_REQUIRED; 3 is the expected terminal state. Still 0 production LOC. DO NOT READ THE SPELLED WORD ABOVE AS THE LIVE COUNT: the authoritative count is `git diff --name-only b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD | wc -l`, live equivalent `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .changed_files`, and the authoritative membership list is the exhaustive Files touched table in DECISION_LOG.md. If a command and this note disagree, the command wins and this note is the defect; see files_touched_count_policy_fourth_pass.",
     "files_touched_count_policy_fourth_pass": "Added 2026-07-27 (fourth remediation pass). ACTIVE prose must not restate an artifact count independently of this list. The fourth review found DECISION_LOG.md's active 'Rollback / stop' paragraph still saying 'removes all nine paths' after the third pass added the tenth path and updated the adjacent exhaustive table - a fresh internal contradiction in one document, distinct from the 'eight'/'nine' strings deliberately preserved as superseded under R5/R132. Remedy is structural, not a re-count: active prose now points at the exhaustive table and at the gh api command, and PRE_BUILD_REVIEW_OP75.md section 9 carries a mandatory row that rejects independent counts in active prose. The same scan corrected R3_IDENTITY_PREPUSH_ASSERTION.md section 4, which said 'all four commits on this branch' when there were five."
   },
   "reconciliation_op75_2026_07_27": {

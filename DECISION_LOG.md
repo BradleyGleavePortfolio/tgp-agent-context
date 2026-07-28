@@ -93,10 +93,15 @@ Newest first.
 >    finding-rejection built on it stands — but the defect sat **inside the very paragraph arguing that
 >    pointers must be re-derived rather than trusted**, which is why it is recorded rather than quietly
 >    fixed. Verified structurally, not by line number:
->    `jq -e 'has("open_blockers_ref")'` returns `true`,
->    `jq -e '.repos.backend.open_blockers_ref.B3.sev_note'` returns `null` (the body's error), and
->    `jq -e '.open_blockers_ref.B3.sev_note'` returns the quoted sentence. Also absent from every
->    committed file.
+>    each bullet below is a **complete command**, then an arrow, then **its output** — the file
+>    argument is part of the command and was missing when this bullet was first written, so none of
+>    the three was runnable as printed *(labelling corrected at the eighth pass; the conclusions were
+>    and remain correct)*:
+>    - `jq -e 'has("open_blockers_ref")' handoffs/op75/BASELINE_HEADS_OP75.json` → prints `true`, exit `0`
+>    - `jq -e '.repos.backend.open_blockers_ref.B3.sev_note' handoffs/op75/BASELINE_HEADS_OP75.json` → prints `null`, exit `1`. **This is the body's error.**
+>    - `jq -e '.open_blockers_ref.B3.sev_note' handoffs/op75/BASELINE_HEADS_OP75.json` → prints the quoted sentence, exit `0`
+>
+>    The erroneous pointer string is also absent from every committed file.
 >
 >    *(**Line citations withdrawn at the seventh pass — a repeat of a class this log has already
 >    corrected more than once, which is why the fix this time is mechanical rather than another
@@ -261,7 +266,9 @@ Newest first.
 >    that lands on a neighbouring record reads as correct to anyone who does not open the file, so it
 >    is strictly more dangerous than one that dangles. **Both line citations are withdrawn** in favour
 >    of `jq` property paths, which resolve or do not and survive every reflow. The substantive claims
->    were never affected: `jq -e '.open_blockers_ref.B3.sev_note'` returns the quoted sentence verbatim.
+>    were never affected: the command
+>    `jq -e '.open_blockers_ref.B3.sev_note' handoffs/op75/BASELINE_HEADS_OP75.json` prints the quoted
+>    sentence verbatim and exits `0`.
 > 2. **The §9 control that existed to catch exactly this over-stated its own coverage.** Its title
 >    claimed *"every internal `file:line` citation re-derived"*; the command beside it greped only the
 >    Lens A finding headings, so no citation into a JSON file was ever within reach. Fixed by
@@ -286,8 +293,11 @@ Newest first.
 >    on every subsequent pass. Both removed rather than re-incremented. The same note claimed a
 >    `grep -rn pr_28_head` sweep *"returns only this note"*, singular, while several notes record the
 >    rename; this log already had it right in the plural. The claim is now **structural**:
->    `jq '[paths|.[-1]|strings|select(.==$k)]|length' --arg k pr_28_head` returns `0` on every mirror,
->    which is the property that actually matters and cannot be miscounted.
+>    run the command
+>    `for m in handoffs/op75/BASELINE_HEADS_OP75.json handoffs/op74/BASELINE_HEADS_OP74.json handoffs/importer-wave/current-state.json; do jq --arg k pr_28_head '[paths|.[-1]|strings|select(.==$k)]|length' "$m"; done`
+>    → it prints `0` for each mirror, which is the property that actually matters and cannot be
+>    miscounted. *(Eighth pass: previously printed without its `--arg` ordering, its loop or its file
+>    arguments, so it read as a command but could not be run as one.)*
 > 5. **The `Signed-off-by` synthetic case is now marked in the table itself.** It overlaps three
 >    classes — line-start key, footer/identity form, `users.noreply` address — and a reader
 >    re-deriving the total from the tables could reasonably place it in table C and reach 23. The row
@@ -301,12 +311,91 @@ Newest first.
 > form yet, and it is recorded rather than quietly dropped because **the pattern is now predictive: the
 > most likely place for the next defect is inside this block.**
 
-**Files touched (context repo) — exhaustive. Eleven paths at the seventh pass, and this is the one place
-the number is authoritative rather than restated.** Per the general rule adopted above, the count sits
-beside the command that returns it, so a reviewer re-derives instead of trusting it:
+> **CORRECTED AN EIGHTH TIME at the eighth remediation pass (2026-07-28).** An eighth independent review
+> at exact head `22d5914b` re-derived the head/parent/tree/base, the branch ancestry and SHA-role table,
+> the R124 digest, the `jq` pointers, `changed_files`, the relative links and the R138 canonical
+> questions, and found no contradiction in any of them. It found three defects, and **the prediction in
+> the block immediately above held: two of the three were inside the artifacts the seventh pass wrote to
+> fix the seventh review.** Fixed forward; nothing rewritten.
+>
+> 1. **The newest-wins mirror's active membership list contradicted its own note.** `current-state.json`
+>    → `…files_touched` still published the ten-path set while `…files_touched_note` directly beneath it
+>    named `handoffs/op75/verify-citations.sh` as an additional path and GitHub reported the higher
+>    `changed_files`. This is not preserved history: the array is the **active machine-readable
+>    membership list**, so a consumer reading it received the wrong artifact set while the prose beside
+>    it was right. The array is now the verbatim output of
+>    `git diff --name-only b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD`, the superseded array is kept
+>    at `…files_touched_prior_ten_path_set_stale_op75_third_through_seventh_pass` and the superseded note
+>    at `…files_touched_note_stale_op75_seventh_pass` (R5/R132), and the new note **states no number at
+>    all**. The lesson generalises past this record: **a correction that updates the prose and leaves the
+>    machine-readable field behind has not been made** — the field is what consumers read.
+> 2. **The citation control shipped at the seventh pass could not detect the defect it was written for,
+>    and did not read two of the files it was written about.** Both halves are the same mistake made
+>    twice at different scales.
+>    - **Coverage.** Its `ARTIFACTS` list held six markdown files. `handoffs/importer-wave/current-state.json`
+>      and `handoffs/op75/BASELINE_HEADS_OP75.json` both changed on this branch and both carry live
+>      in-repo `path:line` citations — and neither was read. The control was therefore blind to citation
+>      drift in a JSON mirror, **which is precisely the drift that produced the seventh review's
+>      finding.** Both are now in scope, and both are read through `jq` rather than `grep`. **Scoped to
+>      what was measured:** a JSON string may spell a citation using `\uXXXX` escapes for its leading
+>      characters, and raw `grep` over the file bytes then matches the escape text instead of the
+>      filename — on a synthetic input, `grep` returns the unresolvable token `u0030-AUDIT-…`, which the
+>      script would silently downgrade to an unresolvable cross-repo reference and never check, while
+>      `jq` decodes the string first and returns the real filename. **Neither mirror contains an escaped
+>      citation at this head** — checked, and the check returned nothing — so this is a robustness
+>      property demonstrated on a constructed case, **not** a defect observed in the tree, and it is
+>      recorded that way rather than as a discovery.
+>    - **Strength, and this is the more important half.** The script asserted that a cited line number
+>      fell **within the target file's line count**. Insert one line above a cited finding and every
+>      pointer below it shifts by one while every one of them remains comfortably in range: **a range
+>      check returns PASS on exactly the mutation that motivated it.** A control that cannot fail on its
+>      own motivating case is worse than no control, because a reviewer trusts it. Replaced with
+>      **content pinning**: each anchored in-repo citation is pinned by the SHA-1 of the text at that
+>      span in [`CITATION_LEDGER.tsv`](handoffs/op75/CITATION_LEDGER.tsv), re-digested on every run, so
+>      drift changes the content and therefore fails. An **unpinned** citation now fails too — otherwise
+>      "unverifiable" quietly reads as "fine". **Proven by mutation, side by side, not by argument.**
+>      One line was inserted above the first Lens A finding
+>      (`sed -i '133i …' handoffs/audit-reports/P0-AUDIT-A-5076a07a.md`) and both scripts were run
+>      against that identical tree: the seventh-pass script exited **3** reporting
+>      `anchored_in_repo_broken = 0` and all eight citations verified — it called the mutated tree
+>      clean — while the eighth-pass script exited **1** reporting `anchored_content_drift = 8`. Note
+>      the eighth-pass run **also** reported `anchored_broken = 0`: the range check passes on this
+>      mutation even inside the new script, which is the measurement that shows the range check was
+>      never the thing doing the work. The insertion was then reverted and the clean run reproduced
+>      exactly. **A control must be demonstrated failing on its own motivating case before it is
+>      believed** — that demonstration is what the seventh pass omitted, and stating the intent of a
+>      control is not evidence that it has that effect.
+> 3. **Prose defects that restated cardinalities their own framing rejected, or printed output as if it
+>    were a command.** §9's branch-gate row declared its invariant *"not a list and not a count"* and
+>    then said *"Exactly two commits return 3"* one sentence later; the evidence was correct but the
+>    sentence contradicted the row and would go stale on the next override. It now names the **set**
+>    `{2e5cd2dd…, 7331a0cf…}` beside the loop that re-derives it, with no cardinality word. Separately,
+>    three `jq` snippets in this log were printed **without their file argument**, so they read as
+>    commands but could not be run as written; each is now a complete command with its output labelled
+>    as output. The conclusions drawn from them were and remain correct — the defect was in the
+>    labelling, which is what a reviewer re-runs.
+>
+> **The adjudication of the citation control's exit 3 is now recorded rather than implied, because the
+> PR body and §9 had drifted apart on it** — the body said classification was outstanding while §9 said
+> it was done. Both now say the same thing, and the ledger is the evidence: every unanchored `` `:N` ``
+> reference is classified `BACKEND_EXCERPT` (quoting a backend file at the audited SHA `5076a07a`, not
+> resolvable in this repo by construction) or `FROZEN_CORRECTION` (R5/R132 prose quoting a number an
+> earlier pass saw, where renumbering would rewrite the record the rule preserves). **None is a live
+> claim about this tree.** Exit 3 is terminal and accepted **only** on that evidence: the script emits a
+> distinct accepting text when its own unclassified tally is zero, and `DO NOT ACCEPT THIS EXIT`
+> otherwise. Because each `ADJ` record is keyed on a digest of the citing text, editing that text voids
+> the classification and reopens it as a failure — a judgement that can go stale is one that must be
+> able to expire.
+
+**Files touched (context repo) — exhaustive, and this is the one place the membership list is
+authoritative rather than restated.** The heading no longer spells a number at all *(eighth pass: it
+read "Eleven paths at the seventh pass", which is a hand-maintained cardinality embedded in a
+heading — correct when written, stale on the next pass that adds a path, and preserved here as the
+superseded wording per R5/R132)*. Per the general rule adopted above, the count is taken from the
+command rather than from prose:
 `git diff --name-only b76d0962de53ce494fa8f869a706ff0c15aee0b6..HEAD` (add `| wc -l` for the count;
 live equivalent `gh api repos/BradleyGleavePortfolio/tgp-agent-context/pulls/28 --jq .changed_files`).
-**If the command and this heading disagree, the command wins and the heading is the defect.** The table
+**If the command and this table disagree, the command wins and the table is the defect.** The table
 below is the authoritative membership list; every other surface points here rather than recounting.
 
 | Path | Change | Kind |
@@ -320,7 +409,8 @@ below is the authoritative membership list; every other surface points here rath
 | [`handoffs/op75/r3-identity-gate.sh`](handoffs/op75/r3-identity-gate.sh) | **NEW at the third pass** — the tenth path | the gate as an **executable** script (mode `100755`), operator-invoked; **not** a git hook, **not** a CI check, outside `src/`, 0 production LOC. Canonical over the fenced mirror in the `.md`. |
 | [`handoffs/op74/BASELINE_HEADS_OP74.json`](handoffs/op74/BASELINE_HEADS_OP74.json) | **additive correction only** — `superseded_in_part_by` + `repos.backend.op75_corrections`; the false B2 string preserved **verbatim** | Op-74 pin, newest-wins |
 | [`handoffs/importer-wave/current-state.json`](handoffs/importer-wave/current-state.json) | Op-75 mirror; all prior wording preserved under `*_stale_op74` / `*_prior_op74` keys | machine-readable state |
-| [`handoffs/op75/verify-citations.sh`](handoffs/op75/verify-citations.sh) | **NEW at the seventh pass** — the eleventh path | the citation control as an **executable** script (mode `100755`), replacing the §9 prose row that claimed a coverage its command did not have. Three exit states, `r3-identity-gate.sh` idiom: **0** PASS · **1** FAIL (out-of-range citation, or a JSON target cited by line) · **3** CLASSIFY_REQUIRED (unanchored `` `:N` `` refs need a human ACTIVE/HISTORICAL call). **3 is the expected terminal state at this head.** |
+| [`handoffs/op75/verify-citations.sh`](handoffs/op75/verify-citations.sh) | **NEW at the seventh pass, rewritten at the eighth** | the citation control as an **executable** script (mode `100755`). The seventh-pass version replaced a §9 prose row that claimed a coverage its command did not have, but it only **range-checked** line numbers — which cannot detect a line inserted above a citation, the exact drift it was written for. It now **content-pins** every anchored in-repo citation, reads both changed JSON mirrors through `jq` (escaped citations included), rejects JSON line citations, and adjudicates unanchored refs against the ledger. Three exit states, `r3-identity-gate.sh` idiom: **0** PASS · **1** FAIL (drift, unpinned, out-of-range, JSON line citation, stale ledger) · **3** CLASSIFY_REQUIRED. **3 is the terminal state at this head, and the script prints a distinct text saying so only when nothing is unclassified.** |
+| [`handoffs/op75/CITATION_LEDGER.tsv`](handoffs/op75/CITATION_LEDGER.tsv) | **NEW at the eighth pass** | inert data read by the script above: a `PIN` record per anchored in-repo citation holding the SHA-1 of the text at that span, and an `ADJ` record per unanchored `` `:N` `` reference holding its class keyed on a digest of the citing text — so editing the text voids the adjudication instead of silently carrying it forward. |
 | `DECISION_LOG.md` | this entry | narrative log |
 
 **No product repo touched. No history rewritten — no force-push, no rebase, no amend, no branch deletion. No flag flipped. 0 production LOC.**
