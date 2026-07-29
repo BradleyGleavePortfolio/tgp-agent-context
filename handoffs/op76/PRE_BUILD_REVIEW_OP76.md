@@ -12,7 +12,20 @@
 - ctxrepo HEAD: `837a7f9991123c8b22ddfe57fce2c2777663744d`
 - PR #28 head (LANDED): `837a7f9991123c8b22ddfe57fce2c2777663744d`
 - PR #28 base (origin/main at the time): `b76d0962de53ce494fa8f869a706ff0c15aee0b6`
-- timestamp (ISO 8601 UTC): `2026-07-29T05:05:00Z`
+- timestamp (ISO 8601 UTC): `2026-07-29T14:49:39Z` — the instant the both-ways head sweep
+  **completed**, not a round number. Window opened `2026-07-29T14:49:00Z`; four heads read from the
+  GitHub API **and** from `git ls-remote`, both sources agreeing on every one.
+- open-PR membership and every PR title read from the GitHub API in a separate window,
+  `2026-07-29T14:47:33Z` to `2026-07-29T14:47:35Z`.
+
+> **Second-pass correction (R5/R132 — the first-pass value is superseded, not hidden).** This
+> document originally recorded `2026-07-29T05:05:00Z`. That was **forward-dated**: every observation
+> behind it was older — the R3 identity gate emitted `2026-07-29T04:01:33Z` on preflight and
+> `2026-07-29T04:01:47Z` after the push, and GitHub recorded the reconciliation PR created at
+> `2026-07-29T04:03:11Z` and PR #26 closed at `2026-07-29T04:04:00Z`. **A verification timestamp that
+> postdates its own verification is an assertion, not an observation** — the exact defect
+> `R-DUNNING-BAR-1` §2 grades a P0, committed inside the document written to correct it. Every SHA
+> above is unchanged and was re-confirmed both ways rather than carried forward.
 
 Machine-readable pin, with the both-ways evidence for every SHA above:
 [`BASELINE_HEADS_OP76.json`](BASELINE_HEADS_OP76.json).
@@ -47,7 +60,7 @@ derived, never asserted.** Op 76 derives.
 | 1 | Adds the missing Op-76 landing record, with the exact landed SHA, envelope, and the sole PR-#28 comment as evidence | `DECISION_LOG.md` |
 | 2 | Advances the pinned context head `b76d0962` → `837a7f99`, prior tip preserved | `current-state.json` |
 | 3 | Closes **B2** and unblocks rung **`I1`**, each against a pre-committed written condition | `current-state.json`, this document |
-| 4 | Replaces the empty PR ledger with the twelve genuinely open PRs | `current-state.json` |
+| 4 | Replaces the empty PR ledger with the twelve genuinely open PRs, membership and titles **derived live from the GitHub API** | `current-state.json` |
 | 5 | Advances the Op labels, verdict and timestamps to Op 76, prior wording preserved byte-identically | `current-state.json` |
 | 6 | Preserves the accurate facts from conflicting PR #26 and names the three claims of its that did **not** survive | `current-state.json`, `A03-reengagement-dunning.md`, `OPERATOR_HANDOFF.md` |
 | 7 | Records a dated live zombie sweep and marks the June snapshots as historical | `ZOMBIE_AGENT_PROTOCOL.md` |
@@ -79,15 +92,34 @@ PR #26 as obsolete once that PR exists.**
 comment on PR #26 with the superseding link and close #26 as obsolete. Do not touch PR #29 beyond
 re-pinning its status in the ledger.
 
-**Why closing #26 is permitted rather than an R5 violation.** R5 forbids *losing* things, not
-*closing* them. Closing a GitHub PR deletes nothing: the branch
-`docs/op74-newest-wins-dunning-pr520-2026-07-23`, the head `dffd7529`, the diff, and the body all
-remain, and a closed PR reopens with one command. Beyond that, #26's surviving substance is
-carried forward into this PR's own artifacts before #26 is closed, so the content lives on `main`
-and not only on an abandoned branch — which is strictly *more* preservation than leaving it open.
-Leaving it open is the worse option: it is `CONFLICTING` against a base two Ops stale and asserts a
-newest-wins inference that Op 75 disproved, so a reader could take it as current. The authority to
-make this call is R138's directional grant, exercised through this gate.
+**Why closing #26 does not violate R5.**
+
+> **Second-pass correction (R5/R132).** This paragraph originally read *"R5 forbids losing things,
+> not closing them."* That is **too broad in two distinct ways**, and both are corrected below. It
+> paraphrased a **SACRED** rule into a general anti-loss maxim, and it used that paraphrase as the
+> *authority* for closing a pull request. The original wording is recorded here rather than deleted,
+> because a superseded claim that leaves no trace is the drift R132 exists to prevent.
+
+R5 is a **durability** rule. Its subject is whether content **reaches GitHub and survives the death
+of whoever wrote it** — not what lifecycle state a pull request is parked in. The narrow derivation,
+in four parts:
+
+1. **Closing removes nothing from GitHub.** The branch
+   `docs/op74-newest-wins-dunning-pr520-2026-07-23`, the head `dffd7529`, the diff, the body and the
+   comment thread all remain server-side and reachable. Reopening is one command.
+2. **The action increases durability rather than reducing it.** #26's surviving substance was
+   re-derived and carried onto the path to `main` **before** the close, so afterwards that content is
+   *more* durably on GitHub than while it sat only on an abandoned branch. Measured against R5's own
+   test, closing #26 scores better than leaving it open.
+3. **R5 is a constraint the action satisfies, not the source of permission.** The authority is
+   **R138's directional grant**, exercised through the recorded four-question gate. The first pass had
+   those two roles confused, which is what made the claim read as a licence.
+4. **This derivation is about *this* PR** — one whose substance was carried forward first and whose
+   staleness was verified. It is **not** a general rule that closing PRs is R5-safe. Close a PR whose
+   substance has *not* been carried forward and the content does die with the branch.
+
+Leaving #26 open was the worse option on its own merits: it is `CONFLICTING` against a base two Ops
+stale and asserts a newest-wins inference that Op 75 disproved, so a reader could take it as current.
 
 **Blast radius.** Documentation and state only, in one repository. No product code, no schema, no
 flag, no credential, no CI, no branch protection.
@@ -263,6 +295,41 @@ a real and worthwhile job, and it is a **larger** job than this reconciliation, 
 would break the single-intent scope. Recorded as a follow-up in `next_actions_ordered`. The Op-76
 edits to those four files are written with **no** line-number citations at all, so they add nothing
 to that backlog.
+
+---
+
+## §9 — Second pass: what review found wrong with the first pass
+
+The first pass of this Op was written against one defect — **asserting a status instead of deriving
+it** — and then committed three instances of it. Recorded here rather than quietly fixed, because a
+document that diagnoses a failure mode and then exhibits it is **worse** than one that never raised
+the subject: it reads as having been checked.
+
+| # | Finding | Fix | First-pass wording preserved at |
+|---|---|---|---|
+| 1 | The open-PR ledger was **not derived live**. It listed **#26 as open** after #26 had been closed, and **omitted this PR**, which was open. Two errors cancelling into a correct-looking total of twelve — worse than a wrong total, because the number looks checked | Membership re-read from the GitHub API and written verbatim | `open_prs_prior_op76_first_pass`, `open_prs_note_prior_op76_first_pass` |
+| 2 | Three narrative surfaces **mirrored** the wrong membership | All three corrected additively against the same live read; stale sentences retained in place, marked superseded | in the markdown files themselves |
+| 3 | **Forward-dated timestamps** on six surfaces, later than every piece of evidence behind them | Replaced with the emissions of real commands, each recorded with its observation window | `as_of_prior_op76_first_pass`, `main_as_of_note_prior_op76_first_pass`, `last_reviewed_utc_prior_op76_first_pass` |
+| 4 | An **overbroad reading of R5** used as the authority for closing a PR | Replaced with the narrow four-part derivation in **§2a**, which also separates R5 as a *constraint* from R138 as the *authority* | the blockquote in **§2a**, and `op76_pr26_superseded_not_deleted_prior_op76_first_pass` |
+| 5 | **PR titles hand-written, not API-derived.** Two of twelve had already drifted after a single pass; the ten legacy PRs were described in the zombie sweep by **branch slug**, which is not their title at all | Every title is now the GitHub API value, read live, with the source recorded per entry | `open_prs_prior_op76_first_pass` |
+| 6 | The already-published comment on PR #26 carries the same overbroad R5 reading | An **additive** correction comment is appended to that thread. The original is **not** edited — editing a published record to make a past self look correct is precisely the rewrite R5 and R132 prevent | the original PR #26 comment, unedited on GitHub |
+
+**What the second pass does not change.** No blocker moves — B2 stays CLOSED, B1 stays OPEN by
+design, B3–B6 unchanged. `I1` stays **PERMITTED and still not dispatched**. None of the twelve Op-75
+findings is remediated; **R14 CLEAN for backend `5076a07a` is still not met and not claimed**. PR #29
+is still untouched. **PR #26 stays closed** — the supersession finding is unaffected by the R5
+*wording* defect, and reopening would re-create the competing authority the close removed.
+`FEATURE_DUNNING_V2` stays default-OFF. 0 production LOC.
+
+**No history rewritten.** The correction ships as a **new commit on the existing published branch**.
+The first-pass commit `5426304289495ce99054f62e5ed8147269ea4263` stays in the branch history exactly
+as pushed — no amend, no rebase, no force-push.
+
+**The standing lesson.** Every status on a live surface must be **re-read at write time** from the
+authoritative source, *including the ones that feel too obvious to check*: the membership of a list
+you just changed, the title of a PR you just opened, and the current time. The first pass re-verified
+the hard facts — the SHAs — both ways, and got them right. It asserted the easy ones and got three
+wrong. **Difficulty is not what predicts error here; whether the value was read or assumed is.**
 
 ---
 

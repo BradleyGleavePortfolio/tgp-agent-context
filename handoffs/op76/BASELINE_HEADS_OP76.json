@@ -6,7 +6,8 @@
   "operator": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
   "purpose": "Pin the exact heads Op 76 reconciles against. Op 76 is a state-reconciliation Op with 0 production LOC: it records that context PR #28 LANDED and makes the current-state surfaces truthful about that landing. It authorises no build, no flag flip, no backend work and no completion claim.",
   "verification_method": "Every SHA below was independently verified BOTH WAYS at Op-76 execution time: (a) fetched from the GitHub REST API, and (b) resolved from the remote via git ls-remote. Where a local git check would have been the second way, the local check is NOT used and NOT claimed, because this working copy is a SHALLOW SPARSE worktree - see shallow_clone_caveat.",
-  "verified_at_utc": "2026-07-29T05:05:00Z",
+  "verified_at_utc": "2026-07-29T14:49:39Z",
+  "verified_at_utc_note_op76_second_pass": "This is an OBSERVATION time: the instant the last command of the both-ways head sweep returned. The sweep opened at 2026-07-29T14:49:00Z and closed at 2026-07-29T14:49:39Z; four repository heads were read from the GitHub API ref endpoint AND from git ls-remote, and both sources agreed on every one. The Op-76 FIRST PASS recorded 2026-07-29T05:05:00Z here, which was a round number LATER than every observation supporting it - the newest evidence the first pass held was GitHub's own 2026-07-29T04:04:00Z. A verification timestamp that postdates its verification is an assertion wearing an observation's clothes, and R-DUNNING-BAR-1 section 2 grades an asserted status a P0. The prior value is retained in this note rather than deleted (R5/R132). No SHA changed as a result: all four heads re-read identical.",
   "shallow_clone_caveat": "This worktree is shallow (git rev-parse --is-shallow-repository prints true) and HEAD is grafted, so git rev-list --count HEAD prints 1 and git merge-base --is-ancestor b76d0962... 837a7f99... exits 1. THAT EXIT IS A CLONE ARTEFACT, NOT AN ANCESTRY FACT, and it must not be read as evidence that the base is not an ancestor. The ancestry claim in this file rests on the GitHub compare endpoint instead, which returned status ahead, ahead_by 14, behind_by 0, total_commits 14, files 15 for base b76d0962de53ce494fa8f869a706ff0c15aee0b6 against head 837a7f9991123c8b22ddfe57fce2c2777663744d. Stated rather than papered over, because a reader running the local command in this worktree will see exit 1 and must know why.",
   "drift_policy": "If any recorded SHA later differs from GitHub live state, treat as INFRA_DEATH per R124 and re-verify before acting. NO history rewrite. NO force-push. Remediate forward only.",
   "build_matrix_r124": {
@@ -18,7 +19,8 @@
     "pr_28_landed_head": "837a7f9991123c8b22ddfe57fce2c2777663744d",
     "pr_28_base_origin_main": "b76d0962de53ce494fa8f869a706ff0c15aee0b6",
     "op_76_branch_base_origin_main": "837a7f9991123c8b22ddfe57fce2c2777663744d",
-    "timestamp_iso8601_utc": "2026-07-29T05:05:00Z",
+    "timestamp_iso8601_utc": "2026-07-29T14:49:39Z",
+    "timestamp_note_op76_second_pass": "Observation time, not a round number. Head sweep window 2026-07-29T14:49:00Z to 2026-07-29T14:49:39Z, all four heads confirmed BOTH WAYS and unchanged from the first pass. Open-PR membership and every PR title were read from the GitHub API in a separate window, 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z. The first-pass value 2026-07-29T05:05:00Z was forward-dated and is superseded; it is retained in verified_at_utc_note_op76_second_pass (R5/R132).",
     "self_reference_constraint": "The SHA of the commit that carries this file is NOT recorded here and CANNOT be: the SHA is a hash over a tree containing this file, so writing it in would change it. This is the same structural constraint Op 75 recorded for its own tip, Op 74 for the Op-73 pin, and Op 73 for its own. The Op-76 landed SHA must be pinned by a SUBSEQUENT reconcile and must never be asserted in advance. What Op 76 DOES pin, and what Op 75 could not, is the Op-75 landed SHA - that is the whole point of this Op.",
     "both_ways_evidence": [
       {
@@ -114,5 +116,17 @@
     "B1": "OPEN BY DESIGN - UNCHANGED. R3-INC-4 is an unasserted-local-identity incident on backend 5076a07a. It is not fixable without rewriting published shared history, which is forbidden (R3-INC-1 precedent, R5). It stays open permanently as a historical marker. Landing PR #28 did not and could not close it.",
     "B3_B4_B5_B6": "UNCHANGED. Nothing in this landing touches the ops track, the quarantined pre-existing automation failures, the unprovisioned email credentials, or the permanent R127-R129 numbering gap.",
     "R14_CLEAN_for_backend_5076a07a": "STILL NOT MET AND STILL NOT CLAIMED. Combined dual-lens counts remain 0 P0 / 3 P1 / 5 P2 / 4 P3. B2 closing means the evidence is now DISCOVERABLE from main; it does not mean the findings are remediated."
+  },
+  "second_pass_correction_op76": {
+    "what_changed_in_this_file": "Timestamps only. Every SHA in this pin is BYTE-IDENTICAL to the first pass, and was re-confirmed both ways rather than assumed still valid.",
+    "head_sweep_window_utc": "2026-07-29T14:49:00Z to 2026-07-29T14:49:39Z",
+    "heads_reconfirmed_both_ways": {
+      "context": "837a7f9991123c8b22ddfe57fce2c2777663744d - API and ls-remote agree, unchanged",
+      "backend": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7 - API and ls-remote agree, unchanged",
+      "extension": "95be0222df3d47d787566743c8781005d8fbec69 - API and ls-remote agree, unchanged",
+      "mobile": "a5933fd6de5616493de75f0db907098b149b955c - API and ls-remote agree, unchanged"
+    },
+    "why_reconfirm_rather_than_trust_the_first_pass": "R124 treats a recorded SHA that differs from live state as INFRA_DEATH. A second commit lands hours after the first, so the pin is re-derived rather than carried - carrying it would be the same assume-instead-of-read defect the second pass exists to correct.",
+    "no_history_rewritten": "The correction ships as a NEW commit on the existing published branch. The first-pass commit 5426304289495ce99054f62e5ed8147269ea4263 stays in the branch history exactly as pushed. No amend, no rebase, no force-push."
   }
 }

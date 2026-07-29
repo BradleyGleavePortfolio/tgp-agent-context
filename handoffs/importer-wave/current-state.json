@@ -7,8 +7,18 @@
   "op_label_prior_op75": "Op 75 (Wave 3 - v0.3; P0-AUDIT EVIDENCE / REMEDIATION REQUIRED: retroactive adversarial dual-lens R14 audit of backend main 5076a07a1e54b14e3db84d3aa128fb0bb44542d7, the money-path Day-10 dunning lockout guard mount). Docs/doctrine/evidence/state only, 0 product LOC, R14-exempt context docs; lands R3-clean by PLAIN non-force fast-forward as Bradley Gleave <bradley@bradleytgpcoaching.com> via the git-native squash in handoffs/importer-wave/R3_MERGE_RUNBOOK.md section 3 - gh pr merge is FORBIDDEN. Produces Lens A (0 P0 / 1 P1 / 3 P2 / 2 P3) and Lens B (0 P0 / 2 P1 / 2 P2 / 2 P3); combined 0 P0 / 3 P1 / 5 P2 / 4 P3, so R14 CLEAN is NOT met and NOT claimed. Reclassifies R3-INC-4 (correct git-native mechanism, wrong local operator identity - NOT a server-side merge like R3-INC-1/2/3) and files a preventive pre-push identity gate. Corrects the Op-74 'no associated pull request' finding: PR #520 EXISTS but the landing BYPASSED it (CLOSED, merged=false, zero reviews, head dcb58126). B2's substance survives and B2 CLOSES ONLY ON LANDING of PR #28 - I1 stays BLOCKED until then. Prior Op-74 label retained at op_label_prior_op74. Repairs nothing; flips nothing. STATUS LABEL CORRECTED at the tenth pass 2026-07-29 (R5/R132; the prior wording is preserved VERBATIM and byte-identical at op_label_stale_op75_discharge_label_2026_07_29, not deleted): this label read 'P0-AUDIT DISCHARGE', which asserted the one status this same string then spends its own body denying - R14 CLEAN (0 P0-P3) is NOT met, the twelve findings are unremediated and routed rather than repaired, B2 CLOSES ONLY ON LANDING of PR #28, and B1 is OPEN BY DESIGN. Executing a rung and discharging it are different states: the rung is EXECUTED, NOT DISCHARGED. The canonical narrative record DECISION_LOG.md titles this Op 'P0-AUDIT EVIDENCE PRODUCED' and never uses 'discharge' unconditionally, so the prior label also disagreed with the canonical surface this file mirrors. A status asserted without evidence at a named SHA is itself a P0 finding (R-DUNNING-BAR-1 section 2: status is derived, never asserted), which is what made this a BLOCKING contradiction rather than a wording preference. Conditional uses of the word survive unchanged and are not defects - 'discharges B2 ON LANDING of PR #28' states a condition, and that condition is unmet.",
   "successor_label": "Agent 76",
   "successor_label_prior_op75": "Agent 75",
-  "as_of_utc": "2026-07-29T05:05:00Z",
-  "as_of_local": "2026-07-28T22:05:00-07:00",
+  "as_of_utc": "2026-07-29T14:49:39Z",
+  "as_of_local": "2026-07-29T07:49:39-07:00",
+  "as_of_prior_op76_first_pass": "PRESERVED BYTE-IDENTICAL (R5/R132). The Op-76 FIRST PASS wrote as_of_utc 2026-07-29T05:05:00Z and as_of_local 2026-07-28T22:05:00-07:00. Both were WRONG, and wrong in the specific way this Op exists to correct. They were round-numbered and FORWARD-DATED: every real observation the first pass made happened EARLIER - the R3 identity gate emitted 2026-07-29T04:01:33Z on preflight and 2026-07-29T04:01:47Z after the push, GitHub recorded the reconciliation PR created at 2026-07-29T04:03:11Z, and GitHub recorded PR #26 closed at 2026-07-29T04:04:00Z. A timestamp an hour ahead of the newest evidence supporting it is not an observation, it is an assertion, and R-DUNNING-BAR-1 section 2 grades an asserted status a P0. The replacement values are the emissions of real commands, recorded with the window they were taken in rather than rounded to the nearest five minutes.",
+  "as_of_derivation_op76_second_pass": {
+    "rule": "An as-of time is an OBSERVATION time. It is the moment a command returned, never a round number chosen to look tidy and never a time later than the newest evidence behind it.",
+    "as_of_utc_is": "the instant the both-ways head sweep COMPLETED - the last `git ls-remote` returned - so every SHA on this surface was confirmed at or before it.",
+    "head_sweep_window_utc": "2026-07-29T14:49:00Z opened, 2026-07-29T14:49:39Z closed. Four repos, each head read from the GitHub API AND from git ls-remote, both sources agreeing.",
+    "pr_membership_window_utc": "2026-07-29T14:47:33Z opened, 2026-07-29T14:47:35Z closed. Live open-PR membership and every PR title were read from the GitHub API inside this window.",
+    "first_pass_gate_times_utc": "R3 identity gate preflight 2026-07-29T04:01:33Z; R3 identity gate post-push 2026-07-29T04:01:47Z. Both are gate-emitted, not hand-written, and both are retained as the first pass's own record.",
+    "github_recorded_times_utc": "PR #28 merged 2026-07-29T03:08:46Z; the reconciliation PR created 2026-07-29T04:03:11Z; PR #26 closed 2026-07-29T04:04:00Z. All three are GitHub's own values, not this repository's.",
+    "what_is_deliberately_not_written": "No next-run time, no projected completion, no schedule. A future timestamp cannot be an observation, so this Op does not write one anywhere."
+  },
   "as_of_note_op76": "Op-76 observed-at refresh time. The PRIOR Op-75 values are retained here rather than deleted (R5/R132): as_of_utc 2026-07-28T00:30:00Z, as_of_local 2026-07-27T17:30:00-07:00. This is a reconcile timestamp, NOT a committer timestamp: PR #28 merged at 2026-07-29T03:08:46Z and its landed commit was authored earlier still. Every SHA recorded at this refresh was obtained BOTH WAYS - from the GitHub API and from git ls-remote - and no value that failed either was written.",
   "mission_correction_note": "2026-07-15 (Op 54): canonical product-mission corrected under R5 — see product_mission_correction_2026_07_15 and roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md. Op 55 (2026-07-15) reconciliation: the three importer PRs below (EXT-C1b #6, Mobile M2 #285, Backend progress-read #508) are now INTEGRATED to their mains identity-safe; mission unchanged — site-agnostic/browser-agnostic, TrueCoach on Chrome is the first proving adapter only. Op 55 (2026-07-15): the single durable operator entry point is now handoffs/importer-wave/OPERATOR_HANDOFF.md; AGENT_HANDOFF_V03 superseded to a redirect stub (no competing handoffs). Op 56 (2026-07-15): Extension PR-C1c #7 (audited head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63, both Lens A + Lens B CLEAN) merged to extension main via squash merge commit 4f116836ddb5449524dd51e995a7e4c012f79493 (prior main / parent-rollback a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1); post-merge 31 files / 514 tests PASS, banned/LOC/flags/ratio gates PASS; no release, publish, production-flag, auth/PII, or billing change. PR-C1c leg COMPLETE; immutable build order unchanged (D1 + D2 -> IMPORTER-F -> PR-M3). Mission unchanged; billing remains an explicit excluded family. Op 57 (2026-07-16) reconciliation (docs/state only): backend D1 is COMPLETE — the golden real TrueCoach client-payload fixture produced by extension PR-C1c was committed to the backend via PR #509 (audited head 81f0b70a54a512a454289dade7755b34902e3564, base 95e2c6378e0b1b734328a7fdf6b9a6e33465a663), squash-merged to backend main 171829326c50778af25c38aa10ff09665e58b512; test-only, zero production LOC, dual Lens A + Lens B CLEAN, billing excluded, no auth/PII/RLS/flags/mobile changes. Op 57 also records R3-INC-2: the GitHub server-created squash commit 1718293 is NOT R3-compliant (author BradleyGleavePortfolio <bradleyapple1031@gmail.com>, committer GitHub) — recorded honestly as an operational/process finding; code/test content verified, blast radius is identity metadata only; a HARD GATE now bars further production-main merges until a non-destructive R3-compliant merge path is proven. D2 stays OPEN/protected; IMPORTER-F blocked until D2 AND R3 merge-path remediation; PR-M3 blocked until authoritative roster. Op 62 (2026-07-19) reconciliation (docs/state only): mobile PR-M3 LANDED via an OPERATOR-AUTHORIZED ONE-TIME BYPASS - mobile PR #287 (audited head 95c9aea, base b8165be) merged via `gh pr merge --squash --delete-branch` as mobile main e3a824f, tree 91799bbc byte-identical to the audited head. This is NOT R3-CLEAN (author BradleyGleavePortfolio <bradleyapple1031@gmail.com>, committer GitHub <noreply@github.com>/web-flow, Co-authored-by Bradley trailer) and is recorded honestly as R3-INC-3 (the first DELIBERATE, operator-authorized deviation; R3-INC-1/2 were accidental). The R3_MERGE_RUNBOOK remains the default rule and is UNCHANGED; AGENT_RULES UNCHANGED. Next lane = TrueCoach end-to-end vertical proof.",
   "durable_handoff": {
@@ -415,8 +425,9 @@
       "prior_tip_before_op74": "9c25a06736867d613622e19beca4f71fb42c62db (9c25a06, the Op-73 reconciliation tip). This is the single parent / rollback target of the forthcoming Op-74 landing.",
       "main_head": "837a7f9991123c8b22ddfe57fce2c2777663744d",
       "main_head_short": "837a7f99",
-      "main_as_of": "2026-07-29T05:05:00Z",
-      "main_as_of_note": "Op-76 observed-at refresh time for live context main 837a7f9991123c8b22ddfe57fce2c2777663744d, verified BOTH WAYS at 2026-07-29T05:05:00Z (gh api repos/BradleyGleavePortfolio/tgp-agent-context/git/ref/heads/main --jq .object.sha == git ls-remote origin refs/heads/main == 837a7f9991123c8b22ddfe57fce2c2777663744d). Not a committer timestamp; the landing merged at 2026-07-29T03:08:46Z. PRIOR Op-75 value 2026-07-28T00:30:00Z retained in main_as_of_note_prior_op75 (R5/R132). SHALLOW-CLONE CAVEAT, recorded rather than hidden: the Op-76 worktree is a shallow grafted clone, so a LOCAL git merge-base --is-ancestor exits 1 and would read as 'not an ancestor'. Ancestry therefore rests on the GitHub compare endpoint (status ahead, ahead_by 14, behind_by 0, total_commits 14, files 15), which is stated so a reader running the local command is not misled into reading INFRA_DEATH.",
+      "main_as_of": "2026-07-29T14:49:39Z",
+      "main_as_of_note": "Op-76 SECOND PASS observed-at time for live context main 837a7f9991123c8b22ddfe57fce2c2777663744d. Re-verified BOTH WAYS inside the window 2026-07-29T14:49:00Z to 2026-07-29T14:49:39Z: the GitHub API ref endpoint and git ls-remote against refs/heads/main returned the same SHA. This is an OBSERVATION time, not a committer timestamp - GitHub records the landing itself at 2026-07-29T03:08:46Z. The FIRST-PASS value 2026-07-29T05:05:00Z was forward-dated and is superseded; it is retained byte-identical at main_as_of_note_prior_op76_first_pass, and the Op-75 value 2026-07-28T00:30:00Z remains at main_as_of_note_prior_op75 (R5/R132). SHALLOW-CLONE CAVEAT, recorded rather than hidden: the Op-76 worktree is a shallow grafted clone, so a LOCAL git merge-base --is-ancestor exits 1 and would read as 'not an ancestor'. Ancestry therefore rests on the GitHub compare endpoint (status ahead, ahead_by 14, behind_by 0, total_commits 14, files 15), stated so a reader running the local command is not misled into reading INFRA_DEATH.",
+      "main_as_of_note_prior_op76_first_pass": "Op-76 observed-at refresh time for live context main 837a7f9991123c8b22ddfe57fce2c2777663744d, verified BOTH WAYS at 2026-07-29T05:05:00Z (gh api repos/BradleyGleavePortfolio/tgp-agent-context/git/ref/heads/main --jq .object.sha == git ls-remote origin refs/heads/main == 837a7f9991123c8b22ddfe57fce2c2777663744d). Not a committer timestamp; the landing merged at 2026-07-29T03:08:46Z. PRIOR Op-75 value 2026-07-28T00:30:00Z retained in main_as_of_note_prior_op75 (R5/R132). SHALLOW-CLONE CAVEAT, recorded rather than hidden: the Op-76 worktree is a shallow grafted clone, so a LOCAL git merge-base --is-ancestor exits 1 and would read as 'not an ancestor'. Ancestry therefore rests on the GitHub compare endpoint (status ahead, ahead_by 14, behind_by 0, total_commits 14, files 15), which is stated so a reader running the local command is not misled into reading INFRA_DEATH.",
       "main_as_of_note_prior_op75": "Op-75 observed-at refresh time for live context main b76d0962, verified BOTH WAYS at 2026-07-27T21:30:00Z. Retained for provenance (R5/R132); superseded by main_as_of_note.",
       "main_tip_msg": "docs(op75): eleventh pass - stop claiming one label is used identically across the log and the state surfaces, and stop Lens B claiming it discharges B1. Landed context main b76d0962de53ce494fa8f869a706ff0c15aee0b6 -> 837a7f9991123c8b22ddfe57fce2c2777663744d by PLAIN non-force fast-forward, single parent e744d428aafa872af96056d4b9cc4ce089f39d3e, tree 2820a7719e9ab5756b4c8b94220a114ff2d69d9d; author==committer==Bradley Gleave <bradley@bradleytgpcoaching.com> (R3 CLEAN). This is the landed head of PR #28 - the EXACT audited head, unchanged - and the base of the Op-76 reconciliation branch; see handoffs/op76/BASELINE_HEADS_OP76.json for the both-ways evidence.",
       "main_tip_msg_prior_op73": "docs(roadmap): A23 mobile luxury overhaul (planning-only) + A14 collision reconcile (PR #24 landed ed5729a by plain non-force fast-forward, R3-clean). Op-73 newest-wins reconciliation lands on top of ed5729a.",
@@ -587,6 +598,164 @@
   },
   "open_prs": [
     {
+      "number": 30,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/30",
+      "title": "docs(op76): reconcile state surfaces after PR #28 landed — B2 closed, I1 permitted not dispatched",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "54263042",
+      "branch": "docs/op76-reconcile-pr28-landing",
+      "base": "main",
+      "created_at_utc": "2026-07-29T04:03:11Z",
+      "draft": false,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "THIS RECONCILIATION PR. It was OPEN and unlisted when the first pass wrote this ledger - a ledger that omits the very PR carrying it cannot be called a live derivation, and the omission is the same class of defect as the empty list it replaced. Listed here from the live API read, not from memory of having opened it. NOT merged by this Op and not mergeable by any server-side mechanism."
+    },
+    {
+      "number": 29,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/29",
+      "title": "docs(product-doctrine): preserve IPO Product Decision Filter (four-question product call filter)",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "11da3905",
+      "branch": "docs/ipo-product-decision-filter",
+      "base": "main",
+      "created_at_utc": "2026-07-28T07:24:35Z",
+      "draft": true,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "OPEN DRAFT, re-pinned only. Its base was b76d0962de53ce494fa8f869a706ff0c15aee0b6, which was live main when it was cut and is NOW STALE because main advanced to 837a7f9991123c8b22ddfe57fce2c2777663744d. Still MERGEABLE/CLEAN because its single file does not collide. Op 76 does NOT touch it, does NOT close it, and does NOT import its doctrine content in either direction - the IPO Product Decision Filter is #29's to land. Rebasing it is #29's own decision, not Op 76's."
+    },
+    {
+      "number": 11,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/11",
+      "title": "plan: EW3 Android parity triage",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "41c61866",
+      "branch": "plan/ew3-android-parity-triage",
+      "base": "main",
+      "created_at_utc": "2026-06-09T23:11:07Z",
+      "draft": false,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    },
+    {
+      "number": 10,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/10",
+      "title": "plan: master build order — community v1-4..v2 + MWB phases + CC32 tier-3",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "a9a730ff",
+      "branch": "plan/master-build-order",
+      "base": "main",
+      "created_at_utc": "2026-06-09T19:36:27Z",
+      "draft": false,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    },
+    {
+      "number": 9,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/9",
+      "title": "spec: ROMAN_VOICE_POLICY.md (Option 3 brand voice)",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "708f80b3",
+      "branch": "spec/roman-voice-policy-option3",
+      "base": "main",
+      "created_at_utc": "2026-06-09T19:18:28Z",
+      "draft": false,
+      "mergeable": "CONFLICTING/DIRTY",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    },
+    {
+      "number": 8,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/8",
+      "title": "spec: Roman avatar implementation + integration plan",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "4e93fdf3",
+      "branch": "spec/roman-avatar-integration",
+      "base": "main",
+      "created_at_utc": "2026-06-09T18:33:11Z",
+      "draft": false,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    },
+    {
+      "number": 7,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/7",
+      "title": "audit: EW3 Android parity delta",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "847d6c8b",
+      "branch": "spec/ew3-android-parity",
+      "base": "main",
+      "created_at_utc": "2026-06-09T18:01:21Z",
+      "draft": false,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    },
+    {
+      "number": 6,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/6",
+      "title": "spec: B3 smart dunning v2 gaps",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "d194405b",
+      "branch": "spec/b3-smart-dunning-gaps",
+      "base": "main",
+      "created_at_utc": "2026-06-09T18:00:38Z",
+      "draft": false,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    },
+    {
+      "number": 5,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/5",
+      "title": "spec: EW2 undo + autosave (Master Workout Builder)",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "c9b3bfd7",
+      "branch": "spec/ew2-undo-autosave",
+      "base": "main",
+      "created_at_utc": "2026-06-09T17:58:24Z",
+      "draft": false,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    },
+    {
+      "number": 4,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/4",
+      "title": "spec: bank-account payouts + first-payment wow + milestone shareables",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "672de4c2",
+      "branch": "spec/bank-payout-spec",
+      "base": "main",
+      "created_at_utc": "2026-06-09T17:53:34Z",
+      "draft": false,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    },
+    {
+      "number": 3,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/3",
+      "title": "spec: CC32 voice-first logging",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "8244144b",
+      "branch": "spec/cc32-voice-logging",
+      "base": "main",
+      "created_at_utc": "2026-06-09T17:52:39Z",
+      "draft": false,
+      "mergeable": "MERGEABLE/CLEAN",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    },
+    {
+      "number": 2,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/2",
+      "title": "spec: B5 digital contracts + e-signatures",
+      "title_source": "GitHub API, read live in the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+      "head": "1f3a6812",
+      "branch": "spec/b5-digital-contracts",
+      "base": "main",
+      "created_at_utc": "2026-06-09T17:51:59Z",
+      "draft": false,
+      "mergeable": "CONFLICTING/DIRTY",
+      "op76_disposition": "LEGACY JUNE planning/spec PR, predating the importer wave. RECORDED, NOT TRIAGED - listing an inventory is not deciding its fate, and closing a spec inside a reconciliation PR would be the unilateral loss R5 is written against. Title is the GitHub API value, read live, not a branch slug transcribed by hand."
+    }
+  ],
+  "open_prs_prior_op76_first_pass": [
+    {
       "number": 29,
       "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/29",
       "title": "docs(product-doctrine): preserve IPO Product Decision Filter (four-question gate)",
@@ -719,7 +888,47 @@
       "op76_disposition": "LEGACY JUNE PLANNING/SPEC PR, open since its creation date above and predating the entire importer wave. NOT triaged, NOT superseded, NOT closed by Op 76 - closing or merging it without reading it would lose content (R5). Recorded so the ledger stops reporting zero open PRs; disposition is a separate job with its own gate."
     }
   ],
-  "open_prs_note": "Op 76 (2026-07-29): CORRECTED FROM EMPTY. This key was the literal empty list while TWELVE PRs were open on this repository, and open_prs_note asserted an Op-70 'NO open PRs' state that had stopped being true. That is not a lag - it is an active false assertion, and a reader acting on it would conclude there was nothing to reconcile and no competing authority. Enumerated BOTH WAYS at 2026-07-29T05:05:00Z from gh pr list and the REST pulls endpoint, both returning the same twelve numbers: 29, 26, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2. Of those: #29 is an open DRAFT on a base that is now stale, re-pinned and NOT touched; #26 is CONFLICTING, two Ops stale, and SUPERSEDED by the Op-76 reconciliation PR; the remaining ten (#2 through #11) are LEGACY JUNE planning/spec PRs predating the importer wave, recorded rather than triaged. NOTHING is closed by writing this ledger. The scope covered by the prior Op-70 wording - no open IMPORTER/V5 PRs - remains TRUE and is a narrower claim than the empty list implied; the prior text is retained BYTE-IDENTICAL at open_prs_note_prior_op76 (R5/R132) rather than deleted, because it is accurate about the importer lane and only wrong about the repository.",
+  "open_prs_note": "Op 76 SECOND PASS (2026-07-29): membership RE-DERIVED LIVE and CORRECTED. The count is still twelve, but the MEMBERSHIP the first pass wrote was wrong in both directions at once: it listed PR #26 as open when #26 had already been closed as obsolete, and it OMITTED the reconciliation PR itself, which was open. Two errors cancelling into a correct-looking total is worse than a wrong total, because the number looks checked. Enumerated from the GitHub API inside the window 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z. The live twelve are 30, 29, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2. Of those: #30 is this reconciliation PR, OPEN and NOT merged; #29 is an open DRAFT on a base that is now stale, re-pinned and NOT touched; the remaining ten (#2 through #11) are LEGACY JUNE planning/spec PRs predating the importer wave, recorded rather than triaged. #26 is NO LONGER OPEN - GitHub records it closed at 2026-07-29T04:04:00Z with mergedAt null and mergeCommit null, so it was closed and not merged; its branch, head dffd7529, diff and body all persist. EVERY TITLE IN THIS LEDGER IS THE GITHUB API VALUE, read live. The first pass hand-wrote two of them and both had drifted from the real titles, which is why titles are now sourced rather than typed. NOTHING is closed, opened or merged by writing this ledger. The first-pass array and note are retained byte-identical at open_prs_prior_op76_first_pass and open_prs_note_prior_op76_first_pass, and the Op-70 wording remains at open_prs_note_prior_op76 (R5/R132).",
+  "open_prs_note_prior_op76_first_pass": "Op 76 (2026-07-29): CORRECTED FROM EMPTY. This key was the literal empty list while TWELVE PRs were open on this repository, and open_prs_note asserted an Op-70 'NO open PRs' state that had stopped being true. That is not a lag - it is an active false assertion, and a reader acting on it would conclude there was nothing to reconcile and no competing authority. Enumerated BOTH WAYS at 2026-07-29T05:05:00Z from gh pr list and the REST pulls endpoint, both returning the same twelve numbers: 29, 26, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2. Of those: #29 is an open DRAFT on a base that is now stale, re-pinned and NOT touched; #26 is CONFLICTING, two Ops stale, and SUPERSEDED by the Op-76 reconciliation PR; the remaining ten (#2 through #11) are LEGACY JUNE planning/spec PRs predating the importer wave, recorded rather than triaged. NOTHING is closed by writing this ledger. The scope covered by the prior Op-70 wording - no open IMPORTER/V5 PRs - remains TRUE and is a narrower claim than the empty list implied; the prior text is retained BYTE-IDENTICAL at open_prs_note_prior_op76 (R5/R132) rather than deleted, because it is accurate about the importer lane and only wrong about the repository.",
+  "open_prs_derivation_op76_second_pass": {
+    "method": "gh pr list against the context repo, state open, limit 100, requesting number/title/isDraft/baseRefName/headRefName/headRefOid/mergeable/mergeStateStatus/createdAt. The returned set IS the ledger; no entry is added, removed or renamed by hand.",
+    "observation_window_utc": "2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z",
+    "live_numbers": [
+      30,
+      29,
+      11,
+      10,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2
+    ],
+    "first_pass_numbers": [
+      29,
+      26,
+      11,
+      10,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2
+    ],
+    "delta": "#26 REMOVED - closed at 2026-07-29T04:04:00Z, so it is not open. #30 ADDED - this reconciliation PR, open since 2026-07-29T04:03:11Z. Count unchanged at twelve, membership changed.",
+    "titles_corrected_against_the_api": [
+      "#29 - the first pass wrote 'four-question gate'; the API title ends 'four-question product call filter'.",
+      "#10 - the first pass wrote 'CC32 tiers'; the API title ends 'CC32 tier-3', and the API separator is an em dash where the first pass used a hyphen."
+    ],
+    "why_this_matters": "A hand-typed title is an assertion about a remote object. Two of twelve had already drifted after a single pass. Titles are now copied from the API response verbatim so the ledger cannot drift without the source drifting.",
+    "standing_rule": "Open-PR membership is DERIVED at write time, never carried forward from a previous Op and never edited incrementally. A ledger that is patched rather than re-read will always eventually disagree with the API."
+  },
   "open_prs_note_prior_op76": "Op 70: V5 COMPLETE - NO open importer/V5 PRs. All V5 legs LANDED + GitHub-verified: PR-2a backend #515 (main 15ae9b25, parent 8a860561), PR-2b extension #8 (main 95be0222, R3-CLEAN), context ruling R-V5-PR3-1 PR #20 (main f91cf34), PR-3 backend #516 (landed main d476fd6d via git-native PLAIN fast-forward, CLOSED not server-merged), mobile a5933fd UNCHANGED (PR-M4 #288). core-diff-zero PASS + two-adapter deterministic cross-repo e2e PASS; contract 1.4.0 byte-identical; both exact-head audits CLEAN P0-P3=0. Real-account live validation DEFERRED. NEXT = PRE-BUILD REVIEW REQUIRED (no canonical next-PR dispatched; operator runs the next R138 gate; do NOT invent work). PRIOR: Op 56: NO open importer PRs. Extension PR-C1c #7 (audited head 0ea894ec2fb16e6a08bb9b4556cbab4250a07e63, both Lens A + Lens B CLEAN) MERGED to extension main as squash merge 4f116836ddb5449524dd51e995a7e4c012f79493 (parent a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1); post-merge 31 files / 514 tests PASS, gates PASS, flags default-off, no release/publish/prod-flag/auth-PII/billing/other change. Prior three remain integrated identity-safe: EXT-C1b #6@55f24d57c625cbd2745ad3fc9226e6d41168d02a→a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1 (now parent of the PR-C1c tip); Mobile M2 #285@dce19c508320b2d7e2987aebbdb16983bf04cb63→b8165beaa3804fe8a145214b772f97a3ae9eab65 (rollback 169551777a95f9b1e89e4a8a5f75bf53ae23dcd8); Backend #508@ab13f49c3d6631c0e922e46b0334770a73bd4b3a→95e2c6378e0b1b734328a7fdf6b9a6e33465a663 (rollback e6c3082755c89e51c18db9562f84b7b8898ce102). Op 57: backend D1 COMPLETE — golden fixture committed via backend PR #509@81f0b70a54a512a454289dade7755b34902e3564 (base 95e2c6378e0b1b734328a7fdf6b9a6e33465a663) squash-merged to backend main 171829326c50778af25c38aa10ff09665e58b512 (test-only, 0 prod LOC, dual CLEAN, byte-pinned; CAVEAT: merge commit 1718293 is NOT R3-compliant — R3-INC-2, content verified). Next active node = R3 merge-path remediation (HARD GATE) + resolve D2 (OPEN/PROTECTED OPERATOR decision, NOT decided here); IMPORTER-F blocked until BOTH D2 resolves AND the R3 merge-path is remediated; mobile PR-M3 blocked until authoritative roster materialization. Build order unchanged.",
   "non_importer_open_backend_prs_ignored_this_wave": [
     491,
@@ -913,8 +1122,9 @@
     "cadence": "hourly (foreground, conversation context)",
     "next_run_local": "2026-07-14T00:27:00-07:00",
     "stop_condition": "delete self when v0.3 E2E ship criteria met",
-    "last_reviewed_utc": "2026-07-29T05:05:00Z",
-    "status_op76": "REVIEWED AND FOUND STALE, NOT SILENTLY REFRESHED. next_run_local above reads 2026-07-14T00:27:00-07:00 - fifteen days before this Op - so the hourly cadence it claims has not been running. Op 76 does NOT invent a new next_run_local, because writing a plausible future timestamp would assert a schedule nobody has committed to and would be the same asserted-status defect this Op exists to correct. The id, name, cadence, next_run_local and stop_condition are therefore left BYTE-IDENTICAL and the discrepancy is recorded instead. The stop_condition remains unmet: v0.3 end-to-end ship criteria are NOT satisfied, so the watchdog is not deletable either. Deciding its fate is a follow-up recorded in next_actions_ordered."
+    "last_reviewed_utc": "2026-07-29T14:49:39Z",
+    "status_op76": "REVIEWED AND FOUND STALE, NOT SILENTLY REFRESHED. next_run_local above reads 2026-07-14T00:27:00-07:00 - fifteen days before this Op - so the hourly cadence it claims has not been running. Op 76 does NOT invent a new next_run_local, because writing a plausible future timestamp would assert a schedule nobody has committed to and would be the same asserted-status defect this Op exists to correct. The id, name, cadence, next_run_local and stop_condition are therefore left BYTE-IDENTICAL and the discrepancy is recorded instead. The stop_condition remains unmet: v0.3 end-to-end ship criteria are NOT satisfied, so the watchdog is not deletable either. Deciding its fate is a follow-up recorded in next_actions_ordered.",
+    "last_reviewed_utc_prior_op76_first_pass": "PRESERVED (R5/R132). The first pass wrote 2026-07-29T05:05:00Z, a forward-dated round number. Replaced with the completion instant of the Op-76 second-pass live sweep. The review itself is unchanged: the watchdog is still stale, next_run_local is still left BYTE-IDENTICAL, and no new schedule is invented."
   },
   "merged_prs": [
     {
@@ -2047,7 +2257,8 @@
     "op76_stale_surface_is_not_a_safe_surface": "The failure Op 76 is written against is the INVERSE of the usual one. The usual failure is claiming a status too early. The failure available here was leaving a TRUE status unclaimed: the surfaces went on asserting an open B2, a blocked I1 and an EMPTY PR ledger after all three stopped being true at 2026-07-29T03:08:46Z. A stale surface is not a safe surface - it is a surface that will be read and acted on, and a reader trusting it would have declined to dispatch a rung that is now permitted. Both directions are the same defect and R-DUNNING-BAR-1 section 2 grades both: status is DERIVED, never asserted. Do not treat 'we did not claim anything' as automatically the safe side.",
     "op76_i1_permitted_not_dispatched": "Rung I1 is PERMITTED as of Op 76 and is NOT DISPATCHED, NOT assigned and NOT started. Op 76 opens the gate and sends nobody through it. A future Op must dispatch I1 explicitly, under its own gate. Reading 'I1 permitted' as 'I1 in progress' or as authorization to begin backend work is a misread of this key.",
     "op76_r14_clean_still_not_met": "Op 76 remediates NONE of the twelve Op-75 findings and creates NO clean verdict. Combined dual-lens counts against backend 5076a07a1e54b14e3db84d3aa128fb0bb44542d7 stand UNCHANGED at 0 P0 / 3 P1 / 5 P2 / 4 P3, and R14's CLEAN bar is zero across P0-P3. R14 CLEAN for that head is NOT met and is NOT claimed; Activation Gate B is NOT reached; A3 stays PARTIAL / default-OFF; FEATURE_DUNNING_V2 stays default-OFF and absent from every switch registry. Landing evidence is not the same thing as clean evidence, and B2 closing does not convert FINDINGS into CLEAN.",
-    "op76_pr26_superseded_not_deleted": "PR #26 is SUPERSEDED by the Op-76 reconciliation PR and closed as obsolete only AFTER that PR exists, never before. Closing is not deleting and R5 forbids LOSING things, not CLOSING them: the branch docs/op74-newest-wins-dunning-pr520-2026-07-23, the head dffd7529, the diff and the body all remain, and a closed PR reopens with one command. #26's surviving substance was carried onto main BEFORE it was closed, which is strictly MORE preservation than leaving it open on an abandoned branch. Leaving it open was the worse option: it is CONFLICTING against a base two Ops stale and asserts a newest-wins inference Op 75 disproved, so a reader could take it as current.",
+    "op76_pr26_superseded_not_deleted": "PR #26 is SUPERSEDED by the Op-76 reconciliation PR and was closed as obsolete only AFTER that PR existed, never before. GitHub records the close at 2026-07-29T04:04:00Z with mergedAt null and mergeCommit null. R5 is a DURABILITY rule about content reaching GitHub and surviving the death of whoever wrote it. Its subject is whether a thing EXISTS on GitHub, not what lifecycle state a pull request is parked in. The first pass compressed that into 'R5 forbids losing things, not closing them', which is too broad in two ways: it paraphrases a SACRED rule into a general anti-loss maxim, and it reads as a standing licence to close pull requests. It is neither, and the narrow derivation is this. (a) Closing #26 removes NOTHING from GitHub: the branch docs/op74-newest-wins-dunning-pr520-2026-07-23, the head dffd7529, the diff, the body and the comment thread all remain server-side and reachable, and reopening is one command. (b) #26's surviving substance was re-derived and carried onto the path to main BEFORE the close, so after the close that content is MORE durably on GitHub than it was while it sat only on an abandoned branch - measured against R5's own durability test the action increases durability. (c) The AUTHORITY for the disposition is R138's directional grant exercised through the recorded four-question gate. R5 is a CONSTRAINT the action satisfies, not the source of permission - the first pass had those two roles confused. (d) This derivation is about THIS pull request, whose substance was carried forward first and whose staleness was verified. It is NOT a general rule that closing pull requests is R5-safe. Close a PR whose substance has not been carried forward and the content does die with the branch.",
+    "op76_pr26_superseded_not_deleted_prior_op76_first_pass": "PR #26 is SUPERSEDED by the Op-76 reconciliation PR and closed as obsolete only AFTER that PR exists, never before. Closing is not deleting and R5 forbids LOSING things, not CLOSING them: the branch docs/op74-newest-wins-dunning-pr520-2026-07-23, the head dffd7529, the diff and the body all remain, and a closed PR reopens with one command. #26's surviving substance was carried onto main BEFORE it was closed, which is strictly MORE preservation than leaving it open on an abandoned branch. Leaving it open was the worse option: it is CONFLICTING against a base two Ops stale and asserts a newest-wins inference Op 75 disproved, so a reader could take it as current.",
     "op76_pr29_untouched_and_now_stale_based": "PR #29 is an open DRAFT whose base b76d0962de53ce494fa8f869a706ff0c15aee0b6 became stale the moment main advanced to 837a7f9991123c8b22ddfe57fce2c2777663744d. Op 76 RE-PINS its status and stops: it is NOT touched, NOT closed, NOT rebased, and its doctrine content - the IPO Product Decision Filter - is NOT imported in either direction. Its single file does not collide, so it still reports MERGEABLE/CLEAN despite the stale base; stale base and mergeable are different properties and neither implies the other.",
     "op76_own_post_landing_sha_not_claimed": "No Op-76 artifact records the SHA of the commit that lands the Op-76 work, because an artifact cannot record the SHA of the commit that carries it - the identical structural constraint Op 75 recorded for its own landing, Op 74 for the Op-73 pin, and Op 73 for its own. The BASE of the Op-76 branch is 837a7f9991123c8b22ddfe57fce2c2777663744d, which IS recordable and is recorded. The landed Op-76 SHA must be pinned by a SUBSEQUENT reconcile and must never be asserted in advance. Discharging this is the first item in next_actions_ordered for whoever comes next.",
     "op76_no_ancestry_enforcement_exists": "The ROOT cause behind this whole class of staleness is NOT fixed by Op 76 and is named rather than hidden. The proximate cause - an Op cannot record its own landed SHA - is structural and Op 76 is its designed remedy. The root cause is that closing that loop depends on a human or an operator REMEMBERING to run the next reconcile; NOTHING enforces it. The honest fix is a check that fails when the pinned context head is not an ancestor of live main. It is deliberately NOT built here, because building it inside a reconciliation PR is exactly the scope creep R133 forbids, and it is recorded in next_actions_ordered instead. Calling Op 76 a full root-cause fix would be the same asserted-status defect it exists to correct.",
@@ -2808,7 +3019,8 @@
       "B1": "UNCHANGED - OPEN_ACCEPTED_NOT_FIXED, open by design, permanently.",
       "B3_B4_B5_B6": "UNCHANGED.",
       "r14_clean_for_backend_head": "UNCHANGED - 0 P0 / 3 P1 / 5 P2 / 4 P3 against a bar of zero across P0-P3. NOT met, NOT claimed.",
-      "open_prs_ledger": "EMPTY -> twelve genuinely open PRs.",
+      "open_prs_ledger": "EMPTY -> the twelve genuinely open PRs, membership DERIVED LIVE from the GitHub API in the second pass: 30, 29, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2.",
+      "open_prs_ledger_prior_op76_first_pass": "EMPTY -> twelve genuinely open PRs.",
       "context_main_head": "b76d0962de53ce494fa8f869a706ff0c15aee0b6 -> 837a7f9991123c8b22ddfe57fce2c2777663744d."
     },
     "what_this_op_explicitly_does_not_do": [
@@ -2877,7 +3089,55 @@
       }
     },
     "disposition": "#26 is recorded SUPERSEDED by the Op-76 reconciliation PR. Per the R138 gate it is closed as obsolete ONLY AFTER that replacement PR exists, never before.",
-    "authority_to_close": "R5 forbids LOSING things, not CLOSING them. Closing a GitHub PR deletes nothing - branch, head, diff and body all remain and a closed PR reopens with one command - and #26's surviving substance is carried onto main BEFORE it is closed, which is strictly MORE preservation than leaving it on an abandoned branch. The authority for the call is R138's directional grant, exercised through the recorded four-question gate.",
+    "authority_to_close": "R5 is a DURABILITY rule about content reaching GitHub and surviving the death of whoever wrote it. Its subject is whether a thing EXISTS on GitHub, not what lifecycle state a pull request is parked in. The first pass compressed that into 'R5 forbids losing things, not closing them', which is too broad in two ways: it paraphrases a SACRED rule into a general anti-loss maxim, and it reads as a standing licence to close pull requests. It is neither, and the narrow derivation is this. (a) Closing #26 removes NOTHING from GitHub: the branch docs/op74-newest-wins-dunning-pr520-2026-07-23, the head dffd7529, the diff, the body and the comment thread all remain server-side and reachable, and reopening is one command. (b) #26's surviving substance was re-derived and carried onto the path to main BEFORE the close, so after the close that content is MORE durably on GitHub than it was while it sat only on an abandoned branch - measured against R5's own durability test the action increases durability. (c) The AUTHORITY for the disposition is R138's directional grant exercised through the recorded four-question gate. R5 is a CONSTRAINT the action satisfies, not the source of permission - the first pass had those two roles confused. (d) This derivation is about THIS pull request, whose substance was carried forward first and whose staleness was verified. It is NOT a general rule that closing pull requests is R5-safe. Close a PR whose substance has not been carried forward and the content does die with the branch.",
+    "authority_to_close_prior_op76_first_pass": "R5 forbids LOSING things, not CLOSING them. Closing a GitHub PR deletes nothing - branch, head, diff and body all remain and a closed PR reopens with one command - and #26's surviving substance is carried onto main BEFORE it is closed, which is strictly MORE preservation than leaving it on an abandoned branch. The authority for the call is R138's directional grant, exercised through the recorded four-question gate.",
     "pr_29_re_pinned_not_touched": "PR #29 is an open DRAFT, head 11da3905, branch docs/ipo-product-decision-filter, MERGEABLE and clean, but based on b76d0962de53ce494fa8f869a706ff0c15aee0b6 - NOW STALE, since main advanced to 837a7f9991123c8b22ddfe57fce2c2777663744d. Its single file and its doctrine content are NOT imported here in either direction. Op 76 records its status and stops."
+  },
+  "corrections_op76_second_pass_2026_07_29": {
+    "ordering_note": "Appended last. The Op-76 record above is NOT rewritten - it is the first pass's own account and stays as written (R5/R132). This block records what review found wrong with it and what the second pass changed.",
+    "kind": "Self-correction of the reconciliation Op, applied as a NEW commit on the existing published branch. No amend, no rebase, no force-push - the first-pass commit 5426304289495ce99054f62e5ed8147269ea4263 remains in the branch history exactly as pushed.",
+    "why_a_second_pass_at_all": "The first pass was written against the defect of asserting status without evidence, and then committed three instances of that same defect: it asserted an open-PR membership instead of re-reading it, asserted PR titles instead of copying them, and asserted an observation time an hour ahead of any observation. A document that diagnoses a failure mode and then exhibits it is worse than one that never raised the subject, because it reads as having been checked.",
+    "findings_and_fixes": [
+      {
+        "finding": "The open-PR ledger was not derived live. It listed #26 as open after #26 had been closed, and omitted the reconciliation PR itself, which was open.",
+        "fix": "Membership re-read from the GitHub API and written verbatim. See open_prs_derivation_op76_second_pass for the method, the window and the delta.",
+        "preserved_at": "open_prs_prior_op76_first_pass, open_prs_note_prior_op76_first_pass"
+      },
+      {
+        "finding": "Three narrative surfaces mirrored the wrong membership: the importer-wave operator handoff, the operator state file, and the zombie-agent protocol sweep. Each named #26 as open and none named the reconciliation PR.",
+        "fix": "All three corrected additively against the same live read. The stale sentences are retained in place, marked superseded, not deleted.",
+        "preserved_at": "in the markdown files themselves, as retained superseded text"
+      },
+      {
+        "finding": "Forward-dated timestamps. 2026-07-29T05:05:00Z and its local twin appeared on six surfaces and were later than every piece of evidence behind them.",
+        "fix": "Replaced with the emissions of real commands, each recorded with the window it was taken in. See as_of_derivation_op76_second_pass.",
+        "preserved_at": "as_of_prior_op76_first_pass, repos.context.main_as_of_note_prior_op76_first_pass, watchdog.last_reviewed_utc_prior_op76_first_pass"
+      },
+      {
+        "finding": "An overbroad reading of R5. 'R5 forbids losing things, not closing them' paraphrases a SACRED durability rule into a general maxim and then leans on the paraphrase as authority to close a pull request.",
+        "fix": "Replaced with the narrow four-part derivation, which also separates R5 as a constraint from R138 as the actual authority.",
+        "preserved_at": "truth_boundaries.op76_pr26_superseded_not_deleted_prior_op76_first_pass, reconciliation_op76_pr26_supersession_2026_07_29.authority_to_close_prior_op76_first_pass"
+      },
+      {
+        "finding": "PR titles were hand-written rather than API-derived. Two of twelve had already drifted, and the ten legacy PRs were described by branch slug in the zombie sweep, which is not their title at all.",
+        "fix": "Every title in the ledger and in the zombie sweep is now the GitHub API value, read live, with the source recorded per entry.",
+        "preserved_at": "open_prs_prior_op76_first_pass"
+      },
+      {
+        "finding": "The already-published comment on PR #26 carries the same overbroad R5 reading.",
+        "fix": "An additive correction comment is appended to that thread. The original comment is NOT edited - editing a published record to make a past self look correct is the rewrite R5 and R132 exist to prevent.",
+        "preserved_at": "the original PR #26 comment, unedited on GitHub"
+      }
+    ],
+    "what_the_second_pass_does_not_change": [
+      "No blocker moves. B2 stays CLOSED, B1 stays OPEN by design, B3 through B6 unchanged.",
+      "Rung I1 stays PERMITTED and STILL NOT DISPATCHED.",
+      "None of the twelve Op-75 findings is remediated. Combined 0 P0 / 3 P1 / 5 P2 / 4 P3 against a bar of zero across P0-P3, so R14 CLEAN for backend 5076a07a1e54b14e3db84d3aa128fb0bb44542d7 is still NOT met and NOT claimed.",
+      "PR #29 is still not touched, not closed and not imported.",
+      "PR #26 stays closed. The second pass does NOT reopen it - the supersession finding is unaffected by the R5 wording defect, and reopening would re-create the competing authority the close removed.",
+      "FEATURE_DUNNING_V2 stays default-OFF and unregistered. No flag flipped, no build authorized, 0 production LOC.",
+      "No history rewritten. New commit on the published branch, first-pass commit intact."
+    ],
+    "standing_lesson": "Every status on a live surface must be RE-READ at write time from the authoritative source, including the ones that feel too obvious to check - the membership of a list you just changed, the title of a PR you just opened, and the current time. The first pass re-verified the hard facts, the SHAs, both ways and got them right; it asserted the easy ones and got three of them wrong. Difficulty is not what predicts error here; whether the value was read or assumed is."
   }
 }
