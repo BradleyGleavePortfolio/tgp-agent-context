@@ -75,10 +75,22 @@ committer == `BradleyGleavePortfolio <264851314+BradleyGleavePortfolio@users.nor
 
 ## Why Lens B exists
 
-Lens B discharges blockers **B1** and **B2** ([`OWNERSHIP_AND_PR_LADDER.md` §8](../op74/OWNERSHIP_AND_PR_LADDER.md)).
-Both are **recorded, not repaired**: the commit is published on shared `main`, and the R3-INC-1
-precedent plus R5 forbid rewriting it. This document, together with
-[Lens A](P0-AUDIT-A-5076a07a.md), **is** the artifact whose absence B2 names.
+Lens B **executes** the `P0-AUDIT` rung that Op 74 framed **there** as discharging blockers **B1**
+and **B2** ([`OWNERSHIP_AND_PR_LADDER.md` §8](../op74/OWNERSHIP_AND_PR_LADDER.md)). **This document
+discharges neither on its own.** **B2** closes **on the landing of PR #28**, not on the drafting of
+these two files — see the conditionality note directly below. **B1 does not close even then:** the
+blocker table near the end of this document records B1 as **open by design** in its *After landing
+of PR #28* column — a permanent historical marker, not a work item. Both are **recorded, not
+repaired**: the commit is published on shared `main`, and the R3-INC-1 precedent plus R5 forbid
+rewriting it. This document, together with [Lens A](P0-AUDIT-A-5076a07a.md), **is** the artifact
+whose absence B2 names.
+
+> *(R5/R132 — superseded wording named, not deleted: this passage previously opened "**Lens B
+> discharges blockers B1 and B2**", unconditionally. That was false in two directions at once — it
+> claimed for **B2** a closure that is conditional on landing, and for **B1** a closure that never
+> occurs, contradicting this document's own blocker table. It is the same construction corrected in
+> [`PRE_BUILD_REVIEW_OP75.md`](../op75/PRE_BUILD_REVIEW_OP75.md) §1; the Op-74 framing is quoted, not
+> endorsed. No finding, severity, count, or item of evidence in this report changes.)*
 
 > **Conditionality — read this before citing B2 as closed.** B2 closes **on the landing of PR #28**
 > on context `main`, not on the drafting of these two files. Until the landing commit exists and is

@@ -17,9 +17,29 @@
 > assert. That is the status-asserted-without-evidence failure that
 > [§6](#6--stop-conditions-in-force-for-this-op) stop condition 4 and
 > [`R-DUNNING-BAR-1`](../../roadmap/rulings/R-DUNNING-BAR-1_2026-07-27.md) §2 both grade **P0** —
-> *status is derived, never asserted*. The operative label is **`P0-AUDIT` EVIDENCE / REMEDIATION
-> REQUIRED**, used identically here, in `DECISION_LOG.md`, and in
-> [`current-state.json`](../importer-wave/current-state.json).
+> *status is derived, never asserted*.
+>
+> **Two wordings, one substance — do not read them as one label used everywhere.** The operative
+> label on the **state** surfaces is **`P0-AUDIT` EVIDENCE / REMEDIATION REQUIRED**: this title, and
+> the three corrected scalars `op_label`, `headline_status.current_op` and `verdict` in
+> [`current-state.json`](../importer-wave/current-state.json). The canonical **narrative** record
+> [`DECISION_LOG.md`](../../DECISION_LOG.md) does **not** carry that string at all; it records the
+> same state in its own words — its Op-75 entry is titled **"P0-AUDIT EVIDENCE PRODUCED"** and its
+> closing line reads **"VERDICT: FINDINGS — evidence produced, rung NOT discharged"**. Check it
+> rather than trust this paragraph — run the search, do not read the count off this page:
+> `git grep -c 'EVIDENCE / REMEDIATION REQUIRED'`. `DECISION_LOG.md` **does not appear in the
+> output**; the files that do are this one, [`current-state.json`](../importer-wave/current-state.json)
+> and [`CITATION_LEDGER.tsv`](CITATION_LEDGER.tsv) — the ledger only because it adjudicates the
+> corrected scalar as a citation. The two wordings **agree in substance** — evidence produced,
+> rung executed, findings unremediated,
+> remediation outstanding — and **neither asserts discharge**, which is the property that matters.
+> *(R5/R132 — superseded wording named, not deleted: this passage previously read "**The operative
+> label is `P0-AUDIT` EVIDENCE / REMEDIATION REQUIRED, used identically here, in `DECISION_LOG.md`,
+> and in `current-state.json`**". That was false as to `DECISION_LOG.md`, and it contradicted this
+> same blockquote ten lines above, which correctly quotes the canonical title as "P0-AUDIT EVIDENCE
+> PRODUCED". A claim of identical wording is one a reader can falsify with a single `grep`, so
+> publishing it unchecked was itself the defect — a smaller instance of the asserted-status failure
+> this blockquote exists to record.)*
 >
 > **Deliberately NOT renamed: the frozen record identifier.** The JSON key
 > `decision_record_op75_p0_audit_discharge_2026_07_27` keeps its name, in
