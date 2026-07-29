@@ -53,3 +53,4 @@ ADJ	fe24962ed894	FROZEN_CORRECTION	handoffs/importer-wave/current-state.json	RE-
 ADJ	333931222db4	FROZEN_CORRECTION	handoffs/op75/BASELINE_HEADS_OP75.json	These two are matched by the INTENDED billing prefix in ALLOWED_PREFIXES; they are a deliberate reco
 ADJ	9094e95aff17	FROZEN_CORRECTION	handoffs/op75/BASELINE_HEADS_OP75.json	Earlier passes listed FOUR routes here, folding the two by-design billing routes into the unintended
 ADJ	910fbce9d74b	FROZEN_CORRECTION	handoffs/op75/BASELINE_HEADS_OP75.json	Previously recorded as 'Lockout decision has no durable transition record' routed to DUN-4. That is 
+ADJ	59edb3fe29e0	BACKEND_EXCERPT	handoffs/importer-wave/current-state.json	Op 75 - P0-AUDIT EVIDENCE / REMEDIATION REQUIRED (docs/doctrine/evidence/state only, 0 product LOC, 

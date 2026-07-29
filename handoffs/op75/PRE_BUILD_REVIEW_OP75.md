@@ -1,4 +1,36 @@
-# Op 75 — Pre-build / reconciliation review: `P0-AUDIT` discharge for backend `5076a07a`
+# Op 75 — Pre-build / reconciliation review: `P0-AUDIT` EVIDENCE / REMEDIATION REQUIRED for backend `5076a07a`
+
+> **STATUS LABEL CORRECTED (tenth pass, 2026-07-29) — R5/R132, prior wording named, not deleted.**
+> This title previously read *"`P0-AUDIT` discharge for backend `5076a07a`"*. **That word was false
+> at every pass that published it, and it was false against this document's own body.** The final
+> line of this file is `VERDICT: FINDINGS`; [§3](#3--audit-outcome-and-the-r14-bar) records the
+> combined **0 P0 / 3 P1 / 5 P2 / 4 P3** against an R14 CLEAN bar of 0 P0–P3 and says that bar is
+> *"NOT met and NOT claimed"*; [§4](#4--blocker-reconciliation) states that **B2 closes on landing
+> of PR #28, not before** and that **B1 is open by design**. A rung whose findings are unremediated
+> and whose blocker is still open is **executed, not discharged**. The canonical narrative record —
+> [`DECISION_LOG.md`](../../DECISION_LOG.md), Op-75 entry — titles this Op **"P0-AUDIT EVIDENCE
+> PRODUCED"** and has never used *discharge* unconditionally, so the title also disagreed with the
+> canonical surface it mirrors.
+>
+> **Why this was a blocking defect and not a wording preference.** A title is the one line every
+> reader sees, and *discharge* asserts the exact status the body spends nine sections refusing to
+> assert. That is the status-asserted-without-evidence failure that
+> [§6](#6--stop-conditions-in-force-for-this-op) stop condition 4 and
+> [`R-DUNNING-BAR-1`](../../roadmap/rulings/R-DUNNING-BAR-1_2026-07-27.md) §2 both grade **P0** —
+> *status is derived, never asserted*. The operative label is **`P0-AUDIT` EVIDENCE / REMEDIATION
+> REQUIRED**, used identically here, in `DECISION_LOG.md`, and in
+> [`current-state.json`](../importer-wave/current-state.json).
+>
+> **Deliberately NOT renamed: the frozen record identifier.** The JSON key
+> `decision_record_op75_p0_audit_discharge_2026_07_27` keeps its name, in
+> [§2a](#2a--r138-decision-gate) below, in `DECISION_LOG.md`, and inside `current-state.json`
+> itself. It is an **identifier**, not a status claim; renaming it would break three live pointers
+> and silently revise a record, which is the revision R5/R132 exists to forbid. It is annotated in
+> place instead, by its sibling key `status_label_correction_op75_tenth_pass_2026_07_29`.
+>
+> **Conditional uses of the word survive unchanged and are not defects:** *"discharges B2 **on
+> landing** of PR #28"* states a condition, and the condition is unmet. Only the unconditional
+> label was wrong.
 
 ## BUILD MATRIX
 - backend HEAD: `5076a07a1e54b14e3db84d3aa128fb0bb44542d7`
@@ -20,7 +52,9 @@
 - **Status:** ACTIVE — governance / audit evidence only. **Authorizes no build, no landing, no flag
   flip, no completion claim.** 0 production LOC.
 - **Rung:** `P0-AUDIT` — the prerequisite rung of the Op-74 ladder
-  ([`OWNERSHIP_AND_PR_LADDER.md` §3](../op74/OWNERSHIP_AND_PR_LADDER.md))
+  ([`OWNERSHIP_AND_PR_LADDER.md` §3](../op74/OWNERSHIP_AND_PR_LADDER.md)). **EXECUTED, NOT
+  DISCHARGED:** the evidence exists, the twelve findings are unremediated, and B2 closes only on
+  landing (§3, §4). Executing a rung and discharging it are different states.
 - **Baseline pins:** [`BASELINE_HEADS_OP75.json`](BASELINE_HEADS_OP75.json) — context
   `b76d0962`, backend `5076a07a`, mobile `a5933fd`, extension `95be0222`. Drift off any pin =
   **INFRA_DEATH** per R124.
@@ -42,8 +76,13 @@
 ## §1 — Why this document exists
 
 Op 74 published the ladder and named `P0-AUDIT` as the single rung that blocks **all** backend
-work: a retroactive adversarial R14 audit of baseline `5076a07a`, discharging blockers **B1** and
-**B2**. Op 75 executes that rung and nothing else.
+work: a retroactive adversarial R14 audit of baseline `5076a07a`, framed **there** as discharging
+blockers **B1** and **B2**. Op 75 executes that rung and nothing else — and §4 records the outcome
+that the Op-74 framing did not anticipate: **B1 is open by design** (a permanent historical marker,
+not a work item) and **B2 closes on landing of PR #28, not before**. *(R5/R132 — superseded reading
+named, not deleted: this sentence previously read as though executing the rung discharged both
+blockers, which is the same defect as the title corrected at the head of this file. The Op-74
+wording is quoted, not endorsed.)*
 
 R124 requires that the pins an Op reconciles against be recorded before the work is trusted, and
 Op 74's own review document is the precedent for a per-Op review surface. Without this file the
