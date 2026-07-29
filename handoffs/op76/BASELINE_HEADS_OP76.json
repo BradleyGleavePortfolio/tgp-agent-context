@@ -1,0 +1,132 @@
+{
+  "schema_version": "1.0.0",
+  "doc_kind": "reconcile_baseline_head_pin",
+  "op_label": "Op 76",
+  "date": "2026-07-29",
+  "operator": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+  "purpose": "Pin the exact heads Op 76 reconciles against. Op 76 is a state-reconciliation Op with 0 production LOC: it records that context PR #28 LANDED and makes the current-state surfaces truthful about that landing. It authorises no build, no flag flip, no backend work and no completion claim.",
+  "verification_method": "Every SHA below was independently verified BOTH WAYS at Op-76 execution time: (a) fetched from the GitHub REST API, and (b) resolved from the remote via git ls-remote. Where a local git check would have been the second way, the local check is NOT used and NOT claimed, because this working copy is a SHALLOW SPARSE worktree - see shallow_clone_caveat.",
+  "verified_at_utc": "2026-07-29T14:49:39Z",
+  "verified_at_utc_note_op76_second_pass": "This is an OBSERVATION time: the instant the last command of the both-ways head sweep returned. The sweep opened at 2026-07-29T14:49:00Z and closed at 2026-07-29T14:49:39Z; four repository heads were read from the GitHub API ref endpoint AND from git ls-remote, and both sources agreed on every one. The Op-76 FIRST PASS recorded 2026-07-29T05:05:00Z here, which was a round number LATER than every observation supporting it - the newest evidence the first pass held was GitHub's own 2026-07-29T04:04:00Z. A verification timestamp that postdates its verification is an assertion wearing an observation's clothes, and R-DUNNING-BAR-1 section 2 grades an asserted status a P0. The prior value is retained in this note rather than deleted (R5/R132). No SHA changed as a result: all four heads re-read identical.",
+  "shallow_clone_caveat": "This worktree is shallow (git rev-parse --is-shallow-repository prints true) and HEAD is grafted, so git rev-list --count HEAD prints 1 and git merge-base --is-ancestor b76d0962... 837a7f99... exits 1. THAT EXIT IS A CLONE ARTEFACT, NOT AN ANCESTRY FACT, and it must not be read as evidence that the base is not an ancestor. The ancestry claim in this file rests on the GitHub compare endpoint instead, which returned status ahead, ahead_by 14, behind_by 0, total_commits 14, files 15 for base b76d0962de53ce494fa8f869a706ff0c15aee0b6 against head 837a7f9991123c8b22ddfe57fce2c2777663744d. Stated rather than papered over, because a reader running the local command in this worktree will see exit 1 and must know why.",
+  "drift_policy": "If any recorded SHA later differs from GitHub live state, treat as INFRA_DEATH per R124 and re-verify before acting. NO history rewrite. NO force-push. Remediate forward only.",
+  "build_matrix_r124": {
+    "canonicity": "CANONICAL for Op 76. Op 76 produces no audit report, so there is no second copy of this block to drift against. If a later artifact reproduces it, that copy is the mirror and this is the source.",
+    "context_head": "837a7f9991123c8b22ddfe57fce2c2777663744d",
+    "backend_head": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+    "mobile_head": "a5933fd6de5616493de75f0db907098b149b955c",
+    "extension_head": "95be0222df3d47d787566743c8781005d8fbec69",
+    "pr_28_landed_head": "837a7f9991123c8b22ddfe57fce2c2777663744d",
+    "pr_28_base_origin_main": "b76d0962de53ce494fa8f869a706ff0c15aee0b6",
+    "op_76_branch_base_origin_main": "837a7f9991123c8b22ddfe57fce2c2777663744d",
+    "timestamp_iso8601_utc": "2026-07-29T14:49:39Z",
+    "timestamp_note_op76_second_pass": "Observation time, not a round number. Head sweep window 2026-07-29T14:49:00Z to 2026-07-29T14:49:39Z, all four heads confirmed BOTH WAYS and unchanged from the first pass. Open-PR membership and every PR title were read from the GitHub API in a separate window, 2026-07-29T14:47:33Z to 2026-07-29T14:47:35Z. The first-pass value 2026-07-29T05:05:00Z was forward-dated and is superseded; it is retained in verified_at_utc_note_op76_second_pass (R5/R132).",
+    "self_reference_constraint": "The SHA of the commit that carries this file is NOT recorded here and CANNOT be: the SHA is a hash over a tree containing this file, so writing it in would change it. This is the same structural constraint Op 75 recorded for its own tip, Op 74 for the Op-73 pin, and Op 73 for its own. The Op-76 landed SHA must be pinned by a SUBSEQUENT reconcile and must never be asserted in advance. What Op 76 DOES pin, and what Op 75 could not, is the Op-75 landed SHA - that is the whole point of this Op.",
+    "both_ways_evidence": [
+      {
+        "value": "context main (the PR #28 landing, and the base of the Op-76 branch)",
+        "sha": "837a7f9991123c8b22ddfe57fce2c2777663744d",
+        "gh_api": "gh api repos/BradleyGleavePortfolio/tgp-agent-context/commits/main --jq .sha => 837a7f9991123c8b22ddfe57fce2c2777663744d",
+        "remote": "git ls-remote origin refs/heads/main => 837a7f9991123c8b22ddfe57fce2c2777663744d",
+        "match": true
+      },
+      {
+        "value": "backend main (the audited money-path head; UNCHANGED since Op 74)",
+        "sha": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+        "gh_api": "gh api repos/BradleyGleavePortfolio/growth-project-backend/commits/main --jq .sha => 5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+        "remote": "git ls-remote https://github.com/BradleyGleavePortfolio/growth-project-backend refs/heads/main => 5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+        "match": true
+      },
+      {
+        "value": "mobile main (UNCHANGED)",
+        "sha": "a5933fd6de5616493de75f0db907098b149b955c",
+        "gh_api": "gh api repos/BradleyGleavePortfolio/growth-project-mobile/commits/main --jq .sha => a5933fd6de5616493de75f0db907098b149b955c",
+        "remote": "git ls-remote https://github.com/BradleyGleavePortfolio/growth-project-mobile refs/heads/main => a5933fd6de5616493de75f0db907098b149b955c",
+        "match": true
+      },
+      {
+        "value": "extension main (UNCHANGED)",
+        "sha": "95be0222df3d47d787566743c8781005d8fbec69",
+        "repo_name_note": "The extension repository is BradleyGleavePortfolio/tgp-importer-extension. A query against growth-project-extension returns HTTP 404 - that name does not exist and is not an outage.",
+        "gh_api": "gh api repos/BradleyGleavePortfolio/tgp-importer-extension/commits/main --jq .sha => 95be0222df3d47d787566743c8781005d8fbec69",
+        "remote": "git ls-remote https://github.com/BradleyGleavePortfolio/tgp-importer-extension refs/heads/main => 95be0222df3d47d787566743c8781005d8fbec69",
+        "match": true
+      }
+    ]
+  },
+  "pr_28_landing_evidence": {
+    "number": 28,
+    "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/28",
+    "state": "MERGED",
+    "merged_at_utc": "2026-07-29T03:08:46Z",
+    "merged_by": "BradleyGleavePortfolio",
+    "head_ref_name": "docs/op75-p0-audit-5076a07a",
+    "head_ref_oid": "837a7f9991123c8b22ddfe57fce2c2777663744d",
+    "merge_commit_oid": "837a7f9991123c8b22ddfe57fce2c2777663744d",
+    "base_ref_oid": "b76d0962de53ce494fa8f869a706ff0c15aee0b6",
+    "plain_fast_forward_proof": "merge_commit_oid == head_ref_oid. A server-side squash or merge would have minted a NEW commit object with a different SHA and a GitHub committer; a rebase would have rewritten the head. Neither happened. The landed object IS the reviewed head, unchanged.",
+    "landed_commit_envelope": {
+      "sha": "837a7f9991123c8b22ddfe57fce2c2777663744d",
+      "tree": "2820a7719e9ab5756b4c8b94220a114ff2d69d9d",
+      "parents": [
+        "e744d428aafa872af96056d4b9cc4ce089f39d3e"
+      ],
+      "parents_count": 1,
+      "author": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "committer": "Bradley Gleave <bradley@bradleytgpcoaching.com>",
+      "authored_at_utc": "2026-07-29T02:49:36Z",
+      "committed_at_utc": "2026-07-29T02:49:36Z",
+      "r3_verdict": "CLEAN - author AND committer are both the R3 identity, verified server-side via the commits API, not merely locally.",
+      "subject": "docs(op75): eleventh pass - stop claiming one label is used identically across the log and the state surfaces, and stop Lens B claiming it discharges B1",
+      "parent_is_not_the_base_note": "The single parent e744d428 is the previous commit ON THE BRANCH, not the base. The base b76d0962 is an ancestor 14 commits back, which is what a fast-forward of a 14-commit branch looks like. Do not read parent != base as evidence of a merge commit; a merge commit would have parents_count 2."
+    },
+    "landing_comment": {
+      "id": 5112353783,
+      "url": "https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/28#issuecomment-5112353783",
+      "author": "BradleyGleavePortfolio",
+      "created_at_utc": "2026-07-29T03:11:11Z",
+      "length_bytes": 17592,
+      "role": "This is the SOLE comment on PR #28 and is the primary landing evidence. It records the push transcript, the pre-push and post-push both-ways verification, and every gate result at the landed head.",
+      "gate_results_recorded_in_it": "r3-identity-gate.sh exit 0 at the landed head and exit 0-or-3 (never 1) across all 14 branch commits; verify-citations.sh exit 3 on its own accepting text; verify-rendering.sh exit 0 both structurally and with --render against GitHub's own renderer.",
+      "what_it_explicitly_does_not_claim": "It does not claim R14 CLEAN for backend 5076a07a. The FINDINGS verdicts inside the landed artifacts are the audit OF the backend head, not a verdict on PR #28, and landing did not convert them to CLEAN."
+    },
+    "changed_files_count": 15,
+    "changed_files": [
+      "AGENT_RULES.md",
+      "DECISION_LOG.md",
+      "handoffs/audit-reports/P0-AUDIT-A-5076a07a.md",
+      "handoffs/audit-reports/P0-AUDIT-B-5076a07a.md",
+      "handoffs/importer-wave/R3_MERGE_RUNBOOK.md",
+      "handoffs/importer-wave/current-state.json",
+      "handoffs/op74/BASELINE_HEADS_OP74.json",
+      "handoffs/op75/BASELINE_HEADS_OP75.json",
+      "handoffs/op75/CITATION_LEDGER.tsv",
+      "handoffs/op75/OWNERSHIP_AND_LADDER_OP75.md",
+      "handoffs/op75/PRE_BUILD_REVIEW_OP75.md",
+      "handoffs/op75/R3_IDENTITY_PREPUSH_ASSERTION.md",
+      "handoffs/op75/r3-identity-gate.sh",
+      "handoffs/op75/verify-citations.sh",
+      "handoffs/op75/verify-rendering.sh"
+    ],
+    "branch_not_deleted": "The branch docs/op75-p0-audit-5076a07a still exists on origin at 837a7f9991123c8b22ddfe57fce2c2777663744d. It is byte-identical to main, so it is inert rather than a zombie, but it IS an undeleted merged branch and is recorded as such in the Op-76 zombie sweep. Op 76 does not delete it - deleting another Op's branch is not this Op's call."
+  },
+  "state_transitions_this_landing_causes": {
+    "B2": "OPEN -> CLOSED. The pre-committed condition was written down BEFORE the landing, in the Op-75 ladder document section 4: 'landed on context main, R3-clean, plain fast-forward' closes B2 and permits I1. All three conjuncts are now satisfied and independently verified above, so B2 closing is DERIVED from evidence and not asserted (R-DUNNING-BAR-1 section 2).",
+    "I1": "BLOCKED -> PERMITTED. Permitted is not dispatched. Op 76 opens the gate and dispatches nothing.",
+    "B1": "OPEN BY DESIGN - UNCHANGED. R3-INC-4 is an unasserted-local-identity incident on backend 5076a07a. It is not fixable without rewriting published shared history, which is forbidden (R3-INC-1 precedent, R5). It stays open permanently as a historical marker. Landing PR #28 did not and could not close it.",
+    "B3_B4_B5_B6": "UNCHANGED. Nothing in this landing touches the ops track, the quarantined pre-existing automation failures, the unprovisioned email credentials, or the permanent R127-R129 numbering gap.",
+    "R14_CLEAN_for_backend_5076a07a": "STILL NOT MET AND STILL NOT CLAIMED. Combined dual-lens counts remain 0 P0 / 3 P1 / 5 P2 / 4 P3. B2 closing means the evidence is now DISCOVERABLE from main; it does not mean the findings are remediated."
+  },
+  "second_pass_correction_op76": {
+    "what_changed_in_this_file": "Timestamps only. Every SHA in this pin is BYTE-IDENTICAL to the first pass, and was re-confirmed both ways rather than assumed still valid.",
+    "head_sweep_window_utc": "2026-07-29T14:49:00Z to 2026-07-29T14:49:39Z",
+    "heads_reconfirmed_both_ways": {
+      "context": "837a7f9991123c8b22ddfe57fce2c2777663744d - API and ls-remote agree, unchanged",
+      "backend": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7 - API and ls-remote agree, unchanged",
+      "extension": "95be0222df3d47d787566743c8781005d8fbec69 - API and ls-remote agree, unchanged",
+      "mobile": "a5933fd6de5616493de75f0db907098b149b955c - API and ls-remote agree, unchanged"
+    },
+    "why_reconfirm_rather_than_trust_the_first_pass": "R124 treats a recorded SHA that differs from live state as INFRA_DEATH. A second commit lands hours after the first, so the pin is re-derived rather than carried - carrying it would be the same assume-instead-of-read defect the second pass exists to correct.",
+    "no_history_rewritten": "The correction ships as a NEW commit on the existing published branch. The first-pass commit 5426304289495ce99054f62e5ed8147269ea4263 stays in the branch history exactly as pushed. No amend, no rebase, no force-push."
+  }
+}

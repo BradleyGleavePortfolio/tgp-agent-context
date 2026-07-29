@@ -1,6 +1,6 @@
 # A3 · Re-engagement automations + Dunning consolidation
 
-**Status:** PARTIAL — SUBSTRATE PRESENT BUT WIRING BROKEN, DEFAULT-OFF (newest-wins, Op 73 · 2026-07-22) *(was: MOSTLY built (substrate present, trigger UI + consolidation outstanding))*
+**Status:** PARTIAL — ONE OF SIX GAPS CLOSED, WIRING STILL INCOMPLETE, DEFAULT-OFF (newest-wins, Op 76 · 2026-07-29) *(was: PARTIAL — SUBSTRATE PRESENT BUT WIRING BROKEN, DEFAULT-OFF (newest-wins, Op 73 · 2026-07-22); before that: MOSTLY built (substrate present, trigger UI + consolidation outstanding))*
 **Owner:** *(set by operator on agent dispatch)*
 **v2 source:** [`TGP-MASTER-PLAN-v2.md`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/roadmap/TGP-MASTER-PLAN-v2.md) §1.A A3 *(promoted from old Bucket B1 on 2026-06-19 dissolution pass)*
 **Tier/lane:** Tier 4 / T4.A3
@@ -32,6 +32,19 @@
 > **5. Scope boundary.** This bar governs TGP's **own** billing/entitlement state. It grants the **importer** no billing access whatsoever; the R5-protected importer billing-capture exclusion is untouched and reaffirmed (see `A02-import-tooling.md`).
 >
 > **No completion claim. A3 remains PARTIAL. All dunning flags remain default-OFF.** Op 74 authorizes **no build, no landing, and no flag flip** — sequencing, ownership, stop conditions, and activation gates are in [`OWNERSHIP_AND_PR_LADDER.md`](../../handoffs/op74/OWNERSHIP_AND_PR_LADDER.md).
+
+> **NEWEST-WINS SUPERSEDE (2026-07-29, Op 76 — corrects exactly one Op-73 bullet and one Op-74 blocker row from landed evidence. Everything else in both blocks above stands. Historical prose retained, not rewritten, per R5/R132.)**
+> Evidence: [`PRE_BUILD_REVIEW_OP76.md`](../../handoffs/op76/PRE_BUILD_REVIEW_OP76.md) and [`BASELINE_HEADS_OP76.json`](../../handoffs/op76/BASELINE_HEADS_OP76.json). Prior-round audits: [`P0-AUDIT-A-5076a07a.md`](../../handoffs/audit-reports/P0-AUDIT-A-5076a07a.md) and [`P0-AUDIT-B-5076a07a.md`](../../handoffs/audit-reports/P0-AUDIT-B-5076a07a.md).
+>
+> **1. The Op-73 bullet "Dunning V2 lockout state is written but the guard is NOT mounted" is SUPERSEDED — the guard IS mounted.** Backend `5076a07a` mounts `DunningLockoutGuard` globally as the final `APP_GUARD`, after `JwtAuthGuard`, so the persisted `DunningState` lockout **is** consumed on the request path. That bullet was accurate when written on 2026-07-22 and is preserved above as the record of what was then true; it is no longer the live state. **This is the only Op-73 bullet that changes.** The other five — dispatcher has no runtime caller, recovery tokens unminted and unrouted, mobile dunning API hard-null, re-engagement UX absent, email credentials unprovisioned — are **all still accurate and still open**.
+>
+> **2. Blocker B2 is CLOSED; B1 is unchanged and open by design.** The Op-74 row "**B2:** no associated PR is discoverable … no R14 dual-lens audit trail and no R138 Decision Record can be found" was true when written and is now discharged: the retroactive dual-lens P0-AUDIT was performed and its evidence is reachable from context `main` as of `2026-07-29T03:08:46Z`. **B1 / R3-INC-4 stands OPEN, permanently and by design** — fixing the commit envelope on `5076a07a` would require rewriting published shared history, which the R3-INC-1 precedent and R5 forbid.
+>
+> **3. B2 closing does NOT make the money path clean.** Combined dual-lens findings against backend `5076a07a` stand at **0 P0 · 3 P1 · 5 P2 · 4 P3**, against an R14 CLEAN bar of **zero across P0–P3**. **R14 CLEAN for `5076a07a` is not met and is not claimed.** One finding is load-bearing for the scope boundary: the lockout allow-list also matches on the **second** path segment, so the earlier framing that `/roman/*` is the *sole* AI-adjacent carve-out is **not repeated here** — two real scheduling OAuth routes are unintentionally reachable while locked out. Routed to rung `DUN-1`.
+>
+> **4. Gap ledger unchanged from Op 74: 1 of 6 closed, 5 open.** Op 76 remediates **none** of the twelve findings and closes **no** gap. It is a state reconciliation only.
+>
+> **A3 remains PARTIAL. `FEATURE_DUNNING_V2` remains default-OFF and is not flipped. No dispatcher wiring, no messages sent, no credentials provisioned, no migrations run, no mobile/API recovery mixing. Op 76 authorizes no build, no dispatch, no landing and no flag flip.**
 
 ## State of build
 

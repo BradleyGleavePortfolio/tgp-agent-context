@@ -264,7 +264,56 @@ Each hourly heartbeat should explicitly state: *"Zombie risk: NONE / LOW / MEDIU
 
 ---
 
-## §7 — Live zombie hunt findings (executed 2026-06-16 17:20 PDT)
+## §6a — Live zombie sweep, context repo (executed 2026-07-29, Op 76)
+
+**This is the newest sweep in this file. §7 and §8 below are June-2026 snapshots and are marked as such.** The checklist was actually run; every line here is an observation, not a plan.
+
+**Observation windows, corrected in the Op-76 second pass (R5/R132).** This heading originally read *"executed 2026-07-29 05:05 UTC"* — a round number **later than every observation in the sweep**. The real windows, each the emission of a real command: **open-PR membership and every PR title** read from the GitHub API `2026-07-29T14:47:33Z`–`2026-07-29T14:47:35Z`; **both-ways head sweep** `2026-07-29T14:49:00Z`–`2026-07-29T14:49:39Z`. A sweep stamped later than the sweep is an assertion, not an observation.
+
+**Scope, stated so the gaps are visible rather than implied.** This sweep covered the **context repo only** — its open PRs, its remote branches, and the four state surfaces the Op-76 reconciliation touches. It did **not** sweep the backend, mobile or extension repos, did not sweep `/tmp` worktrees (this sandbox is an isolated shallow sparse worktree, so a `/tmp` scan here says nothing about the operator's own machine), and did not sweep the workspace audit-output directories inventoried in §7.3. **Those remain unswept, and an unswept surface is not a clean surface.**
+
+**Findings:**
+
+1. **Twelve open PRs, and only two of them were tracked anywhere.**
+
+   > ~~Original wording: "#29 (draft, doctrine, based on a now-stale `main`) and #26 (superseded by the Op-76 reconciliation and closed as obsolete). The other ten … are long-lived spec and plan PRs on branches such as `spec/b5-digital-contracts`, `spec/cc32-voice-logging`, …"~~ **← SUPERSEDED, struck through and retained, not deleted (R5/R132).** Two defects. It named **#26 as open** after #26 had been closed and **omitted #30**, the reconciliation PR itself, which was open — the count came out right only because the two errors cancelled. And it identified the legacy PRs by **branch slug**, which is not a title: a slug is what the author typed once, whereas the title is what the API serves and what a reader sees. Both are now read live.
+
+   **Membership and titles derived from the GitHub API, window `2026-07-29T14:47:33Z`–`2026-07-29T14:47:35Z`.** The live twelve are **`30, 29, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2`**. Two are tracked: **#30** (this Op's reconciliation PR, open, **not merged**) and **#29** (draft, doctrine, based on a now-stale `main`). **#26 is not among them** — GitHub records it closed at `2026-07-29T04:04:00Z`, `mergedAt` null and `mergeCommit` null, so it was closed and **not** merged; its branch, head `dffd7529`, diff and body all persist.
+
+   The other **ten** are long-lived spec and plan PRs that appear in **no** handoff PR ledger. Titles below are the API values verbatim:
+
+   | PR | Title (GitHub API) | Branch | Mergeable |
+   |---|---|---|---|
+   | #11 | plan: EW3 Android parity triage | `plan/ew3-android-parity-triage` | MERGEABLE/CLEAN |
+   | #10 | plan: master build order — community v1-4..v2 + MWB phases + CC32 tier-3 | `plan/master-build-order` | MERGEABLE/CLEAN |
+   | #9 | spec: ROMAN_VOICE_POLICY.md (Option 3 brand voice) | `spec/roman-voice-policy-option3` | **CONFLICTING/DIRTY** |
+   | #8 | spec: Roman avatar implementation + integration plan | `spec/roman-avatar-integration` | MERGEABLE/CLEAN |
+   | #7 | audit: EW3 Android parity delta | `spec/ew3-android-parity` | MERGEABLE/CLEAN |
+   | #6 | spec: B3 smart dunning v2 gaps | `spec/b3-smart-dunning-gaps` | MERGEABLE/CLEAN |
+   | #5 | spec: EW2 undo + autosave (Master Workout Builder) | `spec/ew2-undo-autosave` | MERGEABLE/CLEAN |
+   | #4 | spec: bank-account payouts + first-payment wow + milestone shareables | `spec/bank-payout-spec` | MERGEABLE/CLEAN |
+   | #3 | spec: CC32 voice-first logging | `spec/cc32-voice-logging` | MERGEABLE/CLEAN |
+   | #2 | spec: B5 digital contracts + e-signatures | `spec/b5-digital-contracts` | **CONFLICTING/DIRTY** |
+
+   By the §1 definition these ten are **zombie-class open work**: pushed, discoverable, and unowned. They are now **recorded** in the Op-76 PR ledger. **They are deliberately NOT triaged here** — deciding the fate of ten specs is a judgement call for the operator, and quietly closing them inside a reconciliation PR would be exactly the unilateral loss R5 forbids. Two of them (**#2** and **#9**) are additionally **conflicting**, which is a fact for the triage decision and not a reason to act on them now.
+
+   **Note on #7.** Its branch is `spec/ew3-android-parity` but its title begins `audit:`, not `spec:`. Recorded because the first pass's slug-based description would have filed it as a spec — the exact way a hand-transcribed inventory drifts from what it inventories.
+
+2. **`current-state.json` carried an EMPTY `open_prs` array while twelve PRs were open.** This is the most instructive finding in the sweep, because an empty list does not read as "unknown" — it reads as "none", and a reader acts on it. **A stale surface is not a safe surface.** Corrected at Op 76. *(The twelve open at that earlier moment were `29, 26, 11…2`; #30 did not yet exist and #26 had not yet been closed. The live twelve are now `30, 29, 11…2` — same count, different membership, which is why finding 1 re-reads rather than reuses.)*
+
+3. **One merged-but-undeleted branch: `docs/op75-p0-audit-5076a07a`.** Its head `837a7f99…` is now `main` itself, so the branch is fully reachable and nothing is stranded. **This is a hygiene item, not a zombie** — recorded so the next sweep does not re-investigate it, and deliberately left in place rather than deleted, since deleting a branch is not a reconciliation's call to make.
+
+4. **The Op-75 landing left one item explicitly outstanding, and it was picked up rather than assumed done.** The PR #28 integrator comment recorded that the `DECISION_LOG.md` landing record was **not** written by the landing, because writing it would have been an unaudited commit added to the very SHA just audited. That is precisely the shape of a zombie: a real obligation, correctly flagged, with nothing enforcing that anyone returns for it. **Op 76 is the return.** The general fix — a check that fails when the pinned context head is not an ancestor of live `main` — is **not** built here and is queued as a follow-up.
+
+5. **§7.5's open question is RESOLVED: the backfill ledger exists.** Its 2026-06-16 observation was correct — `ctx/BACKFILL_LEDGER.md` still returns **404** today, and there is no `ctx/` directory in this repository at all. But §7.5 left two possibilities open ("either it lives elsewhere or it never existed"), and the answer is **it lives elsewhere**: `BACKFILL_LEDGER.md` at the repository root, and `audits/BACKFILL_LEDGER_2026-06-14.md`. **The ledger was never a zombie; the path in the June doctrine was wrong** — the same class of path error §7.2 already recorded against `ctx/audits/` and `ctx/briefs/`. §7.5's text is left unedited as the record of what was seen then; this entry is the resolution.
+
+**Sweep verdict: no unrecoverable work found, and no work destroyed.** Nothing was deleted, closed or force-pushed by this sweep. What changed is that the previously-invisible items are now written down where the next operator will find them.
+
+---
+
+## §7 — Live zombie hunt findings — FROZEN HISTORICAL SNAPSHOT (executed 2026-06-16 17:20 PDT)
+
+> **Marked historical at Op 76 on 2026-07-29. Retained verbatim per R5/R132 — not one line below is edited.** These findings were LIVE STATE **on 2026-06-16** and are the record of what was seen then. They are **not** current: the PR numbers are backend/mobile PRs from the R81 wave, the SHAs are six weeks stale, and §7.5's open question is resolved in §6a above. The newest sweep is **§6a**. Read it first, then read this for provenance.
 
 The checklist was actually run. Findings below are LIVE STATE, not theoretical.
 
@@ -331,7 +380,9 @@ If truly missing, R80's mental model of "the ledger" was a working doc that neve
 
 ---
 
-## §8 — Specific zombie hunt for the next operator picking up THIS thread
+## §8 — Specific zombie hunt for the next operator picking up THIS thread — FROZEN HISTORICAL SNAPSHOT
+
+> **Marked historical at Op 76 on 2026-07-29. Retained verbatim per R5/R132.** This block was written for the operator picking up the **June 2026 R81 thread**. Its commands are pinned to that moment: PR #417 has long since resolved, the expected context tip `0702c86` is dozens of commits stale, and step 6's `ctx/BACKFILL_LEDGER.md` path is the wrong path — see §6a finding 5. **Do not run this section as a checklist today.** The reusable, undated machinery is **§3**; run that. The current findings are **§6a**.
 
 Run these commands first. They are tailored to known suspected zombies in the current state:
 
