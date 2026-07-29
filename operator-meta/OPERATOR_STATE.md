@@ -20,6 +20,18 @@
 
 ## Last sweep
 
+- **When:** 2026-07-29 05:05 UTC (2026-07-28 22:05 PDT) — **Op 76 · CONTEXT-REPO STATE RECONCILIATION AFTER PR #28 LANDED.** Governance only: **no build, no dispatch, no landing, no flag flip, no completion claim, 0 production LOC.**
+- **Read this before the June material below.** Everything from the "FROZEN HISTORICAL SNAPSHOT" marker down is a **June 2026 Talent-Marketplace-era record**, kept verbatim per R5/R132. It is **not** live state, its SHAs are **not** current, and its lanes are **not** dispatchable. This sweep is the live one.
+- **Live heads, each verified both ways (GitHub API and `git ls-remote`):** context `837a7f9991123c8b22ddfe57fce2c2777663744d`; backend `5076a07a1e54b14e3db84d3aa128fb0bb44542d7`; extension `95be0222df3d47d787566743c8781005d8fbec69`; mobile `a5933fd6…`. **The `0e6a127b` mobile head in the lane-board section below is a June figure and is stale.**
+- **What moved:** context `main` advanced `b76d0962…` → `837a7f99…` when **PR #28** landed at `2026-07-29T03:08:46Z` by plain non-force fast-forward. The landed object **is** the audited head, so nothing was minted server-side; single parent `e744d428…`; author **and** committer `Bradley Gleave <bradley@bradleytgpcoaching.com>`.
+- **Blocker board:** **B2 CLOSED** — the dual-lens P0-AUDIT evidence for backend `5076a07a` is now discoverable from `main`, so rung **`I1` is PERMITTED and dispatched to nobody**. **B1 / R3-INC-4 OPEN permanently by design** (the fix needs a rewrite of published shared history, forbidden by R5). **B3, B4, B5 unchanged and open; B6 permanent.**
+- **Not improved, stated plainly:** backend `5076a07a` stands at **0 P0 · 3 P1 · 5 P2 · 4 P3** against an R14 CLEAN bar of zero across P0–P3. **R14 CLEAN is not met and not claimed.** No finding is remediated by this sweep. A3 stays PARTIAL; `FEATURE_DUNNING_V2` stays default-OFF.
+- **Open PRs on the context repo: twelve.** #29 (draft, doctrine, now based on a stale `main`, deliberately untouched), #26 (SUPERSEDED by the Op-76 reconciliation and closed as obsolete), and legacy #2 through #11, which are **recorded, not triaged** — triage is queued as a follow-up rather than performed here, so no reader mistakes an inventory for a decision.
+- **Open operator gates from this sweep:** (a) the landed Op-76 SHA must be pinned by a **subsequent** reconcile and must never be asserted in advance; (b) nothing enforces that the pinned context head is an ancestor of live `main` — an automated check is queued, deliberately not built inside a reconciliation PR; (c) the legacy PR backlog needs a triage decision; (d) the June watchdog and lane-board machinery below needs an explicit retire-or-revive call from the operator.
+- **Sweep protocol note.** Per the "How to use this file" contract above, this entry is added rather than substituted: the June sweep is retitled, not deleted, and no line of it is edited.
+
+## Last sweep — FROZEN HISTORICAL SNAPSHOT (2026-06-18, Talent Marketplace era; superseded by the Op-76 sweep above; retained verbatim per R5/R132 — do not act on its SHAs)
+
 - **When:** 2026-06-18 11:10 PDT (18:10 UTC) — **WAVE 4 IN SPLIT REFACTOR + TM-8 FIX**
   - **TM-DOCS** #437 ✅ MERGED → main `e972b4fb`
   - **TM-7** #448 (admin moderation, 476 LOC, blew 400 hard cap) → **SPLITTING** into TM-7a (admin listings) + TM-7b (admin applications); fixer in flight (`tm_7_split_fixer_7a_7b_mqjrq64k`) since 10:24 PDT
@@ -55,7 +67,9 @@
 
 ---
 
-## TALENT MARKETPLACE REBUILD — lane board (TM-0 → TM-15)
+## TALENT MARKETPLACE REBUILD — lane board (TM-0 → TM-15) — FROZEN HISTORICAL SNAPSHOT
+
+> **Frozen at 2026-06-18; marked historical at Op 76 on 2026-07-29. Retained verbatim per R5/R132 — not one row is edited.** This board and every section after it record the **June 2026 Talent Marketplace wave**. Its SHAs, PR numbers, lane assignments, in-flight fixers, watchdog thresholds and "dispatched" states describe a wave that is **over**; treating any of them as live would re-dispatch finished or abandoned work against heads that no longer exist. The live state is the **Op-76 sweep at the top of this file** plus `handoffs/importer-wave/current-state.json`. **No lane below is dispatchable without a fresh operator decision.** Whether this machinery is retired or revived is an open operator gate recorded in that sweep, deliberately left to the operator rather than settled here.
 
 Full spec: `plans/TM_REBUILD_CHAIN_V2.md`. Doctrine: ≤400 prod LOC/PR; R74 authorship; dual GPT-5.5 audit → Opus fixer → mandatory re-audit → merge on dual-CLEAN.
 

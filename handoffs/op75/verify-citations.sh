@@ -88,10 +88,16 @@ MD_ARTIFACTS=(
   handoffs/op75/OWNERSHIP_AND_LADDER_OP75.md
   handoffs/audit-reports/P0-AUDIT-A-5076a07a.md
   handoffs/audit-reports/P0-AUDIT-B-5076a07a.md
+  # Op 76. A control that cannot see the artifacts of the PR shipping it is not a control. Scope only:
+  # no logic, threshold, exit code or ledger record is changed by these lines. The script is extended
+  # in place rather than forked, because a second copy is the duplication R132 forbids.
+  handoffs/op76/PRE_BUILD_REVIEW_OP76.md
+  handoffs/op76/OWNERSHIP_AND_LADDER_OP76.md
 )
 JSON_ARTIFACTS=(
   handoffs/importer-wave/current-state.json
   handoffs/op75/BASELINE_HEADS_OP75.json
+  handoffs/op76/BASELINE_HEADS_OP76.json
 )
 
 CITE_RE='[A-Za-z0-9_][A-Za-z0-9_./-]*\.(md|json|sh|ts|py|prisma):[0-9]+(-[0-9]+)?'
