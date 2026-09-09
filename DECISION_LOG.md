@@ -1512,3 +1512,46 @@ both lenses — 1×P1, 4×P2/P3, no P0) — proceeding to a builder/fixer round 
 Retired the per-platform-extractor-first version cutlines (old v0.2-v0.9: onboard one hand-verified platform at a time) in favor of the generic site-agnostic engine already decided in `DECISION_V03_AUTONOMOUS_CRAWL.md` and `AUTO_DISCOVERY.md`, and already substantially merged on `main` (PlatformBlueprint contract, SSRF-confining normalizer, bounded state machine, bounded replay engine, `conformance_alpha` neutrality proof). New cutlines (v0.4-v1.0) sequence: blueprint inference (PR-C2, BUILD NEXT) -> Learn/Confirm UI + first unknown-platform vertical slice -> active/adaptive discovery -> DOM/SSR fallback -> reconstruction completeness -> export-recipe fallback -> BYO-SDK + learned-platform memory. Platform matrix rows reclassified from "stub, blocked on manual verification" to "inference candidate" by default; hand-built extractors demoted to a justified exception (reserved for the TrueCoach oracle). Docs-only change, no code/CI impact.
 
 **Landing note (self-authored-doc exception to the standing auto-merge grant):** an initial attempt to fast-forward this doc-only branch directly was blocked by the platform's action-safety layer — correctly identifying that the standing "dual-independent-audit-CLEAN = auto-merge, full permission forever" grant covers audited *code* landings (like PR #9 above), not a change the orchestrating agent wrote itself with no audit cycle at all. Stopped and asked the operator directly via `confirm_action`; operator approved landing as-is. The branch was then rebuilt on top of `main` post-PR-#9 (it had been cut before that fast-forward) and landed via manual fast-forward at `d9b49b4f55456fa1ad1f8c78567d3c71a45386a7`. No `gh pr merge` used. Commit identity verified `Bradley Gleave <bradley@bradleytgpcoaching.com>`, no AI trailers.
+## 2026-09-09 — Real-goal importer execution baton published; C2a authorized
+
+**Operator directive (verbatim):** "Ok, lets start moving the baton towards the REAL goal - make a detailed plan and get it written on GITHUB for all operators to understand and follow - then start the next step towards it!"
+
+**Decision:** `tgp-importer-extension/docs/REAL_GOAL_EXECUTION_PLAN.md` is the
+binding implementation baton for the site-agnostic adaptive importer. Published
+on importer `main` at
+`b6acb5c400413d59fa1752e6a027e044e1dbffe3`; GitHub tracking epic:
+`https://github.com/BradleyGleavePortfolio/tgp-importer-extension/issues/10`.
+
+The plan records the actual shipped baseline, resolves the stale 500-LOC
+monolithic-C2 design against the current 400-prod-LOC cap, and splits the
+critical path into C2a inference primitives → C2b role/edge/pagination
+inference → C2c compiler/confidence → C3a Learn runtime → C3b Confirm/import →
+first real unknown-platform vertical slice → generic observation/safe-action/AI
+planning → DOM/SSR fallback → native reconstruction → export/learned knowledge.
+TrueCoach remains the oracle, not the template for more platform scrapers.
+
+**Immediate baton:** C2a is authorized to start from importer `main` at/after
+`b6acb5c`. Its scope is pure bounded capture-input normalization, safe
+same-origin URL-template clustering, and stable PII-free depth-bounded shape
+signatures. It must not wire runtime/UI, emit a runnable blueprint, or add
+platform-specific production logic.
+
+**R138 Decision Gate**
+
+1. **Musk five principles:** questioned and retired the stale one-PR C2 shape
+   and per-platform-first assumptions; deleted non-causal scope; simplified
+   into pure seams; accelerated independent testing; deferred automation until
+   safe evidence exists.
+2. **Hyperscaler practice:** deterministic contracts, least privilege, bounded
+   work, staged vertical slices, adversarial review, and isolated rollback.
+3. **GOOD without BAD:** gain site-agnostic coverage and later AI-assisted
+   exploration without model-executed code, source writes, secret persistence,
+   cross-origin crawl, false success, or competitor logic in the core.
+4. **Root cause:** the generic replay engine is built, but no mechanism converts
+   redacted observations into a safe representable blueprint. Structural
+   inference, not another adapter or UI, is the next causal bottleneck.
+
+**Rollback/blast radius:** the plan/epic are documentation and coordination
+only. Revert importer commit `b6acb5c` to roll them back. Every product change
+remains independently gated, audited, and revertible. Pure context/doctrine
+docs are audit-exempt under R14; product-code slices are not.
