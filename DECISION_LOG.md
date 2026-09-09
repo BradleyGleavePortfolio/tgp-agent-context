@@ -1465,3 +1465,48 @@ The v1 stack is therefore a BACKEND-FIRST dependency-ordered V-PR chain: **IMPOR
 **ROLLBACK / STOP:** Constitutional changes require an explicit operator instruction and signed doctrine commit. Product execution stops only at proven v0.3 E2E completion or a genuine external blocker.
 
 **NEXT ACTION:** Build the narrowest end-to-end autonomous crawl unit: Start Import CTA → site-agnostic discovery/replay → bounded ingest/progress, then independently audit it.
+
+## 2026-09-09 — Backend PR #523 landed (Operator 76)
+
+**Decision:** Landed `growth-project-backend` PR #523 (Day-10 lockout allow-list full-prefix match +
+AST-based per-class route inventory test) via manual squash + fast-forward. `main`: `5076a07a` → `c23b9d9`.
+
+**R138 decision gate:** recorded in full inside the squash commit message (`c23b9d9`).
+
+**Audit trail:** Two independent fresh-context auditors (Lens A correctness/security, Lens B
+test-quality/doctrine), zero cross-context, each ran a full aggressive bug hunt (not a "were prior
+findings fixed" check) against live head `5b74043`. Both verdicts: CLEAN, 0 P0/P1. Both independently
+reproduced the 171-class/712-route inventory, the 38-route reachable-while-locked set, and both
+adversarial mutations from scratch. P2/P3 residuals (aliased-@Controller-import + object/array-form
+@Controller-argument blind spots in the AST scanner; FEATURE_DUNNING_V2 env-read invisible to the static
+scanner; filename-convention-dependent controller discovery) affect zero controllers in the current tree
+— tracked as DUN-1e follow-up, not merge blockers.
+
+**No flag flip.** `FEATURE_DUNNING_V2` remains default-OFF and unregistered. This PR only fixes the
+allow-list guard's matching logic and its test coverage.
+
+**Landing-order status:** #523 is step 1 of the July 29 handoff's landing order, now complete. Step 2
+(importer PR #9) found DIRTY on round-1 dual-independent audit (5 real, non-overlapping findings across
+both lenses — 1×P1, 4×P2/P3, no P0) — proceeding to a builder/fixer round before round-2 audit.
+
+## 2026-09-09 — Importer PR #9 landed (Tier-0 contract integrity + data-loss prevention)
+
+**Repo:** tgp-importer-extension
+**Landed at:** `9dfc8624910324c42da519cbc588f3ab4586b5c2` (fast-forward from `95be0222`)
+**Method:** manual git fast-forward push (`git push origin pr-9-land:main`) — no `gh pr merge` used on production main, per R3/R14. GitHub auto-marked PR #9 as merged on detecting the fast-forward; no separate merge action was taken.
+
+**R138 decision gate — dual-independent-audit-CLEAN autonomous landing:**
+- Round-1 dual audit (fresh, zero-context, builder/fixer/auditor role-separated per R31/R11): DIRTY/DIRTY. 5 findings — P1 legacy `start_ingest` path loses ACKed-entity visibility on later failure; P2 settlement-POST failure silently swallowed; P2 `completeIngest()` missing 401-retry parity with `sendEntities()`; P2 docs/runtime mismatch on `cancelled` reachability; P3 stale PR-body numbers.
+- Fixer round 1: fixed all 5 findings. Self-reported CI gate pass was WRONG (measured against push-trigger's PROD_LOC_CAP=600 instead of pull_request's 400; actual 452/400, a real failure) — caught independently, not by trusting the fixer's report.
+- Fixer round 2: trimmed background.js prose/syntax only (zero logic change, verified against targeted tests) to 398/400 under the real pull_request-scoped cap. Independently re-verified live via `gh pr checks 9` before proceeding — both push and pull_request CI runs green, mergeStateStatus CLEAN.
+- Round-2 dual audit (fresh, zero-context, adversarial-by-mandate per the "every round hunts all bugs, not just prior fixes" standing redefinition): CLEAN/CLEAN. Both auditors independently re-derived the CI environment from `.github/workflows/ci.yml` directly (explicitly warned in the brief not to trust script defaults after the round-1 gate mistake), re-ran all 4 gates + full 703-test suite themselves, constructed their own from-scratch adversarial tests (concurrency/re-entrancy races on `start_import`, 401-retry stress under 3 sub-scenarios, legacy-path tally-on-failure, settlement-log-via-real-console.warn), and independently re-verified all 5 round-1 findings and the round-2 LOC-trim commit as genuinely fixed/behavior-neutral. Zero new P0-P3 findings from either lens.
+- Landed immediately on dual-CLEAN per the standing "dual-independent-audit-CLEAN = auto-merge, full permission forever" authorization (granted 2026-09-09, saved to persistent memory) — no confirmation pause. R3 (commit identity — all 10 commits verified `Bradley Gleave <bradley@bradleytgpcoaching.com>`, no AI trailers), R14 (audit cycle), R31 (role separation), and the manual-fast-forward-only landing method were all followed without exception; the standing authorization only waives the human confirmation pause, not these rules.
+
+**Reports:** `audits/IMPORTER_9_LENSA_AUDIT_REPORT.md`, `IMPORTER_9_LENSB_AUDIT_REPORT.md` (round 1); `IMPORTER_9_FIXER_ROUND1_REPORT.md`, `IMPORTER_9_FIXER_ROUND2_REPORT.md`; `IMPORTER_9_R2_LENSA_AUDIT_REPORT.md`, `IMPORTER_9_R2_LENSB_AUDIT_REPORT.md` (round 2).
+
+## 2026-09-09 — Roadmap course correction: site-agnostic engine as north star
+
+**Repo:** tgp-importer-extension, docs/ROADMAP.md
+**Operator directive (verbatim):** "change the roadmap to THIS idealistic goal - its a superior system in all ways - and course correct towards it HARD!" — referring to the AI-assisted, site-agnostic adaptive importer described in `IMPORTER_HANDOFF_EXPANSION_PLUS_WORK_DELETION.docx`.
+
+Retired the per-platform-extractor-first version cutlines (old v0.2-v0.9: onboard one hand-verified platform at a time) in favor of the generic site-agnostic engine already decided in `DECISION_V03_AUTONOMOUS_CRAWL.md` and `AUTO_DISCOVERY.md`, and already substantially merged on `main` (PlatformBlueprint contract, SSRF-confining normalizer, bounded state machine, bounded replay engine, `conformance_alpha` neutrality proof). New cutlines (v0.4-v1.0) sequence: blueprint inference (PR-C2, BUILD NEXT) -> Learn/Confirm UI + first unknown-platform vertical slice -> active/adaptive discovery -> DOM/SSR fallback -> reconstruction completeness -> export-recipe fallback -> BYO-SDK + learned-platform memory. Platform matrix rows reclassified from "stub, blocked on manual verification" to "inference candidate" by default; hand-built extractors demoted to a justified exception (reserved for the TrueCoach oracle). Docs-only change, no code/CI impact. Landed via manual fast-forward per the same R3/R14 method. Prior cutlines preserved in a collapsed section for audit trail, not deleted.
