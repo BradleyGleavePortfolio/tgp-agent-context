@@ -152,7 +152,8 @@
       "base_sha": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
       "head_sha": "f3f6db5247be32f82ef64b3b1e363488fd1cd0c8",
       "branch": "detached",
-      "brief_path": "handoffs/importer-recovery-2026-09-16/INGEST_FIX.md"
+      "brief_path": "handoffs/importer-recovery-2026-09-16/INGEST_FIX.md",
+      "status": "DIRTY: 0 P0, 1 P1, 7 P2, 1 P3; union dispatched to R2 fixer"
     },
     {
       "ts": "2026-09-16",
@@ -162,7 +163,8 @@
       "base_sha": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
       "head_sha": "f3f6db5247be32f82ef64b3b1e363488fd1cd0c8",
       "branch": "detached",
-      "brief_path": "handoffs/importer-recovery-2026-09-16/INGEST_FIX.md"
+      "brief_path": "handoffs/importer-recovery-2026-09-16/INGEST_FIX.md",
+      "status": "DIRTY: 0 P0, 0 P1, 0 P2, 6 P3; union dispatched to R2 fixer"
     },
     {
       "ts": "2026-09-16",
@@ -207,6 +209,16 @@
       "branch": "detached",
       "brief_path": "reports/membership-fix-r2.md",
       "status": "independent adversarial re-audit in progress"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "fix_backend_ingest_r2_mu3o5qni",
+      "role": "backend ingest round-2 fixer (GPT-6 Astra)",
+      "worktree": "/home/user/workspace/tgp/backend-ingest-fix-r2",
+      "base_sha": "f3f6db5247be32f82ef64b3b1e363488fd1cd0c8",
+      "branch": "fix/scout-ingest-integrity-r2",
+      "brief_path": "reports/ingest-audit-astra.md",
+      "status": "fixing union of Astra F1-F9 and Fable P3-1 through P3-6 before dual re-audit"
     }
   ],
   "cycle": 28,
