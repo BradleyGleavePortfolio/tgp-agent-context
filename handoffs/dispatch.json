@@ -236,9 +236,11 @@
       "role": "membership round-3 fixer (GPT-6 Astra)",
       "worktree": "/home/user/workspace/tgp/extension-membership-fix-r3",
       "base_sha": "6c2fb6adc58c306a39a91a9bf4a1d560233af339",
+      "head_sha": "312280bb22739e712052f50b620ab87f3d0d4b91",
+      "tree_sha": "4ecb48372dd54f36d1b4c081642b22fd9dcde6f4",
       "branch": "fix/c2b-0b-membership-audit-r3",
       "brief_path": "reports/membership-audit-r2-fable.md",
-      "status": "fixing the Unicode path-pattern bound mismatch and invalid-observation count defect before shared controls integration and dual re-audit"
+      "status": "product fixes pushed and verified: 1445 tests plus 5000-case parity passed; non-mergeable pending shared controls, exact-head PR/CodeQL, signing and owner-review policy, then Astra plus Fable re-audit"
     }
   ],
   "cycle": 28,
