@@ -219,6 +219,26 @@
       "branch": "fix/scout-ingest-integrity-r2",
       "brief_path": "reports/ingest-audit-astra.md",
       "status": "fixing union of Astra F1-F9 and Fable P3-1 through P3-6 before dual re-audit"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "fix_pagination_r3_mu3omk0r",
+      "role": "pagination round-3 fixer (GPT-6 Astra)",
+      "worktree": "/home/user/workspace/tgp/extension-pagination-fix-r3",
+      "base_sha": "093b6b01c29123361b043ddd0f36cd4c578cffe2",
+      "branch": "fix/c2b-0a-pagination-audit-r3",
+      "brief_path": "reports/pagination-audit-r2-astra.md",
+      "status": "fixing union of the Astra and Fable round-2 findings; product and shared repository-control changes must remain logically separable"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "fix_membership_r3_mu3oy75z",
+      "role": "membership round-3 fixer (GPT-6 Astra)",
+      "worktree": "/home/user/workspace/tgp/extension-membership-fix-r3",
+      "base_sha": "6c2fb6adc58c306a39a91a9bf4a1d560233af339",
+      "branch": "fix/c2b-0b-membership-audit-r3",
+      "brief_path": "reports/membership-audit-r2-fable.md",
+      "status": "fixing the Unicode path-pattern bound mismatch and invalid-observation count defect before shared controls integration and dual re-audit"
     }
   ],
   "cycle": 28,
