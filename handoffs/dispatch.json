@@ -185,6 +185,28 @@
       "branch": "detached",
       "brief_path": "reports/pagination-fix-r2.md",
       "status": "independent adversarial re-audit in progress"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "audit_membership_r2_astra_mu3o4264",
+      "role": "membership round-2 auditor A (GPT-6 Astra)",
+      "worktree": "/home/user/workspace/tgp/extension-membership-audit-r2-astra",
+      "base_sha": "0111be661922234d670bbf23e23d270eec1b4a4e",
+      "head_sha": "6c2fb6adc58c306a39a91a9bf4a1d560233af339",
+      "branch": "detached",
+      "brief_path": "reports/membership-fix-r2.md",
+      "status": "independent adversarial re-audit in progress"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "audit_membership_r2_fable_mu3o426j",
+      "role": "membership round-2 auditor B (Claude Fable 5.1)",
+      "worktree": "/home/user/workspace/tgp/extension-membership-audit-r2-fable",
+      "base_sha": "0111be661922234d670bbf23e23d270eec1b4a4e",
+      "head_sha": "6c2fb6adc58c306a39a91a9bf4a1d560233af339",
+      "branch": "detached",
+      "brief_path": "reports/membership-fix-r2.md",
+      "status": "independent adversarial re-audit in progress"
     }
   ],
   "cycle": 28,
