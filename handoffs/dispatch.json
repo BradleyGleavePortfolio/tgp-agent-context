@@ -77,7 +77,8 @@
       "base_sha": "0111be661922234d670bbf23e23d270eec1b4a4e",
       "head_sha": "c1f53af134252cea74dd3a058e01bd3292e2cadf",
       "branch": "detached",
-      "brief_path": "handoffs/importer-recovery-2026-09-16/BRIEF.md"
+      "brief_path": "handoffs/importer-recovery-2026-09-16/BRIEF.md",
+      "status": "FINDINGS: 0 P0, 0 P1, 5 P2, 3 P3"
     },
     {
       "ts": "2026-09-16",
@@ -119,6 +120,16 @@
       "base_sha": "cda79e4c760aaf2b18a300cedb079ee3bbdb133b",
       "branch": "fix/c2b-0a-pagination-audit-r2",
       "brief_path": "reports/pagination-audit-d.md",
+      "status": "fixing all P2 and P3 findings before dual re-audit"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "fix_membership_findings_mu3ne0vn",
+      "role": "membership round-2 fixer (GPT-6 Astra)",
+      "worktree": "/home/user/workspace/tgp/extension-membership-fix-r2",
+      "base_sha": "c1f53af134252cea74dd3a058e01bd3292e2cadf",
+      "branch": "feat/c2b-0b-membership-r2",
+      "brief_path": "reports/membership-audit-a.md",
       "status": "fixing all P2 and P3 findings before dual re-audit"
     },
     {
