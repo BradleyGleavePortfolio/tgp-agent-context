@@ -2,6 +2,15 @@
   "importer_recovery_2026_09_16": [
     {
       "ts": "2026-09-16",
+      "subagent_id": "membership_provenance_build_mu3khwqr",
+      "role": "builder",
+      "worktree": "/home/user/workspace/tgp/extension-membership-build",
+      "base_sha": "0111be661922234d670bbf23e23d270eec1b4a4e",
+      "branch": "feat/c2b-0b-membership",
+      "brief_path": "handoffs/importer-recovery-2026-09-16/BRIEF.md"
+    },
+    {
+      "ts": "2026-09-16",
       "subagent_id": "backend_importer_inventory_mu3kagew",
       "role": "read-only research",
       "worktree": "/home/user/workspace/repos/growth-project-backend",
