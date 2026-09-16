@@ -88,7 +88,8 @@
       "base_sha": "0111be661922234d670bbf23e23d270eec1b4a4e",
       "head_sha": "c1f53af134252cea74dd3a058e01bd3292e2cadf",
       "branch": "detached",
-      "brief_path": "handoffs/importer-recovery-2026-09-16/BRIEF.md"
+      "brief_path": "handoffs/importer-recovery-2026-09-16/BRIEF.md",
+      "status": "FINDINGS: 0 P0, 0 P1, 1 P2, 4 P3; union added to round-2 fixer scope"
     },
     {
       "ts": "2026-09-16",
@@ -138,6 +139,27 @@
       "role": "backend ingest verifier (GPT-6 Astra)",
       "worktree": "/home/user/workspace/tgp/backend-ingest-verify",
       "base_sha": "e045cfc5e70124061b13e5dc4f4f4efb6132cceb",
+      "head_sha": "f3f6db5247be32f82ef64b3b1e363488fd1cd0c8",
+      "branch": "detached",
+      "brief_path": "handoffs/importer-recovery-2026-09-16/INGEST_FIX.md",
+      "status": "PASS: 7824 full-suite tests, 484 focused tests, 11 live PostgreSQL tests; zero failures"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "audit_backend_ingest_astra_mu3nfiuh",
+      "role": "backend ingest auditor A (GPT-6 Astra)",
+      "worktree": "/home/user/workspace/tgp/backend-ingest-audit-astra",
+      "base_sha": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+      "head_sha": "f3f6db5247be32f82ef64b3b1e363488fd1cd0c8",
+      "branch": "detached",
+      "brief_path": "handoffs/importer-recovery-2026-09-16/INGEST_FIX.md"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "audit_backend_ingest_fable_mu3nfiux",
+      "role": "backend ingest auditor B (Claude Fable 5.1)",
+      "worktree": "/home/user/workspace/tgp/backend-ingest-audit-fable",
+      "base_sha": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
       "head_sha": "f3f6db5247be32f82ef64b3b1e363488fd1cd0c8",
       "branch": "detached",
       "brief_path": "handoffs/importer-recovery-2026-09-16/INGEST_FIX.md"
