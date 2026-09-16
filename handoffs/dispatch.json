@@ -216,9 +216,11 @@
       "role": "backend ingest round-2 fixer (GPT-6 Astra)",
       "worktree": "/home/user/workspace/tgp/backend-ingest-fix-r2",
       "base_sha": "f3f6db5247be32f82ef64b3b1e363488fd1cd0c8",
+      "head_sha": "6b263c2f342a561ca8a64e5efa077e6c90601a4a",
+      "tree_sha": "f675f132ba41f000eb35bd2f5101a66cc951267a",
       "branch": "fix/scout-ingest-integrity-r2",
       "brief_path": "reports/ingest-audit-astra.md",
-      "status": "fixing union of Astra F1-F9 and Fable P3-1 through P3-6 before dual re-audit"
+      "status": "pushed and verified: 7888 full-suite tests and 21 live PostgreSQL tests passed; non-mergeable pending LOC exception, authorized PR/remote CI, signing, and fresh Astra plus Fable audits"
     },
     {
       "ts": "2026-09-16",
@@ -241,6 +243,30 @@
       "branch": "fix/c2b-0b-membership-audit-r3",
       "brief_path": "reports/membership-audit-r2-fable.md",
       "status": "product fixes pushed and verified: 1445 tests plus 5000-case parity passed; non-mergeable pending shared controls, exact-head PR/CodeQL, signing and owner-review policy, then Astra plus Fable re-audit"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "astra_backend_audit_mu3qlf03",
+      "role": "backend ingest round-2 auditor A (GPT-6 Astra)",
+      "worktree": "/home/user/workspace/tgp/backend-ingest-audit-r2-astra",
+      "base_sha": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+      "head_sha": "6b263c2f342a561ca8a64e5efa077e6c90601a4a",
+      "tree_sha": "f675f132ba41f000eb35bd2f5101a66cc951267a",
+      "branch": "detached",
+      "brief_path": "reports/ingest-fix-r2.md",
+      "status": "paused until canonical context SHA is pinned; reserved DB tgp_ingest_audit_r2_astra"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "fable_backend_audit_mu3qlf0j",
+      "role": "backend ingest round-2 auditor B (Claude Fable 5.1)",
+      "worktree": "/home/user/workspace/tgp/backend-ingest-audit-r2-fable",
+      "base_sha": "5076a07a1e54b14e3db84d3aa128fb0bb44542d7",
+      "head_sha": "6b263c2f342a561ca8a64e5efa077e6c90601a4a",
+      "tree_sha": "f675f132ba41f000eb35bd2f5101a66cc951267a",
+      "branch": "detached",
+      "brief_path": "reports/ingest-fix-r2.md",
+      "status": "paused until canonical context SHA is pinned; reserved DB tgp_ingest_audit_r2_fable"
     }
   ],
   "cycle": 28,
