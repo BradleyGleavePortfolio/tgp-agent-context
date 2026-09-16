@@ -91,9 +91,9 @@
     },
     {
       "ts": "2026-09-16",
-      "subagent_id": "audit_pagination_c_mu3lxwzg",
-      "role": "independent pagination auditor C (GPT-6 Astra)",
-      "worktree": "/home/user/workspace/tgp/extension-pagination-audit-c",
+      "subagent_id": "audit_pagination_astra_replacement_mu3mxpjq",
+      "role": "independent pagination auditor C replacement (GPT-6 Astra)",
+      "worktree": "/home/user/workspace/tgp/extension-pagination-audit-e",
       "base_sha": "fd588bf1db0781b8a8aaa1c241e30f20c96eb79d",
       "head_sha": "cda79e4c760aaf2b18a300cedb079ee3bbdb133b",
       "branch": "detached",
