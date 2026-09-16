@@ -1,4 +1,44 @@
 {
+  "importer_recovery_2026_09_16": [
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "backend_importer_inventory_mu3kagew",
+      "role": "read-only research",
+      "worktree": "/home/user/workspace/repos/growth-project-backend",
+      "base_sha": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+      "branch": "main",
+      "brief_path": "handoffs/importer-recovery-2026-09-16/BRIEF.md"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "product_release_inventory_mu3kagf2",
+      "role": "read-only research",
+      "worktree": "/home/user/workspace/repos/growth-project-mobile",
+      "base_sha": "a5933fd6de5616493de75f0db907098b149b955c",
+      "branch": "main",
+      "brief_path": "handoffs/importer-recovery-2026-09-16/BRIEF.md"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "pagination_audit_a_mu3kbntk",
+      "role": "independent auditor A",
+      "worktree": "/home/user/workspace/tgp/extension-pagination-audit-a",
+      "base_sha": "0111be661922234d670bbf23e23d270eec1b4a4e",
+      "head_sha": "fd588bf1db0781b8a8aaa1c241e30f20c96eb79d",
+      "branch": "detached",
+      "brief_path": "handoffs/importer-recovery-2026-09-16/BRIEF.md"
+    },
+    {
+      "ts": "2026-09-16",
+      "subagent_id": "pagination_audit_b_mu3kbntp",
+      "role": "independent auditor B",
+      "worktree": "/home/user/workspace/tgp/extension-pagination-audit-b",
+      "base_sha": "0111be661922234d670bbf23e23d270eec1b4a4e",
+      "head_sha": "fd588bf1db0781b8a8aaa1c241e30f20c96eb79d",
+      "branch": "detached",
+      "brief_path": "handoffs/importer-recovery-2026-09-16/BRIEF.md"
+    }
+  ],
   "cycle": 28,
   "subcycle": "post-tm5-dual-clean-tm3-rebased",
   "ts": "2026-06-18T02:16-07:00",
