@@ -29,6 +29,10 @@ PR289 -> PR290 -> PR291 -> PR292                              ^
 
 C1 coding can begin on pinned current backend main in an isolated clone while the recovered integrity candidate remains frozen. Both eventually change `prisma/schema.prisma` and the generated importer contract, so integration is serialized by the parent and reverified; neither agent may overwrite the other's candidate. The recovery is not silently abandoned, and a local C1 build is not permission to land around outstanding security gates.
 
+Parent-only composition was then tested in a separate bare repository/index. The recovery patch reconstructed exactly `a8908132`; checking the complete frozen C1 patch over it failed in `scripts/importer-contract.ts` and `docs/contracts/importer-openapi.json`. The schema hunks did not conflict textually. This is a confirmed integration dependency, not merely a likely overlap.
+
+The generator conflict has a concrete cause: recovery raises the contract from 1.4.0 to 2.0.0, while the isolated C1 review candidate raises 1.4.0 to 1.5.0. Parent must preserve the breaking recovery version and choose forward versions according to final landing order, then regenerate the complete artifact and rerun contract checks. Never hand-merge generated JSON or downgrade a landed 2.x contract to a draft 1.x version. The C1 split builder remains on its explicitly pinned base; its provisional versions are not a consumer freeze.
+
 ## Three PR lanes
 
 | Slice | Work permitted now | Coding unblock condition | Exclusive future ownership |
@@ -45,7 +49,7 @@ The parent then ran a non-checkout `git merge-tree --write-tree` between final28
 
 ## Collision and resource locks
 
-- **Backend schema and contract:** C1 is the only active backend writer. The recovered 27-file candidate and its evidence are immutable; parent owns eventual composition, generated contract regeneration, and resulting-tree verification.
+- **Backend schema and contract:** C1 is the only active backend writer. The recovered 27-file candidate and its evidence are immutable; parent owns eventual composition, `scripts/importer-contract.ts` version reconciliation, generated contract regeneration, and resulting-tree verification.
 - **Mobile state and navigation:** One mobile coding owner at a time. Readiness review cannot edit, rebase, install packages, or implement M5 against a speculative API.
 - **Extension shared worker:** The pagination fixer has frozen its candidate and explicitly released ownership. Parent integration now owns `background.js`, `shared/net.js`, replay files, message catalog, manifest, package metadata and shared test mocks. The future consumer must start from the accepted repair base, not the old `093b6b0` input; C1 freeze is still required.
 - **Dependencies and generators:** Per-lane copies, never writable shared `node_modules`, lockfiles, Prisma generated output, test result files or working directories. Parent controls package installations and expensive generators.
