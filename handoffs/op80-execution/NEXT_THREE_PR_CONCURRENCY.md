@@ -1,5 +1,19 @@
 # Next Three Importer PRs: Dependency and Ownership Control
 
+## Rolling three-PR execution window
+
+The user renewed the direction at 2026-09-17 14:01 PDT: move as fast as possible, parallelize safely and keep three PRs planned ahead. The immediate release-blocker window is below; the original three activation workstreams remain farther down the dependency chain, not three currently independent implementations.
+
+| Next candidate PR | Customer-goal contribution | Current owner and state | Dependency and resource boundary |
+|---|---|---|---|
+| Backend dependency repair | Make the backend safe to build and unblock recovery/C1 verification | Existing dependency worker; one full suite running after lint and 256 focused tests with actual Babel coverage passed | Sole backend execution owner; no schema, contract or product edits |
+| Importer secret-scanning plus bounded IaC prerequisite | Close the scanner gap without introducing an unchecked workflow | R110 frozen and locally verified; new isolated R120 writer operates on a byte-preserved copy | Independent of backend runtime; source/research only until a test slot is granted; no replay or consumer edits |
+| Backend diagnostic sanitization | Prevent database failures from exposing import/customer details while preserving useful diagnostics | Parent preparing the four-path recovered slice; builder queued after backend owner releases | Starts from the accepted dependency candidate; meaningful missing tests required to reach density; no DB/contract changes |
+
+Lookahead after each slot advances: input validation with a forward 2.x generated contract, deployment-compatible database identity recovery, then integration of C1a/C1b. The database recovery may require several independently safe PRs; a read-only architect now makes those stages concrete instead of leaving the rollout problem until implementation.
+
+Parallel work is backend verification, importer R120 source work, and read-only database rollout design. Only the backend may run heavy validation now. The parent handles frozen evidence, publication, next-slice preparation and the ownership ledger; no M5 or extension-consumer implementation begins before the binding C1 landing/freeze.
+
 ## Decision
 
 User direction, verbatim:
