@@ -1,0 +1,785 @@
+{
+  "method": "Source-only git numstat; canonical derived from byte-identical eligible JS/TS inputs and unchanged classifier/formatter lock. NO new formatter, AST gate, npm gate or full-suite execution. Generated exact dependency lock excluded per canonical R76, shown separately and in raw totals.",
+  "prior_measurement_file": "/home/user/workspace/operator80/execution/importer-supply-chain/final-measurements.json",
+  "prior_measurement_sha256": "51c7d7578f9b53d7a28c43f09300e9582d9911e324a3154e93ac0a9a554feb9e",
+  "eligible_input_identity_proof": [
+    {
+      "path": "background.js",
+      "sha256": "a2efda03a630072b14f1ce7e487854a0bb1e7d943990e438c70ab08d3f4efce8"
+    },
+    {
+      "path": "content/main.js",
+      "sha256": "539e88a79b68fe422b3803632751219b55020a4dbfc5907eb8749bae277a6cb5"
+    },
+    {
+      "path": "extractors/_interface.js",
+      "sha256": "934e460da74631ee136eaf6ef11f73c0f75d5926692de54756c92302f7bbc750"
+    },
+    {
+      "path": "extractors/detect.js",
+      "sha256": "5008a691beec5b7ac69c5e0851941bb2491c20343bd18525e5ee23fab58b59ba"
+    },
+    {
+      "path": "extractors/truecoach.js",
+      "sha256": "717d931d93ba7b351a5e9585c34d12605f115a9ac1ba03022be75c612132987a"
+    },
+    {
+      "path": "extractors/truecoach/blueprint.js",
+      "sha256": "6220b18b7a164c81229b890e08699f53821d73c118c301009ca72651536c01e6"
+    },
+    {
+      "path": "extractors/truecoach/extractor.js",
+      "sha256": "b06efd42933ac6267cdd04476829631a065f12d5f931dbfcecf40294924e6786"
+    },
+    {
+      "path": "extractors/truecoach/goal.js",
+      "sha256": "4ab32cba528cf4382ffff10a030f99889d1fc2a34551fc2bb6b00a9eedb64687"
+    },
+    {
+      "path": "extractors/truecoach/identity.js",
+      "sha256": "231800489eb751c45b3777a0f0ac41cd9f488c09a79b3674b9adfed0f8014410"
+    },
+    {
+      "path": "extractors/truecoach/library.js",
+      "sha256": "8c8dcc64770bb97c5b062c068fd224e62e9f06477a842e6be2ea6bc84665acc0"
+    },
+    {
+      "path": "extractors/truecoach/net.js",
+      "sha256": "e24ce3aa40a56b52098637851606633a48cb275d2efc3eefd5353c780dfdc180"
+    },
+    {
+      "path": "extractors/truecoach/parse.js",
+      "sha256": "00e85308fd6a737993ebe50f08acca1c4eb6cc2e5554af96875e2d25ecbe0452"
+    },
+    {
+      "path": "popup/pair.js",
+      "sha256": "158eab1d8f7f44406979025993718a10d6fa765f9fb6731d248e17a181e29199"
+    },
+    {
+      "path": "popup/popup.js",
+      "sha256": "b2f992d749f630868fe2a472fa0678642cb807670203885d66c305fc99117079"
+    },
+    {
+      "path": "scripts/check-banned.mjs",
+      "sha256": "15b4edca531c7cdadc5341d946c6f7961c3732d965950d9546d38c7015cb2230"
+    },
+    {
+      "path": "scripts/check-codeql-sarif.mjs",
+      "sha256": "88dd9c20171a2b72cfdfa4e674fb8f7df54257f086e9bec322455d4c5e11816e"
+    },
+    {
+      "path": "scripts/check-deploy-readiness.mjs",
+      "sha256": "0f76ab6daf3bd985badbc9d7368e03b39f3ac187799f1c7589d9038714982d9c"
+    },
+    {
+      "path": "scripts/check-flag-discipline.mjs",
+      "sha256": "f02e6a6283a08359d39cdaefc464e3ae62b8d7c929726b70eba08389f5704e0d"
+    },
+    {
+      "path": "scripts/check-format.mjs",
+      "sha256": "9c8b62ad51fb187f93ff3654b12f3d15249f9a865a555958b50b2e9f96e68b1f"
+    },
+    {
+      "path": "scripts/check-hook-config.mjs",
+      "sha256": "40d2a7036191f70acf4f2dd9ac4149d4c6b936703cb1e1eefb3deb66c1f9088f"
+    },
+    {
+      "path": "scripts/check-js-syntax.mjs",
+      "sha256": "6b28d668fdfe5bbb268e6926e95cf5c4b2ece2af9afa04dd9ccec2111ae360c1"
+    },
+    {
+      "path": "scripts/check-prod-loc.mjs",
+      "sha256": "c3940ebef7c3e17933a06b729b050d42ff290520efe9467fad6b42a2e573aa20"
+    },
+    {
+      "path": "scripts/check-production-fixtures.mjs",
+      "sha256": "e4a27e477c9aa33d143eb13c9bba2652d784bde862d4b12c95a9dd9da8c9be01"
+    },
+    {
+      "path": "scripts/check-test-ratio.mjs",
+      "sha256": "156b3445ceb698622e21132faae38d3933993b7a8749d65bf5a01236dadcaa74"
+    },
+    {
+      "path": "scripts/eslint.config.mjs",
+      "sha256": "37e3dc1616e022e507a4e07ac8c45e64d0a026586f4340a0522a7da450b12f16"
+    },
+    {
+      "path": "scripts/lib/git-diff.mjs",
+      "sha256": "83cca79bd8d97c45b9d625b9c177c22d3c436d82114d7354d255d8fc593329b5"
+    },
+    {
+      "path": "scripts/lib/js-ast.mjs",
+      "sha256": "8cc1569814379385397fd3acd1b0ab2eacd9bc205fbf37a22dce8ae3c305a5eb"
+    },
+    {
+      "path": "shared/blueprint/input.js",
+      "sha256": "94fdca3ce8d9ae3617bbc5289d3e016d38b7bb619a3f2815a8db548fcaa5129c"
+    },
+    {
+      "path": "shared/blueprint/order.js",
+      "sha256": "ef1cd96e8992f958227626dad07cfae904822c7aa8ebe2eaea765504928d3598"
+    },
+    {
+      "path": "shared/blueprint/shapes.js",
+      "sha256": "5395f4d0211b77c795ebff4f0c0da5b3eb9a1cae18d0d340c79a7e50b5bffbaa"
+    },
+    {
+      "path": "shared/blueprint/url-templates.js",
+      "sha256": "2838b34eef9f249b181b1013b17d9ff35fd21e2aa9f7fe02542221853854a532"
+    },
+    {
+      "path": "shared/capture-buffer.js",
+      "sha256": "c254e25e3ca65c6444ee6c74980cf65cdc478600b3bc48f3f47c97515e89009d"
+    },
+    {
+      "path": "shared/capture-policy.js",
+      "sha256": "516d258f7b9ae28f6a8e4121bcfe52b9d8cea58705a41690f62b6c85f13cab6b"
+    },
+    {
+      "path": "shared/capture.js",
+      "sha256": "7ffe5b48397664acaef5980e4b757f24e67e3271df67aab8af7a5ccb06e9c8bb"
+    },
+    {
+      "path": "shared/credential-policy.js",
+      "sha256": "cca8b2a3e64747033a4e78b6fa0a5e36c4a494986666c2412c379e261616ed7c"
+    },
+    {
+      "path": "shared/log.js",
+      "sha256": "ba954ac9a7c48f65ed45ea1e03e8984a82ad6a852101422da99f36fdfbc7d32e"
+    },
+    {
+      "path": "shared/net.js",
+      "sha256": "7b3b2c4acb73237e6bcd7c6d0be44c5a7294521be3a83364fa22ea982e587ef7"
+    },
+    {
+      "path": "shared/pairing.js",
+      "sha256": "72bf58cb8e37b26056d9c7e8a629e711b8ee043ab2878649044f6212166956dc"
+    },
+    {
+      "path": "shared/progress.js",
+      "sha256": "edbfec5acb1b2fb7dacb48da02a713910362c5652a838f8a3acf5118762110de"
+    },
+    {
+      "path": "shared/protocol.js",
+      "sha256": "d83d17bfecdd78b1ccda62ee7bf0fcae7c50677e8c7053e4781093dd349c8389"
+    },
+    {
+      "path": "shared/replay/blueprint.js",
+      "sha256": "413a26db754d2e3bba114e25e18ce52fcb3418b1dc52db33f8f3d7a85c7cd747"
+    },
+    {
+      "path": "shared/replay/engine.js",
+      "sha256": "5872c2c38b5eb10e74c182d2004b62ec31102bb7121443232ce9bcf14bc4a75f"
+    },
+    {
+      "path": "shared/replay/resolve.js",
+      "sha256": "18c6211d8f11de34f204f41bf5b0df77ab70dc5a4882fb6f4bad5d7347e91984"
+    },
+    {
+      "path": "shared/replay/state.js",
+      "sha256": "4f2a9681bdc7eb7cec71de450c963a9136bd4c82b73eda40fbc744462a8242df"
+    },
+    {
+      "path": "shared/session.js",
+      "sha256": "69fdf540f52db1e7589ae04f89dccfaf6b28e6e83af6e1fd019a26e849146548"
+    },
+    {
+      "path": "test/blueprint-c2a-fixture.spec.js",
+      "sha256": "b26904c245f0a9e981f82ddb6f36e4f6d622f41c53723006d32a04c49e389615"
+    },
+    {
+      "path": "test/blueprint-input.spec.js",
+      "sha256": "49e7093b23efc37d5f9214e743f1ca1b7e30cf1556153cc6b2d642e04a9e157b"
+    },
+    {
+      "path": "test/blueprint-shapes.spec.js",
+      "sha256": "2dcb8508d2c514deb172144ff92b82135df181579674ae3be61b55e80546662a"
+    },
+    {
+      "path": "test/blueprint-url-templates.spec.js",
+      "sha256": "fc36cc5a51d096313e0f5f6154612bf0273a465b329cab7f0c15e307c22cbf97"
+    },
+    {
+      "path": "test/capture-buffer.spec.js",
+      "sha256": "355d8068ec6c32662dff8aec6337bdbf6517348aa642cfdd2f07c670a5b8aef2"
+    },
+    {
+      "path": "test/capture-edge.spec.js",
+      "sha256": "6fc8d16ee1631e730285d54bd550321eac754bcb26c95e339bfbb22eda3a3c62"
+    },
+    {
+      "path": "test/capture-extra.spec.js",
+      "sha256": "05b418a53f8d2c7c65e55021b6ea30a7a7758eddc823a2055811e7e3625de4b5"
+    },
+    {
+      "path": "test/capture-fixtures.spec.js",
+      "sha256": "68cabe7a03637503ee86a6b7dcde6bbb3631eca4d0596078977094aa3779ffa0"
+    },
+    {
+      "path": "test/capture-lifecycle.spec.js",
+      "sha256": "7c5f7813c1d5a7790948871f430a6b62546cf3b9974cd20bb830752cb41a79c6"
+    },
+    {
+      "path": "test/capture-policy.spec.js",
+      "sha256": "5dddc0340a3c9a148440c6518b5f2a0113ecfd461f86500b7f62c0a0487ac6a8"
+    },
+    {
+      "path": "test/capture.spec.js",
+      "sha256": "9133bb280d31599161a65435b1301c7da232f3920fd5bcfa36d68d3fe84b207f"
+    },
+    {
+      "path": "test/conformance-alpha.spec.js",
+      "sha256": "bd9edf02bc7e59db981783e22cd31cbce49aef9f9f2b8a475cc66ee1a13e88c6"
+    },
+    {
+      "path": "test/content-collector.spec.js",
+      "sha256": "4174c600217baeb6129c1a04858ac4510fb616acef726f43c303b39ff84c7542"
+    },
+    {
+      "path": "test/credential-policy-regression.spec.js",
+      "sha256": "652246f409a33737880e681b6d8ea96c37d11dc7956d4b7921199dbec84d3c49"
+    },
+    {
+      "path": "test/helpers/background-mock.js",
+      "sha256": "c272a1d41ea13c1380136461d8c48260eef415ff0cb8ee0750468606bfdb3dcb"
+    },
+    {
+      "path": "test/helpers/chrome-mock.js",
+      "sha256": "31bc26ccb3056ca0e5b79fe7996790d290c71221d5126dc1d62f210dafabc402"
+    },
+    {
+      "path": "test/helpers/conformance-alpha.js",
+      "sha256": "593fd21b2b6d273f0ca7dff83e868bdf8f24b0cd7c05ec96d3bad400155e8a20"
+    },
+    {
+      "path": "test/helpers/source-tab.js",
+      "sha256": "7d2c3526a289d91216af07f68b377543c96666615cff12c32ced1aa64a7bd2b3"
+    },
+    {
+      "path": "test/ingest-auth.spec.js",
+      "sha256": "6d83d48bdaa237f84e738224b21f1a0e7536ce09105f01e11d62bd35bf0ec6a2"
+    },
+    {
+      "path": "test/ingest-complete-contract.spec.js",
+      "sha256": "e46dab34ceea1f7147809a93d9f28e4f7934dfea82c2973f83af5ee0ccaf21a0"
+    },
+    {
+      "path": "test/ingest-envelope.spec.js",
+      "sha256": "0479e763c0f311e1cef7c2f60699d8b73c89fa286c27893b90d267c9f11d97a4"
+    },
+    {
+      "path": "test/ingest-legacy-settlement.spec.js",
+      "sha256": "049a8c5c5e97ebba7e9a6324b29afd411ebf26597ae4057362928d7313336f1c"
+    },
+    {
+      "path": "test/ingest-settlement.spec.js",
+      "sha256": "bc29f1f55476e862366b9752133d5a30b37ce3dd1a498cdc3a4bb3cfaffb92b8"
+    },
+    {
+      "path": "test/ingest-timeout-bound.spec.js",
+      "sha256": "9a522be27cff7c3d85a8c6e6921e37ed468128d615e55c93bf7e7c4be4241b75"
+    },
+    {
+      "path": "test/log.spec.js",
+      "sha256": "8639e24c473cb0a9ffe4a1ef8236841dbcbd773300d134dfb1a7eaaac8cbeb6e"
+    },
+    {
+      "path": "test/net-retry-after.spec.js",
+      "sha256": "ba1952877726aaaef066a8a60c1d09829da33c1b561168477fc3be1c7ed27a62"
+    },
+    {
+      "path": "test/net.spec.js",
+      "sha256": "266e8e45b769cadfe9e8411117e2e459fe328fabdf366dfcf654da90ed07cb73"
+    },
+    {
+      "path": "test/pair-ui-catch.spec.js",
+      "sha256": "c77f74dd9e98c91098fffebe5fc2cf5b253c0a24949a454fe29166924d7ac59a"
+    },
+    {
+      "path": "test/pairing.spec.js",
+      "sha256": "fcd64f3e6a309cb17aac33f2f49f8db93f83ab2ba23f2f57be63116ea586353c"
+    },
+    {
+      "path": "test/policy-gates.spec.js",
+      "sha256": "cdc801c608cb53d6f3517c6e2744592149f54768ef496d3a8ce0b4e4f265e008"
+    },
+    {
+      "path": "test/popup-start-import.spec.js",
+      "sha256": "789ad320b6150dafb60341361df8cda3e426ee837f4bf618acfe1bce198acba4"
+    },
+    {
+      "path": "test/progress-reporter.spec.js",
+      "sha256": "bbe105f63e5ca08cf74559af8468f9e33ed7ae3b51ebdf9e92f7b18a0582d5b2"
+    },
+    {
+      "path": "test/protocol.spec.js",
+      "sha256": "37343d47d6ab4dce08a77972e98c6d4c7abad6e5b6fc11af9a1ec0a05450c709"
+    },
+    {
+      "path": "test/refresh-coalesce.spec.js",
+      "sha256": "107c60a87a291535c0cc386dda314b3d4ccb5092113bf7c8c3af6301e3d20b03"
+    },
+    {
+      "path": "test/replay-array-boundary.spec.js",
+      "sha256": "17de7df516820e833b5228be438ccb9bc2c5c9c0dc60b9a8ce8c339a74be1b54"
+    },
+    {
+      "path": "test/replay-backoff.spec.js",
+      "sha256": "3270fd4cf09748266aed0e31d14c78bbb043dcf28a817337f108b7abedfda668"
+    },
+    {
+      "path": "test/replay-blueprint.spec.js",
+      "sha256": "4fb8dfb70109f83d64a6d68ee17708e47fcd57e79b5dafa35ceacec3508d9ab9"
+    },
+    {
+      "path": "test/replay-boundary-fix.spec.js",
+      "sha256": "c42d54fcec47cfb06437f542b4fa68a2f520cc027f94f8b2de5200cafd2de292"
+    },
+    {
+      "path": "test/replay-empty-outcome.spec.js",
+      "sha256": "724041f2b73f93a70ed607632dd606f8d687e053749adb4ea6340563de7be78a"
+    },
+    {
+      "path": "test/replay-engine-edge.spec.js",
+      "sha256": "33b3f25b774bc80836312807d6eb45b16f791296cdb314d048a2977a96f5e9a6"
+    },
+    {
+      "path": "test/replay-engine.spec.js",
+      "sha256": "2ad42f1bae50ca6dc552b880a65a9e242c8389374b05af05482403a1b28bee42"
+    },
+    {
+      "path": "test/replay-entity-counts.spec.js",
+      "sha256": "a99988c3e9d3b315b7a5f2684c1b2b0c7632500de93af1cdb7b4b29a6a289438"
+    },
+    {
+      "path": "test/replay-lastskip.spec.js",
+      "sha256": "9421874174985ec307aeeda077294cebf1032b4ba6c8863c37288e876c372fe5"
+    },
+    {
+      "path": "test/replay-pagination-outcome.spec.js",
+      "sha256": "f40e9884c4a9c3648053962cc3bee0880f3415268e69cce58c38889f5f372803"
+    },
+    {
+      "path": "test/replay-resolve.spec.js",
+      "sha256": "00e4a73693001df00ea929000095008534fbdc5b44a4828cb152eaf0cf892252"
+    },
+    {
+      "path": "test/replay-state.spec.js",
+      "sha256": "596e82cc0d6ca6cc88e3ea5b9a8bedc5662aca8ee5166a1f810bb1164983d9af"
+    },
+    {
+      "path": "test/replay-truecoach-blueprint.spec.js",
+      "sha256": "ca82595efb00406fd3ad37ba8dcf91e77a9ecba883d9d089293f2b40239283ba"
+    },
+    {
+      "path": "test/replay-truecoach-e2e.spec.js",
+      "sha256": "d3c0f3ddfc337780afe74fef49536c95e404425fb9f19f50499f00057dae6ceb"
+    },
+    {
+      "path": "test/session-establishment.spec.js",
+      "sha256": "061325db70626ad76981fa0fe25e2851ce51ce26f0af52c234e0d0acd1bd5274"
+    },
+    {
+      "path": "test/session-lifecycle.spec.js",
+      "sha256": "accbd50c75b77109dd7b2732ce8eb48d04edbacad2fcbbab51b3302614ea1c79"
+    },
+    {
+      "path": "test/session-refresh-path.spec.js",
+      "sha256": "e54c6c9867c5fe79e83b4351df084bd2d4404e9774b8621a4ca94670991800ae"
+    },
+    {
+      "path": "test/source-fetch-boundary.spec.js",
+      "sha256": "d6ea088a1e0b9b70f6868b5cb89e94956bd89e4ddce7a127adff8c28e965fb75"
+    },
+    {
+      "path": "test/start-import-hardening.spec.js",
+      "sha256": "afd10e3bac5cd7aa863dc4a136f979e346a9715761e1e651944f63e791eec3f9"
+    },
+    {
+      "path": "test/start-import.spec.js",
+      "sha256": "8c46d81283fc922bd5ebacb990724d374175e89787b706063c4ac6a0aa358df9"
+    },
+    {
+      "path": "test/storage-policy.spec.js",
+      "sha256": "8a8aa61e624fa7b4c06b06b0195c46a5e69a64c9b2ee83741bf1db5ef707352c"
+    },
+    {
+      "path": "types.d.ts",
+      "sha256": "bac6ffbfe5b306802b206670e4c56ef52219386996db98809e94bdc351fdf7f0"
+    },
+    {
+      "path": "types/punycode.d.ts",
+      "sha256": "01387de5cd02e0ee598e980df3179f143153ebfd2afb319c48162a1027fb5833"
+    }
+  ],
+  "scopes": [
+    {
+      "scope": "R120-only",
+      "from": "3db01451c6c4e1aa46c6637db80d852e2273bcf6",
+      "tree": "ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398",
+      "canonical": {
+        "prod": {
+          "added": 0,
+          "removed": 0
+        },
+        "test": {
+          "added": 0,
+          "removed": 0
+        },
+        "script": {
+          "added": 0,
+          "removed": 0
+        }
+      },
+      "canonical_ratio": null,
+      "raw_non_test_non_doc_excluding_generated_lock_added": 160,
+      "generated_lock_added": 99,
+      "raw_non_test_non_doc_including_lock_added": 259,
+      "raw_tests_added": 379,
+      "conservative_ratio_excluding_lock": 2.36875,
+      "raw_rows": [
+        {
+          "path": ".github/workflows/ci.yml",
+          "added": 3,
+          "removed": 0
+        },
+        {
+          "path": ".github/workflows/iac-security.yml",
+          "added": 26,
+          "removed": 0
+        },
+        {
+          "path": "docs/IAC_SECURITY.md",
+          "added": 65,
+          "removed": 0
+        },
+        {
+          "path": "scripts/checkov-requirements.txt",
+          "added": 99,
+          "removed": 0
+        },
+        {
+          "path": "scripts/iac-security.py",
+          "added": 115,
+          "removed": 0
+        },
+        {
+          "path": "scripts/install-checkov.sh",
+          "added": 16,
+          "removed": 0
+        },
+        {
+          "path": "test/iac-security-controls.py",
+          "added": 379,
+          "removed": 0
+        }
+      ]
+    },
+    {
+      "scope": "security-cumulative",
+      "from": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+      "tree": "ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398",
+      "canonical": {
+        "prod": {
+          "added": 0,
+          "removed": 0
+        },
+        "test": {
+          "added": 30,
+          "removed": 0
+        },
+        "script": {
+          "added": 9,
+          "removed": 0
+        }
+      },
+      "canonical_ratio": null,
+      "raw_non_test_non_doc_excluding_generated_lock_added": 342,
+      "generated_lock_added": 99,
+      "raw_non_test_non_doc_including_lock_added": 441,
+      "raw_tests_added": 850,
+      "conservative_ratio_excluding_lock": 2.4853801169590644,
+      "raw_rows": [
+        {
+          "path": ".github/workflows/ci.yml",
+          "added": 3,
+          "removed": 0
+        },
+        {
+          "path": ".github/workflows/iac-security.yml",
+          "added": 26,
+          "removed": 0
+        },
+        {
+          "path": ".github/workflows/secrets-scan.yml",
+          "added": 38,
+          "removed": 0
+        },
+        {
+          "path": ".gitleaks.toml",
+          "added": 38,
+          "removed": 0
+        },
+        {
+          "path": "docs/IAC_SECURITY.md",
+          "added": 65,
+          "removed": 0
+        },
+        {
+          "path": "docs/SECRETS_SCANNING.md",
+          "added": 148,
+          "removed": 0
+        },
+        {
+          "path": "lefthook.yml",
+          "added": 2,
+          "removed": 0
+        },
+        {
+          "path": "scripts/check-hook-config.mjs",
+          "added": 9,
+          "removed": 0
+        },
+        {
+          "path": "scripts/checkov-requirements.txt",
+          "added": 99,
+          "removed": 0
+        },
+        {
+          "path": "scripts/iac-security.py",
+          "added": 115,
+          "removed": 0
+        },
+        {
+          "path": "scripts/install-checkov.sh",
+          "added": 16,
+          "removed": 0
+        },
+        {
+          "path": "scripts/install-gitleaks.sh",
+          "added": 32,
+          "removed": 0
+        },
+        {
+          "path": "scripts/secrets-scan.sh",
+          "added": 63,
+          "removed": 0
+        },
+        {
+          "path": "test/iac-security-controls.py",
+          "added": 379,
+          "removed": 0
+        },
+        {
+          "path": "test/policy-gates.spec.js",
+          "added": 30,
+          "removed": 0
+        },
+        {
+          "path": "test/secrets-scan-controls.py",
+          "added": 441,
+          "removed": 0
+        }
+      ]
+    },
+    {
+      "scope": "PR-cumulative",
+      "from": "0111be661922234d670bbf23e23d270eec1b4a4e",
+      "tree": "ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398",
+      "canonical": {
+        "prod": {
+          "added": 180,
+          "removed": 87
+        },
+        "test": {
+          "added": 1551,
+          "removed": 42
+        },
+        "script": {
+          "added": 9,
+          "removed": 0
+        }
+      },
+      "canonical_ratio": 8.616666666666667,
+      "raw_non_test_non_doc_excluding_generated_lock_added": 609,
+      "generated_lock_added": 99,
+      "raw_non_test_non_doc_including_lock_added": 708,
+      "raw_tests_added": 2786,
+      "conservative_ratio_excluding_lock": 4.574712643678161,
+      "raw_rows": [
+        {
+          "path": ".github/workflows/ci.yml",
+          "added": 3,
+          "removed": 0
+        },
+        {
+          "path": ".github/workflows/iac-security.yml",
+          "added": 26,
+          "removed": 0
+        },
+        {
+          "path": ".github/workflows/secrets-scan.yml",
+          "added": 38,
+          "removed": 0
+        },
+        {
+          "path": ".gitleaks.toml",
+          "added": 38,
+          "removed": 0
+        },
+        {
+          "path": "_locales/en/messages.json",
+          "added": 30,
+          "removed": 0
+        },
+        {
+          "path": "background.js",
+          "added": 44,
+          "removed": 26
+        },
+        {
+          "path": "docs/DECISION_V03_AUTONOMOUS_CRAWL.md",
+          "added": 57,
+          "removed": 0
+        },
+        {
+          "path": "docs/IAC_SECURITY.md",
+          "added": 65,
+          "removed": 0
+        },
+        {
+          "path": "docs/SECRETS_SCANNING.md",
+          "added": 148,
+          "removed": 0
+        },
+        {
+          "path": "docs/TIER0_CONTRACT_INTEGRITY.md",
+          "added": 33,
+          "removed": 8
+        },
+        {
+          "path": "lefthook.yml",
+          "added": 2,
+          "removed": 0
+        },
+        {
+          "path": "manifest.json",
+          "added": 1,
+          "removed": 0
+        },
+        {
+          "path": "package.json",
+          "added": 1,
+          "removed": 1
+        },
+        {
+          "path": "scripts/check-hook-config.mjs",
+          "added": 9,
+          "removed": 0
+        },
+        {
+          "path": "scripts/checkov-requirements.txt",
+          "added": 99,
+          "removed": 0
+        },
+        {
+          "path": "scripts/iac-security.py",
+          "added": 115,
+          "removed": 0
+        },
+        {
+          "path": "scripts/install-checkov.sh",
+          "added": 16,
+          "removed": 0
+        },
+        {
+          "path": "scripts/install-gitleaks.sh",
+          "added": 32,
+          "removed": 0
+        },
+        {
+          "path": "scripts/secrets-scan.sh",
+          "added": 63,
+          "removed": 0
+        },
+        {
+          "path": "shared/net.js",
+          "added": 77,
+          "removed": 60
+        },
+        {
+          "path": "shared/replay/blueprint.js",
+          "added": 64,
+          "removed": 19
+        },
+        {
+          "path": "shared/replay/engine.js",
+          "added": 50,
+          "removed": 29
+        },
+        {
+          "path": "test/helpers/background-mock.js",
+          "added": 19,
+          "removed": 0
+        },
+        {
+          "path": "test/iac-security-controls.py",
+          "added": 379,
+          "removed": 0
+        },
+        {
+          "path": "test/policy-gates.spec.js",
+          "added": 30,
+          "removed": 0
+        },
+        {
+          "path": "test/replay-array-boundary.spec.js",
+          "added": 104,
+          "removed": 0
+        },
+        {
+          "path": "test/replay-blueprint.spec.js",
+          "added": 360,
+          "removed": 33
+        },
+        {
+          "path": "test/replay-boundary-fix.spec.js",
+          "added": 262,
+          "removed": 0
+        },
+        {
+          "path": "test/replay-empty-outcome.spec.js",
+          "added": 6,
+          "removed": 5
+        },
+        {
+          "path": "test/replay-engine-edge.spec.js",
+          "added": 421,
+          "removed": 287
+        },
+        {
+          "path": "test/replay-engine.spec.js",
+          "added": 256,
+          "removed": 2
+        },
+        {
+          "path": "test/replay-pagination-outcome.spec.js",
+          "added": 202,
+          "removed": 0
+        },
+        {
+          "path": "test/secrets-scan-controls.py",
+          "added": 441,
+          "removed": 0
+        },
+        {
+          "path": "test/source-fetch-boundary.spec.js",
+          "added": 306,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "actual_gates_current_tree": "NOT RUN / not allocated. Existing LOC/ratio scripts compare base...HEAD, not staged candidate; inherited prior actual results are not changed-tree evidence.",
+  "banned_semantic_counts": "Canonical eligible source byte-identical: prior cumulative silent catch 2->2, empty catch 1->1; as any fixture strings33->33; other banned tokens0->0. No new AST execution claimed."
+}
