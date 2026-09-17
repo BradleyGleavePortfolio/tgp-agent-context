@@ -1,0 +1,12 @@
+docs/contracts/importer-openapi.json
+docs/decisions/2026-09-17-c1-durable-paired-intent.md
+prisma/migrations/20270116000000_add_pair_import_intent/down.sql
+prisma/migrations/20270116000000_add_pair_import_intent/migration.sql
+prisma/schema.prisma
+scripts/importer-contract.ts
+src/extension-pair/__tests__/durable-intent.spec.ts
+src/extension-pair/__tests__/extension-pair.service.spec.ts
+src/extension-pair/extension-pair.controller.ts
+src/extension-pair/extension-pair.dto.ts
+src/extension-pair/extension-pair.service.ts
+test/contracts/importer-contract.spec.ts

@@ -1,0 +1,9 @@
+131	1	docs/contracts/importer-openapi.json
+7	7	docs/decisions/2026-09-17-c1-durable-paired-intent.md
+2	1	scripts/importer-contract.ts
+13	0	src/extension-pair/__tests__/durable-intent.spec.ts
+147	0	src/extension-pair/__tests__/durable-session.spec.ts
+43	1	src/extension-pair/extension-pair.controller.ts
+19	1	src/extension-pair/extension-pair.dto.ts
+16	1	src/extension-pair/extension-pair.service.ts
+16	0	test/contracts/importer-contract.spec.ts

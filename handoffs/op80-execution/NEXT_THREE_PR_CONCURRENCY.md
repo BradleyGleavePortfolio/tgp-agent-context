@@ -18,7 +18,7 @@ The active ruling explicitly requires C1 to land and freeze before M5 begins, an
 Frozen backend recovery ---- reconciliation of shared schema/contract ----+
 Backend security/CI blockers -------------------- landing gates ---------+
                                                                         v
-C1 local build -> tests -> frozen candidate -> dual audit + CI -> land/freeze
+C1a -> C1b -> integrated-tree tests -> dual audit + CI -> land/freeze
                                                                   |
                                     +-----------------------------+----+
                                     v                                  v
@@ -37,9 +37,9 @@ The generator conflict has a concrete cause: recovery raises the contract from 1
 
 | Slice | Work permitted now | Coding unblock condition | Exclusive future ownership |
 |---|---|---|---|
-| C1 backend durable paired intent | Implement and test the narrow control-plane contract locally | Backend recovery writer closed; parent has reserved schema and contract generation | `src/extension-pair/**`, pairing-specific tests, ExtensionPairCode schema section and its additive migration, generated importer contract |
+| C1 backend durable paired intent | C1a/C1b frozen; parent integration and remaining-gate resolution next | Backend recovery writer closed; parent has reserved schema and contract generation | `src/extension-pair/**`, pairing-specific tests, ExtensionPairCode schema section and its additive migration, generated importer contract |
 | M5 mobile onboarding | Read-only prerequisite reconciliation and acceptance/file inventory; no M5 implementation | C1 landed and contract frozen; PR289–292 stack reconciled into an audited base | Actual coach wizard, importer screen/panel/state/API consumer and associated tests, only after explicit dispatch |
-| Extension server-intent consumer | Parent read-only seam review; current pagination fixer continues its existing lane | C1 contract frozen; pagination ownership released and its accepted changes integrated into the consumer base | Pairing storage, popup pairing, Start/intent path and associated tests; replay fixes are not rewritten |
+| Extension server-intent consumer | Read-only seam review complete; pagination repair published as draft, not accepted or landed | C1 contract frozen; pagination ownership released and its accepted changes integrated into the consumer base | Pairing storage, popup pairing, Start/intent path and associated tests; replay fixes are not rewritten |
 
 Mobile prerequisite refs declare a stack, not four independent PRs: [PR289](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/289) is based on main, [PR290](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/290) on PR289, [PR291](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/291) on PR290, and [PR292](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/292) on PR291. The parent verified all four are draft at inspection; previous CI results are not current audit approval.
 
@@ -49,7 +49,7 @@ The parent then ran a non-checkout `git merge-tree --write-tree` between final28
 
 ## Collision and resource locks
 
-- **Backend schema and contract:** C1 is the only active backend writer. The recovered 27-file candidate and its evidence are immutable; parent owns eventual composition, `scripts/importer-contract.ts` version reconciliation, generated contract regeneration, and resulting-tree verification.
+- **Backend schema and contract:** C1's writer has frozen both slices and released ownership. No backend coding worker remains active. The recovered 27-file candidate and all C1 candidates are immutable; parent owns eventual composition, `scripts/importer-contract.ts` version reconciliation, generated contract regeneration, and resulting-tree verification.
 - **Mobile state and navigation:** One mobile coding owner at a time. Readiness review cannot edit, rebase, install packages, or implement M5 against a speculative API.
 - **Extension shared worker:** The pagination fixer has frozen its candidate and explicitly released ownership. Parent integration now owns `background.js`, `shared/net.js`, replay files, message catalog, manifest, package metadata and shared test mocks. The future consumer must start from the accepted repair base, not the old `093b6b0` input; C1 freeze is still required.
 - **Dependencies and generators:** Per-lane copies, never writable shared `node_modules`, lockfiles, Prisma generated output, test result files or working directories. Parent controls package installations and expensive generators.
@@ -70,12 +70,16 @@ This supports management of three PR cycles with staged concurrency. It cannot g
 
 ## Dispatch checkpoint
 
-- **C1:** `c1_durable_intent_builder_mu5vm602` froze a complete review tree `3c3d09cf` after 175 focused tests, strict type/scoped lint and deterministic contract generation. The combined 454-net-line patch cannot publish as one PR. A bounded continuation prepares C1a/C1b sequentially in new clone `/tmp/tgp-op80-c1-split`; the original clone and tree remain read-only for parent migration proof.
+- **C1:** `c1_durable_intent_builder_mu5vm602` completed and released writer/generator/test resources. C1a is frozen at tree `404dd55d2fde7ab9fab46fb4ea1d27a9d79a7556`, 202 net workflow lines, 2.895 test/source density and 158 focused tests passed. C1b is frozen relative to A at `660e436ecbf911b6984b40ed43d135e3dc308378`, 252 net lines, 2.200 density and 175 focused tests passed. Both passed strict typecheck, scoped lint and deterministic generation. Sequential and cumulative patch reconstruction matched exactly; all ten original final spec files remain byte-identical. These are overlapping suite counts, not 333 distinct tests. The combined 454-line patch remains review-only.
 - **M5 readiness:** `m5_prerequisite_readiness_mu5vm609` completed with FINDINGS and released ownership. Its read-only clone remains at `a5933fd`; no product changes, installations or tests were performed.
 - **Pagination:** `pagination_boundary_fixer_mu5un0lr` completed with FINDINGS and released ownership. Parent committed the unchanged final tree `88256320` as `fc7fdf6e50df08cccad86da37c8b0f15f4b72e81` and published it to existing draft PR21. Its final local full-suite log records 51 files / 1,529 passed; the actual installed pre-commit hooks and committed-head gates also passed. Independent approval and outstanding repository controls remain release gates.
 - **Parent:** GitHub, evidence publication, integration decisions, extension seam inventory, resource allocation and audit reconciliation. No second C1, M5 or extension consumer coding agent is active.
 
 Each new lane's brief hash, input matrix and actual ID are recorded in `dispatch-ledger.jsonl`. Their read-only context input is a separate clone at `9b4f55d`, not the parent publication branch.
+
+The parent read both complete per-slice 55+18 self-checks and preserved their FINDINGS verdicts. The 18 bounded synthetic DB checks ran on original tree `3c3d09cf`; unchanged runtime/migration evidence maps to the split, but no whole-tree DB rerun, CI PostgreSQL 15 equivalence, full migration chain or live auth proof is claimed. Contract versions 1.5.0/1.6.0 remain provisional pending recovery's 2.x integration. Full-suite/integration proof, inherited security/control failures, independent review and exact-head remote gates remain outstanding; neither C1 slice is committed, published or landed, and consumers remain blocked.
+
+Safe concurrency actually completed: backend construction alongside read-only mobile readiness and pagination closeout, then isolated C1 splitting alongside parent migration and composition checks. No parallel worker wrote mobile or the future extension consumer, no shared writable dependency/generator output was allocated, and no duplicate full-suite run was dispatched. Final split evidence is preserved in `build-reports/c1-split/`; original patch bytes are in deterministic archives listed in `build-reports/PATCH_ARCHIVES.md`.
 
 ## Extension consumer seam inspection
 
@@ -83,7 +87,7 @@ The parent read the pinned importer at `093b6b0`. `shared/pairing.js` consumes a
 
 The future consumer therefore needs one coherent change across pairing decode, the session-owned non-secret correlation state, the trusted session message and Start's ID selection. It must preserve single-flight behavior, clear correlation with account/session changes, survive worker rehydration without persisting bearer tokens to disk, and define behavior for old redeem responses. A separate popup-only patch would leave Start on its old self-minted ID.
 
-Likely test ownership is `test/pairing.spec.js`, session lifecycle tests, `test/storage-policy.spec.js`, Start/ingest settlement tests and shared background mocks. The current pagination repair also changes `background.js` and `test/helpers/background-mock.js`, so this consumer is intentionally not dispatched while that writer owns them.
+Likely test ownership is `test/pairing.spec.js`, session lifecycle tests, `test/storage-policy.spec.js`, Start/ingest settlement tests and shared background mocks. The pagination repair also changes `background.js` and `test/helpers/background-mock.js`; its writer has released ownership, but the consumer must still wait for its accepted base and C1 freeze.
 
 First-install setup, arbitrary-site selection, source permission expansion and native-result completion are later distinct activation capabilities, not bundled into this narrow server-intent consumer. C1's new durable setup ID must never be described as proof of accepted Start or complete migration.
 
