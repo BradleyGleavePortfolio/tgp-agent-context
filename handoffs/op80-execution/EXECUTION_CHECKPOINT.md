@@ -8,9 +8,11 @@ User, verbatim: "Start execution - use astra subagents (top performance) - for a
 
 Continue the recovered repairs rather than restarting C2a. Use inherited orchestrator for the requested Astra lanes; the model catalog supports inheritance but does not list a separate Astra selector. Fable is explicitly selected for the other audit lens.
 
-Backend builder owns the ancestor-relative recovered repair file set in an isolated local current-main candidate. Two independent read-only pagination auditors inspect the same recovered SHA with distinct evidence/checkpoint paths. The parent owns C1 activation-contract analysis in context documents only.
+Backend recovery builder is closed with a frozen 27-file candidate and FINDINGS. Parent full regression completed with 7,922 passed, 159 skipped and 5 todo; disposable live proof passed 21/21. Actual LOC and dependency-security gates still block landing; see `BACKEND_VERIFICATION_CHECKPOINT.md`.
 
-The pagination pass is diagnostic recovery review, not a final R14 release audit: missing exact-head PR/CI and governance checks must remain visible. No stale CLEAN verdict is accepted.
+The initial pagination diagnostic rounds are closed. Astra's final verdict is INFRA_DEATH due context SHA movement; Fable reported FINDINGS, but the parent does not treat that round as a valid release audit. The pagination fixer is finishing its isolated repair; final local suite passed 1,529 tests on a pinned tree, with independent exact-head review still outstanding.
+
+The user requested safe parallelization of the next three activation PRs. C1 builder `c1_durable_intent_builder_mu5vm602` is the only active backend writer; `m5_prerequisite_readiness_mu5vm609` performs read-only mobile prerequisite reconciliation. M5 implementation remains blocked until C1 lands/freezes, and the extension consumer waits for C1 freeze plus pagination ownership release. See `NEXT_THREE_PR_CONCURRENCY.md` for the dependency graph and exclusive resources.
 
 ## Decision gate and containment
 
@@ -27,7 +29,7 @@ The previous GitHub publication attempt was blocked pending explicit repository/
 
 Documentation commit `0b1f882e472109b69cac956f01d96e7acb0ad7ba` is published in [context PR #31](https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/31). This records the recovery and Roman journey, not completed product behavior. Prior local-only ledger events describe the authority at their timestamps and must not be rewritten as if publication were authorized earlier.
 
-No production writes, flag activation, live-account imports, security-setting changes or merges are authorized by this publication decision. Product release remains gated on canonical checks and fresh independent final-head audits. The database evidence uses a new loopback-only disposable PostgreSQL 18.6 cluster, not customer data or proof of PostgreSQL 16 CI equivalence.
+No production writes, flag activation, live-account imports, security-setting changes or merges are authorized by this publication decision. Product release remains gated on canonical checks and fresh independent final-head audits. The database evidence uses a new loopback-only disposable PostgreSQL 18.6 cluster, not customer data or proof of CI equivalence. Correction: the checked-in backend CI uses PostgreSQL 15 (not the previously stated 16) and Node 20; its full test job explicitly allocates a 4 GB Node heap.
 
 ## Continuity and model evidence
 
