@@ -4,6 +4,21 @@ Operator-signed decisions that changed doctrine, architecture, or process. Every
 
 Newest first.
 
+## 2026-09-17: qualify a workflow-scanner alternative without waiving R120
+
+Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
+
+Decision: authorize a bounded, evidence-only qualification of a supported standalone zizmor release for the importer's GitHub Actions surface. This is not a scanner substitution, R120 amendment, vulnerability exception or product implementation approval. Checkov candidate `ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398` remains frozen and acceptance-blocked. Before an implementation decision, require exact release and binary provenance, dependency/advisory evidence, a mapping of the applicable native Checkov policies, complete-input proof, suppression resistance and a native positive/negative-control plan. Terraform, Docker, Kubernetes and Fly requirements remain separate, not silently covered by a workflow-only scanner.
+
+### R138 Decision Gate
+
+- **Musk five principles:** Question the named-tool choice separately from its safety purpose, following the ordered requirement/delete/simplify/accelerate/automate process described by [Inc.](https://www.inc.com/jeff-haden/elon-musks-algorithm-a-5-step-process-to-dramatically-improve-nearly-everything-is-both-simple-brilliant.html). Do not optimize an unsafe dependency installation or remove the security requirement to get a green check.
+- **Hyperscaler practice:** [AWS continuous delivery](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/) recommends isolated pre-production testing and safety gates that can block known-bad packages. Qualify the alternative outside product trees and require independent evidence before promotion.
+- **GOOD without BAD:** Investigate a smaller supported dependency surface while preserving every existing failure and all required controls. No forced package override, ignored advisory, homemade regex scanner, inherited cross-engine pass count or production change is permitted.
+- **Root cause:** The blocker is the proposed scanner's mandatory vulnerable dependency closure, not a failing application test. Native engine replacement can address that closure only if its security coverage and own supply chain are demonstrated; research alone does not establish either.
+
+Rollback/blast radius: evidence-only files under a separate qualification directory; no existing candidate, rule, GitHub setting, workflow or dependency environment changes. Reject the prototype if equivalence or supply-chain proof cannot be established. Any later bounded prototype execution requires explicit resource allocation; product substitution requires a separate recorded decision and the full audit cycle.
+
 ## 2026-09-17: isolated verification and sequential prerequisite PRs
 
 Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
