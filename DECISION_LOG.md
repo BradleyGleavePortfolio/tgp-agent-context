@@ -4,6 +4,21 @@ Operator-signed decisions that changed doctrine, architecture, or process. Every
 
 Newest first.
 
+## 2026-09-17: isolated verification and sequential prerequisite PRs
+
+Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
+
+Continue the approved importer recovery architecture with a rolling three-PR window, not three competing writers. Backend dependency repair is locally verified and frozen; importer acceptance stopped on scanner dependency vulnerabilities; diagnostics has the sole bounded regression/repair slot. Preserve independent clone, file, dependency and output ownership. This is a process/allocation record, not a product merge, rule waiver or claim of independent audit approval.
+
+### R138 Decision Gate
+
+- **Musk five principles:** Question the assumption that three planned PRs must execute or land simultaneously. Delete idle preparation waits and duplicate validation, not required tests; simplify ownership to one writer per mutable surface, accelerate unrelated read-only work, and automate only the preserved deterministic checks.
+- **Hyperscaler practice:** Use isolated immutable inputs and gated promotion to contain failures, consistent with the [AWS continuous-delivery guidance](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/). Keep upstream verification evidence distinct from downstream acceptance.
+- **GOOD without BAD:** Allow diagnostics to progress while the importer scanner blocker is investigated, without shared writable dependencies, concurrent heavy runs, unreviewed package overrides or silent test-output overwrites. Separate the dependency and diagnostics PRs because their combined 490-line preparation exceeds the actual cap.
+- **Root cause:** Repair the actual package graph and unsafe public-error branch rather than suppressing audit findings, weakening size counting or blanking every useful user error. The scanner report collision is a separate evidence-integrity defect and does not erase its native vulnerability failure.
+
+Rollback/blast radius: the new dependency, diagnostics and security candidates remain isolated and unpublished at this checkpoint; the earlier pagination candidate is already on draft PR21. Preserve predecessor patches and failed results; any dependency change stops diagnostics for explicit re-pinning. Parent alone owns eventual publication, exact-head CI and dual independent review. No production database, feature flag, reviewer permission or branch-protection setting is changed.
+
 ## 2026-09-17: importer recovery and visible activation planning
 
 Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.

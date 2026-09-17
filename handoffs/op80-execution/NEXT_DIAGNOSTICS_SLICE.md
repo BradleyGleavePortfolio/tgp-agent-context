@@ -1,8 +1,12 @@
 # Next Backend Slice: Safe Import Diagnostics
 
-## Source preparation allocated, verification still gated
+## Bounded verification allocated; full-suite and release gates remain closed
 
-The dependency producer is source-frozen at `b2bb1666a91d60927d3ee1d6455ce687ce1c8739` and has completed its corrected full suite with 7,857 passed tests and disclosed inherited skips/todo. Its fresh audit reports zero vulnerabilities. Parent released its writer and execution ownership and created an independent clone with that exact staged tree. Diagnostics may prepare source and red tests while importer verification runs, but has no test/install/generator/scanner slot and cannot make a new production repair before its red test is executed. This removes an unnecessary preparation wait without sharing files or treating local tests as release approval. Any dependency correction stops the downstream lane for explicit re-pinning.
+The dependency producer is source-frozen at `b2bb1666a91d60927d3ee1d6455ce687ce1c8739` and has completed its corrected full suite with 7,857 passed tests and disclosed inherited skips/todo. Its fresh audit reports zero vulnerabilities. Parent released its writer and execution ownership and created an independent clone with that exact staged tree. After importer acceptance stopped on scanner dependency vulnerabilities, diagnostics received the sole bounded regression slot with privately hash-verified dependencies and the vetted cooperative HTTP guard. Any dependency correction stops the downstream lane for explicit re-pinning.
+
+Executed RED reproduced 21 public-text leaks with all three ordinary 4xx controls passing. A one-condition filter repair then passed all 24 public regression/control cases; the complete diagnostics run was 76 passed and one newly authored test-harness failure, not all-green. Parent authorized a narrow correction of the non-redefinable Sentry namespace spy target with every assertion preserved, followed by focused diagnostics, adjacent consumers and bounded gates. No full suite, independent review or release acceptance is authorized or claimed yet.
+
+The prepared diagnostics slice is 332 workflow net lines and the dependency slice is 158; their 490-line combination fails the cap. Publish them as separate sequential PRs, not by dropping tests or changing exclusions.
 
 Reuse the recovery's diagnostics work instead of rebuilding the full 27-file patch. The input is conditional and not release-accepted; full acceptance remains blocked until the exact dependency result and the diagnostics lane's own tests are complete. See `cycle3-diagnostics-builder-brief.md` for the complete matrix and ownership boundary.
 
@@ -29,4 +33,4 @@ Existing regression consumers include `test/http-exception.filter.spec.ts`, both
 
 No schema/migration, reconstruction writer, input validation, dependency, contract version, feature flag or mobile/extension edits belong in this slice. Preserve the three dunning files and every original recovery input. The future writer must prove both actual and canonical size/density, red/green behavior, source/input integrity and full self-checks before publication and independent review.
 
-This queue record allocates isolated preparation, not a demonstrated diagnostics test, verified diagnostics result or audit approval.
+This queue record allocates the bounded verification described above. Passing individual public regressions is not a completed diagnostics acceptance result or audit approval.

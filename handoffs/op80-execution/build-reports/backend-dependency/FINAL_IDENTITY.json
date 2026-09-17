@@ -1,0 +1,118 @@
+{
+  "timestamp": "2026-09-17T21:33:55.155729+00:00",
+  "tree": "b2bb1666a91d60927d3ee1d6455ce687ce1c8739",
+  "inputs": [
+    {
+      "repo": "backend",
+      "path": "/tmp/tgp-op80-cycle2-inputs/backend",
+      "ref": "HEAD",
+      "expected": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+      "actual": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+      "equal": true
+    },
+    {
+      "repo": "context",
+      "path": "/tmp/tgp-op80-cycle2-inputs/context",
+      "ref": "HEAD",
+      "expected": "ad2259c0649e4e53a663a2600343da1a08ac8b35",
+      "actual": "ad2259c0649e4e53a663a2600343da1a08ac8b35",
+      "equal": true
+    },
+    {
+      "repo": "importer",
+      "path": "/tmp/tgp-op80-cycle2-inputs/importer",
+      "ref": "HEAD",
+      "expected": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+      "actual": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+      "equal": true
+    },
+    {
+      "repo": "importer-base",
+      "path": "/tmp/tgp-op80-cycle2-inputs/importer",
+      "ref": "origin/main",
+      "expected": "0111be661922234d670bbf23e23d270eec1b4a4e",
+      "actual": "0111be661922234d670bbf23e23d270eec1b4a4e",
+      "equal": true
+    },
+    {
+      "repo": "mobile",
+      "path": "/home/user/workspace/operator80/repos/mobile",
+      "ref": "HEAD",
+      "expected": "a5933fd6de5616493de75f0db907098b149b955c",
+      "actual": "a5933fd6de5616493de75f0db907098b149b955c",
+      "equal": true
+    }
+  ],
+  "protected": [
+    {
+      "path": "src/checkout/dunning-v2/dunning-lockout.guard.ts",
+      "before": "dfa39bfa52121c2843ee45bd8f65873a18c2484fce1344be9f2bda45d991c934",
+      "frozen": "dfa39bfa52121c2843ee45bd8f65873a18c2484fce1344be9f2bda45d991c934",
+      "working": "dfa39bfa52121c2843ee45bd8f65873a18c2484fce1344be9f2bda45d991c934",
+      "unchanged": true
+    },
+    {
+      "path": "test/dunning-v2-lockout-allowlist-route-table.spec.ts",
+      "before": "69945e9a6f62d88dc3c4f8416640618fa6d918d6f4ba03dc4e516cc93db2ee9e",
+      "frozen": "69945e9a6f62d88dc3c4f8416640618fa6d918d6f4ba03dc4e516cc93db2ee9e",
+      "working": "69945e9a6f62d88dc3c4f8416640618fa6d918d6f4ba03dc4e516cc93db2ee9e",
+      "unchanged": true
+    },
+    {
+      "path": "test/dunning-v2-lockout-guard.spec.ts",
+      "before": "d7d0300dbe6879a4d3bdccc84234ccca716739e8f2652f8f974d400a8a33bb72",
+      "frozen": "d7d0300dbe6879a4d3bdccc84234ccca716739e8f2652f8f974d400a8a33bb72",
+      "working": "d7d0300dbe6879a4d3bdccc84234ccca716739e8f2652f8f974d400a8a33bb72",
+      "unchanged": true
+    },
+    {
+      "path": "prisma/schema.prisma",
+      "before": "61f9ab1c48feb538ec7e1fcde3739b29aaabcd12b82c0684d0b6430574b562f6",
+      "frozen": "61f9ab1c48feb538ec7e1fcde3739b29aaabcd12b82c0684d0b6430574b562f6",
+      "working": "61f9ab1c48feb538ec7e1fcde3739b29aaabcd12b82c0684d0b6430574b562f6",
+      "unchanged": true
+    },
+    {
+      "path": "scripts/importer-contract.ts",
+      "before": "65382d16eff4b630b51d146001def839526b91b97fe9215fa4ed4559dd5527ca",
+      "frozen": "65382d16eff4b630b51d146001def839526b91b97fe9215fa4ed4559dd5527ca",
+      "working": "65382d16eff4b630b51d146001def839526b91b97fe9215fa4ed4559dd5527ca",
+      "unchanged": true
+    },
+    {
+      "path": "docs/contracts/importer-openapi.json",
+      "before": "758075368b1ad5f6ad23aefd721f73ae9a9b0498afa433ea31d6235f4e644c6c",
+      "frozen": "758075368b1ad5f6ad23aefd721f73ae9a9b0498afa433ea31d6235f4e644c6c",
+      "working": "758075368b1ad5f6ad23aefd721f73ae9a9b0498afa433ea31d6235f4e644c6c",
+      "unchanged": true
+    }
+  ],
+  "index_diff": "",
+  "working_diff": "",
+  "network_events": {
+    "register": 16,
+    "allow": 16,
+    "revoke": 16
+  },
+  "owned_ports": [
+    33523,
+    33749,
+    35613,
+    35779,
+    36429,
+    41437,
+    41441,
+    41765,
+    42175,
+    42333,
+    43333,
+    44023,
+    44317,
+    44863,
+    45819,
+    45977
+  ],
+  "active_after": 0,
+  "lock_sha256": "b7fed5ed611c004615022cf69375b83956e9a69604807123fbe0e7965aea9c55",
+  "patch_sha256": "ff504dfd7f87c8c1b1777f04a1e2b4faf9a420f3770b4df6f8b56f5f53a5645a"
+}
