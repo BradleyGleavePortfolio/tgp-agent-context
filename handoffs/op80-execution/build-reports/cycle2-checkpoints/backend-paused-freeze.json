@@ -1,0 +1,12 @@
+{
+  "state": "PAUSED_NOT_FINAL",
+  "timestamp": "2026-09-17T20:33:15.636726+00:00",
+  "base": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+  "tree": "7e959c034fa8134f630a77784e733665d51352d5",
+  "patch": "checkpoint05-candidate.patch",
+  "sha256": "2de060b4f1d9e003d10e9915f7a2529911a6b1e47a842687bd7cdce271c85b2c",
+  "status": "M  package-lock.json\nM  package.json\nA  test/dependency-compatibility.spec.ts\n",
+  "unstaged": "",
+  "diffCheckExit": 0,
+  "stat": " package-lock.json                     | 1060 +++++++++++++++++----------------\n package.json                          |  120 ++--\n test/dependency-compatibility.spec.ts |  158 +++++\n 3 files changed, 783 insertions(+), 555 deletions(-)\n"
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "source": "/tmp/tgp-op80-backend-build/node_modules/@prisma/engines/schema-engine-debian-openssl-3.0.x",
+    "destination": "/tmp/tgp-op80-cycle2-inputs/backend/node_modules/@prisma/engines/schema-engine-debian-openssl-3.0.x",
+    "sha256": "5d42b181631fd20bb0ecc5abcdba72575e7f467a0d52f4d5ef1ff28f0c74e6e9",
+    "version": "6.19.3",
+    "method": "private byte copy; no shared writable linkage; npm lifecycle disabled"
+  },
+  {
+    "source": "/tmp/tgp-op80-backend-build/node_modules/@prisma/engines/libquery_engine-debian-openssl-3.0.x.so.node",
+    "destination": "/tmp/tgp-op80-cycle2-inputs/backend/node_modules/@prisma/engines/libquery_engine-debian-openssl-3.0.x.so.node",
+    "sha256": "a2924eab1c78a0a7bb67edac5738939fa10589ef073af5542f53812a22e4a7d8",
+    "version": "6.19.3",
+    "method": "private byte copy; no shared writable linkage; npm lifecycle disabled"
+  }
+]
