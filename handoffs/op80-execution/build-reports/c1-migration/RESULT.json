@@ -1,0 +1,145 @@
+{
+  "timestamp": "2026-09-17T19:18:41.873Z",
+  "verdict": "BOUNDED_PROOF_PASS",
+  "tree": "3c3d09cf95851fb91e66ed20fe770a1a8164845c",
+  "database": "op80_c1_migration_20260917",
+  "serverVersion": "18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)",
+  "hashes": {
+    "original": "11de3f88cd9a8252144984a085ba37093e6a4b5a42a66571bc3f924ecce55bcc",
+    "up": "4fbf1c0bdf28740ee34188be8821ffd31f404f57ad8359e593716618fe4a34ba",
+    "down": "0e25af9165f282a0e19f1a11c48a514b1f0cfb0b56a551334bc29c61e2ece729"
+  },
+  "syntheticLegacyRows": 10000,
+  "uncontendedMigrationMs": 3.966002000000003,
+  "checks": [
+    {
+      "name": "new loopback-only synthetic database, no existing database reused",
+      "status": "PASS"
+    },
+    {
+      "name": "original table migration applied with forced restrictive RLS",
+      "status": "PASS"
+    },
+    {
+      "name": "migration correctly demonstrated writer-lock contention without partial column creation",
+      "status": "PASS"
+    },
+    {
+      "name": "up migration preserves exact existing RLS policy definitions and force flags",
+      "status": "PASS"
+    },
+    {
+      "name": "ten thousand legacy rows remain unbound, multiple NULLs allowed",
+      "status": "PASS"
+    },
+    {
+      "name": "database unique constraint rejects duplicate non-null intent IDs",
+      "status": "PASS"
+    },
+    {
+      "name": "anon: select/write isolation remains enforced after migration",
+      "status": "PASS"
+    },
+    {
+      "name": "authenticated: select/write isolation remains enforced after migration",
+      "status": "PASS"
+    },
+    {
+      "name": "existing service-role access survives unchanged",
+      "status": "PASS"
+    },
+    {
+      "name": "real production init/session persist one server ID and return credential-free setup",
+      "status": "PASS"
+    },
+    {
+      "name": "real Prisma owner predicate makes foreign and unknown lookups indistinguishable",
+      "status": "PASS"
+    },
+    {
+      "name": "paired setup lookup survives expired code TTL",
+      "status": "PASS"
+    },
+    {
+      "name": "live role demotion and soft deletion deny previously owned setup",
+      "status": "PASS"
+    },
+    {
+      "name": "legacy omission, owner eligibility and sub-coach rejection match frozen service",
+      "status": "PASS"
+    },
+    {
+      "name": "known-ID database lookup uses the new unique index on the synthetic table",
+      "status": "PASS"
+    },
+    {
+      "name": "existing hard-account-delete cascade terminates retained setup",
+      "status": "PASS"
+    },
+    {
+      "name": "disposable down/up preserves rows and RLS but destroys IDs, not an operational rollback",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen source tree unchanged throughout parent proof",
+      "status": "PASS"
+    }
+  ],
+  "plan": [
+    {
+      "Plan": {
+        "Node Type": "Index Scan",
+        "Parallel Aware": false,
+        "Async Capable": false,
+        "Scan Direction": "Forward",
+        "Index Name": "ExtensionPairCode_import_intent_id_key",
+        "Relation Name": "ExtensionPairCode",
+        "Alias": "ExtensionPairCode",
+        "Startup Cost": 0.29,
+        "Total Cost": 8.3,
+        "Plan Rows": 1,
+        "Plan Width": 80,
+        "Actual Startup Time": 0.003,
+        "Actual Total Time": 0.003,
+        "Actual Rows": 1,
+        "Actual Loops": 1,
+        "Disabled": false,
+        "Index Cond": "(import_intent_id = '47a3b2e7-41ac-443e-9bc7-182a807192a5'::uuid)",
+        "Rows Removed by Index Recheck": 0,
+        "Index Searches": 1,
+        "Shared Hit Blocks": 3,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning": {
+        "Shared Hit Blocks": 74,
+        "Shared Read Blocks": 0,
+        "Shared Dirtied Blocks": 0,
+        "Shared Written Blocks": 0,
+        "Local Hit Blocks": 0,
+        "Local Read Blocks": 0,
+        "Local Dirtied Blocks": 0,
+        "Local Written Blocks": 0,
+        "Temp Read Blocks": 0,
+        "Temp Written Blocks": 0
+      },
+      "Planning Time": 0.158,
+      "Triggers": [],
+      "Execution Time": 0.011
+    }
+  ],
+  "limitations": [
+    "PostgreSQL 18.6 differs from checked-in CI PostgreSQL 15.",
+    "Original pairing migration plus minimal User fixture, not full migration-chain validation.",
+    "Production service/storage predicates tested; HTTP guards, external token mint and full suite not exercised.",
+    "Small synthetic timing is not production-size lock or latency evidence.",
+    "No security/retention/idempotency blocker is waived; no consumer freeze or activation."
+  ]
+}

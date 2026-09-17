@@ -37,6 +37,10 @@ Editing existing PR21's description was also blocked separately. Parent requeste
 
 C1 complete local review tree `3c3d09cf95851fb91e66ed20fe770a1a8164845c` passed 175 focused tests, strict typecheck, scoped lint and deterministic generated-contract verification. Its 454 net workflow lines exceed the cap, so it is not publishable as one PR and does not unlock consumers. Parent reserved a separate clone for sequential C1a/C1b split verification, while keeping the original immutable for isolated synthetic migration proof; neither is a release audit.
 
+The parent migration proof has since passed 18 grouped checks on that unchanged combined tree, including real Prisma/service owner predicates and preservation of restrictive/FORCE RLS. See `C1_MIGRATION_VERIFICATION.md` for its PostgreSQL-version, minimal-fixture and split-tree limitations.
+
+Importer `fc7fdf6` now has successful exact-head [CI](https://github.com/BradleyGleavePortfolio/tgp-importer-extension/actions/runs/35261341243/job/105337549845) and [CodeQL](https://github.com/BradleyGleavePortfolio/tgp-importer-extension/actions/runs/35261341103/job/105337549071) checks; the duplicate CI trigger also completed successfully. This does not clear missing controls or independent audit gates. PR21 remains draft.
+
 ## Continuity and model evidence
 
 The model picker/session mismatch was reported by the user. Dispatch records establish inheritance for the requested Astra lanes and explicit `claude_fable_5` selection for Lens B, but do not independently establish a concrete runtime model identifier for inherited workers. Do not infer one from a later parent-model reminder or claim that inheritance proves the requested model actually ran. New dispatches retain the requested Astra-by-inheritance approach because the available catalog has no separate Astra selector; record this limitation explicitly.
