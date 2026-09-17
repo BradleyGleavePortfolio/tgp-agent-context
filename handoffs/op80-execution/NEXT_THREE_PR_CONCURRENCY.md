@@ -6,13 +6,13 @@ The user renewed the direction at 2026-09-17 14:01 PDT: move as fast as possible
 
 | Next candidate PR | Customer-goal contribution | Current owner and state | Dependency and resource boundary |
 |---|---|---|---|
-| Backend dependency repair | Make the backend safe to build and unblock recovery/C1 verification | Existing worker preparing narrow fixes for the test-network harness and a reproduced Swagger/YAML graph inconsistency; audit zero, type/build/lint/focused coverage passed | Sole backend candidate writer; package/tests paused during importer verification; no schema, contract or application edits |
-| Importer secret-scanning plus bounded IaC prerequisite | Close the scanner gap without introducing an unchecked workflow | R110 frozen and locally verified; isolated R120 writer now allocated private pinned installation and native controls | Independent of backend runtime; exclusive bounded verification slot; no npm/full suite, replay or consumer edits |
+| Backend dependency repair | Make the backend safe to build and unblock recovery/C1 verification | Existing worker allocated one scoped graph/SBOM experiment and test-network safety controls; audit zero, type/build/lint/focused coverage passed | Sole backend candidate writer and bounded verification owner; 13 affected suites only after graph and safety controls pass; no full rerun or schema/contract/application edits |
+| Importer secret-scanning plus bounded IaC prerequisite | Close the scanner gap without introducing an unchecked workflow | R110 frozen and locally verified; R120 actual four-workflow scan now 136 passed on corrected tree, report-only | Execution slot released; final changed-tree acceptance still pending; no replay or consumer edits |
 | Backend diagnostic sanitization | Prevent database failures from exposing import/customer details while preserving useful diagnostics | Parent preparing the four-path recovered slice; builder queued after backend owner releases | Starts from the accepted dependency candidate; meaningful missing tests required to reach density; no DB/contract changes |
 
-Lookahead after each slot advances: input validation with a forward 2.x generated contract, deployment-compatible database identity recovery, then integration of C1a/C1b. The database recovery may require several independently safe PRs; a read-only architect now makes those stages concrete instead of leaving the rollout problem until implementation.
+Lookahead after each slot advances: input validation with a forward 2.x generated contract, deployment-compatible database identity recovery, then integration of C1a/C1b. The completed read-only design proposes E → T/Q0 → B/drain → R → N/Q1 → C, including reader compatibility before identity widening. These stages are unbuilt and unproven; final contraction is not certified to fit the size gate.
 
-Parallel work is backend source/evidence preparation, importer R120 native verification, and read-only database rollout design. Only the importer may run allocated heavy validation now. The parent handles frozen evidence, publication, next-slice preparation and the ownership ledger; no M5 or extension-consumer implementation begins before the binding C1 landing/freeze.
+Parallel work is now backend bounded verification, importer report/source closeout, and parent review/publication/next-slice preparation. Only the backend may run allocated heavy validation. The rollout architect has closed and released ownership; no M5 or extension-consumer implementation begins before the binding C1 landing/freeze.
 
 ## Decision
 

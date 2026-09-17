@@ -23,9 +23,9 @@ The checked-in backend LOC workflow counts `src`, `test`, migrations, scripts an
 |---|---:|---:|---|
 | ORM diagnostic sanitization: three source paths and its existing 85-line spec | 133 | 85 / 54 = 1.574 | Potentially independent, but fails the 2.0 floor as currently grouped. Add meaningful missing branch/behavior tests, not filler. |
 | Request validation/redaction and generated contract, excluding identity structural tests | 192 | 137 / 83 = 1.651 | Potentially independent after checking the service comment and contract semantics against the actual base. Density still below the floor. |
-| Database compatibility/proof kernel, excluding adjacent regression deltas | 897 | 791 / 21 | Cannot pass the actual 400-line gate as an unchanged atomic slice. This high src-only ratio is not its canonical ratio; migration and other production paths also count under canonical measurement. |
+| Database compatibility/proof kernel, excluding adjacent regression deltas | 897 | 791 / 21 | Cannot pass the actual 400-line gate as an unchanged atomic slice. Recalculate the exact R74 and actual workflow density separately on every implemented stage. |
 
-These are file groupings, not buildable candidate PRs. Canonical test/source measurement must be recalculated on every real slice; the src-only ratios above establish the first two already fail even before a wider denominator. All remaining reconstruction and structural-idempotency test changes still need assignment and preservation.
+These are file groupings, not buildable candidate PRs. Correction following the read-only rollout review: R74's density denominator is added `src` TS/JS, not SQL migrations. The actual workflow additionally counts one script addition for validation, so that grouping is 137 / 84 under the workflow rather than 137 / 83 under R74. Full-candidate density is 1192 / 158 = 7.544 canonical and 1192 / 159 = 7.497 actual workflow. The first two groupings still fail the 2.0 floor. The earlier wording implying SQL belongs in the R74 density denominator was incorrect; this does not alter the independently measured 1,335-line actual size failure. All remaining reconstruction and structural-idempotency test changes still need assignment and preservation.
 
 ## Compatibility finding
 
@@ -42,7 +42,22 @@ The next database design must demonstrate:
 - **Contract:** Five-part identity enforcement, required platform and retirement of narrow uniqueness only when the rollout preconditions hold. Keep all original RLS, replay, cross-type/platform identity, schema-shadowing, index-ownership and orphan-history assertions.
 - **Rollback:** State the rollback boundary before new identities make narrowing lossy. Refuse destructive repair; demonstrate compatible application rollback in the allowed window and a forward repair after that boundary.
 
-The exact migration count and API implementation are not selected by this analysis. The future sole writer must produce a concrete staged design and test it before any deployment claim.
+## Proposed staged implementation, not verified rollout
+
+The completed Cycle 3 read-only handoff makes the following boundaries concrete without claiming implementation or test success:
+
+- **E, nullable expansion:** Add nullable ledger platform without fabricated defaults while retaining old selectors and policies.
+- **T/Q0, compatibility bridges:** A transitional writer retains narrow selectors, supplies and transactionally claims known platform provenance, and never overwrites a mismatch. Readers must decode the proposed later cursor version before any emitter switches.
+- **B/drain, backfill and old-writer retirement:** Backfill only unambiguous identities in bounded, resumable batches; preserve metadata and reject ambiguity. Drain and fence old writers before asserting zero remaining nulls.
+- **R, required platform with both keys:** Introduce required/canonical platform and wide uniqueness while retaining narrow uniqueness. Old binaries that omit platform are not compatible with this stage.
+- **N/Q1, final writer and reader emission:** Promote the wide-selector writer only on its compatible schema and the new cursor emitter only after all readers understand it.
+- **C, separate contraction:** Drop narrow uniqueness only after obsolete writers/readers are retired and all proofs pass. Rollback must refuse lossy narrowing rather than delete identities.
+
+The release script applies all pending migrations before the rolling application update. E, R and C therefore require separately promoted artifacts, not merely different migration directories bundled into one release. The final contraction/proof forecast is 360–550 net lines and is explicitly not certified to fit the 400-line gate. No activation is authorized.
+
+Static inspection also confirms a reader incompatibility in `scout-roster.service.ts` and `scout-entities.service.ts`: the frozen candidate still orders/filters and advances cursors using source ID alone. After identities widen, two rows with the same source ID on different platforms can cause a page boundary to skip one. Reader compatibility and deterministic composite pagination are required before contraction. This is a concrete source-level counterexample, not a newly run live test.
+
+The original 21 final-state cases and 62 original assertion expressions remain mapped in the preserved handoff. Twelve additional proof groups cover mixed binaries, concurrency/backfill, provenance, schema readiness, final writers, rollback, cursor continuity, RLS/targets, CI PostgreSQL 15 and late-ingest snapshot semantics. Proposed token formats, backfill sizing and promotion details are not frozen contracts. The next sole backend writer still starts with the independent four-path diagnostics slice after dependency-writer release.
 
 ## Proof that cannot be delayed or discarded
 
