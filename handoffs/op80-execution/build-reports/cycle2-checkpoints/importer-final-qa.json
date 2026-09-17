@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-09-17T20:56:58.601438+00:00",
+  "r100_rows": 55,
+  "r109_126_rows": 18,
+  "sanitized_original_literals_checked": 7,
+  "head": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+  "tree": "3db01451c6c4e1aa46c6637db80d852e2273bcf6",
+  "lock_sha256": "262d4b692e9cc1a7908435c36b8a4077d2dc130d37421a7a76175e4acc9cdae8",
+  "unstaged_diff_clean": true,
+  "staged_whitespace_clean": true,
+  "resources": "All writer/tool/native/install/type/test/heavy slots released; no task remains running; backend may resume",
+  "original_failed_log_and_frozen_assets_preserved": true,
+  "corrected_full_suite_exit": 0,
+  "corrected_full_suite_tests": 1534,
+  "corrected_full_suite_files": 51,
+  "corrected_full_suite_skipped": 0,
+  "no_source_changes_after_freeze": true,
+  "exact_env_allowlist": [
+    "PATH",
+    "HOME",
+    "LANG",
+    "CI"
+  ],
+  "resumed_slot_native_or_ancillary_tests": 0
+}

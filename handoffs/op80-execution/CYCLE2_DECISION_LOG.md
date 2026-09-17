@@ -20,3 +20,9 @@ Rollback is to discard only new integration attempts after preserving their patc
 ## Parent work
 
 Examine recovery's 1,335-line workflow delta and its 572-line live test for legitimate independently meaningful slices, not gate evasion. Document which schema/writer/proof groups are atomic, preserve dunning and all existing assertions, and establish the order for recovery's 2.x contract and C1's provisional increments. No parent backend source edits run concurrently with the dependency writer.
+
+## Verification recovery and resource transfer
+
+The importer evidence runner incorrectly leaked a staged-diff override into committed-diff negative fixtures. Preserve the failed run and repair the invocation, not the product or its assertions. The same worker's one clean-environment rerun passed 1,534 tests across 51 files on unchanged tree `3db01451c6c4e1aa46c6637db80d852e2273bcf6`, ending at 2026-09-17T20:55:31Z. No second installation or native scan was needed.
+
+Parent confirmed the run ended before closing importer execution ownership and granting the same backend worker its remaining validation slot. Importer report work may overlap backend validation; source edits, generators, package installations and full suites do not overlap. This is a local verification milestone, not a completed coach journey or release authorization.
