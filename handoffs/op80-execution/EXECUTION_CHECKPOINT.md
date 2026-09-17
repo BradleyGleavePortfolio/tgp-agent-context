@@ -6,6 +6,12 @@ User, verbatim: "Start execution - use astra subagents (top performance) - for a
 
 ## Active work
 
+Latest allocation checkpoint, 2026-09-17 21:14 UTC: backend checkpoint09 released all heavy/network/install/test slots. Importer R120 worker `cycle3_iac_builder_mu60pu98` now owns one bounded private Python/native-scanner verification slot; no npm or full suite is allocated. Backend worker `cycle2_dependency_builder_mu5ytcm7` remains the sole backend candidate writer, preparing only the approved evidence-harness and explicit Swagger-to-YAML override corrections. Read-only rollout architect `cycle3_rollout_readiness_mu60pu9i` continues on frozen recovery objects. The paragraphs below preserve the chronological evidence, not simultaneous current allocations.
+
+The backend's first allocated full suite completed with 7,762 passed, 95 failed, 159 skipped and 5 todo. All 13 failed suites hit the blanket socket-denial harness while using their own ephemeral HTTP fixtures. The original failure remains preserved; a narrowly scoped same-process HTTP-listener guard is approved for source preparation, with safety controls and the 13 affected suites required before any separately allocated full rerun. No product tests are weakened.
+
+Final dependency audit reports zero vulnerabilities, and an offline lock-only repetition preserves the lock bytes. A separate blocker was reproduced: later `npm ls` and SBOM generation reject the patched Swagger/YAML edge despite the initial installed-graph pass. A sequential reproduction rules out dismissing it merely as the first concurrent graph/resolution mistake. Parent approved one explicit parent-scoped override experiment, preserving the predecessor tree and installed versions; package operations wait for resource reallocation. Do not describe the graph, SBOM or final suite as green.
+
 Continue the recovered repairs rather than restarting C2a. Use inherited orchestrator for the requested Astra lanes; the model catalog supports inheritance but does not list a separate Astra selector. Fable is explicitly selected for the other audit lens.
 
 Backend recovery builder is closed with a frozen 27-file candidate and FINDINGS. Parent full regression completed with 7,922 passed, 159 skipped and 5 todo; disposable live proof passed 21/21. Actual LOC and dependency-security gates still block landing; see `BACKEND_VERIFICATION_CHECKPOINT.md`.
