@@ -69,11 +69,11 @@ A test-harness prerequisite may be a legitimate standalone slice only if it is u
 
 ## Execution order and concurrency
 
-1. Finish the isolated backend dependency repair and release its writer/tool slot.
-2. Build and verify a small diagnostics slice, preserving existing diagnostics tests and adding missing meaningful cases. Keep the original recovery tree intact.
+1. Freeze the isolated backend dependency repair and release its writer ownership before diagnostics preparation; complete its remaining verification without concurrent source changes.
+2. Prepare the small diagnostics slice in a separate exact-tree clone while unrelated importer verification runs. Demonstrate red before a new production repair, and allocate diagnostics execution serially. Preserve existing diagnostics tests and meaningful missing cases; keep the original recovery tree intact.
 3. Build the input-validation slice against the resulting pinned base, with the authoritative generator producing the full contract. Recovery's breaking change stays in the 2.x lineage; C1's provisional 1.5/1.6 values cannot overwrite it.
 4. Build the staged database transition with per-stage compatibility and all original assertions mapped. Measure each real stage against both canonical and actual workflow gates.
 5. Integrate the already frozen C1a/C1b candidates sequentially on the resulting compatible backend base; regenerate contracts and rerun required tests, then complete exact-head CI and independent audits before landing/freeze.
 6. Only after C1 lands and freezes may M5 and the extension consumer implement against that contract. The extension also requires accepted pagination integration; mobile requires reconciliation of the stale prerequisite stack.
 
-Backend sequencing can run as parent read-only work alongside the two current security repair builders. Backend source changes, contract generation and expensive validation cannot run in competing lanes. Importer R110 work remains independent in its own clone; neither agent writes mobile or shared context inputs.
+Backend sequencing can run as parent read-only work alongside importer acceptance and isolated diagnostics preparation. The source-frozen dependency worker is report-only and cannot compete for writes. Contract generation and expensive validation remain serialized; no worker writes mobile or the immutable shared context input.

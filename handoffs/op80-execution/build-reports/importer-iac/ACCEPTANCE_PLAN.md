@@ -31,21 +31,22 @@ directories; `uv` exists but is not itself proof of an installed SCA scanner.
 [Frozen matrix](./FINAL_BUILD_MATRIX.json),
 [reviewed wheel inventory](./tooling/reviewed-wheel-lock.json).
 
-## Allocation prerequisites and exact-tree gate issue
+## Approved preparation; execution allocation still required
 
 1. Parent grants one serial acceptance slot and a separately bounded transient
    Python SCA install/network phase. No automatic retry/full-suite repeat.
 2. Assert HEAD=`H`, index tree=`T`, clean tracked worktree, all seven owned file
    hashes and nine original R110 hashes, unchanged npm manifest/lock; fail on
    drift. Record these before/after every phase.
-3. **Exact HEAD-based gate execution needs explicit disposition.** Existing
+3. **Evidence-only snapshot commit approved by parent; NOT yet executed.** Existing
    `check:loc`/`check:ratio` read `base...HEAD`, not the candidate index; merely
    running them in `$R` does not measure `T`. Do not alter gate code, inject a
    Git shim, globally set staged-only mode, or mislabel inherited-HEAD success.
    [Actual scoping](file:///tmp/tgp-op80-cycle3-importer-iac/scripts/lib/git-diff.mjs).
 
-   Recommended bounded solution, **only if parent explicitly authorizes an
-   evidence-only snapshot commit**: create a private independent local clone
+   Parent approved this bounded solution on 2026-09-17 at approximately
+   21:29Z; this is preparation authority, not an execution-slot grant.
+   Once allocated, create a private independent local clone
    `$A/gate-repo` using `git clone --no-hardlinks --no-local "$R" "$A/gate-repo"`;
    transfer the exact frozen tree objects with a local pack if the unreachable
    staged tree is absent, using local `git pack-objects` / `git index-pack`
@@ -53,14 +54,19 @@ directories; `uv` exists but is not itself proof of an installed SCA scanner.
    with `git commit-tree "$T" -p "$H"` and author/committer
    `Bradley Gleave <bradley@bradleytgpcoaching.com>`, message
    `Validate frozen workflow security candidate`, then detach checkout to it.
-   Assert `HEAD^{tree} == T` and clean tracked worktree. Keep `$R` HEAD/index
+   Record the resulting synthetic SHA separately as `S`; assert
+   `S^{tree} == T` and clean tracked worktree. Keep `$R` HEAD/index
    unchanged. This is a synthetic local verification identity, NOT a published
    PR commit or authorization for a source commit in `$R`.
 
-   Without that explicit exception to the standing no-source-commit boundary,
-   leave actual final-tree HEAD-based gates blocked for parent commit/allocation;
-   do not invent an equivalent pass. Source-only invariant measurements already
-   exist, but are not substitutes for the requested existing-gate execution.
+   After the local import, remove every remote from this evidence clone
+   (`git remote remove <name>` for each locally enumerated name), then restore
+   only the local tracking ref with
+   `git update-ref refs/remotes/origin/main "$B"`. Verify `git remote` is empty,
+   no remote URL/pushURL remains in local configuration, and
+   `git rev-parse refs/remotes/origin/main` equals `B`. A locally named
+   `origin/main` ref is not a push remote. Never push `S`; never present it as
+   a publication commit, original HEAD, installed-hook execution or hook bypass.
 
 ## Private dependency reuse — zero npm installations
 
@@ -94,7 +100,48 @@ Capture argv/cwd/environment/start/duration/exit/stdout/stderr and frozen
 identities in new per-phase files. Stop on unexpected failure; retain original
 logs. No candidate repair without new scope authorization and explicit re-freeze.
 
-**1. ONE final47-control run**, cwd `$R`, existing scanner environment:
+**Execution order: transient SCA first, then final47 controls, four secret
+scopes, existing npm gates/audit, and finally ONE full suite.** The SCA recipe
+is listed below before expensive acceptance; stop on findings or unknowns.
+
+**1. New96 Python pins: early transient native SCA, not source code.**
+No suitable installed native scanner was found in the inspected paths.
+Parent supplied verified pin **pip-audit2.10.1**, Python>=3.10, wheel SHA256
+`99ef3f600a317c1945f1e89e227ef26e1c2d618429b8bd3fa6f4f7c440c4611a`.
+This worker has not independently fetched or executed that release.
+[Parent-cited release](https://pypi.org/project/pip-audit/2.10.1/).
+
+After its specific network/install grant: resolve **pip-audit==2.10.1** in
+a new private resolver, wheel-only, with no existing environment mutation;
+require the selected pip-audit wheel hash to equal the supplied pin. Record
+the complete transitive version/distribution/hash closure, produce an exact
+require-hashes lock, checkpoint it, and perform ONE private wheel-only/hash-locked
+installation under `$A/sca`. Actual downloaded wheel/closure hashes must match;
+metadata alone is insufficient. No install into `$C`, no source
+requirement/workflow edit and no unpinned `uvx` execution.
+
+The audited target is the existing96-entry Checkov lock, not the SCA tool's
+own environment. Verify installed Checkov distribution name/version
+inventory matches those96 pins (record bootstrap pip separately). Parent
+confirmed CLI support for the following flags; record actual installed
+version/help before the one scan:
+
+```sh
+timeout 180 "$A/sca/bin/pip-audit" \
+  --requirement "$R/scripts/checkov-requirements.txt" \
+  --require-hashes --no-deps --disable-pip -s pypi \
+  -f json --output "$A/python96-audit.json"
+```
+
+Require all96 names/versions accounted for, no skipped/unsupported targets or
+lookup errors; advisory outage/unrecognized dependency is UNKNOWN/blocked,
+not zero vulnerabilities. Preserve CVE/GHSA aliases, exact affected/fixed
+versions and tool/database timestamp. Any findings return to parent: no
+ignore flags, automatic upgrades or severity guesses. This is a transient
+acceptance check, not an additional product scanner/SBOM/provenance subsystem.
+[Target pins](./tooling/reviewed-wheel-lock.json).
+
+**2. ONE final47-control run**, cwd `$R`, existing scanner environment:
 
 ```sh
 timeout 300 "$C/bin/python" test/iac-security-controls.py "$A/iac-controls-final"
@@ -104,12 +151,18 @@ Require exactly47 executed, zero fail/error/skip. Keep prior46 and targeted1
 records separate. No additional all-workflow rerun proposed: final136 native
 checks already passed on `T`. [Current evidence](./NATIVE_GREEN_CHECKPOINT.md).
 
-**2. Four fresh secret scopes**, cwd `$R`, private Gitleaks copy first on PATH:
+**3. Four fresh secret scopes**, private Gitleaks copy first on PATH.
+The staged and full tracked-tree scans use the original frozen candidate;
+fresh PR/history scans use the isolated synthetic commit so all candidate
+additions are also covered by commit-diff scanning:
 
 ```sh
+# cwd $R:
 timeout 90 bash scripts/secrets-scan.sh staged
-timeout 90 bash scripts/secrets-scan.sh pr "$B" "$H"
+# cwd $A/gate-repo; S is the recorded synthetic SHA, not H:
+timeout 90 bash scripts/secrets-scan.sh pr "$B" "$S"
 timeout 90 bash scripts/secrets-scan.sh history
+# cwd $R:
 git archive "$T" | tar -x -C "$A/tracked-tree"
 # cwd $A/tracked-tree for the fourth scan:
 timeout 90 "$A/bin/gitleaks" dir . --config "$R/.gitleaks.toml" \
@@ -121,12 +174,16 @@ timeout 90 "$A/bin/gitleaks" dir . --config "$R/.gitleaks.toml" \
 Archive extraction must be supervised with pipeline failure handling. Use a
 new empty destination; verify extracted tracked-file hashes against `T`.
 Require successful exits and zero unexcepted findings; sanitize summaries,
-never disclose token values. PR/history scopes remain existing commit history
-`B..H` / locally reachable history, supplemented by staged and full candidate
-tree scans—not fictitious published-candidate history.
+never disclose token values. Record scope2 as `B..S`, with `S^{tree}=T`;
+scope3 includes the synthetic detached HEAD and locally reachable imported
+history. Ensure `S` is included by checking local history enumeration before
+scanning; if necessary retain a local evidence ref to `S` (no remote).
+These are candidate-inclusive **synthetic local history** scans, not published
+PR-history evidence. Original `B..H`/history results remain preserved, not
+overwritten or relabeled.
 [Prior four-scope command model](../importer-supply-chain/candidate-scan-summary.json).
 
-**3. Existing npm gates on exact-tree snapshot**, cwd `$V`; define `npm` below
+**4. Existing npm gates on exact-tree snapshot**, cwd `$V`; define `npm` below
 as `$A/bin/node /usr/local/lib/node_modules/npm/bin/npm-cli.js`. Execute serially
 with outer300s bounds; only the two indicated gate processes get scope overrides:
 
@@ -144,42 +201,14 @@ npm run format:check
 timeout 180 npm audit --audit-level=high
 ```
 
-Set snapshot `origin/main` locally to `B` (no network) so ordinary unoverridden
+Keep snapshot `origin/main` locally pinned to `B`, with no configured remote,
+so ordinary unoverridden
 base resolution matches the fixed main base. Record canonical counts180/1551
 as expectations, not assumed outcomes. No build script exists in the unchanged
 package manifest; report build N/A rather than inventing a build subsystem.
 Do not repeat the known-bad globally staged-only runner.
 [Manifest](file:///tmp/tgp-op80-cycle3-importer-iac/package.json),
 [prior contamination](../importer-supply-chain/BUILD_REPORT.md).
-
-**4. New96 Python pins: separate transient native SCA phase, not source code.**
-No suitable installed native scanner was found in the inspected paths.
-After its specific network/install grant: read official PyPI metadata for
-pip-audit, select an exact compatible release and distribution SHA256, save
-that choice/CLI support checkpoint before ONE private wheel-only/hash-locked
-installation under `$A/sca`. No install into `$C`, no requirement/workflow
-edit and no fabricated currently-unverified scanner pin. Use a separate
-resolver only if necessary and preserve the tool's complete transitive lock.
-
-Intended audited target is the existing96-entry Checkov lock, not the SCA
-tool's own environment. Verify installed Checkov distribution name/version
-inventory matches those96 pins (record bootstrap pip separately). After
-checking the installed pinned CLI supports these flags:
-
-```sh
-timeout 180 "$A/sca/bin/pip-audit" \
-  --requirement "$R/scripts/checkov-requirements.txt" \
-  --require-hashes --no-deps --disable-pip --vulnerability-service pypi \
-  --format json --output "$A/python96-audit.json"
-```
-
-Require all96 names/versions accounted for, no skipped/unsupported targets or
-lookup errors; advisory outage/unrecognized dependency is UNKNOWN/blocked,
-not zero vulnerabilities. Preserve CVE/GHSA aliases, exact affected/fixed
-versions and tool/database timestamp. Any findings return to parent: no
-ignore flags, automatic upgrades or severity guesses. This is a transient
-acceptance check, not an additional product scanner/SBOM/provenance subsystem.
-[Target pins](./tooling/reviewed-wheel-lock.json).
 
 **5. ONE full suite only after all prior required gates/scopes/SCA are green**
 and exact-tree gate prerequisite is resolved, cwd `$V`, ordinary allowlist:

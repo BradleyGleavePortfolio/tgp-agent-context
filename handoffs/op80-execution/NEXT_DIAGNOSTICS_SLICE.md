@@ -1,8 +1,10 @@
 # Next Backend Slice: Safe Import Diagnostics
 
-## Ready queue, not a dispatch
+## Source preparation allocated, verification still gated
 
-Build only after the dependency builder releases the sole backend writer and its exact final candidate is reconciled. Reuse the recovery's diagnostics work instead of rebuilding the full 27-file patch. The starting dependency tree is not yet final; no input SHA for a new builder is fabricated.
+The dependency producer is source-frozen at `b2bb1666a91d60927d3ee1d6455ce687ce1c8739` and has completed its corrected full suite with 7,857 passed tests and disclosed inherited skips/todo. Its fresh audit reports zero vulnerabilities. Parent released its writer and execution ownership and created an independent clone with that exact staged tree. Diagnostics may prepare source and red tests while importer verification runs, but has no test/install/generator/scanner slot and cannot make a new production repair before its red test is executed. This removes an unnecessary preparation wait without sharing files or treating local tests as release approval. Any dependency correction stops the downstream lane for explicit re-pinning.
+
+Reuse the recovery's diagnostics work instead of rebuilding the full 27-file patch. The input is conditional and not release-accepted; full acceptance remains blocked until the exact dependency result and the diagnostics lane's own tests are complete. See `cycle3-diagnostics-builder-brief.md` for the complete matrix and ownership boundary.
 
 Four recovered paths from tree `a8908132a9c4882dbe80f9fbc1052532c7e68c3b`, relative to backend base `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`:
 
@@ -27,4 +29,4 @@ Existing regression consumers include `test/http-exception.filter.spec.ts`, both
 
 No schema/migration, reconstruction writer, input validation, dependency, contract version, feature flag or mobile/extension edits belong in this slice. Preserve the three dunning files and every original recovery input. The future writer must prove both actual and canonical size/density, red/green behavior, source/input integrity and full self-checks before publication and independent review.
 
-This queue record is static parent review, not an executed test, a new product tree or audit approval.
+This queue record allocates isolated preparation, not a demonstrated diagnostics test, verified diagnostics result or audit approval.
