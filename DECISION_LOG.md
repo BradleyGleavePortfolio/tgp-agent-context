@@ -4,6 +4,19 @@ Operator-signed decisions that changed doctrine, architecture, or process. Every
 
 Newest first.
 
+## 2026-09-17: Advance the unpublished queue and verify upstream counterexamples first
+
+Keep the next three unpublished slices explicit: D1 diagnostic protection, mandatory D2 classifier coverage, then import validation with a truthful forward2.x contract. Dependency PR524 and importer R110 PR23 have remote execution evidence but remain drafts with independent/enforcement gates open. Both D1/D2 bounded sequences completed at22:31 UTC on their frozen trees; no full suite or merge is thereby authorized.
+
+### R138 Decision Gate
+
+- **Question, delete, simplify:** Question the assumption that downstream full tests should run immediately while an upstream auditor has a concrete unresolved consumer probe. Remove duplicate installs and premature full runs, not tests or review; retain one exclusive private environment and a serial lease with complete restoration checks.
+- **Hyperscaler practice:** Use immutable candidates and staged promotion so a prerequisite correction invalidates downstream acceptance explicitly, consistent with [AWS continuous-delivery safety gates](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/). Bounded counterexample checks precede another expensive acceptance run; parallel reviewers remain isolated.
+- **GOOD without BAD:** Preserve forward progress through source-only planning and independent review while preventing overlapping writes, repeated full suites on changing inputs, lost assertions or false release claims. D2 remains mandatory; validation cannot advertise an unlanded database identity.
+- **Root cause:** Test the actual package consumer and public validation boundaries instead of treating green summaries, a missing scanner result, or a future contract description as proof. Keep harness failures distinct from product defects and keep native outputs distinct from metadata.
+
+Rollback/blast radius: documentation, evidence-only probes and private reversible dependency leases only. Frozen product/source/contract inputs remain unchanged; no new dependency installation, production writes, scanner substitution, permission change, flag activation or merge. Any later input change requires a newly pinned candidate and the complete acceptance cycle.
+
 ## 2026-09-17: Serial diagnostics verification and independent draft progress
 
 Preserve the formatted diagnostics repair as sequential D1 (348 net lines) and mandatory D2 (+93), never remove assertions or evade the 400-line gate. Source-only preparation yields trees `410ac3a7f7a8a62d7f00081c525b760786fd2eef` and `ad166457d90b45c26a992881059ac98ce66accec`; neither is newly verified. Detailed composition decision is in `handoffs/op80-execution/CYCLE2_DECISION_LOG.md`.

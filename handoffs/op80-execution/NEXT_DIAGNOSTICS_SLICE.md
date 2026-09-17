@@ -1,5 +1,19 @@
 # Next Backend Slice: Safe Import Diagnostics
 
+## Current split verification checkpoint
+
+The formatter-compliant repair is frozen as two mandatory sequential slices, not one cap-exceeding PR. D1 tree `410ac3a7f7a8a62d7f00081c525b760786fd2eef` has348 actual workflow net lines,55 source additions and300 test additions (density5.455), with46 native diagnostics cases. D2 tree `ad166457d90b45c26a992881059ac98ce66accec` adds93 net lines and no production code, bringing the final diagnostics count to77. All original85 test lines and all70 authored cases remain; D2 is not optional.
+
+As of22:30 UTC, all seven allocated D1 commands have exited0: diagnostics, seven adjacent suites, strict-owned types, repository types, scoped ESLint, doctrine and formatter check. D2 diagnostics passed77; its remaining serial sequence is underway. Final restoration/integrity and complete self-check remain pending, and no full suite or independent release review has yet been allocated to these split trees.
+
+At22:31 UTC, D2's remaining commands also exited0 and the environment returned unchanged. Parent independently read the exact native counts: D1=46 diagnostics /115 adjacent /15 doctrine; D2=77 /115 /15, with no selected skips/todos, plus the four non-Jest gates on each tree. Both staged trees remain exact. Complete self-check/reporting and full-suite acceptance are still pending, and an upstream dependency audit counterexample is prioritized before a new downstream full run.
+
+The reviewed evidence-only runner exclusively moves the parent's private dependency directory from publication to D1, then D2, then back. It checks original producer independence, full entry/hash/mode/link identity, source/index/ref pins and confined runtime outputs. The adjacent contract test performs its own cold-process generation; generated artifact invariance must be established. Any failure stops the sequence and restores the directory rather than permitting source repair or an automatic retry.
+
+The earlier333-line unformatted repair became441 net lines after formatting. The previous332/490 figures below describe an earlier source-preparation state, not the final formatted split. Dependency158 plus final diagnostics441 is599 net lines cumulatively; stacking and reviewing ancestor-relative deltas does not erase that cumulative size.
+
+## Historical preparation and reproduced repair
+
 ## Bounded verification allocated; full-suite and release gates remain closed
 
 The dependency producer is source-frozen at `b2bb1666a91d60927d3ee1d6455ce687ce1c8739` and has completed its corrected full suite with 7,857 passed tests and disclosed inherited skips/todo. Its fresh audit reports zero vulnerabilities. Parent released its writer and execution ownership and created an independent clone with that exact staged tree. After importer acceptance stopped on scanner dependency vulnerabilities, diagnostics received the sole bounded regression slot with privately hash-verified dependencies and the vetted cooperative HTTP guard. Any dependency correction stops the downstream lane for explicit re-pinning.
