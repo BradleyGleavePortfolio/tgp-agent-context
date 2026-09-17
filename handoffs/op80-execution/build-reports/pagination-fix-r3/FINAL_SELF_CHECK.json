@@ -1,0 +1,11 @@
+{
+  "timestamp_check": "report and artifacts checked after freeze",
+  "r100_rows": 55,
+  "r109_126_rows": 18,
+  "missing_local_evidence_targets": [],
+  "candidate_tree": "88256320fd21196d34dc0543e7d13eed444792d7",
+  "input_head_unchanged": true,
+  "no_unstaged_changes": true,
+  "full_suite_and_two_patch_reconstructions_match_tree": true,
+  "report_sha256": "6f3d8a6a2e7f5ad9b6f5301d45c843b8c1a75f8d29736ff0039fd1d71f5a6320"
+}

@@ -1,0 +1,140 @@
+{
+  "measuredAt": "2026-09-17T18:37:55.966Z",
+  "node": "v22.23.2",
+  "input": "093b6b01c29123361b043ddd0f36cd4c578cffe2",
+  "base": "0111be661922234d670bbf23e23d270eec1b4a4e",
+  "tree": "88256320fd21196d34dc0543e7d13eed444792d7",
+  "method": "git tree content; both sides formatted by locked Prettier 3.9.6; git diff --no-index --numstat; same classification as repository gate",
+  "totals": {
+    "prod": {
+      "added": 180,
+      "removed": 87
+    },
+    "test": {
+      "added": 1521,
+      "removed": 42
+    }
+  },
+  "ratio": 8.45,
+  "cap": 400,
+  "ratioFloor": 2,
+  "tokenTotals": {
+    "silent catch": {
+      "before": 2,
+      "after": 2,
+      "net": 0
+    },
+    "empty catch": {
+      "before": 1,
+      "after": 1,
+      "net": 0
+    }
+  },
+  "rawTokens": {
+    "@ts-ignore": {
+      "before": 0,
+      "after": 0,
+      "net": 0
+    },
+    "as any": {
+      "before": 0,
+      "after": 0,
+      "net": 0
+    },
+    "as unknown as": {
+      "before": 0,
+      "after": 0,
+      "net": 0
+    },
+    "as never": {
+      "before": 0,
+      "after": 0,
+      "net": 0
+    },
+    "Coming soon": {
+      "before": 0,
+      "after": 0,
+      "net": 0
+    }
+  },
+  "rows": [
+    {
+      "path": "background.js",
+      "category": "prod",
+      "added": 44,
+      "removed": 26
+    },
+    {
+      "path": "shared/net.js",
+      "category": "prod",
+      "added": 22,
+      "removed": 13
+    },
+    {
+      "path": "shared/replay/blueprint.js",
+      "category": "prod",
+      "added": 64,
+      "removed": 19
+    },
+    {
+      "path": "shared/replay/engine.js",
+      "category": "prod",
+      "added": 50,
+      "removed": 29
+    },
+    {
+      "path": "test/helpers/background-mock.js",
+      "category": "test",
+      "added": 19,
+      "removed": 0
+    },
+    {
+      "path": "test/replay-array-boundary.spec.js",
+      "category": "test",
+      "added": 104,
+      "removed": 0
+    },
+    {
+      "path": "test/replay-blueprint.spec.js",
+      "category": "test",
+      "added": 360,
+      "removed": 33
+    },
+    {
+      "path": "test/replay-boundary-fix.spec.js",
+      "category": "test",
+      "added": 262,
+      "removed": 0
+    },
+    {
+      "path": "test/replay-empty-outcome.spec.js",
+      "category": "test",
+      "added": 6,
+      "removed": 5
+    },
+    {
+      "path": "test/replay-engine-edge.spec.js",
+      "category": "test",
+      "added": 6,
+      "removed": 2
+    },
+    {
+      "path": "test/replay-engine.spec.js",
+      "category": "test",
+      "added": 256,
+      "removed": 2
+    },
+    {
+      "path": "test/replay-pagination-outcome.spec.js",
+      "category": "test",
+      "added": 202,
+      "removed": 0
+    },
+    {
+      "path": "test/source-fetch-boundary.spec.js",
+      "category": "test",
+      "added": 306,
+      "removed": 0
+    }
+  ]
+}

@@ -10,9 +10,9 @@ Continue the recovered repairs rather than restarting C2a. Use inherited orchest
 
 Backend recovery builder is closed with a frozen 27-file candidate and FINDINGS. Parent full regression completed with 7,922 passed, 159 skipped and 5 todo; disposable live proof passed 21/21. Actual LOC and dependency-security gates still block landing; see `BACKEND_VERIFICATION_CHECKPOINT.md`.
 
-The initial pagination diagnostic rounds are closed. Astra's final verdict is INFRA_DEATH due context SHA movement; Fable reported FINDINGS, but the parent does not treat that round as a valid release audit. The pagination fixer is finishing its isolated repair; final local suite passed 1,529 tests on a pinned tree, with independent exact-head review still outstanding.
+The initial pagination diagnostic rounds are closed. Astra's final verdict is INFRA_DEATH due context SHA movement; Fable reported FINDINGS, but the parent does not treat that round as a valid release audit. The pagination fixer completed and released ownership with final tree `88256320fd21196d34dc0543e7d13eed444792d7`. Parent committed that identical tree as `fc7fdf6e50df08cccad86da37c8b0f15f4b72e81` and verified the remote draft PR21 branch at that SHA. Final local suite passed 1,529 tests; real installed pre-commit hooks and committed-head gates passed. Fresh exact-head remote checks were in progress at inspection; independent review and repository-wide controls remain release blockers.
 
-The user requested safe parallelization of the next three activation PRs. C1 builder `c1_durable_intent_builder_mu5vm602` is the only active backend writer; `m5_prerequisite_readiness_mu5vm609` performs read-only mobile prerequisite reconciliation. M5 implementation remains blocked until C1 lands/freezes, and the extension consumer waits for C1 freeze plus pagination ownership release. See `NEXT_THREE_PR_CONCURRENCY.md` for the dependency graph and exclusive resources.
+The user requested safe parallelization of the next three activation PRs. C1 builder `c1_durable_intent_builder_mu5vm602` is the only active backend writer; `m5_prerequisite_readiness_mu5vm609` completed read-only mobile prerequisite reconciliation with FINDINGS and released ownership. M5 implementation remains blocked until C1 lands/freezes and its mobile prerequisites are reconciled; the extension consumer waits for C1 freeze plus accepted pagination integration. The mobile stack omits three final PR289 amendments; parent non-checkout tree composition found no textual conflict, but no behavioral validation or landing is claimed. See `NEXT_THREE_PR_CONCURRENCY.md` for dependency, identity/role, lifecycle and resource blockers.
 
 ## Decision gate and containment
 
@@ -30,6 +30,12 @@ The previous GitHub publication attempt was blocked pending explicit repository/
 Documentation commit `0b1f882e472109b69cac956f01d96e7acb0ad7ba` is published in [context PR #31](https://github.com/BradleyGleavePortfolio/tgp-agent-context/pull/31). This records the recovery and Roman journey, not completed product behavior. Prior local-only ledger events describe the authority at their timestamps and must not be rewritten as if publication were authorized earlier.
 
 No production writes, flag activation, live-account imports, security-setting changes or merges are authorized by this publication decision. Product release remains gated on canonical checks and fresh independent final-head audits. The database evidence uses a new loopback-only disposable PostgreSQL 18.6 cluster, not customer data or proof of CI equivalence. Correction: the checked-in backend CI uses PostgreSQL 15 (not the previously stated 16) and Node 20; its full test job explicitly allocates a 4 GB Node heap.
+
+Two additional tracking-issue publication attempts were blocked by a specific-approval check despite the earlier general repository publication authorization. Neither issue was created. Their drafts are retained locally; do not retry those issue actions without the specific approval required by the tool. Existing branch publication of the frozen pagination repair succeeded separately.
+
+Editing existing PR21's description was also blocked separately. Parent requested explicit approval with the complete replacement draft; while that approval is pending, the branch head is published but the PR body still describes the older narrower patch. Do not claim the metadata update succeeded.
+
+C1 complete local review tree `3c3d09cf95851fb91e66ed20fe770a1a8164845c` passed 175 focused tests, strict typecheck, scoped lint and deterministic generated-contract verification. Its 454 net workflow lines exceed the cap, so it is not publishable as one PR and does not unlock consumers. Parent reserved a separate clone for sequential C1a/C1b split verification, while keeping the original immutable for isolated synthetic migration proof; neither is a release audit.
 
 ## Continuity and model evidence
 

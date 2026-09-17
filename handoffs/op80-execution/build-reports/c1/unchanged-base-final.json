@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-09-17T19:11:13.438346+00:00",
+  "repos": {
+    "backend": {
+      "head": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+      "tree": "842f17f78cb0f2ac2233a2bfd3728a9788b1cd06",
+      "status": "M  docs/contracts/importer-openapi.json\nA  docs/decisions/2026-09-17-c1-durable-paired-intent.md\nA  prisma/migrations/20270116000000_add_pair_import_intent/down.sql\nA  prisma/migrations/20270116000000_add_pair_import_intent/migration.sql\nM  prisma/schema.prisma\nM  scripts/importer-contract.ts\nA  src/extension-pair/__tests__/durable-intent.spec.ts\nA  src/extension-pair/__tests__/durable-session.spec.ts\nM  src/extension-pair/__tests__/extension-pair.service.spec.ts\nM  src/extension-pair/extension-pair.controller.ts\nM  src/extension-pair/extension-pair.dto.ts\nM  src/extension-pair/extension-pair.service.ts\nM  test/contracts/importer-contract.spec.ts\n?? .cache/\n?? .tmp/\n"
+    },
+    "context": {
+      "head": "9b4f55d34b78dfe051b3ab5ca1366cc2bab078ab",
+      "tree": "3e1699858979dabbbde53f8226fbabb526a7bb95",
+      "status": ""
+    },
+    "importer": {
+      "head": "093b6b01c29123361b043ddd0f36cd4c578cffe2",
+      "tree": "5a606a476b3e9010cdd277841f400aeed8d00fbf",
+      "status": ""
+    },
+    "mobile": {
+      "head": "a5933fd6de5616493de75f0db907098b149b955c",
+      "tree": "fc34a95ec33d582ccf9cc9f976c079d776513ff9",
+      "status": ""
+    }
+  },
+  "input_head_and_tree_unchanged": true,
+  "readonly_inputs_clean": true
+}
