@@ -4,6 +4,21 @@ Operator-signed decisions that changed doctrine, architecture, or process. Every
 
 Newest first.
 
+## 2026-09-17: publish R110 separately from blocked R120 tooling
+
+Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
+
+Decision: prepare the unchanged, locally verified R110 tree `3db01451c6c4e1aa46c6637db80d852e2273bcf6` as a standalone draft PR stacked on pagination PR21. Do not combine it with R120 tree ef0, whose proposed tooling failed supply-chain acceptance. Alternative qualification found five missing native policies and an unverified shipped dependency closure; no substitution is approved. R120 remains an explicit release blocker, not an exception.
+
+### R138 Decision Gate
+
+- **Musk five principles:** Question the coupling of two independent security changes. Delete the unnecessary publication dependency, not tests or the R120 obligation; keep each scope small and promote only demonstrated results.
+- **Hyperscaler practice:** Preserve independent release artifacts and automated safety gates, consistent with [AWS continuous-delivery guidance](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/). A failed candidate remains stopped while an independent verified candidate advances to review.
+- **GOOD without BAD:** Make the tested secret-scanning code durable and reviewable without publishing vulnerable Checkov dependencies or a non-equivalent replacement. Use actual native hooks and exact-head checks; no feature activation or merge is authorized.
+- **Root cause:** Separate the mandatory scanner dependency problem from secret detection itself. Stacking the R110 PR on the exact pagination branch also makes its nine-path delta explicit without rewriting either frozen candidate.
+
+Rollback/blast radius: a new draft branch containing only the frozen R110 delta; preserve ef0 and all failures. No live branch-protection change, new reviewer permissions, rule amendment, secret disclosure or production release. R14 still requires pre-audit gates, independent CLEAN and all outstanding controls before landing.
+
 ## 2026-09-17: qualify a workflow-scanner alternative without waiving R120
 
 Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
