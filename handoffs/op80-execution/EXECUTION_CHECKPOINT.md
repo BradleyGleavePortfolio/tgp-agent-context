@@ -32,6 +32,12 @@ Parent recovery sequencing is read-only. It reproduced the actual 1,335-line gat
 
 ## Decision gate and containment
 
+The renewed 14:01 PDT directive is active through the rolling three-PR window in `NEXT_THREE_PR_CONCURRENCY.md`. `cycle3_iac_builder_mu60pu98` owns only the new isolated importer IaC candidate and has source/research/report slots; `cycle3_rollout_readiness_mu60pu9i` is read-only on frozen database recovery inputs. Backend retains the sole heavy test slot. `NEXT_DIAGNOSTICS_SLICE.md` prepares the next backend writer task without modifying that repo now.
+
+Parent observed the backend full-suite runner rejecting a test-owned loopback HTTP fixture because its blanket socket guard denies all connections. The current bounded run is preserved; the worker must classify the exact failures and propose a narrow harness correction, not change product code or weaken tests. No automatic second full suite is authorized.
+
+Live protection is no longer wholly unverified: `RELEASE_ENFORCEMENT_CHECKPOINT.md` records importer classic protection and its remaining gaps, plus backend/mobile protected=false and empty rulesets at inspection. No security setting was changed; exact reconciliation requires its specific approval boundary.
+
 - Question/delete: do not rebuild existing repair work or run an audit against a stale PR head.
 - Simplify: preserve exact recovered SHAs, integrate only ancestor-relative deltas, and keep ownership disjoint.
 - Hyperscaler practice: validate isolated candidates before promotion; contain blast radius and preserve rollback, consistent with the previously researched AWS continuous-delivery guidance.
