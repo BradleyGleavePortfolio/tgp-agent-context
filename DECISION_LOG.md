@@ -4,6 +4,18 @@ Operator-signed decisions that changed doctrine, architecture, or process. Every
 
 Newest first.
 
+## 2026-09-17: importer recovery and visible activation planning
+
+Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
+
+Documentation-only recovery and planning, audit-exempt under R14's context scope. No constitutional amendment, product landing, flag flip, or independent CLEAN verdict is claimed. The current user delegates routine decisions and explicitly requires an obvious, explained browser setup journey.
+
+The [recovery checkpoint](handoffs/op80/RECOVERY_CHECKPOINT.md) preserves the current directive, exact build matrix, interrupted September 16 audit state, and R138 four-question gate. Preserve the existing repair branches; verify their current state before resuming. Treat installation, pairing, import execution, staging, native reconstruction, and reconciliation as distinct evidence states.
+
+Decision: BUILD SMALLER using existing infrastructure; VALIDATE FIRST for universal autonomous five-minute migration. This is a plan within the approved architecture, not an architecture replacement. Browser consent is a constraint, not a defect to bypass. No private unrelated-product operational details are copied into the public context repository.
+
+Rollback: documentation-only additive correction or isolated revert. No runtime or customer data effects.
+
 ---
 
 ## 2026-07-27 (Op 75) — P0-AUDIT EVIDENCE PRODUCED: retroactive adversarial dual-lens R14 audit of backend `5076a07a`; **B2 closes on landing of PR #28, not before**; **B1 open by design and reclassified** (R3-INC-4 is an *unasserted-identity* incident, not a forbidden-mechanism one); twelve findings recorded and routed; one finding blocked on an ownership decision; no history rewritten (governance/audit evidence only; 0 production LOC; no build, no landing, no flag flip, no completion claim)
