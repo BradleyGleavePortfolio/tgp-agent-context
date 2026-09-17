@@ -37,3 +37,16 @@ The user's 14:01 PDT direction is to continue rapidly with safe concurrency and 
 - **Root cause:** Close the scanner workflow's concrete security-check gap and resolve old-writer/new-schema incompatibility; do not change tests, line-count rules or release definitions to make progress appear faster.
 
 Rollback is to retain all frozen originals and reject an unsafe new candidate. These allocations permit no production/customer actions or merges, and do not waive current publication approval boundaries, R14 or the C1 consumer freeze.
+
+## Diagnostics formatting split decision
+
+The unformatted diagnostics tree `8127e8dc89e1ffa46c47113de846ec7ea9337ed4` passed 77 diagnostics tests, 115 adjacent tests, strict-owned types, repository typecheck, scoped lint and 15 doctrine tests. Its formatting preview preserves the original 85 test lines and all 70 authored cases but expands the diagnostics-only workflow delta from 333 to 441 net lines. Neither ignoring formatting nor dropping assertions is permitted.
+
+- **Question/delete:** The requirement is independently reviewable, complete changes, not a single diagnostics PR. Delete the arbitrary bundle requirement, not original assertions or the 31 additional classifier cases; preserve the full candidate and preview.
+- **Hyperscaler practice:** Separate independently testable changes and promote only verified artifacts, consistent with the [AWS continuous-delivery guidance](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/). Existing proof cannot be relabeled onto a newly composed intermediate tree.
+- **Good without bad:** Prepare D1 with the sink protections, original seven cases, 24 public HTTP regressions/controls and 15 Sentry cases. Prepare D2 as the additional 31-case classifier-boundary block, sequentially on D1. Both must preserve every final assertion, pass their own gates and stay within the actual workflow cap.
+- **Root cause:** The production defect is unsanitized ORM-derived public text; the separate packaging defect is oversized formatted test composition. The split fixes packaging without concealing the production defect, weakening formatting or changing count exclusions.
+
+Decision: source-only composition of option A in new isolated clones is authorized. Forecast D1 349 and D2 92 net lines is provisional; shared helper/import placement and exact-tree counts must be verified. No original candidate edits, installs, generators, tests, commits or remote actions are allocated by this decision. Parent owns the next execution allocation and publication. D2 remains mandatory in the release composition; D1 is not permission to call the full diagnostics work complete.
+
+Rollback/stop: retain all original and new patches; reject an intermediate slice with missing assertions, untested new behavior, cross-boundary edits or a failed size/density gate. No waiver of R14 or R100 is granted.

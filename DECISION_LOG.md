@@ -4,6 +4,14 @@ Operator-signed decisions that changed doctrine, architecture, or process. Every
 
 Newest first.
 
+## 2026-09-17: Serial diagnostics verification and independent draft progress
+
+Preserve the formatted diagnostics repair as sequential D1 (348 net lines) and mandatory D2 (+93), never remove assertions or evade the 400-line gate. Source-only preparation yields trees `410ac3a7f7a8a62d7f00081c525b760786fd2eef` and `ad166457d90b45c26a992881059ac98ce66accec`; neither is newly verified. Detailed composition decision is in `handoffs/op80-execution/CYCLE2_DECISION_LOG.md`.
+
+With approximately 1.1 GB free disk, prepare a reversible exclusive lease of the parent's private backend publication dependencies rather than two writable copies or a shared symlink. The runner must be reviewed before any move/test allocation; preserve hashes, modes, symlink confinement, product pins and untouched producer inputs. Auditors remain source-only in separate fixed clones.
+
+Publish R110 independently as a draft stacked on pagination after its own hooks/gates/scans, while preserving R120 and remote enforcement as release blockers. This separates bounded reviewable work without weakening acceptance or implying that local green equals shipped behavior.
+
 ## 2026-09-17: publish R110 separately from blocked R120 tooling
 
 Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.

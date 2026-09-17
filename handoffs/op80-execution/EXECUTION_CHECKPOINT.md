@@ -6,6 +6,20 @@ User, verbatim: "Start execution - use astra subagents (top performance) - for a
 
 ## Active work
 
+### Current allocation, 2026-09-17 22:20 UTC
+
+Backend dependency draft [PR524](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/524) is published at `238f0f1f152ebbb1b4691f555e98c888473d8ee7`, tree `b2bb1666a91d60927d3ee1d6455ce687ce1c8739`. Remote CI passed 531 suites, 7,857 tests and six snapshots; 12 inherited skipped suites, 159 skipped tests and five todos remain. CodeQL analysis completed with 201 rules and no results. GitHub ran synthetic merge `0786a9f087d8dcec7dfb8d1271c78aeba5baabb3`, whose parents are the pinned base and product head and whose tree equals the candidate. This is exact-content evidence, not a claim that CI checked out the product commit itself. The conditional deployment gate was skipped, not passed.
+
+Independent Astra and Fable dependency auditors are running source-only against separate detached clones pinned to that product commit. Their canonical context input is the stationary `ad2259c0649e4e53a663a2600343da1a08ac8b35` clone, not this evolving publisher checkout. Neither has an execution slot. Publication work must not change any audit-matrix input.
+
+R110 is locally committed at `15636ff2cc32ef68b2a3efd7dbd1e9f766bcafad`, tree `3db01451c6c4e1aa46c6637db80d852e2273bcf6`, stacked on pagination `fc7fdf6e50df08cccad86da37c8b0f15f4b72e81`. Ordinary native hooks, exact committed-head gates and fresh scans passed. Draft publication is next; it is not yet claimed complete in this checkpoint. The original same-tree 1,534-test suite remains properly attributed, with no redundant full rerun.
+
+Diagnostics source split is prepared, not green: D1 tree `410ac3a7f7a8a62d7f00081c525b760786fd2eef`, 348 net lines, 46 cases; D2 tree `ad166457d90b45c26a992881059ac98ce66accec`, another 93 lines, 77 final cases. D2 is mandatory before final acceptance. All original assertions and all 70 authored cases survive final composition. The prior unsplit tests do not certify these new trees.
+
+The diagnostics worker may prepare a reviewed evidence-only verification runner. Proposed exclusive serial resource lease moves only the parent's already-private backend publication dependencies into D1, then D2, then returns them, preserving full manifest equality and original producer independence. Low disk headroom precludes duplicating two more environments. No move or test execution is authorized until the runner review and explicit allocation.
+
+R120 remains stopped: Checkov dependency acceptance failed, and zizmor qualification lacks five required policy equivalents and proven release-binary dependency closure. No replacement, waiver or security-setting change is approved. The paragraphs below are historical checkpoints, not concurrent current ownership.
+
 Latest allocation checkpoint: the backend corrected full suite passed on tree `b2bb1666a91d60927d3ee1d6455ce687ce1c8739`: 531 passed suites, 7,857 passed tests and six snapshots, with 12 inherited skipped suites, 159 skipped tests and five todo still disclosed. The command exited 0 in 321.841 seconds, and the fresh frozen dependency audit reports zero vulnerabilities at all severities. Parent independently inspected the full result and explicit resource-release checkpoint. Backend now retains report/evidence ownership only; no additional execution is allocated.
 
 The scoped Swagger override correction passed sequential lock, graph and SBOM checks, followed by a no-op resolution and successful graph recurrence check. All 54,181 installed regular files, symlinks, locked versions and lock hash remained unchanged. The corrected tree reconstructs from its patch. The HTTP-guard safety controls and all 13 affected suites passed, with 151 tests and no failures, before the separately allocated full run. The original 95-test failure remains preserved rather than relabeled.
