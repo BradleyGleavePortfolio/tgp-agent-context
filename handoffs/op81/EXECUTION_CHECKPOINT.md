@@ -1,6 +1,6 @@
 # Operator 81 execution checkpoint
 
-Updated from native measurements at 2026-09-18 06:30 UTC. Status: G0 repairs and validation in progress, not product clearance.
+Updated from native measurements at 2026-09-18 07:07 UTC. Status: G0 repairs and validation in progress, not product clearance.
 
 ## Current progress
 
@@ -15,7 +15,7 @@ new GitHub CI runs or final-head dual-auditor approval.
 | Dependency compatibility evidence | `75cc24f7b198673983c9797930b76d769f2f893c`, tree `03b674657c0a1efff22b1768fb5aec09d7fbf651` | 10/10 focused tests, full-project typecheck, targeted lint and installed offline tool-version check pass. Four baselines and six intentionally failing mutations meet all ten control expectations. |
 | Organized diagnostics regression | `d251a02e5e73a119a24ec5ea45a2de95d3044836`, tree `bbb95c81a387cde75727cde624c953b585d6c535` | 64/64 tests in four suites, no skips/todos; full-project typecheck and touched-file lint pass. All original case titles retained. |
 | Readiness response, cache policy and routing configuration | `f69bcd78f7209b59b195756719b4ac481635d159`, tree `0e68327ccbb12db590d6cd6e7f6d77c57b8ec443` | 19/19 tests in three suites, full-project typecheck, five-file lint and native TOML parse pass. Prior cache coverage remains attributed to `2044bac9`; no full bootstrap or deployed-outage claim. |
-| Shared token-gate candidate | `58ab0c287c62e42a237c4351409e7ad7ac1d3ba2`, tree `4fb1b02f83040391f399201c2fe880c6bc474c54` | 65/65 tests in two suites, full-project typecheck, zero-warning targeted lint and self-scan pass. Overall density passes; size does not fit one PR. Original drafts and first unsuccessful run remain preserved. |
+| Shared token-gate candidate | `21d3515e39c3175cc619d2be8cd624d87af39bc9`, tree `99df8f503bcd0b6e01aeff1740321c99ae94d713` | 66/66 tests in two suites, full-project typecheck, zero-warning targeted lint and self-scan pass. Four actual sequential slices now fit their predecessor-relative size and density gates. The complete range-only intermediate separately passes57 tests and static checks. Original drafts and unsuccessful runs remain preserved. |
 | Dependency-audit gate candidate | `d036572d39aa9a50357883ed422bd46306043a71`, tree `4b439a629fc223c69bfd757321ac962c2f8f381a` | 22/22 gate tests, full-project typecheck and zero-warning targeted lint pass. Real lockfile-only audit on prior head `556fdf21` returned zero vulnerabilities without an install; current workflow, manifest and lock bytes are identical. Current tests changed only mutation construction. No required-check wiring claim. |
 
 The diagnostics sequence is preserved as S1 `8b65b76e…`, S2 `6614228d…`
@@ -30,10 +30,14 @@ the unmerged dependency prerequisite. Main-cumulative gate net is 315. Broad
 prerequisite net 170 also includes 13 Fly TOML lines outside that existing job's
 pathspec. Prior cache-only work is not presented as a standalone compliant PR.
 
-The token-gate candidate has 425 executable test lines against 182 checker
-lines, ratio 2.335, without crediting 585 fixture-data lines toward density.
-Its actual gate net is 1,135 against the prerequisite and 1,293 against main:
-both exceed 400, so coherent sequential slices are still required. No waiver.
+The token-gate sequence is S1 `89d2e3bc…`, S2 `a1de3a4e…`, S3
+`f4bee54c…` and S4 `21d3515e…`. Actual predecessor-relative net sizes
+are254,331,389 and156. The first two are explicit data prerequisites, with
+no execution/enforcement claim; executable S3/S4 added-test ratios are
+298/148 and224/6. Fixture JSON is not credited toward test density.
+The final checker is154 lines, with448 executable test lines. Cumulative
+gate net is1,130 against PR524 and1,288 against main, so this is not one
+under-400 PR. No exemption or product landing is claimed.
 
 The dependency-audit gate is 397 new counted lines relative to its prerequisite
 but 555 main-cumulative including the inherited 158-line test addition. It is
