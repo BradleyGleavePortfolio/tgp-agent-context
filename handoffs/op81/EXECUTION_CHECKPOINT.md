@@ -34,7 +34,7 @@ This is a bounded accessible-source search, not a claim the files never existed.
 
 - Parent owns remote queries, publication, source integration and the single heavy execution slot.
 - Validation uses a new private `op81-backend-validation` checkout at the exact PR head. `npm ci --ignore-scripts --no-audit --no-fund` completed with 1,117 packages; this does not yet certify lifecycle scripts, generated clients, graph validity, security or tests.
-- Planned review uses separate `op81-backend-audit-a` and `op81-backend-audit-b` source clones. Neither has yet been dispatched. Do not infer completed review from the existence of a clone.
+- Independent reviews are active in separate `op81-backend-audit-a` and `op81-backend-audit-b` source clones: `pr524_correctness_audit_mu6h26xc` and `pr524_tests_and_contracts_audit_mu6h26xp`. They have no source-write or heavy-execution allocation.
 - No borrowed dependencies, dependency move/restore lease, background pusher or old process-cleanup harness is used.
 - No database migration, customer import, production flag, account authentication or security-setting change has occurred.
 
@@ -61,5 +61,7 @@ After valid reports, consolidate every P0–P3 with evidence and inheritance att
 ## Measurements and notification
 
 Product audit rounds this operator: zero completed. Fixer iterations: zero. Product merges: zero. Exact model cost is unavailable and will not be invented. The safe minimum still includes dual independent review and all applicable validation.
+
+Further recovery reproduced the exact full backend candidate and C1a/C1b trees without changing product worktrees. See [Recovery manifest](RECOVERY_MANIFEST.md), including the still-missing later diagnostics additions.
 
 The requested publication notification was scheduled as a one-time in-app milestone for September 17 at 21:22 PDT, task `11b0fee2`. Delivery acceptance has not yet been confirmed in this checkpoint; scheduling is not proof the user received or viewed it.
