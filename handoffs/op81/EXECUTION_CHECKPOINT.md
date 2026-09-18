@@ -1,6 +1,6 @@
 # Operator 81 execution checkpoint
 
-Updated 2026-09-18 04:40 UTC. Status: G0 recovery and review preparation, not product clearance.
+Updated 2026-09-18 04:51 UTC. Status: G0 recovery and independent review active, not product clearance.
 
 ## Authority and publication
 
@@ -64,4 +64,6 @@ Product audit rounds this operator: zero completed. Fixer iterations: zero. Prod
 
 Further recovery reproduced the exact full backend candidate and C1a/C1b trees without changing product worktrees. See [Recovery manifest](RECOVERY_MANIFEST.md), including the still-missing later diagnostics additions.
 
-The requested publication notification was scheduled as a one-time in-app milestone for September 17 at 21:22 PDT, task `11b0fee2`. Delivery acceptance has not yet been confirmed in this checkpoint; scheduling is not proof the user received or viewed it.
+The recovered four-path diagnostics baseline is now preserved on backend branch `wip/op81-diagnostics-recovery` at `8e7d6d11702ef896bb0896773e5c06163e23c3fa`, tree `084edafa75ee290addfc4b78757e3d2ffc9c1e9f`, layered on unchanged PR524. This is a source checkpoint, not the unavailable original D1/D2 trees, an open product PR, validation or acceptance. The [source-preparation brief](DIAGNOSTICS_REESTABLISHMENT_BRIEF.md) defines narrow ownership, original-assertion preservation and later RED/GREEN allocation. Original integrity-test SHA256 is `6995cf7ae39c90dd42a3077004ae06f2e1dd2de803d1412a6817610f938b490e`.
+
+The requested one-time in-app notification, task `11b0fee2`, was accepted for delivery according to its completion report received at 04:50 UTC. Its title was “TGP Operator 81 plan published”; it stated the exact plan commit, seven closed plan findings, plan-level CLEAN and autonomous audit recovery, explicitly not a product merge or feature activation. Acceptance is not proof the user received or viewed it.
