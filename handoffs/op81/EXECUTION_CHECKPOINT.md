@@ -1,6 +1,6 @@
 # Operator 81 execution checkpoint
 
-Updated with native validation completed at 2026-09-18T08:35:09.763Z. Status: G0 repairs and validation in progress, not product clearance.
+Updated with native validation completed at 2026-09-18T09:00:37.997Z. Status: G0 repairs and validation in progress, not product clearance.
 
 ## Current progress
 
@@ -20,7 +20,7 @@ new GitHub CI runs or final-head dual-auditor approval.
 | Composed repository controls | `d3f84beeaa8ec9513a483e1c38c43abc01efb330`, tree `773cc7fde9130d7b021e57ce23a1329c1f67eff1` | 88/88 focused cases in three suites and static checks pass. Both independent reviews returned FINDINGS and are frozen. No approval or remote enforcement claim. |
 | Control boundary amendment | `44f9999e1edb008f892c7f5356455a21dd329883`, tree `f6e0833d1360420e220fe9eec1a25900c2104def` | 183/183 focused tests in four suites, full-project typecheck, five-file lint and self-scan pass. Earlier unsuccessful regression runs are preserved; no independent final-head clearance. |
 | Control wiring amendment | `2e97aed45852a2c566a83ce454554b264e5a0b75`, tree `a13ff78db8e2efdb3ef219053b6038aa694aadff` | 207/207 focused tests in five suites, full-project typecheck, six-file lint and self-scan pass. The previous amendment's checker/policy/boundary bytes are retained. No hosted Actions or release claim. |
-| Control conformance amendment | `d2919dcd5582ea87487612dbf0f6bad100231b5f`, tree `be06d098eb7cbbf75e7a19dac33121fda41f50c6` | 249/249 focused tests in six suites, full-project typecheck, seven-file zero-warning lint and self-scan pass. The exact standing CI lint command also passed locally without ignore overrides. Prior unsuccessful harness runs are retained and separately attributed. No full application suite/build, fresh advisory scan, hosted Actions or independent final-head clearance is claimed. |
+| Control conformance amendment | `d2919dcd5582ea87487612dbf0f6bad100231b5f`, tree `be06d098eb7cbbf75e7a19dac33121fda41f50c6` | 249/249 focused tests in six suites, full-project typecheck, seven-file zero-warning lint and self-scan pass. Exact standing CI lint also passed without ignore overrides. Later exact-head build/default Jest passed:536 suites/8098 tests,0 failures,6 matched snapshots;12 skipped suites/159 skipped tests/5 todos remain. Prior unsuccessful harness runs are preserved. No coverage, fresh advisory scan, hosted Actions or dual final-head clearance is claimed. |
 
 The diagnostics sequence is preserved as S1 `8b65b76e…`, S2 `6614228d…`
 and S3 `9bade0cf…`, with measured net sizes 395, 159 and 367 against
@@ -78,6 +78,21 @@ outside this public checkpoint pending their separate disclosure approval.
 Local green commands do not close inherited controls. Work continues through
 bounded repairs, exact-source validation and independent final-head review,
 with no product merge or release authorization claimed.
+
+### Exact-candidate default-suite follow-through
+
+At the conformance head, build completed08:49:23.425Z and default Jest
+completed09:00:37.994Z, both native exit0 without native timeout or signal.
+The default suite is not every possible product test; separately excluded live
+infrastructure tests were not run. Source and the listed dependency inputs
+remained unchanged. A command-tool timeout was recovered by inspecting the
+existing process and completed records, not by rerunning validation.
+
+Private exact-SHA evidence remains separate from this safe public checkpoint.
+Both fresh independent reviews returned findings. One report is undergoing
+evidence/checklist correction with its original preserved; there is no final
+dual clearance. No detailed findings or native logs are published here.
+No product merge, deployment or exemption follows from local green.
 
 ## Historical checkpoint retained
 
