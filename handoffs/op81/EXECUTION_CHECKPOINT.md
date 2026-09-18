@@ -1,6 +1,49 @@
 # Operator 81 execution checkpoint
 
-Updated 2026-09-18 04:57 UTC. Status: G0 findings received, second independent review active, not product clearance.
+Updated 2026-09-18 05:56 UTC. Status: G0 repairs and validation in progress, not product clearance.
+
+## Current progress
+
+The reviewed plan remains unchanged on context main at
+`2ead9b05e967713201c03619b564a3db4cadea35`. Both initial independent
+backend reviews are complete; findings remain unresolved and no product PR has
+been merged or deployed. Candidate checks below are local native results, not
+new GitHub CI runs or final-head dual-auditor approval.
+
+| Candidate | Frozen source | Native validation |
+|---|---|---|
+| Dependency compatibility evidence | `75cc24f7b198673983c9797930b76d769f2f893c`, tree `03b674657c0a1efff22b1768fb5aec09d7fbf651` | 10/10 focused tests, full-project typecheck, targeted lint and installed offline tool-version check pass. Four baselines and six intentionally failing mutations meet all ten control expectations. |
+| Organized diagnostics regression | `d251a02e5e73a119a24ec5ea45a2de95d3044836`, tree `bbb95c81a387cde75727cde624c953b585d6c535` | 64/64 tests in four suites, no skips/todos; full-project typecheck and touched-file lint pass. All original case titles retained. |
+| Readiness response and cache policy | `2044bac9a5b41f317d031efcd82afc8b53e2a943`, tree `189d86e0017f0ef6af1b9037019b3e0df4f3710d` | 14/14 tests with the production cache interceptor installed, full-project typecheck and four-file lint pass. Native coverage collected; this is not a full bootstrap or deployed-outage test. |
+| Shared token-gate draft | `389c180e046ab32f197ecd5c94fa35f13638aa85`, tree `0e63cae88b2cb998a1d7353caa5be7f528439488` | WIP source checkpoint only. Size, density and correctness revisions remain; no candidate test/compiler clearance. |
+
+The diagnostics sequence is preserved as S1 `8b65b76e…`, S2 `6614228d…`
+and S3 `9bade0cf…`, with measured net sizes 395, 159 and 367 against
+their respective prerequisites. S3's complete tree is identical to the
+64-case execution tree. The cumulative 921-line change is not being presented
+as a single under-400 PR, and the dependency prerequisite is still unmerged.
+
+The coherent readiness candidate is 121 added / 11 removed, net 110,
+with 107 test lines added against 14 production lines added, measured against
+the unmerged dependency prerequisite. Its cache-only amendment is not being
+presented as a separate density-compliant PR.
+
+Private source clones and ordinary, independent dependency copies remain in
+use. The parent serializes native execution and controls publication; no
+shared dependency leasing, background pusher, production flag change,
+database mutation or live account-setting change was introduced.
+
+Detailed security-review material and private operational logs are retained
+outside this public checkpoint pending their separate disclosure approval.
+Local green commands do not close inherited controls. Work continues through
+bounded repairs, exact-source validation and independent final-head review,
+with no product merge or release authorization claimed.
+
+## Historical checkpoint retained
+
+The material below was recorded at 04:57 UTC and is retained for provenance.
+Its active-lane, candidate-head and next-action descriptions are historical;
+the current progress section above supersedes them.
 
 ## Authority and publication
 
