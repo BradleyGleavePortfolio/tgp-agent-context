@@ -1,6 +1,6 @@
 # Operator 81 execution checkpoint
 
-Updated from native measurements at 2026-09-18 07:07 UTC. Status: G0 repairs and validation in progress, not product clearance.
+Updated with joint native validation completed at 2026-09-18T07:12:29.055996Z. Status: G0 repairs and validation in progress, not product clearance.
 
 ## Current progress
 
@@ -17,6 +17,7 @@ new GitHub CI runs or final-head dual-auditor approval.
 | Readiness response, cache policy and routing configuration | `f69bcd78f7209b59b195756719b4ac481635d159`, tree `0e68327ccbb12db590d6cd6e7f6d77c57b8ec443` | 19/19 tests in three suites, full-project typecheck, five-file lint and native TOML parse pass. Prior cache coverage remains attributed to `2044bac9`; no full bootstrap or deployed-outage claim. |
 | Shared token-gate candidate | `21d3515e39c3175cc619d2be8cd624d87af39bc9`, tree `99df8f503bcd0b6e01aeff1740321c99ae94d713` | 66/66 tests in two suites, full-project typecheck, zero-warning targeted lint and self-scan pass. Four actual sequential slices now fit their predecessor-relative size and density gates. The complete range-only intermediate separately passes57 tests and static checks. Original drafts and unsuccessful runs remain preserved. |
 | Dependency-audit gate candidate | `d036572d39aa9a50357883ed422bd46306043a71`, tree `4b439a629fc223c69bfd757321ac962c2f8f381a` | 22/22 gate tests, full-project typecheck and zero-warning targeted lint pass. Real lockfile-only audit on prior head `556fdf21` returned zero vulnerabilities without an install; current workflow, manifest and lock bytes are identical. Current tests changed only mutation construction. No required-check wiring claim. |
+| Composed repository controls | `d3f84beeaa8ec9513a483e1c38c43abc01efb330`, tree `773cc7fde9130d7b021e57ce23a1329c1f67eff1` | 88/88 focused cases in three suites, full-project typecheck, zero-warning targeted lint and self-scan pass. Two independent read-only reviews are active at this exact head. No approval or remote enforcement claim. |
 
 The diagnostics sequence is preserved as S1 `8b65b76e…`, S2 `6614228d…`
 and S3 `9bade0cf…`, with measured net sizes 395, 159 and 367 against
@@ -32,11 +33,11 @@ pathspec. Prior cache-only work is not presented as a standalone compliant PR.
 
 The token-gate sequence is S1 `89d2e3bc…`, S2 `a1de3a4e…`, S3
 `f4bee54c…` and S4 `21d3515e…`. Actual predecessor-relative net sizes
-are254,331,389 and156. The first two are explicit data prerequisites, with
+are 254, 331, 389 and 156. The first two are explicit data prerequisites, with
 no execution/enforcement claim; executable S3/S4 added-test ratios are
-298/148 and224/6. Fixture JSON is not credited toward test density.
-The final checker is154 lines, with448 executable test lines. Cumulative
-gate net is1,130 against PR524 and1,288 against main, so this is not one
+298/148 and 224/6. Fixture JSON is not credited toward test density.
+The final checker is 154 lines, with 448 executable test lines. Cumulative
+gate net is 1,130 against PR524 and 1,288 against main, so this is not one
 under-400 PR. No exemption or product landing is claimed.
 
 The dependency-audit gate is 397 new counted lines relative to its prerequisite
@@ -44,6 +45,14 @@ but 555 main-cumulative including the inherited 158-line test addition. It is
 not an under-400 main-based PR today. The actual density job has zero SRC
 additions for this workflow-only change and therefore reports N/A, not a
 manufactured workflow/test ratio.
+
+The composed control candidate adds those exact three audit-gate files as
+S5 after the four R75 slices. Its fifth predecessor-relative net is 397;
+the complete stack is 1,527 against PR524 and 1,685 against main, not one
+compliant PR. Donor bytes, manifest and lock remain unchanged. The joint
+test result belongs to the actual composed head, while the earlier native
+dependency audit retains its original head attribution. Separate diagnostics,
+readiness and dependency-evidence amendments are not part of this composition.
 
 Private source clones and ordinary, independent dependency copies remain in
 use. The parent serializes native execution and controls publication; no
