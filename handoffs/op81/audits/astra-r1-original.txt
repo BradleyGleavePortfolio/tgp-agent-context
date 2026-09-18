@@ -1,0 +1,220 @@
+# Astra independent plan audit — round 1
+
+## Verdict and scope
+
+**FINDINGS — 3 P1, 4 P2; no P0 identified.** This is a review of the proposed plan, not product R14 clearance, a resumed audit of PR #524, or permission to implement, merge, enable flags, or import customer data.
+
+The plan has a sound preservation strategy and substantially better customer-outcome and release boundaries than a pairing-only feature; nevertheless, it leaves important authorization-lifecycle, native-side-effect, cancellation, and acceptance decisions unspecified or ambiguous. The findings below require small changes to the plan and its future acceptance gates, not implementation during this planning task. [Plan, lines 104–140, 142–193, 214–258, 286–313, 344–397](plan-r1.md)
+
+### Exact input and identity
+
+- Input read in full: `/home/user/workspace/tgp-study/op81-review/plan-r1.md`, all 480 lines.
+- Expected SHA256: `86a843c3f950704e0a9942129a100f8917aef8d20e439255286962bcd8c19b95`.
+- Start verification: actual SHA256 matched the expected value before substantive review.
+- Closeout verification at `2026-09-18T03:21:26Z`: actual SHA256 again matched the expected value.
+- Canonical rules read: `/home/user/workspace/tgp-study/op81-plan/AGENT_RULES.md`; SHA256 `606e6c75fe68667c48703d83e0fed58d435f60949cd257f6a7c1f47e9fd4ec79`.
+- Requested reviewer identity: Astra through inherited orchestrator model; no named model override and no subdelegation.
+- Actual runtime model: **not independently available/verified**. Inheritance was requested; I do not infer a concrete model identifier.
+- Method: independent read-only source/document review. Only this report was written; no plan/repository edits, remote writes, product tests, builds, package installations, or live-account activity.
+
+### Locally verified source matrix
+
+| Input | Local HEAD |
+|---|---|
+| Importer | `0111be661922234d670bbf23e23d270eec1b4a4e` |
+| Backend | `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7` |
+| Mobile | `a5933fd6de5616493de75f0db907098b149b955c` |
+| Canonical context | `32445a75c7ee6a0018c1f3979519b3e62ed67fc8` |
+| Separate Op80 evidence archive | `3300d31539df4428c9b8f5f85215a4842c30728c` |
+
+These local repository identities matched the plan's baseline matrix; this does not independently refresh GitHub PR/check/protection state or establish deployment state. [Plan, lines 49–74](plan-r1.md)
+
+## Severity findings
+
+### A1 — P1: Source-account binding is checked before Start but not explicitly preserved through live capture
+
+**Plan locations:** lines 161–179; 236–243; 279–284; acceptance 6 and 10 at lines 353–357.
+
+**Defect.** The plan requires positive source-account evidence before Start and valid source/session evidence on restart, but its explicit account-change scenario only says that capture/import must not *start*; it does not define what happens when the source account/workspace changes on the same origin during an already-running run. Origin/tab confinement and a server-owned destination intent do not establish which source workspace produced each subsequent observation. [Plan, lines 179, 236–243, 282, 353–357](plan-r1.md)
+
+**Source evidence.** The reused capture boundary stores an expected origin and rejects requests from another origin, but the inspected request-admission path does not carry a source-account/workspace identity; same-origin requests remain eligible under that check. [Importer `shared/capture.js`, lines 149–198 and 246–289](../importer/shared/capture.js)
+
+**Counterexample.** Start is accepted for workspace A. The coach switches to workspace B in the source tab, or another tab changes the shared source session. The selected tab and HTTPS origin remain unchanged; subsequent DOM/network data can now describe B while the immutable TGP intent still describes A. A design that checks identity only at Start and worker restart can pass the written preflight scenarios but mix source businesses.
+
+**Minimal remedy.** Add a run-lifetime invariant: every admitted observation/replay batch must remain attributable to the Start-bound source principal/workspace, not merely its origin. Source-identity contradiction or inability to maintain that attribution must stop capture/actions, invalidate uncommitted evidence from the changed session, fence the run, and preserve an honest partial/blocked result. Require the G3 source-identity contract and G5 executor to define the evidence mechanism; a new source account requires a new explicitly authorized attempt.
+
+**Verification criterion.** Add cases for same-origin workspace switch, shared-cookie account switch from another tab, token refresh to a different principal, and delayed pre-switch/post-switch responses. No B record may be staged or written under A's run. Revalidation must not require the coach to babysit a successful run.
+
+**Why this is plan-level.** I am not requesting a particular polling cadence, token parser, or implementation now. The missing decision is whether source authorization is a lifetime invariant and what the product does when it ceases to hold.
+
+### A2 — P1: Native historical imports have no explicit suppression rule for destination-side automations
+
+**Plan locations:** lines 35; 288–301; 359–363; G5/G6 at lines 326–327.
+
+**Defect.** The plan excludes source-side business changes, login/invite creation, and executable billing side effects, but the native-family contract does not distinguish importing history from performing a new live TGP action. It therefore leaves notification, coaching-trigger, and scheduled-action behavior unspecified for historical assignments, completions, and check-ins. [Plan, lines 35, 288–301](plan-r1.md)
+
+**Source evidence.**
+
+- Native workout assignment calls `emitAssignmentPush` after creating the assignment/snapshot; that method creates a client push notification. [Backend `workout-builder.service.ts`, lines 578–592 and 1535–1548](../backend/src/workout-builder/workout-builder.service.ts)
+- Native workout completion invokes `dripTrigger.onContentCompleted`; historical check-in upsert calls `emitPtmAfterUpsert`. [Backend `workout-builder.service.ts`, lines 796–830](../backend/src/workout-builder/workout-builder.service.ts), [Backend `check-ins.service.ts`, lines 109–131](../backend/src/check-ins/check-ins.service.ts)
+- The preserved Roman contract already excludes automatic invitations, emails, payments, and source-service changes from import. [Op80 Roman journey, line 52](../op80-evidence/handoffs/op80-execution/ROMAN_IMPORT_JOURNEY.md)
+
+**Counterexample.** An imported person is unambiguously associated with an existing native client. Reusing native assignment/completion methods for last year's workouts sends “Your coach assigned a new workout” today or advances a present-day drip workflow. Counts and relationships can reconcile correctly while the import performs customer-visible actions that were never intended.
+
+**Minimal remedy.** Add an explicit historical-import side-effect policy to the G5 family contract: historical writes do not emit live assignment/completion alerts, messages, drip actions, or other operational workflows. Reuse native domain invariants and existing persistence primitives, but require an audited import context or equivalent narrow mechanism rather than blindly replaying public action methods. Separately decide how genuinely future source assignments are represented; do not silently activate them.
+
+**Verification criterion.** For a native-linked client, import historical assignments, completions, check-ins, and billing history; assert correct native state and **zero unintended notifications, outbound messages, drip activations, and financial actions**, including on retries and partial runs.
+
+**Why this is plan-level.** Exact native models are properly deferred to the domain-owner gate. Whether migrating history is allowed to trigger today's business workflows is a product safety decision that must constrain that gate.
+
+### A3 — P1: “Disconnect/re-pair” lacks a server revocation and active-run contract
+
+**Plan locations:** lines 221–227; 241; 249–258; 352–357.
+
+**Defect.** The plan offers explicit disconnect/re-pair for an account mismatch and preserves the existing token authority, but its lifecycle API decisions omit extension-session revocation and the relationship between disconnect, logout, active-run fencing, and already-issued access tokens. [Plan, lines 221–227, 241, 249–258](plan-r1.md)
+
+**Source evidence.** `clearTokens()` explicitly clears only local memory/session storage and states that it makes no server revocation guarantee; the existing auth controller says Supabase owns rotation/revocation, so the remedy need not introduce a second token authority. [Importer `shared/session.js`, lines 87–96](../importer/shared/session.js), [Backend `auth.controller.ts`, lines 120–153](../backend/src/auth/auth.controller.ts)
+
+**Counterexample.** A coach disconnects an extension on a shared computer and pairs another account. Local cleanup succeeds, but a retained old credential or an already-running request remains valid server-side. The UI can present “disconnected” without an agreed server-side stopping boundary for the old session.
+
+**Minimal remedy.** Before G3 freeze, assign the auth owner an explicit disconnect/revocation contract using the current session authority. Define the scope—this extension session versus all devices—together with cancellation/fencing of its active run, rejection of subsequent old-session mutations, local capture/token cleanup, and truthful offline/revocation-failure copy. Do not claim remote revocation from local erasure; distinguish leaving the UI or ordinary app sign-out from revoking the extension connection.
+
+**Verification criterion.** After confirmed disconnect, an old refresh attempt and old-session Start/ingest attempts fail, an in-flight refresh cannot resurrect the connection, and a concurrent old run cannot keep committing through a revoked binding. Offline disconnect stops local capture immediately but does not falsely report server-confirmed revocation.
+
+**Why this is plan-level.** This is not an instruction to build logout now or replace Supabase. It is a known limitation in the primitive the plan explicitly reuses, and a missing decision in the proposed lifecycle freeze.
+
+### A4 — P2: Cancellation exists in the backend design but not in the screen-by-screen customer contract
+
+**Plan locations:** running surface at line 163; line 167; lines 235–243 and 360; Apple audit question at line 420.
+
+**Defect.** The screen specification provides progress and says closing the UI does not cancel, while the run contract supports `cancelled` and fencing; no visible Stop/Cancel control or route to it is specified on the extension or phone. A UI with no user-reachable cancel action could satisfy the current screen table and still pass API-only cancellation tests. [Plan, lines 163–167, 235–243, 360, 420](plan-r1.md)
+
+**Counterexample.** A coach sees an unexpected source account or family during progress and wants to stop immediately. Closing the task tab does not cancel, and the phone's progress mirror offers no specified stop action.
+
+**Minimal remedy.** Add one clearly labeled, accessible secondary “Stop import” control to the running surface and owned phone progress view, without adding a routine confirmation to the successful path. Specify “stopping” while cancellation is unacknowledged, server-confirmed terminal state, and the fact that already-verified records remain; do not equate cancellation with undo/deletion.
+
+**Verification criterion.** An unfamiliar coach can find and invoke Stop without instructions on each actual surface; keyboard/screen-reader access works; offline, duplicate, completion-race, and timeout-race cases converge on the same authoritative result.
+
+**Why this is plan-level.** The backend mechanism is already proposed. This finding only connects it to the promised reversible, honest customer experience.
+
+### A5 — P2: The custom-origin acceptance sentence makes prohibited targets appear permission-overridable
+
+**Plan location:** line 354, acceptance scenario 7.
+
+**Defect.** The sentence groups “private/local-network addresses, privileged schemes, lookalike origins, redirects and unapproved API origins” under the same predicate, “are rejected **or require pre-Start permission**.” Read literally, pre-Start permission can satisfy the scenario even for a private-network target or privileged scheme, rather than only an additional safe public source origin. [Plan, line 354](plan-r1.md)
+
+**Source evidence.** The intended source UI selects HTTPS, and the reused capture policy rejects non-HTTPS and non-allowlisted targets before debugger attachment; user consent is not a substitute for these safety checks. [Plan, lines 161, 173](plan-r1.md), [Importer `shared/capture-policy.js`, lines 4–10 and 28–45](../importer/shared/capture-policy.js)
+
+**Counterexample.** A future negative test accepts an explicit consent dialog as the expected handling for a source URL resolving to an internal service. The written scenario passes even though the intended restricted executor should never treat a coaching-site permission gesture as authority to access local infrastructure.
+
+**Minimal remedy.** Split the criterion into two classes: hard-denied targets that no user permission can override, and additional validated public HTTPS app/API origins that require explicit permission before Start. Apply the deny decision to the effective destination and redirect chain, not only the initially typed string; make lookalike/unverifiable-source handling explicit rather than implicitly trusted by permission.
+
+**Verification criterion.** Private/loopback/link-local destinations, privileged schemes, and redirects into denied destinations remain blocked even after an attempted grant. Only a validated allowed public origin may be added through the existing user-gesture permission flow.
+
+**Why P2 rather than a claimed live security breach.** This is an ambiguous acceptance contract in a default-off plan, not evidence that the unbuilt feature currently fetches private targets.
+
+### A6 — P2: Release metrics can pass with only partial native results
+
+**Plan locations:** lines 372; 385–391; 395; G6 at line 327.
+
+**Defect.** The usability criterion requires 9/10 coaches to finish setup and “find native results,” while zero-touch and speed apply only to runs already labeled successful/complete. The plan allows partial imports to retain visible verified records, but never explicitly states a minimum full-completion result for each real V1 source or a completion-rate gate before cohort expansion. [Plan, lines 165, 327, 372, 385–395](plan-r1.md)
+
+**Counterexample.** Ten pilots complete setup without help; nine can open a few imported clients, but every run times out with missing history. No false-complete, cross-tenant, or duplicate error occurs. The written usability threshold passes, and the zero-touch/speed conditions over successful traces have no successful trace to falsify.
+
+**Minimal remedy.** Require at least one non-empty, fully reconciled `complete` run on **each** authorized V1 source with zero required post-Start actions and elapsed time at most 300 seconds. For pilot expansion, predeclare the eligible source/account-size envelope and a full-completion-rate threshold before examining results; report partial/blocked/timed-out outcomes in the denominator and separately retain the honest-failure criteria. No universal arbitrary-account guarantee is needed.
+
+**Verification criterion.** An all-partial or all-timeout V1/pilot cannot satisfy the release gate merely because the retained records are useful and the failure copy is honest.
+
+**Why this is plan-level.** Representative account selection and measured performance can remain future work. The logical distinction between useful partial results and evidence that migration actually completes must be fixed now.
+
+### A7 — P2: First-principles doctrine is applied qualitatively, but its measurement and constraint-classification obligations are missing
+
+**Plan locations:** lines 317–340; 403–410; open-decision table at lines 429–438.
+
+**Defect.** The plan records the five steps in the right order and includes LOC/density gates, but does not specify a workflow cost/minimum baseline, cycle-time/outlier ledger, or an explicit separation of hard external constraints from inherited process assumptions. Those are distinct from product funnel metrics and from the four-question decision paragraph. [Plan, lines 317–340, 379–410, 429–438](plan-r1.md)
+
+**Doctrine evidence.** R130 requires actual/minimum workflow-cost measurement and redesign review at a ratio of at least 3×; R136 requires hard constraints versus assumptions; R137 requires dispatch/audit/merge cycle records and outlier diagnosis. [Canonical rules, lines 1523–1545](../op81-plan/AGENT_RULES.md)
+
+**Counterexample.** The successor repeats several audit-environment recoveries and audit rounds, keeps the “one heavy validation slot” restriction after the resource constraint disappears, and meets every enumerated PR packet requirement without ever measuring whether the inherited workflow is still necessary. The current record cannot distinguish essential security/compatibility gates from avoidable coordination cost.
+
+**Minimal remedy.** Add a compact constraint/assumption table and a small extension to the existing dispatch/evidence ledger, not a new subsystem. Assign Op81 to record audit/fixer rounds, handoffs, dispatch-to-audit-to-landing timestamps, resource wait time, and known cost; define the minimum as the safe mandatory process, not “zero audits.” Mark unavailable costs unmeasured rather than fabricate ratios; record when they will become measurable and the R130/R137 review triggers. Revisit resource serialization only on evidence, retaining one-writer ownership and required independence.
+
+**Verification criterion.** The first implementation wave can produce the required cost/cycle comparison from its existing evidence and explain whether each recurring restriction is an external constraint, an active safety choice, or a removable assumption.
+
+**Why this is plan-level.** No future wave must be run during planning. The missing piece is the explicit measurement obligation that prevents “accelerate/automate” from becoming slogans.
+
+## Three-lens coverage and reasoning
+
+### 1. Musk: question → delete → simplify → accelerate → automate
+
+1. **Question.** The plan correctly challenges pairing-as-completion, old interstitial placement, a universal five-minute marketing promise, and the need for a new migration engine; the new requirement to return useful native records is the right outcome. I would retain minimum installation/source authorization and source-account confirmation because they are real trust boundaries, not delete them to manufacture “zero clicks.” [Plan, lines 7–19, 28–36, 171–179, 288–313](plan-r1.md)
+2. **Delete.** The proposed deletion of repeated routine confirmations, a competing token store, arbitrary model JavaScript, and vendor-specific core adapters is justified. Optional QR and automatic toolbar-popup behavior remain nonessential; no parallel executor or new platform should be added to close this audit. [Plan, lines 31–36, 102, 163, 177, 224–225, 279–284](plan-r1.md)
+3. **Simplify.** One owned intent, one authority for terminal outcomes, one session owner, and generated producer/consumer contracts are sensible simplifications; A1–A3 require strengthening those same boundaries, not adding independent state machines. The exact native roster bridge, source namespace encoding, and transport details may legitimately be designed at their named gates. [Plan, lines 212–258, 288–301, 429–438](plan-r1.md)
+4. **Accelerate.** Preserving D1→D2→validation, reconciling the mobile stack, serializing shared generators/writers, and letting disjoint read-only work proceed avoids expensive rework. A7 identifies the missing measurement that would prove this remains the shortest safe process, rather than blindly preserving an old environment constraint. [Plan, lines 130–140, 315–340](plan-r1.md)
+5. **Automate last.** Deterministic finite read-only actions, an untrusted blueprint normalizer, bounded budgets, and a real second-platform gate put automation after necessary validation; A2 prevents the automation from treating historical native data as new operational events. [Plan, lines 275–284, 365–375](plan-r1.md)
+
+**Lens conclusion:** retain the architecture; close the specific lifetime and measurement gaps. The one-Start successful path does not mean deleting optional Stop, consent boundaries, or truthful failure behavior.
+
+### 2. Bezos: work backward from a coach using their business in TGP
+
+The customer path is covered from completed onboarding through source choice, desktop continuation, pairing, source readiness, accepted Start, native review, and return to owned client/history screens; it is no longer a hidden settings-only extension setup. [Plan, lines 146–167, 198–209, 292–301, 348–362](plan-r1.md)
+
+Phone-only execution is honestly excluded, the handoff retains place without putting secrets in URLs, and a returning valid paired coach avoids unnecessary reauthorization; these are justified realities, not plan defects. [Plan, lines 36, 159–160, 171–179, 220–227](plan-r1.md)
+
+Incomplete outcomes retain useful data without pretending a successful batch equals a migrated business, but A6 is necessary to ensure rollout evidence includes actual full migrations rather than exclusively graceful failures. A2 protects existing clients from historical-import notifications and A4 gives the coach an immediate way to stop an unwanted operation. [Plan, lines 165, 238–243, 305–313, 385–395](plan-r1.md)
+
+**Lens conclusion:** the north star is correct; tighten the measurable full-success condition and destination-side safety before calling the journey customer-complete.
+
+### 3. Apple: simple, accessible, honest surfaces
+
+The plan's composed Roman copy, preference-aware form of address, static fallback, one primary action, existing design tokens, reduced-motion behavior, large text, keyboard access, and measured progress are appropriate. It avoids fake percentages, popup focus stealing, invented store destinations, and congratulating a staging-only result. [Plan, lines 146–193](plan-r1.md)
+
+The screen inventory does not yet provide the visible reversible exit it asks its auditor to demand; A4 adds that exit without clutter or a second routine confirmation. A3 likewise ensures “Disconnect” describes a trustworthy operation rather than merely erasing local display state. [Plan, lines 163–167, 223, 420](plan-r1.md)
+
+**Lens conclusion:** the visual and interaction direction is sound at plan level. Real screen-reader, contrast, focus, device/browser, and unfamiliar-coach evidence remain future acceptance work, exactly as the plan says. [Plan, lines 370–375, 386–390](plan-r1.md)
+
+## Preservation, technical, and release coverage
+
+| Review area | Independent assessment |
+|---|---|
+| Op80 continuity | The archived checkpoint confirms that #524 was still independently under review, D1/D2 bounded evidence was not full acceptance, C1 was unlanded, and M5/extension consumers remained blocked; the plan preserves those distinctions. [Checkpoint, lines 21–37, 63–65, 110–124](../op80-evidence/handoffs/op80-execution/EXECUTION_CHECKPOINT.md) |
+| Final interrupted audit evidence | The supplied transcript records later dependency/logger findings, a stopped audit runner, and fixers halted by changing report pins; treating recovery or re-establishment as G0 work is justified, not a missing completed audit. [Supplied Operator81 transcript, lines 285–361](../documents/operator81.txt), [Plan, lines 81, 108–128](plan-r1.md) |
+| Identity rollout | The preserved recovery actually requires mixed-version expansion/transition/backfill/requiredness/writer/contraction stages and reader-cursor compatibility; keeping these as separate promoted artifacts is technically justified. [Recovery sequencing, lines 30–60](../op80-evidence/handoffs/op80-execution/RECOVERY_SEQUENCING.md), [Plan, lines 260–273](plan-r1.md) |
+| Native bridge | Current `Person` and generic reconstructed-entity identities do not by themselves provide the requested complete native journey; exact domain mapping and workspace-aware identity remain legitimate gated design work, not proof already obtained. [Schema, lines 6879–6962](../backend/prisma/schema.prisma), [Plan, lines 79, 286–301, 433](plan-r1.md) |
+| Mobile contract reality | The inspected mobile API omits `intent_id`, while the backend entities DTO requires it; the proposed generated intent-scoped contract is a real repair, not invented architecture. [Mobile API, lines 18–41](../mobile/src/api/importReviewApi.ts), [Backend DTO, lines 44–71](../backend/src/scout/scout-entities.dto.ts) |
+| Packaging | The manifest registers a classic content script and the inspected file contains an ESM export; a real packaged-load gate is warranted. I did not rerun the plan author's parse probe. [Manifest, lines 37–42](../importer/manifest.json), [Content script, line 37](../importer/content/main.js), [Plan, lines 78, 370](plan-r1.md) |
+| Credentials/privacy/consent | Trusted-origin Start, direct source login, scoped permissions, no secrets in setup URLs, minimized planner evidence, and an explicit security/privacy owner before live data are meaningful safeguards; A1, A3, and A5 close the remaining identified boundary decisions. Exact processor, retention, deletion, and live-data authorization details may remain blocked at their explicit gate. [Plan, lines 161–179, 224–225, 279–284, 375, 437](plan-r1.md) |
+| Source restrictions | No bypass of login/MFA/CAPTCHA, no source business mutations, and refusal of export flows requiring unauthorized source writes are clearly stated. The user is not promised that permission alone makes a prohibited source automatable. [Plan, lines 35, 179, 282–283](plan-r1.md) |
+| Fixed deadline and settlement | Accepted Start, immutable server deadline, idempotency, execution fencing, retained partial results, and linked new attempts are adequate plan-level decisions; no new timer service or implementation proof is needed in this review. [Plan, lines 233–258, 303–313, 360–361](plan-r1.md) |
+| Release dependencies | The default-off ladder, compatible release matrix, current security enforcement, real PostgreSQL/browser proof, dual fresh product audits, and no lossy rollback remain mandatory; no product release was authorized by this document. [Plan, lines 319–342, 365–397](plan-r1.md) |
+| Commit/audit identity | The plan correctly requires Bradley-owned identity-safe landing, immutable audit inputs, and inherited-model uncertainty; no approval is inferred from a passed CI label. [Plan, lines 67–74, 124–128, 340–342](plan-r1.md), [Canonical rules, R3 and R10–R16](../op81-plan/AGENT_RULES.md) |
+
+### Severity-pass sweep
+
+The complete plan was examined in the canonical security → data integrity → concurrency → error handling → performance → architecture → code quality → infrastructure order after the full initial read. This is a plan applicability sweep, **not** a claim that implementation-level R100 or R109–R126 controls passed.
+
+- **Security:** account/source binding, permission scope, trusted origins, prompt injection, tokens, disconnect and privacy gates — A1, A3, A5.
+- **Data integrity:** source/workspace identities, staged/native distinctions, historical relationships, idempotency, destructive rollback, native side effects — A2.
+- **Concurrency:** duplicate setup/Start, lost acknowledgements, source changes, terminal races, workers, writer ownership — A1 and A3; specified CAS/fence design otherwise retained.
+- **Error handling:** incomplete/blocked/timeout honesty, recoverability, cancellation visibility and stale status — A4.
+- **Performance:** the 300-second inclusive deadline and honest source/account-size envelopes — A6; no benchmark numbers invented.
+- **Architecture:** reuse before new components, C1 freeze, inherited database rollout, native writers, finite action executor — sound direction; A7 supplies missing process measurement.
+- **Code quality:** implementation LOC/density/generator/hook rules are future PR obligations; no code quality clearance inferred from the plan.
+- **Infrastructure:** packaged extension, supported browser reality, scanners/protection, exact-head independent audits, feature gates, rollback and release matrix — correctly gated, not tested here.
+
+## Deliberately not findings
+
+- Not having recovered the final #524 reports in this planning draft is not itself a defect: G0 explicitly requires recovery or an honest re-established audit, and does not invent closure. [Plan, lines 108–128, 431](plan-r1.md)
+- Not shipping native writers, an extension listing, a phone-only executor, retention policy, or real-platform results during a plan review is not a defect when implementation/live-data gates explicitly block the unsupported claim. [Plan, lines 36–37, 365–375, 429–438](plan-r1.md)
+- I do not demand a new event bus, second token store, cloud browser, general ontology, or alternative import pipeline; the findings fit the existing session, intent, capture, native-writer, UI, and evidence boundaries. [Plan, lines 31–36, 196–258, 286–301](plan-r1.md)
+- I do not treat unmerged PR19 as shipped behavior, textual mobile composition as behavioral validation, a synthetic CI merge as the PR commit itself, or old bounded test results as fresh product approval. [Plan, lines 17, 67–83, 119–140](plan-r1.md)
+
+## Limitations and handoff
+
+This report is based on the immutable full plan, the specified canonical rules, selected local source files, the supplied text documents, and the archived Op80 evidence. Remote PR heads/checks/protection and public Chrome/Apple/AWS documentation were not independently re-fetched; product code outside the relevant inspected seams was not exhaustively audited.
+
+No product tests/builds or live source imports ran. Counterexamples are static design analyses, not claimed exploit reproductions. Future implementation must still pass the full exact-head R14 cycle and the plan's evidence ladder; this report does not supply the required dual product audits.
+
+**Recommended next action:** preserve this original report; resolve A1–A7 in a new plan revision with individual dispositions; re-hash and request a fresh full-plan pass. Keep G0 recovery as the first execution step after planning authorization, without mutating the preserved candidates to satisfy this review.
+
+VERDICT: FINDINGS

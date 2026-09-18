@@ -6,6 +6,28 @@ Newest first.
 
 ---
 
+## 2026-09-17 (Op 81): Importer continuation and Roman-led migration plan
+
+Operator identity of record: Bradley Gleave <bradley@bradleytgpcoaching.com>. Scope: context documentation only; no product code, PR merge, runtime flag, schema, repository protection or customer-data change.
+
+The current owner request establishes a discoverable Roman-led offer **after completed onboarding**, followed by platform selection, account-bound desktop setup, source login, one Start, autonomous import and verified native results. The [continuation plan](handoffs/op81/CONTINUATION_AND_ROMAN_IMPORT_PLAN.md) preserves Operator 80's #524 audit recovery, D1/D2/validation sequence, compatible identity rollout and C1-before-consumer contract freeze.
+
+### R138 Decision Gate
+
+- **Musk's five principles:** question every extra prompt and state owner; delete repeated confirmations, competing engines and settings-only discovery; simplify to one owned intent and the existing executor; accelerate disjoint preparation without overlapping writers; automate proven read-only behavior last.
+- **What would hyperscalers do?** Promote pinned artifacts through compatible schema stages, canary cohorts, observable stop conditions and bounded rollback, following [AWS continuous-delivery practice](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/).
+- **How can I get the GOOD without the BAD?** Make migration obvious and calm without silent account switching, broad permissions, source mutations, unsafe data handling or false completion. Plan publication does not open product release gates.
+- **Am I attacking the root cause?** Repair the broken continuity between onboarding, device, source identity, execution and native usability while restoring the interrupted audit evidence chain; a decorative popup is insufficient.
+
+### Explicit precedence and limits
+
+- **Placement:** the current after-onboarding request supersedes only the older Payments-to-Ready interstitial placement. Server eligibility, skippability, existing feature gates and C1-before-M5 remain required.
+- **Billing:** the supplied expansion handoff authorizes read-only business/billing records, not payment credentials, charges, transfers or subscription execution. Historical blanket-exclusion text remains preserved as history.
+- **Review:** the requested independent Astra-by-inheritance plan audit is recorded separately from mandatory future Astra/Fable exact-head product audits. Its findings, revisions and limitations are in the [audit record](handoffs/op81/AUDIT_AND_PUBLICATION_RECORD.md).
+- **Rollback and blast radius:** these documents can be superseded or reverted with a new identity-correct commit. Do not rewrite history or delete the Operator 80 archive; no product rollback is being performed.
+
+---
+
 ## 2026-07-27 (Op 75) — P0-AUDIT EVIDENCE PRODUCED: retroactive adversarial dual-lens R14 audit of backend `5076a07a`; **B2 closes on landing of PR #28, not before**; **B1 open by design and reclassified** (R3-INC-4 is an *unasserted-identity* incident, not a forbidden-mechanism one); twelve findings recorded and routed; one finding blocked on an ownership decision; no history rewritten (governance/audit evidence only; 0 production LOC; no build, no landing, no flag flip, no completion claim)
 
 **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>

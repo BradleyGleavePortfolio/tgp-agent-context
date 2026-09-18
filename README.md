@@ -8,6 +8,12 @@ This repo is the home for everything that crosses repo boundaries: rules, handof
 
 Created in response to **R15** (`growth-project-backend/AGENT_RULES.md` rule 15 / `growth-project-mobile` rule 34): GitHub is the only source of truth, and canonical agent context must never live in a sandbox.
 
+## Current importer continuation: Operator 81
+
+Start with [Operator 81: Importer Continuation and Roman-Led Migration](handoffs/op81/CONTINUATION_AND_ROMAN_IMPORT_PLAN.md) for the recovery order after Operator 80, the discoverable Roman post-onboarding journey, technical contracts, and gated delivery sequence. Read its [audit and publication record](handoffs/op81/AUDIT_AND_PUBLICATION_RECORD.md) before interpreting its review status.
+
+This is the newer planning entry point, not evidence that backend #524 or any other product PR has been cleared, merged, or released. The separate [Operator 80 archive](https://github.com/BradleyGleavePortfolio/tgp-agent-context/tree/3300d31539df4428c9b8f5f85215a4842c30728c/handoffs/op80-execution) remains preserved; its historical checkpoints are not current product acceptance.
+
 ## Layout
 
 ```
@@ -114,3 +120,5 @@ Prior operator agents lost critical canonical docs when their sandboxes were des
 *Owner:* Bradley Gleave
 *Created:* 2026-05-26
 *Visibility:* Private
+
+Op 81 publication preflight, September 17, 2026: GitHub reports this repository as **public**. The creation-time visibility label above is retained as history and must not be treated as the current access boundary.
