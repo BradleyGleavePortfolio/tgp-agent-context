@@ -1,8 +1,24 @@
 # DECISION LOG
 
-Operator-signed decisions that changed doctrine, architecture, or process. Every AGENT_RULES.md change requires a corresponding entry here (per the AGENT_RULES.md footer).
+Operator-authorized decisions that changed doctrine, architecture, or process. Record consequential governance changes here; [AGENT_RULES.md](AGENT_RULES.md) defines current authority, identity, review, and evidence requirements.
 
 Newest first.
+
+---
+
+## 2026-09-18: Adopt the risk-tiered constitution
+
+Authority: the operator explicitly directed, "override the agent-rules of today with this IMPROVED version right away!" This follows the delivered governance refactor, complete old-rule disposition map, and 22-rule replacement draft in the [governance session](https://www.perplexity.ai/computer/tasks/1137cb82-0f96-4e3c-a127-837766937d83).
+
+Decision: replace the canonical `AGENT_RULES.md` immediately with the approved G01–G22 constitution. The only draft-content adjustments are effective/adoption status and present-tense replacement language. The README's stale doctrine pointer is updated with the same precedence.
+
+This explicit operator direction is the authority for immediate adoption, not an independent-review verdict. No dual independent audit was performed for this adoption, and no cryptographic signature or product certification is claimed. This one-time adoption does not waive the new tier requirements for subsequent governance, enforcement, security, or product changes.
+
+The previous 135-rule constitution is preserved unchanged in [Git history at `2ead9b05e967713201c03619b564a3db4cadea35`](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/2ead9b05e967713201c03619b564a3db4cadea35/AGENT_RULES.md). Its numbered rules, process addenda, and conflicting generic handoff procedures are superseded, not retained as a parallel active constitution. Existing concrete security, compatibility, retention, and recovery parameters remain effective until owned replacements are approved.
+
+Scope and limits: documentation adoption only. No product repository, branch protection, CI workflow, deployment, feature flag, credential, customer record, existing finding disposition, or product acceptance criterion is changed. Procedural reductions that depend on automated replacement controls remain conditional on verification of those controls; missing controls are not declared implemented.
+
+Publication verification covers the approved-draft comparison, 22-rule inventory, clean diff, three-file scope, unchanged parent, owner author/committer identity, and remote publication. No product test run, independent audit, production readiness, or closure of the current Op81 findings follows from this commit. Reversal, if needed, is a new ordinary revert commit, never a history rewrite.
 
 ---
 
