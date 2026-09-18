@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-09-18T04:43:17.238042+00:00",
+  "head": "238f0f1f152ebbb1b4691f555e98c888473d8ee7",
+  "tree": "b2bb1666a91d60927d3ee1d6455ce687ce1c8739",
+  "status": "",
+  "numstat": "562\t498\tpackage-lock.json\n65\t57\tpackage.json\n158\t0\ttest/dependency-compatibility.spec.ts\n",
+  "lockEntriesBefore": 1151,
+  "lockEntriesAfter": 1150,
+  "addedEntries": 20,
+  "removedEntries": 21,
+  "modifiedEntries": 45,
+  "tokens": {
+    "@ts-ignore": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "as any": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "as unknown as": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "as never": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    ".catch(()=>undefined)": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    ".catch(()=>null)": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    ".catch(()=>{})": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "Coming soon": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    }
+  },
+  "candidateLockSHA256": "b7fed5ed611c004615022cf69375b83956e9a69604807123fbe0e7965aea9c55",
+  "nonRegistryResolved": [],
+  "missingIntegrity": [],
+  "installScriptsChanged": [
+    [
+      "",
+      true,
+      true
+    ]
+  ]
+}
