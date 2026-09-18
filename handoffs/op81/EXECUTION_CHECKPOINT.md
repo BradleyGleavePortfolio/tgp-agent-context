@@ -1,6 +1,6 @@
 # Operator 81 execution checkpoint
 
-Updated with native validation completed at 2026-09-18T08:12:27.868Z. Status: G0 repairs and validation in progress, not product clearance.
+Updated with native validation completed at 2026-09-18T08:35:09.763Z. Status: G0 repairs and validation in progress, not product clearance.
 
 ## Current progress
 
@@ -20,6 +20,7 @@ new GitHub CI runs or final-head dual-auditor approval.
 | Composed repository controls | `d3f84beeaa8ec9513a483e1c38c43abc01efb330`, tree `773cc7fde9130d7b021e57ce23a1329c1f67eff1` | 88/88 focused cases in three suites and static checks pass. Both independent reviews returned FINDINGS and are frozen. No approval or remote enforcement claim. |
 | Control boundary amendment | `44f9999e1edb008f892c7f5356455a21dd329883`, tree `f6e0833d1360420e220fe9eec1a25900c2104def` | 183/183 focused tests in four suites, full-project typecheck, five-file lint and self-scan pass. Earlier unsuccessful regression runs are preserved; no independent final-head clearance. |
 | Control wiring amendment | `2e97aed45852a2c566a83ce454554b264e5a0b75`, tree `a13ff78db8e2efdb3ef219053b6038aa694aadff` | 207/207 focused tests in five suites, full-project typecheck, six-file lint and self-scan pass. The previous amendment's checker/policy/boundary bytes are retained. No hosted Actions or release claim. |
+| Control conformance amendment | `d2919dcd5582ea87487612dbf0f6bad100231b5f`, tree `be06d098eb7cbbf75e7a19dac33121fda41f50c6` | 249/249 focused tests in six suites, full-project typecheck, seven-file zero-warning lint and self-scan pass. The exact standing CI lint command also passed locally without ignore overrides. Prior unsuccessful harness runs are retained and separately attributed. No full application suite/build, fresh advisory scan, hosted Actions or independent final-head clearance is claimed. |
 
 The diagnostics sequence is preserved as S1 `8b65b76e…`, S2 `6614228d…`
 and S3 `9bade0cf…`, with measured net sizes 395, 159 and 367 against
@@ -38,7 +39,7 @@ The token-gate sequence is S1 `89d2e3bc…`, S2 `a1de3a4e…`, S3
 are 254, 331, 389 and 156. The first two are explicit data prerequisites, with
 no execution/enforcement claim; executable S3/S4 added-test ratios are
 298/148 and 224/6. Fixture JSON is not credited toward test density.
-The final checker is 154 lines, with 448 executable test lines. Cumulative
+At that S4 snapshot the checker is 154 lines, with 448 executable test lines. Cumulative
 gate net is 1,130 against PR524 and 1,288 against main, so this is not one
 under-400 PR. No exemption or product landing is claimed.
 
@@ -56,13 +57,15 @@ test result belongs to the actual composed head, while the earlier native
 dependency audit retains its original head attribution. Separate diagnostics,
 readiness and dependency-evidence amendments are not part of this composition.
 
-Two subsequent control amendments are measured separately: net318 against
-the composed predecessor, followed by net234 against the boundary predecessor.
+Three subsequent control amendments are measured separately: net318 against
+the composed predecessor, net234 against the boundary predecessor, followed
+by net208 against the wiring predecessor.
 The first has228 added test lines and39 added source lines; the second has
 no SRC additions under the actual density job, so its ratio is N/A.
-Combined552 and full-stack2079 versus PR524/2237 versus main are not one
+The third adds184 TEST lines against3 SRC lines under the actual job.
+Combined760 and full-stack2287 versus PR524/2445 versus main are not one
 under400 PR. No exemption is claimed. The latest full focused execution
-passed207 tests with no pending cases; candidate evidence is not audit closure.
+passed249 tests with no pending cases; candidate evidence is not audit closure.
 The review correction and all detailed findings remain private and preserved.
 
 Private source clones and ordinary, independent dependency copies remain in
