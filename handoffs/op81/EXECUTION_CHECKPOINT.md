@@ -1,6 +1,6 @@
 # Operator 81 execution checkpoint
 
-Updated 2026-09-18 05:56 UTC. Status: G0 repairs and validation in progress, not product clearance.
+Updated from native measurements at 2026-09-18 06:30 UTC. Status: G0 repairs and validation in progress, not product clearance.
 
 ## Current progress
 
@@ -14,8 +14,9 @@ new GitHub CI runs or final-head dual-auditor approval.
 |---|---|---|
 | Dependency compatibility evidence | `75cc24f7b198673983c9797930b76d769f2f893c`, tree `03b674657c0a1efff22b1768fb5aec09d7fbf651` | 10/10 focused tests, full-project typecheck, targeted lint and installed offline tool-version check pass. Four baselines and six intentionally failing mutations meet all ten control expectations. |
 | Organized diagnostics regression | `d251a02e5e73a119a24ec5ea45a2de95d3044836`, tree `bbb95c81a387cde75727cde624c953b585d6c535` | 64/64 tests in four suites, no skips/todos; full-project typecheck and touched-file lint pass. All original case titles retained. |
-| Readiness response and cache policy | `2044bac9a5b41f317d031efcd82afc8b53e2a943`, tree `189d86e0017f0ef6af1b9037019b3e0df4f3710d` | 14/14 tests with the production cache interceptor installed, full-project typecheck and four-file lint pass. Native coverage collected; this is not a full bootstrap or deployed-outage test. |
-| Shared token-gate draft | `389c180e046ab32f197ecd5c94fa35f13638aa85`, tree `0e63cae88b2cb998a1d7353caa5be7f528439488` | WIP source checkpoint only. Size, density and correctness revisions remain; no candidate test/compiler clearance. |
+| Readiness response, cache policy and routing configuration | `f69bcd78f7209b59b195756719b4ac481635d159`, tree `0e68327ccbb12db590d6cd6e7f6d77c57b8ec443` | 19/19 tests in three suites, full-project typecheck, five-file lint and native TOML parse pass. Prior cache coverage remains attributed to `2044bac9`; no full bootstrap or deployed-outage claim. |
+| Shared token-gate candidate | `58ab0c287c62e42a237c4351409e7ad7ac1d3ba2`, tree `4fb1b02f83040391f399201c2fe880c6bc474c54` | 65/65 tests in two suites, full-project typecheck, zero-warning targeted lint and self-scan pass. Overall density passes; size does not fit one PR. Original drafts and first unsuccessful run remain preserved. |
+| Dependency-audit gate candidate | `d036572d39aa9a50357883ed422bd46306043a71`, tree `4b439a629fc223c69bfd757321ac962c2f8f381a` | 22/22 gate tests, full-project typecheck and zero-warning targeted lint pass. Real lockfile-only audit on prior head `556fdf21` returned zero vulnerabilities without an install; current workflow, manifest and lock bytes are identical. Current tests changed only mutation construction. No required-check wiring claim. |
 
 The diagnostics sequence is preserved as S1 `8b65b76e…`, S2 `6614228d…`
 and S3 `9bade0cf…`, with measured net sizes 395, 159 and 367 against
@@ -23,10 +24,22 @@ their respective prerequisites. S3's complete tree is identical to the
 64-case execution tree. The cumulative 921-line change is not being presented
 as a single under-400 PR, and the dependency prerequisite is still unmerged.
 
-The coherent readiness candidate is 121 added / 11 removed, net 110,
-with 107 test lines added against 14 production lines added, measured against
-the unmerged dependency prerequisite. Its cache-only amendment is not being
-presented as a separate density-compliant PR.
+The current readiness candidate's actual LOC-gate measurement is 182 added /
+25 removed, net 157, with 161 test lines against 21 source additions relative to
+the unmerged dependency prerequisite. Main-cumulative gate net is 315. Broad
+prerequisite net 170 also includes 13 Fly TOML lines outside that existing job's
+pathspec. Prior cache-only work is not presented as a standalone compliant PR.
+
+The token-gate candidate has 425 executable test lines against 182 checker
+lines, ratio 2.335, without crediting 585 fixture-data lines toward density.
+Its actual gate net is 1,135 against the prerequisite and 1,293 against main:
+both exceed 400, so coherent sequential slices are still required. No waiver.
+
+The dependency-audit gate is 397 new counted lines relative to its prerequisite
+but 555 main-cumulative including the inherited 158-line test addition. It is
+not an under-400 main-based PR today. The actual density job has zero SRC
+additions for this workflow-only change and therefore reports N/A, not a
+manufactured workflow/test ratio.
 
 Private source clones and ordinary, independent dependency copies remain in
 use. The parent serializes native execution and controls publication; no
