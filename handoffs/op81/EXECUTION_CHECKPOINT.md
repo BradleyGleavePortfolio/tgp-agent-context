@@ -1,6 +1,6 @@
 # Operator 81 execution checkpoint
 
-Updated 2026-09-18 04:29 UTC. Status: G0 recovery and validation in progress, not product clearance.
+Updated 2026-09-18 04:40 UTC. Status: G0 recovery and review preparation, not product clearance.
 
 ## Authority and publication
 
@@ -40,7 +40,11 @@ This is a bounded accessible-source search, not a claim the files never existed.
 
 ## Next exact actions
 
-Complete fresh bounded validation and preserve native outputs with distinct metadata filenames. Verify source identity around every run. Dispatch two independent exhaustive reviews against stationary inputs once preconditions are recorded; if fresh validation fails first, preserve and classify that failure rather than represent a blocked audit as clean.
+Fresh dependency graph, security audit, typecheck, lint, build and full default suite each returned native status 0. The suite passed 531 suites / 7,857 tests / six snapshots; 12 skipped suites, 159 skipped tests and five todos remain explicit. The dependency audit reported zero vulnerabilities. Eight focused compatibility tests also passed. The source tree and lock remained unchanged.
+
+The outer command tool timed out after all native validation commands had finished. Recovery found their complete result files and no live validation process; native completion is recorded separately from wrapper failure. Full-suite JSON SHA256 is `da2459481f3d4d6ba72a42b25fdb76137ed891233e134b0ce9c58240672766af`; the native command ledger SHA256 is `333a0b791b9a401953475e1b8646f7935a553f8a03e4e5b864dcb7d4446b679b`.
+
+Remote existing checks are successful except the conditional deployment gate, which is skipped, not passed. Live backend classic protection returns “Branch not protected” and rulesets are empty. Existing workflow semantics and inherited controls require independent examination; green commands do not mean all doctrine preconditions are satisfied. The next dual review is an exhaustive diagnostic re-establishment of the interrupted cycle, not permission to merge across missing gates.
 
 After valid reports, consolidate every P0–P3 with evidence and inheritance attribution. Repair through separate bounded candidates, rerun relevant checks, and obtain fresh independent final-head clearance before any product landing. D1, mandatory D2 and validation remain ordered behind the dependency/control repair; Roman implementation remains governed by the published G0–G7 plan.
 
