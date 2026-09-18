@@ -1,6 +1,6 @@
 # Operator 81 execution checkpoint
 
-Updated 2026-09-18 04:51 UTC. Status: G0 recovery and independent review active, not product clearance.
+Updated 2026-09-18 04:57 UTC. Status: G0 findings received, second independent review active, not product clearance.
 
 ## Authority and publication
 
@@ -60,7 +60,13 @@ After valid reports, consolidate every P0–P3 with evidence and inheritance att
 
 ## Measurements and notification
 
-Product audit rounds this operator: zero completed. Fixer iterations: zero. Product merges: zero. Exact model cost is unavailable and will not be invented. The safe minimum still includes dual independent review and all applicable validation.
+Product audit rounds this operator: first round in progress; Lens A stationary full report received with 22 findings and no incomplete review sections, Lens B active. Fixer iterations: zero. Product merges: zero. Exact model cost is unavailable and will not be invented. The safe minimum still includes dual independent review and all applicable validation.
+
+Lens A distinguishes inherited control gaps from four introduced dependency-test/documentation weaknesses. Its original report and all 12 evidence files are preserved under [PR524 evidence](evidence/pr524-r0/README.md). Reports have not yet been consolidated, no finding is waived, and source is still stationary for Lens B.
+
+Read-only recovery evidence search found policy placeholders for actual Supabase backup/PITR state, not a completed restore attestation. The Supabase connector is available but disconnected; authorization was requested without any database access or mutation. Do not claim the account lacks PITR, that a restore occurred, or that production configuration is verified.
+
+Diagnostics source preparation is active under `diagnostics_regression_preparation_mu6heupp`. Parent prepared a separate 717 MB dependency copy using ordinary copies, not hardlinks or shared runtime leasing; full `diff -qr` returned zero and representative Prisma file inodes differ. Both lock hashes remained `b7fed5ed611c004615022cf69375b83956e9a69604807123fbe0e7965aea9c55`. No execution or production repair is yet allocated to that builder.
 
 Further recovery reproduced the exact full backend candidate and C1a/C1b trees without changing product worktrees. See [Recovery manifest](RECOVERY_MANIFEST.md), including the still-missing later diagnostics additions.
 

@@ -1,0 +1,32 @@
+[
+  {
+    "dispatch_key": "diagnostics-source-r0",
+    "pre_dispatch_present": true,
+    "dispatched_present": true,
+    "all_required_fields_present": true,
+    "prediction_populated_before_dispatch": true,
+    "actual_recorded_after_report": false,
+    "prediction_value_disclosed": false,
+    "actual_value_disclosed": false
+  },
+  {
+    "dispatch_key": "pr524-r0-a",
+    "pre_dispatch_present": true,
+    "dispatched_present": true,
+    "all_required_fields_present": true,
+    "prediction_populated_before_dispatch": true,
+    "actual_recorded_after_report": true,
+    "prediction_value_disclosed": false,
+    "actual_value_disclosed": false
+  },
+  {
+    "dispatch_key": "pr524-r0-b",
+    "pre_dispatch_present": true,
+    "dispatched_present": true,
+    "all_required_fields_present": true,
+    "prediction_populated_before_dispatch": true,
+    "actual_recorded_after_report": false,
+    "prediction_value_disclosed": false,
+    "actual_value_disclosed": false
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-09-18T04:50:54.001489+00:00",
+  "hashes": {
+    "PR524_REESTABLISHMENT_BRIEF.md": "b4fac1c0d4c2283c30b55e74500691453421d7cd461d3a3dd42fef000c170ed0",
+    "validation/command-ledger.jsonl": "333a0b791b9a401953475e1b8646f7935a553f8a03e4e5b864dcb7d4446b679b",
+    "validation/full-suite-results.json": "da2459481f3d4d6ba72a42b25fdb76137ed891233e134b0ce9c58240672766af"
+  },
+  "lock_sha256": "b7fed5ed611c004615022cf69375b83956e9a69604807123fbe0e7965aea9c55",
+  "source": {
+    "head": "238f0f1f152ebbb1b4691f555e98c888473d8ee7",
+    "tree": "b2bb1666a91d60927d3ee1d6455ce687ce1c8739",
+    "status": "",
+    "base": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7"
+  },
+  "canonical": {
+    "head": "2ead9b05e967713201c03619b564a3db4cadea35",
+    "tree": "cc272adb2b7daa5aae02ad7d5b49ffb5b2807f53",
+    "status": "",
+    "base": "32445a75c7ee6a0018c1f3979519b3e62ed67fc8"
+  },
+  "report_row_count": 73,
+  "report_unique_rows": 73
+}

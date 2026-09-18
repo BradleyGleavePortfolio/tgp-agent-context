@@ -1,0 +1,17 @@
+PASS test/dependency-compatibility.spec.ts (10.173 s)
+  locked dependency compatibility
+    ✓ rejects shell operator injection and preserves literal argument round trips (61 ms)
+    ✓ preserves Prisma deepmerge semantics and bounds cyclic input (75 ms)
+    ✓ loads an actual Prisma config through c12 and the overridden merger (615 ms)
+    ✓ restores real Istanbul instrumentation selection without a minimatch API override (77 ms)
+    ✓ loads YAML through both Swagger and NYC consumers without cross-major replacement (78 ms)
+    ✓ reads a real Git object through Danger without requiring a remote platform (64 ms)
+    ✓ parses normal multipart data and rejects a truncated upload with Nest-resolved Multer (98 ms)
+    ✓ decodes normal WebSocket frames and rejects oversized and excess-fragment input (62 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        10.424 s
+Ran all test suites matching test/dependency-compatibility.spec.ts.
+Test results written to: ../op81-execution/validation/focused-results.json
