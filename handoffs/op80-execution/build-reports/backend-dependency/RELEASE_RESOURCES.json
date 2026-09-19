@@ -1,0 +1,23 @@
+{
+  "source_freeze": "b2bb1666a91d60927d3ee1d6455ce687ce1c8739",
+  "writer_released": true,
+  "install_slot_released": true,
+  "generator_slot_released": true,
+  "type_build_slot_released": true,
+  "test_slot_released": true,
+  "network_audit_slot_released": true,
+  "db_access": "Never authorized or used",
+  "remote_writes": "None",
+  "patch": "corrected-candidate.patch",
+  "patch_sha256": "ff504dfd7f87c8c1b1777f04a1e2b4faf9a420f3770b4df6f8b56f5f53a5645a",
+  "primary_report": "BUILD_REPORT.md",
+  "office_report": "BUILD_REPORT.docx",
+  "sbom": "sbom.cdx.json",
+  "reconstruction": "corrected-freeze.json",
+  "final_identity": "FINAL_IDENTITY.json",
+  "final_gates": "FINAL_GATES.json",
+  "full_suite_success": true,
+  "requested_model": "Astra inherited",
+  "runtime_model_verified": false,
+  "verdict": "FINDINGS"
+}

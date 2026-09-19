@@ -1,0 +1,16 @@
+{
+  "timestamp": "2026-09-17T21:26:01.204196+00:00",
+  "base": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+  "tree": "b2bb1666a91d60927d3ee1d6455ce687ce1c8739",
+  "predecessor": "7e959c034fa8134f630a77784e733665d51352d5",
+  "patch": "corrected-candidate.patch",
+  "sha256": "ff504dfd7f87c8c1b1777f04a1e2b4faf9a420f3770b4df6f8b56f5f53a5645a",
+  "reconstructed_tree": "b2bb1666a91d60927d3ee1d6455ce687ce1c8739",
+  "staged_files": [
+    "package-lock.json",
+    "package.json",
+    "test/dependency-compatibility.spec.ts"
+  ],
+  "predecessor_diff": "diff --git a/package.json b/package.json\nindex acd1db7d..656d11a2 100644\n--- a/package.json\n+++ b/package.json\n@@ -96,6 +96,8 @@\n     \"@nestjs/platform-express@11.1.26\": {\n       \"multer\": \"2.3.0\"\n     },\n-    \"js-yaml@4.1.1\": \"4.3.2\"\n+    \"@nestjs/swagger@11.4.4\": {\n+      \"js-yaml\": \"4.3.2\"\n+    }\n   }\n }\n",
+  "stat": " package-lock.json                     | 1060 +++++++++++++++++----------------\n package.json                          |  122 ++--\n test/dependency-compatibility.spec.ts |  158 +++++\n 3 files changed, 785 insertions(+), 555 deletions(-)\n"
+}

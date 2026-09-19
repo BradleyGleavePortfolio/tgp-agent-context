@@ -1,0 +1,43 @@
+{
+  "parent_proof_tree": "3c3d09cf95851fb91e66ed20fe770a1a8164845c",
+  "parent_result_sha256": "fcc1708f551bce9b4ecc8919e87f344ef0ff5c6b5cba009b1548fc366f44ae7b",
+  "parent_check_count": 18,
+  "a_tree": "404dd55d2fde7ab9fab46fb4ea1d27a9d79a7556",
+  "b_tree": "660e436ecbf911b6984b40ed43d135e3dc308378",
+  "migrations": [
+    {
+      "file": "prisma/migrations/20270116000000_add_pair_import_intent/migration.sql",
+      "sha256": "4fbf1c0bdf28740ee34188be8821ffd31f404f57ad8359e593716618fe4a34ba",
+      "original_a_b_parent_match": true
+    },
+    {
+      "file": "prisma/migrations/20270116000000_add_pair_import_intent/down.sql",
+      "sha256": "0e25af9165f282a0e19f1a11c48a514b1f0cfb0b56a551334bc29c61e2ece729",
+      "original_a_b_parent_match": true
+    }
+  ],
+  "schema_original_a_b_identical": true,
+  "a_existing_methods_and_helpers_hash_identical": {
+    "resolveTtlSeconds": "4bf6d1c6019d5f30d2705d2992fd2795b2e0cc1b04ea123aca28a2d8189fbb9c",
+    "timingSafeStrEqual": "9c331d27da7ebe0b398777b48c93aa99eefc5628d996ec44d0698d5255d73fc3",
+    "ACTIVE_COACH": "a3e23a9e52be41405737bb8f3518b646f8470454d27fac77e75800c27b62e601",
+    "init": "07eef1ff8f73bf03a942d4a2444c56b95f678695b609f91a57ed43002e334938",
+    "status": "0850eff5bfe863cf1e341f79e4cde27eff7886c059e9ec955d27f6682b1d297f",
+    "redeem": "5c44b9a3006b62bb8b6a2215fc854087062108ade8858c34ae9011fbf4f14c8e",
+    "registerFailedAttempt": "27ae7db3087ad6688a2f029636fbf9cf2150cc2760e42f1d3ed553fa86559a20",
+    "mintSixDigitCode": "47937044bc886d387935a00dbf07871a4013cc1787fce450a0f526b89393b8e9",
+    "deriveStatus": "b50c36b36d31ee34bf520af9a20397f6fff9b1197b4e3dd621e2b51e9a73c077",
+    "isUniqueViolation": "1586082c78298248a48dcae2bd2ff3e5f4af5b91f54e522f62e4a405fa829195",
+    "intentEcho": "8f618cc6fd48f8dd7fdd4c244d4c038fdb28189762aae4c88840eff10788c780"
+  },
+  "a_session_absent": true,
+  "b_entire_service_byte_identical": true,
+  "limits": [
+    "PostgreSQL 18.6 differs from checked-in CI PostgreSQL 15.",
+    "Original pairing migration plus minimal User fixture, not full migration-chain validation.",
+    "Production service/storage predicates tested; HTTP guards, external token mint and full suite not exercised.",
+    "Small synthetic timing is not production-size lock or latency evidence.",
+    "No security/retention/idempotency blocker is waived; no consumer freeze or activation."
+  ],
+  "interpretation": "Independent parent proof executed on original tree only. C1a shared methods/schema/migration and full C1b service/schema/migration map by exact equality; this is provenance mapping, not an exact-split DB rerun, CI15 proof, HTTP/auth vendor test or production benchmark."
+}

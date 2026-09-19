@@ -4,6 +4,84 @@ Operator-authorized decisions that changed doctrine, architecture, or process. R
 
 Newest first.
 
+## 2026-09-17: Advance the unpublished queue and verify upstream counterexamples first
+
+Keep the next three unpublished slices explicit: D1 diagnostic protection, mandatory D2 classifier coverage, then import validation with a truthful forward2.x contract. Dependency PR524 and importer R110 PR23 have remote execution evidence but remain drafts with independent/enforcement gates open. Both D1/D2 bounded sequences completed at22:31 UTC on their frozen trees; no full suite or merge is thereby authorized.
+
+### R138 Decision Gate
+
+- **Question, delete, simplify:** Question the assumption that downstream full tests should run immediately while an upstream auditor has a concrete unresolved consumer probe. Remove duplicate installs and premature full runs, not tests or review; retain one exclusive private environment and a serial lease with complete restoration checks.
+- **Hyperscaler practice:** Use immutable candidates and staged promotion so a prerequisite correction invalidates downstream acceptance explicitly, consistent with [AWS continuous-delivery safety gates](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/). Bounded counterexample checks precede another expensive acceptance run; parallel reviewers remain isolated.
+- **GOOD without BAD:** Preserve forward progress through source-only planning and independent review while preventing overlapping writes, repeated full suites on changing inputs, lost assertions or false release claims. D2 remains mandatory; validation cannot advertise an unlanded database identity.
+- **Root cause:** Test the actual package consumer and public validation boundaries instead of treating green summaries, a missing scanner result, or a future contract description as proof. Keep harness failures distinct from product defects and keep native outputs distinct from metadata.
+
+Rollback/blast radius: documentation, evidence-only probes and private reversible dependency leases only. Frozen product/source/contract inputs remain unchanged; no new dependency installation, production writes, scanner substitution, permission change, flag activation or merge. Any later input change requires a newly pinned candidate and the complete acceptance cycle.
+
+## 2026-09-17: Serial diagnostics verification and independent draft progress
+
+Preserve the formatted diagnostics repair as sequential D1 (348 net lines) and mandatory D2 (+93), never remove assertions or evade the 400-line gate. Source-only preparation yields trees `410ac3a7f7a8a62d7f00081c525b760786fd2eef` and `ad166457d90b45c26a992881059ac98ce66accec`; neither is newly verified. Detailed composition decision is in `handoffs/op80-execution/CYCLE2_DECISION_LOG.md`.
+
+With approximately 1.1 GB free disk, prepare a reversible exclusive lease of the parent's private backend publication dependencies rather than two writable copies or a shared symlink. The runner must be reviewed before any move/test allocation; preserve hashes, modes, symlink confinement, product pins and untouched producer inputs. Auditors remain source-only in separate fixed clones.
+
+Publish R110 independently as a draft stacked on pagination after its own hooks/gates/scans, while preserving R120 and remote enforcement as release blockers. This separates bounded reviewable work without weakening acceptance or implying that local green equals shipped behavior.
+
+## 2026-09-17: publish R110 separately from blocked R120 tooling
+
+Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
+
+Decision: prepare the unchanged, locally verified R110 tree `3db01451c6c4e1aa46c6637db80d852e2273bcf6` as a standalone draft PR stacked on pagination PR21. Do not combine it with R120 tree ef0, whose proposed tooling failed supply-chain acceptance. Alternative qualification found five missing native policies and an unverified shipped dependency closure; no substitution is approved. R120 remains an explicit release blocker, not an exception.
+
+### R138 Decision Gate
+
+- **Musk five principles:** Question the coupling of two independent security changes. Delete the unnecessary publication dependency, not tests or the R120 obligation; keep each scope small and promote only demonstrated results.
+- **Hyperscaler practice:** Preserve independent release artifacts and automated safety gates, consistent with [AWS continuous-delivery guidance](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/). A failed candidate remains stopped while an independent verified candidate advances to review.
+- **GOOD without BAD:** Make the tested secret-scanning code durable and reviewable without publishing vulnerable Checkov dependencies or a non-equivalent replacement. Use actual native hooks and exact-head checks; no feature activation or merge is authorized.
+- **Root cause:** Separate the mandatory scanner dependency problem from secret detection itself. Stacking the R110 PR on the exact pagination branch also makes its nine-path delta explicit without rewriting either frozen candidate.
+
+Rollback/blast radius: a new draft branch containing only the frozen R110 delta; preserve ef0 and all failures. No live branch-protection change, new reviewer permissions, rule amendment, secret disclosure or production release. R14 still requires pre-audit gates, independent CLEAN and all outstanding controls before landing.
+
+## 2026-09-17: qualify a workflow-scanner alternative without waiving R120
+
+Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
+
+Decision: authorize a bounded, evidence-only qualification of a supported standalone zizmor release for the importer's GitHub Actions surface. This is not a scanner substitution, R120 amendment, vulnerability exception or product implementation approval. Checkov candidate `ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398` remains frozen and acceptance-blocked. Before an implementation decision, require exact release and binary provenance, dependency/advisory evidence, a mapping of the applicable native Checkov policies, complete-input proof, suppression resistance and a native positive/negative-control plan. Terraform, Docker, Kubernetes and Fly requirements remain separate, not silently covered by a workflow-only scanner.
+
+### R138 Decision Gate
+
+- **Musk five principles:** Question the named-tool choice separately from its safety purpose, following the ordered requirement/delete/simplify/accelerate/automate process described by [Inc.](https://www.inc.com/jeff-haden/elon-musks-algorithm-a-5-step-process-to-dramatically-improve-nearly-everything-is-both-simple-brilliant.html). Do not optimize an unsafe dependency installation or remove the security requirement to get a green check.
+- **Hyperscaler practice:** [AWS continuous delivery](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/) recommends isolated pre-production testing and safety gates that can block known-bad packages. Qualify the alternative outside product trees and require independent evidence before promotion.
+- **GOOD without BAD:** Investigate a smaller supported dependency surface while preserving every existing failure and all required controls. No forced package override, ignored advisory, homemade regex scanner, inherited cross-engine pass count or production change is permitted.
+- **Root cause:** The blocker is the proposed scanner's mandatory vulnerable dependency closure, not a failing application test. Native engine replacement can address that closure only if its security coverage and own supply chain are demonstrated; research alone does not establish either.
+
+Rollback/blast radius: evidence-only files under a separate qualification directory; no existing candidate, rule, GitHub setting, workflow or dependency environment changes. Reject the prototype if equivalence or supply-chain proof cannot be established. Any later bounded prototype execution requires explicit resource allocation; product substitution requires a separate recorded decision and the full audit cycle.
+
+## 2026-09-17: isolated verification and sequential prerequisite PRs
+
+Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
+
+Continue the approved importer recovery architecture with a rolling three-PR window, not three competing writers. Backend dependency repair is locally verified and frozen; importer acceptance stopped on scanner dependency vulnerabilities; diagnostics has the sole bounded regression/repair slot. Preserve independent clone, file, dependency and output ownership. This is a process/allocation record, not a product merge, rule waiver or claim of independent audit approval.
+
+### R138 Decision Gate
+
+- **Musk five principles:** Question the assumption that three planned PRs must execute or land simultaneously. Delete idle preparation waits and duplicate validation, not required tests; simplify ownership to one writer per mutable surface, accelerate unrelated read-only work, and automate only the preserved deterministic checks.
+- **Hyperscaler practice:** Use isolated immutable inputs and gated promotion to contain failures, consistent with the [AWS continuous-delivery guidance](https://aws.amazon.com/builders-library/going-faster-with-continuous-delivery/). Keep upstream verification evidence distinct from downstream acceptance.
+- **GOOD without BAD:** Allow diagnostics to progress while the importer scanner blocker is investigated, without shared writable dependencies, concurrent heavy runs, unreviewed package overrides or silent test-output overwrites. Separate the dependency and diagnostics PRs because their combined 490-line preparation exceeds the actual cap.
+- **Root cause:** Repair the actual package graph and unsafe public-error branch rather than suppressing audit findings, weakening size counting or blanking every useful user error. The scanner report collision is a separate evidence-integrity defect and does not erase its native vulnerability failure.
+
+Rollback/blast radius: the new dependency, diagnostics and security candidates remain isolated and unpublished at this checkpoint; the earlier pagination candidate is already on draft PR21. Preserve predecessor patches and failed results; any dependency change stops diagnostics for explicit re-pinning. Parent alone owns eventual publication, exact-head CI and dual independent review. No production database, feature flag, reviewer permission or branch-protection setting is changed.
+
+## 2026-09-17: importer recovery and visible activation planning
+
+Owner: Bradley Gleave <bradley@bradleytgpcoaching.com>.
+
+Documentation-only recovery and planning, audit-exempt under R14's context scope. No constitutional amendment, product landing, flag flip, or independent CLEAN verdict is claimed. The current user delegates routine decisions and explicitly requires an obvious, explained browser setup journey.
+
+The [recovery checkpoint](handoffs/op80/RECOVERY_CHECKPOINT.md) preserves the current directive, exact build matrix, interrupted September 16 audit state, and R138 four-question gate. Preserve the existing repair branches; verify their current state before resuming. Treat installation, pairing, import execution, staging, native reconstruction, and reconciliation as distinct evidence states.
+
+Decision: BUILD SMALLER using existing infrastructure; VALIDATE FIRST for universal autonomous five-minute migration. This is a plan within the approved architecture, not an architecture replacement. Browser consent is a constraint, not a defect to bypass. No private unrelated-product operational details are copied into the public context repository.
+
+Rollback: documentation-only additive correction or isolated revert. No runtime or customer data effects.
+
 ---
 
 ## 2026-09-18: Adopt the risk-tiered constitution

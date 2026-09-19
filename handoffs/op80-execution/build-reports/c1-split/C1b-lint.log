@@ -1,0 +1,3 @@
+COMMAND ["node", "node_modules/eslint/bin/eslint.js", "--max-warnings=0", "scripts/importer-contract.ts", "src/extension-pair/extension-pair.controller.ts", "src/extension-pair/extension-pair.dto.ts", "src/extension-pair/extension-pair.service.ts", "src/extension-pair/__tests__/extension-pair.service.spec.ts", "src/extension-pair/__tests__/durable-intent.spec.ts", "src/extension-pair/__tests__/durable-session.spec.ts", "test/contracts/importer-contract.spec.ts"]
+
+EXIT=0

@@ -1,0 +1,74 @@
+{
+  "timestamp": "2026-09-17T19:21:26.061163+00:00",
+  "slice": "C1a",
+  "base": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+  "tree": "404dd55d2fde7ab9fab46fb4ea1d27a9d79a7556",
+  "workflow_net": 202,
+  "workflow_source_added": 57,
+  "workflow_test_added": 165,
+  "workflow_ratio_x100": 289,
+  "test_source_ratio": 2.8947368421052633,
+  "banned_tokens_net": {
+    "@ts-ignore": 0,
+    "as any": 0,
+    "as unknown as": 0,
+    "as never": 0,
+    ".catch(()=>undefined)": 0,
+    ".catch(()=>null)": 0,
+    ".catch(()=>{})": 0,
+    "Coming soon": 0
+  },
+  "canonical_source_and_migration_net": 42,
+  "files": [
+    {
+      "path": "prisma/migrations/20270116000000_add_pair_import_intent/down.sql",
+      "added": 3,
+      "removed": 0
+    },
+    {
+      "path": "prisma/migrations/20270116000000_add_pair_import_intent/migration.sql",
+      "added": 5,
+      "removed": 0
+    },
+    {
+      "path": "scripts/importer-contract.ts",
+      "added": 1,
+      "removed": 1
+    },
+    {
+      "path": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "added": 150,
+      "removed": 0
+    },
+    {
+      "path": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "added": 3,
+      "removed": 1
+    },
+    {
+      "path": "src/extension-pair/extension-pair.controller.ts",
+      "added": 6,
+      "removed": 4
+    },
+    {
+      "path": "src/extension-pair/extension-pair.dto.ts",
+      "added": 14,
+      "removed": 4
+    },
+    {
+      "path": "src/extension-pair/extension-pair.service.ts",
+      "added": 36,
+      "removed": 14
+    },
+    {
+      "path": "test/contracts/importer-contract.spec.ts",
+      "added": 12,
+      "removed": 4
+    }
+  ],
+  "gates": {
+    "workflow_loc": true,
+    "workflow_density": true,
+    "canonical_banned_tokens": true
+  }
+}
