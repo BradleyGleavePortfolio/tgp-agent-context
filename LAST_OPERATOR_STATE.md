@@ -25,7 +25,7 @@ Captured mains: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a593
 All S1–S6: T4, Claude Fable 5/High requested; two R1 reports each completed. Reasoning settings unexposed. Current candidates; prior R1 identities archived:
 
 - S1 `90a6647513f3566393764eee87237d9b5b1f150b` | R2 READY; 68/0 synthetic PG17.6 | sole schema/generator owner; re-audit pending.
-- S2 `0b05fcf5352287109ac88ed2ba3682e441e3a076` | R2 READY; 115 focused tests | preview `6b85395f` untested after S1 merge.
+- S2 `0b05fcf5352287109ac88ed2ba3682e441e3a076` | R2 FROZEN; exact-head retest queued | prior 115 precommit; preview `6b85395f` unexecuted.
 - S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | PROOF RETURNED; 8,209 tests passed | independent re-attestation pending; S1/S2 before release.
 - S4 `a6d885a10d7dbc64e99961f44e0f6fe7bea5dfba` | REMEDIATING loader/package proof | G3 before new executor.
 - S5 `65b1da27d9dab4f51f5fad6d8a05be8b64e53dde` | REMEDIATING validation-only G2 | same tree as R1 snapshot; S1 schema owner.
