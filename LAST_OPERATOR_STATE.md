@@ -1,14 +1,14 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-20 19:00 UTC
+Updated: 2026-09-20 21:25 UTC
 
 Operator: GPT 6 Astra, executive orchestrator
 
 Current mission: Finish native-reconciled import and customer acceptance, then remaining approved product gaps.
 
-Current phase: All 12 R1 reports archived; NOT CLEARED. S1–S5 packets/dispositions published; R2 audits not started. No builders active; S6 held. No release authorization.
+Current phase: S1–S5 R2 independent audit pairs ACTIVE; S6 fixer ACTIVE, authorized in continuation thread. All 12 R1 reports and S1–S5 packets preserved. No R2 verdict yet; no release authorization.
 
 ## 1. Canonical Current State
-Captured mains: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `15a07cdac66d24dfabef5751ca7799c8b480ea4e` before this state-only refresh. Context governance unchanged from `160928b`; resolve latest main before editing.
+Reverified mains/PR states 2026-09-20 21:18 UTC: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `7e731732691b3370ba4e891efcae49e16e8512db` before this state refresh. Product stacks below unchanged. Context governance unchanged from `160928b`; resolve latest main before editing.
 
 - Backend: [#524 `238f0f1f`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/524) → [#525 `925780e0`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/525), dependency/reliability repairs, unmerged. [#526 `881c4c7`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/526) C1 is sibling to [#528 `8644715`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/528) → [#529 `d7404cd`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/529) G2; integration unresolved. [#522 `e045cfc`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/522) staging fix blocked.
 - Mobile: [#289 `2235498`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/289) foundation; #290 `ed0342e` branched before its final hardening, then #291 `d2f0d31` → [#292 `3408867`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/292). Local composition `3e9249f` restores missing parent changes, unpushed. Roman #293 `003a977` → [#294 `5cbf0de`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/294) preserved, unmerged, not activated.
@@ -22,21 +22,21 @@ Captured mains: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a593
 - **Unknown/unverified:** serving DB role, effective flags, recovery readiness and native customer acceptance. S0 search closed without recovering prior artifacts from accessible surfaces, not proof they were lost or never pushed.
 
 ## 3. Active Execution Lanes
-All S1–S6: T4, Claude Fable 5/High requested; two R1 reports each completed. Reasoning settings unexposed. Current candidates; prior R1 identities archived:
+All S1–S6: T4. S6 builder Claude Fable 5/High requested. Each R2 pair: independent inherited orchestrator lens A and Claude Fable 5/High lens B; actual identities/settings must be reported honestly. Auditors read-only, no peer-report sharing. Heavy execution serialized. Current candidates:
 
-- S1 `90a6647513f3566393764eee87237d9b5b1f150b` | R2 READY; 68/0 synthetic PG17.6 | sole schema/generator owner; re-audit pending.
-- S2 `0b05fcf5352287109ac88ed2ba3682e441e3a076` | R2 READY; 115/115 exact-head tests | preview `6b85395f` unexecuted; image/hosted proof missing.
-- S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | PROOF RETURNED; 8,209 tests passed | independent re-attestation pending; S1/S2 before release.
-- S4 `c5a5ae12c5b3c3e32a4601c99319ad7c0d980057` | R2 READY; package/loader proof | re-audit pending; G3 before new executor.
-- S5 `485c67973b56758fb9b8404579f5ddaec87136bd` | R2 READY; 50/50 E→T/Q0 exact-head synthetic tests | later phases unproven; S1 schema owner.
-- S6 `27b48f64b1dc8df139310941e6a6d7676ce587e6` | HELD mobile | G3 before new consumers.
+- S1 `90a6647513f3566393764eee87237d9b5b1f150b` | R2 A/B ACTIVE; 68/0 synthetic PG17.6 | sole schema/generator owner.
+- S2 `0b05fcf5352287109ac88ed2ba3682e441e3a076` | R2 A/B ACTIVE; 115/115 exact-head tests | preview `6b85395f` unexecuted; image/hosted proof missing.
+- S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | R2 A/B ACTIVE, unchanged source; 8,209 tests passed | S1/S2 before release.
+- S4 `c5a5ae12c5b3c3e32a4601c99319ad7c0d980057` | R2 A/B ACTIVE; package/loader proof | G3 before new executor.
+- S5 `485c67973b56758fb9b8404579f5ddaec87136bd` | R2 A/B ACTIVE; 50/50 E→T/Q0 exact-head synthetic tests | later phases unproven; S1 schema owner.
+- S6 `27b48f64b1dc8df139310941e6a6d7676ce587e6` | FIXER ACTIVE from preserved R1 on `execute/20260920-s6-r2` | held `4dcc1649` recovery unverified; no new C1 consumers or activation.
 
 ## 4. Material Decisions Already Made
 DO NOT REOPEN unless new evidence: preserve valuable work; do not reapply #26; do not rebuild Roman; C1 discovery/lifecycle is already owned, not a new product fork; one generator owner; missing artifacts never globally block; G2 phases are separate releases. No routine approval loops or self-audits.
 
 Audit immutable snapshots while validation continues. Publish every returned verdict/revision, including blocked/failed reports, to the private evidence repository.
 
-R1 complete; remediation authorized S1–S5, S6 held. Preserve pre-hold deltas separately. Parent publishes source bundles, logs, reports and dispositions privately; updates handoff at material transitions. No R2 clearance inherited.
+R1 complete. Current user authorized S6 remediation and R2 audits S1–S5 in [continuation thread](https://www.perplexity.ai/computer/tasks/c505dc43-b768-4295-854f-22090ae173a6). Parent publishes bundles, logs, reports and dispositions privately and updates this handoff at material transitions. No R2 clearance inherited; no product merges or live actions in this dispatch.
 
 ## 5. Hard Blockers / Risks
 S1–S5 packets remotely verified at private-evidence `7ab6af940c16f087dcaabbf07a55e9154405e68a`. G0 authorization/recovery and delivery enforcement block production integration. C1/G2 collision blocks consumer freeze. Runtime role/flags, artifact equivalence and live authority remain prerequisites. S5 recovery, ledger-wide tally, PG-version and drain/fencing dispositions are directions only, unimplemented.
@@ -54,7 +54,7 @@ S1+S2+S3 proof/authority → safe containment/governed landing/runtime → G2 [E
 | S5 | T4 Fable 5 High; validation-only | Representative PostgreSQL tests; old/new writer compatibility; collisions, cursors/provenance, accounting truth; populated-data preservation/recovery; staged-rollout packet. |
 | S6 | T4 Fable 5 High | Deterministic install/test selection; switch/logout/expiry isolation; independent switches; copy/accessibility/errors; release-bundle flag verification; no accidental activation. |
 
-Next for S1–S5: two independent final-candidate audits/re-attestations, material-finding closure, applicable boundary/recovery evidence. S6 remains held.
+Next: finish S1–S5 independent attestations; publish every report/revision; disposition material findings; complete S6 remediation and exact-head proof; preserve S6 bundle; commission independent S6 follow-up only after its new candidate is frozen.
 
 ## 8. Evidence That Can Be Reused
 Public lineage, S4 exact-head loader/package logs, S6 composition/install evidence; privately archived source bundles and proof packets. Reuse requires unchanged relevant inputs; preserved source is not audit clearance.
