@@ -1,14 +1,14 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-20 16:57 UTC
+Updated: 2026-09-20 17:04 UTC
 
 Operator: GPT 6 Astra, executive orchestrator
 
 Current mission: Finish native-reconciled import and customer acceptance, then remaining approved product gaps.
 
-Current phase: S0 closed; S3 in dual independent audit round 1; other lanes building/validating; product release unauthorized.
+Current phase: S0 closed; all six T4 lanes in dual independent R1 audit; validation continues; no clearance or release authorization.
 
 ## 1. Canonical Current State
-Captured mains: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `dcbec9b2ad8eee68a3c2847a47fcf5f736ba0e18` before this state-only refresh. Context governance remains unchanged from `160928b`; resolve latest main before editing.
+Captured mains: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `1fa4010dd25834816d945050d5f63347b187a8e1` before this state-only refresh. Context governance remains unchanged from `160928b`; resolve latest main before editing.
 
 - Backend: [#524 `238f0f1f`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/524) → [#525 `925780e0`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/525), dependency/reliability repairs, unmerged. [#526 `881c4c7`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/526) C1 is sibling to [#528 `8644715`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/528) → [#529 `d7404cd`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/529) G2; integration unresolved. [#522 `e045cfc`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/522) staging fix blocked.
 - Mobile: [#289 `2235498`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/289) foundation; #290 `ed0342e` branched before its final hardening, then #291 `d2f0d31` → [#292 `3408867`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/292). Local composition `3e9249f` restores missing parent changes, unpushed. Roman #293 `003a977` → [#294 `5cbf0de`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/294) preserved, unmerged, not activated.
@@ -17,22 +17,24 @@ Captured mains: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a593
 ## 2. What Is Actually True
 - **Landed:** captured mains above; G01–G22 effective; context state-file PR #35 merged with explicit owner authorization. No new product landing.
 - **Unmerged but valuable:** preserved stacks above; new local candidates remain in progress.
-- **Tested/audited but not landed:** S4 baseline `49c1aa9`: 59 files/1,654 tests passed. S3 dual audits running, no verdicts; compatibility-test timeout unresolved. S6 composition written and installation passed, not final-audited.
+- **Tested/audited but not landed:** S4 baseline: 59 files/1,654 tests passed; new package reproduced, browser proof pending. S2 focused controls tested, image unbuilt. S6 transform measured, whole-app bundle pending. All R1 audits running; no verdicts. S3 compatibility timeout unresolved.
 - **Deployed/enabled:** started backend machine observed; image Git-SHA label `5076a07a` is a main ancestor, not proof of source/image equivalence. Effective enablement unknown.
 - **Unknown/unverified:** serving DB role, effective flags, recovery readiness and native customer acceptance. S0 search closed without recovering prior artifacts from accessible surfaces, not proof they were lost or never pushed.
 
 ## 3. Active Execution Lanes
-All S1–S6: T4, Claude Fable 5, High requested (actual setting not exposed); running independently where inputs permit.
+All S1–S6: T4, Claude Fable 5/High requested; two independent R1 auditors each. Actual reasoning settings unexposed. Frozen audit heads:
 
-- S1 database authorization/recovery | main | sole schema/generator writer.
-- S2 delivery controls | main | owns composition with S3's inherited workflows.
-- S3 backend reliability | frozen `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | dual audit R1 plus validation; S1/S2 integration before release.
-- S4 extension package | #25 | synthetic proof now; G3 contract before new executor.
-- S5 G2 proof | #529 | validation-only; isolated PG17.6 from S1.
-- S6 mobile foundation | #292 + #289 | release-bundle measurement/repair; G3 before new consumers.
+- S1 `620b47fc8517fa5e5950c5b673baf8b002f5c78a` | database | sole schema/generator owner.
+- S2 `b801a776558d18acea2d03f19029f0ea85ffca39` | delivery | S3 workflow composition pending.
+- S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | reliability | S1/S2 before release.
+- S4 `a6d885a10d7dbc64e99961f44e0f6fe7bea5dfba` | extension | G3 before new executor.
+- S5 `785d902286b5bfd15eac71c544f4837fb81ba0c0` | G2 | audit-only proof snapshot; S1 schema owner.
+- S6 `27b48f64b1dc8df139310941e6a6d7676ce587e6` | mobile | G3 before new consumers.
 
 ## 4. Material Decisions Already Made
 DO NOT REOPEN unless new evidence: preserve valuable work; do not reapply #26; do not rebuild Roman; C1 discovery/lifecycle is already owned, not a new product fork; one generator owner; missing artifacts never globally block; G2 phases are separate releases. No routine approval loops or self-audits.
+
+Audit immutable snapshots while validation continues. Publish every returned verdict/revision, including blocked/failed reports, to the private evidence repository.
 
 ## 5. Hard Blockers / Risks
 G0 private authorization/recovery closure and unverified delivery enforcement block production-reaching integration. Prior final audit clearance is not established for current candidates. C1/G2 contract collision blocks consumer freeze. Runtime role/flags, actual artifact equivalence, eligible hosted review and live-action authority remain boundary prerequisites.
@@ -71,4 +73,5 @@ NO for ongoing engineering. Later require a concrete hosted-review identity/elig
 ## 12. Essential References Only
 - [Constitution](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/160928b98c57a6034cd8b7bcfba537e81c63f054/AGENT_RULES.md)
 - [Continuation and Roman import plan](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/160928b98c57a6034cd8b7bcfba537e81c63f054/handoffs/op81/CONTINUATION_AND_ROMAN_IMPORT_PLAN.md)
+- [Private audit archive](https://github.com/BradleyGleavePortfolio/tgp-private-evidence) (all reports preserved on return).
 - TGP Fitness: execution takeover brief; TGP EXECUTE: preserved Git recovery checkpoint.
