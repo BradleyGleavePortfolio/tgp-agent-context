@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-20 21:33 UTC
+Updated: 2026-09-20 21:58 UTC
 
 Operator: GPT 6 Astra, executive orchestrator
 
@@ -17,7 +17,7 @@ Reverified mains/PR states 2026-09-20 21:18 UTC: backend `c23b9d9f3fcc106b92c061
 ## 2. What Is Actually True
 - **Landed:** captured mains above; G01–G22 effective; context state-file PR #35 merged with explicit owner authorization. No new product landing.
 - **Unmerged but valuable:** preserved stacks and privately bundled candidates below.
-- **Tested, not audit-cleared:** S4 1,678 tests and positive/negative loader proof passed; new package `e2ee1f5c…`, not native completion. S2 focused controls tested, image unbuilt. S6 transform measured, bundle pending. All 12 R1 reports privately archived, NOT CLEARED.
+- **Tested, not audit-cleared:** S4 1,678 tests and positive/negative loader proof passed; new package `e2ee1f5c…`, not native completion. S2 focused controls tested, image unbuilt. S6 working-candidate config/lint/tsc and 424 focused tests passed; full suite printed 3,820 passes but required termination, authentic export failed MMKV resolution. No clean full-run/export claim. All 12 R1 reports privately archived.
 - **Deployed/enabled:** started backend machine observed; image Git-SHA label `5076a07a` is a main ancestor, not proof of source/image equivalence. Effective enablement unknown.
 - **Unknown/unverified:** serving DB role, effective flags, recovery readiness and native customer acceptance. S0 search closed without recovering prior artifacts from accessible surfaces, not proof they were lost or never pushed.
 
@@ -29,7 +29,7 @@ All S1–S6: T4. S6 builder Claude Fable 5/High requested. Each R2 pair: indepen
 - S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | R2 A source/local proof affirmative, B bounded lane merge-eligible; unchanged source | S1/S2 and governed landing prerequisites remain; no overall clearance. Optional env-stamped type-check requested; current restored worktree has no dependencies.
 - S4 `c5a5ae12c5b3c3e32a4601c99319ad7c0d980057` | R2 A NOT CLEARED, B bounded acceptance; parent NOT CLEARED | loader/package repairs accepted; cumulative auth-body wait/recovery defect reproduced on baseline and head. B's narrower unchanged-code review does not override A's repro.
 - S5 `485c67973b56758fb9b8404579f5ddaec87136bd` | R2 pair accepts synthetic E→T/Q0 evidence only; 50/50 exact-head tests | E-specific recovery guidance and terminal assertion/restore-recipe follow-ups; cumulative G2 NOT CLEARED; S1 schema owner.
-- S6 `27b48f64b1dc8df139310941e6a6d7676ce587e6` | FIXER ACTIVE from preserved R1 on `execute/20260920-s6-r2` | held `4dcc1649` recovery unverified; no new C1 consumers or activation.
+- S6 `60975b51bd617bbfaa091ce76e57d16945298f82` | FIXER ACTIVE, local candidate on `execute/20260920-s6-r2` | restart/identity hydration, AST flag guard, Babel declaration implemented; baseline/lifecycle/export checks active, final bundle pending. Held `4dcc1649` unrecovered; fixes independently reimplemented. No new C1 consumers or activation.
 
 ## 4. Material Decisions Already Made
 DO NOT REOPEN unless new evidence: preserve valuable work; do not reapply #26; do not rebuild Roman; C1 discovery/lifecycle is already owned, not a new product fork; one generator owner; missing artifacts never globally block; G2 phases are separate releases. No routine approval loops or self-audits.
