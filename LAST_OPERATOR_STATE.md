@@ -1,14 +1,14 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-20 17:19 UTC
+Updated: 2026-09-20 17:24 UTC
 
 Operator: GPT 6 Astra, executive orchestrator
 
 Current mission: Finish native-reconciled import and customer acceptance, then remaining approved product gaps.
 
-Current phase: All 12 R1 reports archived; all NOT CLEARED. Bradley's hold remains: no fixers, new validation, or R2. No release authorization.
+Current phase: All 12 R1 reports archived; all NOT CLEARED. Bradley authorized S1–S3 remediation and durable publication; fixers resumed. S4–S6 remain held. No release authorization.
 
 ## 1. Canonical Current State
-Captured mains: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `fbc0db4abfa51aeced455ec5a9000c5216c82554` before this state-only refresh. Context governance remains unchanged from `160928b`; resolve latest main before editing.
+Captured mains: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `461dfbfc29ab16ce8ee6c15bb08fa2471679f025` before this state-only refresh. Context governance remains unchanged from `160928b`; resolve latest main before editing.
 
 - Backend: [#524 `238f0f1f`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/524) → [#525 `925780e0`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/525), dependency/reliability repairs, unmerged. [#526 `881c4c7`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/526) C1 is sibling to [#528 `8644715`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/528) → [#529 `d7404cd`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/529) G2; integration unresolved. [#522 `e045cfc`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/522) staging fix blocked.
 - Mobile: [#289 `2235498`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/289) foundation; #290 `ed0342e` branched before its final hardening, then #291 `d2f0d31` → [#292 `3408867`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/292). Local composition `3e9249f` restores missing parent changes, unpushed. Roman #293 `003a977` → [#294 `5cbf0de`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/294) preserved, unmerged, not activated.
@@ -24,19 +24,19 @@ Captured mains: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a593
 ## 3. Active Execution Lanes
 All S1–S6: T4, Claude Fable 5/High requested; two R1 reports each completed. Actual reasoning settings unexposed. Frozen audit heads:
 
-- S1 `620b47fc8517fa5e5950c5b673baf8b002f5c78a` | database | sole schema/generator owner.
-- S2 `b801a776558d18acea2d03f19029f0ea85ffca39` | delivery | S3 workflow composition pending.
-- S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | reliability | S1/S2 before release.
-- S4 `a6d885a10d7dbc64e99961f44e0f6fe7bea5dfba` | extension | G3 before new executor.
-- S5 `785d902286b5bfd15eac71c544f4837fb81ba0c0` | G2 | audit-only proof snapshot; S1 schema owner.
-- S6 `27b48f64b1dc8df139310941e6a6d7676ce587e6` | mobile | G3 before new consumers.
+- S1 `620b47fc8517fa5e5950c5b673baf8b002f5c78a` | REMEDIATING database | sole schema/generator owner.
+- S2 `b801a776558d18acea2d03f19029f0ea85ffca39` | REMEDIATING delivery | owns S3 workflow composition.
+- S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | REMEDIATING reliability/proof | S1/S2 before release.
+- S4 `a6d885a10d7dbc64e99961f44e0f6fe7bea5dfba` | HELD extension | G3 before new executor.
+- S5 `785d902286b5bfd15eac71c544f4837fb81ba0c0` | HELD G2 | audit-only snapshot; S1 schema owner.
+- S6 `27b48f64b1dc8df139310941e6a6d7676ce587e6` | HELD mobile | G3 before new consumers.
 
 ## 4. Material Decisions Already Made
 DO NOT REOPEN unless new evidence: preserve valuable work; do not reapply #26; do not rebuild Roman; C1 discovery/lifecycle is already owned, not a new product fork; one generator owner; missing artifacts never globally block; G2 phases are separate releases. No routine approval loops or self-audits.
 
 Audit immutable snapshots while validation continues. Publish every returned verdict/revision, including blocked/failed reports, to the private evidence repository.
 
-Bradley paused remediation: finish R1 first. All builders told to hold; pre-hold deltas preserved separately, not attested. No R2 or fixes until direction changes.
+R1 is complete. Resume only S1–S3; preserve pre-hold deltas separately. Parent publishes source recovery bundles, logs, reports and dispositions privately; updates this handoff on completion. No R2 clearance inherited.
 
 ## 5. Hard Blockers / Risks
 G0 private authorization/recovery closure and unverified delivery enforcement block production-reaching integration. Prior final audit clearance is not established for current candidates. C1/G2 contract collision blocks consumer freeze. Runtime role/flags, actual artifact equivalence, eligible hosted review and live-action authority remain boundary prerequisites.
