@@ -1,11 +1,11 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-20 23:06 UTC
+Updated: 2026-09-20 23:14 UTC
 
 Operator: GPT 6 Astra, executive orchestrator
 
 Current mission: Finish native-reconciled import and customer acceptance, then remaining approved product gaps.
 
-Current phase: user explicitly authorized R3 fixer/audit cycle under G01–G22. S4 R3 frozen and dual independent audits ACTIVE; S1 has the serialized local install/DB-proof slot. S2/S5 committed with remaining execution pending; S6 source repair active, not tested. All twelve R2 reports COMPLETE and archived. Parent S1/S2/S4/S6 remain NOT CLEARED pending new attestations; S3/S5 accept bounded R2 evidence only. No product landing/release clearance.
+Current phase: user explicitly authorized continuing fixer/audit cycles under G01–G22. S4 R3 audit A returned NOT CLEARED for two session races; B still independently active, successor repair dispatched without changing its frozen target. S1 has the serialized local DB-proof slot; shared npm-ci and PG/client setup passed. S2/S5 committed with remaining execution pending; S6 source repair active, not tested. All twelve R2 reports COMPLETE and archived. Parent S1/S2/S4/S6 remain NOT CLEARED; S3/S5 accept bounded R2 evidence only. No product landing/release clearance.
 
 ## 1. Canonical Current State
 Reverified mains and relevant open PR heads 2026-09-20 23:05 UTC: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `7aad97c6925c82fdf93fa077f4370a996e6e70ac` before this refresh; private evidence `00082fa6589fe4419a56e09c53068d02ba912dc8` before S4 publication. Product stacks below unchanged. Context governance unchanged from `160928b`; resolve latest main before editing.
@@ -26,7 +26,7 @@ R3 current candidates (R2 entries below are preserved ancestry, not current R3 c
 
 - S1 `7cbbb03977455fcfb5da543bdaffaf5de3c45696`, clean: 72/72 offline guard assertions. Local client/PG17.6/shared S1-S2 npm-ci setup and bounded synthetic proof now authorized under SLOT C. DB claims still unrun at this observation. Checkpoint archived under `remediation/s1-r3/checkpoint-1`.
 - S2 `1c6db2b68c3521fbdf7c0f468b1f52d0152a16b9`, clean: 352 hostile-input executions, 16/16 synthetic discovery scenarios, shell/action lint pass at exact head; predecessor controls preserved. Jest unrun, next slot after S1. Checkpoint archived; wrapper addendum pending final preservation.
-- S4 `84471e99b278e964f7cb3f6bf9c78491064c41b7`, tree `f31a978034d0aa8a2c39615ade5ec0255a19b1d0`, clean and frozen: 62 files/1702 tests, gates, package, browser positive/control pass. Package `90883cad44cd78b60a18ab232aba0b965ae40ab6edb99054138cac61c0f6a9a7`. Packet `remediation/s4-r3/revision-1`; independent auditors `s4_r3_independent_audit_a_muafcz9i` and `s4_r3_independent_audit_b_muafczaf` active, no verdict. SLOT B released 23:02:34 UTC.
+- S4 `84471e99b278e964f7cb3f6bf9c78491064c41b7`, tree `f31a978034d0aa8a2c39615ade5ec0255a19b1d0`, clean and frozen: 62 files/1702 tests, gates, package, browser positive/control pass. Package `90883cad44cd78b60a18ab232aba0b965ae40ab6edb99054138cac61c0f6a9a7`. Packet `remediation/s4-r3/revision-1`; A `s4_r3_independent_audit_a_muafcz9i` final NOT CLEARED (duplicate refresh admission and obsolete caller clearing replacement), B `s4_r3_independent_audit_b_muafczaf` active, independent. Original body-timeout counterexample closed. Owner dispatched isolated `s4-r4` successor from `84471e99`, no heavy slot yet. SLOT B released 23:02:34 UTC.
 - S5 `9f38ab033b08ae30ce2fc62d0150520239d6a5c8`, clean: new terminal assertions and real-Git old fixture recipe implemented; offline recipe checks only. New live expected 51 tests unrun. Runner safety corrections precede separate install/DB authorization. Checkpoint archived.
 - S6 dirty successor of `55db31a0`: async identity/cache, logout/account-switch invalidation, truthful copy and bounded identity wait implemented, not yet authorized-tested. Two unslotted unstamped type-check smoke runs disclosed/excluded. Parent approved removing blind legacy NULL-row attribution and requested narrow food-queue ownership fencing; no native/dependency activation. Global query-persister risk remains explicitly unclosed.
 
