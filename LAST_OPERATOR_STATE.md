@@ -1,11 +1,11 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-20 22:36 UTC
+Updated: 2026-09-20 22:40 UTC
 
 Operator: GPT 6 Astra, executive orchestrator
 
 Current mission: Finish native-reconciled import and customer acceptance, then remaining approved product gaps.
 
-Current phase: S1–S5 R2 audit pairs COMPLETE (10 reports). Parent S1/S2/S4 NOT CLEARED; S3 source/local and S5 synthetic evidence accepted only within scope. Combined S6 `55db31a0` FROZEN under validation/review; audit A preliminary material identity-cache and customer-copy findings confirmed by parent. Successor S6 R3 repair planning ACTIVE in isolation. Final R2 verdicts await complete proof; no S6 clearance or product landing/release clearance.
+Current phase: user explicitly authorized R3 fixer/audit cycle under G01–G22 at 22:37 UTC. R3 fixers ACTIVE for S1/S2/S4/S5/S6 in isolated successor worktrees. S3 accepted local evidence preserved. S6 R2 pair finishes on frozen `55db31a0`, with A preliminary material cache/copy blockers confirmed. No product landing/release clearance.
 
 ## 1. Canonical Current State
 Reverified mains/PR states 2026-09-20 21:18 UTC: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `7e731732691b3370ba4e891efcae49e16e8512db` before this state refresh. Product stacks below unchanged. Context governance unchanged from `160928b`; resolve latest main before editing.
@@ -24,6 +24,8 @@ Reverified mains/PR states 2026-09-20 21:18 UTC: backend `c23b9d9f3fcc106b92c061
 ## 3. Active Execution Lanes
 All S1–S6: T4. S6 builder Claude Fable 5/High requested. Each R2 pair: independent inherited orchestrator lens A and Claude Fable 5/High lens B; actual identities/settings must be reported honestly. Auditors read-only, no peer-report sharing. Heavy execution serialized. Current candidates:
 
+**R3 active dispatch:** new `worktrees/s1-r3`, `s2-r3`, `s4-r3`, `s5-r3` from their exact R2 heads below, and `s6-r3` from `55db31a0`; branches `execute/20260920-sN-r3`. Requested builder routing Fable 5 / High. Mandate `execution/R3_FIX_AUDIT_BRIEF.md`; parent queue `execution/R3_VALIDATION_QUEUE.md`. S1 sole schema/migration/generator owner; S5 validation-only. S2 coordinates verifier contract with S1. S6 cache plan approved with generation-protected persistence/migration, logout invalidation, patch/account-switch safety and state-bounded copy requirements. All R2 worktrees remain immutable. Heavy slots individually granted; no DB before disposable-target guard review. Each final changed candidate receives two independent risk-scoped R3 attestations after freeze, not before evidence exists.
+
 - S1 `90a6647513f3566393764eee87237d9b5b1f150b` | R2 A NOT CLEARED, B conditional source acceptance; parent NOT CLEARED | guard destructive harness before DB execution; discriminating atomicity/timeout proof; integrated verifier exit/grant assumptions unresolved; sole schema/generator owner.
 - S2 `0b05fcf5352287109ac88ed2ba3682e441e3a076` | R2 A NOT CLEARED, B conditional code PASS; parent NOT CLEARED; 115/115 tests | A's concrete injection/start/discovery findings not rebutted by B; recovery, lint and hosted enforcement gaps remain.
 - S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | R2 A source/local proof affirmative, B bounded lane merge-eligible; unchanged source | S1/S2 and governed landing prerequisites remain; no overall clearance. Optional env-stamped type-check requested; current restored worktree has no dependencies.
@@ -39,7 +41,7 @@ DO NOT REOPEN unless new evidence: preserve valuable work; do not reapply #26; d
 
 Audit immutable snapshots while validation continues. Publish every returned verdict/revision, including blocked/failed reports, to the private evidence repository.
 
-R1 complete. Current user authorized S6 remediation and R2 audits S1–S5 in [continuation thread](https://www.perplexity.ai/computer/tasks/c505dc43-b768-4295-854f-22090ae173a6). Parent publishes bundles, logs, reports and dispositions privately and updates this handoff at material transitions. No R2 clearance inherited; no product merges or live actions in this dispatch.
+R1 complete; S1–S5 R2 complete. Current user authorized S6 remediation and R2 audits S1–S5, then explicitly commenced R3 fixer/audit cycles in [continuation thread](https://www.perplexity.ai/computer/tasks/c505dc43-b768-4295-854f-22090ae173a6). Parent publishes bundles, logs, reports and dispositions privately and updates this handoff at material transitions. No audit clearance inherited; no product merges or live actions in this dispatch.
 
 ## 5. Hard Blockers / Risks
 S1–S5 packets remotely verified at private-evidence `7ab6af940c16f087dcaabbf07a55e9154405e68a`. G0 authorization/recovery and delivery enforcement block production integration. C1/G2 collision blocks consumer freeze. Runtime role/flags, artifact equivalence and live authority remain prerequisites. S5 recovery, ledger-wide tally, PG-version and drain/fencing dispositions are directions only, unimplemented.
@@ -57,7 +59,7 @@ S1+S2+S3 proof/authority → safe containment/governed landing/runtime → G2 [E
 | S5 | T4 Fable 5 High; validation-only | Representative PostgreSQL tests; old/new writer compatibility; collisions, cursors/provenance, accounting truth; populated-data preservation/recovery; staged-rollout packet. |
 | S6 | T4 Fable 5 High | Deterministic install/test selection; switch/logout/expiry isolation; independent switches; copy/accessibility/errors; release-bundle flag verification; no accidental activation. |
 
-Next: complete S6 remediation and exact-head proof; preserve its bundle; obtain independent S6 follow-up after freeze. Then use the [R2 parent disposition](https://github.com/BradleyGleavePortfolio/tgp-private-evidence/blob/main/2026-09-20/audits/R2_PARENT_DISPOSITION.md) for narrow S1/S2/S4 material repairs and S5 recovery/assertion follow-ups. Do not rerun accepted S3/S5 suites solely to duplicate evidence.
+Next: finish/preserve S6 R2 exact-head proof and independent verdicts while R3 repairs proceed. Complete narrow S1/S2/S4 material repairs, S5 recovery/assertion follow-ups and S6 real identity/cache/copy repairs; serialize meaningful validation; archive candidates and obtain two independent final-head attestations for each changed T4 lane. Follow the [R2 parent disposition](https://github.com/BradleyGleavePortfolio/tgp-private-evidence/blob/main/2026-09-20/audits/R2_PARENT_DISPOSITION.md). Do not rerun accepted S3/S5 suites solely to duplicate evidence.
 
 ## 8. Evidence That Can Be Reused
 Public lineage, S4 exact-head loader/package logs, S6 composition/install evidence; privately archived source bundles and proof packets. Reuse requires unchanged relevant inputs; preserved source is not audit clearance.
