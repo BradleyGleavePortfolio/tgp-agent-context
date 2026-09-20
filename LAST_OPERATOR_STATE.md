@@ -1,11 +1,11 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-20 21:27 UTC
+Updated: 2026-09-20 21:30 UTC
 
 Operator: GPT 6 Astra, executive orchestrator
 
 Current mission: Finish native-reconciled import and customer acceptance, then remaining approved product gaps.
 
-Current phase: S1–S5 R2 reviews active; S1-A/S2-A NOT CLEARED, S3-A affirmative for source/local proof only. Seven reports pending. S6 fixer ACTIVE. All returned reports preserved; no overall lane/release clearance.
+Current phase: S1–S5 R2 reviews active; eight reports returned, S1-B/S2-B pending. S1/S2/S4 remain NOT CLEARED; S3 pair accepts bounded source/local evidence, cross-lane gates open; S5 pair accepts synthetic evidence only. S6 fixer ACTIVE. No product landing/release clearance.
 
 ## 1. Canonical Current State
 Reverified mains/PR states 2026-09-20 21:18 UTC: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `7e731732691b3370ba4e891efcae49e16e8512db` before this state refresh. Product stacks below unchanged. Context governance unchanged from `160928b`; resolve latest main before editing.
@@ -26,9 +26,9 @@ All S1–S6: T4. S6 builder Claude Fable 5/High requested. Each R2 pair: indepen
 
 - S1 `90a6647513f3566393764eee87237d9b5b1f150b` | R2 A NOT CLEARED, B active | harness target-safety and atomicity/timeout proof gaps; 68/0 historic synthetic checks; sole schema/generator owner.
 - S2 `0b05fcf5352287109ac88ed2ba3682e441e3a076` | R2 A NOT CLEARED, B active; 115/115 exact-head tests | A reports shell-input injection, ungated machine-start, verifier enumeration and recovery gaps; no fix yet.
-- S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | R2 A source/local proof affirmative, B active; unchanged source | S1/S2 and governed landing prerequisites remain; no overall clearance.
-- S4 `c5a5ae12c5b3c3e32a4601c99319ad7c0d980057` | R2 A/B ACTIVE; package/loader proof | G3 before new executor.
-- S5 `485c67973b56758fb9b8404579f5ddaec87136bd` | R2 A/B ACTIVE; 50/50 E→T/Q0 exact-head synthetic tests | later phases unproven; S1 schema owner.
+- S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | R2 A source/local proof affirmative, B bounded lane merge-eligible; unchanged source | S1/S2 and governed landing prerequisites remain; no overall clearance. Optional env-stamped type-check requested; current restored worktree has no dependencies.
+- S4 `c5a5ae12c5b3c3e32a4601c99319ad7c0d980057` | R2 A NOT CLEARED, B bounded acceptance; parent NOT CLEARED | loader/package repairs accepted; cumulative auth-body wait/recovery defect reproduced on baseline and head. B's narrower unchanged-code review does not override A's repro.
+- S5 `485c67973b56758fb9b8404579f5ddaec87136bd` | R2 pair accepts synthetic E→T/Q0 evidence only; 50/50 exact-head tests | E-specific recovery guidance and terminal assertion/restore-recipe follow-ups; cumulative G2 NOT CLEARED; S1 schema owner.
 - S6 `27b48f64b1dc8df139310941e6a6d7676ce587e6` | FIXER ACTIVE from preserved R1 on `execute/20260920-s6-r2` | held `4dcc1649` recovery unverified; no new C1 consumers or activation.
 
 ## 4. Material Decisions Already Made
