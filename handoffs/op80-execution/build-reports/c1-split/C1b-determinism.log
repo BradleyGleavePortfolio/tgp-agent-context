@@ -1,0 +1,3 @@
+COMMAND ["cmp", "docs/contracts/importer-openapi.json", "/home/user/workspace/operator80/execution/c1-split/C1b-contract-second.json"]
+
+EXIT=0

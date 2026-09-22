@@ -1,0 +1,24 @@
+[
+  {
+    "case": "mistaken-staged-only",
+    "command": [
+      "/home/user/.npm/_npx/52027bd8fc0022aa/node_modules/node/bin/node",
+      "/tmp/tgp-op80-cycle2-inputs/importer/scripts/check-banned.mjs"
+    ],
+    "environment_override": {
+      "BANNED_DIFF_CACHED": "1"
+    },
+    "exit": 0,
+    "expected": 0
+  },
+  {
+    "case": "correct-committed-range",
+    "command": [
+      "/home/user/.npm/_npx/52027bd8fc0022aa/node_modules/node/bin/node",
+      "/tmp/tgp-op80-cycle2-inputs/importer/scripts/check-banned.mjs"
+    ],
+    "environment_override": {},
+    "exit": 1,
+    "expected": 1
+  }
+]

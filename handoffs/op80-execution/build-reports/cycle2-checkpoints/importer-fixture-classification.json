@@ -1,0 +1,260 @@
+[
+  {
+    "file": "test/blueprint-c2a-fixture.spec.js",
+    "commit": "e647f30bcad47610fedd84f2191543179b01ced0",
+    "line": 72,
+    "rule": "generic-api-key",
+    "variable": "credentialName",
+    "literal_sha256": "f2a0b3f73917b62fa52617c16c12c28f7fb80cfca0ffd17b499867ccc22116ce",
+    "literal_length": 19,
+    "valid_http_field_name": true,
+    "is_fixture_header_key_not_value": true,
+    "fixture_origin_is_reserved_invalid_domain": true,
+    "header_key_property_assertion": true
+  },
+  {
+    "file": "test/ingest-settlement.spec.js",
+    "commit": "6669569666995739ad194cc5782948241f8a64f4",
+    "line": 30,
+    "rule": "jwt",
+    "variable": "SRC_JWT",
+    "literal_sha256": "72aef19a8ffa210473265329935c586c460db7cc8f2b46a22cfc15b48ab07f9c",
+    "literal_length": 58,
+    "segment_lengths": [
+      20,
+      20,
+      16
+    ],
+    "decoded_structure": [
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "alg"
+        ],
+        "empty_object": false,
+        "algorithm": "HS256"
+      },
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "sub"
+        ],
+        "empty_object": false
+      },
+      {
+        "byte_length": 12,
+        "valid_json": false
+      }
+    ],
+    "fake_page_store_reference": true,
+    "fetch_replacement_lines": [
+      45
+    ]
+  },
+  {
+    "file": "test/ingest-complete-contract.spec.js",
+    "commit": "aaa9ac72a38a639a632722f43f9f6e07b37a399c",
+    "line": 31,
+    "rule": "jwt",
+    "variable": "SRC_JWT",
+    "literal_sha256": "72aef19a8ffa210473265329935c586c460db7cc8f2b46a22cfc15b48ab07f9c",
+    "literal_length": 58,
+    "segment_lengths": [
+      20,
+      20,
+      16
+    ],
+    "decoded_structure": [
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "alg"
+        ],
+        "empty_object": false,
+        "algorithm": "HS256"
+      },
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "sub"
+        ],
+        "empty_object": false
+      },
+      {
+        "byte_length": 12,
+        "valid_json": false
+      }
+    ],
+    "fake_page_store_reference": true,
+    "fetch_replacement_lines": [
+      46
+    ]
+  },
+  {
+    "file": "test/replay-truecoach-e2e.spec.js",
+    "commit": "4f116836ddb5449524dd51e995a7e4c012f79493",
+    "line": 38,
+    "rule": "jwt",
+    "variable": "SRC_JWT",
+    "literal_sha256": "72aef19a8ffa210473265329935c586c460db7cc8f2b46a22cfc15b48ab07f9c",
+    "literal_length": 58,
+    "segment_lengths": [
+      20,
+      20,
+      16
+    ],
+    "decoded_structure": [
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "alg"
+        ],
+        "empty_object": false,
+        "algorithm": "HS256"
+      },
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "sub"
+        ],
+        "empty_object": false
+      },
+      {
+        "byte_length": 12,
+        "valid_json": false
+      }
+    ],
+    "fake_page_store_reference": true,
+    "fetch_replacement_lines": [
+      61,
+      202,
+      227
+    ]
+  },
+  {
+    "file": "test/content-collector.spec.js",
+    "commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
+    "line": 12,
+    "rule": "jwt",
+    "variable": "JWT",
+    "literal_sha256": "6906909c0b287ee1c7ef3dc43c2c74a866da9c21291db503a12bac36440e2e8e",
+    "literal_length": 57,
+    "segment_lengths": [
+      20,
+      20,
+      15
+    ],
+    "decoded_structure": [
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "alg"
+        ],
+        "empty_object": false,
+        "algorithm": "HS256"
+      },
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "sub"
+        ],
+        "empty_object": false
+      },
+      {
+        "byte_length": 11,
+        "valid_json": false
+      }
+    ],
+    "fake_page_store_reference": true,
+    "fetch_replacement_lines": []
+  },
+  {
+    "file": "test/start-import.spec.js",
+    "commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
+    "line": 27,
+    "rule": "jwt",
+    "variable": "SRC_JWT",
+    "literal_sha256": "72aef19a8ffa210473265329935c586c460db7cc8f2b46a22cfc15b48ab07f9c",
+    "literal_length": 58,
+    "segment_lengths": [
+      20,
+      20,
+      16
+    ],
+    "decoded_structure": [
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "alg"
+        ],
+        "empty_object": false,
+        "algorithm": "HS256"
+      },
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "sub"
+        ],
+        "empty_object": false
+      },
+      {
+        "byte_length": 12,
+        "valid_json": false
+      }
+    ],
+    "fake_page_store_reference": true,
+    "fetch_replacement_lines": [
+      41
+    ]
+  },
+  {
+    "file": "test/start-import-hardening.spec.js",
+    "commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1",
+    "line": 26,
+    "rule": "jwt",
+    "variable": "SRC_JWT",
+    "literal_sha256": "95792d3cf70a0c7a5b3425e4712363f2a64378cdf169bcc661549c7c9544ac2b",
+    "literal_length": 59,
+    "segment_lengths": [
+      20,
+      20,
+      17
+    ],
+    "decoded_structure": [
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "alg"
+        ],
+        "empty_object": false,
+        "algorithm": "HS256"
+      },
+      {
+        "byte_length": 15,
+        "valid_json": true,
+        "json_keys": [
+          "sub"
+        ],
+        "empty_object": false
+      },
+      {
+        "invalid_base64url_length": true
+      }
+    ],
+    "fake_page_store_reference": true,
+    "fetch_replacement_lines": [
+      40
+    ]
+  }
+]

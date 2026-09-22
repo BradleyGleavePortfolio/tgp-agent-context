@@ -1,0 +1,46 @@
+{
+  "phase": "python96-audit",
+  "command": [
+    "timeout",
+    "180",
+    "/home/user/workspace/operator80/execution/importer-iac/acceptance-v1/sca/bin/pip-audit",
+    "--requirement",
+    "/tmp/tgp-op80-cycle3-importer-iac/scripts/checkov-requirements.txt",
+    "--require-hashes",
+    "--no-deps",
+    "--disable-pip",
+    "-s",
+    "pypi",
+    "-f",
+    "json",
+    "--output",
+    "/home/user/workspace/operator80/execution/importer-iac/acceptance-v1/python96-audit.json"
+  ],
+  "cwd": "/tmp/tgp-op80-cycle3-importer-iac",
+  "environment": {
+    "PATH": "/home/user/workspace/operator80/execution/importer-iac/acceptance-v1/bin:/usr/local/bin:/usr/bin:/bin",
+    "HOME": "/home/user/workspace/operator80/execution/importer-iac/acceptance-v1/home",
+    "TMPDIR": "/home/user/workspace/operator80/execution/importer-iac/acceptance-v1/tmp",
+    "LANG": "C.UTF-8",
+    "CI": "true",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PIP_CONFIG_FILE": "/dev/null"
+  },
+  "timestamp": "2026-09-17T21:41:22.599558+00:00",
+  "seconds": 2.6263005530017836,
+  "exit_code": 1,
+  "before": {
+    "head": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+    "tree": "ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398",
+    "original_nine_unchanged": true,
+    "all_owned_match_tree": true,
+    "package_lock_sha256": "262d4b692e9cc1a7908435c36b8a4077d2dc130d37421a7a76175e4acc9cdae8"
+  },
+  "after": {
+    "head": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+    "tree": "ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398",
+    "original_nine_unchanged": true,
+    "all_owned_match_tree": true,
+    "package_lock_sha256": "262d4b692e9cc1a7908435c36b8a4077d2dc130d37421a7a76175e4acc9cdae8"
+  }
+}
