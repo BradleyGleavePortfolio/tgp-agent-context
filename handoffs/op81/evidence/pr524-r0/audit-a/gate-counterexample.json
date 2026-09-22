@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-09-18T04:47:20.141158+00:00",
+  "method": "Pure Python reproduction of shell gate arithmetic; no source edits or product execution",
+  "removed_token": "as any",
+  "removed_count": 1,
+  "added_token": "as never",
+  "added_count": 1,
+  "workflow_total_net": 0,
+  "workflow_would_fail": false,
+  "canonical_per_token_positive": {
+    "as never": 1
+  },
+  "test_path_example": "test/example.spec.ts",
+  "workflow_excludes_spec_files": true
+}
