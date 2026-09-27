@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # DECISION LOG
 
 Operator-authorized decisions that changed doctrine, architecture, or process. Record consequential governance changes here; [AGENT_RULES.md](AGENT_RULES.md) defines current authority, identity, review, and evidence requirements.

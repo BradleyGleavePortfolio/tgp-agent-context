@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # Astra independent plan audit — round 2
 
 ## Verdict and scope

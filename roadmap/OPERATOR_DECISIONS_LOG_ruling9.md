@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # OPERATOR_DECISIONS_LOG — Ruling #9
 
 **Date:** 2026-06-27 (Op 50.5)

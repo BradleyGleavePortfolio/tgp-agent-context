@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # Agent 52 — Handoff from Agent 51 (Op 51 — Importer Wave)
 
 > **Provenance:** Authored by Bradley Gleave on behalf of Agent 51. Companion to `handoffs/importer-wave/current-state.json` (read both). This document is the tactical map for the **Importer Wave** (PR-A Chrome extension OAuth → PR-B backend scout ingest → PR-C1..C4 extension capture/replay). It does NOT obsolete `HANDOFF_AGENT_51_FROM_AGENT_50.md` or `AGENT_47_HANDOFF.md` — read those for prior strategic context.

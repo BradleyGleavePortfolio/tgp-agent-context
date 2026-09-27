@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # A2 · Migration / import tooling
 
 **Status:** SUBSTRATE BUILT — DARK / DEFAULT-OFF, UNPROVEN ON LIVE ACCOUNTS (newest-wins, Op 73 · 2026-07-22) *(was: NOT STARTED (ZERO))*

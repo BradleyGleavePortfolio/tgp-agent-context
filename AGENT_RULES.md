@@ -1,3 +1,5 @@
+> Importer work: NORTH_STAR.md is the only importer north star. It supersedes every earlier importer plan.
+
 # TGP Agent Rules
 
 Status: EFFECTIVE 2026-09-18, adopted by explicit operator instruction. This is TGP's canonical constitution; the [adoption record](DECISION_LOG.md#2026-09-18-adopt-the-risk-tiered-constitution) states its authority and review limitations. Procedural reductions dependent on automated controls apply only after those controls are verified.

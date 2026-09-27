@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # OPERATOR HANDOFF — Universal Importer Wave (v0.3 → v1.0)
 
 > **Status:** Single authoritative operator entry point for the importer wave.

@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # OPERATOR_DECISIONS_LOG.md — durable cross-cutting decisions
 
 **Append-only.** Every operator ruling that applies to multiple A-items, or that changes a previously-locked decision, goes here. Item-specific decisions live in the per-A-item spec stub under "Operator decisions (locked)".

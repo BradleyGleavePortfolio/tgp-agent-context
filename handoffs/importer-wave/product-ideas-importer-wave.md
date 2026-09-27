@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # Importer-wave product ideas — operator-endorsed
 
 **Filed:** 2026-07-07 23:25 PDT (America/Los_Angeles).

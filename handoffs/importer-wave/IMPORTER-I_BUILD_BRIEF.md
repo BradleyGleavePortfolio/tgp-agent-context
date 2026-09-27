@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # IMPORTER-I Build Brief — coach-scoped, family-parameterized reconstructed-entity review READ
 
 - **Brief ID:** IMPORTER-I

@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # R-IMPORTER-AUTONOMY-1 — Autonomous, site-agnostic, browser-agnostic importing is the core product bar; the one-site v0.3 ceiling is superseded
 
 - **Ruling ID:** R-IMPORTER-AUTONOMY-1

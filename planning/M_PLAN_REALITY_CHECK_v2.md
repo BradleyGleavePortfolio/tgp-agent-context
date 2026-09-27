@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # M-Plan Reality-Check v2 — M-NEW-LIVE Spine Re-rank
 
 > **Provenance:** Adversarial M-plan reality check (GPT-5.5 angry-adversarial planner, Op 50.5 re-spawn) re-ranking the M-series (M1.α through M11) against the operator-proposed M-NEW-LIVE scout pivot. Cites primary vendor docs and ToS pages inline. Authored by Bradley Gleave per R3 (R3 makes Bradley the operator-of-record on all commits regardless of content origin). Companion source-index file: `planning/M_PLAN_REALITY_CHECK_v2_source_index.md`.

@@ -1,3 +1,5 @@
+> Importer work: NORTH_STAR.md is the only importer north star. It supersedes every earlier importer plan.
+
 # tgp-agent-context
 
 **Single source of truth for all TGP agent canonical context.**

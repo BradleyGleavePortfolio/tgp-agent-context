@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # Op 50.5 — M-Plan Full Reconstruction (2026-06-27)
 
 > **Provenance:** Reconstructs the lost `M_PLAN_REALITY_CHECK.md` and the M-series scope/purpose/planner-recipe documents that died with the Op 50.5 sandbox. Covers (A) true M5 scope as the FLOOR doctrine, (B) per-M-job purpose post-reality-check, (C) the planner agent objective recipe for re-spawn, and (D) the next-agent resume tail. Authored by Bradley Gleave per R3.

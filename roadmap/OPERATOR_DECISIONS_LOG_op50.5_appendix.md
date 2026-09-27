@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # OPERATOR_DECISIONS_LOG — Op 50.5 Appendix
 
 **Append target:** `roadmap/OPERATOR_DECISIONS_LOG.md` in `tgp-agent-context`

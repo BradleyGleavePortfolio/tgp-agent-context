@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # 1. M-NEW-PROFILE-TRUECOACH — TrueCoach Export-Assisted Scout Profile
 
 **Slug:** `M-NEW-PROFILE-TRUECOACH`  
