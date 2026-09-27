@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # M-IMPORTER-EXTENSION v1 — First Vertical Slice Build-Plan
 
 > **MISSION-FRAMING CORRECTION (2026-07-15, Op 54).** This document is the **build-plan for the FIRST VERTICAL SLICE** (TrueCoach on a Chrome MV3 host), **not** the product mission. An earlier version of this doc mistook that slice for the whole product. The canonical product mission is **site-agnostic, browser-agnostic, autonomously-learning acquisition + deterministic TGP reconstruction + luxury UI** — see **`roadmap/M-IMPORTER-PRODUCT-MISSION_v1.md`** (verbatim operator correction at its top). On any mission-framing question, that doc governs and this one is subordinate. The per-platform extractor tables and the Chrome MV3 specifics below are **the first proving slice + optional specialization**, never the product boundary. TrueCoach is the first *proving adapter*, not the product.

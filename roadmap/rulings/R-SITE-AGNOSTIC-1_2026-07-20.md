@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # R-SITE-AGNOSTIC-1 — TrueCoach is one interchangeable validation adapter, not a privileged first phase
 
 - **Ruling ID:** R-SITE-AGNOSTIC-1

@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # V5 Multi-Adapter Build Brief — site-agnostic core proof (≥2 structurally independent adapters, zero core change for #2)
 
 - **Brief ID:** V5-MULTI-ADAPTER

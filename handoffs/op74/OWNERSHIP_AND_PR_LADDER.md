@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # Op 74 — Importer & Dunning: Ownership, Serialization, PR Ladder, Gates
 
 - **Op:** 74 · **Date:** 2026-07-27 · **Operator:** Bradley Gleave <bradley@bradleytgpcoaching.com>

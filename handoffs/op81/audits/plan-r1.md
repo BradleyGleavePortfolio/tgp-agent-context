@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # Operator 81: Importer Continuation and Roman-Led Migration
 
 Status: proposed execution plan, revision 1, pending independent plan audit. Prepared September 17, 2026 PDT. Owner of record: Bradley Gleave. This document plans future work; it does not approve a product merge, activate a flag, run a customer import, or certify production readiness.

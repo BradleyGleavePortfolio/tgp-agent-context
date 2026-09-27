@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # Agent 51 — Handoff from Agent 50 (Op 50.5)
 
 > **Provenance:** Authored by Bradley Gleave on behalf of Agent 50. Companion to `stash_docs/live_state.json` (read both). This document **explicitly supersedes** the tactical sections of the Op 49 / Op 50.5 sandbox-death handoff (`stash_docs/2026-06-27-op-50.5-next-agent-handoff.md` dated 2026-06-27 ~08:44 PDT) but does NOT obsolete its strategic M-series context.

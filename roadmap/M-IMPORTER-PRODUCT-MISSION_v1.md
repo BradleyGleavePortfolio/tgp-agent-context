@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # M-IMPORTER PRODUCT MISSION & ARCHITECTURE v1 — CANONICAL
 
 **Status:** ACTIVE — canonical product-mission record for the importer wave. This document is the *mission* source of truth. `roadmap/M-IMPORTER-EXTENSION_v1.md` is now the *build-plan/roadmap* for the first vertical slice and is subordinate to this doc on any mission-framing question.

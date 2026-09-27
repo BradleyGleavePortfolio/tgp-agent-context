@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-09-27) by /NORTH_STAR.md. Historical record, do not follow.
+
 # M-NEW-LIVE — "AI Scout" Live Account Mirror Adapter (Proposal)
 
 > **Provenance:** Operator-proposed pivot (Bradley Gleave, 2026-06-27) collapsing the per-vendor M-adapter mess (M2/M3/M8/M9/M-NEW-TC/CRX/AC) into a single universal browser-based scout architecture. Becomes the new M-series spine pending reality-check planner ratification (see `planning/M_PLAN_REALITY_CHECK_v2.md`). Authored by Bradley Gleave per R3.
