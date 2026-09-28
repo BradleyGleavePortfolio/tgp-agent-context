@@ -1595,3 +1595,13 @@ platform-specific production logic.
 only. Revert importer commit `b6acb5c` to roll them back. Every product change
 remains independently gated, audited, and revertible. Pure context/doctrine
 docs are audit-exempt under R14; product-code slices are not.
+
+---
+
+## 2026-09-28 — Commit identity is not a delivery gate
+
+**Owner directive (verbatim):** "I DO NOT CARE ABOUT COMMIT IDENTITY ... Do not stop, ask, debate, investigate, delay, reject, downgrade, or block work because of commit author, committer, email, co-author metadata..."
+
+**Decision:** Commit author, committer, email, co-author metadata, and commit-message identity tokens are not acceptance criteria for TGP delivery. The extension commit-identity scan and backend `commit-msg` identity-token hook are removed. Existing non-identity safety checks remain in place; this decision does not relax source-quality, secret, dependency, conventional-commit, review, or runtime safety requirements.
+
+**Scope and rollback:** This is a workflow-gate removal only. Restore the removed checks with a revert if an owner-directed policy change is required later.
