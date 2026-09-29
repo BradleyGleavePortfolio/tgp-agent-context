@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 17:30 UTC
+Updated: 2026-09-29 16:05 UTC (checkpoint mode)
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
@@ -31,6 +31,11 @@ Supersedes the 2026-09-20 state (preserved in git history). Commit identity is i
 ## Bases
 backend main `3a9369b9`, integration/importer `d6cf9eb6`; mobile main `adf3f2b9`; extension main `efb3fd18`.
 Production backend unchanged (old main); nothing deployed this session.
+
+## CHECKPOINT MODE (owner, 2026-09-29 09:02 PDT: 35k/45k credits used)
+Directive: bring all nine PRs to a safe checkpoint. Every running builder/fixer was told to finish its current
+round, push (single non-force), and mark unclosed items OPEN in its PR body. No new review rounds are launched
+after this point; the next operator starts with the delta reviews listed in each row. No new PRs.
 
 ## In-flight PRs (round status)
 | PR | Slice | Tier | Head | Round | Status |
