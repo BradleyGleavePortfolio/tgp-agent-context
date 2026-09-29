@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 17:05 UTC (checkpoint mode)
+Updated: 2026-09-29 16:40 UTC (checkpoint mode)
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
@@ -48,7 +48,7 @@ after this point; the next operator starts with the delta reviews listed in each
 | backend #589 | L3 per-family replay evidence | T4 | 61b0d251 (r2) | CHECKPOINT: delta review next | R589-A (3A/2B) + R589-B (2A/2B) → r2 pushed: closure deleted (no path to run-level complete), per-family source_count only, r4 StepEvidenceV1, fan-out bound; N1–N5 fail 15/16 on fe38821, pass on head. OPEN: L2 must consume evaluateCoverageDetailed().families; StopReason lacks positive value for proven style none (L0 r6). NEXT: two delta reviews of fe388210..61b0d251 |
 | backend #587 | S8-D3 person-owned schema + RLS | T4 | bb95cbf4 (r2) | CHECKPOINT: delta review next | r2 pushed: 61bdadbb CWA↔WorkoutPlan cycle fix (SECURITY DEFINER helper, reversible), bb95cbf4 harness fixes (a)(b) + live cycle-fix block; local 423/423, reversibility 12/12; `gh pr checks 587` at bb95cbf4 (16:35 UTC) all pass incl. person-owned-rls-live-tests and build-and-test. OPEN: PR body still shows round-1 table (closure edit blocked by safety check — apply from reviews/S8D3_PR587_FIX_ROUND_20260929.md); owner item: assignment_coach_manage lacks client-tenancy check (pre-existing); re-merge base 249fd0d4. NEXT: two delta reviews 4abed784..bb95cbf4 |
 | extension #35 | X1 origin authorization (+ Fly origin) | T4 | 142501a2 | r3 fix | R35-A (1A/3B), R35-B (3B) REQUEST CHANGES |
-| mobile #300 | R1 Roman status binding | T2 | 8565cc51 (r4) | CHECKPOINT: delta review next | R300-A → r2 → R300-A2 → r3 → R300-A3 (P2 mount closed) → r4 pushed: no live regions on inline path (announceForAccessibility both platforms, keyed without timestamps; host test through ExtensionPairingPanel), in-flight Checking… restored; 11 new tests fail on 3890a7b8. Nothing OPEN per fixer. NEXT: one delta review (T2) of 3890a7b8..8565cc51, then merge to mobile main |
+| mobile #300 | R1 Roman status binding | T2 | 8565cc51 (r4) | r4 delta review (owner-requested) | R300-A → r2 → R300-A2 → r3 → R300-A3 (P2 mount closed) → r4 pushed: no live regions on inline path (announceForAccessibility both platforms, keyed without timestamps; host test through ExtensionPairingPanel), in-flight Checking… restored; 11 new tests fail on 3890a7b8. Nothing OPEN per fixer. R300-A4 running (owner asked 09:37 PDT); on APPROVE merge to mobile main |
 
 Merged this session: backend #588 (L2a) → integration/importer 249fd0d4. integration/importer is not promoted to main.
 
