@@ -17,6 +17,15 @@ texts were never published, so every in-flight PR gets fresh exact-head independ
   cost. Applied 2026-09-29 23:17 UTC on integration/importer: + person-owned-rls-live-tests,
   + person-owned-migration-rehearsal (strict, admins enforced). main gets the same at promotion.
 - EXECUTE: standing execution authority for the importer.
+- Hosting (2026-09-29 16:27 PDT): owner stays on Fly and pays the overdue invoice (the 2026-09-09 deploy failed at
+  the Depot build with "overdue invoices"). Operator right-sizes the machine after deploy (measure memory first).
+- Production facts (read 23:20 UTC): FEATURE_SCOUT_INGEST + FEATURE_EXTENSION_PAIRING are ON globally on the old
+  image (no allowlist code); runs/start 404. `production` GitHub environment created: required reviewer
+  BradleyGleavePortfolio, no admin bypass, protected branches only (release evidence gate precondition; every
+  production-mutating workflow now needs the owner's approval click). ANTHROPIC_API_KEY exists as a Fly secret.
+  FEATURE_SCOUT_RECONSTRUCT and FEATURE_SCOUT_PILOT_COACH_IDS are not set. Production User table has no owner and
+  no real coach (only the system coach `b5-system-coach-tgp`, not a UUID). S10 prerequisites: owner coach account
+  in production + a mobile build with EXPO_PUBLIC_FF_EXTENSION_IMPORT on.
 - Still not requested (owner 2026-09-27): ANTHROPIC_API_KEY; needed at the first real AI decode (S13/S14).
 
 ## Plan (slices S0-S22, tiers and headers in the readback section 7)
