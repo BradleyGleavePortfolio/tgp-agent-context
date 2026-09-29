@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 16:45 UTC (checkpoint mode; all nine at safe pause)
+Updated: 2026-09-29 16:55 UTC (checkpoint mode; owner decisions D8–D14 recorded)
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
@@ -51,6 +51,15 @@ after this point; the next operator starts with the delta reviews listed in each
 | mobile #300 | R1 Roman status binding | T2 | 8565cc51 (r4) | MERGED | R300-A → r2 → R300-A2 → r3 → R300-A3 → r4 → R300-A4 APPROVE (no A/B; CI green on exact head) → squash-merged to mobile main as 360fdc74 on owner authorization (09:41 PDT) |
 
 Merged this session: backend #588 (L2a) → integration/importer 249fd0d4 (integration/importer not promoted to main); mobile #300 (R1 Roman status) → mobile main 360fdc74.
+
+## Owner decisions 2026-09-29 09:52 PDT (binding for next rounds)
+- D8 corridor fix APPROVED: `assignment_coach_manage` must apply the same coach-client tenancy check the app applies (tightening only). Queued as the FIRST new PR when work resumes (small T4 RLS slice, two reviews).
+- D9 (P1) popup carries exactly one Start button; everything else is status. Resolves the north-star wording conflict.
+- D10 (P2/OQ-1) billing and payment history MOVE (preserved, coach-visible). Owner wants per-client next payment date carried so the coach misses no payments. Design note (not started): map to a coach-visible schedule (next due date, amount, interval, source status); moving the date does not move the live charge (Everfit keeps charging via the coach's connected Stripe account until canceled there; card data cannot be copied). Proposed V1: schedule + reminders + timed TGP checkout whose first charge lands on the carried due date, then coach cancels at the source. Needs a billing-handoff slice; L0 r6 and FAM-0 r5 must change billing from gap/excluded to moved.
+- D11 (P3) registrable-domain fallback: not now; later slice.
+- D12 (P4) media storage spend APPROVED; reuse the existing S3-compatible storage.
+- D13 (P5) Chrome Web Store: later.
+- D14 (P6) third-party/partner data reachable through the coach's session MOVES and is USED ("all data possible moved over, and used, everything possible"). FAM-0/L0 must drop the exclude-by-default. Still bounded by: no credentials stored, no logging into partner services, only what the coach's own session can reach.
 
 ## Not started (by owner direction: no new PRs)
 L1 service/route, L2b per-coach memory store + pin, projection slice, X2 rework (#38, must rebase on X1 and
