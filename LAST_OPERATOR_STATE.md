@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 16:10 UTC (checkpoint mode)
+Updated: 2026-09-29 16:20 UTC (checkpoint mode)
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
@@ -45,7 +45,7 @@ after this point; the next operator starts with the delta reviews listed in each
 | backend #591 | L1-core learn contract/validators/prompt (pure) | T4 | 3a684671 | r2 fix | R591-A (2A/3B) + R591-B (2A/6B) REQUEST CHANGES (built to r3 grammar; `none` pagination proof weak; stored-package parse; reuse key sparsity) → r2 fix running (v2 digest/proposal, no AI destination field, no unsupported families) |
 | backend #592 | L1-gw fail-closed importer.mapping AI capability | T4 | 52196217 | r2 fix | R592-A (3A/4B) + R592-B (6B) REQUEST CHANGES (spend cap not atomic/durable, fails open on audit write; schema type fit with #591; 45s timeout; env registration) → r2 fix running (PG advisory-lock reserve-before-call, fail closed) |
 | backend #588 | L2a SourceRegistryProvider | T3+2nd lens | f6dcee55 (r2) | MERGED | R588-A/B → r2 → R588-C APPROVE; real-PG proof ACCEPT run 36592070591 (133/42/95); squash-merged into integration/importer as 249fd0d4 |
-| backend #589 | L3 per-family replay evidence | T4 | fe388210 | r2 fix | R589-A (3A/2B), R589-B (2A/2B) REQUEST CHANGES; reshaped per reset |
+| backend #589 | L3 per-family replay evidence | T4 | 61b0d251 (r2) | CHECKPOINT: delta review next | R589-A (3A/2B) + R589-B (2A/2B) → r2 pushed: closure deleted (no path to run-level complete), per-family source_count only, r4 StepEvidenceV1, fan-out bound; N1–N5 fail 15/16 on fe38821, pass on head. OPEN: L2 must consume evaluateCoverageDetailed().families; StopReason lacks positive value for proven style none (L0 r6). NEXT: two delta reviews of fe388210..61b0d251 |
 | backend #587 | S8-D3 person-owned schema + RLS | T4 | 4abed784 | fix r1 → r2 | reversibility check fixed; RLS live tests: harness fixes + CWA recursion fix authorized |
 | extension #35 | X1 origin authorization (+ Fly origin) | T4 | 142501a2 | r3 fix | R35-A (1A/3B), R35-B (3B) REQUEST CHANGES |
 | mobile #300 | R1 Roman status binding | T2 | 3890a7b8 (r3) | r4 fix | R300-A → r2 → R300-A2 (2B) → r3 → R300-A3 REQUEST CHANGES (P2 mount closed; live-region nesting + in-flight refresh state open) → r4 fix running (announceForAccessibility, no live regions) |
