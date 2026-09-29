@@ -1,4 +1,43 @@
 # LAST OPERATOR STATE
+Updated: 2026-09-29 23:20 UTC
+
+Operator: Computer (Claude Opus 5.5 Fast), executive orchestrator, session 5754504f
+(https://www.perplexity.ai/computer/tasks/5754504f-dfba-473b-a648-5290eee287a7). EXECUTE given by owner
+2026-09-29 16:15 PDT under the TGP IMPORTER MASTER EXECUTIVE AGENT PROMPT, after the readback in
+handoffs/op-5754504f/READBACK_2026-09-29.md. This session is the single writer for every importer lane.
+Session c7aa658f (below) is superseded; its owner pause (19:23 UTC) is lifted by this EXECUTE. Its review
+texts were never published, so every in-flight PR gets fresh exact-head independent reviews.
+
+## Owner decisions 2026-09-29 16:14-16:15 PDT (binding)
+- B-1: YES. Deploy backend main (after promoting integration/importer) to production with importer surfaces
+  enabled only for the S12-B1 pilot allowlist (owner coach account); read-only live integration runs against
+  the owner's own source account with the packaged extension.
+- B-2: YES ("if it doesn't slow us down"). Importer real-PG proof jobs become required checks. Measured: each
+  ~2 min, parallel to the 6.5 min build-and-test, run on every pull_request (no path filter) -> no wall-clock
+  cost. Applied 2026-09-29 23:17 UTC on integration/importer: + person-owned-rls-live-tests,
+  + person-owned-migration-rehearsal (strict, admins enforced). main gets the same at promotion.
+- EXECUTE: standing execution authority for the importer.
+- Still not requested (owner 2026-09-27): ANTHROPIC_API_KEY; needed at the first real AI decode (S13/S14).
+
+## Plan (slices S0-S22, tiers and headers in the readback section 7)
+Wave 1 (now, parallel): S1 ext #35 X1 fix round; S2 #592 L1-gw fix; S3 #589 L3 fix; S4 #587+#593 fresh
+audits then atomic landing; S5 condensed L0 + FAM-0 contracts; S9 deploy readiness (read-only first).
+
+## Live lanes
+| Lane | Slice | Tier | Head | State |
+| --- | --- | --- | --- | --- |
+| S1 | ext #35 X1 | T4 | 8608a0ff | fix round starting |
+| S2 | backend #592 L1-gw | T4 | 32ca797e | fix round starting |
+| S3 | backend #589 L3 | T4 | 263e8950 | fix round starting |
+| S4 | backend #587 + #593 | T4 | 3e243750 / 798208b7 | required checks added; fresh dual audits starting |
+| S5 | L0 #581 / FAM-0 #590 condensation | T4 | f89e761a / 61c7c97f | starting |
+| S9 | production deploy readiness | T4 | main 3a9369b9 | read-only investigation |
+
+---
+
+# HISTORY: session c7aa658f (superseded 2026-09-29 23:20 UTC)
+
+# LAST OPERATOR STATE
 Updated: 2026-09-29 18:35 UTC (round-1 audits in; fix rounds running)
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session c7aa658f
