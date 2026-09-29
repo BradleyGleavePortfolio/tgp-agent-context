@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 18:05 UTC (operator takeover)
+Updated: 2026-09-29 18:35 UTC (round-1 audits in; fix rounds running)
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session c7aa658f
 (https://www.perplexity.ai/computer/tasks/c7aa658f-8b40-46cc-b838-533cd9f0fa7b). EXECUTE given by owner
@@ -31,6 +31,28 @@ Routing: T4 builder Claude Fable 5.1; T3 Claude Opus 5.5 (stronger equivalent of
 T1 GPT-5.6 Terra; T0 GPT 6 Luna (substitute: GPT-5.6 Luna unavailable). T4 reviewers: two independent
 auditors from different families (GPT 6 Sol + Claude Opus 5.5), neither the builder.
 Evidence: review reports published to tgp-private-evidence/execution/c7aa658f/reviews/.
+
+## Live lanes (c7aa658f) — updated 2026-09-29 18:35 UTC
+Branch protection applied 18:10 UTC (read back via API; direct-push negative test not run): backend main
+(build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, npm audit, CodeQL JS/TS, banned casts,
+build-sbom, danger), backend integration/importer (build-and-test, rls-floor-guard, rls-live-tests,
+mwb-3-live-tests, npm audit), mobile main (Typecheck/lint/test, CodeQL x2); strict, admins enforced, PR
+required (0 approvals), no force push/delete.
+
+Round-1 fresh independent T4 audits (A = GPT 6 Sol, B = Claude Opus 5.5). Reports held in the operator sandbox
+(/home/user/workspace/reviews/out/) and NOT published to the public evidence repo while the findings are
+unpatched; they will be published once closed or once the repo is private.
+| PR | Head | A | B | Next |
+| --- | --- | --- | --- | --- |
+| #587 S8-D3 | bb95cbf4 | APPROVE 0A/0B | REQUEST CHANGES 1A/5B | D8 tenancy slice (stacked, in build) closes the A; then #587 fix round; both land together |
+| #589 L3 | 61b0d251 | RC 3A/2B | RC 2A/4B | fix round in build (Fable) |
+| #590 FAM-0 r8 | 48177b75 | RC 3A/2B | RC 2A/9B | r9 in build (Fable); L0 amendments routed to L0 |
+| #592 L1-gw | df330304 | RC 3A/2B | RC 1A/2B | fix round in build (Fable) incl. real-PG contention spec |
+| ext #35 X1 | bd1684ae | RC 2A/2B | RC 0A/1B | fix round in build (Fable) incl. packaged-zip Playwright Chromium load proof |
+| #581 L0 | f4459fe2 | — | — | r6 in build (Fable): records D9-D14/B2, closes r5 items |
+| D8 (new) | — | — | — | T4 builder stacked on #587 (base cand/x43/s8d3-schema) |
+Correction to the readback: Roman ImportSetupView is live in ImportDataScreen (not only progress/result);
+only ImportOfferCard is unmounted.
 
 ---
 
