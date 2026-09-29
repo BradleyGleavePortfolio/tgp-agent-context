@@ -17,7 +17,9 @@ texts were never published, so every in-flight PR gets fresh exact-head independ
   cost. Applied 2026-09-29 23:17 UTC on integration/importer: + person-owned-rls-live-tests,
   + person-owned-migration-rehearsal (strict, admins enforced). main gets the same at promotion.
 - EXECUTE: standing execution authority for the importer.
-- Hosting (2026-09-29 16:27 PDT): owner stays on Fly and pays the overdue invoice (the 2026-09-09 deploy failed at
+- Hosting: Fly invoice PAID by owner 2026-09-29 16:39 PDT (deploy unblocked). Owner direction 16:29: move to a
+  free host later (recommended Google Cloud Run, request-billed; after the importer's first live deploy; custom
+  domain first). Earlier (16:27): owner stays on Fly and pays the overdue invoice (the 2026-09-09 deploy failed at
   the Depot build with "overdue invoices"). Operator right-sizes the machine after deploy (measure memory first).
 - Production facts (read 23:20 UTC): FEATURE_SCOUT_INGEST + FEATURE_EXTENSION_PAIRING are ON globally on the old
   image (no allowlist code); runs/start 404. `production` GitHub environment created: required reviewer
