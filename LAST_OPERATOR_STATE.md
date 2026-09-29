@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 16:05 UTC
+Updated: 2026-09-29 16:15 UTC
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
@@ -38,8 +38,8 @@ Production backend unchanged (old main); nothing deployed this session.
 | backend #581 | learn-and-remember record | T4 | a3b26066 (r4) | r5 authoring | r3: A+B REQUEST CHANGES; r4: A2 (7A/3B) + B2 (5A/9B) REQUEST CHANGES → executive reset → r5 in progress |
 | backend #590 | FAM-0 all families record | T4 | 21eb9d2e (r2) | r2 delta review | r1: R590-A (4A/3B), R590-B (2A/9B) REQUEST CHANGES → r2 → R590-A2 (6 open) + R590-B2 (0A/5B) REQUEST CHANGES → r3 authoring (projection: no destination field; one NotMovedReason enum) |
 | backend #591 | L1-core learn contract/validators/prompt (pure) | T4 | 3a684671 | r1 review | R591-A, R591-B running |
-| backend (draft pending) | L1-gw fail-closed importer.mapping AI capability | T4 | — | build | builder running |
-| backend #588 | L2a SourceRegistryProvider | T3+2nd lens | f6dcee55 (r2) | r2 delta review | r1: R588-A (1B), R588-B (2B) REQUEST CHANGES → r2 fail-closed DI + one registry set per settle, CI green → delta review R588-C running |
+| backend #592 | L1-gw fail-closed importer.mapping AI capability | T4 | 52196217 | r1 review | built, CI green; R592-A, R592-B running |
+| backend #588 | L2a SourceRegistryProvider | T3+2nd lens | f6dcee55 (r2) | r2 delta review | r1: R588-A (1B), R588-B (2B) REQUEST CHANGES → r2 → R588-C APPROVE (all B closed). Real-PG proof run proof/run/x44-l2a-r2-1540 (pins 133/42/95) pending → then land |
 | backend #589 | L3 per-family replay evidence | T4 | fe388210 | r2 fix | R589-A (3A/2B), R589-B (2A/2B) REQUEST CHANGES; reshaped per reset |
 | backend #587 | S8-D3 person-owned schema + RLS | T4 | 4abed784 | fix r1 → r2 | reversibility check fixed; RLS live tests: harness fixes + CWA recursion fix authorized |
 | extension #35 | X1 origin authorization (+ Fly origin) | T4 | 142501a2 | r3 fix | R35-A (1A/3B), R35-B (3B) REQUEST CHANGES |
