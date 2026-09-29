@@ -51,6 +51,15 @@ unpatched; they will be published once closed or once the repo is private.
 | ext #35 X1 | bd1684ae | RC 2A/2B | RC 0A/1B | fix round in build (Fable) incl. packaged-zip Playwright Chromium load proof |
 | #581 L0 | f4459fe2 | — | — | r6 in build (Fable): records D9-D14/B2, closes r5 items |
 | D8 (new) | — | — | — | T4 builder stacked on #587 (base cand/x43/s8d3-schema) |
+Round-2 status (19:20 UTC): #592 r3 367d3e85 -> RC (A2: 1A; B2: 2B) -> r4 in build. #589 r3 e5b990b6 -> RC (A2: 2B; B2: 2B) -> r4 in build.
+#581 L0 r6 d5bfea98 -> RC (3A/4B; 2A/8B); r7 e79e6578 -> RC (3A/2B; 2A/8B) -> r8 in build with operator scope reduction (contracts,
+invariants and required real-browser acceptance tests; mechanisms move to X2b/X3/FAM-M1). #590 FAM-0 r9 0924fc15 -> RC (2A/1B; 2A/5B)
+-> r10 in build with the same scope-reduction direction. #593 D8 44bb69cf -> RC (1A/1B; 0A/1B: AI assignment materialisers lacked the
+tenancy check) -> r2 96aea1b8 green -> re-review running. #591 L1-core r3 (align to L0 r7) in build. ext #35 fix round in build.
+Executive interpretation recorded: D14 "replay of requests the page itself made" covers the page's own learned endpoint templates
+with other ids/pages under the L0 bounds. Follow-up findings for later slices: RlsContextInterceptor user.sub guard appears inert;
+repo-wide GUC-keyed RLS helpers should adopt app.rls_actor_id(); production count of pre-existing cross-tenant assignment rows.
+
 Correction to the readback: Roman ImportSetupView is live in ImportDataScreen (not only progress/result);
 only ImportOfferCard is unmounted.
 
