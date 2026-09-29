@@ -73,6 +73,14 @@ PAUSED by owner at 19:23 UTC ("let in-progress agents finish, do not start anyth
 | #587 S8-D3 | bb95cbf4 | waiting on D8; fix round R587-c7B-02..06 not started |
 Not started: every re-review above, #587 fix round, merges, report publication, superseded-PR closure (needs owner), parked #574/#580/#582-584, later waves.
 
+Final owner-requested round (21:00 UTC), no merges (both-approve rule not met):
+| PR | Head | A (GPT 6 Sol) | B (Claude Opus 5.5) | Remaining blocker |
+| --- | --- | --- | --- | --- |
+| #592 | 32ca797e | RC 0A/1B | APPROVE 0A/0B/4C | gateway backstop accepts 0/0 usage from a non-parsing adapter (B rated it C02) |
+| #589 | 263e8950 | RC 0A/1B | APPROVE 0A/0B/5C | OpenAPI admits counters above parser max and non-ASCII tokens over the byte limit |
+| ext #35 | 8608a0ff | RC 2A/0B | APPROVE 0A/0B/5C | grant accepted >60 s after Start-tab close not revoked; lost /complete reply can show failed without a server status check |
+Reports: /home/user/workspace/reviews/out/R592-c7{A3,B3}.md, R589-c7{A3,B3}.md, R35-c7{A2,B2}.md (sandbox only).
+
 Correction to the readback: Roman ImportSetupView is live in ImportDataScreen (not only progress/result);
 only ImportOfferCard is unmounted.
 
