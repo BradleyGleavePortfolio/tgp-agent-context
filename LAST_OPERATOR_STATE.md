@@ -1,7 +1,43 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 18:20 UTC (#590 r8 in review)
+Updated: 2026-09-29 18:05 UTC (operator takeover)
 
-Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
+Operator: Computer (Claude Opus 5.5), executive orchestrator, session c7aa658f
+(https://www.perplexity.ai/computer/tasks/c7aa658f-8b40-46cc-b838-533cd9f0fa7b). EXECUTE given by owner
+2026-09-29 11:00 PDT under the TGP IMPORTER MASTER EXECUTIVE AGENT PROMPT.
+Session x44 is STOPPED (owner, 2026-09-29 10:58 PDT). This session owns every x44 lane. x44 review texts were
+never published, so every in-flight PR gets fresh full independent reviews at its current head.
+
+## Owner decisions 2026-09-29 10:58-11:00 PDT (binding)
+- B1: x44 stopped; this session is the single writer for every importer lane.
+- B2: D14 stands under the master prompt (Option A). Partner/third-party data reachable through the coach's own
+  logged-in page moves: read-only GET/HEAD replay of requests the authorized page itself made, with the
+  credential the page itself sent to that same origin; no stored credential, no new login, no mutation, bounded
+  rate, every outside origin named in the result. The master prompt's origin confinement is read with this
+  exception.
+- B3: tgp-private-evidence and tgp-agent-context stay PUBLIC until the importer is done (public CI lanes enable
+  parallelism); owner privates them at the end. Operator rule: no secrets, tokens, client names or client data
+  values are pushed to either repo.
+- Commit identity is not a criterion (master prompt section 0); G05 identity text is superseded.
+
+## Execution plan (readback 2026-09-29; tiers per T0-T4 doctrine)
+Wave 0 (now): D8 RLS tenancy fix stacked on #587 (T4); branch protection backend main + integration/importer
+and mobile main (T3, strengthening, mirrors extension); fresh 2x independent reviews of #590, #587, #592,
+#589, ext #35; L0 #581 r6 (records D9/D10/D14, aligns with #588/#591/#592); #591 after L0 r6; triage stale
+PRs; promote integration/importer -> main (merge only, no deploy).
+Waves 1-4: L2b, L2c, L3b, L2d; X2, X2b, X3, X4, R2 (+ Roman Offer/Setup registration); PRES, FAM-n, EX1,
+FAM-M1, billing handoff (D10); V1-P on owner account (needs owner deploy approval + provider key + credential
+rotation); CL record; L2g; DEL.
+Routing: T4 builder Claude Fable 5.1; T3 Claude Opus 5.5 (stronger equivalent of Opus 5); T2 Claude Sonnet 5;
+T1 GPT-5.6 Terra; T0 GPT 6 Luna (substitute: GPT-5.6 Luna unavailable). T4 reviewers: two independent
+auditors from different families (GPT 6 Sol + Claude Opus 5.5), neither the builder.
+Evidence: review reports published to tgp-private-evidence/execution/c7aa658f/reviews/.
+
+---
+
+## Inherited x44 state (as of agent-context b95ed47, 2026-09-29 17:31 UTC)
+
+
+Former operator: Computer (Claude Opus 5.5), session x44 (now STOPPED) (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
 finish every in-flight PR through review → fix → re-review, all nine in parallel, update this file at every
 round finish per PR; start no new PRs; no pilot until everything is done.
