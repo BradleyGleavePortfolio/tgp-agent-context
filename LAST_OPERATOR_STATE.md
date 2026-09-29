@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 17:15 UTC
+Updated: 2026-09-29 17:30 UTC
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
@@ -35,8 +35,8 @@ Production backend unchanged (old main); nothing deployed this session.
 ## In-flight PRs (round status)
 | PR | Slice | Tier | Head | Round | Status |
 |---|---|---|---|---|---|
-| backend #581 | learn-and-remember record | T4 | f4459fe2 (r5) | r5 review | r3, r4 REQUEST CHANGES → executive reset → r5 pushed (closure decoupled, per-coach memory, RunStatusProjectionV1 per amended §6; CI green) → R581-A3/B3 running |
-| backend #590 | FAM-0 all families record | T4 | 5c73b8de (r3) | r3 delta review | r1 → r2 → r3 → R590-A3 REQUEST CHANGES (3A: staged credential keys/short secrets; P2-before-G1 residual loss; media ref vs erasure race); R590-B3 running |
+| backend #581 | learn-and-remember record | T4 | f4459fe2 (r5) | r5 review | r3, r4 REQUEST CHANGES → executive reset → r5 → R581-A3 REQUEST CHANGES (2A/3B: signed-manifest route to complete not blocked; repeated sensitive keys reach model; foreign-origin credential rule; sparse-account suspect; spend transactional guarantees); R581-B3 running |
+| backend #590 | FAM-0 all families record | T4 | 5c73b8de (r3) | r4 authoring | r1 → r2 → r3 → R590-A3 (3A) + R590-B3 (0A/6B) REQUEST CHANGES → r4 authoring (simplify: writers unchanged, key-name denylist redaction, no purge before residual writer, tombstoned media delete, CI-enforced consumer exclusion) |
 | backend #591 | L1-core learn contract/validators/prompt (pure) | T4 | 3a684671 | r2 fix | R591-A (2A/3B) + R591-B (2A/6B) REQUEST CHANGES (built to r3 grammar; `none` pagination proof weak; stored-package parse; reuse key sparsity) → r2 fix running (v2 digest/proposal, no AI destination field, no unsupported families) |
 | backend #592 | L1-gw fail-closed importer.mapping AI capability | T4 | 52196217 | r2 fix | R592-A (3A/4B) + R592-B (6B) REQUEST CHANGES (spend cap not atomic/durable, fails open on audit write; schema type fit with #591; 45s timeout; env registration) → r2 fix running (PG advisory-lock reserve-before-call, fail closed) |
 | backend #588 | L2a SourceRegistryProvider | T3+2nd lens | f6dcee55 (r2) | MERGED | R588-A/B → r2 → R588-C APPROVE; real-PG proof ACCEPT run 36592070591 (133/42/95); squash-merged into integration/importer as 249fd0d4 |
