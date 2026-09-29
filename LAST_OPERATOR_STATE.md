@@ -60,6 +60,19 @@ Executive interpretation recorded: D14 "replay of requests the page itself made"
 with other ids/pages under the L0 bounds. Follow-up findings for later slices: RlsContextInterceptor user.sub guard appears inert;
 repo-wide GUC-keyed RLS helpers should adopt app.rls_actor_id(); production count of pre-existing cross-tenant assignment rows.
 
+PAUSED by owner at 19:23 UTC ("let in-progress agents finish, do not start anything new"). Heads at pause, none merged:
+| Lane | Head | Status at pause |
+| --- | --- | --- |
+| #593 D8 | 96aea1b8 | split: A2 RC (1A: tenancy check not atomic with the assignment write), B2 APPROVE (11C) — needs fix + fresh pair |
+| #592 L1-gw | 32ca797e | r4 green; closes R592-c7A2-01/c7B2-01/-02; not yet re-reviewed |
+| #589 L3 | 263e8950 | r4 green; closes 4 B; not yet re-reviewed |
+| #581 L0 | f89e761a | r8 (scope-reduced) green; not yet reviewed; one --force-with-lease amend on the PR branch (d176e823 -> f89e761a) |
+| #590 FAM-0 | 61c7c97f | r10 green; not yet reviewed |
+| #591 L1-core | 68a84d1d | r3 green, aligned to L0 r7; interim family catalogue pending FAM-C1; not yet reviewed |
+| ext #35 X1 | 8608a0ff | fix round green + packaged-zip Chromium load proof 15/15; not yet re-reviewed |
+| #587 S8-D3 | bb95cbf4 | waiting on D8; fix round R587-c7B-02..06 not started |
+Not started: every re-review above, #587 fix round, merges, report publication, superseded-PR closure (needs owner), parked #574/#580/#582-584, later waves.
+
 Correction to the readback: Roman ImportSetupView is live in ImportDataScreen (not only progress/result);
 only ImportOfferCard is unmounted.
 
