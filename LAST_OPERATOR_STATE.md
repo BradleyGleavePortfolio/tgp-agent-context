@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 16:55 UTC
+Updated: 2026-09-29 17:05 UTC
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
@@ -36,9 +36,9 @@ Production backend unchanged (old main); nothing deployed this session.
 | PR | Slice | Tier | Head | Round | Status |
 |---|---|---|---|---|---|
 | backend #581 | learn-and-remember record | T4 | a3b26066 (r4) | r5 authoring | r3: A+B REQUEST CHANGES; r4: A2 (7A/3B) + B2 (5A/9B) REQUEST CHANGES → executive reset → r5 in progress |
-| backend #590 | FAM-0 all families record | T4 | 5c73b8de (r3) | r3 delta review | r1 → r2 → R590-A2 (6 open) + R590-B2 (0A/5B) REQUEST CHANGES → r3 pushed (all open closed per author) → R590-A3/B3 running |
+| backend #590 | FAM-0 all families record | T4 | 5c73b8de (r3) | r3 delta review | r1 → r2 → r3 → R590-A3 REQUEST CHANGES (3A: staged credential keys/short secrets; P2-before-G1 residual loss; media ref vs erasure race); R590-B3 running |
 | backend #591 | L1-core learn contract/validators/prompt (pure) | T4 | 3a684671 | r2 fix | R591-A (2A/3B) + R591-B (2A/6B) REQUEST CHANGES (built to r3 grammar; `none` pagination proof weak; stored-package parse; reuse key sparsity) → r2 fix running (v2 digest/proposal, no AI destination field, no unsupported families) |
-| backend #592 | L1-gw fail-closed importer.mapping AI capability | T4 | 52196217 | r1 review | R592-A REQUEST CHANGES (3A/4B: non-atomic cross-instance spend admission; failed audit lets calls pass cap; caller metadata persistence; kill switch vs fallback; zero prices; extra tool calls; token under-reserve); R592-B running |
+| backend #592 | L1-gw fail-closed importer.mapping AI capability | T4 | 52196217 | r2 fix | R592-A (3A/4B) + R592-B (6B) REQUEST CHANGES (spend cap not atomic/durable, fails open on audit write; schema type fit with #591; 45s timeout; env registration) → r2 fix running (PG advisory-lock reserve-before-call, fail closed) |
 | backend #588 | L2a SourceRegistryProvider | T3+2nd lens | f6dcee55 (r2) | r2 delta review | r1: R588-A (1B), R588-B (2B) REQUEST CHANGES → r2 → R588-C APPROVE (all B closed). Real-PG proof run proof/run/x44-l2a-r2-1540 (pins 133/42/95) pending → then land |
 | backend #589 | L3 per-family replay evidence | T4 | fe388210 | r2 fix | R589-A (3A/2B), R589-B (2A/2B) REQUEST CHANGES; reshaped per reset |
 | backend #587 | S8-D3 person-owned schema + RLS | T4 | 4abed784 | fix r1 → r2 | reversibility check fixed; RLS live tests: harness fixes + CWA recursion fix authorized |
