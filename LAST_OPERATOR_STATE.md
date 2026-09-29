@@ -1,95 +1,66 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-20 23:33 UTC
+Updated: 2026-09-29 15:30 UTC
 
-Operator: GPT 6 Astra, executive orchestrator
+Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
+Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
+finish every in-flight PR through review → fix → re-review, all nine in parallel, update this file at every
+round finish per PR; start no new PRs; no pilot until everything is done.
 
-Current mission: Finish native-reconciled import and customer acceptance, then remaining approved product gaps.
+Supersedes the 2026-09-20 state (preserved in git history). Commit identity is irrelevant (owner directive).
 
-Current phase: user explicitly authorized continuing fixer/audit cycles under G01–G22. S1 final `b7d7fe59` passed 89/89 real PG17.6 synthetic checks; dual independent R3 audits active. S2 final `e15e25c2` passed 172/172 real CI tests and adversarial controls; dual source reviews active, final verdicts await real S1+S2 composition. S6 owns SLOT E for focused identity/cache tests and predecessor negative control. S4 both R3 reports frozen, parent NOT CLEARED for reproduced session races despite B's lower materiality rating; isolated R4 repair active. S5 source/runner ready, fixture safety reviewed, execution queued. No product landing/release clearance.
+## Owner decisions recorded 2026-09-29
+- D1 `complete` = ALL client records and ALL coaching records from the site are in TGP (no narrowing).
+- D4 No unsupported families: anything reachable moves (messages, food logs, check-ins, habits, body metrics,
+  notes, forms, photos/files, sessions, ...) — native where TGP has a model, otherwise a preserved record.
+- D5 Partial runs show per family what came vs what did not; clickable in the extension UI and on mobile,
+  from one server projection.
+- D6 Extension backend origin = https://backend-spring-lake-3890.fly.dev (`tgp.coach` is unregistered).
+- V1 pilot platform = the owner's own account on the owner-chosen platform; no pilot until all done.
 
-## 1. Canonical Current State
-Reverified mains and relevant open PR heads 2026-09-20 23:05 UTC: backend `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`; mobile `a5933fd6de5616493de75f0db907098b149b955c`; importer `0111be661922234d670bbf23e23d270eec1b4a4e`; context `7aad97c6925c82fdf93fa077f4370a996e6e70ac` before this refresh; private evidence `00082fa6589fe4419a56e09c53068d02ba912dc8` before S4 publication. Product stacks below unchanged. Context governance unchanged from `160928b`; resolve latest main before editing.
+## Executive decisions (orchestrator)
+- MAIN-world replay: one Start authorizes only the tab origin; cross-origin data APIs are replayed from the
+  authorized page's MAIN world; credentials stay on device, run-scoped, memory-only.
+- Executive reset (after learn record r4 failed two T4 re-reviews): completeness closure is DEFERRED to a
+  later record — until then no package type has run-level closure, learned runs settle `partial` with gap
+  `completeness_not_proven` (false `complete` impossible by construction); per-family source counts stay
+  provable. V1 memory is per coach; cross-coach reuse (north star) is a later slice (L2g) with quorum rules.
+  One run-status projection (families[] / not_moved[] / gaps[]) owned by the learn record.
+- S8-D3: harness fixes (fixture pre-delete; 23505 DETAIL assertions) authorized as correctness fixes; the
+  pre-existing ClientWorkoutAssignment↔WorkoutPlan RLS recursion (42P17) is fixed inside #587.
 
-- Backend: [#524 `238f0f1f`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/524) → [#525 `925780e0`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/525), dependency/reliability repairs, unmerged. [#526 `881c4c7`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/526) C1 is sibling to [#528 `8644715`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/528) → [#529 `d7404cd`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/529) G2; integration unresolved. [#522 `e045cfc`](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/522) staging fix blocked.
-- Mobile: [#289 `2235498`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/289) foundation; #290 `ed0342e` branched before its final hardening, then #291 `d2f0d31` → [#292 `3408867`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/292). Local composition `3e9249f` restores missing parent changes, unpushed. Roman #293 `003a977` → [#294 `5cbf0de`](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/294) preserved, unmerged, not activated.
-- Importer: #21 `fc7fdf6` → #23 `15636ff` → #24 `c0824cb` → [#25 `49c1aa9`](https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/25), loader/receipt/security repair, unmerged. [#26](https://github.com/BradleyGleavePortfolio/tgp-importer-extension/pull/26) policy content already incorporated; not closed.
+## Bases
+backend main `3a9369b9`, integration/importer `d6cf9eb6`; mobile main `adf3f2b9`; extension main `efb3fd18`.
+Production backend unchanged (old main); nothing deployed this session.
 
-## 2. What Is Actually True
-- **Landed:** captured mains above; G01–G22 effective; context state-file PR #35 merged with explicit owner authorization. No new product landing.
-- **Unmerged but valuable:** preserved stacks and privately bundled candidates below.
-- **Tested, not audit-cleared:** S4 1,678 tests and positive/negative loader proof passed; package `e2ee1f5c…`, not native completion. S2 focused controls tested, image unbuilt. S6 combined head `55db31a0` passed 308 suites/3,839 tests with natural exit 0, config/lint/types and authentic cold ON/unset exports. Both S6 R2 auditors accepted that evidence but found material identity-cache composition defects; test success is not acceptance. All 12 R1 and 12 R2 reports are privately archived.
-- **Deployed/enabled:** started backend machine observed; image Git-SHA label `5076a07a` is a main ancestor, not proof of source/image equivalence. Effective enablement unknown.
-- **Unknown/unverified:** serving DB role, effective flags, recovery readiness and native customer acceptance. S0 search closed without recovering prior artifacts from accessible surfaces, not proof they were lost or never pushed.
+## In-flight PRs (round status)
+| PR | Slice | Tier | Head | Round | Status |
+|---|---|---|---|---|---|
+| backend #581 | learn-and-remember record | T4 | a3b26066 (r4) | r5 authoring | r3: A+B REQUEST CHANGES; r4: A2 (7A/3B) + B2 (5A/9B) REQUEST CHANGES → executive reset → r5 in progress |
+| backend #590 | FAM-0 all families record | T4 | a3ae3df7 (r1) | r2 authoring | R590-A (4A/3B), R590-B (2A/9B) REQUEST CHANGES |
+| backend #591 | L1-core learn contract/validators/prompt (pure) | T4 | 3a684671 | r1 review | R591-A, R591-B running |
+| backend (draft pending) | L1-gw fail-closed importer.mapping AI capability | T4 | — | build | builder running |
+| backend #588 | L2a SourceRegistryProvider | T3+2nd lens | f6dcee55 (fix in progress) | r2 fix | R588-A (1B), R588-B (2B) REQUEST CHANGES |
+| backend #589 | L3 per-family replay evidence | T4 | fe388210 | r2 fix | R589-A (3A/2B), R589-B (2A/2B) REQUEST CHANGES; reshaped per reset |
+| backend #587 | S8-D3 person-owned schema + RLS | T4 | 4abed784 | fix r1 → r2 | reversibility check fixed; RLS live tests: harness fixes + CWA recursion fix authorized |
+| extension #35 | X1 origin authorization (+ Fly origin) | T4 | 142501a2 | r3 fix | R35-A (1A/3B), R35-B (3B) REQUEST CHANGES |
+| mobile #300 | R1 Roman status binding | T2 | 1ab5a475 | r3 fix | R300-A REQUEST CHANGES → r2 → R300-A2 (2B) REQUEST CHANGES → r3 fix running |
 
-## 3. Active Execution Lanes
-R3 current candidates (R2 entries below are preserved ancestry, not current R3 clearance):
+Nothing merged this session. No PR is audit-cleared.
 
-- S1 `b7d7fe5964680050ab441c195055ea946282a9c3`, tree `abc1ac55bd8f93383b7b0075ec9a4c856e4455d9`, clean: 89/89 real PG17.6 synthetic checks passed. Three test-support corrections after `7cbbb03`; product migration/down/verifier/bootstrap bytes unchanged. Earlier refused/failed runs preserved; fixture stopped, lock released. Final packet `remediation/s1-r3/revision-1`. Independent R3 A `s1_r3_independent_audit_a_muag61yl` and B `s1_r3_independent_audit_b_muag620d` active. PG15 CI and hosted role/grant boundaries unproven.
-- S2 `e15e25c28824b43558f7c231eec26a5ac64bafa9`, tree `b2fa201dabd2180afd499180df72102e0e36862d`, clean: 172/172 real Jest tests, 352 hostile executions, 16/16 fake-Prisma release scenarios, shell/action lint passed. Two-token quoted-variable repair; no test weakening. Failed predecessor attempts preserved and inaccurate plain-Node equivalence claim withdrawn. Packet `remediation/s2-r3/revision-1`. Auditors A `s2_r3_independent_audit_a_muagbbse` and B `s2_r3_independent_audit_b_muagbbto` active, final verdicts held for composition. Integrated tree with S1 `3d494b74b1e2894060540a6944c3c9462ae253c8`; real release.sh composition unrun. Reuse actual 164-parent migration replay plus candidate =165, not erroneous ledger-only handoff prose.
-- S4 `84471e99b278e964f7cb3f6bf9c78491064c41b7`, tree `f31a978034d0aa8a2c39615ade5ec0255a19b1d0`, clean and frozen: 62 files/1702 tests, gates, package, browser positive/control pass. Package `90883cad44cd78b60a18ab232aba0b965ae40ab6edb99054138cac61c0f6a9a7`. Packet `remediation/s4-r3/revision-1`; both independent reports final and frozen. A NOT CLEARED for duplicate refresh admission and obsolete caller clearing replacement; B bounded CLEARED but reproduces the admission race. Parent NOT CLEARED under G11; no majority-vote disposition. Original body-timeout counterexample closed. Owner dispatched isolated `s4-r4` successor from `84471e99`, no heavy slot yet. SLOT B released 23:02:34 UTC.
-- S5 `9f38ab033b08ae30ce2fc62d0150520239d6a5c8`, clean: new terminal assertions and real-Git old fixture recipe implemented; offline recipe checks only. New live expected 51 tests unrun. Runner safety corrections precede separate install/DB authorization. Checkpoint archived.
-- S6 dirty successor of `55db31a0`: async identity/cache, logout/account-switch invalidation, truthful copy and bounded identity wait implemented, not yet authorized-tested. Two unslotted unstamped type-check smoke runs disclosed/excluded. Parent approved removing blind legacy NULL-row attribution and requested narrow food-queue ownership fencing; no native/dependency activation. Global query-persister risk remains explicitly unclosed.
+## Not started (by owner direction: no new PRs)
+L1 service/route, L2b per-coach memory store + pin, projection slice, X2 rework (#38, must rebase on X1 and
+adopt new key-admission rules), X2b engine counters, X3 extension server-mode learn path, X4 popup detail,
+R2 Roman gaps, FAM-n native families, preserve destination, completeness-closure record, L2g cross-coach
+reuse, branch protection for backend/mobile, V1 proofs.
 
-Single moderate/heavy lock: `execution/test-validation.lock`, nonblocking and parent-granted slots. S1 SLOT C and S2 SLOT D finished; current SLOT E S6 focused checks only, dirty inputs fingerprinted, original smoke runs excluded. S5 and S2 composition not yet granted. S4 R3 A is NOT CLEARED, B bounded CLEARED but independently reproduced the duplicate-refresh race; parent does not waive material auth recovery consequences. R4 repair remains T4. Do not repeat S3's accepted proof without a material need. Frozen audit reports never rewritten.
+## Pending owner items
+P1 popup carries the one Start (authorize) and is otherwise status-only (north-star wording conflict);
+P2 billing under D1 (recommend preserve read-only / disclosed); P3 origin fallback (registrable-domain
+permission only if MAIN-world replay proves infeasible); P4 media storage spend (est. small per coach);
+P5 Chrome Web Store; P6 third-party service data default (excluded + disclosed unless it carries the site's
+own credential); FAM-0 OQ-1..OQ-7 (billing, client visibility of preserved records, media caps, media host,
+AI context from imported history, profile fill on join, unclassified family); email/billing storage reversal.
 
-All S1–S6: T4. S6 builder Claude Fable 5/High requested. Each R2 pair: independent inherited orchestrator lens A and Claude Fable 5/High lens B; actual identities/settings must be reported honestly. Auditors read-only, no peer-report sharing. Heavy execution serialized. Current candidates:
-
-**R3 active dispatch:** new `worktrees/s1-r3`, `s2-r3`, `s4-r3`, `s5-r3` from their exact R2 heads below, and `s6-r3` from `55db31a0`; branches `execute/20260920-sN-r3`. Requested builder routing Fable 5 / High. Mandate `execution/R3_FIX_AUDIT_BRIEF.md`; parent queue `execution/R3_VALIDATION_QUEUE.md`. S1 sole schema/migration/generator owner; S5 validation-only. S2 coordinates verifier contract with S1. S6 cache plan approved with generation-protected persistence/migration, logout invalidation, patch/account-switch safety and state-bounded copy requirements. All R2 worktrees remain immutable. Heavy slots individually granted; no DB before disposable-target guard review. Each final changed candidate receives two independent risk-scoped R3 attestations after freeze, not before evidence exists.
-
-- S1 `90a6647513f3566393764eee87237d9b5b1f150b` | R2 A NOT CLEARED, B conditional source acceptance; parent NOT CLEARED | guard destructive harness before DB execution; discriminating atomicity/timeout proof; integrated verifier exit/grant assumptions unresolved; sole schema/generator owner.
-- S2 `0b05fcf5352287109ac88ed2ba3682e441e3a076` | R2 A NOT CLEARED, B conditional code PASS; parent NOT CLEARED; 115/115 tests | A's concrete injection/start/discovery findings not rebutted by B; recovery, lint and hosted enforcement gaps remain.
-- S3 `5c7b42b3ea5be84e4c740fa5d7e42a94d5230d06` | R2 A source/local proof affirmative, B bounded lane merge-eligible; unchanged source | S1/S2 and governed landing prerequisites remain; no overall clearance. Optional env-stamped type-check requested; current restored worktree has no dependencies.
-- S4 `c5a5ae12c5b3c3e32a4601c99319ad7c0d980057` | R2 A NOT CLEARED, B bounded acceptance; parent NOT CLEARED | loader/package repairs accepted; cumulative auth-body wait/recovery defect reproduced on baseline and head. B's narrower unchanged-code review does not override A's repro.
-- S5 `485c67973b56758fb9b8404579f5ddaec87136bd` | R2 pair accepts synthetic E→T/Q0 evidence only; 50/50 exact-head tests | E-specific recovery guidance and terminal assertion/restore-recipe follow-ups; cumulative G2 NOT CLEARED; S1 schema owner.
-- S6 pairing `eaccaba98bc4400a0341bcd80409ab317bc85856`, tree `4e27b47221e25127118312b6dade5354937d7890` | FROZEN, clean `worktrees/s6` | restart/identity hydration, AST flag guard, Babel declaration and mint-attempt epoch implemented. [Frozen packet](https://github.com/BradleyGleavePortfolio/tgp-private-evidence/tree/main/2026-09-20/remediation/s6-r2/pairing/revision-1) at evidence `beff25c`, report remote hash verified. Held `4dcc1649` unrecovered; fixes independently reimplemented. No activation.
-- S6 export `d7079265ea1263a1af6cd9cd132fc18dcb1793d9`, tree `402a7425862639863b951ffb7da7ed2872ff70f5` | FROZEN; `worktrees/s6-export` | [Packet](https://github.com/BradleyGleavePortfolio/tgp-private-evidence/tree/main/2026-09-20/remediation/s6-r2/export/revision-1) archived at evidence `efd34ef`, report remote hash verified. Single guarded optional-MMKV require preserves AsyncStorage fallback; no native dependency/crypto/flag activation. Real Metro loader probe passes in Node; not native startup proof.
-- S6 final `55db31a0696ebd07d0cb9abb18ffd31dce29457d`, tree `130ef9bfdcdbc038b87466529f5980e759f3451a` | FROZEN `worktrees/s6-final`; parents `eaccaba98` + `d7079265`, clean, identity verified | 308 suites/3,839 tests natural exit 0, lint/types/config and two cold authentic exports passed; [combined packet](https://github.com/BradleyGleavePortfolio/tgp-private-evidence/tree/main/2026-09-20/remediation/s6-r2/combined/revision-1) archived/hash verified. Both independent final reports archived at evidence `407c17a`; parent NOT CLEARED for identity/cache, customer-copy and unbounded waiting. ON/unset bundles also differ in Sentry debug IDs (nonblocking wording correction). Test lock released; no product refs pushed.
-- S6 R3 active repair | export fixer reassigned, sole writer `worktrees/s6-r3` from `55db31a0`, output `execution/s6-r3` | Both final R2 reports identify the actual AsyncStorage identity-cache failure. Repair includes async hydration, generation-safe persistence/logout/account switching, truthful copy and bounded identity waiting. Complete consumer inventory reviewed; no native activation or new progress contract. Heavy execution requires a new slot. R2 source and both independent reports remain frozen; prior-round findings may inform R3.
-
-## 4. Material Decisions Already Made
-DO NOT REOPEN unless new evidence: preserve valuable work; do not reapply #26; do not rebuild Roman; C1 discovery/lifecycle is already owned, not a new product fork; one generator owner; missing artifacts never globally block; G2 phases are separate releases. No routine approval loops or self-audits.
-
-Audit immutable snapshots while validation continues. Publish every returned verdict/revision, including blocked/failed reports, to the private evidence repository.
-
-R1 complete; S1–S6 R2 complete. Current user authorized S6 remediation and R2 audits S1–S5, then explicitly commenced R3 fixer/audit cycles in [continuation thread](https://www.perplexity.ai/computer/tasks/c505dc43-b768-4295-854f-22090ae173a6). Parent publishes bundles, logs, reports and dispositions privately and updates this handoff at material transitions. No audit clearance inherited; no product merges or live actions in this dispatch.
-
-## 5. Hard Blockers / Risks
-S1–S5 packets remotely verified at private-evidence `7ab6af940c16f087dcaabbf07a55e9154405e68a`. G0 authorization/recovery and delivery enforcement block production integration. C1/G2 collision blocks consumer freeze. Runtime role/flags, artifact equivalence and live authority remain prerequisites. S5 recovery, ledger-wide tally, PG-version and drain/fencing dispositions are directions only, unimplemented.
-
-## 6. Current Critical Path
-S1+S2+S3 proof/authority → safe containment/governed landing/runtime → G2 [E → T/Q0 → B/drain → R → N/Q1 → C; S5 proves initial E/T/Q0] → G3 C1/lifecycle 2.x freeze → parallel mobile/Roman, extension executor, native writers → integrated release → authorized TrueCoach + different-platform native completion ≤300s → pilot ≥90% of ≥10 coaches → acceptance. S4/S6 prepare independently.
-
-## 7. Next 3–7 Slices
-| Slice | Canonical lane | Exact exit |
-|---|---|---|
-| S1 | T4 Fable 5 High; sole schema/generator | Serving-role/caller matrix; denied anonymous/cross-tenant and allowed operations; partition/future protection; populated-data, timeout, retry, recovery proof; authorized live application separately verified. |
-| S2 | T4 Fable 5 High | Missing/skipped/stale/failed scans block release; exact artifact/SBOM; negative tests; protected identity-compatible landing; hosted enforcement/recovery verified before activation. |
-| S3 | T4 Fable 5 High | Dependency/consumer compatibility; redaction, tenant/credential boundaries; bounded retries/failures; relevant suites run; material findings closed on cumulative head. |
-| S4 | T4 Fable 5 High | Reproducible package hash; real loader/browser proof; constrained permissions/origins; no credential leak; truthful receipts/settlement/cancellation; distinguish native completion. |
-| S5 | T4 Fable 5 High; validation-only | Representative PostgreSQL tests; old/new writer compatibility; collisions, cursors/provenance, accounting truth; populated-data preservation/recovery; staged-rollout packet. |
-| S6 | T4 Fable 5 High | Deterministic install/test selection; switch/logout/expiry isolation; independent switches; copy/accessibility/errors; release-bundle flag verification; no accidental activation. |
-
-Next: finish S6 focused composition/negative-control checks and classify real failures before broader execution. Prepare and review guarded S1+S2 real release-script composition using the full parent replay already executed by S1; validate S5's new assertions after separate dependency/fixture setup. S1 dual audits and S2 source reviews proceed independently; S4 successor fixes the two material session races before new exact-head evidence and dual follow-up. Preserve each final packet. Follow the [R2 parent disposition](https://github.com/BradleyGleavePortfolio/tgp-private-evidence/blob/main/2026-09-20/audits/R2_PARENT_DISPOSITION.md); historical tests do not automatically transfer to changed heads.
-
-## 8. Evidence That Can Be Reused
-Public lineage, S4 exact-head loader/package logs, S6 composition/install evidence; privately archived source bundles and proof packets. Reuse requires unchanged relevant inputs; preserved source is not audit clearance.
-
-## 9. Evidence That Must Be Revalidated
-Final heads/audits; hosted controls; deployment identity; source/image equivalence; flags; DB role; authorization/recovery; live boundaries; native customer outcome.
-
-## 10. Bradley Decision Required?
-NO for ongoing engineering. Later require a concrete hosted-review identity/eligible independent-review route and explicit authorization at the live-action boundary; no routine decision or bypass.
-
-## 11. Next Operator: First 15 Minutes
-1. Read this file.
-2. Verify exact main/active heads and PR states before editing.
-3. Recheck live blockers: delivery enforcement, runtime identity and authorized access.
-4. Read only the referenced constitution, relevant plan section and applicable private candidate evidence.
-5. Continue this DAG; confirm one schema owner and no inherited audit claim. Do not restart broad reconnaissance.
-
-## 12. Essential References Only
-- [Constitution](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/160928b98c57a6034cd8b7bcfba537e81c63f054/AGENT_RULES.md)
-- [Continuation and Roman import plan](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/160928b98c57a6034cd8b7bcfba537e81c63f054/handoffs/op81/CONTINUATION_AND_ROMAN_IMPORT_PLAN.md)
-- [Private R2 index: current independent verdicts and evidence](https://github.com/BradleyGleavePortfolio/tgp-private-evidence/blob/main/2026-09-20/audits/R2_INDEX.md); adjacent R1 index retains all 12 historical reports.
-- [Private remediation: source bundles, logs, dispositions, restore instructions](https://github.com/BradleyGleavePortfolio/tgp-private-evidence/tree/main/2026-09-20/remediation)
-- TGP EXECUTE: preserved Git recovery checkpoint; TGP S3 completed-proof recovery checkpoint.
+## Evidence
+Review reports and briefs live in the operator sandbox (/home/user/workspace/reviews/out/*.md); summaries
+are mirrored in PR bodies. Publish to tgp-private-evidence at session end.
