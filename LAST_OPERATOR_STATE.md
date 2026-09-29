@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 16:35 UTC (checkpoint mode)
+Updated: 2026-09-29 16:45 UTC (checkpoint mode)
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
@@ -41,7 +41,7 @@ after this point; the next operator starts with the delta reviews listed in each
 | PR | Slice | Tier | Head | Round | Status |
 |---|---|---|---|---|---|
 | backend #581 | learn-and-remember record | T4 | f4459fe2 (r5) | CHECKPOINT: r6 needed | r5 reviews: R581-A3 REQUEST CHANGES (2A/3B) + R581-B3 REQUEST CHANGES (0A/8B; no false-complete path found; structure holds). NEXT: r6 author closes reviews/out/R581-A3.md + R581-B3.md (remove destination.kind from LearnedProposalV1; align slice text with merged L2a/#591/#592; round-2 match rule; template_absent; origin base case; C0 per family), then two delta reviews |
-| backend #590 | FAM-0 all families record | T4 | 5c73b8de (r3) | r4 authoring | r1 → r2 → r3 → R590-A3 (3A) + R590-B3 (0A/6B) REQUEST CHANGES → r4 authoring (simplify: writers unchanged, key-name denylist redaction, no purge before residual writer, tombstoned media delete, CI-enforced consumer exclusion) |
+| backend #590 | FAM-0 all families record | T4 | 6ebfbfa3 (r4, base 249fd0d4 merged) | CHECKPOINT: delta review next | r1 → r2 → r3 → R590-A3 (3A) + R590-B3 (6B) → r4 pushed (817 lines, simplified: writers keep staged payload; exact credential-key denylist + JWT/bearer/PEM; no purge before residual writer; media tombstone-then-sweep; DMMF-derived consumer-exclusion CI check; billing gap until owner decides). Nothing OPEN on FAM-0 side. Depends on L0 r6 dropping LearnedProposalV1.destination.kind. NEXT: two delta reviews 5c73b8de..c1988082 |
 | backend #591 | L1-core learn contract/validators/prompt (pure) | T4 | 3a684671 | r2 fix | R591-A (2A/3B) + R591-B (2A/6B) REQUEST CHANGES (built to r3 grammar; `none` pagination proof weak; stored-package parse; reuse key sparsity) → r2 fix running (v2 digest/proposal, no AI destination field, no unsupported families) |
 | backend #592 | L1-gw fail-closed importer.mapping AI capability | T4 | 52196217 | r2 fix | R592-A (3A/4B) + R592-B (6B) REQUEST CHANGES (spend cap not atomic/durable, fails open on audit write; schema type fit with #591; 45s timeout; env registration) → r2 fix running (PG advisory-lock reserve-before-call, fail closed) |
 | backend #588 | L2a SourceRegistryProvider | T3+2nd lens | f6dcee55 (r2) | MERGED | R588-A/B → r2 → R588-C APPROVE; real-PG proof ACCEPT run 36592070591 (133/42/95); squash-merged into integration/importer as 249fd0d4 |
