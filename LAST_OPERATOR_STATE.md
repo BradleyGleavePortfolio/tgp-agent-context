@@ -81,6 +81,16 @@ Final owner-requested round (21:00 UTC), no merges (both-approve rule not met):
 | ext #35 | 8608a0ff | RC 2A/0B | APPROVE 0A/0B/5C | grant accepted >60 s after Start-tab close not revoked; lost /complete reply can show failed without a server status check |
 Reports: /home/user/workspace/reviews/out/R592-c7{A3,B3}.md, R589-c7{A3,B3}.md, R35-c7{A2,B2}.md (sandbox only).
 
+Round for the other five (22:00 UTC), no merges yet:
+| PR | Head | A (GPT 6 Sol) | B (Claude Opus 5.5) | Remaining |
+| --- | --- | --- | --- | --- |
+| #587 S8-D3 | 3e243750 | RC 0A/1B (proof jobs not required on integration/importer) | APPROVE 0A/0B/3C (merge condition: same gate) | add person-owned-rls-live-tests + person-owned-migration-rehearsal to required checks (classifier requires owner authorization), then land with #593 |
+| #593 D8 | 798208b7 | RC for combined landing only (0 new A/B) | APPROVE 0A/0B/4C | fast-forward cand/x43/s8d3-schema to 798208b7, then merge #587 |
+| #581 L0 r8 | f89e761a | RC 0A/3B | RC 0A/1B/8C | r9: 8-origin cap vs digest, :8443 port rule, media test vs FAM-M1 deferral, mutating-word check hits coach data |
+| #590 FAM-0 r10 | 61c7c97f | RC 0A/1B | RC 0A/3B/6C | r11: adopt L0 r8 origin/device-attested contract, erased-unknown rows already in TGP keep count, media ingest/erasure serialization + orphan sweep |
+| #591 L1-core r3 | 68a84d1d | RC 3A/1B | RC 1A/3B/6C | r4: align to L0 r8 (truncation carry-forward, scheme+host+port origins, r8 vocabulary), FAM-C1 catalogue disposition |
+Migration Dry-Run jobs are path-filtered (prisma/migrations/**), so they cannot be required without blocking non-migration PRs.
+
 Correction to the readback: Roman ImportSetupView is live in ImportDataScreen (not only progress/result);
 only ImportOfferCard is unmounted.
 
