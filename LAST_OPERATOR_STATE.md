@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 16:35 UTC
+Updated: 2026-09-29 16:45 UTC
 
 Operator: Computer (Claude Opus 5.5), executive orchestrator, session x44 (EXECUTE given by owner 2026-09-29).
 Mission: progress the AI-assisted self-learning importer toward the north star. Owner directive (2026-09-29):
@@ -43,7 +43,7 @@ Production backend unchanged (old main); nothing deployed this session.
 | backend #589 | L3 per-family replay evidence | T4 | fe388210 | r2 fix | R589-A (3A/2B), R589-B (2A/2B) REQUEST CHANGES; reshaped per reset |
 | backend #587 | S8-D3 person-owned schema + RLS | T4 | 4abed784 | fix r1 → r2 | reversibility check fixed; RLS live tests: harness fixes + CWA recursion fix authorized |
 | extension #35 | X1 origin authorization (+ Fly origin) | T4 | 142501a2 | r3 fix | R35-A (1A/3B), R35-B (3B) REQUEST CHANGES |
-| mobile #300 | R1 Roman status binding | T2 | 3890a7b8 (r3) | r3 delta review | R300-A REQUEST CHANGES → r2 → R300-A2 (2B) REQUEST CHANGES → r3 pushed (single live region; P2 bodies mounted inline) → R300-A3 running |
+| mobile #300 | R1 Roman status binding | T2 | 3890a7b8 (r3) | r4 fix | R300-A → r2 → R300-A2 (2B) → r3 → R300-A3 REQUEST CHANGES (P2 mount closed; live-region nesting + in-flight refresh state open) → r4 fix running (announceForAccessibility, no live regions) |
 
 Nothing merged this session. No PR is audit-cleared.
 
