@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-09-30 12:05 PDT
+- **Updated:** 2026-09-30 12:10 PDT
 - **Operator:** Computer (Claude Opus 5.5 Fast), session f32d73ae ([thread](https://www.perplexity.ai/computer/tasks/f32d73ae-304b-47f5-987b-696c33cd61e6)). This session is the single writer for both buckets.
 
 **Priority order (owner, 2026-09-30 10:48 and 11:42 PDT):**
@@ -71,7 +71,7 @@ Two recurring terms:
 | R | Roman intelligence: one Roman brain; context builder scoped to the client and their coach; model from config (primary `claude-sonnet-5-5`, fallback `claude-sonnet-4-6`); safety router; AI consent; evals | T4 | Planner, then builder Claude Fable 5.1 | `clinic/plans/PLAN_roman_intelligence.md` | **Plan done.** Back-end build of R1 (model plus boot probe; Roman currently returns blank replies because `claude-3-7-sonnet` was retired on 2026-02-19), R2 (consent), R3 (context), R4 (guardrails) and R8 (evals) **in progress**. The consent sheet and Roman UI await owner approval. |
 | T | Client tutorial: 7 action-gated steps within the Quiet Luxury rules (no confetti or streak visuals) | T2 | Planner, Claude Sonnet 5 | `clinic/plans/PLAN_tutorial.md` | **Plan done**; awaiting owner approval. |
 | PX | Clickable prototype of the onboarding, Roman and tutorial UI, for owner approval | T0 | Claude Opus 5.5 | `clinic/prototype/` | In build. |
-| P | Coach PLG activation: coach onboarding hand-off, coach tutorial, first package, share link, first client payment (2% take rate), iOS and Android payment compliance | T4 (money) | Planner, Claude Opus 5.5 | plan | Planning. Released on a later day, after the clinic launch. **Owner approval required before build.** |
+| P | Coach PLG activation: coach onboarding, 5-step coach tutorial, first offer, share link or QR, first client payment on the web, iOS 1:1 purchase gate, App Review notes | T4 (money) | Planner, Claude Opus 5.5 | `clinic/plans/PLAN_coach_plg_activation.md` | **Plan done** (slices P01–P16, decisions D1–D10). **Money bug found:** in-app checkout uses destination charges with exactly a 2% application fee. Stripe debits processing fees from the platform on those, so TGP would lose about 0.9% plus 30¢ per card sale. The canonical `platform-fee.service.ts` (the coach pays processing) is used by no charge path. P01 fixes it before any real payment; production has 0 purchases, so nothing is lost yet. P01 is queued for the next free back-end lane. Also broken: package publish, share-link URLs (`/p/<token>` not served), checkout host `joingrowthproject.com` (no DNS record), earnings API paths. |
 | K | Content: 3 four-week programs, selection rules, macro method (floors 1,200 and 1,500 kcal, protein cap 35%), Roman scripts, 7-question intake | T2 | Claude Sonnet 5 | `clinic/content/` | Drafted. 12 exercises are missing from the catalog. Program sign-off is after tonight's APK build. |
 | C06–C12 | Macros as a single source of truth, program seeding and auto-assign, Roman explanation screens, tutorial, store package, release QA | T2–T4 | queued | n/a | Queued behind the plans and approvals |
 
