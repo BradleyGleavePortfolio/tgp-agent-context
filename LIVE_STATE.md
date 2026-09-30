@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-09-30 11:55 PDT
+- **Updated:** 2026-09-30 12:05 PDT
 - **Operator:** Computer (Claude Opus 5.5 Fast), session f32d73ae ([thread](https://www.perplexity.ai/computer/tasks/f32d73ae-304b-47f5-987b-696c33cd61e6)). This session is the single writer for both buckets.
 
 **Priority order (owner, 2026-09-30 10:48 and 11:42 PDT):**
@@ -62,14 +62,15 @@ Two recurring terms:
 | C02 | Apple sign-in contract alias; signup-policy legacy fields | T4 | Backend A, Claude Fable 5.1 | pending | In build (top priority) |
 | C03 | Reliable attach: `invite_attached` flag, no re-parenting, clinic Wi-Fi signup limit | T4 | Backend A, Claude Fable 5.1 | pending | Queued after C02 |
 | C13 | Signup-time role choice, back end (`intended_role`) | T4 | Backend C13, Claude Fable 5.1 | pending | In build |
-| M1 | Signup-policy contract, paste invite code, attach-failure retry, Apple sends `token` | T3 | Mobile B, Claude Opus 5.5 | [mobile #303](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/303) | Open, CI green. Update in progress: no-code signup plus Apple `token`. Needs an independent audit. |
+| M1 | Signup-policy contract, paste invite code, attach-failure retry, Apple sends `token` (the live contract) | T3 | Mobile B, Claude Opus 5.5 | [mobile #303](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/303) | Head `85c144c`, CI green. No-code email signup works. Independent audit (GPT-6 Sol) running. **This is the PR to merge before tonight's APK.** |
 | M2 | Home message and bell entries, push-tap routing, deferred push prompt, iOS hides purchases, package prompts suppressed | T3 | Mobile B | [mobile #304](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/304) | Open, CI green. Needs an audit. |
 | M3 | expo-updates (EAS Update) and build-number bump | T3 | Mobile B | [mobile #305](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/305) | Open, CI green. Needs an audit. |
 | M4 | Role-choice screen (client or coach), stacked on M1 | T4 | Mobile B | pending | Queued |
 | C04 | Production bootstrap: Bradley's owner account, clinic code, QR poster, reviewer demo accounts, store URLs | T4 | Operator | n/a | Waiting on Bradley's signup tonight |
-| O | Personal-trainer consultation onboarding plus the coach onboarding track | T3/T4 | Planner, Claude Opus 5.5 | plan | Planning. **Owner approval required before build.** |
-| R | Roman intelligence: grounded client context, current model, guardrails, AI consent, evals | T4 | Planner, Claude Opus 5.5 | plan | Planning; T4 back-end build follows. The Roman flow UI needs owner approval. |
-| T | Duolingo-grade client tutorial sequence (day 1) | T2 | Planner, Claude Sonnet 5 | plan | Planning. **Owner approval required before build.** |
+| O | Personal-trainer consultation onboarding (9 chapters, 31 screens, about 4.5 min) plus role choice and the coach onboarding track | T3/T4 | Planner, Claude Opus 5.5 | `clinic/plans/PLAN_onboarding_consultation.md` | **Plan done**; awaiting owner approval. Finding: today's Lean onboarding never saves to the server (field-name mismatch), and the macro calculation substitutes made-up defaults (180 lb, 175 cm, age 30). |
+| R | Roman intelligence: one Roman brain; context builder scoped to the client and their coach; model from config (primary `claude-sonnet-5-5`, fallback `claude-sonnet-4-6`); safety router; AI consent; evals | T4 | Planner, then builder Claude Fable 5.1 | `clinic/plans/PLAN_roman_intelligence.md` | **Plan done.** Back-end build of R1 (model plus boot probe; Roman currently returns blank replies because `claude-3-7-sonnet` was retired on 2026-02-19), R2 (consent), R3 (context), R4 (guardrails) and R8 (evals) **in progress**. The consent sheet and Roman UI await owner approval. |
+| T | Client tutorial: 7 action-gated steps within the Quiet Luxury rules (no confetti or streak visuals) | T2 | Planner, Claude Sonnet 5 | `clinic/plans/PLAN_tutorial.md` | **Plan done**; awaiting owner approval. |
+| PX | Clickable prototype of the onboarding, Roman and tutorial UI, for owner approval | T0 | Claude Opus 5.5 | `clinic/prototype/` | In build. |
 | P | Coach PLG activation: coach onboarding hand-off, coach tutorial, first package, share link, first client payment (2% take rate), iOS and Android payment compliance | T4 (money) | Planner, Claude Opus 5.5 | plan | Planning. Released on a later day, after the clinic launch. **Owner approval required before build.** |
 | K | Content: 3 four-week programs, selection rules, macro method (floors 1,200 and 1,500 kcal, protein cap 35%), Roman scripts, 7-question intake | T2 | Claude Sonnet 5 | `clinic/content/` | Drafted. 12 exercises are missing from the catalog. Program sign-off is after tonight's APK build. |
 | C06–C12 | Macros as a single source of truth, program seeding and auto-assign, Roman explanation screens, tutorial, store package, release QA | T2–T4 | queued | n/a | Queued behind the plans and approvals |
@@ -81,7 +82,7 @@ Two recurring terms:
 
 ### Owner asks (open)
 
-1. **Build access:** an Expo token for the `the-growth-project` account (secure form) so the operator can run the iOS build and submission. Otherwise Bradley runs them.
+1. ~~Build access~~: **done 11:58.** The Expo token is saved and verified: account role Owner on `the-growth-project`; the iOS distribution certificate and provisioning profile are valid until 2027-05-02; an App Store Connect API key (95C76WBFA6) is set up for submissions. The operator can build and submit iOS through EAS (eas-cli needs lowercase `https_proxy`).
 2. **Tonight:** sign up from the APK. The operator then promotes the account to owner with a free-tier coach seat and creates the clinic code and QR code.
 3. **Approve the plans:** onboarding consultation plus the coach track, Roman flows and UI, and the tutorial, when they are delivered.
 4. **Approve the workout programs** after tonight.
