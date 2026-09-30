@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-09-18T04:46:49.425740+00:00",
+  "expected_control_paths": {
+    ".gitleaks.toml": false,
+    ".github/workflows/secrets-scan.yml": false,
+    ".github/workflows/iac-security.yml": false,
+    ".github/workflows/semgrep.yml": false,
+    "branch-protection.yml": false,
+    "test/QUARANTINE.md": false,
+    "operator-meta/UNENFORCED_RULES.md": false,
+    ".audit-ignore.yml": false
+  },
+  "canonical_unenforced_ledger_present": false,
+  "workflow_files": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/codeql.yml",
+    ".github/workflows/danger.yml",
+    ".github/workflows/fly-db-secrets-set.yml",
+    ".github/workflows/fly-deploy.yml",
+    ".github/workflows/fly-feature-flags-set.yml",
+    ".github/workflows/fly-launch-env-set.yml",
+    ".github/workflows/fly-logs-dump.yml",
+    ".github/workflows/fly-logs.yml",
+    ".github/workflows/fly-recent-auth-set.yml",
+    ".github/workflows/fly-secrets-list.yml",
+    ".github/workflows/fly-secrets-set.yml",
+    ".github/workflows/h4-readiness.yml",
+    ".github/workflows/infra-lint.yml",
+    ".github/workflows/migration-dry-run.yml",
+    ".github/workflows/pr-checks-watcher.yml",
+    ".github/workflows/pr-size-labeler.yml",
+    ".github/workflows/r100-quality-gate.yml",
+    ".github/workflows/release-please.yml",
+    ".github/workflows/sbom.yml"
+  ],
+  "backend": {
+    "head": "238f0f1f152ebbb1b4691f555e98c888473d8ee7",
+    "status": "",
+    "base": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7"
+  },
+  "context": {
+    "head": "2ead9b05e967713201c03619b564a3db4cadea35",
+    "status": "",
+    "base": "32445a75c7ee6a0018c1f3979519b3e62ed67fc8"
+  },
+  "merge_object": {
+    "returncode": 128,
+    "stdout": "",
+    "stderr": "fatal: bad object 0786a9f087d8dcec7dfb8d1271c78aeba5baabb3\n"
+  },
+  "ci14days": {
+    "window": "2026-09-04T04:29:00Z to 2026-09-18T04:29:00Z",
+    "workflow_runs": 7,
+    "success": 7,
+    "CI_runs": 1,
+    "CI_success": 1
+  }
+}
