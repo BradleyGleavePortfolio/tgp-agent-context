@@ -1,0 +1,23 @@
+[
+  {
+    "patch": "FINAL_R120.patch",
+    "from": "3db01451c6c4e1aa46c6637db80d852e2273bcf6",
+    "tree": "ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398",
+    "matched": true,
+    "alternate_index": "/home/user/workspace/operator80/execution/importer-iac/FINAL_R120.patch.index"
+  },
+  {
+    "patch": "FINAL_SECURITY_CUMULATIVE.patch",
+    "from": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+    "tree": "ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398",
+    "matched": true,
+    "alternate_index": "/home/user/workspace/operator80/execution/importer-iac/FINAL_SECURITY_CUMULATIVE.patch.index"
+  },
+  {
+    "patch": "FINAL_PR_CUMULATIVE.patch",
+    "from": "0111be661922234d670bbf23e23d270eec1b4a4e",
+    "tree": "ef0c1abf2f0a7dfbee432631ad4dbf6b288e3398",
+    "matched": true,
+    "alternate_index": "/home/user/workspace/operator80/execution/importer-iac/FINAL_PR_CUMULATIVE.patch.index"
+  }
+]

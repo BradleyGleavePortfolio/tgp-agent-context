@@ -1,0 +1,63 @@
+{
+  "command": [
+    "/home/user/workspace/operator80/execution/importer-supply-chain/tooling/gitleaks",
+    "git",
+    "--redact=100",
+    "--no-banner",
+    "--no-color",
+    "--ignore-gitleaks-allow",
+    "--gitleaks-ignore-path=/dev/null",
+    "--timeout=45",
+    "--log-opts=--all --full-history",
+    "--report-format=json",
+    "--report-path=/home/user/workspace/operator80/execution/importer-supply-chain/input-history-redacted.json",
+    "/tmp/tgp-op80-cycle2-inputs/importer"
+  ],
+  "exit": 1,
+  "elapsed_seconds": 0.992,
+  "findings": 7,
+  "locations": [
+    {
+      "file": "test/blueprint-c2a-fixture.spec.js",
+      "line": 72,
+      "rule": "generic-api-key",
+      "commit": "e647f30bcad47610fedd84f2191543179b01ced0"
+    },
+    {
+      "file": "test/ingest-settlement.spec.js",
+      "line": 30,
+      "rule": "jwt",
+      "commit": "6669569666995739ad194cc5782948241f8a64f4"
+    },
+    {
+      "file": "test/ingest-complete-contract.spec.js",
+      "line": 31,
+      "rule": "jwt",
+      "commit": "aaa9ac72a38a639a632722f43f9f6e07b37a399c"
+    },
+    {
+      "file": "test/replay-truecoach-e2e.spec.js",
+      "line": 38,
+      "rule": "jwt",
+      "commit": "4f116836ddb5449524dd51e995a7e4c012f79493"
+    },
+    {
+      "file": "test/content-collector.spec.js",
+      "line": 12,
+      "rule": "jwt",
+      "commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1"
+    },
+    {
+      "file": "test/start-import.spec.js",
+      "line": 27,
+      "rule": "jwt",
+      "commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1"
+    },
+    {
+      "file": "test/start-import-hardening.spec.js",
+      "line": 26,
+      "rule": "jwt",
+      "commit": "a8a6af6b1b3e4f327e19b823f5258a5e6f2335f1"
+    }
+  ]
+}

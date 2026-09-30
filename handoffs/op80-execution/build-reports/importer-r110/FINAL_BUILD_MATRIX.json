@@ -1,0 +1,44 @@
+{
+  "backend_head_supplied": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+  "context_head_verified": "ad2259c0649e4e53a663a2600343da1a08ac8b35",
+  "importer_input_and_unchanged_head": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+  "importer_main_base": "0111be661922234d670bbf23e23d270eec1b4a4e",
+  "mobile_head_supplied": "a5933fd6de5616493de75f0db907098b149b955c",
+  "candidate_staged_tree": "3db01451c6c4e1aa46c6637db80d852e2273bcf6",
+  "reconstructed_tree": "3db01451c6c4e1aa46c6637db80d852e2273bcf6",
+  "timestamp_utc": "2026-09-17T20:40:37.105347+00:00",
+  "owned_files": [
+    ".gitleaks.toml",
+    ".github/workflows/secrets-scan.yml",
+    "lefthook.yml",
+    "scripts/check-hook-config.mjs",
+    "scripts/install-gitleaks.sh",
+    "scripts/secrets-scan.sh",
+    "test/policy-gates.spec.js",
+    "test/secrets-scan-controls.py",
+    "docs/SECRETS_SCANNING.md"
+  ],
+  "new_commits": false,
+  "requested_model": "Astra inherited from parent",
+  "runtime_identity_verified": false,
+  "closeout_recorded_utc": "2026-09-17T20:56:58.601438+00:00",
+  "resource_status": "All writer/tool/native/install/type/test/heavy slots released; no task remains running; backend may resume",
+  "original_full_suite_status": "FAIL: evidence-runner BANNED_DIFF_CACHED=1 leaked into all tests; second run not authorized",
+  "original_full_suite_counts": {
+    "passed": 1501,
+    "failed": 33,
+    "total": 1534,
+    "files_passed": 50,
+    "files_failed": 1
+  },
+  "full_suite_status": "PASS: separately parent-authorized corrected environment, same frozen tree",
+  "full_suite_counts": {
+    "passed": 1534,
+    "failed": 0,
+    "skipped": 0,
+    "total": 1534,
+    "files_passed": 51,
+    "files_failed": 0
+  },
+  "corrected_full_suite_record": "corrected-full-suite-result.json"
+}

@@ -1,0 +1,6 @@
+
+> tgp-importer-extension@0.3.0-rc.1 check:loc
+> node scripts/check-prod-loc.mjs
+
+prod LOC (base=origin/main) — prod_added=180 prod_removed=87 cap=400
+OK: added production JS is within the per-PR cap

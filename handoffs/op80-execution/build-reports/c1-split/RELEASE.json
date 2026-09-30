@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-09-17T19:33:13.054992+00:00",
+  "status": "FROZEN_FOR_PARENT_REVIEW_RESOURCES_RELEASED",
+  "c1a_tree": "404dd55d2fde7ab9fab46fb4ea1d27a9d79a7556",
+  "c1b_tree": "660e436ecbf911b6984b40ed43d135e3dc308378",
+  "no_further_product_writes_or_tests_planned": true,
+  "consumer_freeze": false,
+  "verdict": "FINDINGS"
+}

@@ -1,0 +1,27 @@
+{
+  "scripts/importer-contract.ts": {
+    "covered_added_instrumented_lines": 2,
+    "added_instrumented_lines": 2,
+    "percent": 100.0,
+    "uncovered_added_lines": []
+  },
+  "src/extension-pair/extension-pair.controller.ts": {
+    "covered_added_instrumented_lines": 49,
+    "added_instrumented_lines": 49,
+    "percent": 100.0,
+    "uncovered_added_lines": []
+  },
+  "src/extension-pair/extension-pair.dto.ts": {
+    "covered_added_instrumented_lines": 33,
+    "added_instrumented_lines": 33,
+    "percent": 100.0,
+    "uncovered_added_lines": []
+  },
+  "src/extension-pair/extension-pair.service.ts": {
+    "covered_added_instrumented_lines": 51,
+    "added_instrumented_lines": 51,
+    "percent": 100.0,
+    "uncovered_added_lines": []
+  },
+  "method": "Intersection of exact staged diff added lines with final V8/Istanbul statement ranges; statement-range line accounting can include comments. Schema, SQL, generated docs and tests are not executable-source coverage."
+}

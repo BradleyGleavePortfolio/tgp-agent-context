@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-09-17T19:11:13.438346+00:00",
+  "tree": "3c3d09cf95851fb91e66ed20fe770a1a8164845c",
+  "patch_sha256": "851eb12eefa459409e6b38717a2e971ac2dff4bfde3e728a1d042d88bf9ba603",
+  "workflow_net": 454,
+  "workflow_src_added": 135,
+  "workflow_test_added": 341,
+  "density": 2.525925925925926,
+  "canonical_source_and_migration_net": 118,
+  "canonical_banned_tokens_net": {
+    "@ts-ignore": 0,
+    "as any": 0,
+    "as unknown as": 0,
+    "as never": 0,
+    ".catch(()=>undefined)": 0,
+    ".catch(()=>null)": 0,
+    ".catch(()=>{})": 0,
+    "Coming soon": 0
+  },
+  "unowned_changed_files": [],
+  "files": [
+    {
+      "path": "prisma/migrations/20270116000000_add_pair_import_intent/down.sql",
+      "added": 3,
+      "removed": 0
+    },
+    {
+      "path": "prisma/migrations/20270116000000_add_pair_import_intent/migration.sql",
+      "added": 5,
+      "removed": 0
+    },
+    {
+      "path": "scripts/importer-contract.ts",
+      "added": 2,
+      "removed": 1
+    },
+    {
+      "path": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "added": 163,
+      "removed": 0
+    },
+    {
+      "path": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "added": 147,
+      "removed": 0
+    },
+    {
+      "path": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "added": 3,
+      "removed": 1
+    },
+    {
+      "path": "src/extension-pair/extension-pair.controller.ts",
+      "added": 49,
+      "removed": 5
+    },
+    {
+      "path": "src/extension-pair/extension-pair.dto.ts",
+      "added": 33,
+      "removed": 5
+    },
+    {
+      "path": "src/extension-pair/extension-pair.service.ts",
+      "added": 51,
+      "removed": 14
+    },
+    {
+      "path": "test/contracts/importer-contract.spec.ts",
+      "added": 28,
+      "removed": 4
+    }
+  ],
+  "dependencies": {
+    "package.json": {
+      "working_sha256": "bb939038a2a8ad47e23d076766e3cbf331a120e5ad0b362376e39232b07a56b6",
+      "matches_base": true
+    },
+    "package-lock.json": {
+      "working_sha256": "62b05b908c835dae51e54af1e553d91f763a070da21813c4419d66e018d61390",
+      "matches_base": true
+    }
+  }
+}

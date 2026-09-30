@@ -1,0 +1,85 @@
+fatal: path 'src/extension-pair/__tests__/durable-session.spec.ts' exists on disk, but not in '404dd55d2fde7ab9fab46fb4ea1d27a9d79a7556'
+{
+  "differences": [
+    "docs/contracts/importer-openapi.json",
+    "docs/decisions/2026-09-17-c1-durable-paired-intent.md",
+    "scripts/importer-contract.ts"
+  ],
+  "testFiles": 10,
+  "testBlocks": 170,
+  "expectCalls": 365,
+  "introducedInB": [
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "preserves the exact init ID through status, redeem, and durable retrieval",
+      "expect_calls": 4
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "reads the stored ID after code expiry, without any credential or Start/completion state",
+      "expect_calls": 3
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "passes the authenticated owner, never a body-supplied owner, through the controller",
+      "expect_calls": 2
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "storage misses return identical not-found without minting or revealing ownership",
+      "expect_calls": 3
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "enforces owner/role/deletion/legacy predicates for %s %s %s %s",
+      "expect_calls": 2
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "reads pending versus expired unused setup truthfully, never inferring pairing",
+      "expect_calls": 2
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "reconnect reads are stable and do not rotate or mint the identity",
+      "expect_calls": 3
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "keeps session POST, bearer-only, coach/owner guarded with the global authenticated throttle",
+      "expect_calls": 10
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "is dark by default before authentication or storage work",
+      "expect_calls": 3
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "validates the new UUID in the real request pipe",
+      "expect_calls": 2
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "rejects ownership/intent injection while preserving old init and redeem requests",
+      "expect_calls": 3
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "durable session is bearer-only POST with validated UUID and credential-free response",
+      "expect_calls": 7
+    }
+  ],
+  "parentMigrationMapping": [
+    {
+      "file": "prisma/migrations/20270116000000_add_pair_import_intent/migration.sql",
+      "sha256": "4fbf1c0bdf28740ee34188be8821ffd31f404f57ad8359e593716618fe4a34ba",
+      "original_a_b_parent_match": true
+    },
+    {
+      "file": "prisma/migrations/20270116000000_add_pair_import_intent/down.sql",
+      "sha256": "0e25af9165f282a0e19f1a11c48a514b1f0cfb0b56a551334bc29c61e2ece729",
+      "original_a_b_parent_match": true
+    }
+  ]
+}

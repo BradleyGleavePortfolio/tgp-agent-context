@@ -1,0 +1,6 @@
+{
+  "phase": "python96-audit",
+  "exit_code": 1,
+  "all_execution_slots": "RELEASED",
+  "no_further_execution_without_parent_grant": true
+}

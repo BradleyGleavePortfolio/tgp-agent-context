@@ -1,0 +1,7 @@
+# Backend Dependency Repair: Archive Boundary
+
+This checkpoint copies the completed builder report and selected identity, gate, release and audit records. The readable report removes only four trailing double-space Markdown hard breaks to satisfy the context whitespace gate; its original bytes are preserved in `BUILD_REPORT.original.md.gz` with decompressed SHA256 `d32eb8fbeb499351daeb4244097e226a3030298dacd5428353affcfd1e04693c`. The other selected records are verbatim. The exact product patch is preserved as `corrected-candidate.patch.gz`, deterministically compressed; decompression must yield SHA256 `ff504dfd7f87c8c1b1777f04a1e2b4faf9a420f3770b4df6f8b56f5f53a5645a` and reconstruct tree `b2bb1666a91d60927d3ee1d6455ce687ce1c8739` from base `c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7`.
+
+`HANDOFF_MANIFEST.json` inventories the original 69-file local packet, not 69 files copied into this directory. Relative and local-file references in the report refer to that original evidence packet unless the named file is also present here. Office renderings, large raw test logs, network caches and executable evidence harnesses are not included in this selected archive.
+
+The original failed full suite and graph/SBOM attempts remain preserved and disclosed in the report. A green corrected local suite is not an independent audit, published-head CI, security-setting reconciliation, verified migration rollout or end-to-end importer result.

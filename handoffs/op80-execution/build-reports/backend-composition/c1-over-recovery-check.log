@@ -1,0 +1,4 @@
+error: patch failed: docs/contracts/importer-openapi.json:824
+error: docs/contracts/importer-openapi.json: patch does not apply
+error: patch failed: scripts/importer-contract.ts:40
+error: scripts/importer-contract.ts: patch does not apply

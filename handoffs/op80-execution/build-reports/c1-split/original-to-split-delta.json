@@ -1,0 +1,35 @@
+{
+  "original_tree": "3c3d09cf95851fb91e66ed20fe770a1a8164845c",
+  "final_tree": "660e436ecbf911b6984b40ed43d135e3dc308378",
+  "differences": [
+    {
+      "file": "docs/contracts/importer-openapi.json",
+      "old_blob": "58842ba9550768bf055a6b9ef4e9f9e1d8fb909c",
+      "final_blob": "bac09e52f21ffb60f7eabe032493f0f8d705c7fc",
+      "added": 1,
+      "removed": 1
+    },
+    {
+      "file": "docs/decisions/2026-09-17-c1-durable-paired-intent.md",
+      "old_blob": "729a855c6cd6ba039900d95328cc32692efc5cb5",
+      "final_blob": "f4d972cce9fff74b39a85dc93dead8db5863cdec",
+      "added": 4,
+      "removed": 1
+    },
+    {
+      "file": "scripts/importer-contract.ts",
+      "old_blob": "ba0022c75bc5a9e29d376f46a209e372087b951e",
+      "final_blob": "5f30aededcb6822d6bfc0a49b6d22224abd31861",
+      "added": 1,
+      "removed": 1
+    }
+  ],
+  "generated_contract_delta": {
+    "only": "info.version",
+    "from": "1.5.0",
+    "to": "1.6.0"
+  },
+  "all_other_tracked_files_byte_identical": true,
+  "total_added": 6,
+  "total_removed": 3
+}

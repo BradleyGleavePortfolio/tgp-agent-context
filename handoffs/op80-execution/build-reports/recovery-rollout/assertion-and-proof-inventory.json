@@ -1,0 +1,317 @@
+{
+  "title": "Cycle 3 • Recovery rollout readiness",
+  "verdict": "FINDINGS",
+  "evidence_classification": "Static design proposal plus preserved prior proof; no new product execution",
+  "base": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+  "recovery_tree": "a8908132a9c4882dbe80f9fbc1052532c7e68c3b",
+  "canonical_context": "ad2259c0649e4e53a663a2600343da1a08ac8b35",
+  "original_21_case_inventory": [
+    {
+      "id": 1,
+      "original_name": "persists two entity_types that share a source_id within one intent",
+      "line_start": 140,
+      "line_end": 156,
+      "obligations": "Cross-family same s: insert count 2 and stored types exactly client/workout.",
+      "proposed_mapping": "C; the enabling index drop and this discriminator ship together.",
+      "original_source_excerpt": "    it('persists two entity_types that share a source_id within one intent', async () => {\n      const { count } = await insertBatch(\n        row({ id: 'a', entity_type: 'client', source_id: '1042' }),\n        row({ id: 'b', entity_type: 'workout', source_id: '1042' }),\n      );\n\n      // Before the widening this was 1, and the caller reported deduped = 1 —\n      // a lost entity indistinguishable from a replay.\n      expect(count).toBe(2);\n\n      const stored = await prisma.scoutIngestEntity.findMany({\n        where: { coach_id: COACH, intent_id: INTENT, source_id: '1042' },\n        orderBy: { entity_type: 'asc' },\n        select: { entity_type: true },\n      });\n      expect(stored.map((r) => r.entity_type)).toEqual(['client', 'workout']);\n    });",
+      "expect_calls": 2,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L140"
+    },
+    {
+      "id": 2,
+      "original_name": "reports deduped = 0 when every entity in the batch is distinct",
+      "line_start": 158,
+      "line_end": 166,
+      "obligations": "Three distinct entity types sharing s: received − count = 0.",
+      "proposed_mapping": "C; negative control on R still deduplicates.",
+      "original_source_excerpt": "    it('reports deduped = 0 when every entity in the batch is distinct', async () => {\n      const received = 3;\n      const { count } = await insertBatch(\n        row({ id: 'a', entity_type: 'client', source_id: '1' }),\n        row({ id: 'b', entity_type: 'workout', source_id: '1' }),\n        row({ id: 'c', entity_type: 'exercise', source_id: '1' }),\n      );\n      expect(received - count).toBe(0);\n    });",
+      "expect_calls": 1,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L158"
+    },
+    {
+      "id": 3,
+      "original_name": "treats a full 5-tuple replay as a no-op",
+      "line_start": 170,
+      "line_end": 178,
+      "obligations": "Full five-tuple replay: count 0; stored count 1.",
+      "proposed_mapping": "Useful H baseline; rerun E/T/R/N and C exact-identity state.",
+      "original_source_excerpt": "    it('treats a full 5-tuple replay as a no-op', async () => {\n      const original = row({ id: 'a', entity_type: 'client', source_id: '1042' });\n      await insertBatch(original);\n\n      const replay = await insertBatch({ ...original, id: 'a-retry' });\n\n      expect(replay.count).toBe(0);\n      expect(await prisma.scoutIngestEntity.count()).toBe(1);\n    });",
+      "expect_calls": 2,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L170"
+    },
+    {
+      "id": 4,
+      "original_name": "keeps captured_at OUT of the key — a fresh timestamp is a replay, not a new row",
+      "line_start": 180,
+      "line_end": 197,
+      "obligations": "Different captured_at is still replay: count 0, total 1.",
+      "proposed_mapping": "H baseline onward; retain timestamp-out-of-key assertion.",
+      "original_source_excerpt": "    it('keeps captured_at OUT of the key — a fresh timestamp is a replay, not a new row', async () => {\n      const first = row({\n        id: 'a',\n        entity_type: 'client',\n        source_id: '1042',\n        captured_at: new Date('2026-07-27T00:00:00.000Z'),\n      });\n      await insertBatch(first);\n\n      const laterObservation = await insertBatch({\n        ...first,\n        id: 'b',\n        captured_at: new Date('2026-07-28T00:00:00.000Z'),\n      });\n\n      expect(laterObservation.count).toBe(0);\n      expect(await prisma.scoutIngestEntity.count()).toBe(1);\n    });",
+      "expect_calls": 2,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L180"
+    },
+    {
+      "id": 5,
+      "original_name": "collapses in-batch duplicates of the same 5-tuple",
+      "line_start": 199,
+      "line_end": 205,
+      "obligations": "Same-tuple duplicate within one batch collapses: count 1.",
+      "proposed_mapping": "H baseline onward and C.",
+      "original_source_excerpt": "    it('collapses in-batch duplicates of the same 5-tuple', async () => {\n      const { count } = await insertBatch(\n        row({ id: 'a', entity_type: 'client', source_id: '1042' }),\n        row({ id: 'b', entity_type: 'client', source_id: '1042' }),\n      );\n      expect(count).toBe(1);\n    });",
+      "expect_calls": 1,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L199"
+    },
+    {
+      "id": 6,
+      "original_name": "starts a new observation series for a different intent_id",
+      "line_start": 207,
+      "line_end": 215,
+      "obligations": "Different intent: next count 1, total 2.",
+      "proposed_mapping": "H baseline onward and C; keep intent scope.",
+      "original_source_excerpt": "    it('starts a new observation series for a different intent_id', async () => {\n      const base = row({ id: 'a', entity_type: 'client', source_id: '1042' });\n      await insertBatch(base);\n\n      const nextSession = await insertBatch({ ...base, id: 'b', intent_id: 'intent-2' });\n\n      expect(nextSession.count).toBe(1);\n      expect(await prisma.scoutIngestEntity.count()).toBe(2);\n    });",
+      "expect_calls": 2,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L207"
+    },
+    {
+      "id": 7,
+      "original_name": "scopes the key per coach — another coach is never deduped against this one",
+      "line_start": 217,
+      "line_end": 224,
+      "obligations": "Different coach: next count 1.",
+      "proposed_mapping": "H baseline onward and C; keep coach scope.",
+      "original_source_excerpt": "    it('scopes the key per coach — another coach is never deduped against this one', async () => {\n      const base = row({ id: 'a', entity_type: 'client', source_id: '1042' });\n      await insertBatch(base);\n\n      const otherCoach = await insertBatch({ ...base, id: 'b', coach_id: 'coach-other' });\n\n      expect(otherCoach.count).toBe(1);\n    });",
+      "expect_calls": 1,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L217"
+    },
+    {
+      "id": 8,
+      "original_name": "reverses cleanly when no row depends on the widened key",
+      "line_start": 228,
+      "line_end": 250,
+      "obligations": "Collision-free full reverse: old staging index present, wide absent, staging rows byte-equivalent before/down/up.",
+      "proposed_mapping": "C.down→R.down→E.down→E/R/C returns full S0/C boundary; every stage also proves its own down/up. C.down alone intentionally retains wide index.",
+      "original_source_excerpt": "    it('reverses cleanly when no row depends on the widened key', async () => {\n      await insertBatch(\n        row({\n          id: 'roundtrip',\n          entity_type: 'clients',\n          source_id: 'roundtrip',\n          payload: { untouched: true },\n        }),\n      );\n      const before = await prisma.scoutIngestEntity.findMany();\n      try {\n        applySqlFile(join(WIDEN_DIR, 'down.sql'));\n\n        const names = await indexNames();\n        expect(names).toContain('ScoutIngestEntity_coach_id_intent_id_source_id_key');\n        expect(names).not.toContain('ScoutIngestEntity_identity_key');\n        expect(await prisma.scoutIngestEntity.findMany()).toEqual(before);\n        applySqlFile(join(WIDEN_DIR, 'migration.sql'));\n        expect(await prisma.scoutIngestEntity.findMany()).toEqual(before);\n      } finally {\n        await resetToWidened();\n      }\n    });",
+      "expect_calls": 4,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L228"
+    },
+    {
+      "id": 9,
+      "original_name": "REFUSES to reverse — rather than delete data — when rows only the widened key permits exist",
+      "line_start": 252,
+      "line_end": 267,
+      "obligations": "Cross-family collision blocks reverse with duplicate error; two rows and wide key remain.",
+      "proposed_mapping": "C.down; failure atomic and data-preserving.",
+      "original_source_excerpt": "    it('REFUSES to reverse — rather than delete data — when rows only the widened key permits exist', async () => {\n      await insertBatch(\n        row({ id: 'a', entity_type: 'client', source_id: '1042' }),\n        row({ id: 'b', entity_type: 'workout', source_id: '1042' }),\n      );\n\n      // The narrow index cannot be built over these two rows, so down.sql must\n      // abort with a duplicate-key error and leave every row in place.\n      try {\n        expect(() => applySqlFile(join(WIDEN_DIR, 'down.sql'))).toThrow(/duplicat/i);\n        expect(await prisma.scoutIngestEntity.count()).toBe(2);\n        expect(await indexNames()).toContain('ScoutIngestEntity_identity_key');\n      } finally {\n        await resetToWidened();\n      }\n    });",
+      "expect_calls": 3,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L252"
+    },
+    {
+      "id": 10,
+      "original_name": "keeps ENABLE + FORCE row level security on the table",
+      "line_start": 271,
+      "line_end": 277,
+      "obligations": "Staging relrowsecurity and relforcerowsecurity are true.",
+      "proposed_mapping": "H baseline, E, R and C; no relaxation.",
+      "original_source_excerpt": "    it('keeps ENABLE + FORCE row level security on the table', async () => {\n      const [rls] = await prisma.$queryRawUnsafe<RlsFlags[]>(\n        `SELECT relrowsecurity, relforcerowsecurity FROM pg_class WHERE oid = 'public.\"ScoutIngestEntity\"'::regclass`,\n      );\n      expect(rls.relrowsecurity).toBe(true);\n      expect(rls.relforcerowsecurity).toBe(true);\n    });",
+      "expect_calls": 2,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L271"
+    },
+    {
+      "id": 11,
+      "original_name": "keeps exact restrictive client denial and permissive service policy semantics",
+      "line_start": 279,
+      "line_end": 306,
+      "obligations": "Exactly 3 staging policies: exact names/roles, ALL commands, permissive service true/true, restrictive anon/auth false/false.",
+      "proposed_mapping": "H baseline and each schema stage; enumerate catalog values, not policy existence alone.",
+      "original_source_excerpt": "    it('keeps exact restrictive client denial and permissive service policy semantics', async () => {\n      const policies = await prisma.$queryRawUnsafe<\n        {\n          policyname: string;\n          permissive: string;\n          roles: string[];\n          cmd: string;\n          qual: string;\n          with_check: string;\n        }[]\n      >(\n        `SELECT policyname, permissive, roles, cmd, qual, with_check FROM pg_policies WHERE schemaname = 'public' AND tablename = 'ScoutIngestEntity'`,\n      );\n      const byName = new Map(policies.map((p) => [p.policyname, p.permissive]));\n\n      expect(byName.get('deny_all_anon_scout_ingest')).toBe('RESTRICTIVE');\n      expect(byName.get('deny_all_authenticated_scout_ingest')).toBe('RESTRICTIVE');\n      expect(byName.get('p_scout_ingest_service_role_all')).toBe('PERMISSIVE');\n      expect(policies).toHaveLength(3);\n      for (const role of ['anon', 'authenticated', 'service_role']) {\n        expect(policies.find((p) => p.roles.includes(role))).toMatchObject({\n          roles: [role],\n          cmd: 'ALL',\n          qual: role === 'service_role' ? 'true' : 'false',\n          with_check: role === 'service_role' ? 'true' : 'false',\n        });\n      }\n    });",
+      "expect_calls": 5,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L279"
+    },
+    {
+      "id": 12,
+      "original_name": "persists the same source ID on two platforms through the real service and replays unchanged",
+      "line_start": 309,
+      "line_end": 342,
+      "obligations": "Real service: two platforms received=2/deduped=0; changed timestamp/payload replay deduped=2 and stored rows unchanged.",
+      "proposed_mapping": "C with real service/client, not only mocked insertion.",
+      "original_source_excerpt": "    it('persists the same source ID on two platforms through the real service and replays unchanged', async () => {\n      const db = Object.assign(Object.create(PrismaService.prototype) as PrismaService, {\n        scoutIngestEntity: prisma.scoutIngestEntity,\n      });\n      const analytics = Object.assign(\n        Object.create(AnalyticsService.prototype) as AnalyticsService,\n        { capture: jest.fn() },\n      );\n      const service = new ScoutIngestService(db, analytics);\n      const entities = ['truecoach', 'conformance_alpha'].map((sourcePlatform) => ({\n        sourceId: '1042',\n        sourcePlatform,\n        capturedAt: '2026-09-15T12:00:00Z',\n        payload: { title: sourcePlatform },\n      }));\n      const dto = { intent_id: INTENT, entity_type: 'workouts', entities };\n      expect(await service.ingest(COACH, dto)).toEqual({ received: 2, deduped: 0 });\n      const before = await prisma.scoutIngestEntity.findMany({\n        orderBy: { source_platform: 'asc' },\n      });\n      expect(\n        await service.ingest(COACH, {\n          ...dto,\n          entities: entities.map((e) => ({\n            ...e,\n            capturedAt: '2026-09-16T00:00:00Z',\n            payload: { title: 'changed' },\n          })),\n        }),\n      ).toEqual({ received: 2, deduped: 2 });\n      expect(\n        await prisma.scoutIngestEntity.findMany({ orderBy: { source_platform: 'asc' } }),\n      ).toEqual(before);\n    });",
+      "expect_calls": 3,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L309"
+    },
+    {
+      "id": 13,
+      "original_name": "ignores a same-named table in a different schema in catalog lookups",
+      "line_start": 343,
+      "line_end": 352,
+      "obligations": "Decoy-schema index is excluded from application index catalog.",
+      "proposed_mapping": "H catalog helper and E/R/C ownership tests.",
+      "original_source_excerpt": "    it('ignores a same-named table in a different schema in catalog lookups', async () => {\n      await prisma.$executeRawUnsafe('CREATE SCHEMA IF NOT EXISTS ingest_r2_decoy');\n      await prisma.$executeRawUnsafe(\n        'CREATE TABLE IF NOT EXISTS ingest_r2_decoy.\"ScoutIngestEntity\" (id text)',\n      );\n      await prisma.$executeRawUnsafe(\n        'CREATE INDEX IF NOT EXISTS ingest_r2_decoy_only ON ingest_r2_decoy.\"ScoutIngestEntity\" (id)',\n      );\n      expect(await indexNames()).not.toContain('ingest_r2_decoy_only');\n    });",
+      "expect_calls": 1,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L343"
+    },
+    {
+      "id": 14,
+      "original_name": "refuses repeated raw migration execution atomically (Prisma history owns reruns)",
+      "line_start": 353,
+      "line_end": 359,
+      "obligations": "Raw migration rerun throws; index names unchanged and one row retained.",
+      "proposed_mapping": "Each E/R/C raw rerun fails atomically; full chain has explicit entry-state tests, not unchecked IF NOT EXISTS.",
+      "original_source_excerpt": "    it('refuses repeated raw migration execution atomically (Prisma history owns reruns)', async () => {\n      await insertBatch(row({ id: 'rerun', entity_type: 'clients', source_id: 'rerun' }));\n      const before = await indexNames();\n      expect(() => applySqlFile(join(PLATFORM_DIR, 'migration.sql'))).toThrow();\n      expect(await indexNames()).toEqual(before);\n      expect(await prisma.scoutIngestEntity.count()).toBe(1);\n    });",
+      "expect_calls": 3,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L353"
+    },
+    {
+      "id": 15,
+      "original_name": "targets the public table/index OIDs in BOTH directions despite a shadow schema",
+      "line_start": 362,
+      "line_end": 407,
+      "obligations": "Shadow search_path cannot redirect up/down; cross-family insert count 2; shadow narrow and wide indexes survive.",
+      "proposed_mapping": "E/R/C use schema-qualified objects; C cross-family proof and full reverse chain keep decoys untouched.",
+      "original_source_excerpt": "  it('targets the public table/index OIDs in BOTH directions despite a shadow schema', async () => {\n    const old = 'ScoutIngestEntity_coach_id_intent_id_source_id_key';\n    const wide = 'ScoutIngestEntity_identity_key';\n    try {\n      await prisma.$executeRawUnsafe('CREATE SCHEMA IF NOT EXISTS ingest_r2_shadow');\n      await prisma.$executeRawUnsafe('DROP TABLE IF EXISTS ingest_r2_shadow.decoy');\n      await prisma.$executeRawUnsafe('CREATE TABLE ingest_r2_shadow.decoy (id text)');\n      await prisma.$executeRawUnsafe(\n        `CREATE INDEX IF NOT EXISTS \"${old}\" ON ingest_r2_shadow.decoy (id)`,\n      );\n      await prisma.$executeRawUnsafe(\n        `CREATE INDEX IF NOT EXISTS \"${wide}\" ON ingest_r2_shadow.decoy (id)`,\n      );\n      await resetToWidened(false);\n      const shadowApply = (file: string) =>\n        execFileSync(\n          'psql',\n          [\n            PSQL_URL,\n            '-X',\n            '-v',\n            'ON_ERROR_STOP=1',\n            '-c',\n            'SET search_path = ingest_r2_shadow, public',\n            '-f',\n            file,\n          ],\n          { timeout: 30000 },\n        );\n      shadowApply(join(WIDEN_DIR, 'migration.sql'));\n      expect(\n        await insertBatch(\n          row({ id: 'shadow-a', entity_type: 'clients', source_id: '1' }),\n          row({ id: 'shadow-b', entity_type: 'workouts', source_id: '1' }),\n        ),\n      ).toEqual({ count: 2 });\n      await prisma.$executeRawUnsafe('TRUNCATE public.\"ScoutIngestEntity\"');\n      shadowApply(join(WIDEN_DIR, 'down.sql'));\n      const decoys = await prisma.$queryRawUnsafe<{ indexname: string }[]>(\n        \"SELECT indexname FROM pg_indexes WHERE schemaname='ingest_r2_shadow' AND tablename='decoy'\",\n      );\n      expect(decoys.map((r) => r.indexname).sort()).toEqual([old, wide].sort());\n    } finally {\n      await resetToWidened();\n    }\n  });",
+      "expect_calls": 2,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L362"
+    },
+    {
+      "id": 16,
+      "original_name": "reconstructs and replays identical IDs across platforms without losing ledger counts",
+      "line_start": 409,
+      "line_end": 433,
+      "obligations": "Three staged platforms (truecoach/conformance_alpha/unknown), same workout s: reconstructed=2, skipped=1, failed=0; repeat leaves 3 ledger rows and 2 targets.",
+      "proposed_mapping": "C real reconstruction + second replay; unknown is actual staged value, not invented backfill provenance.",
+      "original_source_excerpt": "  it('reconstructs and replays identical IDs across platforms without losing ledger counts', async () => {\n    await insertBatch(\n      ...['truecoach', 'conformance_alpha', 'unknown'].map((source_platform) =>\n        row({ id: source_platform, source_platform, entity_type: 'workouts', source_id: '1042' }),\n      ),\n    );\n    await prisma.scoutImport.create({\n      data: { coach_id: COACH, intent_id: INTENT, terminal_status: 'success' },\n    });\n    const db = Object.assign(Object.create(PrismaService.prototype) as PrismaService, {\n      scoutIngestEntity: prisma.scoutIngestEntity,\n      scoutReconstructionLedger: prisma.scoutReconstructionLedger,\n      scoutImport: prisma.scoutImport,\n      $transaction: prisma.$transaction.bind(prisma),\n    });\n    const analytics = Object.assign(Object.create(AnalyticsService.prototype) as AnalyticsService, {\n      capture: jest.fn(),\n    });\n    const service = new ScoutReconstructService(db, analytics);\n    const first = await service.reconstruct(COACH, INTENT, 'workouts');\n    expect(first).toMatchObject({ staged: 3, reconstructed: 2, skipped: 1, failed: 0 });\n    expect(await service.reconstruct(COACH, INTENT, 'workouts')).toEqual(first);\n    expect(await prisma.scoutReconstructionLedger.count()).toBe(3);\n    expect(await prisma.scoutReconstructedEntity.count()).toBe(2);\n  });",
+      "expect_calls": 4,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L409"
+    },
+    {
+      "id": 17,
+      "original_name": "backfills exact ledger provenance and refuses orphaned history without fabricating a platform",
+      "line_start": 434,
+      "line_end": 456,
+      "obligations": "Exact legacy match backfills truecoach, retaining skipped status. Orphan re-up throws NULL error, leaves narrow key and no p column at original pre-expand boundary.",
+      "proposed_mapping": "B exact provenance + R refusal; deliberately changed stage boundary: R failure retains E nullable column. Full drained safe unwind to S0 must preserve the original column-absence assertion. Do not claim literal old atomic shape at R.",
+      "original_source_excerpt": "  it('backfills exact ledger provenance and refuses orphaned history without fabricating a platform', async () => {\n    try {\n      await resetToWidened(false);\n      await insertBatch(row({ id: 'backfill', entity_type: 'clients', source_id: '1042' }));\n      await prisma.$executeRawUnsafe(`INSERT INTO public.\"ScoutReconstructionLedger\"\n        (id, coach_id, intent_id, entity_type, source_id, status) VALUES\n        ('backfill', 'coach-i1a', 'intent-i1a', 'clients', '1042', 'skipped')`);\n      applySqlFile(join(PLATFORM_DIR, 'migration.sql'));\n      expect(\n        await prisma.scoutReconstructionLedger.findUnique({ where: { id: 'backfill' } }),\n      ).toMatchObject({ source_platform: 'truecoach', status: 'skipped' });\n      applySqlFile(join(PLATFORM_DIR, 'down.sql'));\n      await prisma.$executeRawUnsafe('TRUNCATE public.\"ScoutIngestEntity\"');\n      expect(() => applySqlFile(join(PLATFORM_DIR, 'migration.sql'))).toThrow(/null/i);\n      expect(await indexNames()).toContain('ScoutIngestEntity_coach_id_intent_id_source_id_key');\n      const columns = await prisma.$queryRawUnsafe<{ column_name: string }[]>(\n        \"SELECT column_name FROM information_schema.columns WHERE table_schema='public' AND table_name='ScoutReconstructionLedger'\",\n      );\n      expect(columns.map((c) => c.column_name)).not.toContain('source_platform');\n    } finally {\n      await resetToWidened();\n    }\n  });",
+      "expect_calls": 4,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L434"
+    },
+    {
+      "id": 18,
+      "original_name": "refuses a platform-losing rollback atomically",
+      "line_start": 457,
+      "line_end": 470,
+      "obligations": "Platform collision blocks reverse; staging wide index and both rows remain.",
+      "proposed_mapping": "C.down; no lossy narrowing.",
+      "original_source_excerpt": "  it('refuses a platform-losing rollback atomically', async () => {\n    await insertBatch(\n      row({ id: 'a', entity_type: 'clients', source_id: '1042' }),\n      row({\n        id: 'b',\n        entity_type: 'clients',\n        source_id: '1042',\n        source_platform: 'conformance_alpha',\n      }),\n    );\n    expect(() => applySqlFile(join(PLATFORM_DIR, 'down.sql'))).toThrow(/duplicat/i);\n    expect(await indexNames()).toContain('ScoutIngestEntity_identity_key');\n    expect(await prisma.scoutIngestEntity.count()).toBe(2);\n  });",
+      "expect_calls": 3,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L457"
+    },
+    {
+      "id": 19,
+      "original_name": "proves real non-superuser CRUD denial even with hostile permissive policy",
+      "line_start": 471,
+      "line_end": 530,
+      "obligations": "Non-superuser/non-bypass anon/auth: read/update/delete=0, insert 42501; hostile permissive policy cannot undo restrictive read/update/delete denial. Inherited service-role probe: authorized CRUD counts, transaction rollback leaves original row.",
+      "proposed_mapping": "H baseline plus E/R/C. Preserve role flags, grants, transaction rollback and all CRUD checks. Original hostile INSERT probe is not concurrent with hostile policy; add that stronger check separately.",
+      "original_source_excerpt": "  it('proves real non-superuser CRUD denial even with hostile permissive policy', async () => {\n    await insertBatch(row({ id: 'rls', entity_type: 'clients', source_id: 'rls' }));\n    const rollback = new Error('rollback test-only ACLs and roles');\n    for (const role of ['anon', 'authenticated']) {\n      const attributes = await prisma.$queryRaw<{ rolsuper: boolean; rolbypassrls: boolean }[]>`\n        SELECT rolsuper, rolbypassrls FROM pg_roles WHERE rolname = ${role}`;\n      expect(attributes).toEqual([{ rolsuper: false, rolbypassrls: false }]);\n      await expect(\n        prisma.$transaction(async (tx) => {\n          await tx.$executeRawUnsafe('GRANT USAGE ON SCHEMA public TO anon, authenticated');\n          await tx.$executeRawUnsafe(\n            'GRANT SELECT, INSERT, UPDATE, DELETE ON public.\"ScoutIngestEntity\" TO anon, authenticated',\n          );\n          await tx.$executeRawUnsafe(\n            'CREATE POLICY hostile_allow ON public.\"ScoutIngestEntity\" FOR ALL TO PUBLIC USING (true) WITH CHECK (true)',\n          );\n          await tx.$executeRawUnsafe(`SET LOCAL ROLE ${role}`);\n          expect(await tx.scoutIngestEntity.count()).toBe(0);\n          expect(\n            await tx.scoutIngestEntity.updateMany({ data: { entity_type: 'forbidden' } }),\n          ).toEqual({ count: 0 });\n          expect(await tx.scoutIngestEntity.deleteMany()).toEqual({ count: 0 });\n          throw rollback;\n        }),\n      ).rejects.toBe(rollback);\n      await expect(\n        prisma.$transaction(async (tx) => {\n          await tx.$executeRawUnsafe(\n            'GRANT INSERT ON public.\"ScoutIngestEntity\" TO anon, authenticated',\n          );\n          await tx.$executeRawUnsafe(`SET LOCAL ROLE ${role}`);\n          await tx.$executeRawUnsafe(`INSERT INTO public.\"ScoutIngestEntity\" (id, coach_id, intent_id, entity_type, source_id, source_platform, payload)\n          VALUES ('denied', 'x', 'x', 'x', 'x', 'truecoach', '{}')`);\n        }),\n      ).rejects.toMatchObject({ meta: { code: '42501' } });\n    }\n    await expect(\n      prisma.$transaction(async (tx) => {\n        await tx.$executeRawUnsafe(\n          'CREATE ROLE ingest_r2_policy_probe NOLOGIN NOSUPERUSER NOBYPASSRLS INHERIT',\n        );\n        await tx.$executeRawUnsafe('GRANT service_role TO ingest_r2_policy_probe');\n        await tx.$executeRawUnsafe('GRANT USAGE ON SCHEMA public TO ingest_r2_policy_probe');\n        await tx.$executeRawUnsafe(\n          'GRANT SELECT, INSERT, UPDATE, DELETE ON public.\"ScoutIngestEntity\" TO ingest_r2_policy_probe',\n        );\n        await tx.$executeRawUnsafe('SET LOCAL ROLE ingest_r2_policy_probe');\n        expect(await tx.scoutIngestEntity.count()).toBe(1);\n        await tx.scoutIngestEntity.create({\n          data: row({ id: 'allowed', entity_type: 'clients', source_id: 'allowed' }),\n        });\n        expect(await tx.scoutIngestEntity.updateMany({ data: { entity_type: 'updated' } })).toEqual(\n          { count: 2 },\n        );\n        expect(await tx.scoutIngestEntity.deleteMany()).toEqual({ count: 2 });\n        throw rollback;\n      }),\n    ).rejects.toBe(rollback);\n    expect(await prisma.scoutIngestEntity.count()).toBe(1);\n  });",
+      "expect_calls": 11,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L471"
+    },
+    {
+      "id": 20,
+      "original_name": "rolls back the first narrowing index when the ledger alone requires platform separation",
+      "line_start": 532,
+      "line_end": 547,
+      "obligations": "Ledger-only platform collision blocks reverse, leaves 2 ledger rows, wide keys present and first narrow-index creation rolled back.",
+      "proposed_mapping": "C.down atomically recreates BOTH narrow indexes; verify no half-narrow state.",
+      "original_source_excerpt": "  it('rolls back the first narrowing index when the ledger alone requires platform separation', async () => {\n    await prisma.scoutReconstructionLedger.createMany({\n      data: ['truecoach', 'conformance_alpha'].map((source_platform) => ({\n        coach_id: COACH,\n        intent_id: INTENT,\n        entity_type: 'clients',\n        source_id: 'ledger-only',\n        source_platform,\n        status: 'skipped',\n      })),\n    });\n    expect(() => applySqlFile(join(PLATFORM_DIR, 'down.sql'))).toThrow(/duplicat/i);\n    expect(await indexNames()).toContain('ScoutIngestEntity_identity_key');\n    expect(await indexNames()).not.toContain('ScoutIngestEntity_coach_id_intent_id_source_id_key');\n    expect(await prisma.scoutReconstructionLedger.count()).toBe(2);\n  });",
+      "expect_calls": 4,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L532"
+    },
+    {
+      "id": 21,
+      "original_name": "refuses an unrelated public index instead of dropping it",
+      "line_start": 548,
+      "line_end": 571,
+      "obligations": "Unrelated public object owning expected narrow-index name: migration refuses owner mismatch, decoy table unchanged.",
+      "proposed_mapping": "E/R prerequisite guards; C entry/down guards matched to their actual stage; retain exact wrong-owner discriminator.",
+      "original_source_excerpt": "  it('refuses an unrelated public index instead of dropping it', async () => {\n    try {\n      await resetToWidened(false);\n      await prisma.$executeRawUnsafe(\n        'ALTER INDEX public.\"ScoutIngestEntity_coach_id_intent_id_source_id_key\" RENAME TO ingest_r2_saved_key',\n      );\n      await prisma.$executeRawUnsafe(\n        'CREATE TABLE IF NOT EXISTS public.ingest_r2_index_decoy (id text)',\n      );\n      await prisma.$executeRawUnsafe(\n        'CREATE INDEX \"ScoutIngestEntity_coach_id_intent_id_source_id_key\" ON public.ingest_r2_index_decoy (id)',\n      );\n      expect(() => applySqlFile(join(WIDEN_DIR, 'migration.sql'))).toThrow(\n        /[Uu]nexpected identity index owner/i,\n      );\n      const index = await prisma.$queryRawUnsafe<{ tablename: string }[]>(\n        `SELECT tablename FROM pg_indexes WHERE schemaname='public' AND indexname='ScoutIngestEntity_coach_id_intent_id_source_id_key'`,\n      );\n      expect(index).toEqual([{ tablename: 'ingest_r2_index_decoy' }]);\n    } finally {\n      await prisma.$executeRawUnsafe('DROP TABLE IF EXISTS public.ingest_r2_index_decoy');\n      await resetToWidened();\n    }\n  });",
+      "expect_calls": 2,
+      "source_url": "file:///home/user/workspace/operator80/execution/recovery-rollout-design/evidence/live-proof.txt#L548"
+    }
+  ],
+  "new_proof_requirements": [
+    {
+      "id": "M01",
+      "boundary": "Isolated clients / SQL",
+      "proof": "Separately generated O/T/N clients in isolated processes; capture actual INSERT, native-vs-emulated upsert, selector, result materialization and SQLSTATE. Negative controls O/R, N/E, O/C.",
+      "required_by": "Before E/T and R/N promotion"
+    },
+    {
+      "id": "M02",
+      "boundary": "Mixed O + T on E",
+      "proof": "Simultaneous creates/replays for success, skipped and failed branches; NULL claim, O update retains p, no mismatch overwrite and target/ledger atomic rollback.",
+      "required_by": "T"
+    },
+    {
+      "id": "M03",
+      "boundary": "Concurrent migration / backfill",
+      "proof": "O writes during E lock; lock-timeout atomicity. O inserts after B chunk create late NULL; final drain/sweep required. T claim vs B update and staging mutation serialize correctly.",
+      "required_by": "E, B"
+    },
+    {
+      "id": "M04",
+      "boundary": "Provenance negatives",
+      "proof": "Orphan, invalid p, wrong family, wrong coach/intent, ambiguous/incorrect prerequisite, non-NULL mismatch, erased staging and SKIP LOCKED retries. No fabrication; no stalled-success report.",
+      "required_by": "B, R"
+    },
+    {
+      "id": "M05",
+      "boundary": "Ready-state refusal",
+      "proof": "NULL/noncanonical rows cause R atomic refusal; retained old indexes; T still operates. Measure lock/index-build/validation budgets at representative size. Fence obsolete restart paths.",
+      "required_by": "R"
+    },
+    {
+      "id": "M06",
+      "boundary": "Mixed T + N on R",
+      "proof": "Both real selectors address same ledger; all status paths and unique-conflict retries. New identities remain blocked by narrow keys; verify dedup counts accurately describe that transitional state.",
+      "required_by": "N"
+    },
+    {
+      "id": "M07",
+      "boundary": "Final writer races",
+      "proof": "N+N same full tuple ⇒ one ledger and one target, correct replay; different platform/family ⇒ distinct outcomes. Success vs failure/skip has explicit non-downgrade semantics or blocks release.",
+      "required_by": "C; no mocked substitute"
+    },
+    {
+      "id": "M08",
+      "boundary": "Concurrent ingest and rollback",
+      "proof": "ON CONFLICT count accuracy with concurrent replay and new identities. C/down against in-flight writes, staging collision and ledger-only second-index failure; all rows retained, no partial schema.",
+      "required_by": "C"
+    },
+    {
+      "id": "M09",
+      "boundary": "Cursor compatibility",
+      "proof": "Q0/Q1 decode both directions; limit=1 tied s across p; legacy ambiguity/missing boundary gives documented restart, cross-scope rejection, erased/missing target behavior, bounds. No O reader or T writer active at C.",
+      "required_by": "Q0/Q1 before C"
+    },
+    {
+      "id": "M10",
+      "boundary": "Security / object identity",
+      "proof": "Stage-specific exact policy catalogs; non-superuser non-bypass CRUD with hostile permissive policies on staging and ledger; affected target owner checks; wrong schema/owner/definition/invalid-index negatives.",
+      "required_by": "H/E/R/C"
+    },
+    {
+      "id": "M11",
+      "boundary": "CI and boundary graph",
+      "proof": "Run each stage’s complete history and own down/up/rerun; manifest all preserved IDs with zero pending/skipped. Target-selection guards and actual CI job invocation fail closed. PostgreSQL 15 CI rehearsal required.",
+      "required_by": "Every stage; full terminal 21 at C"
+    },
+    {
+      "id": "M12",
+      "boundary": "Snapshot / settled ingestion",
+      "proof": "Late ingest between reconstruction count, offset pages and final tally: determine supported sealing/quiescence contract and test it. Existing one-time settled gate is not a stable snapshot guarantee.",
+      "required_by": "Decision before activating C"
+    }
+  ],
+  "ownership": "Released to parent and sole backend builder; no execution resource held",
+  "model": "Requested Astra inherited; runtime unverified"
+}

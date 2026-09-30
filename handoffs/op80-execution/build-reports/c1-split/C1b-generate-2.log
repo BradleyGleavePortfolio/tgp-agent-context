@@ -1,0 +1,4 @@
+COMMAND ["node", "node_modules/ts-node/dist/bin.js", "scripts/export-importer-contract.ts"]
+Wrote /home/user/workspace/operator80/execution/c1-split/C1b-contract-second.json (12 paths, 29 schemas)
+
+EXIT=0

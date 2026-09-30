@@ -1,0 +1,388 @@
+[
+  {
+    "test": "test_approved_exact_literals_in_exact_paths_are_clean",
+    "mode": [
+      "staged"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_approved_exact_literals_in_exact_paths_are_clean-xe4snq5m/scan-0.json"
+  },
+  {
+    "test": "test_checksum_failure_cannot_execute_or_install",
+    "exit": 2,
+    "expected": 2,
+    "reason": "checksum mismatch"
+  },
+  {
+    "test": "test_clean_pr_history",
+    "mode": [
+      "pr",
+      "d3edf03579ce095935fd07eeb8e072da20c18bac",
+      "c900c009660d8db1d1811fbeb1f8269f138a228e"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_clean_pr_history-ezea1e7c/scan-2.json"
+  },
+  {
+    "test": "test_clean_staged_diff",
+    "mode": [
+      "staged"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_clean_staged_diff-n1vvwm3c/scan-3.json"
+  },
+  {
+    "test": "test_download_failure_cannot_install",
+    "exit": 2,
+    "expected": 2,
+    "reason": "download failed"
+  },
+  {
+    "test": "test_empty_pr_range_fails_closed",
+    "mode": [
+      "pr",
+      "942257d5f598f3cac070859889d82708ad0c7919",
+      "942257d5f598f3cac070859889d82708ad0c7919"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_empty_pr_range_fails_closed-5ku4fgkb/scan-5.json"
+  },
+  {
+    "test": "test_empty_staged_diff",
+    "mode": [
+      "staged"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_empty_staged_diff-pcxkwpge/scan-6.json"
+  },
+  {
+    "test": "test_environment_config_cannot_override_explicit_policy",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_environment_config_cannot_override_explicit_policy-qxlt1rdc/scan-7.json"
+  },
+  {
+    "test": "test_every_exact_literal_outside_approved_paths_is_detected",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_every_exact_literal_outside_approved_paths_is_detected-06a8rbin/scan-8.json"
+  },
+  {
+    "test": "test_every_modified_literal_in_same_path_is_detected",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_every_modified_literal_in_same_path_is_detected-qxwjrwz1/scan-9.json"
+  },
+  {
+    "test": "test_extra_staged_options_are_rejected",
+    "mode": [
+      "staged",
+      "--exit-code=0"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_extra_staged_options_are_rejected-j0s8jobl/scan-10.json"
+  },
+  {
+    "test": "test_fingerprint_file_does_not_exempt_canary",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_fingerprint_file_does_not_exempt_canary-c69blvxf/scan-11.json"
+  },
+  {
+    "test": "test_fingerprint_file_does_not_exempt_canary",
+    "mode": [
+      "staged"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_fingerprint_file_does_not_exempt_canary-c69blvxf/scan-12.json"
+  },
+  {
+    "test": "test_ignore_comment_does_not_exempt_canary",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_ignore_comment_does_not_exempt_canary-q7epjb2n/scan-13.json"
+  },
+  {
+    "test": "test_invalid_config_is_scanner_failure",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_invalid_config_is_scanner_failure-krclft5k/scan-14.json"
+  },
+  {
+    "test": "test_merge_resolution_secret_absent_from_both_parents",
+    "mode": [
+      "pr",
+      "c3198e41f686d94553ccb8af03c513b7abc3c4bd",
+      "bd66b8b009aa93bfc5c3b520b6b5c7e7b95adf2b"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_merge_resolution_secret_absent_from_both_parents-04ezhl5_/scan-15.json"
+  },
+  {
+    "test": "test_merge_resolution_secret_absent_from_both_parents",
+    "mode": [
+      "history"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_merge_resolution_secret_absent_from_both_parents-04ezhl5_/scan-16.json"
+  },
+  {
+    "test": "test_missing_base_fails_closed",
+    "mode": [
+      "pr",
+      "0000000000000000000000000000000000000000",
+      "1ba14a6418fa65485e12c832c376d34497ab63e6"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_missing_base_fails_closed-xxlxa_go/scan-17.json"
+  },
+  {
+    "test": "test_missing_binary_fails_closed",
+    "mode": [
+      "staged"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_missing_binary_fails_closed-uwxebwgp/scan-18.json"
+  },
+  {
+    "test": "test_missing_config_fails_closed",
+    "mode": [
+      "staged"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_missing_config_fails_closed-4nityf3j/scan-19.json"
+  },
+  {
+    "test": "test_missing_head_fails_closed",
+    "mode": [
+      "pr",
+      "1e5839dcd6ca91481d0a39161c47b4f237d04531",
+      "0000000000000000000000000000000000000000"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_missing_head_fails_closed-s_fx0_8w/scan-20.json"
+  },
+  {
+    "test": "test_non_sha_range_cannot_inject_options",
+    "mode": [
+      "pr",
+      "--all",
+      "e1759307ce313648fdb371d3e95625cec71802aa"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_non_sha_range_cannot_inject_options-ab175f7q/scan-21.json"
+  },
+  {
+    "test": "test_operator_email_does_not_exempt_canary",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_operator_email_does_not_exempt_canary-4qv04928/scan-22.json"
+  },
+  {
+    "test": "test_other_secret_types_in_all_approved_paths_are_detected",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_other_secret_types_in_all_approved_paths_are_detected-ps1swss1/scan-23.json"
+  },
+  {
+    "test": "test_real_scanner_git_log_failure_is_not_clean",
+    "mode": [
+      "pr",
+      "4a216cc8d79245c87ca551e531335905372a8329",
+      "25d2215c7127ebfb00b1ef8aea96e8ceba53c9ba"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_real_scanner_git_log_failure_is_not_clean-lx106vz1/scan-24.json"
+  },
+  {
+    "test": "test_real_scanner_git_reader_failure_is_not_clean",
+    "mode": [
+      "staged"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_real_scanner_git_reader_failure_is_not_clean-y11qhyjc/scan-25.json"
+  },
+  {
+    "test": "test_removed_secret_stays_in_pr_and_all_history",
+    "mode": [
+      "pr",
+      "cc6d4f944c12a45b5ba5a61a7b4f6f2bfe8b03bf",
+      "4b3693985b42578045be57612ead932fdbcd5ca6"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_removed_secret_stays_in_pr_and_all_history-2i_gx75z/scan-26.json"
+  },
+  {
+    "test": "test_removed_secret_stays_in_pr_and_all_history",
+    "mode": [
+      "history"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_removed_secret_stays_in_pr_and_all_history-2i_gx75z/scan-27.json"
+  },
+  {
+    "test": "test_removed_secret_stays_in_pr_and_all_history",
+    "mode": [
+      "staged"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_removed_secret_stays_in_pr_and_all_history-2i_gx75z/scan-28.json"
+  },
+  {
+    "test": "test_scanner_failure_is_propagated",
+    "mode": [
+      "staged"
+    ],
+    "exit": 17,
+    "expected": 17,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_scanner_failure_is_propagated-gy7xyxcg/scan-29.json"
+  },
+  {
+    "test": "test_shallow_clone_fails_closed",
+    "mode": [
+      "pr",
+      "c8b8b24f79c50f4f62af939b55707b20dbbb2b9f",
+      "c8b8b24f79c50f4f62af939b55707b20dbbb2b9f"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_shallow_clone_fails_closed-w0zy_65g/shallow/scan-30.json"
+  },
+  {
+    "test": "test_shallow_clone_fails_closed",
+    "mode": [
+      "history"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_shallow_clone_fails_closed-w0zy_65g/shallow/scan-31.json"
+  },
+  {
+    "test": "test_side_branch_removed_secret_stays_in_merge_history",
+    "mode": [
+      "pr",
+      "a9fa5a06279f82d505f87f1d6c7df981bda69526",
+      "6e6fcc6a2a4046148e8ec091a01a30e725e81d2f"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_side_branch_removed_secret_stays_in_merge_history-x7tyh3w5/scan-32.json"
+  },
+  {
+    "test": "test_staged_canary_blocks",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_staged_canary_blocks-a_n45c2w/scan-33.json"
+  },
+  {
+    "test": "test_test_directory_is_scanned",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_test_directory_is_scanned-e9nqaz41/scan-34.json"
+  },
+  {
+    "test": "test_unknown_mode_fails_closed",
+    "mode": [
+      "incorrect"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_unknown_mode_fails_closed-67le9itm/scan-35.json"
+  },
+  {
+    "test": "test_unstaged_canary_is_not_the_index",
+    "mode": [
+      "staged"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_unstaged_canary_is_not_the_index-wxjogxc9/scan-36.json"
+  },
+  {
+    "test": "test_unstaged_policy_cannot_change_staged_scan",
+    "mode": [
+      "staged"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_unstaged_policy_cannot_change_staged_scan-hrn3n94b/scan-37.json"
+  },
+  {
+    "test": "test_worktree_removal_cannot_hide_staged_canary",
+    "mode": [
+      "staged"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_worktree_removal_cannot_hide_staged_canary-c3njddi_/scan-38.json"
+  },
+  {
+    "test": "test_wrong_checkout_fails_closed",
+    "mode": [
+      "pr",
+      "a1ba292b3f29b7cc1c7d75c60bd7466b29ed0872",
+      "a1ba292b3f29b7cc1c7d75c60bd7466b29ed0872"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_wrong_checkout_fails_closed-a501yber/scan-39.json"
+  },
+  {
+    "test": "test_wrong_version_fails_closed",
+    "mode": [
+      "staged"
+    ],
+    "exit": 2,
+    "expected": 2,
+    "stdout_file": "/home/user/workspace/operator80/execution/importer-supply-chain/controls-final/test_wrong_version_fails_closed-7oorf6j7/scan-40.json"
+  }
+]

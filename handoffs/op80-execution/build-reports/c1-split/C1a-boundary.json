@@ -1,0 +1,8 @@
+{
+  "contract_version": "1.5.0",
+  "session_path_absent": true,
+  "session_types_absent": true,
+  "session_method_absent": true,
+  "chain_deferred_to_B": true,
+  "contract_sha256": "e46b04339f03ff56a5f4dccd8e4e12312c98b9896d7339a8fd4c8ee946b8d00f"
+}

@@ -1,0 +1,180 @@
+{
+  "base": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+  "candidate": "a8908132a9c4882dbe80f9fbc1052532c7e68c3b",
+  "workflowDefinition": ".github/workflows/r100-quality-gate.yml:135-180; all src/test/migrations/scripts/workflow paths, not production-only",
+  "fullWorkflowNet": 1335,
+  "groups": [
+    {
+      "name": "Independent diagnostics candidate",
+      "workflowNet": 133,
+      "srcAdded": 54,
+      "testAdded": 85,
+      "testToSrcAdded": 1.5740740740740742,
+      "note": "Read-only grouping, not a reconstructed or independently runnable PR. src-only density is not the wider canonical denominator.",
+      "paths": [
+        {
+          "path": "src/filters/http-exception.filter.ts",
+          "added": 8,
+          "removed": 5
+        },
+        {
+          "path": "src/observability/orm-diagnostics.ts",
+          "added": 24,
+          "removed": 0
+        },
+        {
+          "path": "src/observability/sentry-config.ts",
+          "added": 22,
+          "removed": 1
+        },
+        {
+          "path": "test/scout/scout-diagnostics.integrity.spec.ts",
+          "added": 85,
+          "removed": 0
+        }
+      ]
+    },
+    {
+      "name": "Request validation candidate, excluding mixed idempotency tests",
+      "workflowNet": 192,
+      "srcAdded": 83,
+      "testAdded": 137,
+      "testToSrcAdded": 1.6506024096385543,
+      "note": "Read-only grouping, not a reconstructed or independently runnable PR. src-only density is not the wider canonical denominator.",
+      "paths": [
+        {
+          "path": "docs/contracts/importer-openapi.json",
+          "added": 6,
+          "removed": 4
+        },
+        {
+          "path": "scripts/importer-contract.ts",
+          "added": 1,
+          "removed": 1
+        },
+        {
+          "path": "src/scout/scout-ingest.controller.ts",
+          "added": 1,
+          "removed": 1
+        },
+        {
+          "path": "src/scout/scout-ingest.dto.ts",
+          "added": 20,
+          "removed": 4
+        },
+        {
+          "path": "src/scout/scout-ingest.service.ts",
+          "added": 34,
+          "removed": 23
+        },
+        {
+          "path": "src/scout/scout-ingest.validation.ts",
+          "added": 28,
+          "removed": 0
+        },
+        {
+          "path": "test/scout/scout-ingest.integrity.spec.ts",
+          "added": 137,
+          "removed": 0
+        }
+      ]
+    },
+    {
+      "name": "Database compatibility/proof kernel, excluding adjacent regression deltas",
+      "workflowNet": 897,
+      "srcAdded": 21,
+      "testAdded": 791,
+      "testToSrcAdded": 37.666666666666664,
+      "note": "Read-only grouping, not a reconstructed or independently runnable PR. src-only density is not the wider canonical denominator.",
+      "paths": [
+        {
+          "path": ".github/workflows/ci.yml",
+          "added": 19,
+          "removed": 0
+        },
+        {
+          "path": "prisma/migrations/20261224000100_scout_ingest_entity_type_uniqueness/down.sql",
+          "added": 25,
+          "removed": 0
+        },
+        {
+          "path": "prisma/migrations/20261224000100_scout_ingest_entity_type_uniqueness/migration.sql",
+          "added": 58,
+          "removed": 0
+        },
+        {
+          "path": "prisma/schema.prisma",
+          "added": 12,
+          "removed": 5
+        },
+        {
+          "path": "src/scout/scout-reconstruct.service.ts",
+          "added": 21,
+          "removed": 17
+        },
+        {
+          "path": "test/rls-scout-ingest-uniqueness.spec.ts",
+          "added": 572,
+          "removed": 0
+        },
+        {
+          "path": "test/scout/scout-ingest-ci.spec.ts",
+          "added": 50,
+          "removed": 0
+        },
+        {
+          "path": "test/scout/scout-live-target.spec.ts",
+          "added": 110,
+          "removed": 0
+        },
+        {
+          "path": "test/utils/scout-ingest-db.ts",
+          "added": 59,
+          "removed": 0
+        }
+      ]
+    }
+  ],
+  "unassigned": [
+    {
+      "path": "docs/decisions/2026-07-15-importer-import-status-read.md",
+      "added": 10,
+      "removed": 0
+    },
+    {
+      "path": "docs/decisions/2026-09-16-scout-ingest-integrity.md",
+      "added": 69,
+      "removed": 0
+    },
+    {
+      "path": "test/scout/reconstruct/conformance-alpha.e2e.spec.ts",
+      "added": 5,
+      "removed": 4
+    },
+    {
+      "path": "test/scout/reconstruct/scout-reconstruct.families.spec.ts",
+      "added": 7,
+      "removed": 3
+    },
+    {
+      "path": "test/scout/reconstruct/scout-reconstruct.migration.spec.ts",
+      "added": 9,
+      "removed": 3
+    },
+    {
+      "path": "test/scout/reconstruct/scout-reconstruct.service.spec.ts",
+      "added": 30,
+      "removed": 3
+    },
+    {
+      "path": "test/scout/scout-ingest.idempotency.spec.ts",
+      "added": 128,
+      "removed": 53
+    }
+  ],
+  "limitations": [
+    "No product files changed, no composition or tests run.",
+    "Some test files contain mixed concerns; file grouping is not a safe split.",
+    "No test removal, gate exemption, approval or release readiness implied."
+  ]
+}

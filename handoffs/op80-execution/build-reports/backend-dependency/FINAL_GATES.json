@@ -1,0 +1,196 @@
+{
+  "base": "c23b9d9f3fcc106b92c061ceb7d04d7ec53038d7",
+  "tree": "b2bb1666a91d60927d3ee1d6455ce687ce1c8739",
+  "method": "Read-only git diff exact pinned base vs frozen staged tree; no triple-dot HEAD shortcut",
+  "workflow_pathspecs": {
+    "loc": [
+      "src/**",
+      "test/**",
+      "prisma/migrations/**",
+      "scripts/**",
+      "dangerfile.js",
+      ".github/workflows/**",
+      "*.config.json",
+      ":(exclude)package-lock.json"
+    ],
+    "source": [
+      ":(glob)src/**/*.ts",
+      ":(glob)src/**/*.tsx",
+      ":(glob)src/**/*.js",
+      ":(glob)src/**/*.jsx",
+      ":(glob)scripts/**/*.ts",
+      ":(glob)scripts/**/*.js",
+      "dangerfile.js",
+      ":(exclude,glob)src/**/*.spec.*",
+      ":(exclude,glob)src/**/*.test.*",
+      ":(exclude,glob)scripts/**/*.spec.*",
+      ":(exclude,glob)scripts/**/*.test.*"
+    ],
+    "test": [
+      ":(glob)test/**/*.ts",
+      ":(glob)test/**/*.tsx",
+      ":(glob)test/**/*.js",
+      ":(glob)src/**/*.spec.*",
+      ":(glob)src/**/*.test.*",
+      ":(glob)scripts/**/*.spec.*",
+      ":(glob)scripts/**/*.test.*"
+    ],
+    "banned": [
+      ":(glob)src/**/*.ts",
+      ":(glob)src/**/*.tsx",
+      ":(glob)src/**/*.js",
+      ":(glob)src/**/*.jsx",
+      ":(glob)scripts/**/*.ts",
+      ":(glob)scripts/**/*.js",
+      ":(glob)scripts/**/*.sh",
+      "dangerfile.js",
+      ":(glob)test/**/*.ts",
+      ":(glob)test/**/*.tsx",
+      ":(glob)test/**/*.js",
+      ":(exclude,glob)**/*.d.ts",
+      ":(exclude,glob)**/node_modules/**",
+      ":(exclude,glob)**/*.test.*",
+      ":(exclude,glob)**/*.spec.*"
+    ]
+  },
+  "workflow_net_loc": 158,
+  "workflow_source_added": 0,
+  "workflow_test_added": 158,
+  "workflow_density": "PASS: zero source additions; ratio undefined, not infinity or claimed 2.0",
+  "canonical_production_net_loc": 0,
+  "canonical_banned": {
+    "@ts-ignore": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "as any": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "as unknown as": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "as never": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    ".catch(()=>undefined)": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    ".catch(()=>null)": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    ".catch(()=>{})": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "Coming soon": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    }
+  },
+  "workflow_banned": {
+    "@ts-ignore": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "@ts-expect-error": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "as any": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "as unknown as": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "as never": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    ".catch(()=>undefined)": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    ".catch(()=>null)": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    ".catch(()=>{})": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "Coming soon": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "lorem ipsum": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "foo@bar": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    },
+    "John Doe": {
+      "added": 0,
+      "removed": 0,
+      "net": 0
+    }
+  },
+  "workflow_parametrized_emptycatch": {
+    "added": 0,
+    "removed": 0
+  },
+  "files": [
+    {
+      "added": 562,
+      "removed": 498,
+      "path": "package-lock.json"
+    },
+    {
+      "added": 65,
+      "removed": 57,
+      "path": "package.json"
+    },
+    {
+      "added": 158,
+      "removed": 0,
+      "path": "test/dependency-compatibility.spec.ts"
+    }
+  ],
+  "workflow_files": [
+    {
+      "added": 158,
+      "removed": 0,
+      "path": "test/dependency-compatibility.spec.ts"
+    }
+  ],
+  "new_todo_fixme": [],
+  "new_skips": [],
+  "canonical_and_workflow_measurement_reuse_basis": "Final delta vs predecessor contains only package.json override scope. Exact executable/infra/test diff is byte-identical; final workflow LOC recomputed158."
+}

@@ -1,0 +1,86 @@
+COMMAND ["node", "node_modules/jest/bin/jest.js", "--runInBand", "--passWithNoTests=false", "--runTestsByPath", "test/contracts/importer-contract.spec.ts", "--testNamePattern=durable session"]
+FAIL test/contracts/importer-contract.spec.ts (31.916 s)
+  importer contract (R80 freeze)
+    ○ skipped redeem advertises 500 for pre-claim session mint failure
+    drift check
+      ○ skipped the checked-in artifact exists
+      ○ skipped the checked-in artifact is byte-identical to a fresh regeneration
+      ○ skipped serialization is deterministic (stable key order across runs)
+    surface completeness
+      ○ skipped exposes exactly the importer routes, /api-prefixed
+      ○ skipped carries the bearer security scheme referenced by guarded routes
+      ○ skipped inlines every schema its paths reference (no dangling $refs)
+    shared error schemas mirror the runtime envelopes
+      ○ skipped ErrorEnvelope pins the always-present keys and keeps code/request_id optional
+      ○ skipped RateLimitError models the distinct 429 body (retryAfter, no timestamp/path)
+    read: GET /api/scout/import/status
+      ○ skipped requires the intent_id query parameter with a 1..128 bounded string schema
+      ○ skipped documents 400 and 404 without an existence oracle (flag-off ≡ not-found)
+      ○ skipped returns the ScoutImportStatusResult projection on 200 with exactly its five fields
+      ○ skipped pins status to the four provable states only — no pending/cancelled
+      ○ skipped reports committed counts as proof — the two-field DTO omits total_estimated
+      ○ skipped pins started_at and completed_at as nullable date-time strings (not object)
+    read: GET /api/scout/reconstruct/entities (IMPORTER-I)
+      ○ skipped requires a bounded intent_id and a non-person family query param
+      ○ skipped returns the ScoutEntitiesResult page projection on 200
+      ○ skipped advertises a PII-minimal ReconstructedEntityDto row (no email/billing/coach_id)
+      ○ skipped documents 400 (bad query) and a no-oracle 404 (flag-off ≡ no-evidence)
+      ○ skipped models the reachable 401/403/404 as the shared envelope and 429 as the rate-limit body
+    auth: POST /api/auth/extension/refresh
+      ○ skipped returns the rotated Supabase session on 200
+      ○ skipped returns the shared ErrorEnvelope with a required code enum on 401
+      ○ skipped advertises ValidationPipe 400 as the shared ErrorEnvelope (no domain code)
+      ○ skipped advertises the rate-limit status as the RateLimitError body
+    pairing: POST /api/extension/pair/*
+      ✕ durable session is bearer-only POST with validated UUID and credential-free response (1 ms)
+      ○ skipped init returns code, expiry and server intent on 201
+      ○ skipped intent echoes remain optional for legacy redeem/status responses
+      ○ skipped init 400 is the shared envelope; code is OPTIONAL and pinned to `code_mint_failed` when present
+      ○ skipped init advertises the reachable 429 (global authed throttle)
+      ○ skipped status returns the pending|paired|expired enum on 200
+      ○ skipped status advertises ValidationPipe 400 (same 6-digit code rule as redeem)
+      ○ skipped status advertises JwtAuth 401 before role 403
+      ○ skipped init advertises JwtAuth 401 before role 403
+      ○ skipped status advertises the reachable 429 (global authed throttle)
+      ○ skipped redeem returns the token pair + chosen_platform on 200
+      ○ skipped redeem 400 is the shared envelope; code is OPTIONAL and pinned to `invalid` when present
+      ○ skipped redeem 410 is the shared envelope with a REQUIRED code from the 410 enum
+      ○ skipped redeem advertises the dark-route 404 (envelope) and the per-IP 429 (rate-limit)
+    scout: POST /api/scout/*
+      ○ skipped ingest returns { received, deduped } on 202
+      ○ skipped ingest keeps provenance camelCase at the top of a snake_case envelope
+      ○ skipped ingest pins capturedAt to a strict date-time string
+      ○ skipped ingest models its 4xx as the shared envelope and 429 as the rate-limit body
+      ○ skipped progress requires deviceId and returns 204
+      ○ skipped progress advertises ValidationPipe 400
+      ○ skipped progress advertises the reachable 403 (role) and 429 (throttle)
+      ○ skipped complete acknowledges the settled intent on 200
+      ○ skipped complete advertises ValidationPipe 400
+      ○ skipped complete advertises the reachable 403 (role) and 429 (throttle)
+    cross-process determinism
+      ○ skipped a fresh subprocess regeneration is byte-identical to the committed artifact
+
+  ● importer contract (R80 freeze) › pairing: POST /api/extension/pair/* › durable session is bearer-only POST with validated UUID and credential-free response
+
+    TypeError: Cannot read properties of undefined (reading 'post')
+
+    [0m [90m 35 |[39m [36mconst[39m rec [33m=[39m (value[33m:[39m unknown)[33m:[39m [33mRecord[39m[33m<[39m[33mstring[39m[33m,[39m unknown[33m>[39m [33m=>[39m value [36mas[39m [33mRecord[39m[33m<[39m[33mstring[39m[33m,[39m unknown[33m>[39m[33m;[39m
+     [90m 36 |[39m [36mconst[39m dig [33m=[39m (root[33m:[39m unknown[33m,[39m [33m...[39mkeys[33m:[39m string[])[33m:[39m unknown [33m=>[39m
+    [31m[1m>[22m[39m[90m 37 |[39m   keys[33m.[39mreduce[33m<[39m[33munknown[39m[33m>[39m((acc[33m,[39m key) [33m=>[39m rec(acc)[key][33m,[39m root)[33m;[39m
+     [90m    |[39m                                              [31m[1m^[22m[39m
+     [90m 38 |[39m
+     [90m 39 |[39m describe([32m'importer contract (R80 freeze)'[39m[33m,[39m () [33m=>[39m {
+     [90m 40 |[39m   jest[33m.[39msetTimeout([35m60[39m_000)[33m;[39m[0m
+
+      at test/contracts/importer-contract.spec.ts:37:46
+          at Array.reduce (<anonymous>)
+      at dig (test/contracts/importer-contract.spec.ts:37:8)
+      at Object.<anonymous> (test/contracts/importer-contract.spec.ts:408:25)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 48 skipped, 49 total
+Snapshots:   0 total
+Time:        32.172 s, estimated 54 s
+Ran all test suites within paths "test/contracts/importer-contract.spec.ts".
+
+EXIT=1

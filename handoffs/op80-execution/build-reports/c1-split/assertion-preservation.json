@@ -1,0 +1,1370 @@
+{
+  "original_tree": "3c3d09cf95851fb91e66ed20fe770a1a8164845c",
+  "a_tree": "404dd55d2fde7ab9fab46fb4ea1d27a9d79a7556",
+  "b_tree": "660e436ecbf911b6984b40ed43d135e3dc308378",
+  "test_files_identical_to_original": 10,
+  "test_blocks": 170,
+  "expect_calls": 365,
+  "mapping": [
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "mints a Supabase session pair for the coach by identity",
+      "expect_calls": 4,
+      "sha256": "81e4997b1e7b0e873eb5e3374ed7e144ffd840b2061007b9cdaa4521329bd6ab",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "rejects with generic invalid when the coach user no longer exists",
+      "expect_calls": 3,
+      "sha256": "3e95d6f3d506445fe4893b91abc6c48cf4fef1ba7933d167e2ab721c5c4a1917",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "rejects with generic invalid when the coach user has been deleted",
+      "expect_calls": 3,
+      "sha256": "c7e657a141d533d183203555ac6c4a0aa3117e6eb49d390224abd84a8ad26322",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "rejects with generic invalid when the coach was demoted to a non-coach role",
+      "expect_calls": 3,
+      "sha256": "71fec9240aae93b7736cbe7c60826b801916b203de554799918e6339426539bd",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "still mints for an owner (owner > coach hierarchy, matching the route guards)",
+      "expect_calls": 1,
+      "sha256": "35523e1ef2ee325284a222b00f0a133464766dfb2f5cbad1a1936aab42e468f3",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "throws when generateLink returns no hashed token",
+      "expect_calls": 2,
+      "sha256": "6b06584cfa09d514043154d59c6a3eba1e1840990ae0db41123ff8e2c38ed813",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "throws when verifyOtp returns no session",
+      "expect_calls": 1,
+      "sha256": "9badd70f59c2d1b8b43a38bcf6e0111447d6fa6ef963927fe246aee26b5ccc85",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "never replays a password — the redeem flow has no credential to sign in with",
+      "expect_calls": 1,
+      "sha256": "a8eca09a67a300b4672b70974f0253d2010273f7cdd307148646bb611b87e238",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "returns exactly the two session tokens and nothing else",
+      "expect_calls": 1,
+      "sha256": "9a45f04787f9790dc2a78fbb1c314a593edd24c67fe3fd0a7d879b766340be08",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/auth-mint-extension-session.spec.ts",
+      "title": "surfaces a Supabase generateLink error as a 500 (never a silent empty session)",
+      "expect_calls": 2,
+      "sha256": "20d2fb3af44e90c0d8abfcf8a37f66cc9c861ab8ba3eb7db4cc8fe3a2af71f7e",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/coach-guard-role.spec.ts",
+      "title": "admits a coach",
+      "expect_calls": 1,
+      "sha256": "6c2b406e898b5956a1100298a4dc57ebd23c0d7e6a9b5a8a474ad14d4a00eef2",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/coach-guard-role.spec.ts",
+      "title": "admits an owner (platform-admin bypass)",
+      "expect_calls": 1,
+      "sha256": "f1270c54ec093203daf9554d4d51e9d042b15ab3ea21a95b39bd030c4f93cc58",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/coach-guard-role.spec.ts",
+      "title": "rejects a student with 403",
+      "expect_calls": 1,
+      "sha256": "e7b0911ad9214aa49d527eccc9cfcd13a1c8eb7e66839f52d9859706510122f0",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/coach-guard-role.spec.ts",
+      "title": "rejects an authenticated caller with an unknown role with 403",
+      "expect_calls": 1,
+      "sha256": "6e1a43e3fc3f41ad8778bb35c97a03ed0d352d77454311ca8860babcd1b0cd38",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/coach-guard-role.spec.ts",
+      "title": "rejects a caller with no user (unauthenticated) with 403",
+      "expect_calls": 1,
+      "sha256": "14ae3145ea1359bb3ea86535bea05ffcc43c8d729cd93efe8243c31db2a8d343",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "persists a fresh opaque server UUID at init, never the code or owner",
+      "expect_calls": 4,
+      "sha256": "d4f181a6236558e4582d5506e153f9a4ef02372eb106bfa89607641670a5ef77",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "preserves the exact init ID through status, redeem, and durable retrieval",
+      "expect_calls": 4,
+      "sha256": "a342e69469061fc30fda48d6b8ae06f06e24e12a9ad0bd8f5bd7f7253e8e836a",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "init retries create distinct intents, never promise unknown-ID crash recovery",
+      "expect_calls": 2,
+      "sha256": "abed279836c6ceb535d5aca49b86e4e36977117300186d4676666dbfbf39be64",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "expiry while auth mint is pending returns no token or paired status",
+      "expect_calls": 3,
+      "sha256": "1b956c86d0a85c0012f409a372f3376297da14321ee37ec5e0307460ea8ba53c",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "echoes the persisted ID through redeem and status without returning credentials on status",
+      "expect_calls": 3,
+      "sha256": "f3b83045584cd889713edd2c83ebc8a77988d5a2234e86decc2fbb2dad23bccf",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "retains paired identity after code expiry and never replays tokens",
+      "expect_calls": 3,
+      "sha256": "f27c0ee2e154ec35aa070813571a9a6d096ccc7b7c97ad0c8f01322d8ed1c4f3",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "does not burn or replace the intent on auth mint failure; retry preserves it",
+      "expect_calls": 5,
+      "sha256": "660188f677daf452d77f12113cc4e8c9eb05eaabcf0ade929293eb9de3e3d35d",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "concurrent redeem yields one token-bearing winner and one unchanged intent",
+      "expect_calls": 5,
+      "sha256": "6c5976ef755cf9e3a54bb0eb00b65a87887adc8991a5b56ad8a2aa84cbea3476",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "legacy rows remain unbound in redeem and status rather than inventing an ID",
+      "expect_calls": 2,
+      "sha256": "378374dd8260aa18c54301c84eef201781c7a94a87ecd028ba3b2dd052b33aae",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "foreign status does not leak an ID and the ownership predicate reaches storage",
+      "expect_calls": 2,
+      "sha256": "f8021944d3544672b4631f00b14daaec19021feaf29e34e0c8ebe82985405c3f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "init denies missing, deleted or demoted owners before creating a code",
+      "expect_calls": 3,
+      "sha256": "3c548429cbf64c19ca8f8b1137175bc8f0733ab75ea6fc4b552b4070c757616a",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-intent.spec.ts",
+      "title": "demotion at token mint cannot mark setup paired",
+      "expect_calls": 3,
+      "sha256": "03a1fbfc6eaf436dd338d2c0a0429fb37064c5f8b6ab965df7971905da38aed4",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "reads the stored ID after code expiry, without any credential or Start/completion state",
+      "expect_calls": 3,
+      "sha256": "38e5dda0a18e906ea41e5ee3fb7556387a74ed7635b426b76388e0e0909015e3",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "passes the authenticated owner, never a body-supplied owner, through the controller",
+      "expect_calls": 2,
+      "sha256": "1f1568586f725d24330358f098c6d1d5838aff1a055af3241ecc5482e1dbfd52",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "storage misses return identical not-found without minting or revealing ownership",
+      "expect_calls": 3,
+      "sha256": "babc255012a4eec6b43a900639e9bf41a2064205006f1cc8e53dc709f72b6f99",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "enforces owner/role/deletion/legacy predicates for %s %s %s %s",
+      "expect_calls": 2,
+      "sha256": "d19c0e80cc58ea91b95a8bb1ceb5e5dd21d528a45aa5a877cce75aeb76e99fee",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "reads pending versus expired unused setup truthfully, never inferring pairing",
+      "expect_calls": 2,
+      "sha256": "ffd3147c2266aefc5b40e1b2ab80db8bcf09ea29c3da7946fe9fb3985daf8a02",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "reconnect reads are stable and do not rotate or mint the identity",
+      "expect_calls": 3,
+      "sha256": "a2eefefa52e2ba9c6b177fb0755e617145c19e79d24ca68346bcbf1a41a90bc9",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "keeps session POST, bearer-only, coach/owner guarded with the global authenticated throttle",
+      "expect_calls": 10,
+      "sha256": "92c63c5c921f6119cc9a5070df547a70f06a99af104c1c1da5e498c70cf14b7d",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "is dark by default before authentication or storage work",
+      "expect_calls": 3,
+      "sha256": "35dda5bce986e658682148bd09243e8feccde06a056889c21770a674dc475408",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "validates the new UUID in the real request pipe",
+      "expect_calls": 2,
+      "sha256": "d8874811df0e4f0fe1b9e1cf77d54b15dc1cdc8cc01c286f05164afd199a8d73",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/durable-session.spec.ts",
+      "title": "rejects ownership/intent injection while preserving old init and redeem requests",
+      "expect_calls": 3,
+      "sha256": "d21f0fe5f08218fd46097da88e1226af0f7232629995b0308edc7377091d8da3",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "unknown code → HTTP 400 with { code: \"invalid\" }",
+      "expect_calls": 4,
+      "sha256": "ff0ecefc7da32c87429915a76f68bad769355f26892381eb1cb381f484e32df2",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "already-used code → HTTP 410 with { code: \"already_used\" }",
+      "expect_calls": 5,
+      "sha256": "d72abb3d3428eb029f6ae9a4070fb00cdac0587adcaeb6e2298e09e801b08629",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "expired code → HTTP 410 with { code: \"expired\" }",
+      "expect_calls": 4,
+      "sha256": "6b2f6f16491fc9a3892279caab967b5d9506ed75e5189775ebec7a20418a2ba6",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "locked code (attempt budget exhausted) → HTTP 410 with { code: \"locked\" }",
+      "expect_calls": 5,
+      "sha256": "4a34b26bda0bed27bb8382c40d461ef2a49b6f29307ff87b2a7e6f2c0b1afa88",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "lost single-use race (claim count 0) → HTTP 410 already_used",
+      "expect_calls": 4,
+      "sha256": "75bdbd14ac165d48d1afca4a12ede700d50026efa043d488f93a631a8869045a",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "coach demoted/deleted between init and redeem → HTTP 400 invalid, code not burned",
+      "expect_calls": 4,
+      "sha256": "6d4cd4747e88b4f2b7a7d6e3aef47a50e0688608d73c52e3baff2c883bc71bef",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "already-used precedence: a code both used AND expired reads as already_used",
+      "expect_calls": 1,
+      "sha256": "f05ac941fcc6a20e52f9170d750adad3ebca5bd8b9cb0e7e445ec239f31db92a",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "claims with a used_at NULL + unexpired guard and mints exactly once on success",
+      "expect_calls": 5,
+      "sha256": "7cd2e39c1d11fc8be63db508c73a180afebb8af8b9427bfb61d529935d683cbe",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "binds the minted token to the code's coach, not the caller",
+      "expect_calls": 2,
+      "sha256": "2941abe4d9d79a87297b3b3c9c76d3d50f9a2c5b2b26daf2a163206fb2a25c14",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair-redeem-contract.spec.ts",
+      "title": "passes the stored platform through unchanged for each supported source",
+      "expect_calls": 1,
+      "sha256": "51bcc57da8aab685ceb8cdc867bf7754231c632ad17e2dcf6e806a848b61dd0b",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "feature-flag gate is enforced by the global R-DARK-1 middleware, not a per-controller guard",
+      "expect_calls": 3,
+      "sha256": "ed994960e6f0ed1bf09ec1a035d53f5574210b3237c632a29b25eaf9f2a126c0",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "main.ts registers featureFlagNotFoundMiddleware",
+      "expect_calls": 1,
+      "sha256": "bf6f25ac8f674fc7c34bdea91084364dd9e698b63b10a2f247fb6d2b75b92352",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "keeps init coach-gated",
+      "expect_calls": 1,
+      "sha256": "98be640984da28c3093c547b0063a66a732f3285212ad916c5e03c350da76a9c",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "keeps status coach-gated",
+      "expect_calls": 1,
+      "sha256": "8eb7a79237bcc6c06568f401e15d26d001f7aafe5580fe07dc3f9447f56db7cd",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "declares @Roles('coach','owner') on init + status (global RolesGuard contract)",
+      "expect_calls": 1,
+      "sha256": "5caeae5a1fddc1fe4374a2509e7bbfdfa0d245169e1dfe5b1b50171b945d3295",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "does NOT declare @Roles on the public redeem route",
+      "expect_calls": 1,
+      "sha256": "a08610ca542c9c65c7ec1deaa81fef8a86a823dc1a793483a0c2993803b04e2f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "mounts status as POST so the pairing code never rides in a query string",
+      "expect_calls": 1,
+      "sha256": "3d832755e79c369949daebd1e094be30d11c972a2b7b9d5addd26f9e88b9482d",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "does NOT put a coach guard on redeem (extension bootstrap is unauthenticated)",
+      "expect_calls": 1,
+      "sha256": "e2918c0f53dade1e2838bed2a471aae7945cb228caaa25efc37542f8c7f92cb9",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "marks redeem @Public so the global JwtAuthGuard skips it",
+      "expect_calls": 1,
+      "sha256": "b622b2ffcabe22de48fc07a39f9c087cdba852cbffcfc0cc02288a9f55a6fd04",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "does NOT mark init or status public",
+      "expect_calls": 2,
+      "sha256": "3687dedbeb43a9630147e220124803c610e99da5fbf272376e6398bbdd415d53",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "rate-limits redeem at the default 10/min per IP",
+      "expect_calls": 2,
+      "sha256": "689c6d6d73e8d20b4398c49526a3696ab0a4264e3be80fca2aa2d75c1c979b61",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller-wiring.spec.ts",
+      "title": "does NOT rate-limit init or status (only the public redeem needs it)",
+      "expect_calls": 1,
+      "sha256": "d0427712d3e4d21d0992ee693cc34603857ace4d3c0e1c9d0be7d853f4d3d646",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller.spec.ts",
+      "title": "binds the code to the authenticated coach id, not a body field",
+      "expect_calls": 2,
+      "sha256": "9d540ff4720c959e2b15dc1b55bdc596a7ea78a43ccd6992e42b80eec5404751",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller.spec.ts",
+      "title": "scopes the poll to the caller and forwards the body code",
+      "expect_calls": 2,
+      "sha256": "edc93be2eb5e09f83c9e7cfc97a4a177353d097e6f12154ffb37c9b40f0fa066",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller.spec.ts",
+      "title": "reads the code from the request body, never a query string",
+      "expect_calls": 1,
+      "sha256": "9d13a8cf5f1a26d36f7582a5ad96b137d3f813cc86f8aca2e59ca8b9c895ddf8",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.controller.spec.ts",
+      "title": "forwards the code and returns the token bundle",
+      "expect_calls": 2,
+      "sha256": "6b4ab361e7ac204e3b1316d21cfa20cda42485b0b5192b30e8733545dfae3a63",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "accepts a well-formed lowercase platform slug",
+      "expect_calls": 1,
+      "sha256": "95a20407e6b437559e6fd8b9b44daba14c2d46d1934c624dbde9e5af71957056",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "accepts slugs with digits, dashes and underscores",
+      "expect_calls": 1,
+      "sha256": "b7d5d713f20869699dcb72578ea4b6edf16c9fdb60b45073a6499f98f701476b",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects an uppercase platform slug",
+      "expect_calls": 2,
+      "sha256": "20965f11086e1c67d06213d46ef2c6afbbc047d73bb3c13bcc4df2b02bf7b73f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a slug containing spaces or punctuation",
+      "expect_calls": 1,
+      "sha256": "1cb7d0495e170a8acf36c565a47a1e68a7546d6d35e3780bb23e021a604efc98",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects an over-long slug (> 64 chars)",
+      "expect_calls": 2,
+      "sha256": "19b3b0e17ce8b1f38b01572f786de1886732b2440af68bd976e526472645e242",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a non-string platform",
+      "expect_calls": 2,
+      "sha256": "34be6b4be5fb3a6589d986052a7840efa377c03ab01685781658a37c69d73af7",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a missing platform",
+      "expect_calls": 1,
+      "sha256": "b36bfdabf3b24c9fd9a9d98abdee7d58addad3cfbde6c6180570fc43829fa6b9",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "accepts exactly six digits",
+      "expect_calls": 1,
+      "sha256": "df8e600a74b0a7d6ed8c0deab0b7e8d31f2b21f1987eb993d30061a12984feef",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "accepts a six-digit code with leading zeros",
+      "expect_calls": 1,
+      "sha256": "1ce471ec3967fcefe1b36868c805ad57ba45f7b02f0363e5a0a0ea1f2a6f855b",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a code that is too short",
+      "expect_calls": 2,
+      "sha256": "2c5ee3a04978b9b1dc48a015bc58b06236b5c4d5d88615627856b88ed7520670",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a code that is too long",
+      "expect_calls": 1,
+      "sha256": "61d9b4f2578f4c56ba34131922217e814e8ed2da87ad2e758acf528f367f223d",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a non-numeric code",
+      "expect_calls": 1,
+      "sha256": "f31a4a432e8e00bd4b39f418021a5adeebebfff45c811c74fb1dfb19460fdb5c",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a non-string code",
+      "expect_calls": 2,
+      "sha256": "1cb9c54cf9fce238fbbbeab3da429fc391bc61a5ed18bb11da880fb3131337c2",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a missing code",
+      "expect_calls": 1,
+      "sha256": "5d5efde7064f08ad13940efb50fb049741112fef26bfde7926893a1910fceea1",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "accepts exactly six digits (incl. leading zeros)",
+      "expect_calls": 1,
+      "sha256": "11696ee433bdedf0ce0d6f8dc04a7a66384036308533b229860ca9e30d706d71",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a code of the wrong length",
+      "expect_calls": 2,
+      "sha256": "91f2a32df1d74468d52508393352dfc9b14903f3cbfc65a6469b24b5d34f93c6",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a non-numeric code",
+      "expect_calls": 1,
+      "sha256": "e110f248f8fad7ebb1f2f46f4af0c017dd9f5ae2addd22dd4d6658d15c4a3047",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a non-string code",
+      "expect_calls": 2,
+      "sha256": "a4d4c42ddba53a7e1c5ff492ad0d43cdf2f60cbb87ef2a2fd7176e1c579a547b",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.dto.spec.ts",
+      "title": "rejects a missing code",
+      "expect_calls": 1,
+      "sha256": "8ff2aa860ae054b1ac24adeb754c31089fb9c1ea6f5cfec9029bbf83d6752ef8",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "mints a 6-digit code bound to coach + platform and returns expiry",
+      "expect_calls": 6,
+      "sha256": "37f342881e1bf9ad0abded311508bd19abd13193934d8f5461519e011d55382f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "defaults the TTL to 120s (nominal) when env is unset",
+      "expect_calls": 2,
+      "sha256": "c1c9e96c482eb963d3b38ad8e4beb6c59105382d82b7e48b0ec3229f9c08a767",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "honors PAIR_CODE_TTL_SECONDS within clamp bounds",
+      "expect_calls": 2,
+      "sha256": "120d5bd8325dcb16e22354cb18c475cb777f1505676843852ce9dfd2bd9fe8c0",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "clamps an over-large TTL down to the 300s ceiling",
+      "expect_calls": 1,
+      "sha256": "37e0286f1ee8e38766a8d640ccf482b8ea232faf9aec158891b6af5cd773c7e2",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "retries on a unique-code collision then succeeds",
+      "expect_calls": 2,
+      "sha256": "b63a27d111bd611884721417c9c96ce46ff2b2b5c3480d16e499fcd2cd567bf5",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "propagates a non-unique DB error immediately",
+      "expect_calls": 2,
+      "sha256": "2ee9432177593a1c043c3e1edbc8c14e2eac5733a6b1e2e178c9f51e770455b5",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "expires prior live codes for the coach after a successful mint, sparing the new one",
+      "expect_calls": 7,
+      "sha256": "0d75d80392f560e5f4013178be06e7b7d6ca9a2d678fd970e439289ab4b1f070",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "does not touch existing codes when the mint itself fails",
+      "expect_calls": 2,
+      "sha256": "ced5f933960a1aa0e8a1fddd194dd85e53c8360c5a66a936728f08f3d2a5a06e",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "returns pending for an unused, unexpired, owned code",
+      "expect_calls": 1,
+      "sha256": "ec18e31b86bff8f73c2f6a31d3f1c5a6e7acad27123ba5cb19d0e4ad73116293",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "returns paired once the code has been redeemed",
+      "expect_calls": 1,
+      "sha256": "ddb47488f869ca60902bd75a6b95a82792110d1b109f8f46d96dc771593e4d4a",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "returns expired for an unused code past its TTL",
+      "expect_calls": 1,
+      "sha256": "d46bb68e5ec5180fbd7f9cd3a50e6e5398b0f8a252dcb548a43c3ce523ec9903",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "reports expired (never leaks existence) for an unknown code",
+      "expect_calls": 1,
+      "sha256": "9968b06000e9b72f200c0175079a40721256a7135bd441764fa2dae138283fab",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "reports expired for another coach's code (scoping)",
+      "expect_calls": 1,
+      "sha256": "b025f687545eb1a289affcad1fbf9dd6a5ceaa901612e053cbb3e7031c1b413b",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "happy path: claims the code and returns a coach-bound token pair",
+      "expect_calls": 4,
+      "sha256": "5865b1620d04ecbecd5aa7c2e767cd2913a84162f488475b1678dbbbe04715a8",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "rejects an unknown code with 400 invalid",
+      "expect_calls": 2,
+      "sha256": "a80b75398d967d9418b61eb3452b1d791d370b5cab68fed3a2a5bccb4e8a3c11",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "rejects an already-used code with 410 already_used",
+      "expect_calls": 3,
+      "sha256": "d188153442415fa7f1e371663ce1805c36d4467f45a4cac5d9289b0b204c78c2",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "rejects an expired code with 410 expired",
+      "expect_calls": 2,
+      "sha256": "a98f8085a50afcabc90a3c54a15eeef57946b06693dce3f04191a627b354ca0a",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "treats a lost single-use race (claim count 0) as already_used",
+      "expect_calls": 2,
+      "sha256": "bffa2942bfd26a2ae7f092afc78feef675a090728ab97cf6721a0549939a96ff",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "does not flip used_at when the mint rejects (demoted coach) — code stays retryable",
+      "expect_calls": 2,
+      "sha256": "d79206dd8027872b1777c9dd3f1ab3c860876bcb2fe88055be6a044e6a07f7df",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "does not flip used_at when the mint fails transiently (Supabase error)",
+      "expect_calls": 2,
+      "sha256": "c40ce61797f3b4eff8e235cae0327d8b31477ab33740627318f9e28538ca7c46",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "claims the code only AFTER a successful mint (mint-then-claim order)",
+      "expect_calls": 1,
+      "sha256": "79330a5710e37d986749a88aea8fd9acc8b3cea6ac891962f2b7903ff173d219",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "valid claim then a demoted mint: caller sees invalid and the code is NOT burned",
+      "expect_calls": 3,
+      "sha256": "68e8effff86867c0094a8066972caec2ee19636cde289e50beb65094ace8018f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "does not mint a token when the code is invalid",
+      "expect_calls": 2,
+      "sha256": "a3d2113fc167640a86744409c8ed1dfbf51d49782c6e296c10852dec2d719b5f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "rejects as invalid when the stored code fails the constant-time compare",
+      "expect_calls": 3,
+      "sha256": "b5d91503aa3ce64986c9903c90ed1a7d2bb6acfe2d54b5d640613906a90b93e6",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "still redeems a valid code sitting at MAX-1 prior failed attempts",
+      "expect_calls": 2,
+      "sha256": "ab38efc35a8f2797f0d898956b2083e8a19751672eba2687191ccc209cc47a6e",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "locks a code that has reached MAX failed attempts (410 locked, no mint)",
+      "expect_calls": 4,
+      "sha256": "747f2902964256715e3b9e41013ae96ce351f94a224401502cf8c20931ea1b41",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "charges a failed attempt when an expired code is hammered",
+      "expect_calls": 2,
+      "sha256": "2d175fc9d508f6f13f7bfc9c3132df7f006cf61d4f44e178f3568f13956c0639",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "the Nth failed attempt flips the response from expired to locked",
+      "expect_calls": 1,
+      "sha256": "442ed3fb7f217d3e00943ef9bca7f056228a807a873b703a267f8b15c45968b8",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "does not charge a failed attempt on a benign lost single-use race",
+      "expect_calls": 2,
+      "sha256": "3fd56c145f306187af9b226bc36d33b43e668509c993a91f7436b886b76bc0c0",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "reports locked (not already_used) for a code that is both used AND at MAX",
+      "expect_calls": 1,
+      "sha256": "131ce0c1846bb20149ec08309d1196c546c24d994df731737f5c70b2c1d0cf21",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "reports locked without charging further once an expired code is already at MAX",
+      "expect_calls": 2,
+      "sha256": "45833ba4edb252562b1d81deddf457c9cf58c671f2c3f334e1dce6a1d039a78f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "does not charge a failed attempt on the happy-path claim",
+      "expect_calls": 1,
+      "sha256": "964bfaee27cc9c9c847457eb170e50949e46fb68af6671009a4e15b85d88a937",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "falls back to the 120s default when the env value is non-numeric",
+      "expect_calls": 2,
+      "sha256": "252a08770a066f232634bcabfce90f41d7973f95ec578f84743ae286d341eaf7",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "clamps a below-floor TTL up to the 30s minimum",
+      "expect_calls": 2,
+      "sha256": "6c5e66a57b9d89bf8345a6f609d4d37ef1ea405a0cebb80e7acdb7870c58328e",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "gives up with a 400 after exhausting all collision retries",
+      "expect_calls": 2,
+      "sha256": "411354a70bd46b15c181e5c220a5be40f4bb55d7d14474ff8ecc27f6fa4922d8",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "mints a fresh 6-digit code on each call",
+      "expect_calls": 2,
+      "sha256": "edcfb22e1ed7ccf9fd35797c9750a50ca7494661d47674c1516c4c43067c28b2",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "reports paired (used wins) even for a code that is also past expiry",
+      "expect_calls": 1,
+      "sha256": "62d1d1c1cc88eefe78ef3e8d3424de71d56e94425c88435a128e9a14d2662e78",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "does not leak another coach's used code as paired",
+      "expect_calls": 1,
+      "sha256": "bb730327d5853267c7e9f7c4924d260f37fdde50ef2b205ec30a02fc790e9574",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "src/extension-pair/__tests__/extension-pair.service.spec.ts",
+      "title": "looks the code up by its exact value",
+      "expect_calls": 1,
+      "sha256": "d5f70bd391f101b2b5609ee301b9e3d27d9d13af8d88f52b04c5b93e1d519fc5",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "the checked-in artifact exists",
+      "expect_calls": 1,
+      "sha256": "df8b98f7ea597629d977929c43b6e6bca85fc2dd8e19fbbc79715933457c1f6e",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "the checked-in artifact is byte-identical to a fresh regeneration",
+      "expect_calls": 1,
+      "sha256": "49576d0a1d80829190233a82b530d6c531b67c9f8ab95ea8efa3a8a1b1708492",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "serialization is deterministic (stable key order across runs)",
+      "expect_calls": 1,
+      "sha256": "bbf08b71bd9de73215f8d224e948982be9a866b5ee425edb14c1a43ab04075bd",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "exposes exactly the importer routes, /api-prefixed",
+      "expect_calls": 1,
+      "sha256": "3f847bbfe675084ed69efa65df8662f77fad42bae8a95274516b0582e267e632",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "carries the bearer security scheme referenced by guarded routes",
+      "expect_calls": 1,
+      "sha256": "cda7c0a24bc04eee3a4e1cd4d8ffd59b7840a16cc4efa0964f657114fd1f578f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "inlines every schema its paths reference (no dangling $refs)",
+      "expect_calls": 1,
+      "sha256": "cddaba3ef650d21c0e839464d457add19a062dedaccaf1a75960da6568e0ead1",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "ErrorEnvelope pins the always-present keys and keeps code/request_id optional",
+      "expect_calls": 6,
+      "sha256": "dcee3b4b9cd616006cb956254551bd62d10954fb097f4b4fcaea44991db8a70c",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "RateLimitError models the distinct 429 body (retryAfter, no timestamp/path)",
+      "expect_calls": 2,
+      "sha256": "1ba4df033cbe7d4eb6fce6cf6d044a70cf4cfe3fa18a63f3dd8e9a81e45974a8",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "requires the intent_id query parameter with a 1..128 bounded string schema",
+      "expect_calls": 2,
+      "sha256": "c369a86b1af84cd61dd6a773dd4e6d13ec2a18de97cbc00f3f0f551d4cb9817b",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "documents 400 and 404 without an existence oracle (flag-off ≡ not-found)",
+      "expect_calls": 4,
+      "sha256": "40cf0d9cc48e882093d5f7794063e86f70612ec97d7e6f6a27152522e6fd2dfb",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "returns the ScoutImportStatusResult projection on 200 with exactly its five fields",
+      "expect_calls": 2,
+      "sha256": "ed85ca68ac2f2e4c78d06f02fd30aa16e89de78ef068a3a814d1ae65d9376367",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "pins status to the four provable states only — no pending/cancelled",
+      "expect_calls": 1,
+      "sha256": "5a4d499a41485cfb1d84ec5120421a46e94ffb5d7ac46d054089f1a3a1374c2b",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "reports committed counts as proof — the two-field DTO omits total_estimated",
+      "expect_calls": 1,
+      "sha256": "9978d58515d840d56fe5485d0fae72978c5ea7c1b111848f9130d13a0d6e2d68",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "pins started_at and completed_at as nullable date-time strings (not object)",
+      "expect_calls": 2,
+      "sha256": "723775e9102fc3c00cf0c33e174f1654acddc5f844062a86fa1af8c3436951ac",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "requires a bounded intent_id and a non-person family query param",
+      "expect_calls": 5,
+      "sha256": "df07f8d4ae106720d3eafee5639489a1bbf5dcda8fa66d13fc558b5c4cc62c8e",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "returns the ScoutEntitiesResult page projection on 200",
+      "expect_calls": 2,
+      "sha256": "f2db3bbd136b50cafa250b35b297967c726a6b8ac21f82e0c51c7261f25cd641",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "advertises a PII-minimal ReconstructedEntityDto row (no email/billing/coach_id)",
+      "expect_calls": 2,
+      "sha256": "9bf2626921a18e65b362cd19a2b9a8da64edfd99f6fb6e25e4d5aeba33999ab3",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "documents 400 (bad query) and a no-oracle 404 (flag-off ≡ no-evidence)",
+      "expect_calls": 3,
+      "sha256": "16e25e0c8aa082233f1f143a6fd8d794a1d6c4462a18ba76c5ade71d523bae98",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "models the reachable 401/403/404 as the shared envelope and 429 as the rate-limit body",
+      "expect_calls": 2,
+      "sha256": "3ff4ea841f841f0018a7b792875e24b6314065249f9ad3b4f84bb8691f6a2d88",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "returns the rotated Supabase session on 200",
+      "expect_calls": 3,
+      "sha256": "3de9fef848608d6673cc2c1dcc7165e952a37696aede83a56e128873eda77a32",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "returns the shared ErrorEnvelope with a required code enum on 401",
+      "expect_calls": 3,
+      "sha256": "d776161479dffc9d4b0146ba016ee3eafab26d5dcea1e1f402a7abf13c0df814",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "advertises ValidationPipe 400 as the shared ErrorEnvelope (no domain code)",
+      "expect_calls": 2,
+      "sha256": "69a3bc11fee777647dcca8f2a879c865c2b8c9c3a175943d3449d065bd6cd2b0",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "advertises the rate-limit status as the RateLimitError body",
+      "expect_calls": 1,
+      "sha256": "1ca4e75678a0ad1cc7418b06837a386e49d286ddfb19fef9c44f0b18a0b9266d",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "init returns code, expiry and server intent on 201",
+      "expect_calls": 2,
+      "sha256": "905cec62ac8a555b8f5f29ef1e911651de427bd0f0a554991724dc96027f667f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "durable session is bearer-only POST with validated UUID and credential-free response",
+      "expect_calls": 7,
+      "sha256": "e668ce17ce150f3c3f6823334ba19693b51d6a2648ae35dfb419dcc5473033c4",
+      "introduced_in": "C1b",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "intent echoes remain optional for legacy redeem/status responses",
+      "expect_calls": 2,
+      "sha256": "482005821300a9e3fedc5c92465ed5475a56bfcaca68c368305c3c30eeb0a2b8",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "init 400 is the shared envelope; code is OPTIONAL and pinned to `code_mint_failed` when present",
+      "expect_calls": 3,
+      "sha256": "c4e151135ba79ef2e2fc427118ebb8a4fdf78f6099e6e72e9f2867a536029dbf",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "init advertises the reachable 429 (global authed throttle)",
+      "expect_calls": 1,
+      "sha256": "2e969d682e2040181cc43bb71071b89986a11f0217c33c9c4a4551a4204e7631",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "status returns the pending|paired|expired enum on 200",
+      "expect_calls": 2,
+      "sha256": "8bbb6aaf8b3b740889a5d976bf6765a193b6b11ec538444ec92aaf6960690507",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "status advertises ValidationPipe 400 (same 6-digit code rule as redeem)",
+      "expect_calls": 1,
+      "sha256": "8d90089f7ef8460a9be5a27fa4a79fe34355d9d8c7bc95447e3673805088be5f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "status advertises JwtAuth 401 before role 403",
+      "expect_calls": 1,
+      "sha256": "42b4a9a51a854b2a4074bf610af0cd8bdf51588c311b3a9d7da3dc618a8d3812",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "init advertises JwtAuth 401 before role 403",
+      "expect_calls": 1,
+      "sha256": "df5b324cbf9b13f64a52b78baaa474ff33b67af9df870853e274c314086cb054",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "status advertises the reachable 429 (global authed throttle)",
+      "expect_calls": 1,
+      "sha256": "b41c12279311e66c3e61de0e73321bb1712862dfda6f975323f18d952a6e0cde",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "redeem returns the token pair + chosen_platform on 200",
+      "expect_calls": 2,
+      "sha256": "543078317bd0fa68bd9e7175a4f3e196e76a9e41eb072ed90642d0519058a40f",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "redeem 400 is the shared envelope; code is OPTIONAL and pinned to `invalid` when present",
+      "expect_calls": 3,
+      "sha256": "5add319435b03434340d170ed7705d4041cbdbfdcaf8a1448a498593289577fd",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "redeem 410 is the shared envelope with a REQUIRED code from the 410 enum",
+      "expect_calls": 3,
+      "sha256": "0d85481c7f3b47656cc4a23a4ed37d969efa3e05151445cf8e1ac86a7c30377a",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "redeem advertises the dark-route 404 (envelope) and the per-IP 429 (rate-limit)",
+      "expect_calls": 2,
+      "sha256": "2d660e0c1e26f381274b7f68303657c03384a23a5a5bfb0b607c3621c952a71a",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "redeem advertises 500 for pre-claim session mint failure",
+      "expect_calls": 1,
+      "sha256": "214e781c69bb61b66c1eb9bbe6ef74769e58b2f686b840902700dadb77c0dcde",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "ingest returns { received, deduped } on 202",
+      "expect_calls": 2,
+      "sha256": "928dcdabc065c935a0c15b2713979739ab371cd5afbf10d1a51a627f2fa5cbc3",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "ingest keeps provenance camelCase at the top of a snake_case envelope",
+      "expect_calls": 4,
+      "sha256": "023a5164edbc7d40e40f2d50fd3ce1434c7515818743853705c937d0d801cc85",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "ingest pins capturedAt to a strict date-time string",
+      "expect_calls": 1,
+      "sha256": "d5f529397f84c316ffbc4eba9b7691cf804f5aeaa941cb9a66e5500b67336252",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "ingest models its 4xx as the shared envelope and 429 as the rate-limit body",
+      "expect_calls": 2,
+      "sha256": "0a3f0fa5be4e1e5bcb92a1c0d96d99c0b7e876d5d99d3d3256627581aa0c4112",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "progress requires deviceId and returns 204",
+      "expect_calls": 2,
+      "sha256": "b94189ef5c342ac84f3a88c4b5cdfc7b5c149e345d13d7ee73ffd8de4e6f11b1",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "progress advertises ValidationPipe 400",
+      "expect_calls": 1,
+      "sha256": "504438f91ef9942696f08bc088728d10928191413d1aca1d599d628ce6b1d12e",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "progress advertises the reachable 403 (role) and 429 (throttle)",
+      "expect_calls": 2,
+      "sha256": "45322bdd84e2aac7ad4ac3ee933815cfb6939cafedfcd8ec5116252993a2737c",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "complete acknowledges the settled intent on 200",
+      "expect_calls": 3,
+      "sha256": "621df8214a62fcd443bfb6ec7cbfb89439777b5f87fb8611736e404c8f27b8ea",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "complete advertises ValidationPipe 400",
+      "expect_calls": 1,
+      "sha256": "2199cd31986321d13fb597f4b1efdc003224264958aa411431e05070d98ff3e1",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "complete advertises the reachable 403 (role) and 429 (throttle)",
+      "expect_calls": 2,
+      "sha256": "eee372d884a73eba54018c99e3e22536c84870a1cfdc86f74235c5b4d498e32c",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    },
+    {
+      "file": "test/contracts/importer-contract.spec.ts",
+      "title": "a fresh subprocess regeneration is byte-identical to the committed artifact",
+      "expect_calls": 1,
+      "sha256": "9f54b89804c49a12dbdb08164b8f893673a1ecfaedc20081a86848a7c1fa317c",
+      "introduced_in": "C1a (includes inherited baseline)",
+      "final_file_byte_identical": true
+    }
+  ]
+}

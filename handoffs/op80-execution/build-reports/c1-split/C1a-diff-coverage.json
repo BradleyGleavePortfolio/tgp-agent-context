@@ -1,0 +1,27 @@
+{
+  "scripts/importer-contract.ts": {
+    "added_instrumented": 1,
+    "covered": 1,
+    "percent": 100.0,
+    "uncovered": []
+  },
+  "src/extension-pair/extension-pair.controller.ts": {
+    "added_instrumented": 6,
+    "covered": 6,
+    "percent": 100.0,
+    "uncovered": []
+  },
+  "src/extension-pair/extension-pair.dto.ts": {
+    "added_instrumented": 14,
+    "covered": 14,
+    "percent": 100.0,
+    "uncovered": []
+  },
+  "src/extension-pair/extension-pair.service.ts": {
+    "added_instrumented": 36,
+    "covered": 36,
+    "percent": 100.0,
+    "uncovered": []
+  },
+  "method": "Exact input-relative added-line intersection with V8/Istanbul statement ranges; includes comment ranges, not branch coverage or DB proof."
+}

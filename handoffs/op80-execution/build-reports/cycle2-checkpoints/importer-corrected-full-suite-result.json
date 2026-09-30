@@ -1,0 +1,31 @@
+{
+  "authorization": "Parent approved same worker for one corrected-environment full run, 2026-09-17",
+  "command": [
+    "npm",
+    "test",
+    "--",
+    "--maxWorkers=1"
+  ],
+  "cwd": "/tmp/tgp-op80-cycle2-inputs/importer",
+  "environment_allowlist_exact": {
+    "PATH": "/home/user/.npm/_npx/52027bd8fc0022aa/node_modules/node/bin:/usr/local/bin:/usr/bin:/bin",
+    "HOME": "/home/user",
+    "LANG": "C.UTF-8",
+    "CI": "true"
+  },
+  "no_other_environment_inherited": true,
+  "node": "v22.23.2",
+  "npm": "10.8.2",
+  "before": {
+    "head": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+    "tree": "3db01451c6c4e1aa46c6637db80d852e2273bcf6"
+  },
+  "started_utc": "2026-09-17T20:52:37.304886+00:00",
+  "exit": 0,
+  "elapsed_seconds": 174.131,
+  "after": {
+    "head": "fc7fdf6e50df08cccad86da37c8b0f15f4b72e81",
+    "tree": "3db01451c6c4e1aa46c6637db80d852e2273bcf6"
+  },
+  "finished_utc": "2026-09-17T20:55:31.631390+00:00"
+}

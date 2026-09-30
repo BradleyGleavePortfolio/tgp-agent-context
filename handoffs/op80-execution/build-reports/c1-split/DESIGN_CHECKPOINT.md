@@ -1,0 +1,13 @@
+# C1 sequential split design checkpoint
+
+Full 40-line split brief read before product edits. Immutable context/rule hashes and all five repository HEAD/status records captured in unchanged-inputs-before.json. Original C1 clone is read-only; no generator/test/index write there. Only /tmp/tgp-op80-c1-split and this evidence directory are writable. Requested Astra inheritance is not independently verified runtime identity.
+
+C1a = unchanged nullable migration/schema plus active-owner issuance and stable stored UUID echo on init/status/redeem. Contract 1.5.0 excludes the session path/types. All frozen issuance/legacy/mint failure/race tests except the session-dependent init→session chain are included; existing generated-contract echo assertions retained. Session route/type/security/chain assertions are held intact for C1b, not deleted from final work.
+
+C1b = exact frozen session service/DTO/controller/no-store/security changes plus original complete-chain and generated-session assertions; contract advances to 1.6.0. Final code/test files should match frozen complete C1 byte-for-byte, except importer contract version and decision documentation. Restoring the chain at its original file position in B avoids duplicate fixtures and preserves the exact original assertions. No production semantic redesign is authorized.
+
+Method: save frozen originals to evidence slice-inputs, derive A by removing only B-owned blocks in a logged local script. Put A tests first and observe a focused red on main; apply A production; generate private Prisma and authoritative contract; run scoped tsc/lint and pairing+contract tests/coverage with Node20, one worker, network denial. Freeze A staged tree and main-relative patch. Then add B tests first and observe red on A; restore B production; regenerate current-schema private client and 1.6.0 contract; independently test/measure B. No commits; B patch uses exact A tree as base. Verify A→B and main→cumulative reconstruction with alternate indexes inside evidence.
+
+Each exact slice must meet actual workflow net-code <=400, density >=2.0, banned-token net<=0. No formatting compression, assertion removal, config change, waiver or inherited result substitution. Default Babel coverage incompatibility is known: use installed V8 provider transparently, no dependency change.
+
+Parent owns isolated synthetic DB proof; no DB access here. Full suite, activation, consumer implementation, remote calls/writes, installs/audit repeat, server/browser and subdelegation remain prohibited. Keep init non-idempotency, lost-unknown-ID limitation, coach/owner restriction, retained-code million-value capacity, cleanup incompatibility and inherited auth-race findings explicit. Release private tool slot at final freeze.
