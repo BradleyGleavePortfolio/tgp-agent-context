@@ -17,6 +17,12 @@ texts were never published, so every in-flight PR gets fresh exact-head independ
   cost. Applied 2026-09-29 23:17 UTC on integration/importer: + person-owned-rls-live-tests,
   + person-owned-migration-rehearsal (strict, admins enforced). main gets the same at promotion.
 - EXECUTE: standing execution authority for the importer.
+- PRODUCTION DEPLOY 2026-09-30 00:24-00:28 UTC: Fly Deploy run 36650149513 released main 3a9369b9 with
+  migrations=apply-migrations; evidence gate green; operator approved the production environment under the
+  17:21 PDT authorization; run concluded success. Probes 00:53 UTC: /health 200, /readyz 200 (db up),
+  POST runs/start 401 (route now exists; auth first), scout/ingest 401, pair/redeem 400 (anonymous, body
+  validation). Pilot allowlist is absent in Fly secrets, so importer routes fail closed for every coach.
+  Closed 11 verified landed/superseded PRs (backend #479; mobile #290-#294; extension #19, #23-#26).
 - OWNER AUTHORIZATIONS 2026-09-29 17:21 PDT (explicit answers via the question form):
   (1) "May I temporarily remove the two person-owned database checks from integration/importer's required list,
   and put them back as soon as #587 merges?" = "Yes, remove then restore". Done 00:21 UTC; required list is now
