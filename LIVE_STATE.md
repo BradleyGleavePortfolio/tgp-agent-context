@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-09-30 11:55 PDT
+- **Updated:** 2026-09-30 11:52 PDT
 - **Operator:** Computer (Claude Opus 5.5 Fast), session f32d73ae ([thread](https://www.perplexity.ai/computer/tasks/f32d73ae-304b-47f5-987b-696c33cd61e6)). This session is the single writer for both buckets.
 
 **Priority order (owner, 2026-09-30 10:48 and 11:42 PDT):**
@@ -17,6 +17,7 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 09-30 11:47 | Business model: a 2% take rate, not seat fees (payouts-v2 `platform-fee.service.ts` already implements 2% plus 50% of the payment-rail savings). Coach growth is product-led (PLG): download, choose coach, in-app tutorial, simple activation to the first client payment through TGP. Coach signup and Roman's intelligence are required. Client tutorial on day 1; coach tutorial on a later day as a secondary but required priority. | The coach PLG activation plan (P-series) is added: coach funnel, coach tutorial, payments compliance. The coach onboarding track ends by handing off to it. |
 | 09-30 11:44 | Anyone who downloads the app must be able to choose client or coach, and each role gets its own onboarding flow. | **Ruling R-ROLE-CHOICE-1:** role choice at account creation is allowed. Details below the table. |
 | 09-30 11:43 | "You can't sign up as a coach from a simple app download?" | Answer: correct today. Coach promotion is owner-only through `POST /admin/users/:id/promote`; `/auth/become-coach` is switched off; the app hardcodes the client role. Fixed by C13 and M4. |
 | 09-30 11:42 | Build access granted. Bradley creates his account tonight from an APK build. He approves the content plan (Roman flows plus UI design) before it is built; the workout programs can wait until after tonight. | Planning lanes produce plans for approval. Roman, tutorial and onboarding UI are not built until approved. Engineering fixes (auth, paywall, Roman grounding back end) proceed. |
@@ -67,7 +68,8 @@ Two recurring terms:
 | C04 | Production bootstrap: Bradley's owner account, clinic code, QR poster, reviewer demo accounts, store URLs | T4 | Operator | n/a | Waiting on Bradley's signup tonight |
 | O | Personal-trainer consultation onboarding plus the coach onboarding track | T3/T4 | Planner, Claude Opus 5.5 | plan | Planning. **Owner approval required before build.** |
 | R | Roman intelligence: grounded client context, current model, guardrails, AI consent, evals | T4 | Planner, Claude Opus 5.5 | plan | Planning; T4 back-end build follows. The Roman flow UI needs owner approval. |
-| T | Duolingo-grade tutorial sequence | T2 | Planner, Claude Sonnet 5 | plan | Planning. **Owner approval required before build.** |
+| T | Duolingo-grade client tutorial sequence (day 1) | T2 | Planner, Claude Sonnet 5 | plan | Planning. **Owner approval required before build.** |
+| P | Coach PLG activation: coach onboarding hand-off, coach tutorial, first package, share link, first client payment (2% take rate), iOS and Android payment compliance | T4 (money) | Planner, Claude Opus 5.5 | plan | Planning. Released on a later day, after the clinic launch. **Owner approval required before build.** |
 | K | Content: 3 four-week programs, selection rules, macro method (floors 1,200 and 1,500 kcal, protein cap 35%), Roman scripts, 7-question intake | T2 | Claude Sonnet 5 | `clinic/content/` | Drafted. 12 exercises are missing from the catalog. Program sign-off is after tonight's APK build. |
 | C06–C12 | Macros as a single source of truth, program seeding and auto-assign, Roman explanation screens, tutorial, store package, release QA | T2–T4 | queued | n/a | Queued behind the plans and approvals |
 
