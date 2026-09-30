@@ -17,6 +17,14 @@ texts were never published, so every in-flight PR gets fresh exact-head independ
   cost. Applied 2026-09-29 23:17 UTC on integration/importer: + person-owned-rls-live-tests,
   + person-owned-migration-rehearsal (strict, admins enforced). main gets the same at promotion.
 - EXECUTE: standing execution authority for the importer.
+- OWNER AUTHORIZATIONS 2026-09-29 17:21 PDT (explicit answers via the question form):
+  (1) "May I temporarily remove the two person-owned database checks from integration/importer's required list,
+  and put them back as soon as #587 merges?" = "Yes, remove then restore". Done 00:21 UTC; required list is now
+  build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, npm audit (strict). OWED: re-add
+  person-owned-rls-live-tests + person-owned-migration-rehearsal immediately after #587 merges.
+  (2) "May I approve production deploys and production flag changes in GitHub myself, and close PRs that are
+  verified as already landed or superseded?" = "Yes, both". The operator approves `production` environment runs
+  itself (comment cites this authorization) and closes verified landed/superseded PRs.
 - Hosting: Fly invoice PAID by owner 2026-09-29 16:39 PDT (deploy unblocked). Owner direction 16:29: move to a
   free host later (recommended Google Cloud Run, request-billed; after the importer's first live deploy; custom
   domain first). Earlier (16:27): owner stays on Fly and pays the overdue invoice (the 2026-09-09 deploy failed at
