@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-29 23:20 UTC
+Updated: 2026-09-30 03:32 UTC
 
 Operator: Computer (Claude Opus 5.5 Fast), executive orchestrator, session 5754504f
 (https://www.perplexity.ai/computer/tasks/5754504f-dfba-473b-a648-5290eee287a7). EXECUTE given by owner
@@ -45,18 +45,32 @@ texts were never published, so every in-flight PR gets fresh exact-head independ
 - Still not requested (owner 2026-09-27): ANTHROPIC_API_KEY; needed at the first real AI decode (S13/S14).
 
 ## Plan (slices S0-S22, tiers and headers in the readback section 7)
-Wave 1 (now, parallel): S1 ext #35 X1 fix round; S2 #592 L1-gw fix; S3 #589 L3 fix; S4 #587+#593 fresh
-audits then atomic landing; S5 condensed L0 + FAM-0 contracts; S9 deploy readiness (read-only first).
+OWNER SCOPE CUT 2026-09-29 20:26 PDT: "update last_operator_state first. then do the next round for 3 of the in
+flight PR's". Concurrency cap: at most 3-4 heavy lanes at once on the operator sandbox (2 cores, 20 GB disk).
 
-## Live lanes
-| Lane | Slice | Tier | Head | State |
-| --- | --- | --- | --- | --- |
-| S1 | ext #35 X1 | T4 | 8608a0ff | fix round starting |
-| S2 | backend #592 L1-gw | T4 | 32ca797e | fix round starting |
-| S3 | backend #589 L3 | T4 | 263e8950 | fix round starting |
-| S4 | backend #587 + #593 | T4 | 3e243750 / 798208b7 | required checks added; fresh dual audits starting |
-| S5 | L0 #581 / FAM-0 #590 condensation | T4 | f89e761a / 61c7c97f | starting |
-| S9 | production deploy readiness | T4 | main 3a9369b9 | read-only investigation |
+## Incident 2026-09-30 00:55-03:26 UTC: operator sandbox down
+Operator ran ~17 parallel lanes (npm ci / jest / tsc each) on one 2-core, 8 GB, 20 GB-disk sandbox; load reached
+~100, disk 96%, the sandbox stopped and could not be reprovisioned for ~2.5 h. Every lane died mid-work. Operator
+cause: over-parallelisation. Fix: cap 3-4 heavy lanes; share one node_modules per repo; kill stale processes.
+
+## Live PR state (read from GitHub 03:30 UTC)
+| PR | Slice | Tier | Head | CI | Reviews at/near head | Next |
+| --- | --- | --- | --- | --- | --- | --- |
+| backend #584 | S12-B6 flags workflow | T4 | 19427997 | green | A (GPT 6 Sol) RC 2B @32db4bc2; B (Opus 5.5) RC 1A/4B @32db4bc2; fix r1 pushed 19427997 claims all closed | fresh dual audit at 19427997 (DO NOT DISPATCH until approved: A1 published the allowlist in public logs) |
+| ext #35 | X1 origin authorization | T4 | 5804b506 | green (codeql, secrets-scan, test x2) | prior RC 2A (late grant after tab close; lost /complete reply) @8608a0ff; fix r5 pushed 5804b506 (27 new tests) | fresh dual audit at 5804b506 |
+| backend #587+#593 | S8-D3 schema + D8 tenancy | T4 | 3e243750 / 798208b7 | green | A RC 1A (owner-GUC bypass on person-owned RLS, S4-A-587-593-01); B RC 1B (meal-plan resolver 25P02 in tx, S4B-01) + C01-C03/C08 | fix round (work at the dead sandbox lost/unknown); merge #587 with a MERGE COMMIT (6d55e9e4 ancestor) |
+| backend #594 | CL completeness closure record | T4 | a48abf3e | green | none | dual audit after L0 r10; OQ-CL-1 ("exposes" = coach-session scope) operator default, enforcement off |
+| backend #581 / #590 | L0 r9 / FAM-0 r11 condensed | T4 | 0459df85 / 696abd73 | green | A RC 2A/1B; B RC 10B | r10/r12 (draft spec in operator mail; file lost) |
+| backend #592 | L1-gw | T4 | 32ca797e | green | prior RC (0/0 usage backstop) | r5 fix written, uncommitted in lanes/s2-l1gw/repo if it survived |
+| backend #589 | L3 | T4 | 263e8950 | green | prior RC (OpenAPI bounds vs parser) | fix round lost |
+| backend #591 | L1-core | T4 | 68a84d1d | green | prior RC (r7 vs L0 r9) | fix round lost |
+| mobile #302 | no_usable_result + D-05 docs | T3 | 8ca60030 | green (4495 tests) | none | single independent review |
+| backend branch s15a/no-usable-result | S15a zero-result = failed | T4 | 707b6765 | build-and-test red (verdict-table cases expect partial) | none | fix tests, regen contract, open PR |
+| parked #580 #582 #583 | env gap / pilot SQL / RLS catalog | T2/T3 | unchanged | — | — | later |
+Not started or lost (uncommitted at the dead sandbox): S18 importer capability, X3a extension server-mode
+lifecycle, FAM-C1 catalogue, onboarding/Roman investigation (owner priority, re-run alone).
+Temporary required-check removal on integration/importer still in effect; restore owed after #587 merges.
+Owner direction pending: onboarding/Roman/coach-matching deep dive (Opus 5.5) "day 1 mission blocker".
 
 ---
 
