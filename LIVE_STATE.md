@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-09-30 12:45 PDT
+- **Updated:** 2026-09-30 13:25 PDT
 - **Operator:** Computer (Claude Opus 5.5 Fast), session f32d73ae ([thread](https://www.perplexity.ai/computer/tasks/f32d73ae-304b-47f5-987b-696c33cd61e6)). This session is the single writer for both buckets.
 
 **Priority order (owner, 2026-09-30 10:48 and 11:42 PDT):**
@@ -62,9 +62,9 @@ Two recurring terms:
 | C02 | Apple sign-in contract alias; signup-policy legacy fields | T4 | Backend A, Claude Fable 5.1 | pending | In build (top priority) |
 | C03 | Reliable attach: `invite_attached` flag, no re-parenting, clinic Wi-Fi signup limit | T4 | Backend A, Claude Fable 5.1 | pending | Queued after C02 |
 | C13 | Signup-time role choice, back end (`intended_role`) | T4 | Backend C13, Claude Fable 5.1 | pending | In build |
-| M1 | Signup-policy contract, paste invite code, attach-failure retry, Apple sends `token` (the live contract) | T3 | Mobile B, Claude Opus 5.5 | [mobile #303](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/303) | Audit at `85c144cb`: REQUEST CHANGES (A1 policy-outage block, A2 double redemption plus permanent GP- codes). Fix round pushed; head `bf4bef51`, CI green, every finding closed per the builder. **Re-audit running.** Gates tonight's APK. |
-| M2 | iOS flag `EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES`: hides non-P2P purchases (credit packs, seats and billing, group products); 1:1 coach packages stay visible | T3 | Mobile B | [mobile #304](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/304) | Head `c2d75d8`, CI green; audit running. |
-| M3 | expo-updates OTA (channels, fingerprint runtime), buildNumber and versionCode bump | T3 | Mobile B | [mobile #305](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/305) | Head `e186e06`, CI green; audit running. The owner needs a one-time EAS Update enable. |
+| M1 | Signup-policy contract, paste invite code, attach-failure retry, Apple sends `token` (the live contract) | T3 | Mobile B, Claude Opus 5.5 | [mobile #303](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/303) | Audit 1 at `85c144cb`: REQUEST CHANGES. Re-audit at `bf4bef51`: A1 and A2 confirmed fixed; 3 new B findings. Operator decision: remove the legacy pending-key migration, since the app has zero public installs. Fix round 2 in progress. Gates tonight's APK. |
+| M2 | iOS flag `EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES`: hides non-P2P purchases (credit packs, seats and billing, group products); 1:1 coach packages stay visible | T3 | Mobile B | [mobile #304](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/304) | Audit at `c2d75d87`: **REQUEST CHANGES** (AI top-up and seat-upgrade prompts still visible on iOS; community payment links bypass the gate). Fix queued after #303. |
+| M3 | expo-updates OTA (channels, fingerprint runtime), buildNumber and versionCode bump | T3 | Mobile B | [mobile #305](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/305) | Audit at `e186e06e`: **REQUEST CHANGES** (`EXPO_PUBLIC_*` purchase flags live in the replaceable JS bundle, so an over-the-air update could flip them; publish commands are missing `--environment`). Fix queued. |
 | M4 | Role choice before signup ("I'm here to train" or "I coach clients"); an invite code always means client; retries without `intended_role` against old backends | T4 | Mobile B | [mobile #306](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/306) | Head `1d9127e`, stacked on #303, CI green. Needs C13 merged and deployed, plus 2 audits. |
 | M2 | Home message and bell entries, push-tap routing, deferred push prompt, iOS hides purchases, package prompts suppressed | T3 | Mobile B | [mobile #304](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/304) | Open, CI green. Needs an audit. |
 | M3 | expo-updates (EAS Update) and build-number bump | T3 | Mobile B | [mobile #305](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/305) | Open, CI green. Needs an audit. |
