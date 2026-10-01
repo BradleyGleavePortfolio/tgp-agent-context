@@ -52,6 +52,7 @@ e. iOS payments (owner 13:37: TGP is 1:1 personal training under 3.1.3(d), no Ap
 - Leak safety: daily signup count per code/package for coaches; coaches create/rotate codes and generate QR codes.
 - Banner wording approved. Roman pitches the top coach to coachless users (scripted).
 - iOS checkout: in-app Stripe under 3.1.3(d) (option A). Replaces default (e).
-- Still open: public code text, free clinic access term (b), unpaid-lead default (d), monthly live call idea,
+- Public code: GP-BRADLEY (owner 13:45). Voluntary cancel: access through the paid period (owner 13:43).
+- Still open: free clinic access term (b), unpaid-lead default (d), monthly live call idea,
   voluntary cancel timing (end of paid period vs immediate).
 
