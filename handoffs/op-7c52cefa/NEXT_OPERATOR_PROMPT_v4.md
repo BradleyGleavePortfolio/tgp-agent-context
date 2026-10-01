@@ -1066,6 +1066,7 @@ the labels are not. Owner-message times quoted in OWNER headers are correct.
 
 ### PR board at handoff (exact heads; "delta" = re-attest after a pure update merge)
 Backend (strict "up to date" protection; 9 required checks):
+
 | PR | Tier | Head | State | Next action |
 |---|---|---|---|---|
 | #595 | T4 | f2eecae5 | CLEAN | Opus + Sol delta attest -> merge. Then #604. |
@@ -1084,6 +1085,7 @@ Backend (strict "up to date" protection; 9 required checks):
 | #607 | T4 | 245da2e7 | Opus APPROVE, Sol APPROVE (+older RC) | Verify Sol's latest verdict is at this head; restack onto main; required by mobile #310 for the clinic build. |
 | #609 | T3 | 1f8b22b9 | unaudited | Restack later (welcome message +13 min). |
 Mobile (strict protection; 3 required checks):
+
 | PR | Tier | Head | State | Next action |
 |---|---|---|---|---|
 | #320 | T2 | 1d16c105 | Sol APPROVE, CONFLICT | Resolve 1 conflict (src/screens/auth/LoginScreen.tsx vs #306), Sol delta -> merge. Android build gate. |
