@@ -18,6 +18,11 @@ anything below that bar is a day-1 blocker. You own exactly the task in your obj
 - Product rules: personal training only (no diagnosis/treatment/medical claims). Never name the clinic partner in
   any repo, PR, comment or commit (say "clinic partner"). Never commit the coach welcome message text. Shipped UI
   copy: no emojis, no exclamation marks, plain warm words.
+- No generic or vague errors, ever (owner 13:34): every user-facing failure says what happened and what the user can do
+  next (a working action: retry, log in, reset password, contact coach/support). Map every known backend status/code to
+  specific copy; read status codes and machine codes, not just message text. Unknown errors show a short reference ID
+  (request_id) and a support path, and are reported to Sentry. Never show "Something went wrong" / "Please try again"
+  alone. Backend errors carry a stable machine `code` plus a human message.
 - Owner decisions in force: D1 SUPERSEDED (12:51: Roman sees client data in v1.0, behind R2b consent enforcement);
   D2 consent = same screen, TWO boxes (box 1 required: waiver + collection/use for coaching; box 2 optional: Roman and
   coach AI drafts with data processed by Anthropic; contract /home/user/workspace/ops/CONSENT_D2_CONTRACT.md);

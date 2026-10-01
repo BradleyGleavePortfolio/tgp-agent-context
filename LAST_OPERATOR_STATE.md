@@ -6,6 +6,24 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER DECISIONS 2026-10-01 13:34 PDT: coachless banner, marketplace is v2, no generic errors
+
+Near-verbatim: "for V1.0 - Lets go with a simple banner at top of homepage thats like an alert 'Enter coach code for
+coaching. and programs' And offer '$49/mo with our top coach; Use code (my code, ...) here!' The marketplace and
+directory are already designed and left for V2 - way down the road. We also need to fix the fact that tgp throws generic
+and undescript failure notes - like ever - users notice and churn from having unresolvable issues from bad error codes!"
+1. v1.0 coachless client home = an alert-style banner at the top: enter a coach code for coaching and programs, plus the
+   owner's offer ($49/mo with the top coach, using the owner's code). The code and offer text must come from server
+   config, never hard-coded in a repo (the code the owner named is partner-identifying). Open question to the owner
+   13:40: the clinic code grants the clinic comp package (launch plan "comp entitlement tied to the clinic invite code"),
+   so a public banner with that code would give every coachless user free access instead of $49/mo; operator
+   recommends a separate public code tied to a $49/mo package.
+2. Marketplace and coach directory: designed, v2, out of v1.0 scope.
+3. No generic or vague error messages anywhere (program-wide quality rule; added to the common agent brief). New lane
+   S-ERRORS queued: inventory every generic failure message (mobile + backend), stable backend error codes, a shared
+   mapper with recovery actions, reference IDs + Sentry for unknowns, and a guard test that blocks new generic copy.
+Queue for free slots, in order: B-FEE (S-FEE), S-ERRORS, coachless banner (with S-REACH resume).
+
 ## P0 INCIDENT 2026-10-01 13:35 PDT: production database is missing schema objects (signup broken)
 
 Found with the owner's Supabase connector (connected 13:30; operator policy: READ-ONLY, SELECT and log queries only; every
