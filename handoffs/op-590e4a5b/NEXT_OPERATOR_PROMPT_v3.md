@@ -512,6 +512,14 @@ audited fly-env-sync manifest. Verify each on Bradley's account right after it f
 
 ## 5. Where things stand at handoff (verify; this goes stale in hours)
 
+> **UPDATE 12:02 PDT: all agents were paused at 11:58 (credits 42.7k/45k).** Nothing is running. Builder work sits on
+> `wip/op590e4a5b-*` branches (untested, unaudited); PR heads are untouched. Verdicts posted before the pause:
+> - #607 and #315 are dual-approved; #318 is merge-eligible.
+> - Request changes on #608, #313, #611 and #310.
+> - Still missing: Sol on #622, Opus on #623, both on #317, Opus on the auth chain.
+>
+> The exact table is under "ALL AGENTS PAUSED" in `LAST_OPERATOR_STATE.md`; it supersedes the "running" lists below.
+
 ### Auth chain (backend, T4)
 
 | PR | Head | Sol | Opus |
