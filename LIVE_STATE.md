@@ -39,6 +39,7 @@ Two recurring terms:
 | 10-01 14:28 | Android via Google Play (A); existing dev account; owner recruits testers tonight | PWA scrapped. Closed test steps sent; operator prepares Play checklist + .aab after #625 deploys. |
 | 10-01 14:26 | "If its even going to be 1% worse, tell me, ill scrap it" | PWA is worse (health data, secure storage, biometrics, offline, smoothness); recommended scrap. |
 | 10-01 14:25 | iOS native day 1; Android v1.0 via a separate QR to an installable web app (PWA), identical feel | S-PWA spike queued next; QR form + Android wearables scope asked. |
+| 10-01 15:25 | The income/body/lifestyle diagnostic quiz belongs to a different, unrelated product; it does not go with TGP Fitness | Switch it off in the fitness backend (lane B-QUIZ-OFF; no table drops); #611 removes it from the privacy text. Replaces the quiz A/B question. |
 | 10-01 14:19 | Support email: Bradleyapple1031@gmail.com | One SUPPORT_EMAIL everywhere (mobile + backend public pages) via S-ERRORS after #306 merges. |
 | 10-01 13:45 | GP-BRADLEY is the public code | Bound to the $49/mo package at C04. |
 | 10-01 13:43 | "Cnacelling - option A" / "Lockout check: built, but not live - needs audited and tested, then flipped live!" | Voluntary cancel: access through paid period. Dunning v2 flip authorized after S-DUNNING dual audit + deploy + mobile lockout screen + Stripe preconditions. |

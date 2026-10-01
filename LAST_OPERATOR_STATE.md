@@ -6,6 +6,14 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:30 PDT: OWNER RULING — diagnostic quiz is another product's; switch off
+- Owner 15:25 PDT: "the income quiz is for tgp-finance - TOTALLY UNRELATED - Doesnt go with tgp-fitness". Verified the
+  other product has its own backend and does not call /diagnostic. Actions: lane B-QUIZ-OFF (remove DiagnosticModule,
+  no table drops) queued; B-COPY told to remove the diagnostic/roadmap text from #611 round 2. Quiz A/B question closed.
+- Owner asked the minimum daily activity for Play closed testers -> answered: Google publishes no minimum; it asks about
+  engagement, feature use, real-user-like usage and feedback; advice = open daily + one real action, all core features
+  over 14 days, written feedback.
+
 ## OPERATOR 2026-10-01 16:15 PDT: #597 + #622 merged; #626 on main; #306 r7; B-TRAIN launched
 - #597 dual APPROVE at b6b383c7 (Opus 5941554558, Sol 5941612037) -> merged bab05f44.
 - #622 dual APPROVE at 42f2013d (Opus 5941848049, Sol 5941843821) -> merged 10dff85c. Main = 10dff85c.
