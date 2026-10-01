@@ -31,6 +31,12 @@ Verified 13:14-13:20 PDT (GitHub API, live probes):
 - Memory holds none of the owner's preferences on this account; the repo docs are the only record. No Expo credential in
   this session yet (requested through the secure form 13:14).
 
+- Expo credential added by the owner 13:17 (vault handle in session 7c52cefa; never in repos). Expo GraphQL 13:18:
+  Android preview build `f5cac78e-c043-48ca-b5ce-3a2bc0631855` FINISHED 12:08 PDT from `ff6bd4b1`, whose tree equals
+  mobile main `53447a36` (merged #316 crash fix), so it is a pushed, landed commit (unlike `14a58449`). Install link sent
+  to the owner 13:19. Not yet device-verified. It still carries the old google-services.json (pre-#318) and the EAS
+  FCM V1 key is still null, so Android push will not deliver on this build.
+
 Freeze: no subagent, audit or build starts until the owner names a budget (prompt section 0.5).
 
 ---
