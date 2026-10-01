@@ -6,6 +6,27 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 15:05 PDT: B-COPY done (#610 d1e1732f, #314 2f7789e, #611 3d008ffb); #306 r6 started
+- #610 backend two-way block complete (posts, comments, cohort messages, DMs, challenges, leaderboards, voice notes,
+  roster, wins, search, Today, reactions, coach content; direct reads 404; writes refused), route-coverage regression
+  test, report on every post/message except voice notes, first names only to other members, specific error codes.
+  #314 mobile: copy "both stop seeing each other", block hidden on own coach content, communityErrors.ts replaces
+  "Please try again" (reference ID + support email + Sentry). #611 policy copy: removed the false claim that Anthropic
+  moderates community content; describes the only community AI (coach inbox sorting, FEATURE_COMMUNITY_AI_TRIAGE off).
+  All CI green. Report handoffs/op-7c52cefa/reports/B-COPY.md. All three need audits (#610 + #611 T4/T3 per headers).
+- Operator decisions: voice notes flag stays OFF at launch (no report type yet); FEATURE_COMMUNITY_AI_TRIAGE stays OFF
+  until #626 deploys; a client who blocks their coach also stops seeing that coach's community content (accept).
+- CONFLICT found by operator: #611 narrows the owner-approved box-2 sentence ("nothing about you is sent to Anthropic"
+  -> "... for Roman or AI drafts") and says triage "does not depend on the optional AI box", but R2b #626 makes triage
+  skip authors without box 2. With #626 the original owner-approved sentence is true again. Plan: #611 round 2 keeps
+  the owner-approved sentence byte-exact (no owner re-approval needed) and says triage only includes members who
+  ticked the AI box; triage flag stays off until #626 is live. Re-queue the completed B-COPY builder
+  (block_both_ways_610_314_and_611_copy_fix_mupzg5iy) when a slot frees.
+- Re-queued the B-306 builder for #306 fix round 6 (Sol B-306-4/5, C-306-5).
+- Running (7/7): AUD-OPUS, AUD-SOL2 (#625 delta), B-FIX, B-FEE, S-DUNNING, B-ENVTRUTH, B-306 r6.
+- Queue: #611 r2 (B-COPY re-queue) -> B-RECIPES -> Sol wave 3 audits (#625 if needed, #626, #610, #314, #611, #306 r6,
+  #622 delta) -> #317 fix round -> S-ERRORS (after #306 merges) -> S-COACH-TOOLS -> banner + Roman pitch -> S-SCHED.
+
 ## OPERATOR 2026-10-01 14:58 PDT: #625 round 2 at 67e707f0; #306 needs round 6
 - #625 @ f6c6c809: Sol REQUEST CHANGES 0/1/0 (B-625-3 actionlint SC2086 from the operator's round 1); Opus REQUEST
   CHANGES (same finding as its B-625-1; SQL approved; C-625-1..6 recorded: public-by-default /recipes user content goes
