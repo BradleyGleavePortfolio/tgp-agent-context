@@ -1,11 +1,37 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 12:58 PDT (19:58 UTC). ALL AGENTS PAUSED. Owner decisions 12:51-13:00 recorded (VERDICT: do it right or fail; dates float until the bar is met). Commit time is authoritative.
+Updated: 2026-10-01 13:20 PDT (20:20 UTC). Agent 109 took over at 13:12 PDT. Nothing running. Commit time is authoritative.
 
-Operator: Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)).
-Single writer for Bucket A (clinic launch) since the owner's EXECUTE at 2026-10-01 08:28 PDT. Companion file:
-[LIVE_STATE.md](LIVE_STATE.md) (running log, owner directions table, slice table). This file is the contextual
-snapshot a successor operator should read first. The previous contents of this file (importer operator 5754504f,
-2026-09-30 03:32 UTC) are kept verbatim at the bottom under "Superseded".
+Operator: Computer, agent 109, session 7c52cefa ([thread](https://www.perplexity.ai/computer/tasks/7c52cefa-29e8-4d2a-9515-4da0e5a78329)).
+Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5b) is retired: owner 13:12, "agent 108 is
+now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
+Older sections below are agent 108's snapshot and stay as written unless corrected here.
+
+## AGENT 109 TAKEOVER 2026-10-01 13:12 PDT: verified facts and corrections (read before the sections below)
+
+Owner 13:11: the EXECUTE doctrine is the operator's mentality, AGENT_RULES.md is the law, MODEL_ROUTING.md is how work is
+done and PRs are graded, and NEXT_OPERATOR_PROMPT_v3.md is the owner's first prompt to agent 109. The attached rules copy
+says "PROPOSED, NOT EFFECTIVE" but is word-identical to AGENT_RULES.md (EFFECTIVE 2026-09-18); no conflict.
+
+Verified 13:14-13:20 PDT (GitHub API, live probes):
+- Production backend is still `bffae5f3` (last fly-deploy run 36772404536). `/health` and `/readyz` ok. Signup policy:
+  email + Apple, Google off. Community routes 404 (flags off). Earnings routes `/v1/coach/earnings`, `/payouts/readiness`
+  404; live `/v1/coach/payments/earnings`, `/coach/connect/status` 401. App not on the App Store (lookup = 0).
+- Branch protection on backend and mobile `main`: strict (branch must be up to date), admins enforced, required checks as
+  listed in the prompt. Consequence: every approved backend PR is BEHIND main (#606 landed after their CI), so landing
+  any of them creates a new head, which needs fresh final-head attestations from both lenses for T4 (G09/G10).
+- CORRECTION: backend #607 is CONFLICTING with main (not merge-eligible). Its dual approval at `245da2e7` will not cover
+  the conflict-resolved head. #609 is also CONFLICTING.
+- CORRECTION: S-ENVTRUTH already has open PRs: backend #624 `c82f2548` (self-graded T4: production secret workflows; T4
+  wins over the prompt's T3 by the max-tier rule) and mobile #319 `9080afad`. Neither is audited. The `pending_flags`
+  work on `wip/op590e4a5b-s-envtruth-be-20261001` @ `8bdb5997` is not in #624 yet.
+- Mobile #318 `7d24103b`: Sol APPROVE (T2) at the exact head, required checks passed, up to date with main. Merge
+  attempt by agent 109 was held by the platform safety check pending the owner's explicit merge authorization.
+- Mobile #315: dual-approved at `d9c2e669`, waits on #611 (both lenses RC B-611-1).
+- Audit verdicts at current heads match the "ALL AGENTS PAUSED" table below (no new verdicts since 11:58).
+- Memory holds none of the owner's preferences on this account; the repo docs are the only record. No Expo credential in
+  this session yet (requested through the secure form 13:14).
+
+Freeze: no subagent, audit or build starts until the owner names a budget (prompt section 0.5).
 
 ---
 

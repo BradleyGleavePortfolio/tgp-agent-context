@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-10-01 11:40 PDT (commit time is authoritative)
+- **Updated:** 2026-10-01 13:20 PDT (commit time is authoritative). Operator from 13:12 PDT: agent 109, session 7c52cefa; agent 108 retired.
 - **Operator:** Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)), agent 108. Single writer for Bucket A since the owner's EXECUTE at 2026-10-01 08:28 PDT. Session c712e04d is retired as writer (silent since about 19:10 PDT 09-30; its thread is not readable from this session). Its working files that never reached GitHub (onboarding contract v1, `clinic_ops/BRIEF.md`) are lost; this file and the PR bodies are the recovered authority.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
@@ -36,6 +36,7 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 13:12 | "You are agent 109 - agent 108 is now dead and retired under another perplexity account, out of credits." 13:11: read the four owner documents in order; the EXECUTE doctrine is the mentality, the agent rules are the law, model routing is how work is done and PRs graded, the operator prompt v3 is the first prompt. | Agent 109 (session 7c52cefa) is single writer for Bucket A. Takeover facts and corrections in LAST_OPERATOR_STATE "AGENT 109 TAKEOVER". Freeze on new agents holds until the owner names a budget. |
 | 10-01 11:57 | "42.7k/45k credits used, get all agents to a safe paused place and commit their work" | All 6 subagents cancelled 11:58; builder work committed to `wip/op590e4a5b-*` branches; verdicts and WIP table in LAST_OPERATOR_STATE "ALL AGENTS PAUSED". |
 | 10-01 11:39 | Let running subagents finish, record findings, start nothing else (credits). | Superseded by 11:57 pause. |
 | 10-01 09:53 | Owner tip: hunt keys named in code but never set / fake / empty values (H4 tests). | Env truth audit done (see Operator log); S-ENVTRUTH lane queued. |
