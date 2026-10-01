@@ -1,5 +1,216 @@
 # LAST OPERATOR STATE
-Updated: 2026-09-30 03:32 UTC
+Updated: 2026-10-01 10:55 PDT (17:55 UTC). Commit time is authoritative.
+
+Operator: Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)).
+Single writer for Bucket A (clinic launch) since the owner's EXECUTE at 2026-10-01 08:28 PDT. Companion file:
+[LIVE_STATE.md](LIVE_STATE.md) (running log, owner directions table, slice table). This file is the contextual
+snapshot a successor operator should read first. The previous contents of this file (importer operator 5754504f,
+2026-09-30 03:32 UTC) are kept verbatim at the bottom under "Superseded".
+
+---
+
+## 1. Where we are, in plain words
+
+- **Mission:** the clinic partner (a West Washington medical group; name kept out of repos) sends patients to TGP
+  through a QR code. App Store submission is **Sat 10-03**; clinic go-live is **Wed 10-07**.
+- **Guardrail flow (owner):** QR code -> App Store download -> consultative personal-trainer onboarding -> auto-attach
+  to Bradley as coach -> auto-grant of Bradley's free package -> auto-assign one of three workout plans -> Roman's
+  hands-on tutorial (plan and macros, community and messaging the coach, wearables and health/sleep data) ->
+  teach-back. **New 10-01:** the tutorial also introduces the Calendar and ends with "Book your welcome call".
+- **State of the build:** every launch-critical slice has a PR. Most are in fix rounds after dual audits. Nothing on
+  the Bucket A critical path is merged except mobile #316 (crash fix) and backend #606 (macros). Production backend
+  still runs `bffae5f3` (C02). No working Android build exists yet: build `f5cac78e` (with the crash fix) is still in
+  Expo's Free-plan queue.
+- **Biggest risks right now:** (1) audit throughput: about 20 PRs need dual audits before Fri noon with a hard cap of
+  7 subagents; (2) the backend auth stack (#597 chain) is still blocked by two must-fix findings; (3) the newly
+  scoped Calendar section (S-SCHED) and feature-reachability work (S-REACH) are large and landed late; (4) no device
+  pass has happened on any new code.
+
+---
+
+## 2. What happened since the last update (2026-09-30 03:32 UTC -> 2026-10-01 10:55 PDT)
+
+1. **09-30 morning: change of gears.** At 10:48 PDT the owner paused the importer (Bucket B) and switched to the
+   clinic launch (Bucket A). Session c712e04d became the Bucket A operator at 16:32 PDT EXECUTE.
+2. **09-30 afternoon/evening (c712e04d):** owner rulings on positioning (personal training only), role choice at
+   signup (R-ROLE-CHOICE-1), 2% take rate and 3.1.3(d) payments posture, Roman privacy (chats never visible to
+   coaches), age 16+, Roman's canonical face, model routing T0-T4, 8-agent hard cap. Merged mobile #303, #304, #307,
+   #308, #311; deployed backend C02 `bffae5f3`. Built Android APK `14a58449` (later found to come from an unpushed
+   commit; never ship it). c712e04d went silent around 19:10 PDT; its unpushed working files are lost.
+3. **10-01 08:28: EXECUTE to 590e4a5b.** Readback written; the owner didn't answer D1-D4, so the operator's stated
+   defaults apply (section 4). Owner supplied the coach welcome text (runtime data; never committed).
+4. **09:07-09:11 approvals:** three workout programs; D2 two-box consent copy; community guidelines incl. new rules 5
+   and 7; safety contact Bradley@Bradleytgpcoaching.com; 24-hour moderation commitment; consumer-health Consent
+   section rewrite. Owner created the Sign in with Apple key and saved `APPLE_SIGNIN_KEY_ID` /
+   `APPLE_SIGNIN_PRIVATE_KEY` as backend GitHub Actions secrets.
+5. **09:15-09:51 Android launch crash (tier-1).** The owner's APK closed instantly. Root cause from the owner's
+   logcat: `crisp-sdk-react-native@0.2.1` used the legacy `ExpoModulesCorePlugin.gradle` path under Expo SDK 56 and
+   threw `UnsupportedOperationException: reified type parameter` while the Expo module registry was built. Fix:
+   mobile #316 (bump to 0.4.3, surgical lockfile), Opus APPROVE, **merged `53447a36`**. New build `f5cac78e` queued.
+   Also found: MainActivity never set the Health Connect permission delegate (fixed in S14 #317 via a config
+   plugin), and Sentry native auto-init is off, so crashes before JS starts are invisible (follow-up).
+6. **09:51-10:01 env truth audit (owner tip).** Systematic check of every env name read by code vs Fly, GitHub and
+   EAS. Findings in section 5. Lane S-ENVTRUTH builds the registry, invariant tests and a Fly sync workflow.
+   A setup guide for every missing key was delivered to the owner (shared asset "TGP Missing Keys Setup Guide").
+7. **10:01-10:36 Google sign-in on day 1 (owner override).** The owner set up Google Auth Platform in project
+   `project-2c2ffa46-a1eb-4f5c-b68` (branding with privacy/terms/help URLs on app.trygrowthproject.com, published
+   to production), created a Web client `963513798354-b1si2i5t238kmq2jh572kvirtrnv9oee.apps.googleusercontent.com`,
+   put it in the Supabase Google provider (replacing an older client `817435020365-p51g...`, now retired), and added
+   `tgp://auth/callback` to Supabase redirect URLs. Operator verified Supabase now redirects with the new client and
+   Google accepts it, then set GitHub secret `GOOGLE_CLIENT_IDS` (17:38 UTC). It reaches Fly through the audited
+   S-ENVTRUTH sync workflow; until then `/auth/signup-policy` still hides Google.
+8. **10:20-10:45 audit wave results** (section 6): Opus approved #316, #599, #595, #604, #606, #607, #622; requested
+   changes on #597, #306, #310. Sol blocked #597 chain, requested changes on #607 (CI gap), #622, #623, blocked #317.
+   **#606 merged `be667142`** (Sol + Opus APPROVE). Retargeted stacked PRs were closed/reopened to run full CI.
+9. **10:37-10:44 scheduling and reachability (owner).** The owner pointed out TGP must be a superior replacement for
+   Google Calendar. Operator found native scheduling is fully built in the backend (appointment types, availability,
+   time off, open slots, booking lifecycle, 24h/1h reminders) and coach-side screens exist, but **client booking
+   screens are orphaned** (no entry point). A static sweep found **34 of 170 app routes with no visible pathway**.
+   The owner called it a huge gap and directed: a dedicated client Calendar section, a Roman tutorial step, "Add to
+   my calendar", and a pre-launch reachability fix for every critical feature.
+
+---
+
+## 3. Owner decisions this session (binding)
+
+| Time (PDT) | Decision |
+|---|---|
+| 08:28 | EXECUTE for everything workable under the agent rules and PR grading contract. |
+| 09:07 | Workout plans approved. D2 consent copy, community guidelines (rules 5 and 7), safety email, 24-hour moderation, consumer-health Consent rewrite approved. |
+| 10:01 | **Google sign-in on day 1** (overrides the operator's email + Apple ruling). Done on the Google/Supabase side; Fly pending. |
+| 10:01 | Every missing key gets filled; alert the owner when the new APK build finishes. |
+| 10:37 | TGP's **native scheduling is the product**; Google Calendar sync is not a dependency. |
+| 10:39 | **Every critical feature must have a pathway in the UI before launch** (reachability). |
+| 10:40 | Client gets a **dedicated Calendar section**: their coach/coaches, calendars and open slots, booking from each coach's approved appointment types. Agents should bring superior ideas to the owner. |
+| 10:40 | **Roman tutorial step** after "how to message your coach" introducing the Calendar. |
+| 10:41 | **"Add to my calendar"** (device calendar, Apple or Google, no account linking). |
+| 10:44 | Tutorial **ends with "Book your welcome call with <coach>"**. |
+| 10:44 | Day-1 appointment types: Quick initialization 15 min; Quick Q/A Call 20 min; Tele-Health Dietary/Fitness Check-in 45 min. Operator default: the first two confirm instantly (Quick initialization = welcome call), the 45-min check-in needs coach approval; editable in-app. |
+| 10:44 | Policy passages approved: Privacy Policy "Roman and AI" paragraphs 1 and 3 and the Terms AI sentence (#611 at `ced10667`). Recorded on #611. |
+| 10:44 | **Over-the-air updates approved** for the Saturday binary (expo-updates / EAS Update; Free plan covers 1,000 monthly users). |
+| open | Expo Starter plan ($19/month + usage) for the fast build queue: offered, not yet answered. |
+
+---
+
+## 4. Operator rulings in force (owner may override)
+
+- **D1:** scripted Roman only in v1.0; live Roman chat in 1.0.1 (Roman stack #598/#601/#602/#603/#605 off the critical path).
+- **D2:** two boxes on one screen; box 1 required (waiver + coaching data, `consult-consent-v2`), box 2 optional (AI drafts via Anthropic, `client-ai-v3`); withdrawal in Settings > Privacy > Roman and AI. The AI-consent ledger flag goes ON at the clinic deploy.
+- **D3:** health prefill of onboarding moves to 1.0.1; v1.0 ships connect, history import and the health/sleep views.
+- **D4:** if mobile #306 is not dual-approved by **Fri 10-02 12:00 PDT**, submit client-only and set `SIGNUP_ROLE_CHOICE_ENABLED=false` explicitly on Fly **before** #597 deploys (backend default is ON when unset).
+- consult consent accepts `consult-consent-v2` only; #622 dunning-lockout allowlist = exactly GET /api/me/ai-consent, POST/DELETE /api/me/ai-consent/roman; #310 labels "Privacy" and "Delete account" plus a Privacy Policy link outside the hashed consent text.
+- #310 problem/paused screens get a minimal escape (Contact support mailto + Sign out).
+- Blocking must hide posts both ways so the approved line "If you block someone, they can no longer see your posts" is true (code changes to match the copy).
+- Wearables AI insight panel stays hidden (no box-2 check yet).
+- Google Calendar / Meet / Zoom integrations stay off; their Fly keys are optional-integration, not must-fill.
+
+---
+
+## 5. Gaps found this session and where each one stands
+
+| Gap | Disposition |
+|---|---|
+| Android APK crashed at launch (Crisp 0.2.1 on SDK 56) | Fixed, merged #316; device confirmation waits on build `f5cac78e`. |
+| Health Connect permission delegate missing in MainActivity | Fixed in S14 mobile #317 (config plugin); #317 is in a fix round. |
+| Sentry native auto-init off (pre-JS crashes invisible) | Follow-up queued. |
+| **Client booking screens orphaned; 34/170 routes without a pathway** (booking, upcoming sessions, macros screen, exercise library, leaderboard, bloodwork, private community hub, community Today/Challenges/Classroom/Find, Copilot; coach bloodwork queue, wearable prompts, admin control room; some are false positives) | S-SCHED running (Calendar); **S-REACH queued** (map every route, wire working features, hide broken ones, report). |
+| No OTA update channel in the binary | Owner approved; existing mobile **#305** (expo-updates, fingerprint runtime) needs a rebase onto main + clinic channel + one audit. Lane S-OTA queued. |
+| Env truth: five Fly keys share one placeholder value (GOOGLE_OAUTH_CLIENT_ID/SECRET, OOM_*); junk Fly keys `E`, `E_MB`; 91 env names read by backend code are unregistered and unset; `STRIPE_WEBHOOK_SECRET_NEXT` equals current; `STRIPE_PRICE_ID_FITNESS` equals `STRIPE_PRICE_GROWTH`; `DATABASE_URL` equals `DIRECT_URL`; GitHub `DATABASE_URL_AUDIT` unset (RLS floor guard soft-skips) | S-ENVTRUTH running (registry, invariant test, fly-env-sync with staging, classifier). Fly deletions need operator sign-off after audit. |
+| Mobile reads `EXPO_PUBLIC_STRIPE_PK`, EAS stores `EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY` | S-ENVTRUTH mobile PR. |
+| `COACH_SIGNUP_SECRET` / `EXPO_PUBLIC_COACH_SIGNUP_SECRET` unused | Remove after role choice settles. |
+| Data export writes to ephemeral `/tmp` (S3/storage path never implemented) | Queued: export to Supabase storage. |
+| `GOOGLE_CLIENT_IDS` unset on Fly (Google hidden) | GitHub secret set; Fly push via audited sync workflow. |
+| Approved block copy not true in code | Queued fix round on #610/#314 (both-ways read filter). |
+| No home page at app.trygrowthproject.com (Google branding uses /help) | Backlog: real landing page. |
+| Expo Free plan: slow build queue, 15 Android + 15 iOS builds/month | Owner decision on Starter plan pending. |
+| Coach-deleted clients see "No coach yet" (no dedicated message) | Follow-up after #608. |
+| Android 13 and lower: Health Connect rationale opens app home, not a privacy screen | Follow-up before Play production. |
+| Wearables: no background sync; later edits in Apple Health/Health Connect not re-synced | Known v1 limits. |
+
+---
+
+## 6. PR board (read 2026-10-01 10:50 PDT)
+
+Backend (`growth-project-backend`):
+
+| PR | Slice / tier | Head | Audits | Next |
+|---|---|---|---|---|
+| #597 | C13 role choice + auth hardening, T4 | `fc5c5a9e` | Sol BLOCK (A-597-1 unfenced OAuth binder cleanup); Opus RC (B-597-2 binding to a pre-registered identity) | Auth builder fix round 4 |
+| #599 | C03 attach, T4 | `9a0b9f94` | Opus APPROVE; Sol BLOCK (inherited) | Restack after #597 |
+| #595 | C01 comp access, T4 | `1b782ec8` | Opus APPROVE; Sol BLOCK (B-595-1 revoke ignores pending grants) | Fix in auth round |
+| #604 | C14 throttler, T4 | `c3abde8d` | Opus APPROVE; Sol BLOCK (inherited) | Restack |
+| #606 | C06 macros, T3 | merged `be667142` | Sol + Opus APPROVE | Done |
+| #607 | C05/C07 intake + programs, T4 | `245da2e7` | Opus APPROVE; Sol RC (B-607-4 required checks never ran) | Full CI re-run triggered; Sol re-check |
+| #609 | Welcome message + reminders | `1f8b22b9` | none yet | Audits queued |
+| #608 | Account deletion, T4 | `a81a548f` | Sol RC at earlier head; fix round done; Opus audit running | Sol re-audit |
+| #610 | UGC safety, T4 | `b8ce8d35` | none yet (approved copy placed) | Block both-ways fix, then dual audit |
+| #611 | Privacy/consumer-health/terms, T3+ | `ced10667` | none yet (owner approved new passages) | Audit |
+| #622 | R2a AI consent ledger, T4 | `02c7187d` | Opus APPROVE; Sol RC (B-622-1/2/3) | R2a builder fix round |
+| #623 | S14 wearables backend, T4 | `c5d45172` | Sol RC (B-623-1 inherits 3/hour throttle) | S14 builder fix round 2 |
+| #598/#601/#602/#603/#605 | Roman stack | various | n/a | Off critical path (D1) |
+
+Mobile (`growth-project-mobile`):
+
+| PR | Slice / tier | Head | Audits | Next |
+|---|---|---|---|---|
+| #316 | Crisp crash fix, T2 | merged `53447a36` | Opus APPROVE | Done |
+| #310 | Consultation onboarding + D2 + Settings > Privacy, T4 | `00cfb6c3` | Opus RC (B-310-1 grant after failed save; B-310-2 box-2 state after restart) | Builder fix round 3 |
+| #306 | Role choice UI, T4 | `4b349d32` | Sol RC (B-306-1/2/3); Opus RC (B-306-1 Login recovery strands device) | r5 when a slot frees; D4 fallback Fri 12:00 |
+| #313 | Account deletion UI, T4 | `11016305` | Sol RC at earlier head; Opus audit running | Sol re-audit |
+| #314 | Report/block/safety screen, T4 | `b4b931d8` | none yet | Dual audit after block fix |
+| #315 | Trust center links | `d9c2e669` | none yet | Audit; ships with or after #611 deploy |
+| #317 | S14 wearables mobile, T4 | `f63da34e` | Sol BLOCK (A-317-1 cross-account upload; B-317-1..4) | S14 fix round 2 |
+| #312 | Workout reminders toggle | `5b26e1f4` | none yet | Audit with #609 |
+| #305 | expo-updates (OTA), T3 | `45787152` (base is the merged #304 branch) | none at current base | S-OTA: rebase + clinic channel + audit |
+
+---
+
+## 7. Lanes (cap: 8 agents including the operator = 7 subagents)
+
+Running (7): S-ENVTRUTH builder; Opus audit #608/#313; #310 fix round 3; auth stack fix round 4 (#597/#595 + restack);
+S14 fix round 2 (#623/#317); R2a #622 fix round; **S-SCHED** client Calendar builder.
+
+Queue, in priority order: S-REACH (reachability); #610/#314 block both-ways fix; dual audits #610/#314; audit
+#611/#315; S-OTA (#305 rebase); Sol re-audit #608/#313; #306 r5; Sol re-check #607; re-audits of the auth chain and
+#622/#623/#317/#310; audits #609/#312; S-ENVTRUTH audits; data export to storage; Sentry native init; S07b AI-path
+inventory; C04 bootstrap (after Bradley signs up in a working build; includes seeding his appointment types and
+welcome text); C11 store package + TestFlight clinic iOS build; Wave-1 deploy via `fly-deploy.yml`.
+
+---
+
+## 8. Critical path and deadlines
+
+- **Now:** working Android build (`f5cac78e`), so Bradley can sign up -> C04 bootstrap.
+- **Fri 10-02 06:00:** S-SCHED PRs ready for audit.
+- **Fri 10-02 12:00:** D4 cutoff for #306; target for dual approvals on #597 chain, #607, #622, #608/#313, #610/#314, #611/#315, #310, S14.
+- **Fri evening:** Wave-1 backend deploy (audited main only), set flags (`FEATURE_WEARABLES_INGEST_POST`, AI-consent ledger, `GOOGLE_CLIENT_IDS`, `APPLE_SIGNIN_*`, explicit `SIGNUP_ROLE_CHOICE_ENABLED` if D4 falls back), clinic iOS + Android builds with OTA, device passes.
+- **Sat 10-03:** App Store submission.
+- **Wed 10-07:** clinic go-live; anything that missed the binary ships over the air if it is JS-only and audited.
+
+---
+
+## 9. Open owner asks
+
+1. Install the new Android build when the operator sends the link (uninstall the old app first), then sign up as coach.
+2. Decide on the Expo Starter plan (fast build queue).
+3. Confirm EAS iOS credentials / App Store Connect API key for the iOS build and submission.
+4. Two iPhone device passes through TestFlight (Friday evening, Saturday).
+
+---
+
+## 10. Notes for a successor operator
+
+- Authoritative evidence lives on GitHub: PR bodies (tier headers, fix-round tables) and audit verdict comments at
+  exact heads. Sandbox paths (`/home/user/workspace/ops/...`) are convenience copies and can disappear.
+- Stacked backend PRs were retargeted to main only so CI runs; audit incremental ranges (parent head..head).
+- Never ship APK `14a58449`. Never commit the coach welcome text or the clinic partner's name.
+- Do not set Fly secrets except through audited workflows; Fly deletions need operator sign-off.
+
+---
+
+## Superseded: importer operator state (session 5754504f, 2026-09-30 03:32 UTC), kept verbatim below
+
+Original update time: 2026-09-30 03:32 UTC
 
 Operator: Computer (Claude Opus 5.5 Fast), executive orchestrator, session 5754504f
 (https://www.perplexity.ai/computer/tasks/5754504f-dfba-473b-a648-5290eee287a7). EXECUTE given by owner
