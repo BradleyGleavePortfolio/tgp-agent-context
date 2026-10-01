@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-09-30 17:50 PDT (commit time is authoritative)
+- **Updated:** 2026-09-30 18:05 PDT (commit time is authoritative)
 - **Operator:** Computer, session c712e04d ([thread](https://www.perplexity.ai/computer/tasks/c712e04d-91da-4589-b9b1-50d5663183a9)). Single writer for Bucket A since EXECUTE at 16:32 PDT. Session f32d73ae is dead (owner, 16:31); its unpublished plans reached this session as owner-extracted documents.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
@@ -18,6 +18,7 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 09-30 17:53 | Coach payments (day X): client pays the listed price; the coach's payout is the price minus card processing minus TGP's 2% (no client surcharge). Minimum paid price $19.99, or free. Stripe's dashboard link stays, tucked under Earnings as "Payout settings"; TGP's own Money page is the default money screen. | Supersedes approval-packet defaults #14, #16, #17. |
 | 09-30 17:42 | Minimum age stays 16+. Roman chats are stored in the database but never visible to coaches in any app surface or API; only the client and developers with direct database access can read them (180-day retention and client delete stand). All other prototype decision defaults stand except where overridden by owner rulings. | R2/R3 builder told; consent and privacy copy must say chats are private from the coach and staff access is for support, safety and debugging only. |
 | 09-30 16:53 | Replace the T0-T4 model routing doctrine with the owner's updated version. T0/T1 GPT-6 Luna, T2 GPT-6.1 Sol, T3 Claude Opus 5.5, T4 Claude Opus 5.5 + GPT-6.1 Sol. | [MODEL_ROUTING.md](MODEL_ROUTING.md) is now canonical. |
 | 09-30 16:40 | Roman already has a decided face: the older Black butler in `design/roman/`. The younger man in the mobile `assets/roman/` files is not Roman. | Mobile asset fix PR: canonical art plus a sha256 pin test. |
