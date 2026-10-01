@@ -6,6 +6,16 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 15:40 PDT (wall clock): P0 DEPLOYED and verified
+- Owner 15:27 PDT "approve the run" -> operator approved run 36932415461; Deploy app SUCCESS. Production now runs
+  8a709a68 (#606 C06 + #625). Migration 20270125000000_restore_schema_declared_objects finished 22:30:25 UTC, not
+  rolled back. Read-only verification: 10/10 columns exact (type, nullability, default); ListItem 9 / Recipe 18 /
+  SavedRecipe 4 / UserPreferences 8 columns; RLS + FORCE on all 4; 3 policies each; ListType enum grocery,shopping.
+  /health 200. Postgres logs: last "column User.archived_at does not exist" at 22:30:00.063 UTC (pre-migration
+  quarter-hour cron); none after the migration so far (recheck after the 22:45 cron).
+- Not yet deployed: #597 (bab05f44) and #622 (10dff85c) — next release needs main CI + the owner's approval.
+- Owner asked to retest signup.
+
 ## OPERATOR 2026-10-01 16:30 PDT: OWNER RULING — diagnostic quiz is another product's; switch off
 - Owner 15:25 PDT: "the income quiz is for tgp-finance - TOTALLY UNRELATED - Doesnt go with tgp-fitness". Verified the
   other product has its own backend and does not call /diagnostic. Actions: lane B-QUIZ-OFF (remove DiagnosticModule,
