@@ -6,6 +6,15 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:50 PDT (wall clock): M-PLAY done — mobile #323 (T2) d8edf8e1 -> updated e0b0b01d
+- Switch OFF: zero Health Connect/Samsung health permissions, 18 manifest removal rules, HC plugin absent; ON: base 17
+  health permissions + Samsung; iOS identical. 11 suites / 109 tests; CI green. Updated onto mobile main 56d4fc62.
+  Sol (AUD-SOL) audits #323 right after #319.
+- Android build gate: #306 (merged) + #320 (AUD-SOL3 first item) + #323 + #319 merged -> then build the production
+  .aab (versionCode 4) via EAS with the switch OFF.
+- Running 6/7: B-FEE, B-R2B, B-TRAIN, AUD-OPUS, AUD-SOL, AUD-SOL3. One slot free -> next: S-ERRORS (support email
+  everywhere + recipe/community error codes) now that #306 merged.
+
 ## OPERATOR 2026-10-01 16:40 PDT (wall clock): B-RECIPES done — backend #630 (T4) 5b873988
 - Recipes: own + own coach's/owner's shared only; no platform feed; client sharing 403 RECIPE_SHARING_COACH_ONLY; image
   links rejected (400) and never served; uniform 404 RECIPE_NOT_FOUND; prep-guide public fallback removed; lists capped
