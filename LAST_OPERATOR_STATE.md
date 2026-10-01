@@ -6,6 +6,16 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER 2026-10-01 14:26 PDT: "If its even going to be 1% worse, tell me, ill scrap it"
+Operator answer: the PWA IS worse than the native app in concrete ways (no Health Connect phone health data; auth tokens
+in browser storage instead of hardware-backed secure storage; no biometric lock; offline data can be cleared by the
+browser; weaker background work/reminders; react-native-web smoothness on heavy screens; a second platform to QA every
+release). Recommended scrapping the PWA. Native Android options offered: (A) Google Play organization account (no
+12-tester rule; needs D-U-N-S, up to 30 days per Google; $25 Google fee needs owner OK; first review up to ~7 days),
+(B) the same native APK via QR now (one-time install warning; silent JS updates via EAS Update once expo-updates/#305
+lands; moving to Play later = one reinstall, data is server-side), recommended B on day 1 + A in parallel.
+S-PWA lane ON HOLD pending owner answer. Android native push still needs the owner's FCM V1 key.
+
 ## OWNER 2026-10-01 14:25 PDT: Android v1.0 = installable web app (PWA) from a QR code; iOS native day 1
 Near-verbatim: "We launch IOS day 1, but for andriod users I'll need a seperate QR code for v1 launch" + a pasted PWA
 plan (manifest standalone + 512 icon, service worker offline cache, custom install button via beforeinstallprompt; no
@@ -87,7 +97,7 @@ public pages), with a test that no other support address remains. App Store meta
   bffae5f3.
 - B-FEE relaunched in Sol's slot: fix_coach_payout_fee_math_s_fee_muq08m08 (Claude Opus 5.5), worktree
   wt/s-fee-backend.
-- Queue for the next free slots (updated 14:35): S-PWA spike -> S-ENVTRUTH fix round (#624/#319) -> #317 fix round -> S-ERRORS ->
+- Queue for the next free slots (updated 14:40; S-PWA on hold): S-ENVTRUTH fix round (#624/#319) -> #317 fix round -> S-ERRORS ->
   S-COACH-TOOLS -> banner + Roman pitch -> S-SCHED -> #607/#609 restack.
 
 ## OWNER 2026-10-01 13:45 PDT: public code
