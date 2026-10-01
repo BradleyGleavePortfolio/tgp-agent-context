@@ -6,6 +6,15 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 14:30 PDT: #625 Sol REQUEST CHANGES -> operator fix round 1 at f6c6c809
+- Sol on #625 @ 3647e785: REQUEST CHANGES, B-625-1 (candidate baseline could grow and accept its own drift) and C-625-2
+  (verify-claim broader than checks). Migration SQL itself judged sound (complete inventory, bounded locks, RLS OK).
+- All 7 slots busy, so the operator wrote fix round 1 (worktree wt/op-625): gate --approved-baseline (base commit's
+  file, any added line fails) / --bootstrap-baseline (only when the base has no baseline file) / neither -> exit 2;
+  workflow resolve step via env + fetch-depth 0; comment narrowed (SQL statements unchanged). Tests 46/46 (heavy.sh jest
+  runInBand). PR body Fix round table updated; fix-round comment posted. Both auditors told to audit f6c6c809 next.
+- S-ERRORS lane objective written (ops/lanes/S-ERRORS.md, incl. the owner support email item).
+
 ## OWNER 2026-10-01 14:19 PDT: support email
 Owner answered the support-email question with "Bradleyapple1031@gmail.com" -> the single support contact everywhere users
 are told to email support. Today the code has three different addresses: mobile WelcomeScreen.tsx:69 and
