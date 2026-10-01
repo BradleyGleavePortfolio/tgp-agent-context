@@ -1,7 +1,7 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-09-30 19:10 PDT (commit time is authoritative)
-- **Operator:** Computer, session c712e04d ([thread](https://www.perplexity.ai/computer/tasks/c712e04d-91da-4589-b9b1-50d5663183a9)). Single writer for Bucket A since EXECUTE at 16:32 PDT. Session f32d73ae is dead (owner, 16:31); its unpublished plans reached this session as owner-extracted documents.
+- **Updated:** 2026-10-01 08:50 PDT (commit time is authoritative)
+- **Operator:** Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)), agent 108. Single writer for Bucket A since the owner's EXECUTE at 2026-10-01 08:28 PDT. Session c712e04d is retired as writer (silent since about 19:10 PDT 09-30; its thread is not readable from this session). Its working files that never reached GitHub (onboarding contract v1, `clinic_ops/BRIEF.md`) are lost; this file and the PR bodies are the recovered authority.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
 **Priority order (owner):**
@@ -25,6 +25,7 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 08:28 | EXECUTE for everything workable under the agent rules and the PR grading contract (session 590e4a5b). Owner supplied the exact coach welcome message text. Asked for: Apple Sign in key guidance, Android APK install steps for a Mac + Samsung, a plain summary of the three programs, and the full privacy/consent text, community guidelines, safety contact email and 24-hour moderation commitment for approval. | Operator 590e4a5b is single writer. Welcome text is runtime data stored outside every repo (names the clinic partner); set at C04 via the owner endpoint. Readback decisions D1-D4 were not answered, so the operator's stated recommendations apply (see "Operator rulings 10-01" below). |
 | 09-30 18:14 | Hard cap of 8 concurrent agents; a sandbox crash is a tier-1 incident. | Operator enforces the cap and a priority queue. |
 | 09-30 18:11-18:15 | Coach welcome message auto-sent 13 minutes after onboarding (owner's exact text is runtime data set at bootstrap; it names the clinic partner, so it never enters a repo). Seeded community rooms: backlog, not v1.0. Workout reminders from the client's first-session day and preferred time. Coach sees every client's consultation answers, easily; forms are saved. Never-trackers get calories and protein only in week one, explained by Roman. Apple Health / Health Connect: prefill onboarding and import history on connect, fully tested. | Contract 'v1 additions' items 5-9; engagement and health-import builders queued. |
 | 09-30 17:53 | Coach payments (day X): client pays the listed price; the coach's payout is the price minus card processing minus TGP's 2% (no client surcharge). Minimum paid price $19.99, or free. Stripe's dashboard link stays, tucked under Earnings as "Payout settings"; TGP's own Money page is the default money screen. | Supersedes approval-packet defaults #14, #16, #17. |
@@ -54,6 +55,24 @@ Two recurring terms:
 - This supersedes the "no self-promotion" clause of R-ONBOARDING-ROLE-GATE-1 for signup time only.
 
 ---
+
+## Operator rulings 10-01 (adopted by default under EXECUTE; owner may override)
+
+- **D1 Roman in v1.0:** scripted Roman only (tutorial, plan and macro explanations, reminders, welcome). Live Roman chat ships in 1.0.1. `EXPO_PUBLIC_FF_ROMAN_CHAT` stays off in the clinic profile; the Roman stack (#598/#601/#602/#603/#605) continues off the critical path.
+- **D2 consent (WA RCW 19.373):** same screen, two boxes. Box 1 required: training waiver plus collection and use of the client's health and fitness information for coaching (coach and TGP see it). Box 2 optional: Roman and coach AI drafts, with the data sent to Anthropic. Unticked box 2 means no AI processing of that client until they agree in Settings. Withdrawal of box 2 lives in Settings. Copy pending owner sign-off (sent 10-01).
+- **D3 health prefill:** 1.0.1. v1.0 ships connect, history import and the health and sleep views.
+- **D4 role choice fallback:** if mobile #306 is not dual-approved by Fri 10-02 12:00 PDT, submit client-only (`SIGNUP_ROLE_CHOICE_ENABLED=false`); role choice in 1.0.1.
+
+### Production facts (verified 2026-10-01 by 590e4a5b)
+
+- Backend production runs `bffae5f3` (C02), deploy run 36772404536 success; `/health` ok; signup-policy shows Apple on, Google off.
+- Fly secret names (read-only list run 36885057965): `APPLE_TEAM_ID` present; `APPLE_SIGNIN_KEY_ID` and `APPLE_SIGNIN_PRIVATE_KEY` absent (deletion-time Apple token revocation would report `not_configured`). No community, wearables-ingest or role-choice flags are set. `ANTHROPIC_API_KEY`, `CRON_COACH_AI_INSIGHT`, `DIAGNOSTIC_AI_ENABLED` exist; the production AI-path inventory (S07b) is open.
+- App not public (iTunes lookup 6765847915 = 0 results); no iOS build on record; `eas.json` has no submit profile.
+- Wearables gap with no PR: mobile HealthKit / Health Connect normalizers post samples with `userId` to `/v1/wearables/samples/ingest`; the backend schema is `.strict()` and rejects it, and `FEATURE_WEARABLES_INGEST_POST` is unset (503). New slice S14.
+
+### Critical path (10-01)
+
+S01 #597 Sol attest; S02 #599 B1; S03 #595 rebase; S04 #604 A1; S05 Wave-1 deploy. S06 #606 B606-3; S07 consent ledger split from #601 (D2 two scopes); S08 #607 A607-3/A607-2-R1; S09 #310 fixes + D2 copy + withdrawal screen. App Review P0: S11 deletion (#608 + #313), S12 UGC safety (#610 + #314), S13 privacy (#611 + #315). S14 wearables ingest. S16 #306. S17 C04 bootstrap. S18 TestFlight (clinic profile). S19 QA + submit Sat 10-03.
 
 ---
 
@@ -106,11 +125,15 @@ Two recurring terms:
 - T4: two independent audits plus green CI. T3/T2: one independent audit plus green CI. Audit verdicts are posted on the PR.
 - Production deploys go through the gated `fly-deploy.yml` workflow under the owner's 2026-09-30 16:38 authorization.
 
-### Owner asks (open)
+### Owner asks (open, 10-01)
 
-1. Sign up in the Android test build tonight when it is ready; the operator then runs C04.
-2. Two iPhone device passes (Friday evening, Saturday) through TestFlight.
-3. Final approval of the three workout programs once drafted.
+1. Sign up in the Android test build (EAS 14a58449) today; the operator then runs C04.
+2. Approve the three workout programs by Fri 12:00 PDT.
+3. Create the Sign in with Apple key (.p8) and set `APPLE_SIGNIN_KEY_ID` / `APPLE_SIGNIN_PRIVATE_KEY` on Fly.
+4. Sign off on consent text (two boxes), privacy and consumer health policy, community guidelines, safety contact email and the 24-hour moderation commitment.
+5. Confirm EAS iOS credentials / App Store Connect API key.
+6. Two iPhone device passes (Friday evening, Saturday) through TestFlight.
+7. Received 10-01 08:28: coach welcome message text (runtime data, not in any repo).
 
 ---
 
