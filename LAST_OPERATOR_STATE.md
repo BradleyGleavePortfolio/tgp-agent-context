@@ -6,6 +6,20 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER 2026-10-01 14:25 PDT: Android v1.0 = installable web app (PWA) from a QR code; iOS native day 1
+Near-verbatim: "We launch IOS day 1, but for andriod users I'll need a seperate QR code for v1 launch" + a pasted PWA
+plan (manifest standalone + 512 icon, service worker offline cache, custom install button via beforeinstallprompt; no
+"unknown sources" warning, silent updates, no Google Play) and the requirement of identical look and feel.
+Operator verification 14:35: mobile already has react-native-web ^0.21 + react-dom + a `web` script (not a rewrite);
+native-only modules need web versions or cannot exist on web (Health Connect/HealthKit wearables, Expo push -> Web Push,
+expo-sqlite, Crisp native SDK, Stripe RN, biometric lock). /join/:code today sends Android users to a Google Play
+listing (com.growthproject.app). Facts sent to owner: Web Push works for installed PWAs on Android; Play organization
+accounts are exempt from the 12-tester rule (needs D-U-N-S + Google's $25 fee = spending, not authorized); US sideload
+developer verification not enforced until 2027; EAS Update Free covers 1,000 MAU (expo-updates not installed).
+Plan: lane S-PWA Phase 1 spike next free slot (handoffs/op-7c52cefa/lanes/S-PWA.md), build after owner go.
+Asked owner: one smart QR (device-aware /join/<code>) vs separate Android QR; OK that phone health-data sync is not in
+the Android web app v1.
+
 ## OPERATOR 2026-10-01 14:30 PDT: #625 Sol REQUEST CHANGES -> operator fix round 1 at f6c6c809
 - Sol on #625 @ 3647e785: REQUEST CHANGES, B-625-1 (candidate baseline could grow and accept its own drift) and C-625-2
   (verify-claim broader than checks). Migration SQL itself judged sound (complete inventory, bounded locks, RLS OK).
@@ -73,7 +87,7 @@ public pages), with a test that no other support address remains. App Store meta
   bffae5f3.
 - B-FEE relaunched in Sol's slot: fix_coach_payout_fee_math_s_fee_muq08m08 (Claude Opus 5.5), worktree
   wt/s-fee-backend.
-- Queue for the next free slots: S-DUNNING -> S-ENVTRUTH fix round (#624/#319) -> #317 fix round -> S-ERRORS ->
+- Queue for the next free slots (updated 14:35): S-PWA spike -> S-ENVTRUTH fix round (#624/#319) -> #317 fix round -> S-ERRORS ->
   S-COACH-TOOLS -> banner + Roman pitch -> S-SCHED -> #607/#609 restack.
 
 ## OWNER 2026-10-01 13:45 PDT: public code

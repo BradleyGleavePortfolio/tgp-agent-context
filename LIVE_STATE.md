@@ -36,6 +36,7 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 14:25 | iOS native day 1; Android v1.0 via a separate QR to an installable web app (PWA), identical feel | S-PWA spike queued next; QR form + Android wearables scope asked. |
 | 10-01 14:19 | Support email: Bradleyapple1031@gmail.com | One SUPPORT_EMAIL everywhere (mobile + backend public pages) via S-ERRORS after #306 merges. |
 | 10-01 13:45 | GP-BRADLEY is the public code | Bound to the $49/mo package at C04. |
 | 10-01 13:43 | "Cnacelling - option A" / "Lockout check: built, but not live - needs audited and tested, then flipped live!" | Voluntary cancel: access through paid period. Dunning v2 flip authorized after S-DUNNING dual audit + deploy + mobile lockout screen + Stripe preconditions. |
