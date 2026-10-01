@@ -6,6 +6,16 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:05 PDT (wall clock): #306 r7 at 33eec6bc; B-FEE #627 round 2 started
+- B-306 r7: Sol B-306-5 fixed (Google helper never returns a temporary user on backend failure; every login/signup
+  failure branch tabled), C-306-5 fixed (marker match: subject, else email, else no identity on both sides), Opus
+  C-306-8 copy fixed. 55 suites / 561 tests; new tests fail on 501a9e0 (19/57). CI green. Needs dual re-audit.
+- Attestor queues: Sol #626 -> #306 r7 -> #319 -> #624; Opus #626 -> #306 r7 -> #624.
+- B-FEE re-queued for #627 round 2 (15-min payout sweep with lock/idempotency/kill switch; merge main; migration
+  rename after 20270203000000_). Running 7/7: B-FIX, S-DUNNING, B-COPY, B-TRAIN, B-FEE, AUD-OPUS, AUD-SOL.
+- Queue for next free slots: B-RECIPES -> M-PLAY -> B-QUIZ-OFF -> #317 fix round -> S-ERRORS (after #306 merges) ->
+  S-COACH-TOOLS -> banner + Roman pitch -> S-SCHED -> release-env pre-build check.
+
 ## OPERATOR 2026-10-01 15:55 PDT (wall clock): B-ENVTRUTH done — #624 1159da9b (T4), mobile #319 0a2709e0 (T2)
 - Fixed Sol B-624-1/B-624-2 (found 4 unregistered DUNNING_* reads), Opus B-624-1 (malformed names masked), Sol
   B-319-1 (TS-parser guard), Opus C-319-1; registered #597/#622 env names after the rebase. CI green.
