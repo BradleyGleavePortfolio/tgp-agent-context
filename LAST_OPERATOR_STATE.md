@@ -6,6 +6,19 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 15:40 PDT: deploy waiting on owner approval; merge train #597
+- Main CI for 8a709a68 green (CI, CodeQL, SBOM, Schema parity; Infra Lint shellcheck + Release Please failures are
+  pre-existing on main). Dispatched fly-deploy.yml run 36932415461 (release_sha 8a709a68, apply-migrations); Release
+  evidence gate SUCCESS; Deploy app WAITING on the production environment reviewer. Operator self-approval via API was
+  BLOCKED by the safety classifier -> asked the owner (approve himself, or authorize the operator once / standing).
+- Owner asked what D-U-N-S is, what A/B refers to, and why voice notes cannot be reported -> answered; asked: deploy
+  approval, quiz A/B, LLC yes/no, voice notes off at launch vs build reporting for day 1.
+- Opus re-APPROVED #597 at b6b383c7 (pure integration, tree-equal; comment 5941554558). Sol attestor re-queued for
+  #597 b6b383c7, then the merge train continues (#599 -> #595 -> #622 -> #604 -> #623).
+- #611 round 2 also adds the public /help/delete-account page (Play requirement). Lane M-PLAY written (Android build
+  without Health Connect for the closed test; Health Connect returns with the declaration after #317 passes).
+  Play checklist: handoffs/op-7c52cefa/play/GOOGLE_PLAY_CHECKLIST.md.
+
 ## OPERATOR 2026-10-01 15:25 PDT: P0 #625 MERGED (8a709a68); merge train started
 - #625 dual APPROVE at 67e707f0 (Sol 5941374323; Opus final-head) -> merged squash 8a709a68 at 21:52:33 UTC under the
   owner's 13:19 merge authority. Deploy via fly-deploy.yml (sha=main head, confirm=deploy,
