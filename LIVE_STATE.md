@@ -25,6 +25,7 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 09:07 | Workout plans approved. Safety and consent messages approved. | Three-program fixture (sha256 be932a56...) approved for C04 seed with notes-level regressions (written cues instead of mismatched demos). Approved: D2 two-box consent copy, community guidelines incl. new rules 5 and 7, safety contact Bradley@Bradleytgpcoaching.com, 24-hour moderation commitment, consumer-health Consent section rewrite for D2. Copy changes go to #610/#314/#611/#315 before their audits. |
 | 10-01 08:28 | EXECUTE for everything workable under the agent rules and the PR grading contract (session 590e4a5b). Owner supplied the exact coach welcome message text. Asked for: Apple Sign in key guidance, Android APK install steps for a Mac + Samsung, a plain summary of the three programs, and the full privacy/consent text, community guidelines, safety contact email and 24-hour moderation commitment for approval. | Operator 590e4a5b is single writer. Welcome text is runtime data stored outside every repo (names the clinic partner); set at C04 via the owner endpoint. Readback decisions D1-D4 were not answered, so the operator's stated recommendations apply (see "Operator rulings 10-01" below). |
 | 09-30 18:14 | Hard cap of 8 concurrent agents; a sandbox crash is a tier-1 incident. | Operator enforces the cap and a priority queue. |
 | 09-30 18:11-18:15 | Coach welcome message auto-sent 13 minutes after onboarding (owner's exact text is runtime data set at bootstrap; it names the clinic partner, so it never enters a repo). Seeded community rooms: backlog, not v1.0. Workout reminders from the client's first-session day and preferred time. Coach sees every client's consultation answers, easily; forms are saved. Never-trackers get calories and protein only in week one, explained by Roman. Apple Health / Health Connect: prefill onboarding and import history on connect, fully tested. | Contract 'v1 additions' items 5-9; engagement and health-import builders queued. |
@@ -59,7 +60,7 @@ Two recurring terms:
 ## Operator rulings 10-01 (adopted by default under EXECUTE; owner may override)
 
 - **D1 Roman in v1.0:** scripted Roman only (tutorial, plan and macro explanations, reminders, welcome). Live Roman chat ships in 1.0.1. `EXPO_PUBLIC_FF_ROMAN_CHAT` stays off in the clinic profile; the Roman stack (#598/#601/#602/#603/#605) continues off the critical path.
-- **D2 consent (WA RCW 19.373):** same screen, two boxes. Box 1 required: training waiver plus collection and use of the client's health and fitness information for coaching (coach and TGP see it). Box 2 optional: Roman and coach AI drafts, with the data sent to Anthropic. Unticked box 2 means no AI processing of that client until they agree in Settings. Withdrawal of box 2 lives in Settings. Copy pending owner sign-off (sent 10-01).
+- **D2 consent (WA RCW 19.373):** same screen, two boxes. Box 1 required: training waiver plus collection and use of the client's health and fitness information for coaching (coach and TGP see it). Box 2 optional: Roman and coach AI drafts, with the data sent to Anthropic. Unticked box 2 means no AI processing of that client until they agree in Settings. Withdrawal of box 2 lives in Settings. Copy approved by the owner 10-01 09:07.
 - **D3 health prefill:** 1.0.1. v1.0 ships connect, history import and the health and sleep views.
 - **D4 role choice fallback:** if mobile #306 is not dual-approved by Fri 10-02 12:00 PDT, submit client-only (`SIGNUP_ROLE_CHOICE_ENABLED=false`); role choice in 1.0.1.
 
@@ -144,9 +145,9 @@ S01 #597 Sol attest; S02 #599 B1; S03 #595 rebase; S04 #604 A1; S05 Wave-1 deplo
 ### Owner asks (open, 10-01)
 
 1. Sign up in the Android test build (EAS 14a58449) today; the operator then runs C04.
-2. Approve the three workout programs by Fri 12:00 PDT.
+2. Done 10-01 09:07: three workout programs approved.
 3. Create the Sign in with Apple key (.p8) and set `APPLE_SIGNIN_KEY_ID` / `APPLE_SIGNIN_PRIVATE_KEY` on Fly.
-4. Sign off on consent text (two boxes), privacy and consumer health policy, community guidelines, safety contact email and the 24-hour moderation commitment.
+4. Done 10-01 09:07: consent text (two boxes), community guidelines, safety contact email, 24-hour moderation commitment approved (policy pages taken as approved with the D2 change; counsel review still recommended).
 5. Confirm EAS iOS credentials / App Store Connect API key.
 6. Two iPhone device passes (Friday evening, Saturday) through TestFlight.
 7. Received 10-01 08:28: coach welcome message text (runtime data, not in any repo).
