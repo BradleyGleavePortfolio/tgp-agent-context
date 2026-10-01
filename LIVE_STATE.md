@@ -36,6 +36,8 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 14:19 | Support email: Bradleyapple1031@gmail.com | One SUPPORT_EMAIL everywhere (mobile + backend public pages) via S-ERRORS after #306 merges. |
+| 10-01 13:45 | GP-BRADLEY is the public code | Bound to the $49/mo package at C04. |
 | 10-01 13:43 | "Cnacelling - option A" / "Lockout check: built, but not live - needs audited and tested, then flipped live!" | Voluntary cancel: access through paid period. Dunning v2 flip authorized after S-DUNNING dual audit + deploy + mobile lockout screen + Stripe preconditions. |
 | 10-01 13:41 | Stop billing keep access (coach option); voluntary cancel ends access; non-pay = 10-day lockout, make it live; coach daily signup count + new codes/QR; banner approved; Roman pitch for coachless; in-app Stripe (fight 3.1.3(d)). | Recorded in LAST_OPERATOR_STATE; lanes queued. |
 | 10-01 13:37 | "we qualify as personal training, 1:1 service - nothing more, nothing less ... we dont apply as 'info sellers' and i'll die on that hill!" | No Apple IAP for packages; App Review basis 3.1.3(d) one-to-one personal training; iOS sells no app features; checkout path choice (browser vs in-app Stripe) asked. |

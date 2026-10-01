@@ -6,6 +6,15 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER 2026-10-01 14:19 PDT: support email
+Owner answered the support-email question with "Bradleyapple1031@gmail.com" -> the single support contact everywhere users
+are told to email support. Today the code has three different addresses: mobile WelcomeScreen.tsx:69 and
+CreateAccountScreen.tsx (hello@thegrowthproject.app mailto), #306 SupportInboxScreen.tsx:33 SUPPORT_EMAIL
+(hello@thegrowthproject.app), backend src/public-pages/public-pages.html.ts:14 SUPPORT_EMAIL (hello@trygrowthproject.com,
+public help/contact pages). Plan: do not change #306's audited head; after #306 merges, lane S-ERRORS adds one
+SUPPORT_EMAIL constant per repo set to the owner's address and replaces every support mailto/text (mobile + backend
+public pages), with a test that no other support address remains. App Store metadata support email follows at C-submit.
+
 ## OPERATOR 2026-10-01 14:00 PDT: P0 PR #625 ready for audit; S-DUNNING launched
 - Backend #625 final head 3647e785 (T4): additive guarded single-transaction migration
   20270125000000_restore_schema_declared_objects (ListType enum, 10 columns, 4 tables, RLS server-only, $verify$ block
