@@ -138,7 +138,7 @@ public pages), with a test that no other support address remains. App Store meta
   bffae5f3.
 - B-FEE relaunched in Sol's slot: fix_coach_payout_fee_math_s_fee_muq08m08 (Claude Opus 5.5), worktree
   wt/s-fee-backend.
-- Queue for the next free slots (updated 14:40; S-PWA on hold): S-ENVTRUTH fix round (#624/#319) -> #317 fix round -> S-ERRORS ->
+- Queue for the next free slots (updated 15:00): #306 round 6 (re-queue B-306 builder) -> B-RECIPES (Opus C-625-1: recipes public platform-wide once #625 lands; launch blocker) -> S-ENVTRUTH fix round (#624/#319) -> #317 fix round -> S-ERRORS ->
   S-COACH-TOOLS -> banner + Roman pitch -> S-SCHED -> #607/#609 restack.
 
 ## OWNER 2026-10-01 13:45 PDT: public code
