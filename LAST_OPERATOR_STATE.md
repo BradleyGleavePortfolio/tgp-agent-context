@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 12:02 PDT (19:02 UTC). ALL AGENTS PAUSED. Commit time is authoritative.
+Updated: 2026-10-01 12:58 PDT (19:58 UTC). ALL AGENTS PAUSED. Owner decisions 12:51 recorded. Commit time is authoritative.
 
 Operator: Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)).
 Single writer for Bucket A (clinic launch) since the owner's EXECUTE at 2026-10-01 08:28 PDT. Companion file:
@@ -70,6 +70,68 @@ copied: contains private-repo diffs); unposted audits must be re-run.
 | backend #611 | `ced10667` | **RC** B-611-1 (community-AI purpose text ≠ implemented) | **RC** B-611-1 (two published claims not yet true in prod; fix is operator evidence, `trust-pages.html.ts:190,369`) | Fix/evidence round |
 | mobile #310 | `c9fc931d` | **RC** B-310-3 (untick during in-flight grant lost — privacy), B-310-4 (shutdown between completion and reveal skips tutorial handoff) | **RC** B-310-3 | B-310-1/2 closed; fix round 4 |
 | backend #597/#599/#595/#604 | see above | APPROVE (all four) | not started | Needs Opus second lens |
+
+## OWNER DECISIONS 2026-10-01 12:51 PDT + COACH-SIDE STATIC CHECK (operator 12:58)
+
+**Decisions (binding):**
+- **Roman sees client data in v1.0** (overrides D1 "scripted only"): "a super intelligent butler, coach's assistant, and
+  helper agent all-in-one". Needs R2b (AI consent enforcement: no client data to the AI without a live box-2 grant) and
+  the Roman grounding stack (#598/#601/#602/#603/#605) back on the critical path; T4 dual audits.
+- **Roman approve-to-adjust** ("Sarah's recovery dropped, cut tomorrow's volume 15%, approve, sir?"): today OFF and has no
+  brain (only deterministic coach prompts, `src/community/wearable-prompts/`, "consider a check-in"). To-do: build the
+  brain (wearable trend + training load → proposed change to the next workout), coach Approve/Edit/Dismiss that applies
+  the change through the workout builder, audit trail, box-2 gate; fix, audit (T4), then flip on.
+- **Wearables on day 1:** fix (#623/#317), audit, then flip FEATURE_WEARABLES_INGEST_POST and
+  FEATURE_COMMUNITY_WEARABLE_PROMPTS (and wire the orphaned coach prompts screen). All other launch flags on per ledger.
+- **Earnings screen dead = v1.0 blocker.** Money = one "command center" page swallowing Business metrics (TO-DO 2).
+  Lazy-dev note: `src/screens/coach/command-center/` (Overview, Inbox, ActionQueue, AtRisk, WinStreaks) already exists,
+  is barely reachable and has a mock-data switch (EXPO_PUBLIC_USE_MOCK_COMMAND_CENTER): reuse it as the Money/Business
+  command center instead of building a new page.
+- **Coach setup wizard (steps 2-5 hollow, no Stripe button) = day-1 blocker** (overrides "only if role choice ships").
+  Dependency: coaches can only reach it if in-app coach signup ships (#597 + #306, D4). Open owner question: is role choice
+  now must-ship (no client-only fallback)?
+- **Dunning v2 ON + Stripe customer portal tested end to end** before launch. **"Download my data" fixed** (storage, not /tmp).
+- Fee fix (#1) and $19.99 minimum: confirmed in S-FEE.
+- **Coach daily brief:** luxury, Roman-powered, once a day, "turn scattered info into highlights" ("Sir, we collected $x
+  last night. Sarah and 2 others messaged you. I have response drafts made. Good morning").
+- **Client list/detail:** easy search; tap into a client; see data, score, logs, wearables, billing; key info easy to find.
+- **Programs:** assign to specific clients + robust master workout builder + auto-assign options (TO-DO 6).
+- **Community = Telegram-style system** (spec below).
+
+**Coach-side static check (code on main; no device pass):**
+| Area | What exists | Gaps for v1.0 |
+|---|---|---|
+| Client list | `ClientsListScreen`: search box + status filter | No score/sort by risk or last active visible in list; unverified on device |
+| Client detail | Tabs: Summary, Timeline, Workouts, Progress, Meal plan, Food-log review, Health & Fitness, Sleep & Recovery, Weekly summary, Nudge; risk/insight screens exist separately | **No billing on client detail**; consultation answers only in S-REACH WIP; wearables AI panel hidden; "score" lives on separate Risk/Insight screens |
+| Assign programs | Per-client `CoachWorkoutBuilderScreen`; AI workout/meal drafts screens | Templates tab hard-coded; MWB library off; auto-assign = clinic #607 rule table only |
+| Coach brief | **Built**: backend `src/coach/brief/` calls Anthropic, daily cron (COACH_BRIEF_CRON), push (COACH_BRIEF_NOTIFICATIONS_ENABLED), inputs: check-ins, missed check-ins, workouts pending approval, paid today + revenue, dunning, flagged weights, unread messages, prioritized action items with deep links; mobile `CoachBriefScreen` (flag on in clinic profile) | **No reply drafts** (nothing generates message drafts); **no consent gate** (client names/details go to Anthropic without a box-2 check = R2b); COACH_BRIEF_ENABLED on Fly unverified; tone not yet "butler" |
+| Check-in review | Backend `coach-check-ins.controller.ts`; check-ins surface in Home/Brief/Insight/Risk | **No dedicated coach check-in review screen** |
+| Booking inbox | `CoachBookingInboxScreen` (S-SCHED WIP touches it) | Device pass |
+| Packages | List/Edit/Contents/Subscribers screens | 50c minimum (S-FEE); program attach UX unverified |
+| Stripe connect | `CoachConnectScreen` works (/v1/connect/accounts/*); Stripe Express collects bank + ID | Wizard has no Connect step |
+| Direct bank | payouts-v2 `payout-method` (Financial Connections / us_bank_account), FEATURE_BANK_PAYOUTS_V2 off | **Operator recommendation: no separate bank path in v1.0.** Stripe Express already asks for the bank account; frame the wizard step as "Add your bank to get paid (secured by Stripe)". Payouts-v2 later (ACH savings) after S-FEE. |
+
+**Community: Telegram-style coach system (refined goal state; operator proposal 12:58, owner to confirm):**
+- *Spaces:* (1) **1:1 DMs** coach-client (exists); (2) **Groups** coach + a few (small cohorts, couples, accountability
+  pods); (3) **Broadcast channels** coach to many (announcements, one-way with reactions/comments, scheduled and recurring);
+  (4) **Community boards** (topic threads, pinned resources/classroom, e.g. one board per program and one for all clinic
+  patients; exists as hall/cohorts).
+- *Telegram basics (day 1 where code exists, else OTA fast-follow):* realtime delivery, replies/quotes, reactions, photos,
+  read state, typing, @mentions, pins, mute, search, push with deep links, unread badges, block/report both ways.
+- *Coach superpowers:* **unified priority inbox** with Roman triage and reply drafts; **segments** (package, program, tag,
+  signup date, last active, risk) for targeted broadcasts; saved replies; **rich cards in chat** (workout, meal plan,
+  booking link, payment/package link, check-in form); voice notes; office-hours threads; polls; quiet hours; moderation
+  queue with the 24-hour commitment.
+- *Client side:* simple: Coach (DM), My group(s), Announcements, Boards; first names only to other members; leave or mute
+  any space.
+- v1.0 must-haves: DMs, clinic spaces (all patients + per program), broadcast announcements, push, unread, block/report.
+
+**Added to TO-DO (owner 12:51):** 20 Roman sees client data (R2b + grounding stack, T4); 21 Roman approve-to-adjust brain +
+coach approve UI (T4); 22 wearables fix-audit-flip incl. wearable prompts screen; 23 coach brief: reply drafts + butler
+tone + box-2 gate + verify COACH_BRIEF_ENABLED/cron on Fly; 24 client detail billing + score + consultation answers;
+25 coach check-in review screen; 26 Telegram-style community (spec above; v1.0 must-haves first); 27 Money command
+center reusing `command-center/`; 28 coach wizard day-1 (Stripe "add your bank" step); 29 dunning v2 + portal E2E test;
+30 data export to storage.
 
 ## V1.0 QUALITY COVERAGE GAPS (owner question 12:34 PDT; operator answer 12:40)
 
