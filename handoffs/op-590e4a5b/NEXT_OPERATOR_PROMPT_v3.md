@@ -160,7 +160,15 @@ tracks food, and groups people into community outreach paths. That system is TGP
 - The bar outranks the dates. Ask Bradley whether to slip submission or to submit what meets the bar and finish JS-only
   work over the air.
 
-**Deadlines (PDT):**
+**OWNER VERDICT 10-01 13:00, binding and above everything else in this prompt:**
+- Bradley: **"WE DO IT RIGHT, EVERYTHING DONE, OR WE FAIL. NO SHIPPING HALF ASSED SOFTWARE."**
+- Submission and go-live happen only when the entire launch scope meets the hyperscaler bar. The dates below are now
+  targets, not deadlines; they float until the bar is met.
+- No partial binary, and no "finish it over the air" for unfinished scope. Over-the-air updates are for post-launch fixes
+  only.
+- Bradley handles all communication with the clinic partner.
+
+**Deadlines (PDT, now targets):**
 
 | When | What |
 |---|---|
@@ -561,7 +569,22 @@ Stripe connect:** the screens exist; they need device passes.
 already collects the bank account, so frame the wizard step as "Add your bank to get paid (secured by Stripe)". Payouts-v2
 (Financial Connections) comes after S-FEE.
 
-**Community = a Telegram-style coach system** (operator proposal, owner to confirm). Four kinds of space:
+**Community/messaging: APPROVED 13:00, all on day 1.** "Best of both worlds, none of the bad, and then even more
+functionality." Full approved list (items 1-10) is in `LAST_OPERATOR_STATE.md` under "OWNER VERDICT 2026-10-01 13:00".
+In short:
+- one inbox (canonical 1:1 is `CoachMessage`);
+- community core on;
+- the June extras on, each after a device pass: events, classroom, challenges, polls, wearable prompts, search, voice;
+- photos (T4);
+- Telegram polish everywhere: full emoji reactions, swipe-reply, typing and presence, read state, mentions, pins, mute,
+  edit/delete, message search, offline queue;
+- segmented, scheduled and recurring broadcasts;
+- rich cards (workout, meal plan, booking, package, check-in);
+- Roman triage plus a reply draft for every unread message (box-2 gate);
+- blocking both ways, reporting, member privacy;
+- **you must bring more ideas** that beat Telegram and Skool for coaching.
+
+The original proposal follows, for reference. Community = a Telegram-style coach system. Four kinds of space:
 1. 1:1 DMs between coach and client;
 2. groups of the coach and a few clients;
 3. broadcast channels from the coach to many (scheduled and recurring);
@@ -953,7 +976,7 @@ and near-verbatim words). Anything superseded stays, marked superseded. Unrecord
 | 23 | Coach daily brief to luxury | Reply drafts, butler tone, box-2 gate, COACH_BRIEF_ENABLED and cron verified | T4 (AI + client data) | Day 1 | Built, gaps listed in 4.11 |
 | 24 | Client detail: billing + score + consultation answers; better list sort | Section 4.11 | T2 | Day 1 | Partly in S-REACH WIP |
 | 25 | Coach check-in review screen | One place to review and respond to check-ins | T2 | Day 1 | Missing |
-| 26 | Telegram-style community (v1.0 must-haves first) | Section 4.11 | T3/T4 (realtime, safety) | Must-haves day 1; rest via OTA | Community API off in prod |
+| 26 | Hybrid Skool + Telegram messaging, APPROVED 13:00, everything day 1 | Approved list items 1-10 in LAST_OPERATOR_STATE | T3/T4 | **Day 1, all of it** | Community API off in prod; photos, polish, segments, cards, drafts not built |
 | 27 | Money command center via existing `command-center/` | TO-DO 2 spec on live routes; Earnings dead routes retired | T2 | **Day-1 blocker** (owner) | Not started |
 | 28 | Coach wizard with "Add your bank to get paid" (Stripe Express) | Steps 2-5 real; first package; invite; checklist | T2 | **Day-1 blocker** (owner); needs role choice | Not started |
 | 29 | Dunning v2 + Stripe portal end-to-end test | Failed card → retries → portal update → recovered | T4 | **Day-1 blocker** | Waiting on Bradley's Stripe portal setting |

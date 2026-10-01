@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 12:58 PDT (19:58 UTC). ALL AGENTS PAUSED. Owner decisions 12:51 recorded. Commit time is authoritative.
+Updated: 2026-10-01 12:58 PDT (19:58 UTC). ALL AGENTS PAUSED. Owner decisions 12:51-13:00 recorded (VERDICT: do it right or fail; dates float until the bar is met). Commit time is authoritative.
 
 Operator: Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)).
 Single writer for Bucket A (clinic launch) since the owner's EXECUTE at 2026-10-01 08:28 PDT. Companion file:
@@ -70,6 +70,37 @@ copied: contains private-repo diffs); unposted audits must be re-run.
 | backend #611 | `ced10667` | **RC** B-611-1 (community-AI purpose text ≠ implemented) | **RC** B-611-1 (two published claims not yet true in prod; fix is operator evidence, `trust-pages.html.ts:190,369`) | Fix/evidence round |
 | mobile #310 | `c9fc931d` | **RC** B-310-3 (untick during in-flight grant lost — privacy), B-310-4 (shutdown between completion and reveal skips tutorial handoff) | **RC** B-310-3 | B-310-1/2 closed; fix round 4 |
 | backend #597/#599/#595/#604 | see above | APPROVE (all four) | not started | Needs Opus second lens |
+
+## OWNER VERDICT 2026-10-01 13:00 PDT (binding): DO IT RIGHT OR FAIL; MESSAGING PLAN APPROVED, ALL DAY 1
+
+- Bradley: "the plan above is great - I want the best of both worlds, none of the bad, and then even more functionality,
+  all on day 1 - get this put into documentation as approved." and "WE DO IT RIGHT, EVERYTHING DONE, OR WE FAIL. NO SHIPPING
+  HALF ASSED SOFTWARE. thats the verdict".
+- **Release rule:** submission and go-live happen only when everything in launch scope meets the hyperscaler bar. The Sat
+  10-03 submission and Wed 10-07 go-live dates are **no longer fixed**; they move to whenever the bar is met (owner's
+  answer to the A/B question = A). No partial binary, no "finish it over the air" for unfinished scope. The clinic
+  partner is informed by Bradley (operator never contacts the partner).
+- **APPROVED: TGP messaging = hybrid "Skool structure + Telegram-grade chat", everything on day 1:**
+  1. **One inbox:** coach-client 1:1 = `CoachMessage` (live system); community DMs off; every 1:1 in one place.
+  2. **Community core on** (after device pass): Hall, cohorts (All clinic patients + one per program + coach-defined
+     groups), posts, chat, threads, reactions, realtime, push, moderation queue (24-hour commitment), "coach saw this"
+     acks, plan-anchored messages.
+  3. **Keep and turn on the June extras** once each passes a device pass: events with RSVP/live/replay, classroom drip
+     lessons, challenges and wins, polls, wearable prompts, search, voice notes, AI triage.
+  4. **Photos** in DMs and community (T4: progress/health photos, storage, privacy, moderation, deletion/export).
+  5. **Telegram polish everywhere** (DMs and groups): reactions (full emoji picker, not a tiny allowlist), swipe-to-reply
+     and quotes, typing and presence, per-member read state, @mentions, pins, mute, edit/delete, message search,
+     unread badges, push deep links, fast optimistic send, offline queue.
+  6. **Broadcasts:** coach-to-many announcements with push, **segments** (package, program, cohort, tag, signup date,
+     last active, risk), **scheduled and recurring** sends.
+  7. **Rich cards in chat:** workout, meal plan, booking link (Calendar), package/payment link, check-in form.
+  8. **Roman in the inbox:** priority triage + a reply draft for every unread message (coach approves/edits), feeding the
+     daily brief; box-2 consent gate (R2b).
+  9. **Blocking hides content both ways; report on every message/post; client privacy** (first names to other members;
+     leave/mute any space).
+  10. **"Even more functionality":** the next operator must bring additional ideas (IDEA format) that beat Telegram/Skool
+      for coaching (e.g., saved replies UI on `MessageDraft` snippets, office-hours threads, quiet hours, translation).
+- Grading: every slice T3+ (realtime/contracts) and T4 where it touches photos, PII, consent, blocking or deletion.
 
 ## MESSAGING DEEP DIVE (operator 13:10 PDT, code on main, no device pass) + owner 12:57 "Bank decision is fine"
 
