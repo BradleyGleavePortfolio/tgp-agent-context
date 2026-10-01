@@ -6,6 +6,27 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 15:25 PDT: P0 #625 MERGED (8a709a68); merge train started
+- #625 dual APPROVE at 67e707f0 (Sol 5941374323; Opus final-head) -> merged squash 8a709a68 at 21:52:33 UTC under the
+  owner's 13:19 merge authority. Deploy via fly-deploy.yml (sha=main head, confirm=deploy,
+  apply-migrations=apply-migrations; production environment requires the owner account's approval, given via API)
+  once main CI for 8a709a68 is green. Then read-only verification (columns/tables exist; "archived_at" errors stop;
+  /health), then the owner retests signup.
+- Making "Schema parity (migrations match schema.prisma)" a required check was BLOCKED by the safety classifier without
+  explicit owner authorization -> asked the owner.
+- Opus lens final verdicts (report handoffs/op-7c52cefa/reports/AUD-OPUS.md): APPROVE backend #597 e3167fe7, #599
+  7b496aca, #595 e1dd4c39, #604 21ffc02c, #623 4cc366fc, #625 67e707f0, mobile #306 a81a6c8 (C-306-1 partial accepted:
+  wrong-copy-only), mobile #319 9080afad; REQUEST CHANGES mobile #317 (after sign-out server still shows connected; needs
+  Reconnect) and backend #624 (env report prints malformed env names verbatim). EXPO_PUBLIC_COACH_SIGNUP_SECRET is read
+  by nothing: delete from every EAS environment (owner/Expo action; operator can do it via Expo API if authorized).
+- Dual-approved but BEHIND main: backend #597, #599, #595, #604, #623, #622. Merge train (strict protection): update one
+  PR, both lenses delta-attest the new head, merge, next. Order: #597 -> #599 -> #595 -> #622 -> #604 -> #623.
+  #597 updated to b6b383c7; Opus re-queued as merge-train attestor; Sol attestor re-queued when a slot frees.
+- Play assets prepared: /home/user/workspace/play/tgp-play-icon-512.png, tgp-play-feature-graphic-1024x500.png.
+  Play blockers found: app.json requests 18 Health Connect read permissions incl. READ_HEALTH_DATA_IN_BACKGROUND + a
+  Samsung sensor permission (Play Health Connect declaration + review needed); no public account-deletion web page
+  (Play requires one); app display name "The Growth Project" vs listing "TGP Fitness".
+
 ## OPERATOR 2026-10-01 15:05 PDT: B-COPY done (#610 d1e1732f, #314 2f7789e, #611 3d008ffb); #306 r6 started
 - #610 backend two-way block complete (posts, comments, cohort messages, DMs, challenges, leaderboards, voice notes,
   roster, wins, search, Today, reactions, coach content; direct reads 404; writes refused), route-coverage regression
