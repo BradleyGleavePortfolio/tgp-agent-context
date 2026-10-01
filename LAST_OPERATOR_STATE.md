@@ -71,6 +71,19 @@ copied: contains private-repo diffs); unposted audits must be re-run.
 | mobile #310 | `c9fc931d` | **RC** B-310-3 (untick during in-flight grant lost — privacy), B-310-4 (shutdown between completion and reveal skips tutorial handoff) | **RC** B-310-3 | B-310-1/2 closed; fix round 4 |
 | backend #597/#599/#595/#604 | see above | APPROVE (all four) | not started | Needs Opus second lens |
 
+## OWNER DECISION 2026-10-01 12:55 PDT: NO CLIENT-ONLY FALLBACK; QUALITY BAR = HYPERSCALER
+
+- Bradley: "we cannot take a client only path - who would coach day 1 clients? Whats the purpose? I can be promoted server
+  side sure, but, id rather build the saas product right before im at 100k ARR and 100 clients revolving! DAY 1 BLOCKER
+  MEANS ANYTHING SUB-HYPERSCALER QUALITY!"
+- **D4 fallback is cancelled.** Role choice (backend #597 chain + mobile #306) and the coach path (setup wizard with
+  "Add your bank to get paid", first package, invite, Money command center) are **must-ship for day 1**.
+  `SIGNUP_ROLE_CHOICE_ENABLED` must be ON at launch; Fri 10-02 12:00 is no longer a fallback trigger.
+- **Definition of a day-1 blocker: anything below hyperscaler quality** on a launch surface (client or coach): broken,
+  fake, dead-end, confusing, slow, untrustworthy money, unverified on device. Graders apply this bar to every launch PR.
+- Consequence (operator): with agents paused for credits, the bar now outranks the Sat 10-03 submission date. Open owner
+  question: slip submission until the bar is met, or submit what meets the bar and finish JS-only work over the air.
+
 ## OWNER DECISIONS 2026-10-01 12:51 PDT + COACH-SIDE STATIC CHECK (operator 12:58)
 
 **Decisions (binding):**
@@ -378,7 +391,7 @@ are ready to hand to an agent when the owner says go: `/home/user/workspace/ops/
 - **D1:** scripted Roman only in v1.0; live Roman chat in 1.0.1 (Roman stack #598/#601/#602/#603/#605 off the critical path).
 - **D2:** two boxes on one screen; box 1 required (waiver + coaching data, `consult-consent-v2`), box 2 optional (AI drafts via Anthropic, `client-ai-v3`); withdrawal in Settings > Privacy > Roman and AI. The AI-consent ledger flag goes ON at the clinic deploy.
 - **D3:** health prefill of onboarding moves to 1.0.1; v1.0 ships connect, history import and the health/sleep views.
-- **D4:** if mobile #306 is not dual-approved by **Fri 10-02 12:00 PDT**, submit client-only and set `SIGNUP_ROLE_CHOICE_ENABLED=false` explicitly on Fly **before** #597 deploys (backend default is ON when unset).
+- ~~**D4:**~~ **CANCELLED by owner 12:55 (role choice is must-ship; no client-only path).** Old text: if mobile #306 is not dual-approved by **Fri 10-02 12:00 PDT**, submit client-only and set `SIGNUP_ROLE_CHOICE_ENABLED=false` explicitly on Fly **before** #597 deploys (backend default is ON when unset).
 - consult consent accepts `consult-consent-v2` only; #622 dunning-lockout allowlist = exactly GET /api/me/ai-consent, POST/DELETE /api/me/ai-consent/roman; #310 labels "Privacy" and "Delete account" plus a Privacy Policy link outside the hashed consent text.
 - #310 problem/paused screens get a minimal escape (Contact support mailto + Sign out).
 - Blocking must hide posts both ways so the approved line "If you block someone, they can no longer see your posts" is true (code changes to match the copy).

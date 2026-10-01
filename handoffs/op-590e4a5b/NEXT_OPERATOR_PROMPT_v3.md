@@ -149,11 +149,22 @@ tracks food, and groups people into community outreach paths. That system is TGP
    - shows the community chat space and how to message Bradley in the app;
    - shows how to connect wearables and where to see health and sleep data.
 
+**OWNER DECISION 10-01 12:55, binding:**
+- **There is no client-only fallback.** D4 is cancelled. Bradley: "we cannot take a client only path - who would coach day
+  1 clients? ... id rather build the saas product right before im at 100k ARR and 100 clients revolving!"
+- Role choice (#597 chain + #306) and the full coach path are must-ship, and `SIGNUP_ROLE_CHOICE_ENABLED` is ON at launch.
+  The coach path is the setup wizard with "Add your bank to get paid", the first package, the invite, and the Money
+  command center.
+- **"DAY 1 BLOCKER MEANS ANYTHING SUB-HYPERSCALER QUALITY!"** Grade every launch PR against that bar. Broken, fake,
+  dead-end, confusing, slow, untrustworthy-money or unverified-on-device all count as blockers.
+- The bar outranks the dates. Ask Bradley whether to slip submission or to submit what meets the bar and finish JS-only
+  work over the air.
+
 **Deadlines (PDT):**
 
 | When | What |
 |---|---|
-| Fri 10-02 12:00 | **D4 cutoff.** Role choice (backend #597 + mobile #306) is dual-approved, or the launch is client-only with `SIGNUP_ROLE_CHOICE_ENABLED=false` set on Fly before #597 deploys. Also the target for dual approvals across the critical path. |
+| Fri 10-02 12:00 | ~~D4 cutoff~~ (cancelled 12:55: role choice must ship). Target for dual approvals. Old text: **D4 cutoff.** Role choice (backend #597 + mobile #306) is dual-approved, or the launch is client-only with `SIGNUP_ROLE_CHOICE_ENABLED=false` set on Fly before #597 deploys. Also the target for dual approvals across the critical path. |
 | Fri 10-02 18:00 | Mobile flag set in the `eas.json` `clinic` profile locks. |
 | Fri evening | Wave-1 backend deploy of audited main through `fly-deploy.yml`; flag waves; clinic iOS and Android builds with OTA; device passes. |
 | Sat 10-03 | App Store submission. |
