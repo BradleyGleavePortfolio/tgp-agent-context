@@ -6,6 +6,24 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## P0 INCIDENT 2026-10-01 13:35 PDT: production database is missing schema objects (signup broken)
+
+Found with the owner's Supabase connector (connected 13:30; operator policy: READ-ONLY, SELECT and log queries only; every
+production change still goes through audited GitHub workflows). Production Supabase project `rpyfdsgxxltzutgqeouk`.
+- Postgres logs: "column User.archived_at does not exist" about 390 times per day since at least 09-29 (cron ticks and
+  every User read). The owner's signup at 13:25 PDT failed with it; the app showed the generic error. So production
+  signup, login and most User reads are broken today, and C02 never proved a working signup.
+- origin/main schema.prisma vs production: missing tables ListItem, Recipe, SavedRecipe, UserPreferences; missing columns
+  User.archived_at, UserProfile.{bio, weight_unit, meals_per_day, water_goal_oz, calorie_display, onboardingCompleted},
+  NotificationPreferences.{daily_checkin_enabled, weekly_summary_enabled, new_client_alerts}. No migration creates them
+  (schema-only edits since April, e.g. 69c80ee1 #35). The parity step in migration-dry-run.yml is grandfathered and not
+  required. Detail: handoffs/op-7c52cefa/prod_schema_drift_20261001.json.
+- Action: lane B-DRIFT (Claude Opus 5.5, T4) builds one additive idempotent migration + RLS + an enforced parity gate.
+  Then dual audit, merge, fly-deploy.yml, read-only verification, owner signup retest. Owner decision needed later: make
+  the parity check required on main.
+- Slot: lane B-FEE was cancelled at 13:37 (about 10 minutes of reading lost) to stay within 7 subagents; S-FEE restarts
+  from handoffs/op-7c52cefa/lanes/B-FEE.md in the next free slot.
+
 ## OWNER IDEOLOGY CHANGE 2026-10-01 13:28 PDT: open signup, coachless accounts are first-class
 
 Owner, near-verbatim: "WE DONT ALLOW SIGN-UP WITHOUT INVITE CODE? ... a coach cant create an account without a coaches
@@ -72,7 +90,8 @@ exact head, after a dependency check.
   | B-FIX | Claude Opus 5.5 | #310 r4, then #608/#313 fix round |
   | B-COPY | Claude Opus 5.5 | #610/#314 block both ways (from WIP 1f4e158), then #611 B-611-1 |
   | B-R2B | Claude Opus 5.5 | R2b AI consent gateway (stacked on #622) + S07b AI-path inventory |
-  | B-FEE | Claude Opus 5.5 | S-FEE fee math (PR1, T4) then $19.99 minimum (PR2, T3) |
+  | ~~B-FEE~~ | Claude Opus 5.5 | cancelled 13:37 for the P0; requeued first |
+  | B-DRIFT | Claude Opus 5.5 | P0 production schema drift migration + parity gate (13:38) |
   Next wave as slots free: S-SCHED + S-REACH resume (WIP branches), #607/#609 restack onto main, #624 pending_flags,
   messaging plan, Roman grounding stack, S-MWB, Money/wizard, data export, coach brief, #305 OTA, Sentry.
 - Expo: no new build started today after f5cac78e (Free plan; builds are batched). Next build after the next merge batch.

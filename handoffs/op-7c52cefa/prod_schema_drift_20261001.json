@@ -1,0 +1,26 @@
+{
+ "missing_tables": [
+  "UserPreferences",
+  "Recipe",
+  "SavedRecipe",
+  "ListItem"
+ ],
+ "missing_cols": {
+  "User": [
+   "archived_at"
+  ],
+  "UserProfile": [
+   "bio",
+   "weight_unit",
+   "meals_per_day",
+   "water_goal_oz",
+   "calorie_display",
+   "onboardingCompleted"
+  ],
+  "NotificationPreferences": [
+   "daily_checkin_enabled",
+   "weekly_summary_enabled",
+   "new_client_alerts"
+  ]
+ }
+}
