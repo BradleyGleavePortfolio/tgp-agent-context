@@ -6,6 +6,16 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 15:55 PDT (wall clock): B-ENVTRUTH done — #624 1159da9b (T4), mobile #319 0a2709e0 (T2)
+- Fixed Sol B-624-1/B-624-2 (found 4 unregistered DUNNING_* reads), Opus B-624-1 (malformed names masked), Sol
+  B-319-1 (TS-parser guard), Opus C-319-1; registered #597/#622 env names after the rebase. CI green.
+- Operator decisions: (1) leave calendar/wearable GitHub secrets unset for launch, drop 3 GOOGLE_OAUTH_* names later;
+  (2) wire --release-env as eas-build-pre-install in a separate T3 PR (queued, low); (3) EAS cleanup: delete
+  EXPO_PUBLIC_COACH_SIGNUP_SECRET (unused; Opus verified) — pending owner OK for the deletion + whether any server
+  secret shared its value; EXPO_PUBLIC_STRIPE_PK only AFTER #319 merges and a build uses the new name.
+- Sol re-queued: full T4 #626 -> #319 (T2) -> #624 delta. Opus on full T4 #626. Running 7/7: B-FIX, S-DUNNING, B-COPY,
+  B-306, B-TRAIN, AUD-OPUS, AUD-SOL. Next free slot -> B-FEE #627 round 2 (payout sweep schedule + migration rename).
+
 ## OPERATOR 2026-10-01 15:45 PDT (wall clock): B-FEE done — #627 (T4) 606b4760, #629 (T3) 32d81faa, mobile #321 (T3) 8bc4de3a
 - Coach payout = price - actual Stripe fee - TGP 2% (separate charges and transfers, on_behalf_of, source_transaction);
   refunds/disputes borne by the coach (transfer reversal, then next payout); $0/code grants never transfer. #629:
