@@ -6,6 +6,22 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:15 PDT: #597 + #622 merged; #626 on main; #306 r7; B-TRAIN launched
+- #597 dual APPROVE at b6b383c7 (Opus 5941554558, Sol 5941612037) -> merged bab05f44.
+- #622 dual APPROVE at 42f2013d (Opus 5941848049, Sol 5941843821) -> merged 10dff85c. Main = 10dff85c.
+- #626 (R2b): operator rebased the single R2b commit onto main (range-diff identical), retargeted base to main,
+  force-with-lease pushed -> head 360d8705. Needs a fresh dual T4 audit (never audited).
+- #306 r6 head 501a9e0b: Opus APPROVE (5941788926; new minor C-306-8 Google "not verified" copy); Sol REQUEST CHANGES
+  0/1/1 (5941803449: Google login/client backend-failure fallback drops descriptor/reference, no report; unknown-
+  identity marker gap). B-306 builder re-queued for round 7.
+- #599, #595, #604 conflict with main (#597 and #599 both reworked attachUserToCoachByCode). New builder B-TRAIN
+  (Opus, resolve_merge_conflicts_599_595_604_muq3qe8t, lane handoffs/op-7c52cefa/lanes/B-TRAIN.md) resolves them one
+  at a time with merge commits; both lenses then verify each resolution. #623 updates cleanly (after the conflicts).
+- Deploy run 36932415461 (8a709a68) still waiting for the owner's production approval.
+- Owner told: Play testers must be Android (iPhones test via TestFlight). Quiz question now A/B/C (C = switch off).
+- Running (7/7): B-FIX, B-FEE, S-DUNNING, B-ENVTRUTH, B-COPY (#611 r2), B-306 (r7), B-TRAIN. Attestors (Opus, Sol)
+  idle; re-queue both for #626 + #599 when a builder finishes.
+
 ## OPERATOR 2026-10-01 15:50 PDT: the quiz "roadmap" is a legacy income-positioning funnel
 - Owner asked what the roadmap is and when it was introduced. Facts: backend src/diagnostic (public, unauthenticated
   GET /diagnostic/questions, POST /diagnostic/submit, GET /diagnostic/:id) added 2026-05-06 in commit 30d56601 "PTM
