@@ -6,6 +6,19 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER 2026-10-01 14:28 PDT: Android = Google Play (option A); PWA scrapped
+Near-verbatim: "A- ive already setup a google play dev account - i jsut have no testers prepared! I'll figure that out
+tonight - How do I tell google 'I'm ready to test now!'" then "wait theres a way around it???" (12-tester rule).
+Operator answer: organization accounts are exempt; converting a personal account is possible (Play Help 13634888) but
+Play community experts say the rule still applies to apps after conversion; a new organization account needs a
+registered business + D-U-N-S (up to 30 days) + $25. Recommended: start the 12-tester closed test tonight (certain
+path); org account only if the owner already has an LLC with a D-U-N-S. Closed-test steps sent. Operator to prepare a
+Play Console setup checklist (listing, data safety, content rating, app access demo login, health apps declaration,
+account deletion URL) and the production .aab (EAS production profile, versionCode 4, appVersionSource local) after
+#625 deploys (testers and Google's reviewer need working signup/login) and ideally after #306 merges. eas-cli is not
+installed in this sandbox (108's tools/eas/eas.sh is gone); set it up through the Expo credential proxy.
+PWA lane S-PWA cancelled.
+
 ## OWNER 2026-10-01 14:26 PDT: "If its even going to be 1% worse, tell me, ill scrap it"
 Operator answer: the PWA IS worse than the native app in concrete ways (no Health Connect phone health data; auth tokens
 in browser storage instead of hardware-backed secure storage; no biometric lock; offline data can be cleared by the

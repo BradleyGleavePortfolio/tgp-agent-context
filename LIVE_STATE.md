@@ -36,6 +36,8 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 14:28 | Android via Google Play (A); existing dev account; owner recruits testers tonight | PWA scrapped. Closed test steps sent; operator prepares Play checklist + .aab after #625 deploys. |
+| 10-01 14:26 | "If its even going to be 1% worse, tell me, ill scrap it" | PWA is worse (health data, secure storage, biometrics, offline, smoothness); recommended scrap. |
 | 10-01 14:25 | iOS native day 1; Android v1.0 via a separate QR to an installable web app (PWA), identical feel | S-PWA spike queued next; QR form + Android wearables scope asked. |
 | 10-01 14:19 | Support email: Bradleyapple1031@gmail.com | One SUPPORT_EMAIL everywhere (mobile + backend public pages) via S-ERRORS after #306 merges. |
 | 10-01 13:45 | GP-BRADLEY is the public code | Bound to the $49/mo package at C04. |
