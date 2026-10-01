@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 11:45 PDT (18:45 UTC). Commit time is authoritative.
+Updated: 2026-10-01 12:02 PDT (19:02 UTC). ALL AGENTS PAUSED. Commit time is authoritative.
 
 Operator: Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)).
 Single writer for Bucket A (clinic launch) since the owner's EXECUTE at 2026-10-01 08:28 PDT. Companion file:
@@ -36,7 +36,42 @@ audits.
 
 ---
 
-## RUNNING SUBAGENTS AT 11:45 PDT (owner 11:39: let them finish, start nothing else)
+## ALL AGENTS PAUSED 2026-10-01 11:58 PDT (owner: "42.7k/45k credits used, get all agents to a safe paused place and commit their work")
+
+Operator cancelled all six running subagents at 11:58 PDT, stopped their test processes, and committed every builder's
+uncommitted work to **separate `wip/` branches** (PR heads untouched; WIP is NOT tested or audited):
+
+| Lane | Repo | WIP branch @ commit | What is in it |
+|---|---|---|---|
+| S-SCHED backend | backend | `wip/op590e4a5b-s-sched-be-20261001` @ `da4e660` | Session-type migration (welcome + meeting link), seed script for the 3 appointment types, booking/reminder/open-slot changes, concurrency live test |
+| S-SCHED mobile | mobile | `wip/op590e4a5b-s-sched-mob-20261001` @ `fa9959a` | Client Calendar screens (`src/screens/client/calendar/`, `src/calendar/`), tutorial Calendar step, coach appointment-types + time-off screens, push-tap routing; touches package.json/lock (expo-calendar) |
+| S-REACH mobile | mobile | `wip/op590e4a5b-s-reach-mob-20261001` @ `8e8b8b0` | Coach ClientConsultationScreen + API, Home quick links, nav reachability gates, More/Workout entry points, eas.json flags |
+| S-ENVTRUTH backend | backend | `wip/op590e4a5b-s-envtruth-be-20261001` @ `8bdb599` | fly-env-sync desired-state JSON + loader (`pending_flags`), env-validation, prod-switches, workflow spec (on top of pushed branch `agent/clinic/s-envtruth-backend`) |
+| S-ENVTRUTH mobile | mobile | branch `agent/clinic/s-envtruth-mobile` (clean, pushed) | no uncommitted work |
+| #610 block both ways | backend | `wip/op590e4a5b-copy-610-20261001` @ `1f4e158` | Two-way block read filters across community services + new `community-block-two-way.spec.ts` (on top of PR #610 head `b8ce8d35`) |
+| #314 / S-OTA | mobile | none | #314 worktree clean; S-OTA (#305) not started |
+
+Resume rule: a builder continues from its WIP branch, finishes, runs targeted tests via heavy.sh, then pushes to the real PR
+branch (or opens the PR). Auditors' partial notes stay in the operator sandbox (`/home/user/workspace/audit_sol_batch/`, not
+copied: contains private-repo diffs); unposted audits must be re-run.
+
+**Audit verdicts posted before the pause (exact heads, from PR comments):**
+
+| PR | Head | Sol | Opus | State |
+|---|---|---|---|---|
+| backend #607 | `245da2e7` | APPROVE (18:26Z) | APPROVE | **Dual-approved, merge-eligible after CI check** |
+| mobile #315 | `d9c2e669` | APPROVE | APPROVE | Dual-approved; ships with/after #611 |
+| mobile #318 | `7d24103` | APPROVE (T2) | n/a | **Merge-eligible** |
+| backend #622 | `fcb984f2` | (RC at old head 02c7187d) | APPROVE | Needs Sol re-audit at fcb984f2 |
+| backend #623 | `4cc366fc` | APPROVE | not posted | Needs Opus at 4cc366fc |
+| mobile #317 | `c7e35d84` | not posted | not posted | Needs both |
+| backend #608 | `b0beb076` | **RC**: B-608-9 (#622 AiProcessingConsent survives tombstoning, `account-deletion.manifest.ts:645-649`), B-608-10 (auth cleanup destroys completion signal; pairs with B-313-5), B-608-3 partial (running export can recreate health bytes after finalization) | not posted | Fix round needed |
+| mobile #313 | `11016305` | **RC**: B-313-5 (completion UX unreachable after normal backend cleanup) | APPROVE | Fix round (with #608) |
+| backend #611 | `ced10667` | **RC** B-611-1 (community-AI purpose text ≠ implemented) | **RC** B-611-1 (two published claims not yet true in prod; fix is operator evidence, `trust-pages.html.ts:190,369`) | Fix/evidence round |
+| mobile #310 | `c9fc931d` | **RC** B-310-3 (untick during in-flight grant lost — privacy), B-310-4 (shutdown between completion and reveal skips tutorial handoff) | **RC** B-310-3 | B-310-1/2 closed; fix round 4 |
+| backend #597/#599/#595/#604 | see above | APPROVE (all four) | not started | Needs Opus second lens |
+
+## RUNNING SUBAGENTS AT 11:45 PDT (superseded by the 11:58 pause above)
 
 No new agents, audits or fix rounds start after these finish. Each result is recorded in the table below as it lands.
 

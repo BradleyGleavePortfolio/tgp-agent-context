@@ -36,6 +36,8 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 11:57 | "42.7k/45k credits used, get all agents to a safe paused place and commit their work" | All 6 subagents cancelled 11:58; builder work committed to `wip/op590e4a5b-*` branches; verdicts and WIP table in LAST_OPERATOR_STATE "ALL AGENTS PAUSED". |
+| 10-01 11:39 | Let running subagents finish, record findings, start nothing else (credits). | Superseded by 11:57 pause. |
 | 10-01 09:53 | Owner tip: hunt keys named in code but never set / fake / empty values (H4 tests). | Env truth audit done (see Operator log); S-ENVTRUTH lane queued. |
 | 10-01 09:15 | Android APK crashes instantly on launch: hunt and fix. | Root cause Crisp 0.2.1 on SDK 56; fix #316; build f5cac78e. |
 | 10-01 09:07 | Workout plans approved. Safety and consent messages approved. | Three-program fixture (sha256 be932a56...) approved for C04 seed with notes-level regressions (written cues instead of mismatched demos). Approved: D2 two-box consent copy, community guidelines incl. new rules 5 and 7, safety contact Bradley@Bradleytgpcoaching.com, 24-hour moderation commitment, consumer-health Consent section rewrite for D2. Copy changes go to #610/#314/#611/#315 before their audits. |
