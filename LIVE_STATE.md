@@ -146,7 +146,7 @@ S01 #597 Sol attest; S02 #599 B1; S03 #595 rebase; S04 #604 A1; S05 Wave-1 deplo
 
 1. Sign up in the Android test build (EAS 14a58449) today; the operator then runs C04.
 2. Done 10-01 09:07: three workout programs approved.
-3. Create the Sign in with Apple key (.p8) and set `APPLE_SIGNIN_KEY_ID` / `APPLE_SIGNIN_PRIVATE_KEY` on Fly.
+3. Done 10-01 09:11: owner created the Sign in with Apple key and saved `APPLE_SIGNIN_KEY_ID` / `APPLE_SIGNIN_PRIVATE_KEY` as GitHub Actions secrets (backend repo). The operator pushes them to Fly with `fly-apple-signin-set.yml`, which ships inside #608 under its T4 audits.
 4. Done 10-01 09:07: consent text (two boxes), community guidelines, safety contact email, 24-hour moderation commitment approved (policy pages taken as approved with the D2 change; counsel review still recommended).
 5. Confirm EAS iOS credentials / App Store Connect API key.
 6. Two iPhone device passes (Friday evening, Saturday) through TestFlight.
