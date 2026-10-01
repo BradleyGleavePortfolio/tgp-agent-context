@@ -1,0 +1,50 @@
+diff --git a/.github/workflows/fly-feature-flags-set.yml b/.github/workflows/fly-feature-flags-set.yml
+index 9d7522c4..f4bfa54d 100644
+--- a/.github/workflows/fly-feature-flags-set.yml
++++ b/.github/workflows/fly-feature-flags-set.yml
+@@ -39,6 +39,17 @@ on:
+         description: Value for FEATURE_EXTENSION_PAIRING (true/false)
+         required: true
+         default: 'true'
++      feature_dunning_v2:
++        description: >-
++          Smart Dunning v2 (FEATURE_DUNNING_V2). unchanged = do not touch;
++          true = enable; unset = remove the secret (rollback to v1).
++        type: choice
++        required: true
++        default: unchanged
++        options:
++          - unchanged
++          - 'true'
++          - unset
+ 
+ permissions:
+   contents: read
+@@ -106,15 +117,26 @@ jobs:
+ 
+       - name: Push feature flags to Fly
+         env:
++          DUNNING_V2: ${{ inputs.feature_dunning_v2 }}
+           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+           APP: ${{ inputs.app }}
+           SCOUT: ${{ inputs.feature_scout_ingest }}
+           PAIRING: ${{ inputs.feature_extension_pairing }}
+         run: |
+           set +x
++          extra=()
++          case "${DUNNING_V2}" in
++            unchanged|unset) ;;
++            true) extra+=("FEATURE_DUNNING_V2=true") ;;
++            *) echo "::error::feature_dunning_v2 must be unchanged, true or unset."; exit 1 ;;
++          esac
+           flyctl secrets set -a "${APP}" \
+             FEATURE_SCOUT_INGEST="${SCOUT}" \
+-            FEATURE_EXTENSION_PAIRING="${PAIRING}"
++            FEATURE_EXTENSION_PAIRING="${PAIRING}" \
++            "${extra[@]}"
++          if [ "${DUNNING_V2}" = "unset" ]; then
++            flyctl secrets unset -a "${APP}" FEATURE_DUNNING_V2
++          fi
+ 
+       - name: Validate flag names exist on Fly
+         env:

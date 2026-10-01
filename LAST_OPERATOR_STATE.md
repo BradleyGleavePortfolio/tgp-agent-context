@@ -6,6 +6,22 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:30 PDT (wall clock): EAS secret deleted; S-DUNNING done (#628 691528a0, mobile #322 2d77399d)
+- Owner 16:22 "Yes delete it" -> deleted EXPO_PUBLIC_COACH_SIGNUP_SECRET (EAS id c0fa39cd, all 3 envs). Verified gone.
+- S-DUNNING: backend #628 (T4) + mobile #322 (T4), CI green, flag still OFF. Fixed F1 (v2 never triggered; v1 could
+  cancel on Day 7), F3 (pay deadlock -> never unlocked), F4 (unlock dismissed every user's notice), F5-F14 (lock by
+  lockout timestamp only; full access Day 0-9; export/deletion/coach thread reachable while locked; sweeps, cycle
+  start, refunds vs disputes, hard declines, status route, flag registration). Owner rules hold (voluntary cancel ->
+  access through paid period, never dunning; free/code grants never dunning).
+- OWNER DECISIONS asked: F15 (card update after Day 7 does not charge the open invoice; auto-charge = our code charging)
+  and cancel-while-in-dunning default (stays in dunning for the unpaid invoice vs void + end access).
+- Flip plan (operator only, after #628 deployed + #322 in a client build + owner's Stripe live settings + email
+  provider confirmed): apply S-DUNNING-flags-workflow.patch in its own PR (T4: CI/deploy workflow), set
+  FEATURE_DUNNING_V2=true on backend-spring-lake-3890 via audited workflow; rollback = unset. Stripe settings list in
+  handoffs/op-7c52cefa/reports/S-DUNNING.md.
+- B-TRAIN re-queued for #595 (main 53b625d2). Audits to queue: #628 + #322 (dual T4).
+- Running 7/7: B-FEE, B-RECIPES, M-PLAY, B-R2B, B-TRAIN, AUD-OPUS, AUD-SOL3.
+
 ## OWNER 2026-10-01 16:22 PDT: Play Console screenshot — no apps; "I guess my app was deleted on sept 30th by Google"
 - Screenshot: developer account "The Growth Project", Personal account, empty app list ("Create your first app"),
   Notifications bell flagged. Developer name = "The Growth Project" (matches #611 /help/delete-account; no change).
