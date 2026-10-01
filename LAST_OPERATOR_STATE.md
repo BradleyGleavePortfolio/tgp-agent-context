@@ -6,6 +6,19 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:45 PDT (wall clock): B-FIX done — #310 1d7cc72, #608 1175968, #313 4c6028d, NEW #320 1d16c10
+- #310 B-310-3/4, C-310-6/7 fixed (+ own find: consent retry under another user's session). #608/#313: B-608-9 (AI
+  ledger in erasure manifest), B-608-10 + B-313-5 (30-day hashed deletion receipt; 403 ACCOUNT_DELETED; public POST
+  /account-deletion/receipt), B-608-3 (export file cleanup + nightly sweep). Onboarding verdict: BROKEN — backend sends
+  profile.onboardingCompleted, mobile read onboarding_completed -> finished students redo onboarding on new
+  login/install; fix in new mobile #320 (T2). All CI green (shellcheck pre-existing).
+- Operator decisions: C-608-2 (admin force-delete without recent sign-in check) -> follow-up PR (queued);
+  C-313-5 (Apple-only accounts on Android cannot re-verify for deletion) -> the /help/delete-account email route in
+  #611 is the fallback; follow-up links it from the app (queued).
+- Launched AUD-SOL3 (second Sol lens): #320 -> #310 -> #608/#313 -> #611 -> #629/#321. Opus still owes T4 lens on
+  #310, #608, #313 (after #610/#314), then #627.
+- Running 7/7: S-DUNNING, B-FEE, B-RECIPES, M-PLAY, AUD-OPUS, AUD-SOL, AUD-SOL3.
+
 ## OPERATOR 2026-10-01 16:35 PDT (wall clock): Opus APPROVE #626, #306 r7, #599, #624
 - Opus: #626 360d8705 APPROVE 0/0/3 (5942230057; C-626-1 source-text guard not a hard boundary, C-626-2 AI output
   stored before withdrawal still served, C-626-3 triage empty without reason); #306 33eec6bc APPROVE 0/0/0 new
