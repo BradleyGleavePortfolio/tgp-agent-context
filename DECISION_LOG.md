@@ -1605,3 +1605,11 @@ docs are audit-exempt under R14; product-code slices are not.
 **Decision:** Commit author, committer, email, co-author metadata, and commit-message identity tokens are not acceptance criteria for TGP delivery. The extension commit-identity scan and backend `commit-msg` identity-token hook are removed. Existing non-identity safety checks remain in place; this decision does not relax source-quality, secret, dependency, conventional-commit, review, or runtime safety requirements.
 
 **Scope and rollback:** This is a workflow-gate removal only. Restore the removed checks with a revert if an owner-directed policy change is required later.
+
+## 2026-10-01 13:28 PDT — Open signup; coachless accounts are first-class (owner)
+- Decision: anyone can create an account with no invite or coach code; coaches sign up without a code; a client with no
+  coach is a valid state and can later enter a coach code or buy a package. Supersedes "by invitation only".
+- Why (owner): requiring a code blocks coaches from signing up and turns away people who have not picked a coach yet.
+- Consequences: remove invite-only copy from the welcome and signup screens; map known signup errors to specific copy;
+  build a coachless home (enter code, buy a package) with no dead ends.
+

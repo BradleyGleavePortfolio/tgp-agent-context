@@ -6,6 +6,25 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER IDEOLOGY CHANGE 2026-10-01 13:28 PDT: open signup, coachless accounts are first-class
+
+Owner, near-verbatim: "WE DONT ALLOW SIGN-UP WITHOUT INVITE CODE? ... a coach cant create an account without a coaches
+code... thats broken! Also, a coachless person should be able to exists and later enter a code or buy a package! Notate
+the change in idelogical state!"
+Supersedes the "by invitation only" positioning. New product rules:
+1. Anyone can create an account. No invite code or coach code is required for any role. Codes stay optional accelerators
+   (a code attaches the coach and the coach's free package at signup).
+2. Coaches sign up without any code (role choice, #597 chain + #306).
+3. A client with no coach is a valid, complete state, not an error. From that state they can later enter a coach code or
+   buy a package, and every screen they can reach works (no "No coach yet" dead ends).
+Facts at 13:30: production signup policy already says invite_code_required=false, coach_code_required=false. The
+mobile app still says "By invitation only. Without a code from your coach, request access." (WelcomeScreen.tsx:62) and
+titles signup "Join your coach" (CreateAccountScreen.tsx:388); both are now wrong. Known 4xx signup errors (e.g. 409
+"Email already registered") show the generic "Sign-in didn't complete. Please try again." (authErrorMessage.ts:96),
+which hides the fix from the user. Routed: signup copy + error mapping to lane B-306 (#306); coachless home (enter code,
+buy a package) is a wave-2 lane. Device evidence 13:29: build f5cac78e opens on the owner's Samsung (crash buffer shows
+only the 09:46 crash from the old APK).
+
 ## AGENT 109 TAKEOVER 2026-10-01 13:12 PDT: verified facts and corrections (read before the sections below)
 
 Owner 13:11: the EXECUTE doctrine is the operator's mentality, AGENT_RULES.md is the law, MODEL_ROUTING.md is how work is
