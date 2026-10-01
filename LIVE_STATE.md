@@ -190,3 +190,10 @@ S01 #597 Sol attest; S02 #599 B1; S03 #595 rebase; S04 #604 A1; S05 Wave-1 deplo
 - MERGED: mobile #316 (Crisp 0.4.3 crash fix) 53447a36; backend #606 (macros) be667142 (Sol+Opus APPROVE).
 - AUDITS: Opus approved #599/#595/#604/#607/#622/#606, REQUEST CHANGES #597 (B-597-2 pre-registered identity bind). Sol BLOCK #597 (A-597-1 unfenced OAuth binder), B-595-1 pending-grant revoke, B-607-4 CI gap (closed/reopened #599/#595/#604/#607/#609 to run full CI), #622 B-622-1/2/3, #623 B-623-1, #317 BLOCK (A-317-1 + B-317-1..4). Opus #310 REQUEST CHANGES (B-310-1/2). Fix rounds running: auth stack, #622, S14, #310, copy (#610/#314/#611/#315), env-truth.
 - EAS build f5cac78e (ff6bd4b) still IN_QUEUE (Free plan low-priority queue; Starter $19/mo = owner spending decision, offered).
+
+## Operator log 2026-10-01 10:46 PDT — owner decisions
+- Client Calendar = dedicated scheduling section (coaches, calendars/open slots, booking from coach's approved appointment types). Lane S-SCHED running (Opus builder). Roman tutorial gets a Calendar step after "message your coach" and ENDS with "Book your welcome call with <coach>". "Add to my calendar" (device calendar, no account linking) approved.
+- Day-1 appointment types (Bradley): Quick initialization 15 min (auto-approve; welcome call) / Quick Q/A Call 20 min (auto-approve) / Tele-Health Dietary/Fitness Check-in 45 min (coach approval). Operator default on confirm settings; owner may edit in-app.
+- Policy passages (#611 Roman and AI paras 1+3, Terms AI sentence) APPROVED 10:44.
+- Over-the-air updates (expo-updates / EAS Update, Free plan 1,000 MAU) APPROVED for the Saturday binary — lane S-OTA queued.
+- #610/#314 block semantics: make code match approved copy (block hides posts both ways) — queued fix round.
