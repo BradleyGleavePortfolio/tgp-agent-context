@@ -71,6 +71,34 @@ copied: contains private-repo diffs); unposted audits must be re-run.
 | mobile #310 | `c9fc931d` | **RC** B-310-3 (untick during in-flight grant lost — privacy), B-310-4 (shutdown between completion and reveal skips tutorial handoff) | **RC** B-310-3 | B-310-1/2 closed; fix round 4 |
 | backend #597/#599/#595/#604 | see above | APPROVE (all four) | not started | Needs Opus second lens |
 
+## MESSAGING DEEP DIVE (operator 13:10 PDT, code on main, no device pass) + owner 12:57 "Bank decision is fine"
+
+- **Bank: confirmed** (Stripe Express collects the bank; wizard step "Add your bank to get paid"; payouts-v2 after S-FEE).
+- **Three separate message systems exist:** (1) coach-client DMs (`src/messaging`, `CoachMessage`: text, voice notes,
+  read_at, unread count, reports, blocks, coach review, AI-drafted messages via the AI gateway `send-notification`
+  materialiser with coach approval (`PendingAiDraftsScreen`), saved drafts/snippets `MessageDraft`); live in prod (not
+  behind community flags). (2) Community v1 (June build, all flags OFF in prod): per-coach workspace; hall + cohorts
+  (groups with capacity/dates); roles coach/assistant/student; member mute/remove; cohort chat + community DMs
+  (`dm_key`); threads (`parent_message_id`); messages tagged to plan context (workout/week); coach seen/acked/replied
+  ("coach saw this" chips); posts (text, lesson, replay, poll, win; pinned; scheduled release/expiry; media asset);
+  emoji reactions (small allowlist); events with RSVP/live/replay; challenges; classroom drip lessons with media; wins;
+  search (posts, lessons, voice transcripts, events); moderation queue/actions; AI triage (classify only); wearable
+  prompts; Supabase Realtime broadcast; push; voice notes (separate flag). Mobile: Community tab (Today, Hall,
+  Challenges, DMs) + 15 client screens, 8 coach screens. Style: deliberately Skool-like "anti-Slack" (few fixed spaces,
+  coach-led, plan-anchored), per COMMUNITY_PRODUCT_PLAN (06-02). (3) Legacy `Message` model + Roman chat.
+- **Missing vs the Telegram-style goal:** photos/images in any chat (no image picker anywhere); reactions and swipe-reply
+  on coach DMs; typing/presence; @mentions; per-member read state in groups; segmented broadcasts (package, program, tag,
+  last active) and scheduled messages; rich cards for booking/payment; one unified inbox (coach DMs vs community DMs are
+  two places); AI reply drafts for every unread message (only churn win-back drafts and gateway drafts exist; correction
+  to the 12:58 "no reply drafts" note).
+- **Better than the 12:58 plan:** plan-anchored messages, coach acks, events with RSVP/replay, classroom drip lessons,
+  challenges/wins, wearable prompts, AI triage, moderation queue.
+- **Operator recommendation (owner to confirm):** one inbox (canonical 1:1 = `CoachMessage`; community DMs off for v1.0);
+  turn on community core (hall, cohorts, posts, messages, reactions, realtime, push, moderation, acks) after a device
+  pass; add photos to DMs and community (T4: health/progress photos, storage, moderation); reactions + swipe-reply +
+  typing on DMs; broadcast = hall announcement + push, cohort = segment for v1.0; Roman drafts + triage in the coach inbox.
+  Later: mentions, scheduled/segmented broadcasts, booking/payment cards.
+
 ## OWNER DECISION 2026-10-01 12:55 PDT: NO CLIENT-ONLY FALLBACK; QUALITY BAR = HYPERSCALER
 
 - Bradley: "we cannot take a client only path - who would coach day 1 clients? Whats the purpose? I can be promoted server
