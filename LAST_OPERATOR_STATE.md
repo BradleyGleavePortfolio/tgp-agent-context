@@ -6,6 +6,20 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:55 PDT (wall clock): #306 + #599 MERGED; #626 BLOCK -> fix round; #624 RC
+- Sol: #306 33eec6bc APPROVE (5942306209) + Opus APPROVE (5942285811) -> MERGED mobile 56d4fc62.
+- Sol: #599 8ae0fea5 APPROVE 0/0/1 (5942331604) + Opus APPROVE (5942356078) -> MERGED backend 53b625d2.
+- Sol: mobile #319 0a2709e0 APPROVE (T2; 5942349423) -> mobile strict: updated onto 56d4fc62 -> head 2dd63b98; needs
+  a Sol delta re-attestation, then merge. It reads EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY first, legacy name fallback.
+- Sol: #626 360d8705 BLOCK 2/1/0 (5942268351): SDK retries bypass withdrawal; self-only chat sends roster-peer content
+  and private coach notes; 503 lacks recovery action. Re-queued B-R2B builder (build_ai_consent_enforcement_r2b_mupzg5ja)
+  for the fix round incl. Opus C-626-1 (ai-egress sole SDK constructor), C-626-2/3 if small.
+- Sol: #624 1159da9b REQUEST CHANGES 0/1/0 (5942409972): B-624-3 failure-log redaction exposes whitespace-separated
+  secret fragments. Re-queue B-ENVTRUTH (fix_round_624_319_env_truth_muq278g7) when a slot frees.
+- Unblocked by #306: S-ERRORS (support email everywhere). Unblocked by #599: B-TRAIN #595 next.
+- Running 7/7: S-DUNNING, B-FEE, B-RECIPES, M-PLAY, AUD-OPUS, AUD-SOL3, B-R2B. Waiting for slots, in order:
+  B-TRAIN #595 -> AUD-SOL #319 delta -> B-ENVTRUTH #624 -> S-ERRORS -> B-QUIZ-OFF -> #317 -> S-COACH-TOOLS.
+
 ## OPERATOR 2026-10-01 16:45 PDT (wall clock): B-FIX done — #310 1d7cc72, #608 1175968, #313 4c6028d, NEW #320 1d16c10
 - #310 B-310-3/4, C-310-6/7 fixed (+ own find: consent retry under another user's session). #608/#313: B-608-9 (AI
   ledger in erasure manifest), B-608-10 + B-313-5 (30-day hashed deletion receipt; 403 ACCOUNT_DELETED; public POST
