@@ -6,6 +6,11 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER 2026-10-01 13:35 PDT: two identical packages (free clinic, $49/mo public)
+"I specifically need two packages - identical, but one is $49/mo and ones free. Make this code for a diff package?"
+Design with defaults: handoffs/op-7c52cefa/TWO_PACKAGE_DESIGN.md (uses #595 code->package binding; free twin stays
+unpublished so it can only be granted by the clinic code). Waiting for owner OK on its section 4.
+
 ## OWNER DECISIONS 2026-10-01 13:34 PDT: coachless banner, marketplace is v2, no generic errors
 
 Near-verbatim: "for V1.0 - Lets go with a simple banner at top of homepage thats like an alert 'Enter coach code for
