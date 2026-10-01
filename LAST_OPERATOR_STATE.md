@@ -6,6 +6,15 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:25 PDT (wall clock): #599 resolved (8ae0fea5); M-PLAY launched
+- B-TRAIN resolved #599 against main 10dff85c: 894263f5 pure resolution (claimed patch-id equal to audited
+  e3167fe7..7b496aca) + 8ae0fea5 one extra commit (single coach-cannot-redeem constant/message, restored warn log).
+  9/9 required checks green. Operator applied the PR body (builder's gh pr edit was classifier-blocked). Both lenses
+  queued for #599 after #306 r7. B-TRAIN idle until #599 merges, then #595, then #604.
+- M-PLAY launched (android_test_build_without_health_connect_muq4wj99, GPT-6.1 Sol).
+- Running 7/7: B-FIX, S-DUNNING, B-FEE, B-RECIPES, M-PLAY, AUD-OPUS, AUD-SOL.
+- Attestor queues: Sol #626 -> #306 r7 -> #599 -> #319 -> #624; Opus #626 -> #306 r7 -> #599 -> #624.
+
 ## OPERATOR 2026-10-01 16:15 PDT (wall clock): #611 r2 done (e5777735); B-RECIPES launched
 - #611 round 2: owner-approved box-2 sentence restored byte-exact (matches ced10667; no re-approval needed); triage
   text says only box-2 members are sorted; public GET /help/delete-account (Play requirement; in-app paths from
