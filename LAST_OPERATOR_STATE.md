@@ -44,6 +44,19 @@ heavy.sh, disk checked every block. Standing merge authority for PRs with their 
 exact head, after a dependency check.
 - MERGED mobile #318 (Android FCM google-services.json, T2, Sol APPROVE at 7d24103b, required checks green, up to date)
   as `c4963f87` 20:20 UTC. Rung: merged (not in any build yet).
+- WAVE 1 launched 13:27 PDT (7 subagents; objectives in handoffs/op-7c52cefa/lanes/; shared deps install started 13:21):
+  | Lane | Model | Scope |
+  |---|---|---|
+  | AUD-OPUS | Claude Opus 5.5 | Opus lens: auth chain #597/#599/#595/#604, #623, #317, #624/#319 |
+  | AUD-SOL | GPT-6.1 Sol | Sol lens: #622 re-audit, #317, #624/#319 |
+  | B-306 | Claude Opus 5.5 | mobile #306 fix round 5 (+ signup_pending) |
+  | B-FIX | Claude Opus 5.5 | #310 r4, then #608/#313 fix round |
+  | B-COPY | Claude Opus 5.5 | #610/#314 block both ways (from WIP 1f4e158), then #611 B-611-1 |
+  | B-R2B | Claude Opus 5.5 | R2b AI consent gateway (stacked on #622) + S07b AI-path inventory |
+  | B-FEE | Claude Opus 5.5 | S-FEE fee math (PR1, T4) then $19.99 minimum (PR2, T3) |
+  Next wave as slots free: S-SCHED + S-REACH resume (WIP branches), #607/#609 restack onto main, #624 pending_flags,
+  messaging plan, Roman grounding stack, S-MWB, Money/wizard, data export, coach brief, #305 OTA, Sentry.
+- Expo: no new build started today after f5cac78e (Free plan; builds are batched). Next build after the next merge batch.
 
 ---
 
