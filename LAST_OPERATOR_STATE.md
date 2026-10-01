@@ -6,6 +6,22 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 13:50 PDT: AUD-SOL wave 1 done; B-FEE relaunched
+- Backend #622 @ fcb984f2: Sol APPROVE 0/0/0 (comment 5939918167); Opus APPROVE already on the same head. Both final-head
+  T4 attestations present. PR is BEHIND main (be667142). Plan: merge the P0 drift fix first, then update #622 and get
+  delta attestations at the new head, then merge; B-R2B (stacked on fcb984f2) rebases onto main after that.
+- Mobile #317 @ c7e35d84: Sol BLOCK 1/1/0 (comment 5939974918): pending native permission can cross accounts; partial
+  imports falsely signal completion. Needs a fix round.
+- Backend #624 @ c82f2548: Sol REQUEST CHANGES 0/2/0 (comment 5940127416): staged-name post-check fails successful
+  staging; env-registration gate misses indirect reads. Mobile #319 @ 9080afad: Sol REQUEST CHANGES 0/1/0 (comment
+  5940200490): comment-shaped text inside strings hides runtime reads from the manifest gate. Need a fix round.
+- Note: backend main is be667142 (#606 merged 17:37 UTC by the owner account, before takeover); production still runs
+  bffae5f3.
+- B-FEE relaunched in Sol's slot: fix_coach_payout_fee_math_s_fee_muq08m08 (Claude Opus 5.5), worktree
+  wt/s-fee-backend.
+- Queue for the next free slots: S-DUNNING -> S-ENVTRUTH fix round (#624/#319) -> #317 fix round -> S-ERRORS ->
+  S-COACH-TOOLS -> banner + Roman pitch -> S-SCHED -> #607/#609 restack.
+
 ## OWNER 2026-10-01 13:45 PDT: public code
 "GP-BRADLEY is great" -> the owner's public code is GP-BRADLEY, bound to the $49/mo package (grant_mode none); used by
 the coachless banner and Roman's pitch through server config. Set up at C04 after the P0 fix and auth chain deploy.

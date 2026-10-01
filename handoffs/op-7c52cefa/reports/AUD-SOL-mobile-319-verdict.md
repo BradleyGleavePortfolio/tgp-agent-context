@@ -1,0 +1,34 @@
+AUDIT GPT-6.1 Sol — growth-project-mobile#319 @ 9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275 — VERDICT: REQUEST CHANGES
+
+**Open A/B/C: 0/1/0.** Full 12-file diff inspected against `53447a36d630b5594cfde6e14c9fd47c2ab2b402`; no earlier independent verdict on this PR to close. [Exact PR](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/319)
+
+### B-319-1 — comment stripping silently hides real runtime reads from the new required manifest guard
+
+`scripts/check-expected-env.js:79-99` removes comment-shaped text with regular expressions before matching env reads, without distinguishing string literals from actual comments. [Scanner](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/scripts/check-expected-env.js#L79-L101)
+
+These syntactically valid runtime sources each contain the supported literal `process.env.EXPO_PUBLIC_AUDIT_UNKNOWN`, but the source-loaded matcher returns **zero reads**:
+
+```js
+const note = "coach // note"; const key = process.env.EXPO_PUBLIC_AUDIT_UNKNOWN;
+const a = "/*"; const key = process.env.EXPO_PUBLIC_AUDIT_UNKNOWN; const b = "*/";
+```
+
+The line-comment regex deletes everything after the `//` inside the first string, while the block-comment regex deletes the live read between two unrelated strings in the second case. [Defective transforms](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/scripts/check-expected-env.js#L80-L89)
+
+I also executed the real repository-level `check()` against a local mini-repository containing the first fixture and an empty manifest: **`errors: [], reads: []`**; conversely, the harmless string `"process.env.EXPO_PUBLIC_AUDIT_GHOST"` is misclassified as a runtime read. [Composed guard](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/scripts/check-expected-env.js#L135-L167)
+
+This is a material false-negative in the new CI invariant, not an assertion that a currently shipped env name is missing; G07 requires trusted scans to examine their intended source and fail closed. [CI contract](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/.github/workflows/ci.yml#L47-L50) [G07](https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/b1a542938863bd043f6140ff4ea779d216420147/AGENT_RULES.md#L65-L70)
+
+**Minimal fix:** use a syntax-aware parser/tokenizer for real member/call expressions and actual comments (or otherwise fail closed), rather than deleting string contents with comment regexes. Add negative fixtures for comment-shaped strings, fake read text in strings, and ordinary supported literal reads after those strings; prove an undeclared real read fails the CLI while harmless text does not create a ghost key.
+
+### Verified repairs, boundaries, and evidence
+
+- Stripe resolver prefers a trimmed canonical value, falls back to the legacy name on blank/unset, and returns empty when neither exists; both reads are literal Expo-inlinable members and the existing consumer still refuses empty keys before the checkout request. [Resolver](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/src/config/stripe.ts#L15-L19) [Consumer](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/src/components/PackageSelectionSheet.tsx#L276-L301)
+- I ran the actual installed `babel-preset-expo` release transform with a Metro/iOS release caller on this exact resolver, then evaluated the output with **no `process` global**: canonical-wins, blank-canonical fallback, and both-missing cases all passed with both env reads inlined. This is release-transform evidence, not a native/EAS build or successful payment. [Literal release reads](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/src/config/stripe.ts)
+- Prior cross-PR C-316-2 shim issue is closed: stale Crisp module shim removed and mock no longer invents `hide`; exact-head CI typechecks against package-provided types. [Removal diff](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/319/files) [CI typecheck](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/36906465121/job/110518139807)
+- Independent local `ops/heavy.sh npx jest --runInBand scripts/__tests__/expectedEnv.test.js scripts/__tests__/expoModuleGradleGuard.test.js src/config/__tests__/stripePublishableKey.test.ts` → **3 suites / 24 tests passed** using shared READY deps, no install and **no `EXPO_MODULE_GUARD_ROOT` override**; the real installed tree contains Crisp 0.4.3, and direct CLIs report **30 Expo modules / 56 env names OK**. The green env fixtures do not cover B-319-1. [Targeted specs](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/scripts/__tests__/expectedEnv.test.js) [Gradle install-tree assertion](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/scripts/__tests__/expoModuleGradleGuard.test.js#L39-L50)
+- Exact-head CI required checks all green; actual execution **375 suites / 5,014 tests passed**, including new specs, genuine installed-tree guard and manifest CLI after `npm ci`; no override is configured in the workflow. [CI execution](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/36906465121/job/110518139807) [CI steps](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/.github/workflows/ci.yml#L19-L50)
+- Mobile diff adds no production-secret workflow or value-log/artifact path; FCM service-account key is described separately as an EAS-side credential, not shipped as an `EXPO_PUBLIC_*` variable. Actual EAS credential presence and binary delivery remain unverified by this source audit. [Manifest](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/9080afadc4ff4a69c6ea1fd1c8a626dd2fbf9275/config/expected-env.json#L284-L293)
+- Independent adversarial command `node ops/reports/AUD-SOL-319-adversarial-probes.cjs` → exit 0 / `AUDIT_PROBES_COMPLETE`, meaning B-319-1 reproduced, not a safety-suite PASS; `ops/heavy.sh node ops/reports/AUD-SOL-319-babel-probes.cjs` → `EXPO_RELEASE_TRANSFORM_PROBES_PASS`, with synthetic keys only and no network. [Audited scanner and resolver](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/319)
+
+**Operator next action:** repair B-319-1 with syntax-aware negative tests, then exact-head audit/CI; do not confuse this inventory/lookup change with production credential or native-payment acceptance.
