@@ -157,8 +157,7 @@ tracks food, and groups people into community outreach paths. That system is TGP
   command center.
 - **"DAY 1 BLOCKER MEANS ANYTHING SUB-HYPERSCALER QUALITY!"** Grade every launch PR against that bar. Broken, fake,
   dead-end, confusing, slow, untrustworthy-money or unverified-on-device all count as blockers.
-- The bar outranks the dates. Ask Bradley whether to slip submission or to submit what meets the bar and finish JS-only
-  work over the air.
+- The bar outranks the dates. ANSWERED 13:00: the dates slip until the bar is met (see the verdict below).
 
 **OWNER VERDICT 10-01 13:00, binding and above everything else in this prompt:**
 - Bradley: **"WE DO IT RIGHT, EVERYTHING DONE, OR WE FAIL. NO SHIPPING HALF ASSED SOFTWARE."**
@@ -176,7 +175,7 @@ tracks food, and groups people into community outreach paths. That system is TGP
 | Fri 10-02 18:00 | Mobile flag set in the `eas.json` `clinic` profile locks. |
 | Fri evening | Wave-1 backend deploy of audited main through `fly-deploy.yml`; flag waves; clinic iOS and Android builds with OTA; device passes. |
 | Sat 10-03 | App Store submission. |
-| Wed 10-07 | **Clinic go-live ("day 1").** Anything that missed the binary ships over the air, if it is JavaScript-only and audited. |
+| Wed 10-07 | **Clinic go-live ("day 1"), now a target.** Superseded 13:00: nothing unfinished ships, not even over the air; the date moves instead. |
 
 Bradley authorized (09-30 16:38) production deploys of audited main commits, production flag and setting changes, and the
 C04 production data setup through 10-07. He also authorized submitting to App Review as soon as release QA passes.
@@ -184,6 +183,39 @@ C04 production data setup through 10-07. He also authorized submitting to App Re
 ---
 
 ## 3. First hour: read, verify, read back
+
+### 3.0 You are starting fresh: bootstrap first
+
+You have no memory of this project and a brand-new sandbox: no repos, no `ops/` files, no worktrees. Everything that
+matters is in GitHub. Do this before anything else:
+
+1. **Set up the workspace.**
+   - `mkdir -p /home/user/workspace/{repos,wt,ops}`.
+   - Clone `growth-project-backend`, `growth-project-mobile` and `tgp-agent-context` from `BradleyGleavePortfolio` into
+     `repos/` (GitHub works through `api_credentials=["github"]`).
+   - Copy `tgp-agent-context/handoffs/op-590e4a5b/{heavy.sh,AGENT_BRIEF_COMMON.md,STACK_RANGES.md,CONSENT_D2_CONTRACT.md}`
+     and `lanes/` into `/home/user/workspace/ops/`, and `chmod +x ops/heavy.sh`. The brief and the lane objectives
+     reference those paths.
+2. **Credentials.** List the credentials available to your session.
+   - If the Expo token isn't listed, ask Bradley to add or approve it through the secure credential form (host
+     `api.expo.dev`, bearer). Never ask him to paste a secret in chat.
+   - GitHub needs no setup.
+3. **Memory.** Search memory for Bradley's preferences. It holds his release rule (do it right or fail), his fee rule
+   (TGP never loses money on a sale), the coach "aha" definition, and "stay on Expo Free".
+4. **Old agents are gone.** The 590e4a5b subagents are cancelled and their IDs are dead. Agents you start report to you.
+   Their unfinished code is on `wip/op590e4a5b-*` branches. Their unposted audit notes were sandbox-only and are lost;
+   re-run those audits.
+5. **Gotchas 108 hit:**
+   - The sandbox is 2 CPU, 7 GB RAM and a 20 GB disk.
+   - `pkill -f <pattern>` kills your own shell when the pattern appears in your command. Use `pgrep`, then kill PIDs.
+   - Fly secret names (never values) come from the `fly-secrets-list.yml` workflow. Flags and settings change only through
+     the audited workflows (`fly-feature-flags-set.yml`, fly-env-sync once merged, `fly-deploy.yml` for deploys).
+   - Expo state comes from `https://api.expo.dev/graphql` with the Expo credential:
+     - build: `builds { byId(buildId:"…") { status artifacts { buildUrl } } }`;
+     - FCM key: `app { byId(appId:"a12c3345-cc8c-4c2c-9c57-711c10a57c1c") { androidAppCredentials { googleServiceAccountKeyForFcmV1 { id } } } }`.
+   - After retargeting a stacked PR to main, close and reopen it so the required checks run.
+   - Auditors post exactly one verdict comment per PR at the exact head SHA.
+   - Bradley types fast, with typos and caps when frustrated. Read for intent; never comment on it.
 
 ### 3.1 Read word for word, in this order
 
@@ -303,7 +335,7 @@ EXECUTE that Bradley can override. When building, treat this as the spec.
     hides Google.
 - **Role choice at sign-up (R-ROLE-CHOICE-1, 09-30 11:44):** anyone who downloads can choose client or coach, and each
   role gets its own onboarding.
-  - **D4 (OR):** dual approval of #597 + #306 by Fri 12:00, or ship client-only with the flag explicitly false.
+  - ~~D4~~ CANCELLED 12:55: no client-only path. #597 + #306 must be dual-approved and shipped; the flag is ON at launch.
 - **Registration never deletes identities** (fix for Sol A-597-1). A pre-existing unconfirmed identity binds only with
   password proof; otherwise the API returns `409 signup_pending`, shown as: "Check your email to finish signing up, or
   reset your password." That copy belongs in #306 r5.
@@ -466,7 +498,7 @@ receive first client payment — aha, that's how I run my biz."
   5. a Home checklist ending in the existing first-payment celebration (`FirstPaymentWowHost`,
      `EXPO_PUBLIC_FF_ROMAN_FIRST_PAYMENT_WOW`).
 - The current wizard (`CoachWizardNavigator`) steps 2-5 are hollow.
-- Needed on day 1 only if role choice ships (D4); otherwise 1.0.1.
+- **Day-1 blocker** (owner 12:51/12:55); role choice is must-ship, so the wizard is always reachable.
 - The coach tutorial is a later, required priority (09-30 11:47).
 
 ### 4.8 Master workout builder: "Programs" (10-01 11:31)
@@ -509,10 +541,10 @@ audited fly-env-sync manifest. Verify each on Bradley's account right after it f
   - `FEATURE_MWB_TEMPLATES`, `FEATURE_MWB_AUTOSAVE_UNDO` and `FEATURE_NAMED_REGIMES`, when the Programs UI lands;
   - `FEATURE_DUNNING_V2`, after Bradley enables the Stripe customer portal in live mode;
   - `GOOGLE_CLIENT_IDS`;
-  - `SIGNUP_ROLE_CHOICE_ENABLED` per D4.
+  - `SIGNUP_ROLE_CHOICE_ENABLED` ON at launch (owner 12:55).
 - `FEATURE_MWB_AI_LIVE_CREATE`: after R2b.
 - **Stay off:**
-  - Roman live chat (D1);
+  - Roman live chat. OPEN: Bradley's 12:51 "super intelligent butler" direction may pull it into v1.0; ask him once R2b and the grounding stack are on track;
   - bank and treasury payouts (until S-FEE);
   - Google Calendar, Meet and Zoom;
   - the wearables AI panel;
@@ -604,7 +636,7 @@ Coach superpowers:
 v1.0 must-haves: DMs, clinic spaces, broadcast announcements, push, unread counts, block/report.
 
 **Open owner question:** the wizard is a day-1 blocker, but coaches only reach it if in-app coach sign-up ships (#597 +
-#306). Is role choice now must-ship, with no client-only fallback?
+#306). ANSWERED 12:55: yes, it is must-ship, with no client-only fallback.
 
 ---
 
@@ -654,7 +686,7 @@ v1.0 must-haves: DMs, clinic spaces, broadcast announcements, push, unread count
 - **Copy builder:** #610/#314 block both ways, then S-OTA (#305 onto main plus the clinic channel).
 
 ### Waiting, no agent
-- **#306 r5:** Sol B-306-1/2/3, Opus B-306-1, C-306-1..3, plus the `signup_pending` copy. **D4 is at stake.**
+- **#306 r5:** Sol B-306-1/2/3, Opus B-306-1, C-306-1..3, plus the `signup_pending` copy. **Must-ship; there is no fallback.**
 - Audits of #609/#312.
 - S-FEE, S-MWB, S-MONEY, billing placement, R2b, coach wizard.
 - Sentry native init (pre-JS crashes are invisible).
@@ -736,7 +768,7 @@ Orient → decide (pre-build review) → grade → delegate (within budget) → 
 re-audit the exact new head → integrate → verify on the real journey → record → continue.
 
 - **Pick work by deadline and journey impact.** Priority order: anything that makes a guardrail step fail on day 1, then
-  D4 and App Review blockers, then day-1 flags and features, then 1.0.1.
+  role-choice and App Review blockers, then day-1 flags and features. Nothing in launch scope is optional (verdict 13:00).
 - **S-FEE is Bradley's #1 issue.** It doesn't block clinic go-live (the package is free), so when budget allows it runs
   alongside the deadline audits, not instead of them. If the budget allows only one agent, ask him which goes first,
   with your recommendation (section 11).
@@ -897,9 +929,9 @@ A merged PR is not live. An orphaned screen is not a feature.
 | One design is 70% smaller and meets the same spec | ACT | Choose it and record why. |
 | Stripe mechanism for the fee rule (separate charges and transfers vs fee-inclusive application fee) | ACT | Pick with evidence; both satisfy his rule; T4 dual audit. |
 | Change the 2% take rate, add a client surcharge, change the $19.99 minimum | ASK | It changes the business model. |
-| #306 not dual-approved by Fri 12:00 | ACT | Apply D4: client-only and the flag false, then tell him. |
-| A day-1 flag can't meet its gate by Wed | ASK | Recommend: slip the feature, ship it via OTA after the gate, or a narrower version. |
-| Credits allow one agent: S-FEE or the auth-chain Opus lens | ASK | Recommend the Opus lens first (D4 deadline; the fee has zero loss until a paid sale), then S-FEE. |
+| #306 not dual-approved by Fri 12:00 | ACT | Keep fixing and re-auditing. There is no fallback; the launch date moves (verdict 13:00). Tell him the new realistic date. |
+| A day-1 feature can't meet the bar by the target date | ACT + inform | The launch waits; nothing ships half-done. Tell him the new realistic date and what is blocking it. |
+| Credits allow one agent: S-FEE or the auth-chain Opus lens | ASK | Recommend the Opus lens first (role choice is must-ship and gates the whole coach path; the fee has zero loss until a paid sale), then S-FEE. |
 | Tests pass but the device build crashes | ACT | Fix it; the journey isn't done. |
 | App Review notes need a legal claim about health data | ASK | It's an external commitment; draft it, recommend wording, get his OK. |
 | A builder proposes a better tutorial step | Bring as an IDEA | Use the format below. |
@@ -952,13 +984,13 @@ and near-verbatim words). Anything superseded stays, marked superseded. Unrecord
 
 | # | Item | Goal state | Tier | Deadline / why | Status at handoff |
 |---|---|---|---|---|---|
-| 1 | Opus second lens on the auth chain #597/#599/#595/#604 | Dual-approved at exact heads, then merged and in Wave-1 deploy | T4 | D4, Fri 12:00 | Sol approved all four; Opus not started |
-| 2 | #306 fix round 5 + dual audit | All findings closed; `signup_pending` copy; dual approval, or D4 fallback | T4 | D4, Fri 12:00 | Objective staged in `lanes/306_r5_objective.md` |
+| 1 | Opus second lens on the auth chain #597/#599/#595/#604 | Dual-approved at exact heads, then merged and in Wave-1 deploy | T4 | Must-ship (target Fri) | Sol approved all four; Opus not started |
+| 2 | #306 fix round 5 + dual audit | All findings closed; `signup_pending` copy; dual approval (no fallback) | T4 | Must-ship (target Fri) | Objective staged in `lanes/306_r5_objective.md` |
 | 3 | Close the audit batches running at handoff | Every PR in section 5 at dual approval (T4) or its tier; fix rounds for any findings | per PR | Fri 12:00 target | Running (590e4a5b) |
 | 4 | Audit S-SCHED, S-REACH, S-ENVTRUTH PRs when they land | Tier-appropriate audits; merge; fly-env-sync run; `pending_flags` applied | T2/T3 | Fri | Builders running |
 | 5 | Wave-1 deploy + flag waves A/B (section 4.9) | Each flag verified on Bradley's account after flipping | operator | Fri evening to Wed | Waiting on 1, 3, 4 |
 | 6 | Working Android build → Bradley signs up → C04 bootstrap | Coach account, free package, 3 programs, welcome text, appointment types, clinic spaces, QR code | operator | Before device passes | Build `f5cac78e` queued; FCM key pending |
-| 7 | C11 App Store package + clinic iOS build + TestFlight + 2 device passes | Submitted Sat with OTA channel | operator + T3 (#305) | Sat 10-03 | Inputs in `docs.zip`; #305 in copy builder queue |
+| 7 | C11 App Store package + clinic iOS build + TestFlight + 2 device passes | Submitted only when the whole scope meets the bar (target Sat); the binary includes the OTA channel | operator + T3 (#305) | Sat 10-03 | Inputs in `docs.zip`; #305 in copy builder queue |
 | 8 | **S-FEE: fee rule in checkout** (#1 MASSIVE ISSUE) | Coach payout = price − actual Stripe fee − 2%; TGP never negative; refunds, disputes, international; coach breakdown; reconciliation tests | T4 | Before any paid sale | Objective staged |
 | 9 | $19.99-or-free minimum | Backend validation + mobile editor message | T3 | With S-FEE | In S-FEE objective |
 | 10 | S-MWB Programs phase 1 + MWB flags | Section 4.8 phase 1 live day 1 | T2/T3 | Wed 10-07 (owner: day 1) | Objective staged |
@@ -981,7 +1013,7 @@ and near-verbatim words). Anything superseded stays, marked superseded. Unrecord
 | 28 | Coach wizard with "Add your bank to get paid" (Stripe Express) | Steps 2-5 real; first package; invite; checklist | T2 | **Day-1 blocker** (owner); needs role choice | Not started |
 | 29 | Dunning v2 + Stripe portal end-to-end test | Failed card → retries → portal update → recovered | T4 | **Day-1 blocker** | Waiting on Bradley's Stripe portal setting |
 | 30 | Data export to storage | Replaces item 18 | T4 | **Day-1 blocker** | Not started |
-| 19 | Backlog / 1.0.1 | Live Roman chat (D1); health prefill (D3); coach tutorial; Roman AI spend cap R9; seeded community rooms; MWB auto-assign rules; landing page; Android ≤13 Health Connect rationale screen; dedicated message for clients whose coach was deleted; remove unused `COACH_SIGNUP_SECRET`; background wearables sync | various | After go-live | Logged |
+| 19 | Backlog / 1.0.1 | Live Roman chat (OPEN: may move into v1.0 under the 12:51 butler direction; ask); health prefill (D3); coach tutorial; Roman AI spend cap R9; seeded community rooms; MWB auto-assign rules; landing page; Android ≤13 Health Connect rationale screen; dedicated message for clients whose coach was deleted; remove unused `COACH_SIGNUP_SECRET`; background wearables sync | various | After go-live | Logged |
 
 When Bradley gives a budget, use the staged objectives in `handoffs/op-590e4a5b/lanes/` and the common brief. Put each
 lane's exclusions in its brief.
