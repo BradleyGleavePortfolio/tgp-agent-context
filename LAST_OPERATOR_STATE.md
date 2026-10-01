@@ -1,11 +1,79 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 10:55 PDT (17:55 UTC). Commit time is authoritative.
+Updated: 2026-10-01 11:50 PDT (18:50 UTC). Commit time is authoritative.
 
 Operator: Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)).
 Single writer for Bucket A (clinic launch) since the owner's EXECUTE at 2026-10-01 08:28 PDT. Companion file:
 [LIVE_STATE.md](LIVE_STATE.md) (running log, owner directions table, slice table). This file is the contextual
 snapshot a successor operator should read first. The previous contents of this file (importer operator 5754504f,
 2026-09-30 03:32 UTC) are kept verbatim at the bottom under "Superseded".
+
+---
+
+## #1 MASSIVE ISSUE (owner, 2026-10-01 11:29 PDT): fee math loses TGP money on every paid sale
+
+**What is wrong.** The owner's ruling (09-30 17:53) is: the client pays the listed price; the coach's payout is the price
+minus card processing minus TGP's 2%. The live checkout does not do that. `src/checkout/checkout.service.ts` creates Stripe
+**destination charges** (`transfer_data[destination]` = coach's connected account) with an application fee from
+`src/connect/fees/fee-policy.service.ts` = a flat **200 bps (2%)**. With destination charges Stripe debits its processing
+fee from the **platform** balance, not the coach's. So the coach receives price - 2%, and TGP pays about 2.9% + 30c out of
+its 2%: on a $100 sale TGP keeps $2.00 and pays about $3.20, about -$1.20 per sale. International cards, currency
+conversion, refunds (Stripe keeps the original fee) and disputes ($15) make it worse.
+
+**What already exists.** `src/payouts-v2/platform-fee.service.ts` implements the correct formula
+(`coach_net = amount - platform_fee - stripe_fee`, platform_fee = 2% + 50% of rail savings for ACH), but it is wired
+only into the payouts-v2 module (behind `FEATURE_BANK_PAYOUTS_V2`, OFF) and is not used by checkout.
+
+**Impact today.** Zero dollars lost so far: no paid sales exist in production and the clinic package is free. It becomes
+real the first time any coach sells a paid package.
+
+**Fix (lane S-FEE, T4, next free slot, owner priority #1).** Make checkout use the owner's formula exactly, with TGP never
+net-negative on any charge. The builder picks the Stripe mechanism with evidence, e.g. separate charges and transfers
+(transfer = amount - actual `balance_transaction.fee` - 2% after the charge settles; subscriptions via `invoice.paid`) or a
+fee-inclusive application fee with post-settlement reconciliation. Requirements: exact actual Stripe fee per charge,
+refunds and disputes handled without TGP loss, coach-facing breakdown (price, processing, TGP 2%, net), reconciliation
+tests for one-time and recurring charges and for international cards, and no change for free packages. Two independent
+audits.
+
+---
+
+## TO-DO (owner, 2026-10-01 11:29 PDT), with explanations
+
+1. **Coach Earnings screen is broken (must fix).** `src/screens/coach/CoachEarningsScreen.tsx` reads six routes from backend
+   PR #216 (`GET /v1/coach/earnings`, `/v1/coach/payouts/readiness`, `/v1/coach/payouts`, `/v1/coach/reconciliation`,
+   `/v1/coach/refunds`, `POST /v1/coach/dashboard-link`). #216 was closed and never merged, so all six return 404 in
+   production (operator probes 11:20 PDT). The screen treats 404 as "not set up", so a coach always sees "Connect Stripe"
+   and "Earnings will appear once paid", even after connecting and being paid, and "Open Stripe dashboard" fails. Live
+   routes that hold the real data: `GET /v1/coach/payments/earnings`, `GET /v1/coach/payments/purchases`,
+   `GET /coach/connect/{status,metrics,payouts}`, `POST /v1/connect/accounts/dashboard-link`. Fix: fold Earnings into the
+   new Money page (item 2), wired to live routes; retire the dead calls.
+2. **TGP Money page (owner concept: a coach's CFO summary).** Income today / 30d / 90d / YTD, clients charged, failed
+   payments with dunning status, without duplicating other screens. Operator proposal sent to owner 11:50 PDT; build
+   lane S-MONEY after owner picks placement.
+3. **Package minimum price.** Code allows 50c (`src/packages/packages.service.ts:543`). Owner rule: $19.99 minimum or
+   free. Enforce in backend validation and in the mobile package editor (clear inline message). Rides with S-FEE as a
+   separate T3 PR.
+4. **Card update and billing management placement (client).** Today: More > Membership > Packages > Update card (three
+   levels down, under "Membership"). Operator research-based proposal sent 11:50 PDT: a top-level "Billing & payments"
+   entry in client profile/settings showing card on file, next charge, receipts, update card (Stripe portal
+   `payment_method_update` deep link) and cancel; the same card and next charge on the package card; a Home banner and a
+   push when a payment fails or the card is about to expire, one tap to update; dunning emails link to the same flow.
+   Owner-side Stripe check: customer portal must be enabled in live mode.
+5. **Coach onboarding = the coach "aha" (owner).** The aha is: 1) connect Stripe or bank, 2) invite a client, 3) receive the
+   first client payment. The current coach wizard (`src/navigation/CoachWizardNavigator.tsx`) steps 2-5 have no inputs and
+   step 5 has no Connect button. Rebuild: practice basics, then "Get paid" (Stripe Express hosted onboarding, which collects
+   the bank account and ID; bank-first framing via Financial Connections when payouts-v2 is on), then first package
+   (prefilled, $19.99+ or free), then invite first client (link/QR share), then a Home checklist that ends with the
+   existing first-payment celebration (`FirstPaymentWowHost`, flag `EXPO_PUBLIC_FF_ROMAN_FIRST_PAYMENT_WOW`, off).
+   Lane S-MONEY (mobile).
+6. **Master workout builder (owner asked to check).** Findings: the single-workout builder (`CoachWorkoutBuilderScreen`,
+   backend `/workout-plans` routes live) works on paper but opens only from one client's page, and there is no list of a
+   coach's saved workouts. The coach "Templates" tab is four hard-coded text protocols (Fat Loss, Lean Bulk, ...) applied as
+   text guidelines, not programs. Multi-week programs exist on the server (`/workout-programs` fork/clone/clone-to-client/
+   assignments) but no screen creates or edits them; the clinic's three programs come from the seed fixture (C04).
+   Proposal to owner: a "Programs" library replacing the Templates tab (list, edit weeks/days by reusing the workout
+   builder, assign), sized for 1.0.1 unless owner pulls it forward.
+7. **Expo plan: stay on Free (owner, 11:29 PDT).** No upgrade; accept the slow build queue. Batch builds: one clinic iOS
+   build + one Android build for the Saturday binary, no exploratory rebuilds.
 
 ---
 
