@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-10-01 10:12 PDT (commit time is authoritative)
+- **Updated:** 2026-10-01 11:40 PDT (commit time is authoritative)
 - **Operator:** Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)), agent 108. Single writer for Bucket A since the owner's EXECUTE at 2026-10-01 08:28 PDT. Session c712e04d is retired as writer (silent since about 19:10 PDT 09-30; its thread is not readable from this session). Its working files that never reached GitHub (onboarding contract v1, `clinic_ops/BRIEF.md`) are lost; this file and the PR bodies are the recovered authority.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
@@ -197,3 +197,12 @@ S01 #597 Sol attest; S02 #599 B1; S03 #595 rebase; S04 #604 A1; S05 Wave-1 deplo
 - Policy passages (#611 Roman and AI paras 1+3, Terms AI sentence) APPROVED 10:44.
 - Over-the-air updates (expo-updates / EAS Update, Free plan 1,000 MAU) APPROVED for the Saturday binary — lane S-OTA queued.
 - #610/#314 block semantics: make code match approved copy (block hides posts both ways) — queued fix round.
+
+## Operator log 2026-10-01 11:40 PDT
+- Android push: old Firebase project `tgp-fitness` sits under an org with `iam.disableServiceAccountKeyCreation`; moved to `project-2c2ffa46-a1eb-4f5c-b68` (owner's auto-created org `bradleyapple1031-org`, id 91537824097). Owner set project-level override (legacy constraint Not enforced); key creation still failing at 11:06 (propagation or managed constraint). Mobile #318 swaps google-services.json (T2; in Sol batch). EAS FCM V1 key still null.
+- Build `f5cac78e` (preview APK, Crisp fix) IN_QUEUE since 09:51 PDT on Free plan (3/30 builds used; EAS status operational). Starter plan = owner spending decision, re-offered.
+- Fix rounds landed: #310 c9fc931d (Opus B/C closed by builder), #622 fcb984f2, #608 b0beb076, #623 4cc366fc + #317 c7e35d84, #597 e3167fe7 / #599 7b496aca / #595 e1dd4c39 / #604 21ffc02c.
+- Audits in flight: Sol batch (#310, #318, #611/#315, #607 CI, #313, #608, #623/#317); Opus batch (#310, #622, #611/#315, #608, #623/#317); Sol auth chain (#597/#599/#595/#604). Opus auth-chain re-audit queued for next slot, then #306 r5 builder (must handle new 409 `signup_pending`: "check your email or reset your password").
+- Operator rulings: #597 adoption marker signed with SUPABASE_SERVICE_ROLE_KEY (no new env var), auditors to confirm domain separation; S14 order = deploy #623, flip FEATURE_WEARABLES_INGEST_POST after dual approval + #604 settled, then owner device pass.
+- New lanes: S-REACH builder running (reachability map, wire working features, hide broken, coach consultation-answers view); copy builder re-queued for #610/#314 block-both-ways then S-OTA (#305 onto main + clinic channel).
+- Money audit (see LAST_OPERATOR_STATE §5): no TGP Money page; Earnings screen calls 6 routes that 404 in prod; fee math loses ~0.9%+30c per paid sale vs owner ruling; 50c min vs $19.99; coach wizard steps 2-5 hollow. Lane S-MONEY queued after S-REACH; clinic launch unaffected (free package).
