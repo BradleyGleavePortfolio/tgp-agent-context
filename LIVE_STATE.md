@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-09-30 18:05 PDT (commit time is authoritative)
+- **Updated:** 2026-09-30 18:40 PDT (commit time is authoritative)
 - **Operator:** Computer, session c712e04d ([thread](https://www.perplexity.ai/computer/tasks/c712e04d-91da-4589-b9b1-50d5663183a9)). Single writer for Bucket A since EXECUTE at 16:32 PDT. Session f32d73ae is dead (owner, 16:31); its unpublished plans reached this session as owner-extracted documents.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
@@ -18,6 +18,8 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 09-30 18:14 | Hard cap of 8 concurrent agents; a sandbox crash is a tier-1 incident. | Operator enforces the cap and a priority queue. |
+| 09-30 18:11-18:15 | Coach welcome message auto-sent 13 minutes after onboarding (owner's exact text is runtime data set at bootstrap; it names the clinic partner, so it never enters a repo). Seeded community rooms: backlog, not v1.0. Workout reminders from the client's first-session day and preferred time. Coach sees every client's consultation answers, easily; forms are saved. Never-trackers get calories and protein only in week one, explained by Roman. Apple Health / Health Connect: prefill onboarding and import history on connect, fully tested. | Contract 'v1 additions' items 5-9; engagement and health-import builders queued. |
 | 09-30 17:53 | Coach payments (day X): client pays the listed price; the coach's payout is the price minus card processing minus TGP's 2% (no client surcharge). Minimum paid price $19.99, or free. Stripe's dashboard link stays, tucked under Earnings as "Payout settings"; TGP's own Money page is the default money screen. | Supersedes approval-packet defaults #14, #16, #17. |
 | 09-30 17:42 | Minimum age stays 16+. Roman chats are stored in the database but never visible to coaches in any app surface or API; only the client and developers with direct database access can read them (180-day retention and client delete stand). All other prototype decision defaults stand except where overridden by owner rulings. | R2/R3 builder told; consent and privacy copy must say chats are private from the coach and staff access is for support, safety and debugging only. |
 | 09-30 16:53 | Replace the T0-T4 model routing doctrine with the owner's updated version. T0/T1 GPT-6 Luna, T2 GPT-6.1 Sol, T3 Claude Opus 5.5, T4 Claude Opus 5.5 + GPT-6.1 Sol. | [MODEL_ROUTING.md](MODEL_ROUTING.md) is now canonical. |
@@ -82,8 +84,8 @@ Two recurring terms:
 | M2 core polish, iOS purchase hiding | T4 | prior builder | [mobile #304](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/304) | Fresh audit running (GPT-6.1 Sol); second audit queued |
 | M3 expo-updates | T3 | prior builder | [mobile #305](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/305) | Fresh audit running |
 | M4 role choice UI | T4 | Claude Fable 5.1 (started before the routing update) | [mobile #306](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/306) | Fix round for 5 findings running |
-| M5 supabase-js pin (Android build blocker) | T2 | prior builder | [mobile #307](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/307) | Fresh audit running |
-| Roman canonical face | T1 | operator | pending | Canonical art plus sha256 pin test |
+| M5 supabase-js pin (Android build blocker) | T2 | prior builder | [mobile #307](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/307) | Merged `b5c29790` (GPT-6.1 Sol APPROVE, CI green) |
+| Roman canonical face | T1 | operator | [mobile #308](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/308) | GPT-6.1 Sol APPROVE; merging after branch update |
 | C04 production bootstrap | T4 | operator | n/a | Waiting on the owner's account (Android build tonight) |
 | C05 consultation onboarding and intake storage | T3 mobile / T4 storage | queued | n/a | Spec: owner-extracted prototype (87 screens) |
 | C06 macros single source of truth | T3 | queued | n/a | Fix the profile contract; one calculator; floors 1,200/1,500 |
