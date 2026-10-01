@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 11:58 PDT (18:58 UTC). Commit time is authoritative.
+Updated: 2026-10-01 11:45 PDT (18:45 UTC). Commit time is authoritative.
 
 Operator: Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)).
 Single writer for Bucket A (clinic launch) since the owner's EXECUTE at 2026-10-01 08:28 PDT. Companion file:
@@ -33,6 +33,26 @@ fee-inclusive application fee with post-settlement reconciliation. Requirements:
 refunds and disputes handled without TGP loss, coach-facing breakdown (price, processing, TGP 2%, net), reconciliation
 tests for one-time and recurring charges and for international cards, and no change for free packages. Two independent
 audits.
+
+---
+
+## RUNNING SUBAGENTS AT 11:45 PDT (owner 11:39: let them finish, start nothing else)
+
+No new agents, audits or fix rounds start after these finish. Each result is recorded in the table below as it lands.
+
+| Agent | Doing | Result (filled in as they finish) |
+|---|---|---|
+| S-ENVTRUTH builder (`build_env_truth_lane_s_envtruth_mupsdfmw`) | Backend env registry + code-invariant test + in-machine Fly classifier + fly-env-sync manifest (secrets + `pending_flags` for day-1 flags incl. GOOGLE_CLIENT_IDS, community core, MWB, dunning v2, BOOKING_REMINDERS_ENABLED); mobile PR (Stripe key name, expected-env manifest, legacy gradle guard); APPLE_AUDIENCES / Android fingerprint shape checks | pending |
+| S-SCHED builder (`build_client_calendar_scheduling_s_sched_muptmf0r`) | Client Calendar tab, booking from coach appointment types, expo-calendar "Add to my calendar", coach appointment-types manager, tutorial Calendar step + "Book your welcome call" ending, seed path | pending |
+| S-REACH builder (`build_feature_reachability_s_reach_mupv615k`) | Reachability map of all routes, wire working features, hide broken ones, coach view of consultation answers | pending |
+| Copy builder re-queued (`build_approved_copy_into_610_314_611_315_mupsmoh7`) | (1) #610/#314 block hides content both ways; (2) S-OTA: #305 expo-updates onto main + clinic channel | pending |
+| Sol audit batch (`sol_audit_batch_310_318_611_315_607_313_mupun3a9`) | #310 c9fc931d, #318, #611/#315, #607 CI re-check, #313, #608 b0beb076, #623 4cc366fc / #317 c7e35d84 | pending |
+| Opus audit batch (`opus_audit_batch_310_622_611_315_mupunpyq`) | #310 c9fc931d, #622 fcb984f2, #611/#315, #608 b0beb076, #623/#317 | pending |
+| Sol auth-chain audit (`sol_audit_auth_chain_597_599_595_604_mupv8r43`) | #597 e3167fe7, #599 7b496aca, #595 e1dd4c39, #604 21ffc02c | pending |
+
+Not covered by any running agent (owner go needed later): Opus second lens on the auth chain; #306 r5 (D4: if not dual-approved by Fri 10-02 12:00 PDT, launch is client-only and SIGNUP_ROLE_CHOICE_ENABLED=false); audits of #609/#312; every TO-DO item above (fee fix, MWB Programs, Money, billing placement, coach wizard, R2b).
+
+**Sandbox incident 11:38 PDT:** root disk hit 99% (290 MB free) from 64 agent worktrees (5.3 GB) and caches. Operator removed 23 stale worktrees of finished lanes (all clean and pushed; one probe diff saved to `ops/build-306-r3probe-uncommitted.diff`), pruned git worktree metadata and cleaned the npm cache. Disk is back to about 12% free. Successors: remove worktrees of finished lanes promptly.
 
 ---
 
@@ -220,7 +240,8 @@ are ready to hand to an agent when the owner says go: `/home/user/workspace/ops/
 | 11:29 | **Fee math is the #1 massive issue** (coach payout = price - card processing - TGP 2%; TGP must never lose money on a sale). Enforce $19.99 minimum or free. Earnings screen fix logged. Coach onboarding built around the coach "aha": connect Stripe or bank, invite a client, receive first payment. Card-update placement: research the best practice (recommendation in TO-DO 4). **Stay on Expo Free** (no plan upgrade). |
 | 11:31 | **Master workout builder:** non-client-specific program library, build once, reuse for everyone, plus auto-assign tools (TO-DO 6). |
 | 11:31-11:32 | **Flags live on day 1:** community, MWB templates/autosave/undo/AI live-create/named regimes, dunning v2 (TO-DO 8; AI live-create gated by R2b, TO-DO 9). |
-| 11:38 | **Go on #306 fix round 5 if agent capacity allows** — launch when a slot frees (cap stays 7 subagents); sandbox crash = massive wasted work, so keep load low. |
+| 11:39 | **Superseded 11:38: let running subagents finish, record their findings/state here, start nothing else — out of credits for new work.** #306 r5 is NOT started (objective staged at `/home/user/workspace/ops/lanes/306_r5_objective.md`). |
+| 11:38 | ~~Go on #306 fix round 5 if agent capacity allows~~ — launch when a slot frees (cap stays 7 subagents); sandbox crash = massive wasted work, so keep load low. |
 | 11:36 | **Money = a coach Home card that expands into full page(s); merge Business metrics into Money.** **No more agents:** record to-dos and decisions here with context and goal state. |
 
 ## 4. Operator rulings in force (owner may override)
