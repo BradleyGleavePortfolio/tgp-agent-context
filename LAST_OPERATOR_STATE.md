@@ -6,6 +6,17 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 15:50 PDT: the quiz "roadmap" is a legacy income-positioning funnel
+- Owner asked what the roadmap is and when it was introduced. Facts: backend src/diagnostic (public, unauthenticated
+  GET /diagnostic/questions, POST /diagnostic/submit, GET /diagnostic/:id) added 2026-05-06 in commit 30d56601 "PTM
+  Phase 1 + Phase 3, 4, 5, 6 — backend". 40 questions: Income Architecture (15, e.g. income without physical presence,
+  what you would sell if you lost your job), Body Protocol (12), Calendar & Lifestyle (13, e.g. free hours for new
+  income, travel). Perplexity writes a 300-400 word "roadmap" from section scores + the 3 weakest answers per section.
+  Stores email, name, age, IP, user agent. Production: 0 DiagnosticSubmission rows, 0 AiRoadmap rows (read-only SELECT).
+  No frontend found in the owner's repos. It conflicts with the binding personal-training positioning.
+- New option C put to the owner (recommended): switch the quiz off for v1 (flag-gated routes return 404, no Perplexity
+  call, nothing to disclose); revisit as a personal-training intake later. A/B question replaced by A/B/C.
+
 ## OPERATOR 2026-10-01 15:40 PDT: deploy waiting on owner approval; merge train #597
 - Main CI for 8a709a68 green (CI, CodeQL, SBOM, Schema parity; Infra Lint shellcheck + Release Please failures are
   pre-existing on main). Dispatched fly-deploy.yml run 36932415461 (release_sha 8a709a68, apply-migrations); Release
