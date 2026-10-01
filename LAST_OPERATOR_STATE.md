@@ -71,6 +71,38 @@ copied: contains private-repo diffs); unposted audits must be re-run.
 | mobile #310 | `c9fc931d` | **RC** B-310-3 (untick during in-flight grant lost — privacy), B-310-4 (shutdown between completion and reveal skips tutorial handoff) | **RC** B-310-3 | B-310-1/2 closed; fix round 4 |
 | backend #597/#599/#595/#604 | see above | APPROVE (all four) | not started | Needs Opus second lens |
 
+## V1.0 QUALITY COVERAGE GAPS (owner question 12:34 PDT; operator answer 12:40)
+
+Nothing below has had a device pass. 108's checks were code reading, live route probes and PR audits (auth, onboarding,
+consent, deletion, privacy pages, wearables ingest security, money static audit, MWB, scheduling, reachability sweep, keys).
+**Never checked for v1.0 quality:** client food logging (core clinic need: "track food"), workout logging
+(`ActiveWorkoutScreen`), progress/check-ins/habits/fasting, coach-client messaging UX, community chat UX, health/sleep
+screens UX, Roman tutorial on device, notification content/timing, accessibility/performance/offline; coach roster and
+client detail, program assignment, messaging inbox, **community moderation queue (24-hour commitment)**, coach brief,
+check-in review, booking inbox, package creation, Stripe Connect on device.
+
+Owner questions and current answers:
+1. **Community/messaging "Discord/Telegram level"?** No, and unverified. The community API is OFF in prod (no
+   FEATURE_COMMUNITY_* on Fly). Code signals (grep, not proof): replies/threads and unread counts exist; reactions,
+   read receipts, typing, media attachments and mentions are thin (1-4 files each); voice notes off; block-both-ways
+   unfinished (WIP branch). Goal: realtime delivery, replies, reactions, photos, mentions, read state, push, mute, pin,
+   search, coach moderation tools, on both sides. Needs a UX audit + device pass.
+2. **Wearables / Roman suggestions?** Screens exist and are ambitious (recovery ring, HRV, sleep stages, freshness,
+   empty states). Not live: #623 (Sol APPROVE, Opus pending), #317 (unaudited at new head), ingest flag off. Roman does
+   NOT see wearable data in v1.0 (D1 scripted Roman; wearables AI panel hidden; R2b consent enforcement not built).
+   "Sarah's recovery dropped, cut tomorrow's volume 15%, approve?" does not exist. Closest: backend wearable prompts
+   (`src/community/wearable-prompts/`, deterministic, coach-facing, "recovery score dropped 12%, consider a check-in",
+   with sample audit trail), flag FEATURE_COMMUNITY_WEARABLE_PROMPTS off and its coach screen orphaned. IDEA logged:
+   v1.0 = wire + flag the deterministic prompts (no AI; coach sees health data under consent box 1); 1.0.1 = Roman
+   approve-to-adjust (edits the next workout's volume on coach approval; needs R2b, T4).
+3. **Coach business logic robust?** Not for paid coaching yet: fee math loses money (#1 issue), Earnings screen dead
+   (6 routes 404), no Money page, 50c minimum, hollow coach wizard, dunning v2 off and Stripe portal unverified, data
+   export to /tmp, deletion fix round open (#608/#313). The free clinic path (#599 attach, #595 free grant) is Sol-approved
+   and waits for the Opus second lens.
+
+Recommended when credits return: one quality-sweep agent (or Bradley with a checklist) on the daily loop first: food
+logging, workout logging, messaging, community; then wearables connect, then coach roster/moderation.
+
 ## RUNNING SUBAGENTS AT 11:45 PDT (superseded by the 11:58 pause above)
 
 No new agents, audits or fix rounds start after these finish. Each result is recorded in the table below as it lands.
