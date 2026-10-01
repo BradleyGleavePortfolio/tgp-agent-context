@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 11:50 PDT (18:50 UTC). Commit time is authoritative.
+Updated: 2026-10-01 11:58 PDT (18:58 UTC). Commit time is authoritative.
 
 Operator: Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)).
 Single writer for Bucket A (clinic launch) since the owner's EXECUTE at 2026-10-01 08:28 PDT. Companion file:
@@ -36,7 +36,13 @@ audits.
 
 ---
 
-## TO-DO (owner, 2026-10-01 11:29 PDT), with explanations
+## TO-DO (owner, 2026-10-01 11:29-11:36 PDT), with explanations, decisions and goal state
+
+**Agent rule (owner 11:36):** "don't use more agents, just note the to-do's and decisions in the last_operator_state
+document (with context and goal state mentioned)". So: no new subagents for this list. Agents already running finish
+their work. Each item below says what is wrong, what the owner decided, and what done looks like. Builder objectives that
+are ready to hand to an agent when the owner says go: `/home/user/workspace/ops/lanes/S-FEE_objective.md`,
+`/home/user/workspace/ops/lanes/S-MWB_objective.md` (operator sandbox; contents summarized below so they survive).
 
 1. **Coach Earnings screen is broken (must fix).** `src/screens/coach/CoachEarningsScreen.tsx` reads six routes from backend
    PR #216 (`GET /v1/coach/earnings`, `/v1/coach/payouts/readiness`, `/v1/coach/payouts`, `/v1/coach/reconciliation`,
@@ -46,18 +52,33 @@ audits.
    routes that hold the real data: `GET /v1/coach/payments/earnings`, `GET /v1/coach/payments/purchases`,
    `GET /coach/connect/{status,metrics,payouts}`, `POST /v1/connect/accounts/dashboard-link`. Fix: fold Earnings into the
    new Money page (item 2), wired to live routes; retire the dead calls.
-2. **TGP Money page (owner concept: a coach's CFO summary).** Income today / 30d / 90d / YTD, clients charged, failed
-   payments with dunning status, without duplicating other screens. Operator proposal sent to owner 11:50 PDT; build
-   lane S-MONEY after owner picks placement.
+2. **TGP Money (owner concept: the coach's CFO summary) — DECIDED 11:36.**
+   - Owner decisions: Money is a **card on the coach Home screen that expands into full page(s)** when tapped; **Business
+     metrics and Money merge** into one coach money area (no separate Business metrics screen).
+   - Context: today money is split across Settings > Payments > Earnings (broken, item 1), Business metrics
+     (`CoachBusinessMetricsScreen`: Revenue 30d, MRR, active clients, churn 30d, acquired/churned, packages, recent payouts;
+     reads live `GET /coach/connect/metrics` and `/coach/connect/payouts`) and the Stripe dashboard.
+   - Goal state: Home card shows net to you (30d) plus a red "needs attention" count when any payment failed. Tapping opens
+     Money: (1) Net to you with Today / 30d / 90d / YTD chips and change vs previous period; tap any amount for the
+     breakdown price - card processing - TGP 2% = net. (2) Needs attention (only when non-empty): failed payments per client
+     with dunning status (retry n of m, next retry date, card-update link sent), disputes, Stripe requirements due, with
+     "Message client". (3) Next payout amount and date. (4) Recurring: MRR, paying clients, churn 30d, new clients 30d
+     (from Business metrics). (5) Recent charges (last 5, See all with paid/failed/refunded filter). (6) Footer: Payout
+     settings (Stripe dashboard link, per the 09-30 ruling), Packages, Export CSV for taxes. Per-client billing stays on the
+     client detail page; Money links to it. The old Earnings and Business metrics routes redirect to Money. Every number
+     comes from live routes (no 404-driven fake empty states); a real empty state only when the coach has no charges.
 3. **Package minimum price.** Code allows 50c (`src/packages/packages.service.ts:543`). Owner rule: $19.99 minimum or
    free. Enforce in backend validation and in the mobile package editor (clear inline message). Rides with S-FEE as a
    separate T3 PR.
 4. **Card update and billing management placement (client).** Today: More > Membership > Packages > Update card (three
-   levels down, under "Membership"). Operator research-based proposal sent 11:50 PDT: a top-level "Billing & payments"
-   entry in client profile/settings showing card on file, next charge, receipts, update card (Stripe portal
-   `payment_method_update` deep link) and cancel; the same card and next charge on the package card; a Home banner and a
-   push when a payment fails or the card is about to expire, one tap to update; dunning emails link to the same flow.
-   Owner-side Stripe check: customer portal must be enabled in live mode.
+   levels down, under "Membership"). Operator recommendation (sent 11:50, research-based; owner has not objected):
+   - Goal state: a top-level "Billing & payments" entry in the client profile/More showing card on file, next charge date
+     and amount, receipts, Update card and Cancel; the same card + next charge on the package card; a Home banner and a push
+     when a payment fails or the card expires within 30 days; every entry opens Stripe's customer portal directly on the
+     update-card flow (`flow_data[type]=payment_method_update`, https://docs.stripe.com/customer-management/portal-deep-links);
+     dunning emails link to the same flow. Competitor note: Trainerize clients can only update billing on the web.
+   - Owner-side Stripe check: customer portal enabled in live mode (https://dashboard.stripe.com/settings/billing/portal);
+     required before FEATURE_DUNNING_V2 goes on.
 5. **Coach onboarding = the coach "aha" (owner).** The aha is: 1) connect Stripe or bank, 2) invite a client, 3) receive the
    first client payment. The current coach wizard (`src/navigation/CoachWizardNavigator.tsx`) steps 2-5 have no inputs and
    step 5 has no Connect button. Rebuild: practice basics, then "Get paid" (Stripe Express hosted onboarding, which collects
@@ -65,15 +86,52 @@ audits.
    (prefilled, $19.99+ or free), then invite first client (link/QR share), then a Home checklist that ends with the
    existing first-payment celebration (`FirstPaymentWowHost`, flag `EXPO_PUBLIC_FF_ROMAN_FIRST_PAYMENT_WOW`, off).
    Lane S-MONEY (mobile).
-6. **Master workout builder (owner asked to check).** Findings: the single-workout builder (`CoachWorkoutBuilderScreen`,
-   backend `/workout-plans` routes live) works on paper but opens only from one client's page, and there is no list of a
-   coach's saved workouts. The coach "Templates" tab is four hard-coded text protocols (Fat Loss, Lean Bulk, ...) applied as
-   text guidelines, not programs. Multi-week programs exist on the server (`/workout-programs` fork/clone/clone-to-client/
-   assignments) but no screen creates or edits them; the clinic's three programs come from the seed fixture (C04).
-   Proposal to owner: a "Programs" library replacing the Templates tab (list, edit weeks/days by reusing the workout
-   builder, assign), sized for 1.0.1 unless owner pulls it forward.
+6. **Master workout builder — owner direction 11:31: "non-client specific, overreaching master workout builder system —
+   'I give every male an intro package, let me build it once, save it, and use it for everyone + auto-assign tools'".**
+   - Context: the coach "Templates" tab (`ProgramTemplatesScreen`) is four hard-coded text protocols applied as text
+     guidelines. The single-workout builder (`CoachWorkoutBuilderScreen`) opens only from one client's page; no library of
+     saved workouts. The backend was built in June and never switched on: MWB-1 data model (#376: WorkoutProgram with
+     weeks x days_per_week, templates, forks, revisions; WorkoutPlan rows carry program/week/day), MWB-2 templates +
+     clone-to-client (#381, FEATURE_MWB_TEMPLATES), MWB-3 autosave + undo (#386, FEATURE_MWB_AUTOSAVE_UNDO), MWB-5 AI
+     live-create (#385, FEATURE_MWB_AI_LIVE_CREATE), named regimes (`/coach/regimes`, FEATURE_NAMED_REGIMES). Package
+     contents already accept `workout_program` and fan out on purchase/grant, so "attach a program to a package" already
+     means auto-assign on join (verify it also fires for $0 invite-code grants, #595).
+   - Goal state (Phase 1, day 1): a coach "Programs" tab replacing Templates: program library (search, goal tag, weeks x
+     days, assigned count); create/edit with a week-by-day grid where each day opens the existing workout builder with
+     autosave + undo; duplicate, archive, revision history, promote to named regime; assign to many clients at once (clone
+     per client with a start date, idempotent); "Add to package" so everyone who joins gets it; a saved-workouts library.
+     Backend flags above ON at day 1 (AI live-create waits for item 9). Clinic's #607 rule-table path keeps working.
+   - Phase 2 (after go-live unless owner pulls it forward): coach-defined auto-assign rules ("joins package X and matches
+     intake answers Y → assign program Z starting next Monday"), generalizing #607's clinic rule table; uses
+     health-adjacent intake answers → T4 + D2 review.
 7. **Expo plan: stay on Free (owner, 11:29 PDT).** No upgrade; accept the slow build queue. Batch builds: one clinic iOS
    build + one Android build for the Saturday binary, no exploratory rebuilds.
+
+8. **Feature flags live on day 1 — owner 11:31-11:32: "yes all of that is supposed to be active and live on day 1".**
+   - Context: none of FEATURE_COMMUNITY_* exists on Fly, so the community API is gated off in prod while the clinic mobile
+     profile turns the Community tab on — the community chat step of the guardrail flow would fail. MWB flags and
+     FEATURE_DUNNING_V2 are also off. Ledger with per-flag gates:
+     [FLAGS_LAUNCH_LEDGER.md](FLAGS_LAUNCH_LEDGER.md).
+   - Goal state: community core set, FEATURE_MWB_TEMPLATES, FEATURE_MWB_AUTOSAVE_UNDO, FEATURE_NAMED_REGIMES,
+     FEATURE_DUNNING_V2 and BOOKING_REMINDERS_ENABLED ON in prod before Wed 10-07, set through the audited fly-env-sync
+     manifest (`pending_flags` block requested from the S-ENVTRUTH builder 11:50), each verified on the owner's account right
+     after it flips. Gates: #610 report/block deployed before App Review touches community; Stripe customer portal live
+     before dunning v2. Stay OFF: Roman live chat (D1), bank/treasury payouts (until item 0 fee fix), Google Calendar/Meet/
+     Zoom, importer (Bucket B), wearables AI panel.
+9. **R2b — AI consent enforcement in the AI gateway (blocks MWB AI live-create on day 1).** The MWB-5 materialiser is
+   client-specific (`target_client_id`), so it sends client data to the AI provider. Under D2 (box 2) and WA My Health My
+   Data, every AI call with client data must check the client's live box-2 grant in the #622 ledger. Goal state: gateway
+   refuses (clear coach-facing reason) when the client has no live grant; tests; T4 dual audit; then flip
+   FEATURE_MWB_AI_LIVE_CREATE. Template authoring with no client data could be allowed without consent (design note).
+10. **Fee fix (item 0 above, lane S-FEE) and $19.99 minimum (item 3).** Objective file ready (see agent rule). Goal state in
+    the #1 MASSIVE ISSUE section.
+11. **Coach setup wizard rebuild (item 5)** — needed day 1 only if role choice ships (D4: #597 + #306 dual-approved by Fri
+    10-02 12:00 PDT); otherwise 1.0.1.
+12. **Waiting audits and fix rounds that need an agent when the owner allows one** (state 11:58 PDT): Opus re-audit of the
+    auth chain #597 e3167fe7 / #599 7b496aca / #595 e1dd4c39 / #604 21ffc02c (Sol is auditing now; T4 needs both); #306 fix
+    round 5 (Sol B-306-1/2/3, Opus B-306-1, C-306-1..3, plus the new 409 `signup_pending` message "check your email or reset
+    your password"; D4 deadline Fri 12:00); audits of #609/#312 (welcome message + reminders); Sentry native init; data
+    export to Supabase storage; C04 bootstrap after the owner signs up; C11 store package + iOS clinic build.
 
 ---
 
@@ -159,6 +217,10 @@ audits.
 | open | Expo Starter plan ($19/month + usage) for the fast build queue: offered, not yet answered. |
 
 ---
+| 11:29 | **Fee math is the #1 massive issue** (coach payout = price - card processing - TGP 2%; TGP must never lose money on a sale). Enforce $19.99 minimum or free. Earnings screen fix logged. Coach onboarding built around the coach "aha": connect Stripe or bank, invite a client, receive first payment. Card-update placement: research the best practice (recommendation in TO-DO 4). **Stay on Expo Free** (no plan upgrade). |
+| 11:31 | **Master workout builder:** non-client-specific program library, build once, reuse for everyone, plus auto-assign tools (TO-DO 6). |
+| 11:31-11:32 | **Flags live on day 1:** community, MWB templates/autosave/undo/AI live-create/named regimes, dunning v2 (TO-DO 8; AI live-create gated by R2b, TO-DO 9). |
+| 11:36 | **Money = a coach Home card that expands into full page(s); merge Business metrics into Money.** **No more agents:** record to-dos and decisions here with context and goal state. |
 
 ## 4. Operator rulings in force (owner may override)
 
