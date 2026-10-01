@@ -70,6 +70,22 @@ Two recurring terms:
 - App not public (iTunes lookup 6765847915 = 0 results); no iOS build on record; `eas.json` has no submit profile.
 - Wearables gap with no PR: mobile HealthKit / Health Connect normalizers post samples with `userId` to `/v1/wearables/samples/ingest`; the backend schema is `.strict()` and rejects it, and `FEATURE_WEARABLES_INGEST_POST` is unset (503). New slice S14.
 
+### Active lanes (operator 590e4a5b, 10-01 09:05 PDT; cap 8 agents incl. operator)
+
+| Lane | Model | Scope | Status |
+|---|---|---|---|
+| Auth stack builder | Claude Opus 5.5 | #597 A-597-1/B-597-1 (Sol BLOCK 10-01), then #599 B1, #595 rebase, #604 A1 + SOL-C14-A1 | Running |
+| Onboarding backend builder | Claude Opus 5.5 | #606 B606-3, #607 A607-3/A607-2-R1, D2 consult-consent-v2 | Running |
+| R2a consent ledger builder | Claude Opus 5.5 | New PR split from #601 (AI consent only, D2 box 2) | Running |
+| Mobile onboarding builder | Claude Opus 5.5 | #310 A-05/B-05/B-06 + D2 two boxes + Settings > Privacy | Running |
+| Role choice builder | Claude Opus 5.5 | #306 r3 findings (D4 deadline Fri 12:00) | Running |
+| Wearables builder | Claude Opus 5.5 | S14 end to end (new PRs, both repos) | Running |
+| Deletion auditor | GPT-6.1 Sol | #608 + #313, lens 1 | Running |
+| Queue | | Opus audit #608/#313; Opus + Sol audits #610/#314; S07b AI-path inventory; #611/#315 audit + D2 text; #609/#312 audit; #597 re-audits | Queued |
+
+- #597 Sol audit at b49c3177: BLOCK (A-597-1 compensation can delete the winning registration's identity; B-597-1 mixed-case email login). Opus APPROVE at the same head no longer suffices.
+- Shared sandbox ops: `/home/user/workspace/ops/heavy.sh` (global queue), `link_deps.sh`, shared deps; agent brief `ops/AGENT_BRIEF_COMMON.md`; D2 contract `ops/CONSENT_D2_CONTRACT.md` (sandbox-local).
+
 ### Critical path (10-01)
 
 S01 #597 Sol attest; S02 #599 B1; S03 #595 rebase; S04 #604 A1; S05 Wave-1 deploy. S06 #606 B606-3; S07 consent ledger split from #601 (D2 two scopes); S08 #607 A607-3/A607-2-R1; S09 #310 fixes + D2 copy + withdrawal screen. App Review P0: S11 deletion (#608 + #313), S12 UGC safety (#610 + #314), S13 privacy (#611 + #315). S14 wearables ingest. S16 #306. S17 C04 bootstrap. S18 TestFlight (clinic profile). S19 QA + submit Sat 10-03.
