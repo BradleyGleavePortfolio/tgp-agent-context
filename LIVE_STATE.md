@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-10-01 08:50 PDT (commit time is authoritative)
+- **Updated:** 2026-10-01 10:12 PDT (commit time is authoritative)
 - **Operator:** Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)), agent 108. Single writer for Bucket A since the owner's EXECUTE at 2026-10-01 08:28 PDT. Session c712e04d is retired as writer (silent since about 19:10 PDT 09-30; its thread is not readable from this session). Its working files that never reached GitHub (onboarding contract v1, `clinic_ops/BRIEF.md`) are lost; this file and the PR bodies are the recovered authority.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
@@ -21,10 +21,23 @@ Two recurring terms:
 - Backend #606 (C06 macros) and #607 (C05/C07 intake, consent-first, coach consultation view) opened, CI green, audits running.
 - Open fix rounds: mobile #306 r3, #309, #310; backend auth stack CI (casts), Roman stack CI + consent on every AI path; account deletion + community safety (App Store 5.1.1(v), 1.2); engagement (welcome message, reminders).
 
+## Operator log 10-01 09:15-10:12
+- **Android launch crash (tier-1, owner-blocked) root-caused** from owner logcat: `UnsupportedOperationException: reified type parameter` in `expo.modules.crispsdk.ExpoCrispSdkModule.definition` while the Expo module registry builds. `crisp-sdk-react-native@0.2.1` was the only Expo module on the legacy `ExpoModulesCorePlugin.gradle` path under SDK 56. Fix: mobile **#316** (T2, operator-built emergency, Opus audit running) bumps to 0.4.3 (surgical lockfile). EAS preview build `f5cac78e` from `ff6bd4b` queued (eas-cli now runs from this sandbox via the Expo credential proxy: `/home/user/workspace/tools/eas/eas.sh`). Build 14a58449 came from unpushed commit a0dca32; never ship it.
+- Also found: MainActivity never calls `HealthConnectPermissionDelegate.setPermissionDelegate` (Health Connect connect would crash) -> S14 lane. Sentry native auto-init is off, so pre-JS crashes are invisible -> follow-up.
+- **Env truth audit** (owner tip): findings in operator workspace `ops/envaudit/ENV_TRUTH_FINDINGS_2026-10-01.md`. Highlights: five Fly keys (GOOGLE_OAUTH_CLIENT_ID/SECRET, OOM_*) share one placeholder value; junk Fly keys `E`, `E_MB`; 91 env names read by backend src are unregistered and unset (H4 board blind to them); GOOGLE_CLIENT_ID(S) unset -> Google sign-in/re-auth off; DATA_EXPORT_BUCKET unset -> exports on ephemeral /tmp; mobile reads `EXPO_PUBLIC_STRIPE_PK` but EAS stores `EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY`; COACH_SIGNUP_SECRET (Fly) and EXPO_PUBLIC_COACH_SIGNUP_SECRET unused; GitHub `DATABASE_URL_AUDIT` unset. Lane S-ENVTRUTH (T3) queued. No Fly deletes without operator sign-off.
+- **Ruling:** v1.0 sign-in = email + Apple (Google not configured; owner may override by supplying Google OAuth client IDs).
+- **Ruling:** consult consent accepts `consult-consent-v2` only (no live v1 clients; no compat window).
+- **Ruling #622:** AI-consent GET/DELETE (and POST) join the dunning lockout allowlist inside #622 before audits.
+- **Ruling #310:** UI labels match approved copy (Settings section "Privacy", "Delete account"); add a standard Privacy Policy link on P0 without altering consent text.
+- **Heads awaiting audits:** backend #597 `fc5c5a9e`, #599 `9a0b9f94`, #595 `1b782ec8`, #604 `c3abde8d`, #606 `7e00de0c`, #607 `245da2e7`, #609 `1f8b22b9` (stacked PRs retargeted to main for CI; audit incremental ranges), #622 (R2a ledger, lockout fix pending); mobile #306 `4b349d32` (Sol + Opus running), #316 `ff6bd4b1` (Opus running), #310 (final head pending).
+- **Running audits:** Sol backend auth+onboarding stacks; Sol #306 r4; Opus #316 then #306.
+
 ## Owner directions log (newest first)
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 09:53 | Owner tip: hunt keys named in code but never set / fake / empty values (H4 tests). | Env truth audit done (see Operator log); S-ENVTRUTH lane queued. |
+| 10-01 09:15 | Android APK crashes instantly on launch: hunt and fix. | Root cause Crisp 0.2.1 on SDK 56; fix #316; build f5cac78e. |
 | 10-01 09:07 | Workout plans approved. Safety and consent messages approved. | Three-program fixture (sha256 be932a56...) approved for C04 seed with notes-level regressions (written cues instead of mismatched demos). Approved: D2 two-box consent copy, community guidelines incl. new rules 5 and 7, safety contact Bradley@Bradleytgpcoaching.com, 24-hour moderation commitment, consumer-health Consent section rewrite for D2. Copy changes go to #610/#314/#611/#315 before their audits. |
 | 10-01 08:28 | EXECUTE for everything workable under the agent rules and the PR grading contract (session 590e4a5b). Owner supplied the exact coach welcome message text. Asked for: Apple Sign in key guidance, Android APK install steps for a Mac + Samsung, a plain summary of the three programs, and the full privacy/consent text, community guidelines, safety contact email and 24-hour moderation commitment for approval. | Operator 590e4a5b is single writer. Welcome text is runtime data stored outside every repo (names the clinic partner); set at C04 via the owner endpoint. Readback decisions D1-D4 were not answered, so the operator's stated recommendations apply (see "Operator rulings 10-01" below). |
 | 09-30 18:14 | Hard cap of 8 concurrent agents; a sandbox crash is a tier-1 incident. | Operator enforces the cap and a priority queue. |
