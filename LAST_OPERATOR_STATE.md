@@ -6,6 +6,25 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:40 PDT (wall clock): B-RECIPES done — backend #630 (T4) 5b873988
+- Recipes: own + own coach's/owner's shared only; no platform feed; client sharing 403 RECIPE_SHARING_COACH_ONLY; image
+  links rejected (400) and never served; uniform 404 RECIPE_NOT_FOUND; prep-guide public fallback removed; lists capped
+  200; migration makes all rows private (bounded, self-checking); seed needs explicit coach. 62/62 targeted, CI full
+  suite green. Graded T4 (tenancy/privacy + non-reverted data change). Production: 0 Recipe / 0 SavedRecipe (checked).
+- Operator decisions: (1) all rows private incl. coach rows — keep; (2) no edit/unshare/delete or coach recipe screen
+  in v1.0 — accept, queue coach recipe editor for 1.0.1; (3) keep is_public name for now; (4) deploy order: count ->
+  deploy with apply-migrations -> any seed after.
+- Follow-ups queued (deletion lane): account deletion leaves a user's recipes and a saved bookmark blocks the delete
+  silently; data export omits created recipes; plus C-608-2 admin force-delete re-auth and the in-app link to
+  /help/delete-account for Apple-only Android users. Recipe screens' generic errors -> S-ERRORS.
+- Owner 16:23: the "apps deleted Sept 30" notice = Google's package-name registration deadline (Android developer
+  verification); owner's account has no apps, nothing deleted. Asked owner to check Play Console Home for identity
+  verification. Asked owner: dunning F15 (1A auto-charge open invoice on card update recommended) and cancel during
+  dunning (2A void + end access recommended).
+- AUD-SOL re-queued: #319 delta -> #630 -> #610/#314 -> #628/#322. Opus queue: #610 -> #314 -> #310 -> #608/#313 ->
+  #627 -> #630 -> #628/#322 (overloaded; consider a second Opus lens when a slot frees).
+- Running 7/7: B-FEE, M-PLAY, B-R2B, B-TRAIN, AUD-OPUS, AUD-SOL, AUD-SOL3.
+
 ## OPERATOR 2026-10-01 16:30 PDT (wall clock): EAS secret deleted; S-DUNNING done (#628 691528a0, mobile #322 2d77399d)
 - Owner 16:22 "Yes delete it" -> deleted EXPO_PUBLIC_COACH_SIGNUP_SECRET (EAS id c0fa39cd, all 3 envs). Verified gone.
 - S-DUNNING: backend #628 (T4) + mobile #322 (T4), CI green, flag still OFF. Fixed F1 (v2 never triggered; v1 could
