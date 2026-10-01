@@ -36,6 +36,8 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 13:43 | "Cnacelling - option A" / "Lockout check: built, but not live - needs audited and tested, then flipped live!" | Voluntary cancel: access through paid period. Dunning v2 flip authorized after S-DUNNING dual audit + deploy + mobile lockout screen + Stripe preconditions. |
+| 10-01 13:41 | Stop billing keep access (coach option); voluntary cancel ends access; non-pay = 10-day lockout, make it live; coach daily signup count + new codes/QR; banner approved; Roman pitch for coachless; in-app Stripe (fight 3.1.3(d)). | Recorded in LAST_OPERATOR_STATE; lanes queued. |
 | 10-01 13:37 | "we qualify as personal training, 1:1 service - nothing more, nothing less ... we dont apply as 'info sellers' and i'll die on that hill!" | No Apple IAP for packages; App Review basis 3.1.3(d) one-to-one personal training; iOS sells no app features; checkout path choice (browser vs in-app Stripe) asked. |
 | 10-01 13:35 | Two identical packages: free (clinic) and $49/mo (public), each behind its own code. | Design + defaults in handoffs/op-7c52cefa/TWO_PACKAGE_DESIGN.md; waiting on owner OK. |
 | 10-01 13:34 | "for V1.0 - Lets go with a simple banner at top of homepage ... 'Enter coach code for coaching. and programs' And offer '$49/mo with our top coach; Use code (my code) here!' The marketplace and directory are already designed and left for V2 ... We also need to fix the fact that tgp throws generic and undescript failure notes - like ever" | Coachless banner in v1.0 (code/offer from server config); marketplace/directory v2; no generic errors program-wide (brief rule + S-ERRORS lane queued). Clinic-code-in-banner conflict asked 13:40. |

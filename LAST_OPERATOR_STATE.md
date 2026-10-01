@@ -6,6 +6,13 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER 2026-10-01 13:43 PDT: cancel timing A; lockout must be audited, tested, then flipped
+"Cnacelling - option A" -> voluntary cancel keeps access through the period already paid, then off (no refund).
+"Lockout check: built, but not live - needs audited and tested, then flipped live!" -> owner GO to flip
+FEATURE_DUNNING_V2 through fly-feature-flags-set.yml once lane S-DUNNING's PRs are dual-audited, merged, deployed, the
+mobile lockout screen is in the installed build, and Stripe preconditions are met. Objective:
+handoffs/op-7c52cefa/lanes/S-DUNNING.md.
+
 ## OWNER DECISIONS 2026-10-01 13:41 PDT: billing behavior, coach safety tools, Roman pitch, in-app Stripe
 Near-verbatim:
 - "A $49 client who turns out to be a clinic patient - id need to just stop their billing manually while selectively
