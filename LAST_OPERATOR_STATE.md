@@ -6,6 +6,20 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:15 PDT (wall clock): #611 r2 done (e5777735); B-RECIPES launched
+- #611 round 2: owner-approved box-2 sentence restored byte-exact (matches ced10667; no re-approval needed); triage
+  text says only box-2 members are sorted; public GET /help/delete-account (Play requirement; in-app paths from
+  mobile #313); every diagnostic/roadmap mention removed (Perplexity first-win sentence kept: first-win.service.ts).
+  6 suites / 96 passed; CI green. Needs audit (T3). MERGE GATE: #611 must not go live before #608/#313, the Roman
+  180-day sweep, and B-QUIZ-OFF.
+- Builder decision 1 (privacy policy's deletion section names an older support address) -> already decided by the owner
+  14:19: Bradleyapple1031@gmail.com everywhere via S-ERRORS. Decision 2 (Play developer name "The Growth Project")
+  -> asked the owner.
+- Production read-only: 0 Recipe, 0 public, 0 SavedRecipe rows (no exposure yet). B-RECIPES launched
+  (make_recipes_private_by_default_muq4p8qf, Opus).
+- Audits still to queue: #610 (T4 dual), #314 (T4 dual), #611 (T3), #629 (T3), mobile #321 (T3), #627 (T4 after r2).
+- Running 7/7: B-FIX, S-DUNNING, B-TRAIN, B-FEE, B-RECIPES, AUD-OPUS, AUD-SOL.
+
 ## OPERATOR 2026-10-01 16:05 PDT (wall clock): #306 r7 at 33eec6bc; B-FEE #627 round 2 started
 - B-306 r7: Sol B-306-5 fixed (Google helper never returns a temporary user on backend failure; every login/signup
   failure branch tabled), C-306-5 fixed (marker match: subject, else email, else no identity on both sides), Opus

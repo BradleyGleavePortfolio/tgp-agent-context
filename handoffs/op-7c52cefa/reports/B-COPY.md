@@ -37,3 +37,15 @@
 
 ## Worktrees
 - Removed /home/user/workspace/wt/b-copy-610 and /home/user/workspace/wt/b-copy-314; /home/user/workspace/wt/b-copy-611 removed after CI went green.
+
+## Backend #611 round 2 (operator 15:10, 15:30; owner ruling 16:30) — pushed
+- Head: e5777735 (was 3d008ffb; rebased on main 10dff85c; force-with-lease on the PR branch). Commits 2258f8cf, 15540441, e5777735.
+- 15:10 (#626 conflict): owner-approved box-2 sentence restored byte-exact at both places (verified identical to ced10667; no re-approval needed). Inbox-sorting text now says sorting only includes members who ticked the optional AI box; round-1 "does not depend on the optional AI box" / "separate from this box" removed. Tests cite the #626 gate by path (ai-triage.service.ts consentedClients filter; ai-egress.service.ts consentedClients); no #626 import. Deployment note in the PR body: FEATURE_COMMUNITY_AI_TRIAGE off until #626 is live.
+- 15:30 (Google Play): new public GET /help/delete-account (no login). App "TGP Fitness", developer "The Growth Project". In-app path from mobile #313 (client: profile tab > Settings > Data & Privacy > Delete my account; coach: Settings tab > Privacy & Data > Delete my account). Email route with subject "Delete my account", identity check by account address, never a password. Deleted vs kept and timings from #608/#313 code and the policies (14-day grace + 1 day; no grace on an emailed request; 30-day reply; 45 days for WA consumer health data; Roman 180 days; backups six months). Linked from Privacy Policy, /help nav and overview, shared footer. Ships with #608/#313 (Roman sweep with #601).
+- 16:30 (diagnostic): removed every website diagnostic / roadmap mention plus the diagnostic-only collection category and the Perplexity health-data recipient line. Kept the first-milestone Perplexity sentence (src/first-win/first-win.service.ts still calls Perplexity on main). Test: no trust or help page mentions diagnostic/roadmap/quiz (except the crash-report "diagnostic data" category).
+- Tests at e5777735: 6 suites / 96 passed (help-delete-account, trust-pages, help-pages, public-pages, invite-landing, roles-enforced); tsc clean; eslint clean on 7 touched files; check-r75 OK. R75 caught banned literals in my new spec's negative regex; moved those checks to help-pages.spec ALL_PAGES instead.
+- Owner decisions: (1) the deletion mailbox given by the operator differs from the policies' general support mailbox; recommend keeping both monitored or naming one. (2) Confirm the Play developer name "The Growth Project" (not visible to me). (3) No new response-time commitment invented (existing 30/45 days used).
+- Mobile #315: not affected; not touched.
+- Fix-round comment posted on #611.
+- CI at e5777735: all checks success (build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, schema parity, banned casts, CodeQL, npm audit, sbom, danger, size-label, test-deploy-readiness); deploy-readiness-gate skipped (expected).
+- Worktree /home/user/workspace/wt/b-copy-611 removed.
