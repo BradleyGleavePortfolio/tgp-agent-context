@@ -6,6 +6,16 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER 2026-10-01 16:22 PDT: Play Console screenshot — no apps; "I guess my app was deleted on sept 30th by Google"
+- Screenshot: developer account "The Growth Project", Personal account, empty app list ("Create your first app"),
+  Notifications bell flagged. Developer name = "The Growth Project" (matches #611 /help/delete-account; no change).
+- Google Help (answer 9023647 / 16483176): only the account owner can delete an app; deleted apps are recoverable for 7
+  days; after deletion the package name is freed for anyone if the app had zero lifetime installs, and can never be
+  reused if it had any installs. Asked the owner for the Sept 30 notification text. Package com.growthproject.app is
+  fixed at the first .aab upload; if blocked, fallback = new applicationId (needs app config + Firebase Android app).
+- Owner has not yet said "yes" to deleting EXPO_PUBLIC_COACH_SIGNUP_SECRET (asked for proof; proof sent: zero reads in
+  full mobile history/all branches/all 23 open PRs/backend main; only #319's guard test names it).
+
 ## OPERATOR 2026-10-01 16:55 PDT (wall clock): #306 + #599 MERGED; #626 BLOCK -> fix round; #624 RC
 - Sol: #306 33eec6bc APPROVE (5942306209) + Opus APPROVE (5942285811) -> MERGED mobile 56d4fc62.
 - Sol: #599 8ae0fea5 APPROVE 0/0/1 (5942331604) + Opus APPROVE (5942356078) -> MERGED backend 53b625d2.
