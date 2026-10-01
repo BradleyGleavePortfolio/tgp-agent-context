@@ -33,7 +33,8 @@ a. Public code text (owner picks; must not identify the clinic partner).
 b. Free clinic access term: default open-ended; package duration (weeks) is supported if the owner wants a term.
 c. Paid -> clinic switch: default auto-cancel the paid subscription at period end and notify the client.
 d. Public-code users who have not paid: default attached as "not paid yet" (paywalled) so the owner sees them as leads.
-e. iOS payments: default the $49 button opens web checkout in the browser (US storefront allows external purchase
+e. iOS payments (owner 13:37: TGP is 1:1 personal training under 3.1.3(d), no Apple IAP, final): default the $49
+   button opens web checkout in the browser (US storefront allows external purchase
    links; 3.1.3(d) only covers real-time one-to-one services, see docs App Review notes section 4), and v1.0 ships on
    the US storefront only.
 

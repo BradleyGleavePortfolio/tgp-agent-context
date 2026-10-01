@@ -6,6 +6,17 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER RULING 2026-10-01 13:37 PDT: TGP is 1:1 personal training; no Apple in-app purchase
+Near-verbatim: "we qualify as personal training, 1:1 service - nothing more, nothing less. ... we dont apply as 'info
+sellers' and i'll die on that hill!" Binding position for App Review: coaching payments are for a coach's one-to-one
+personal training service under Guideline 3.1.3(d); no Apple IAP for packages. Consequences the program must make true:
+(1) every client package is one-to-one coaching with a named coach; (2) the iOS build sells no app features (coach AI
+credits, unlocks, content libraries) — those purchase paths are hidden on iOS; (3) App Review notes state the 3.1.3(d)
+basis plainly with the demo accounts; (4) checkout path on iOS: operator recommends opening checkout in the browser (US
+storefront allows purchase links, so Apple gets nothing and there is no 3.1.3(d) dispute), owner to choose vs in-app
+Stripe checkout. Idea sent: include one live call per month in the $49 package so the "real-time" part of 3.1.3(d) is
+concrete.
+
 ## OWNER 2026-10-01 13:35 PDT: two identical packages (free clinic, $49/mo public)
 "I specifically need two packages - identical, but one is $49/mo and ones free. Make this code for a diff package?"
 Design with defaults: handoffs/op-7c52cefa/TWO_PACKAGE_DESIGN.md (uses #595 code->package binding; free twin stays
