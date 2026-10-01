@@ -160,3 +160,34 @@ Auditor operations: no code pushed/merged, no workflows dispatched, no productio
 - Independent range-diff shows all three old PR commits patch-identical after rebase; main597auth/622ledger/625schema+migrations/606CI unchanged by PR. Verified optional DUNNING defaults7/4/3/3600000ms, #597 OAuth5/ceiling500 and role-choiceON, #622 ledgerOFF/exact true. No new boot validators/hard/prod tiers. Malformed-name classifier JSON/markdown redaction control passes. [Registrations](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/1159da9bd4391aa50b13131cccb008623d06e17e/src/common/env-validation.ts#L1203-L1237)
 - All nine required exact-head contexts/parity/actionlint green; actual **622 suites / 10,661 tests passed**, 19 suites/203tests skipped,5todo. Known non-required SC2015 shellcheck failure excluded, not greenwashed. Independent `node ops/reports/AUD-SOL-624-r2-closure-probes.cjs` passes closure controls and reproduces new finding with no network. Private Prisma generation timed out45s waiting on heavy.sh before execution; no local Prisma/Jest/tsc pass claimed. [CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/36935947624/job/110616128637), [actionlint](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/36935947620/job/110616129080)
 - Saved `AUD-SOL-624-r2-{metadata,prepost}.json`, full/delta/workflow-registry/scanner diffs, range-diff, CI/actionlint/private-generation/probe logs, actual-source probe, verdict/comment receipt. Own worktree removed; all five worktrees created in this continuation removed. No source edit/install/secret inspection/push/external merge/workflow dispatch/production access.
+# Mobile #319 merge-train — 2026-10-01
+
+APPROVE at `2dd63b980ebc2501e2567df3423be67c0ca5b543`, A/B/C 0/0/0: fresh conflict-free merge tree equals candidate (`56c3df2fa6ca7b1b7137474137354966811fdba5`), unchanged guard/manifest/package/workflow inputs, all 56 env reads registered; exact-head required CI executes 394 suites / 5,343 passing tests. [Candidate](https://github.com/BradleyGleavePortfolio/growth-project-mobile/commit/2dd63b980ebc2501e2567df3423be67c0ca5b543), [executed CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/36939134143/job/110626285499).
+
+Evidence: `AUD-SOL-319-train-{metadata,prepost,protection}.json`, `-merge.log`, `-env.log`, `-ci.log`, `-verdict.md`; no source pushes/production actions.
+
+## Mobile #323 — independent T2 availability audit
+
+APPROVE at `e0b0b01df7957b1755762b2bf6976fd120a6b888`, A/B/C 0/0/0; fresh merge tree equals candidate, OFF removes/blocks all base health declarations and HC plugin, ON exactly restores base, iOS/package/versionCode unchanged, guarded native seams and specific no-permission-CTA copy; exact-head required CI green, 394 suites / 5,317 tests. [Candidate/config](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/e0b0b01df7957b1755762b2bf6976fd120a6b888/app.config.js), [executed CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/36940743221/job/110631398863).
+
+Evidence saved under `AUD-SOL-323-*`: full diff, merge log, metadata/checks/prepost, CI, independent config/introspection probes and verdict; exact inputs justify reusing builder introspections, not claiming final AAB/device acceptance. Local targeted Jest never executed due 120-second heavy-lock timeout; no install/build/push/production action.
+
+## Backend #630 — independent full T4 audit, wrap-up stop
+
+APPROVE at `5b8739886a7bc4c3239674e803340999796c07fb`, open A/B/C **0/0/1**: every content-read and save-eligibility path scoped to own/active own-coach shared recipes, same 404 for hidden/missing, private-by-default writes, rejected image links and null images on all responses, bounded transactional/self-checking migration, explicit coach seed. [Exact policy](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/5b8739886a7bc4c3239674e803340999796c07fb/src/recipes/recipe-access.ts).
+
+**C-630-1 OPEN optional:** remove unscoped `_count.saved_by` aggregate from client-visible recipe DTOs (no bookmark identities disclosed). [Selections](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/5b8739886a7bc4c3239674e803340999796c07fb/src/recipes/recipes.service.ts#L24-L46).
+
+Private Prisma generation and targeted local Jest passed (2 suites / 41 tests); independent source-loaded matrix/coach-change/404/image/no-write probes pass; nine required checks green, CI executes 622 suites / 10,613 tests, live RLS31+27/MWB54+7, migration forward success, parity104 approved items/no additions. [Executed CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/36940010821/job/110629065857), [parity](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/36940010837/job/110629066111).
+
+Saved `AUD-SOL-630-{metadata,prepost,protection}.json`, full diff, CI/parity/migration/live-RLS/live-MWB logs, Prisma/targeted logs, independent probe/log and verdict; disposable CI/static SQL evidence is not populated-production rollout proof, owner/operator inventory + private-row rewrite acknowledgement still required. [Migration scope](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/5b8739886a7bc4c3239674e803340999796c07fb/prisma/migrations/20270204000000_recipe_private_by_default/migration.sql).
+
+Per wrap-up instruction, stop after this verdict and own-worktree removal: backend #610 at `d1e1732f0196490746ce9a09b7fc93685f29afdc` and mobile #314 at supplied prefix `2f7789ec` remain unstarted; full mobile SHA not fetched. Backend #628/mobile #322 withdrawn pending new heads and new owner dunning rules; no audit of their old heads. No source edits/pushes, dependency installs, external merges, workflow dispatches or production actions; other lens verdicts on these heads not read.
+
+### Published verdict receipts and clean stop
+
+- [Mobile #319 final-head verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/319#issuecomment-5942647955): APPROVE at `2dd63b980ebc2501e2567df3423be67c0ca5b543`, 0/0/0.
+- [Mobile #323 final-head verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/323#issuecomment-5942686204): APPROVE at `e0b0b01df7957b1755762b2bf6976fd120a6b888`, 0/0/0.
+- [Backend #630 final-head verdict](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/630#issuecomment-5942743144): APPROVE at `5b8739886a7bc4c3239674e803340999796c07fb`, 0/0/1 (optional aggregate-count minimization).
+
+All three own detached worktrees removed; no half-finished audit or pending command; stop here for agent 110 handoff.

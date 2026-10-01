@@ -1,10 +1,117 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 13:20 PDT (20:20 UTC). Agent 109 took over at 13:12 PDT. Nothing running. Commit time is authoritative.
+Updated: 2026-10-01 ~16:50 PDT (23:50 UTC). Agent 109 HANDOFF: safe stop, nothing running; agent 110 is next. Commit time is authoritative.
 
 Operator: Computer, agent 109, session 7c52cefa ([thread](https://www.perplexity.ai/computer/tasks/7c52cefa-29e8-4d2a-9515-4da0e5a78329)).
 Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5b) is retired: owner 13:12, "agent 108 is
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
+
+## AGENT 109 HANDOFF TO AGENT 110 — 2026-10-01 ~16:50 PDT (real clock) — SAFE STOP. READ THIS FIRST.
+
+Owner 16:32 PDT (verbatim): "Focus on letting in progress agents finish - note what they accomplished, update
+LAST_OPERATOR_STATE - lets get to a safe place and work on agent 110's takeover!"
+Agent 109 (session 7c52cefa) sent a wrap-up order to all 7 subagents, started nothing new, and every subagent has
+finished. NOTHING IS RUNNING. All worktrees are removed. Disk 64%. Agent 110's prompt:
+handoffs/op-7c52cefa/NEXT_OPERATOR_PROMPT_v4.md.
+
+Timestamp warning: many "OPERATOR ... PDT (wall clock)" headers below written between ~15:00 and 16:40 carry labels
+that run AHEAD of the real clock (e.g. "16:55" written at ~16:10). Entry ORDER (newest at the top) is authoritative;
+the labels are not. Owner-message times quoted in OWNER headers are correct.
+
+### Production and mains at handoff (verified 16:45-16:50 PDT)
+- Production backend (Fly app backend-spring-lake-3890) runs 8a709a68 (#606 + #625), deployed by fly-deploy run
+  36932415461 on the owner's one-time "approve the run". Migration 20270125000000_restore_schema_declared_objects
+  applied and verified read-only (10/10 columns, 4 tables with RLS + force + 3 policies each, ListType enum); /health
+  200; no "archived_at" errors since.
+- Backend main 53b625d2 = production + #597 (role choice), #622 (AI consent ledger, flag off), #599 (invite attach
+  outcome). NOT DEPLOYED. Next deploy needs the owner's approval of the production environment (each run).
+- Mobile main bb161a34 = #306 (role choice signup) + #319 (env guard; merged 16:47 by 109 on Sol APPROVE at
+  2dd63b98, T2). Main CI + CodeQL green at bb161a34.
+- Expo: EXPO_PUBLIC_COACH_SIGNUP_SECRET deleted (owner yes 16:22; EAS var c0fa39cd, all 3 envs). 12 project vars remain.
+  Last good Android build f5cac78e (works on owner's Samsung). FCM V1 key still null (owner action). No new build made.
+- Production DB (read-only checks): 0 CoachPackage, 0 ClientPurchase, 0 CoachSubscription, 0 Recipe, 0 SavedRecipe,
+  0 diagnostic rows.
+
+### What the last 7 subagents accomplished (final reports in handoffs/op-7c52cefa/reports/)
+| Agent (lane) | Result |
+|---|---|
+| AUD-OPUS (Claude Opus 5.5) | mobile #310 APPROVE @1d7cc720 (0/0/3); backend #608 APPROVE @11759680 (C-608-2 carried); mobile #313 APPROVE @4c6028d5 (needs rebase onto main + #310, delta re-check); backend #627 REQUEST CHANGES @606b4760: B-627-1 (payout retry/backfill), B-627-2 (concurrent refunds over-reverse; probe handoffs/op-7c52cefa/aud-opus/probe_627_concurrency.spec.ts). Earlier this block: #610 and #314 REQUEST CHANGES (see their PR comments). Not started: #630, #595/#604 train attestations, #313/#627 re-checks. |
+| AUD-SOL3 (GPT-6.1 Sol) | mobile #320 APPROVE @1d16c105 (0/0/0); mobile #310 RC (B: lost grant response can keep AI permission after withdrawal); backend #608 RC (B: late export cleanup treats non-ENOENT delete failures as success); mobile #313 APPROVE (0/0/2); backend #611 RC (0/4/1: publication evidence; retention, coach-signal, deletion-window claims inaccurate); backend #629 RC (0/2/1: DTOs reject $0; unchanged grandfathered offers cannot be republished); mobile #321 RC (price-save failures lack recovery/reference). Queue empty. |
+| AUD-SOL (GPT-6.1 Sol) | mobile #319 APPROVE @2dd63b98 -> MERGED bb161a34; mobile #323 APPROVE @e0b0b01d (109 then updated it to b8b81415 after #319 merged -> needs Sol delta); backend #630 APPROVE @5b873988 (0/0/1: C-630-1 drop aggregate bookmark counts from client responses). Not started: #610 @d1e1732f, #314 @2f7789ec (Sol lens). |
+| B-TRAIN (Opus) | #595 merged forward onto main 53b625d2: merge commit db7785dd (patch-id equal to the audited range) + f2eecae5 (migration renamed 20270205000000_invite_grant_bindings; ordering spec). 732/732 targeted tests; 9/9 required checks + schema parity green. Needs BOTH lenses' delta attestation at f2eecae5. Not started: #604 (approved 21ffc02c; still carries the old 20270125000000_invite_grant_bindings dir -> must pick up the rename after #595). |
+| B-FEE (Opus) | #627 round 2 @70680675: scheduled 15-min payout/settlement sweep (lease row single runner, bounds 25/50/8 min, Stripe idempotency + unique rows, kill switch SFEE_SETTLEMENT_SWEEP_ENABLED registered), main merged (aaa2655f), migration 20270210000000_s_fee_charge_settlement. 379 tests pass; CI green. B-627-1 PARTLY fixed (renewal backfill still skips purchases with a settlement); B-627-2 NOT addressed; local tsc not confirmed (OOM at 2.5 GB; use NODE_OPTIONS=--max-old-space-size=3584). WIP note in PR body. #629/#321 unchanged (Sol RC). |
+| B-R2B (Opus) | #626 fix round @9551d2c8 (main merged 4db7b9b0): A-626-1 fixed (SDK retries off; gate re-checks live consent per attempt), A-626-2 fixed (client AI chat self-only), B-626-1 fixed (503 copy + requestId), C-626-1 fixed (opaque handles + lint boundary), C-626-3 fixed; C-626-2 not changed (retention decision, owner question). tsc 0 errors (3.5 GB heap), 924/924 tests, CI green. Needs BOTH lenses re-audit at 9551d2c8. |
+| S-ERRORS (Opus) | Support email slice: mobile #324 @7f20255d (T2, CI green) and backend #631 @ac83aa73 (T2, all 9 required checks green incl. build-and-test) — SUPPORT_EMAIL = Bradleyapple1031@gmail.com + guard tests. Inventory: mobile 33 generic messages in 20 files, 9 Alert('Error'), 9 "try again later", 36 generic fallbacks, 18 raw error texts; backend 1,180 thrown HTTP errors, 756 without a code. Remaining plan (not started): backend error shape (T3), mobile shared mapper (T3), copy replacement + guard, recipe codes, Support screen silent failure with no mail app. |
+| Earlier today (before wrap-up) | S-DUNNING: #628 @691528a0 + mobile #322 @2d77399d (T4, flag off) — round 2 for owner rulings 1A/2A NOT started; both lenses told to hold. B-RECIPES: #630. M-PLAY: mobile #323. B-ENVTRUTH: #624 + mobile #319. B-COPY: #610/#314/#611. B-306: #306 merged. B-FIX: #310/#608/#313/#320. |
+
+### PR board at handoff (exact heads; "delta" = re-attest after a pure update merge)
+Backend (strict "up to date" protection; 9 required checks):
+| PR | Tier | Head | State | Next action |
+|---|---|---|---|---|
+| #595 | T4 | f2eecae5 | CLEAN | Opus + Sol delta attest -> merge. Then #604. |
+| #604 | T4 | 21ffc02c | dual APPROVE (old base) | After #595: merge main, adopt the migration rename, re-run tests/parity, dual delta -> merge. |
+| #623 | T4 | 4cc366fc | dual APPROVE, BEHIND | update-branch, dual delta -> merge. |
+| #626 | T4 | 9551d2c8 | CLEAN, fix round done | Sol + Opus re-audit -> merge. Ledger/AI flags stay off until #626 + mobile #310 at the clinic deploy. |
+| #624 | T4 | 1159da9b | Opus APPROVE, Sol RC B-624-3 | Fix B-624-3 (failure-log redaction exposes whitespace-separated secret fragments; Sol comment 5942409972), dual re-attest. |
+| #627 | T4 | 70680675 | round 2 partial | Fix B-627-1 backfill + B-627-2 refund concurrency; confirm tsc; dual re-audit. |
+| #628 | T4 | 691528a0 | not audited | Round 2: owner 1A + 2A; then dual audit. Flip plan in reports/S-DUNNING.md. |
+| #629 | T3 | 32d81faa | Sol RC | Fix ($0 DTO, grandfathered republish), re-audit. |
+| #630 | T4 | 5b873988 | Sol APPROVE, BEHIND | Opus audit (+ C-630-1 optional) -> update + delta -> merge. Before deploy: run the read-only count in reports/B-RECIPES.md. |
+| #631 | T2 | ac83aa73 | not audited; all 9 required checks green | One Sol audit -> merge. |
+| #608 | T4 | 11759680 | Opus APPROVE, Sol RC | Fix Sol B (export cleanup), delta both; pairs with mobile #313. |
+| #610 | T4 | d1e1732f | Opus RC | Fix round (and switch safety contact to SUPPORT_EMAIL, see rulings), Sol audit. |
+| #611 | T3 | e5777735 | Sol RC 0/4/1 | Fix round; point ACCOUNT_DELETION_EMAIL at SUPPORT_EMAIL; remove quiz text. Gate: merges after #608/#313, the Roman 180-day sweep and B-QUIZ-OFF. |
+| #607 | T4 | 245da2e7 | Opus APPROVE, Sol APPROVE (+older RC) | Verify Sol's latest verdict is at this head; restack onto main; required by mobile #310 for the clinic build. |
+| #609 | T3 | 1f8b22b9 | unaudited | Restack later (welcome message +13 min). |
+Mobile (strict protection; 3 required checks):
+| PR | Tier | Head | State | Next action |
+|---|---|---|---|---|
+| #320 | T2 | 1d16c105 | Sol APPROVE, CONFLICT | Resolve 1 conflict (src/screens/auth/LoginScreen.tsx vs #306), Sol delta -> merge. Android build gate. |
+| #323 | T2 | b8b81415 | Sol APPROVE @e0b0b01d; updated | Sol delta (pure merge of #319) -> merge. Android build gate. |
+| #324 | T2 | 7f20255d | BEHIND, unaudited | update, one Sol audit -> merge. |
+| #310 | T4 | 1d7cc720 | Opus APPROVE, Sol RC | Fix Sol B (lost grant response), dual delta. Needs backend #607 for the clinic build. |
+| #313 | T4 | 4c6028d5 | dual APPROVE | Conflicts with main (#306) and #310: rebase, dual delta; ships with #608. |
+| #314 | T4 | 2f7789ec | Opus RC | Fix round + SUPPORT_EMAIL safety contact, Sol audit. |
+| #315 | T3 | d9c2e669 | dual APPROVE, BEHIND | Check dependency on backend #611 first; update + delta -> merge. |
+| #317 | T4 | c7e35d84 | Sol BLOCK, Opus RC | Fix round (Opus: Reconnect after sign-out). Health Connect returns only after this + Play health declaration. |
+| #321 | T3 | 8bc4de3a | Sol RC | Fix (price-save recovery/reference). |
+| #322 | T4 | 2d77399d | not audited | Round 2 with #628. |
+| #305 | T3 | 45787152 | base clinic/m2 | Restack onto main (expo-updates / EAS Update). |
+
+### Android build gate (owner does Play setup later; do not remind him)
+#306 merged, #319 merged; remaining #320 + #323. Then build the production .aab (eas.json production profile,
+versionCode 4, package com.growthproject.app, TGP_ANDROID_HEALTH_CONNECT off) through the Expo API/eas with the
+vault credential; batch builds (Expo Free: 15 Android/month). Play checklist + icon + feature graphic:
+handoffs/op-7c52cefa/play/.
+
+### Operator rulings made during wrap-up (owner can override)
+- OR-109-1: community safety contact in #610/#314 uses SUPPORT_EMAIL (Bradleyapple1031@gmail.com) instead of the 09:07
+  address, under the owner's 14:19 one-support-email ruling. Otherwise both PRs fail S-ERRORS' guards on rebase.
+- OR-109-2: mobile maps backend `ai_egress_blocked` (503) to a contact-support action that shows the reference.
+- OR-109-3: B-RECIPES defaults accepted (all rows private; no coach recipe editor in v1.0 -> 1.0.1; keep is_public
+  name; deploy order count -> deploy -> seed).
+
+### Owner questions still open (ask in DECISION NEEDED format; recommendation first)
+1. C-626-2: keep a client's past AI replies after they withdraw AI consent? Rec: keep, and the privacy copy says "past
+   AI replies stay in your history".
+2. Voice notes: off at launch (operator default) vs build voice reporting for day 1.
+3. Standing deploy approval vs approve each fly-deploy run.
+4. Schema-parity check as a required check on backend main (owner must change branch protection or authorize it; the
+   operator's attempt was blocked by the safety classifier).
+5. LLC / D-U-N-S (only matters if he wants a Play organization account to skip the 12-tester rule).
+Owner actions (not questions): FCM V1 key; Stripe live settings for dunning (reports/S-DUNNING.md list) + customer
+portal + Connect; Play app + testers (later, his call); production deploy approvals; TestFlight passes.
+
+### Recommended first moves for agent 110 (after readback and the owner's budget go)
+1. One Sol + one Opus auditor batch: #595 delta, #626 re-audit, #623 delta, #630 Opus, #323 delta, #631, #324.
+2. Small fixes: #320 conflict, B-624-3, #608 Sol B, #310 Sol B.
+3. Merge train in dependency order; then ask the owner to approve the next backend deploy (main CI green, then
+   fly-deploy.yml with release_sha=<main head>, confirm=deploy, migrations=apply-migrations).
+4. Android .aab after #320 + #323.
+5. Builders: S-DUNNING round 2 (1A/2A), B-FEE round 3 (B-627-1/2), S-ERRORS remaining slices, B-QUIZ-OFF, #317 fix,
+   S-COACH-TOOLS, banner + Roman pitch, S-SCHED, --release-env pre-build check, C-608-2, C-313-5, deletion
+   follow-ups (recipes left behind + saved bookmark blocks delete silently; export omits created recipes).
+
 
 ## OWNER 2026-10-01 16:30 PDT: "1A + 2A -> Keep progressing on the known work. Rotate that Google play store testing and app creation needs done by owner (me) at a later time"
 - Recorded in LIVE_STATE + DECISION_LOG. S-DUNNING builder (make_10_day_payment_lockout_live_ready_s_dunning_muq1cu5t)

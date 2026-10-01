@@ -127,3 +127,41 @@
 - Range-diff: 3 audited commits identical after rebase onto 10dff85c; delta 7654b3ad + 1159da9b. Malformed unregistered names -> MALFORMED_n + length bucket (probe: absent from JSON and markdown). Post-check via --json + jq; specific errors. Registrations match code defaults.
 - C-624-4: new deploy_staged=true runs fly secrets deploy (applies every staged secret on the app; rolling restart). C-624-5: well-formed unregistered names still printed (by design).
 - Local: 6 suites / 202 passed, 1 skipped (ops/aud-opus/jest_624_1159.log). CI green except pre-existing shellcheck SC2015 (s10-core-diff-gate.sh, also failing on main).
+
+### backend#610 @ d1e1732f0196490746ce9a09b7fc93685f29afdc — REQUEST CHANGES (A0 B1 C4) — UGC safety, full T4 (head as is, BEHIND main)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/610#issuecomment-5942471860
+- PASS: two-way block on every src/community read route (route guard enumerates Nest metadata over all controllers; unclassified/stale fail); 404 reuse for hidden content; ban refuses workspace coach + platform owner and runs before any write; removed membership is never re-activated by bootstrap; content filter on post/comment/message/DM/challenge-comment create+edit; first names only to members; DM report/react participants only; voice writes behind FEATURE_COMMUNITY_VOICE_NOTES (off); coach-member block hides coach content (accepted).
+- B-610-1: member wins (POST /community/wins, GET /community/feed; live in mobile More > Community, no flag) have no content filter and no report target; coach-less clients see every tenant's public wins. Fix: gate behind the community flag (voice-note treatment) or add filter + report + no cross-tenant public feed.
+- C-610-1 DM 403 dm.blocked distinguishes block from 404 not_found and gives the blocker no unblock step; C-610-2 guard limits (src/community GETs; checks method body, not handler wiring); C-610-3 cannot_ban_coach has no message; C-610-4 community DB e2e suites skip without COMMUNITY_TEST_DATABASE_URL.
+- Local: 22 changed specs -> 14 suites / 247 passed, 8 DB suites skipped (ops/aud-opus/jest_610.log). CI all SUCCESS (no parity run: base predates it; no migration).
+
+### mobile#314 @ 2f7789eca795d6fe7f895ae2b498435605feec01 — REQUEST CHANGES (A0 B1 C3)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/314#issuecomment-5942472172
+- Contract matches #610 (report/block endpoints and shapes; 6 SafetyMenu sites; Block hidden on own and own-coach content; 16 mapped codes exist on backend; reference + support + one sanitised Sentry event).
+- B-314-1 (root B-610-1): legacy wins screen (More > Community) is live UGC without Report/Block, outside featureFlags.communityTab. C-314-1 duplicate report entry on challenge comments; C-314-2 block copy mentions voice notes; C-314-3 blocker DM copy.
+- Local: 6 suites / 131 passed (ops/aud-opus/jest_314.log). CI 4/4 SUCCESS.
+
+## mobile#310 @ 1d7cc72058fdff5e95faa6db751299e203ea6d28 (T4 Opus lens, round 4) — APPROVE, A0 B0 C3
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/310#issuecomment-5942613385
+- Verified: D2 copy exact vs contract; box 2 sha equals backend main CLIENT_AI_CONSENT_COPY_SHA256; API matches merged #622; B-310-3/4, C-310-6/7 closed; flag default off (clinic profile on); merge-tree with main 56d4fc6 clean. CI green. Local 12 suites / 246 passed.
+- C-310-8 release order: clinic build needs backend #607 (/me/onboarding, still open) deployed first; ledger flag on at the same clinic deploy as #626. C-310-9 unknown box-2 state after the 3 s fallback sends nothing. C-310-10 merge order with #313 (DeleteAccountScreen conflict; keep the draft purge).
+
+## backend#608 @ 117596803ecf48e424f9d4a9cefc47b7bcc71f78 (T4 Opus lens) — APPROVE, A0 B0 C3 (+C-608-2 carried)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/608#issuecomment-5942613902
+- Verified: receipt endpoint answers only for a Supabase-signed token's own subject (iss/aud/ES256/signature kept, 30-day expiry tolerance), same 404 for live and unknown, throttled; receipt key hashed, written after identity removal, dropped after 30 days; guard 403 ACCOUNT_DELETED vs 401 USER_NOT_FOUND; AiProcessingConsentEvent manifest DELETE; export fence (RUNNING-only READY, own-file delete, 0600, orphan sweep). No migration. Required CI green (shellcheck SC2015 pre-existing). Local 17 suites / 293 passed.
+- C-608-7 unkeyed receipt digest (use HMAC). C-608-8 per-machine export files survive up to ~25 h on other machines. C-608-9 Apple secrets workflow uses `secrets import` without --stage (rolling restart).
+
+## mobile#313 @ 4c6028d580d537a97af917d9515a8439140d652f (T4 Opus lens) — APPROVE, A0 B0 C2 (+C-313-5 carried)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/313#issuecomment-5942613690
+- Verified: re-auth, schedule, ACCOUNT_DELETED and receipt contracts match #608; receipt call skips refresh; deletionErrors copy specific with reference and support address. CI green. Local 6 suites / 79 passed.
+- C-313-7 raw axios error to Sentry (holds the re-auth body; not serialized by default integrations). C-313-8 conflicts with main (#306, appleAuth.test.ts) and with #310; rebase, keep the draft purge, delta check.
+
+## backend#627 @ 606b4760efb2b35ab4a5fded7bea034f88fec101 (T4 Opus lens, S-FEE round 2) — REQUEST CHANGES, A0 B2 C2
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/627#issuecomment-5942708157
+- Holds: actual-fee split math, settle CAS + fixed-amount transfer outbox with idempotency keys, legacy detection, free/$0 never settle, migration RLS/CHECKs. Required CI green; merge-tree with main 53b625d2 clean. Local 11 suites / 215 passed.
+- B-627-1: a failed webhook-time settlement is never retried automatically (errors swallowed -> 2xx; sweeper is admin-endpoint only, no cron; backfill skips purchases that already have a settlement and anything older than 14 days -> missed renewals never paid). Fix: cron the sweeper, backfill per paid invoice without a settlement, alert on stale awaiting rows.
+- B-627-2: no per-charge lock across applyAdjustments/convergeLeg; probe (ops/aud-opus/probe_627_concurrency.*) shows two concurrent refund states reverse 1960 + 2940 against a 1690 target (coach over-recovered by 1960), and a duplicate delivery double-counts the ledger reversal (3920 vs 1960). Fix: advisory/row lock per charge, absolute reversed amounts, concurrency test.
+- C-627-1 migration timestamp sorts before #622's 20270203 (rename on rebase). C-627-2 #608 manifest needs ChargeSettlement/PayeeRecovery user columns (whichever lands second).
+
+## Handoff (19:10 wrap-up order)
+- Not started: backend #630 @ 5b873988 (recipes private, T4). #628/#322 on hold per operator. #595/#604 merge-train heads pending (after #599, now merged as 53b625d2). Re-checks owed after rebases: #313 (conflicts with main and #310), #627 fix round.

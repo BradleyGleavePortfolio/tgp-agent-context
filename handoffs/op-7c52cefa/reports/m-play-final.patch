@@ -1,0 +1,1048 @@
+diff --git a/app.config.js b/app.config.js
+new file mode 100644
+index 0000000..ee83fdc
+--- /dev/null
++++ b/app.config.js
+@@ -0,0 +1,52 @@
++// Expo loads the dynamic build config as CommonJS.
++// eslint-disable-next-line @typescript-eslint/no-var-requires
++const app = require('./app.json').expo;
++
++const SAMSUNG_PERMISSION =
++  'com.samsung.android.hardware.sensormanager.permission.READ_ADDITIONAL_HEALTH_DATA';
++const HEALTH_CONNECT_PLUGINS = new Set([
++  'react-native-health-connect',
++  // #317 registers this Android-only delegate. It must follow the same switch.
++  './plugins/withHealthConnectPermissionDelegate',
++]);
++
++function isHealthPermission(permission) {
++  return (
++    permission.startsWith('android.permission.health.') ||
++    permission === SAMSUNG_PERMISSION
++  );
++}
++
++// Opt in only with 1. Every other value (including unset) builds without HC.
++module.exports = ({ config = app } = {}) => {
++  const enabled = process.env.TGP_ANDROID_HEALTH_CONNECT === '1';
++  const permissions = config.android?.permissions ?? [];
++  const disabledPermissions = permissions.filter(isHealthPermission);
++
++  return {
++    ...config,
++    android: enabled
++      ? config.android
++      : {
++          ...config.android,
++          permissions: permissions.filter((name) => !isHealthPermission(name)),
++          // Manifest merger can restore library permissions unless blocked.
++          blockedPermissions: [
++            ...new Set([
++              ...(config.android?.blockedPermissions ?? []),
++              ...disabledPermissions,
++              SAMSUNG_PERMISSION,
++            ]),
++          ],
++        },
++    plugins: enabled
++      ? config.plugins
++      : config.plugins?.filter(
++          (plugin) =>
++            !HEALTH_CONNECT_PLUGINS.has(
++              Array.isArray(plugin) ? plugin[0] : plugin,
++            ),
++        ),
++    extra: { ...config.extra, healthConnectEnabled: enabled },
++  };
++};
+diff --git a/docs/android-health-connect-build-switch.md b/docs/android-health-connect-build-switch.md
+new file mode 100644
+index 0000000..d070d69
+--- /dev/null
++++ b/docs/android-health-connect-build-switch.md
+@@ -0,0 +1,55 @@
++# Android Health Connect build switch
++
++The first Android closed-test binary does not include Health Connect permission
++declarations or connect actions. Apple Health on iOS is unchanged.
++
++`app.config.js` reads the base Expo config from `app.json`.
++`TGP_ANDROID_HEALTH_CONNECT=1` is the only opt-in value; unset, `0` and all other
++values keep Android Health Connect off. `preview` and `production` explicitly set
++`0` in `eas.json`; `clinic` inherits `production`.
++
++OFF removes every `android.permission.health.*` declaration and the Samsung
++additional-health-data permission, adds manifest-merger removal rules through
++`android.blockedPermissions`, removes the Health Connect plugin and sets
++`extra.healthConnectEnabled=false`. The package and version code remain
++`com.growthproject.app` and `4`. This switch does not uninstall the dependency or
++change health-data contracts.
++
++Runtime checks fail closed when that metadata is absent or not boolean `true`.
++Health Connect and Samsung Health connect sheets explain that Health Connect is
++coming in an Android update, offer Close, and have no permission CTA. Native reads,
++permissions and sync entry points reject with `health_connect_build_disabled`
++before loading the Health Connect module.
++
++## Wearables integration
++
++[Wearables PR #317](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/317)
++must retain these guards and the lazy Health Connect require in
++`onDeviceConnect.ts` when resolving overlapping files. OFF also filters its
++`./plugins/withHealthConnectPermissionDelegate` registration. ON passes all
++`app.json` permissions and plugins through unchanged, including #317's added
++resting-heart-rate permission and delegate plugin. Its consent, account-isolation,
++history-import and ingest fixes remain required before enabling Health Connect.
++
++For a later native update, obtain approval for #317 and the Play declaration,
++explicitly change the desired EAS profile to `TGP_ANDROID_HEALTH_CONNECT=1`, and
++build a new Android binary. Changing JavaScript alone cannot add native manifest
++permissions. Do not use an ON OTA update to enable Health Connect in an OFF binary.
++
++## Introspection proof
++
++Without running prebuild or starting an EAS build:
++
++```sh
++TGP_ANDROID_HEALTH_CONNECT=0 EXPO_NO_DOTENV=1 npx expo config --type introspect --json
++TGP_ANDROID_HEALTH_CONNECT=1 EXPO_NO_DOTENV=1 npx expo config --type introspect --json
++```
++
++On base `c4963f87159d36dc50ecc90a8461262220956f75`, OFF has zero active Health
++Connect/Samsung health permissions and 18 `tools:node="remove"` entries:
++17 Android health permissions (including background reads) plus Samsung's
++additional-health-data permission. ON has those 18 active declarations and the
++Health Connect plugin. The brief's estimate of 18 Android health permissions is
++one higher than this base; #317 adds `READ_RESTING_HEART_RATE`, which the transform
++also removes/blocks when OFF. These are config-plugin introspection results, not
++an inspection of a built AAB or an installed-device test.
+diff --git a/eas.json b/eas.json
+index a2c7052..077312c 100644
+--- a/eas.json
++++ b/eas.json
+@@ -22,6 +22,7 @@
+         "buildType": "apk"
+       },
+       "env": {
++        "TGP_ANDROID_HEALTH_CONNECT": "0",
+         "EXPO_PUBLIC_USE_MOCK_COMMAND_CENTER": "false",
+         "EXPO_PUBLIC_NOTIFICATIONS_MOCK": "false",
+         "EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES": "true"
+@@ -32,6 +33,7 @@
+       "environment": "production",
+       "prebuildCommand": "prebuild --no-install",
+       "env": {
++        "TGP_ANDROID_HEALTH_CONNECT": "0",
+         "EXPO_PUBLIC_USE_MOCK_COMMAND_CENTER": "false",
+         "EXPO_PUBLIC_NOTIFICATIONS_MOCK": "false",
+         "EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES": "true"
+diff --git a/src/config/__tests__/androidHealthConnectConfig.test.js b/src/config/__tests__/androidHealthConnectConfig.test.js
+new file mode 100644
+index 0000000..cb3cea2
+--- /dev/null
++++ b/src/config/__tests__/androidHealthConnectConfig.test.js
+@@ -0,0 +1,104 @@
++const app = require('../../../app.json').expo;
++const configure = require('../../../app.config');
++const eas = require('../../../eas.json');
++
++const SAMSUNG =
++  'com.samsung.android.hardware.sensormanager.permission.READ_ADDITIONAL_HEALTH_DATA';
++const isHealthPermission = (name) =>
++  name.startsWith('android.permission.health.') || name === SAMSUNG;
++const pluginNames = (config) =>
++  config.plugins.map((plugin) => (Array.isArray(plugin) ? plugin[0] : plugin));
++const originalSwitch = process.env.TGP_ANDROID_HEALTH_CONNECT;
++
++afterEach(() => {
++  if (originalSwitch === undefined)
++    delete process.env.TGP_ANDROID_HEALTH_CONNECT;
++  else process.env.TGP_ANDROID_HEALTH_CONNECT = originalSwitch;
++});
++
++test.each([undefined, '', '0', 'false', 'true', 'unexpected'])(
++  'defaults OFF for %s and blocks every removed manifest permission',
++  (value) => {
++    if (value === undefined) delete process.env.TGP_ANDROID_HEALTH_CONNECT;
++    else process.env.TGP_ANDROID_HEALTH_CONNECT = value;
++    const result = configure();
++    expect(result.extra.healthConnectEnabled).toBe(false);
++    expect(result.android.permissions).toEqual(
++      app.android.permissions.filter((name) => !isHealthPermission(name)),
++    );
++    expect(result.android.permissions.some(isHealthPermission)).toBe(false);
++    expect(result.android.blockedPermissions).toEqual(
++      expect.arrayContaining(
++        app.android.permissions.filter(isHealthPermission),
++      ),
++    );
++    expect(pluginNames(result)).not.toContain('react-native-health-connect');
++    expect(result.ios).toEqual(app.ios);
++    expect(pluginNames(result)).toContain('react-native-health');
++    expect(result.android.versionCode).toBe(4);
++    expect(result.android.package).toBe('com.growthproject.app');
++    expect(result.extra.eas).toEqual(app.extra.eas);
++  },
++);
++
++test('ON preserves every Android declaration, all plugins and all iOS settings', () => {
++  process.env.TGP_ANDROID_HEALTH_CONNECT = '1';
++  const result = configure();
++  expect(result.android).toEqual(app.android);
++  expect(result.plugins).toEqual(app.plugins);
++  expect(result.ios).toEqual(app.ios);
++  expect(result.extra).toEqual({ ...app.extra, healthConnectEnabled: true });
++});
++
++test('OFF handles future #317 permissions/plugins, tuples, existing blocks, and is pure/idempotent', () => {
++  delete process.env.TGP_ANDROID_HEALTH_CONNECT;
++  const input = {
++    ...app,
++    android: {
++      ...app.android,
++      permissions: [
++        ...app.android.permissions,
++        'android.permission.health.READ_RESTING_HEART_RATE',
++        'android.permission.health.READ_FUTURE_RECORD',
++      ],
++      blockedPermissions: ['android.permission.RECORD_AUDIO', SAMSUNG],
++    },
++    plugins: [
++      ...app.plugins.filter(
++        (plugin) => plugin !== 'react-native-health-connect',
++      ),
++      ['react-native-health-connect', {}],
++      ['./plugins/withHealthConnectPermissionDelegate', {}],
++    ],
++  };
++  const before = JSON.stringify(input);
++  const result = configure({ config: input });
++  expect(result.android.permissions.some(isHealthPermission)).toBe(false);
++  expect(result.android.blockedPermissions).toEqual(
++    expect.arrayContaining([
++      ...input.android.permissions.filter(isHealthPermission),
++      'android.permission.RECORD_AUDIO',
++    ]),
++  );
++  expect(new Set(result.android.blockedPermissions).size).toBe(
++    result.android.blockedPermissions.length,
++  );
++  expect(pluginNames(result)).not.toContain('react-native-health-connect');
++  expect(pluginNames(result)).not.toContain(
++    './plugins/withHealthConnectPermissionDelegate',
++  );
++  expect(result.ios).toEqual(input.ios);
++  expect(JSON.stringify(input)).toBe(before);
++  expect(configure({ config: result })).toEqual(result);
++
++  process.env.TGP_ANDROID_HEALTH_CONNECT = '1';
++  const enabled = configure({ config: input });
++  expect(enabled.android).toEqual(input.android);
++  expect(enabled.plugins).toEqual(input.plugins);
++});
++
++test('production and preview explicitly opt out; clinic inherits production', () => {
++  expect(eas.build.production.env.TGP_ANDROID_HEALTH_CONNECT).toBe('0');
++  expect(eas.build.preview.env.TGP_ANDROID_HEALTH_CONNECT).toBe('0');
++  expect(eas.build.clinic.extends).toBe('production');
++});
+diff --git a/src/config/healthConnect.ts b/src/config/healthConnect.ts
+new file mode 100644
+index 0000000..0661bc9
+--- /dev/null
++++ b/src/config/healthConnect.ts
+@@ -0,0 +1,35 @@
++import Constants from 'expo-constants';
++import { Platform } from 'react-native';
++
++export const HEALTH_CONNECT_DISABLED_MESSAGE =
++  'Health Connect is coming to Android in an update. You can still log your training and meals in the app.';
++
++/** Build metadata, not an EXPO_PUBLIC flag: absent metadata fails closed. */
++export function isAndroidHealthConnectEnabled(): boolean {
++  return (
++    Platform.OS === 'android' &&
++    Constants.expoConfig?.extra?.healthConnectEnabled === true
++  );
++}
++
++export function isHealthConnectProviderDisabled(provider: string): boolean {
++  return (
++    Platform.OS === 'android' &&
++    !isAndroidHealthConnectEnabled() &&
++    (provider === 'HEALTH_CONNECT' || provider === 'SAMSUNG_HEALTH')
++  );
++}
++
++export class HealthConnectDisabledError extends Error {
++  readonly code = 'health_connect_build_disabled';
++
++  constructor() {
++    super(HEALTH_CONNECT_DISABLED_MESSAGE);
++    this.name = 'HealthConnectDisabledError';
++  }
++}
++
++/** Call after the platform guard and before resolving any native HC module. */
++export function assertAndroidHealthConnectEnabled(): void {
++  if (!isAndroidHealthConnectEnabled()) throw new HealthConnectDisabledError();
++}
+diff --git a/src/hooks/useHealthConnectSync.test.tsx b/src/hooks/useHealthConnectSync.test.tsx
+index 556a642..d89eb84 100644
+--- a/src/hooks/useHealthConnectSync.test.tsx
++++ b/src/hooks/useHealthConnectSync.test.tsx
+@@ -7,6 +7,11 @@
+ 
+ import React from 'react';
+ import { Platform } from 'react-native';
++import Constants from 'expo-constants';
++jest.mock('expo-constants', () => ({
++  __esModule: true,
++  default: { expoConfig: { extra: { healthConnectEnabled: true } } },
++}));
+ import { renderHook, waitFor, act } from '@testing-library/react-native';
+ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+ 
+@@ -31,6 +36,7 @@ jest.mock('../utils/logger', () => ({
+ 
+ import { useHealthConnectSync } from './useHealthConnectSync';
+ import { HealthConnectUnsupportedError } from '../services/health/healthConnect';
++import { HealthConnectDisabledError } from '../config/healthConnect';
+ 
+ function setPlatform(os: string): void {
+   Object.defineProperty(Platform, 'OS', { get: () => os, configurable: true });
+@@ -68,11 +74,34 @@ function deps() {
+ 
+ beforeEach(() => {
+   jest.clearAllMocks();
++  Object.defineProperty(Constants, 'expoConfig', {
++    configurable: true,
++    value: { extra: { healthConnectEnabled: true } },
++  });
+   for (const k of Object.keys(store)) delete store[k];
+   setPlatform('android');
+ });
+ 
+ describe('useHealthConnectSync', () => {
++  it('reports unsupported and refuses sync on Android when the build switch is OFF', async () => {
++    Object.defineProperty(Constants, 'expoConfig', {
++      configurable: true,
++      value: { extra: { healthConnectEnabled: false } },
++    });
++    const d = deps();
++    const { result } = await renderHook(
++      () => useHealthConnectSync({ deps: d }),
++      { wrapper },
++    );
++    expect(result.current.supported).toBe(false);
++    await act(async () => {
++      await expect(
++        result.current.sync({ userId: 'u1', connectionId: 'c1' }),
++      ).rejects.toBeInstanceOf(HealthConnectDisabledError);
++    });
++    expect(d.client.initialize).not.toHaveBeenCalled();
++    expect(d.ingestApi.ingest).not.toHaveBeenCalled();
++  });
+   it('reports supported=true on android', async () => {
+     const { result } = await renderHook(() => useHealthConnectSync(), { wrapper });
+     expect(result.current.supported).toBe(true);
+diff --git a/src/screens/client/wearables/ConnectProviderSheet.tsx b/src/screens/client/wearables/ConnectProviderSheet.tsx
+index a7e4a4d..45b898e 100644
+--- a/src/screens/client/wearables/ConnectProviderSheet.tsx
++++ b/src/screens/client/wearables/ConnectProviderSheet.tsx
+@@ -52,7 +52,17 @@ import {
+   useStartOauth,
+ } from '../../../hooks/useWearableConnections';
+ import { connectOnDeviceProvider } from '../../../services/health/onDeviceConnect';
+-import { colors, radius, spacing, typography, withAlpha } from '../../../theme/tokens';
++import {
++  HEALTH_CONNECT_DISABLED_MESSAGE,
++  isHealthConnectProviderDisabled,
++} from '../../../config/healthConnect';
++import {
++  colors,
++  radius,
++  spacing,
++  typography,
++  withAlpha,
++} from '../../../theme/tokens';
+ import { emitTutorialSignal } from '../../../tutorial/tutorialEvents';
+ 
+ /**
+@@ -95,6 +105,8 @@ export default function ConnectProviderSheet({
+ 
+   const onDevice = provider != null && isOnDeviceProvider(provider);
+   const config = provider != null ? configFor(provider) : null;
++  const buildDisabled =
++    provider != null && isHealthConnectProviderDisabled(provider);
+ 
+   const handleCloudConnect = useCallback(
+     async (target: WearableProvider) => {
+@@ -126,6 +138,9 @@ export default function ConnectProviderSheet({
+       const outcome = await connectOnDeviceProvider(target);
+       const name = configFor(target).displayName;
+       switch (outcome) {
++        case 'disabled':
++          setError(HEALTH_CONNECT_DISABLED_MESSAGE);
++          return;
+         case 'granted':
+           // Permission granted on-device; re-read so the hub reflects it.
+           invalidate();
+@@ -153,6 +168,10 @@ export default function ConnectProviderSheet({
+ 
+   const handleContinue = useCallback(async () => {
+     if (provider == null) return;
++    if (isHealthConnectProviderDisabled(provider)) {
++      setError(HEALTH_CONNECT_DISABLED_MESSAGE);
++      return;
++    }
+     setError(null);
+ 
+     try {
+@@ -206,9 +225,13 @@ export default function ConnectProviderSheet({
+                 </Text>
+               </View>
+ 
+-              <Text style={styles.body}>{config.dataDescription}</Text>
++              <Text style={styles.body}>
++                {buildDisabled
++                  ? HEALTH_CONNECT_DISABLED_MESSAGE
++                  : config.dataDescription}
++              </Text>
+ 
+-              {onDevice && (
++              {onDevice && !buildDisabled && (
+                 <View
+                   style={styles.note}
+                   accessibilityRole="text"
+@@ -227,28 +250,35 @@ export default function ConnectProviderSheet({
+                 </Text>
+               )}
+ 
+-              <Pressable
+-                style={[styles.cta, continuing && styles.ctaDisabled]}
+-                onPress={handleContinue}
+-                disabled={continuing}
+-                accessibilityRole="button"
+-                accessibilityState={{ disabled: continuing, busy: continuing }}
+-                accessibilityLabel={`Continue connecting ${config.displayName}`}
+-              >
+-                {continuing ? (
+-                  <ActivityIndicator color={colors.bone} />
+-                ) : (
+-                  <Text style={styles.ctaText}>Continue</Text>
+-                )}
+-              </Pressable>
++              {!buildDisabled && (
++                <Pressable
++                  style={[styles.cta, continuing && styles.ctaDisabled]}
++                  onPress={handleContinue}
++                  disabled={continuing}
++                  accessibilityRole="button"
++                  accessibilityState={{
++                    disabled: continuing,
++                    busy: continuing,
++                  }}
++                  accessibilityLabel={`Continue connecting ${config.displayName}`}
++                >
++                  {continuing ? (
++                    <ActivityIndicator color={colors.bone} />
++                  ) : (
++                    <Text style={styles.ctaText}>Continue</Text>
++                  )}
++                </Pressable>
++              )}
+ 
+               <Pressable
+                 style={styles.cancel}
+                 onPress={onClose}
+                 accessibilityRole="button"
+-                accessibilityLabel="Cancel"
++                accessibilityLabel={buildDisabled ? 'Close' : 'Cancel'}
+               >
+-                <Text style={styles.cancelText}>Cancel</Text>
++                <Text style={styles.cancelText}>
++                  {buildDisabled ? 'Close' : 'Cancel'}
++                </Text>
+               </Pressable>
+             </>
+           )}
+diff --git a/src/screens/client/wearables/__tests__/ConnectProviderSheet.buildSwitch.test.tsx b/src/screens/client/wearables/__tests__/ConnectProviderSheet.buildSwitch.test.tsx
+new file mode 100644
+index 0000000..0704916
+--- /dev/null
++++ b/src/screens/client/wearables/__tests__/ConnectProviderSheet.buildSwitch.test.tsx
+@@ -0,0 +1,131 @@
++import React from 'react';
++import Constants from 'expo-constants';
++import { Platform } from 'react-native';
++import {
++  fireEvent,
++  render,
++  screen,
++  waitFor,
++} from '@testing-library/react-native';
++
++jest.mock('expo-constants', () => ({
++  __esModule: true,
++  default: { expoConfig: { extra: { healthConnectEnabled: false } } },
++}));
++const mockOauth = jest.fn();
++const mockInvalidate = jest.fn();
++jest.mock('../../../../hooks/useWearableConnections', () => ({
++  useStartOauth: () => ({ mutateAsync: mockOauth, isPending: false }),
++  useInvalidateWearableConnections: () => mockInvalidate,
++}));
++const mockConnect = jest.fn();
++jest.mock('../../../../services/health/onDeviceConnect', () => ({
++  connectOnDeviceProvider: (...args: unknown[]) => mockConnect(...args),
++}));
++
++import ConnectProviderSheet from '../ConnectProviderSheet';
++import { HEALTH_CONNECT_DISABLED_MESSAGE } from '../../../../config/healthConnect';
++import { subscribeTutorialSignals } from '../../../../tutorial/tutorialEvents';
++import type { TutorialSignal } from '../../../../tutorial/types';
++
++const originalOS = Platform.OS;
++beforeEach(() => {
++  jest.clearAllMocks();
++  Object.defineProperty(Platform, 'OS', {
++    configurable: true,
++    value: 'android',
++  });
++  Object.defineProperty(Constants, 'expoConfig', {
++    configurable: true,
++    value: { extra: { healthConnectEnabled: false } },
++  });
++});
++afterEach(() => {
++  Object.defineProperty(Platform, 'OS', {
++    configurable: true,
++    value: originalOS,
++  });
++});
++
++test.each(['HEALTH_CONNECT', 'SAMSUNG_HEALTH'] as const)(
++  'OFF %s sheet explains the update and offers a working Close, not a permission CTA',
++  async (provider) => {
++    const onClose = jest.fn();
++    const onConnected = jest.fn();
++    await render(
++      <ConnectProviderSheet
++        provider={provider}
++        visible
++        onClose={onClose}
++        onConnected={onConnected}
++      />,
++    );
++    expect(screen.getByText(HEALTH_CONNECT_DISABLED_MESSAGE)).toBeTruthy();
++    expect(screen.queryByText('Continue')).toBeNull();
++    expect(screen.queryByText(/Continue to grant access/)).toBeNull();
++    await fireEvent.press(screen.getByLabelText('Close'));
++    expect(onClose).toHaveBeenCalledTimes(1);
++    expect(mockConnect).not.toHaveBeenCalled();
++    expect(mockOauth).not.toHaveBeenCalled();
++    expect(mockInvalidate).not.toHaveBeenCalled();
++    expect(onConnected).not.toHaveBeenCalled();
++  },
++);
++
++test('ON keeps the existing Android connect flow', async () => {
++  Object.defineProperty(Constants, 'expoConfig', {
++    configurable: true,
++    value: { extra: { healthConnectEnabled: true } },
++  });
++  mockConnect.mockResolvedValue('granted');
++  const onClose = jest.fn();
++  await render(
++    <ConnectProviderSheet
++      provider="HEALTH_CONNECT"
++      visible
++      onClose={onClose}
++    />,
++  );
++  await fireEvent.press(
++    screen.getByLabelText('Continue connecting Health Connect'),
++  );
++  await waitFor(() => expect(onClose).toHaveBeenCalledTimes(1));
++  expect(mockConnect).toHaveBeenCalledWith('HEALTH_CONNECT');
++  expect(mockInvalidate).toHaveBeenCalledTimes(1);
++});
++
++test('disabled service result never reports a successful connection or tutorial completion', async () => {
++  Object.defineProperty(Constants, 'expoConfig', {
++    configurable: true,
++    value: { extra: { healthConnectEnabled: true } },
++  });
++  mockConnect.mockResolvedValue('disabled');
++  const signals: TutorialSignal[] = [];
++  const unsubscribe = subscribeTutorialSignals((signal) =>
++    signals.push(signal),
++  );
++  const onClose = jest.fn();
++  const onConnected = jest.fn();
++  try {
++    await render(
++      <ConnectProviderSheet
++        provider="HEALTH_CONNECT"
++        visible
++        onClose={onClose}
++        onConnected={onConnected}
++      />,
++    );
++    await fireEvent.press(
++      screen.getByLabelText('Continue connecting Health Connect'),
++    );
++    await waitFor(() =>
++      expect(screen.getByText(HEALTH_CONNECT_DISABLED_MESSAGE)).toBeTruthy(),
++    );
++    expect(onClose).not.toHaveBeenCalled();
++    expect(onConnected).not.toHaveBeenCalled();
++    expect(mockInvalidate).not.toHaveBeenCalled();
++    expect(signals).toEqual([]);
++  } finally {
++    unsubscribe();
++  }
++});
+diff --git a/src/services/health/__tests__/healthConnectBuildGuard.test.ts b/src/services/health/__tests__/healthConnectBuildGuard.test.ts
+new file mode 100644
+index 0000000..26bce7a
+--- /dev/null
++++ b/src/services/health/__tests__/healthConnectBuildGuard.test.ts
+@@ -0,0 +1,139 @@
++import Constants from 'expo-constants';
++import { Platform } from 'react-native';
++import AsyncStorage from '@react-native-async-storage/async-storage';
++
++jest.mock('expo-constants', () => ({
++  __esModule: true,
++  default: { expoConfig: { extra: { healthConnectEnabled: false } } },
++}));
++
++const mockNativeEvaluation = jest.fn();
++jest.mock('react-native-health-connect', () => {
++  mockNativeEvaluation();
++  throw new Error('Health Connect native module is not linked');
++});
++
++const mockPost = jest.fn();
++jest.mock('../../api', () => ({
++  __esModule: true,
++  default: { post: (...args: unknown[]) => mockPost(...args) },
++}));
++
++import {
++  HEALTH_CONNECT_DISABLED_MESSAGE,
++  HealthConnectDisabledError,
++  isAndroidHealthConnectEnabled,
++  isHealthConnectProviderDisabled,
++} from '../../../config/healthConnect';
++import { connectOnDeviceProvider } from '../onDeviceConnect';
++import * as hc from '../healthConnect/healthConnectClient';
++import { syncHealthConnect } from '../healthConnect/healthConnectSyncService';
++import * as samsung from '../samsungHealth/samsungHealthClient';
++import { sync as syncSamsung } from '../samsungHealth/samsungHealthSyncService';
++
++const originalOS = Platform.OS;
++const storageRead = jest.spyOn(AsyncStorage, 'getItem');
++function setPlatform(os: string): void {
++  Object.defineProperty(Platform, 'OS', { configurable: true, value: os });
++}
++function setMetadata(value: unknown): void {
++  Object.defineProperty(Constants, 'expoConfig', {
++    configurable: true,
++    value: value,
++  });
++}
++
++beforeEach(() => {
++  jest.clearAllMocks();
++  setPlatform('android');
++  setMetadata({ extra: { healthConnectEnabled: false } });
++});
++afterEach(() => setPlatform(originalOS));
++
++test.each([
++  undefined,
++  null,
++  {},
++  { extra: {} },
++  { extra: { healthConnectEnabled: 'true' } },
++])('missing or non-boolean build metadata fails closed: %j', (metadata) => {
++  setMetadata(metadata);
++  expect(isAndroidHealthConnectEnabled()).toBe(false);
++  expect(hc.isHealthConnectSupported()).toBe(false);
++  expect(isHealthConnectProviderDisabled('HEALTH_CONNECT')).toBe(true);
++  expect(isHealthConnectProviderDisabled('SAMSUNG_HEALTH')).toBe(true);
++  expect(isHealthConnectProviderDisabled('OURA')).toBe(false);
++  expect(isHealthConnectProviderDisabled('APPLE_HEALTHKIT')).toBe(false);
++});
++
++test('Android OFF status contains the specific update message without evaluating native code', () => {
++  expect(hc.getHealthConnectStatus()).toEqual({
++    supported: false,
++    platform: 'android',
++    reason: 'build-disabled',
++    message: HEALTH_CONNECT_DISABLED_MESSAGE,
++  });
++  expect(mockNativeEvaluation).not.toHaveBeenCalled();
++});
++
++test.each(['HEALTH_CONNECT', 'SAMSUNG_HEALTH'] as const)(
++  '%s connect returns disabled instead of loading the unlinked module',
++  async (provider) => {
++    await expect(connectOnDeviceProvider(provider)).resolves.toBe('disabled');
++    expect(mockNativeEvaluation).not.toHaveBeenCalled();
++  },
++);
++
++test('every HC read/permission entry point rejects before the unlinked native module is evaluated', async () => {
++  const range = {
++    startTime: '2026-10-01T00:00:00Z',
++    endTime: '2026-10-01T01:00:00Z',
++  };
++  for (const call of [
++    () => hc.initialize(),
++    () => hc.getGrantedPermissions(),
++    () => hc.requestPermission(),
++    () => hc.readRecords('Steps', range),
++    () => hc.readAllSupportedRecords(range),
++    () => syncHealthConnect('u1', 'c1'),
++  ]) {
++    await expect(call()).rejects.toBeInstanceOf(HealthConnectDisabledError);
++  }
++  expect(mockNativeEvaluation).not.toHaveBeenCalled();
++  expect(mockPost).not.toHaveBeenCalled();
++});
++
++test('every Samsung bridge/read/sync entry point is also guarded', async () => {
++  expect(() => samsung.getBridge()).toThrow(HealthConnectDisabledError);
++  for (const call of [
++    () => samsung.initialize(),
++    () => samsung.getGrantedRecordTypes(),
++    () =>
++      samsung.readRecords('Steps', {
++        timeRangeFilter: { operator: 'between', startTime: 'a', endTime: 'b' },
++      }),
++    () => syncSamsung(),
++  ]) {
++    await expect(call()).rejects.toBeInstanceOf(HealthConnectDisabledError);
++  }
++  expect(mockNativeEvaluation).not.toHaveBeenCalled();
++  expect(mockPost).not.toHaveBeenCalled();
++  expect(storageRead).not.toHaveBeenCalled();
++});
++
++test('ON metadata enables only Android; iOS still connects Apple Health without evaluating HC', async () => {
++  setMetadata({ extra: { healthConnectEnabled: true } });
++  expect(isAndroidHealthConnectEnabled()).toBe(true);
++  expect(hc.isHealthConnectSupported()).toBe(true);
++  expect(isHealthConnectProviderDisabled('HEALTH_CONNECT')).toBe(false);
++  setPlatform('ios');
++  expect(isAndroidHealthConnectEnabled()).toBe(false);
++  expect(isHealthConnectProviderDisabled('HEALTH_CONNECT')).toBe(false);
++  await expect(connectOnDeviceProvider('APPLE_HEALTHKIT')).resolves.toBe(
++    'granted',
++  );
++  await expect(connectOnDeviceProvider('HEALTH_CONNECT')).resolves.toBe(
++    'unsupported',
++  );
++  expect(mockNativeEvaluation).not.toHaveBeenCalled();
++});
+diff --git a/src/services/health/__tests__/onDeviceConnect.test.ts b/src/services/health/__tests__/onDeviceConnect.test.ts
+index 020111b..a37d231 100644
+--- a/src/services/health/__tests__/onDeviceConnect.test.ts
++++ b/src/services/health/__tests__/onDeviceConnect.test.ts
+@@ -9,6 +9,10 @@
+  */
+ 
+ import { Platform } from 'react-native';
++jest.mock('expo-constants', () => ({
++  __esModule: true,
++  default: { expoConfig: { extra: { healthConnectEnabled: true } } },
++}));
+ import AppleHealthKit from 'react-native-health';
+ import {
+   getSdkStatus,
+diff --git a/src/services/health/healthConnect/__tests__/healthConnectClient.test.ts b/src/services/health/healthConnect/__tests__/healthConnectClient.test.ts
+index 678980d..d1de7d6 100644
+--- a/src/services/health/healthConnect/__tests__/healthConnectClient.test.ts
++++ b/src/services/health/healthConnect/__tests__/healthConnectClient.test.ts
+@@ -5,6 +5,10 @@
+ // readAllSupportedRecords. The native library is mocked at the module seam.
+ 
+ import { Platform } from 'react-native';
++jest.mock('expo-constants', () => ({
++  __esModule: true,
++  default: { expoConfig: { extra: { healthConnectEnabled: true } } },
++}));
+ 
+ jest.mock('react-native-health-connect', () => ({
+   initialize: jest.fn(),
+diff --git a/src/services/health/healthConnect/__tests__/healthConnectSyncService.test.ts b/src/services/health/healthConnect/__tests__/healthConnectSyncService.test.ts
+index 6a482c9..7cfce55 100644
+--- a/src/services/health/healthConnect/__tests__/healthConnectSyncService.test.ts
++++ b/src/services/health/healthConnect/__tests__/healthConnectSyncService.test.ts
+@@ -5,6 +5,10 @@
+ // (written only after a successful POST). secureStorage is mocked in-memory.
+ 
+ import { Platform } from 'react-native';
++jest.mock('expo-constants', () => ({
++  __esModule: true,
++  default: { expoConfig: { extra: { healthConnectEnabled: true } } },
++}));
+ 
+ // In-memory secureStorage mock.
+ const store: Record<string, string> = {};
+diff --git a/src/services/health/healthConnect/healthConnectClient.ts b/src/services/health/healthConnect/healthConnectClient.ts
+index 98c4944..20e5a83 100644
+--- a/src/services/health/healthConnect/healthConnectClient.ts
++++ b/src/services/health/healthConnect/healthConnectClient.ts
+@@ -16,6 +16,11 @@
+ // non-Android platforms (the library's native module is absent there).
+ 
+ import { Platform } from 'react-native';
++import {
++  assertAndroidHealthConnectEnabled,
++  HEALTH_CONNECT_DISABLED_MESSAGE,
++  isAndroidHealthConnectEnabled,
++} from '../../../config/healthConnect';
+ import {
+   HealthConnectUnavailableError,
+   HealthConnectUnsupportedError,
+@@ -125,9 +130,9 @@ export function buildReadPermissions(): HealthConnectPermission[] {
+   }));
+ }
+ 
+-/** True only on Android — Health Connect's native module exists nowhere else. */
++/** True only on Android builds that explicitly include Health Connect. */
+ export function isHealthConnectSupported(): boolean {
+-  return Platform.OS === 'android';
++  return isAndroidHealthConnectEnabled();
+ }
+ 
+ /**
+@@ -135,20 +140,19 @@ export function isHealthConnectSupported(): boolean {
+  * Connect. The calling UI MUST render the unsupported case as a real,
+  * user-visible state (e.g. “Health Connect is available on Android only on this
+  * device”) rather than treating an iOS device as a user who simply has no data.
+- * The `message` is doctrine-compliant copy: no mascot, no medicalization, no
+- * “coming soon” placeholder — it states a fact about platform availability.
++ * The message states platform availability or the owner-approved closed-test
++ * boundary, with the available alternative instead of a dead permission CTA.
+  */
+ export interface HealthConnectStatus {
+-  /** True only on Android — mirrors {@link isHealthConnectSupported}. */
++  /** True only on enabled Android builds — mirrors isHealthConnectSupported. */
+   supported: boolean;
+   /** The current platform (`'android' | 'ios' | 'web' | …`). */
+   platform: typeof Platform.OS;
+   /**
+-   * Machine-readable reason the status is what it is. `'supported'` on Android;
+-   * `'platform-unsupported'` everywhere else. UI branches on this, never on the
+-   * human-readable `message`.
++   * Machine-readable reason: supported, platform-unsupported or build-disabled.
++   * UI branches on this, never on the human-readable message.
+    */
+-  reason: 'supported' | 'platform-unsupported';
++  reason: 'supported' | 'platform-unsupported' | 'build-disabled';
+   /** Human-readable, render-ready copy describing the status. */
+   message: string;
+ }
+@@ -162,6 +166,14 @@ export interface HealthConnectStatus {
+  * not a silent empty-data fallback.
+  */
+ export function getHealthConnectStatus(): HealthConnectStatus {
++  if (Platform.OS === 'android' && !isAndroidHealthConnectEnabled()) {
++    return {
++      supported: false,
++      platform: Platform.OS,
++      reason: 'build-disabled',
++      message: HEALTH_CONNECT_DISABLED_MESSAGE,
++    };
++  }
+   if (isHealthConnectSupported()) {
+     return {
+       supported: true,
+@@ -187,9 +199,10 @@ export function getHealthConnectStatus(): HealthConnectStatus {
+  * silently reading nothing.
+  */
+ function assertSupported(): void {
+-  if (!isHealthConnectSupported()) {
++  if (Platform.OS !== 'android') {
+     throw new HealthConnectUnsupportedError(Platform.OS);
+   }
++  assertAndroidHealthConnectEnabled();
+ }
+ 
+ /**
+diff --git a/src/services/health/healthConnect/healthConnectSyncService.ts b/src/services/health/healthConnect/healthConnectSyncService.ts
+index 11e0b51..63ea60a 100644
+--- a/src/services/health/healthConnect/healthConnectSyncService.ts
++++ b/src/services/health/healthConnect/healthConnectSyncService.ts
+@@ -10,6 +10,7 @@
+ // gracefully (handled in the client's readAllSupportedRecords).
+ 
+ import { Platform } from 'react-native';
++import { assertAndroidHealthConnectEnabled } from '../../../config/healthConnect';
+ import { secureStorage } from '../../secureStorage';
+ import { logger } from '../../../utils/logger';
+ import {
+@@ -19,7 +20,6 @@ import {
+ import {
+   HEALTH_CONNECT_RECORD_TYPES,
+   healthConnectClient as defaultClient,
+-  isHealthConnectSupported,
+   type HealthConnectClient,
+   type HealthConnectRecordType,
+ } from './healthConnectClient';
+@@ -74,9 +74,10 @@ export interface HealthConnectSyncResult {
+ }
+ 
+ function assertSupported(): void {
+-  if (!isHealthConnectSupported()) {
++  if (Platform.OS !== 'android') {
+     throw new HealthConnectUnsupportedError(Platform.OS);
+   }
++  assertAndroidHealthConnectEnabled();
+ }
+ 
+ /** Read the persisted last-sync instant, or null if never synced. */
+diff --git a/src/services/health/onDeviceConnect.ts b/src/services/health/onDeviceConnect.ts
+index 1d9154b..b9c0eea 100644
+--- a/src/services/health/onDeviceConnect.ts
++++ b/src/services/health/onDeviceConnect.ts
+@@ -36,15 +36,9 @@ import AppleHealthKit, {
+   type HealthKitPermissions,
+   type HealthPermission,
+ } from 'react-native-health';
+-import {
+-  getSdkStatus,
+-  initialize as hcInitialize,
+-  openHealthConnectSettings,
+-  requestPermission as hcRequestPermission,
+-  SdkAvailabilityStatus,
+-  type Permission as HealthConnectPermission,
+-} from 'react-native-health-connect';
++import type { Permission as HealthConnectPermission } from 'react-native-health-connect';
+ import type { WearableProvider } from '../../api/wearablesConnectionsApi';
++import { isHealthConnectProviderDisabled } from '../../config/healthConnect';
+ 
+ /**
+  * The outcome of an on-device connect attempt. Exhaustive on purpose so the
+@@ -57,10 +51,7 @@ import type { WearableProvider } from '../../api/wearablesConnectionsApi';
+  *                   (e.g. an Android-only source on iOS); render as informative.
+  */
+ export type OnDeviceConnectOutcome =
+-  | 'granted'
+-  | 'denied'
+-  | 'unavailable'
+-  | 'unsupported';
++  'granted' | 'denied' | 'unavailable' | 'unsupported' | 'disabled';
+ 
+ /** Apple HealthKit read set — the canonical signals the hub ingests. */
+ const HEALTHKIT_READ_PERMISSIONS: HealthPermission[] = [
+@@ -121,6 +112,16 @@ function connectHealthKit(): Promise<OnDeviceConnectOutcome> {
+  * than a silent failure.
+  */
+ async function connectHealthConnect(): Promise<OnDeviceConnectOutcome> {
++  // Never evaluate the Android TurboModule in an OFF build or on iOS.
++  // eslint-disable-next-line @typescript-eslint/no-var-requires
++  const hc: typeof import('react-native-health-connect') = require('react-native-health-connect');
++  const {
++    getSdkStatus,
++    initialize: hcInitialize,
++    openHealthConnectSettings,
++    requestPermission: hcRequestPermission,
++    SdkAvailabilityStatus,
++  } = hc;
+   const status = await getSdkStatus();
+   if (status !== SdkAvailabilityStatus.SDK_AVAILABLE) {
+     // Not installed or needs a provider update — route the user there.
+@@ -141,6 +142,7 @@ async function connectHealthConnect(): Promise<OnDeviceConnectOutcome> {
+ export async function connectOnDeviceProvider(
+   provider: WearableProvider,
+ ): Promise<OnDeviceConnectOutcome> {
++  if (isHealthConnectProviderDisabled(provider)) return 'disabled';
+   try {
+     if (provider === 'APPLE_HEALTHKIT') {
+       return Platform.OS === 'ios' ? await connectHealthKit() : 'unsupported';
+diff --git a/src/services/health/samsungHealth/__tests__/samsungHealthClient.test.ts b/src/services/health/samsungHealth/__tests__/samsungHealthClient.test.ts
+index 3e23692..96e24fd 100644
+--- a/src/services/health/samsungHealth/__tests__/samsungHealthClient.test.ts
++++ b/src/services/health/samsungHealth/__tests__/samsungHealthClient.test.ts
+@@ -18,6 +18,10 @@
+  */
+ 
+ import { Platform } from 'react-native';
++jest.mock('expo-constants', () => ({
++  __esModule: true,
++  default: { expoConfig: { extra: { healthConnectEnabled: true } } },
++}));
+ import {
+   __setBridgeForTests,
+   getGrantedRecordTypes,
+diff --git a/src/services/health/samsungHealth/__tests__/samsungHealthSyncService.test.ts b/src/services/health/samsungHealth/__tests__/samsungHealthSyncService.test.ts
+index 5820d79..a58266d 100644
+--- a/src/services/health/samsungHealth/__tests__/samsungHealthSyncService.test.ts
++++ b/src/services/health/samsungHealth/__tests__/samsungHealthSyncService.test.ts
+@@ -20,6 +20,10 @@
+  */
+ 
+ import { Platform } from 'react-native';
++jest.mock('expo-constants', () => ({
++  __esModule: true,
++  default: { expoConfig: { extra: { healthConnectEnabled: true } } },
++}));
+ import AsyncStorage from '@react-native-async-storage/async-storage';
+ 
+ const mockApiPost = jest.fn();
+diff --git a/src/services/health/samsungHealth/samsungHealthClient.ts b/src/services/health/samsungHealth/samsungHealthClient.ts
+index 7b77573..8cf3258 100644
+--- a/src/services/health/samsungHealth/samsungHealthClient.ts
++++ b/src/services/health/samsungHealth/samsungHealthClient.ts
+@@ -21,6 +21,7 @@
+  */
+ 
+ import { Platform } from 'react-native';
++import { assertAndroidHealthConnectEnabled } from '../../../config/healthConnect';
+ import { logger } from '../../../utils/logger';
+ import {
+   SAMSUNG_HEALTH_PACKAGE_NAME,
+@@ -67,6 +68,7 @@ export interface SamsungHealthBridge {
+ let bridgeOverride: SamsungHealthBridge | null = null;
+ 
+ export function getBridge(): SamsungHealthBridge {
++  assertAndroid();
+   if (bridgeOverride) return bridgeOverride;
+   // eslint-disable-next-line @typescript-eslint/no-var-requires
+   const mod = require('react-native-health-connect') as SamsungHealthBridge;
+@@ -83,6 +85,7 @@ function assertAndroid(): void {
+   if (Platform.OS !== 'android') {
+     throw new SamsungHealthUnsupportedError(Platform.OS);
+   }
++  assertAndroidHealthConnectEnabled();
+ }
+ 
+ /**
+diff --git a/src/services/health/samsungHealth/samsungHealthSyncService.ts b/src/services/health/samsungHealth/samsungHealthSyncService.ts
+index a9f173e..9d90b2d 100644
+--- a/src/services/health/samsungHealth/samsungHealthSyncService.ts
++++ b/src/services/health/samsungHealth/samsungHealthSyncService.ts
+@@ -22,6 +22,7 @@
+ 
+ import AsyncStorage from '@react-native-async-storage/async-storage';
+ import { Platform } from 'react-native';
++import { assertAndroidHealthConnectEnabled } from '../../../config/healthConnect';
+ import api from '../../api';
+ import { logger } from '../../../utils/logger';
+ import { samsungHealthClient } from './samsungHealthClient';
+@@ -116,6 +117,7 @@ export async function sync(
+   if (Platform.OS !== 'android') {
+     throw new SamsungHealthUnsupportedError(Platform.OS);
+   }
++  assertAndroidHealthConnectEnabled();
+ 
+   const end = now();
+   const windowEnd = end.toISOString();

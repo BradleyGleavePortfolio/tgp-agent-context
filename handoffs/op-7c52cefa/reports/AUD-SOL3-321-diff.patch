@@ -1,0 +1,261 @@
+diff --git a/src/__tests__/CoachPackageEditScreen.lockPreview.test.tsx b/src/__tests__/CoachPackageEditScreen.lockPreview.test.tsx
+index 2c2f653..41d9e2e 100644
+--- a/src/__tests__/CoachPackageEditScreen.lockPreview.test.tsx
++++ b/src/__tests__/CoachPackageEditScreen.lockPreview.test.tsx
+@@ -171,3 +171,75 @@ describe('CoachPackageEditScreen — preview as buyer', () => {
+     expect(getByLabelText('Checkout disabled in preview')).toBeTruthy();
+   });
+ });
++
++describe('CoachPackageEditScreen — S-FEE price rule ($19.99 minimum or free)', () => {
++  it('shows the price rule under the price field', async () => {
++    const props = makeProps(pkg());
++    const { getByTestId } = await render(
++      <CoachPackageEditScreen navigation={props.navigation} route={props.route} />,
++    );
++    expect(getByTestId('package-price-helper').props.children).toBe(
++      'Paid packages start at $19.99, or make it free.',
++    );
++  });
++
++  it('blocks saving a paid price under $19.99 and says what to do', async () => {
++    const props = makeProps(pkg());
++    const { getByDisplayValue, getByLabelText, getAllByText } = await render(
++      <CoachPackageEditScreen navigation={props.navigation} route={props.route} />,
++    );
++    await fireEvent.changeText(getByDisplayValue('99.00'), '10.00');
++    await fireEvent.press(getByLabelText('Save changes'));
++    expect(mockUpdate).not.toHaveBeenCalled();
++    // Inline under the field and as the save error.
++    expect(getAllByText('Paid packages start at $19.99, or make it free.').length).toBe(2);
++  });
++
++  it('blocks a free recurring package with the one-time message', async () => {
++    const props = makeProps(pkg());
++    const { getByDisplayValue, getByLabelText, getAllByText } = await render(
++      <CoachPackageEditScreen navigation={props.navigation} route={props.route} />,
++    );
++    await fireEvent.changeText(getByDisplayValue('99.00'), '0');
++    await fireEvent.press(getByLabelText('Save changes'));
++    expect(mockUpdate).not.toHaveBeenCalled();
++    expect(
++      getAllByText(
++        'Free packages are one-time. Switch billing to One-time, or set a price of $19.99 or more.',
++      ).length,
++    ).toBe(2);
++  });
++
++  it('keeps a package saved under $19.99 editable while its price is unchanged', async () => {
++    mockUpdate.mockResolvedValue({ data: pkg({ priceCents: 1000 }) });
++    const props = makeProps(pkg({ priceCents: 1000 }));
++    const { getByLabelText } = await render(
++      <CoachPackageEditScreen navigation={props.navigation} route={props.route} />,
++    );
++    await fireEvent.press(getByLabelText('Save changes'));
++    await waitFor(() => expect(mockUpdate).toHaveBeenCalled());
++  });
++
++  it('shows the server price message when the backend rejects the price', async () => {
++    mockUpdate.mockRejectedValue({
++      response: {
++        data: {
++          error: 'PACKAGE_RECURRING_PRICE_BELOW_MINIMUM',
++          message:
++            'The recurring price starts at $19.99. Set it to $19.99 or more, or remove the recurring price.',
++        },
++      },
++    });
++    const props = makeProps(pkg());
++    const { getByLabelText } = await render(
++      <CoachPackageEditScreen navigation={props.navigation} route={props.route} />,
++    );
++    await fireEvent.press(getByLabelText('Save changes'));
++    await waitFor(() => {
++      const calls = (Alert.alert as jest.Mock).mock.calls;
++      const hit = calls.find((c) => c[0] === 'Check the price');
++      expect(hit).toBeTruthy();
++      expect(hit[1]).toMatch(/recurring price starts at \$19\.99/);
++    });
++  });
++});
+diff --git a/src/screens/coach/payments/CoachPackageEditScreen.tsx b/src/screens/coach/payments/CoachPackageEditScreen.tsx
+index f041eb4..ac3b12c 100644
+--- a/src/screens/coach/payments/CoachPackageEditScreen.tsx
++++ b/src/screens/coach/payments/CoachPackageEditScreen.tsx
+@@ -43,6 +43,11 @@ import { track } from '../../../lib/analytics';
+ import { useTheme } from '../../../theme/ThemeProvider';
+ import type { SemanticTokens, Tokens } from '../../../theme/tokens';
+ import { parseDollarsToCents } from '../../../utils/currency';
++import {
++  PACKAGE_PRICE_ERROR_CODES,
++  PACKAGE_PRICE_HELPER,
++  packagePriceIssue,
++} from '../../../utils/packagePrice';
+ import { buildPackageShareUrl } from '../../../utils/packageShare';
+ import { useCurrentUser } from '../../../hooks/useCurrentUser';
+ import PackageDetailSurface, {
+@@ -131,14 +136,9 @@ export default function CoachPackageEditScreen({ navigation, route }: Props) {
+       return { payload: null, message: 'Please give the package a name.' };
+     }
+     const cents = parseDollarsToCents(priceText);
+-    if (cents == null) {
+-      return { payload: null, message: 'Enter a valid price.' };
+-    }
+-    if (cents === 0) {
+-      return {
+-        payload: null,
+-        message: 'Price must be greater than zero. Use a free invite code for comps.',
+-      };
++    const priceIssue = packagePriceIssue(cents, billingInterval, original?.priceCents);
++    if (cents == null || priceIssue) {
++      return { payload: null, message: priceIssue };
+     }
+     const features = featuresText
+       .split('\n')
+@@ -167,7 +167,7 @@ export default function CoachPackageEditScreen({ navigation, route }: Props) {
+       },
+       message: null,
+     };
+-  }, [title, description, priceText, billingInterval, trialText, featuresText]);
++  }, [title, description, priceText, billingInterval, trialText, featuresText, original]);
+ 
+   const handleSave = useCallback(async () => {
+     const v = validate();
+@@ -212,6 +212,9 @@ export default function CoachPackageEditScreen({ navigation, route }: Props) {
+             'The packages backend module is not deployed in this environment.',
+           ),
+         );
++      } else if (code && PACKAGE_PRICE_ERROR_CODES.has(code)) {
++        warningTap();
++        Alert.alert('Check the price', errorMessage(err, PACKAGE_PRICE_HELPER));
+       } else if (code === 'PACKAGE_PRICING_LOCKED') {
+         warningTap();
+         Alert.alert(
+@@ -338,6 +341,10 @@ export default function CoachPackageEditScreen({ navigation, route }: Props) {
+   }
+ 
+   const archived = original?.status === 'archived';
++  // S-FEE — inline price rule under the field, as the coach types.
++  const priceInlineIssue = priceText.trim()
++    ? packagePriceIssue(parseDollarsToCents(priceText), billingInterval, original?.priceCents)
++    : null;
+   // Pricing is immutable once a package has active subscribers — surface that
+   // up-front (helper copy) and again if the backend rejects a price change.
+   const pricingLocked = isEdit && (original?.subscriberCount ?? 0) > 0;
+@@ -404,6 +411,12 @@ export default function CoachPackageEditScreen({ navigation, route }: Props) {
+           keyboardType="decimal-pad"
+           maxLength={12}
+         />
++        <Text
++          testID="package-price-helper"
++          style={priceInlineIssue ? styles.priceIssueText : styles.priceHelperText}
++        >
++          {priceInlineIssue ?? PACKAGE_PRICE_HELPER}
++        </Text>
+ 
+         <Label semanticColors={semanticColors} tokens={tokens}>Billing</Label>
+         <View style={styles.segment}>
+@@ -778,6 +791,8 @@ const makeStyles = (semanticColors: SemanticTokens, tokens: Tokens) =>
+       paddingVertical: 12,
+     },
+     linkBtnText: { fontSize: 14, color: semanticColors.accent, fontWeight: '500' },
++    priceHelperText: { marginTop: 6, fontSize: 12, color: semanticColors.textMuted },
++    priceIssueText: { marginTop: 6, fontSize: 12, color: tokens.colors.error },
+     errorText: {
+       marginTop: 12,
+       color: tokens.colors.error,
+diff --git a/src/utils/__tests__/packagePrice.test.ts b/src/utils/__tests__/packagePrice.test.ts
+new file mode 100644
+index 0000000..23b8765
+--- /dev/null
++++ b/src/utils/__tests__/packagePrice.test.ts
+@@ -0,0 +1,38 @@
++import {
++  PACKAGE_FREE_ONE_TIME_MESSAGE,
++  PACKAGE_PRICE_HELPER,
++  PAID_PACKAGE_MIN_CENTS,
++  packagePriceIssue,
++} from "../packagePrice";
++
++describe("packagePriceIssue (S-FEE $19.99 minimum or free)", () => {
++  it("allows $19.99 and up on every billing option", () => {
++    expect(PAID_PACKAGE_MIN_CENTS).toBe(1999);
++    expect(packagePriceIssue(1999, "one_time")).toBeNull();
++    expect(packagePriceIssue(4900, "monthly")).toBeNull();
++    expect(packagePriceIssue(100000, "yearly")).toBeNull();
++  });
++
++  it("rejects a paid price under $19.99 with the owner copy", () => {
++    expect(packagePriceIssue(1998, "one_time")).toBe(PACKAGE_PRICE_HELPER);
++    expect(packagePriceIssue(50, "monthly")).toBe(
++      "Paid packages start at $19.99, or make it free.",
++    );
++  });
++
++  it("allows $0 only as a one-time free package", () => {
++    expect(packagePriceIssue(0, "one_time")).toBeNull();
++    expect(packagePriceIssue(0, "monthly")).toBe(PACKAGE_FREE_ONE_TIME_MESSAGE);
++  });
++
++  it("keeps an unchanged price saved before the rule editable", () => {
++    expect(packagePriceIssue(1000, "one_time", 1000)).toBeNull();
++    expect(packagePriceIssue(900, "one_time", 1000)).toBe(PACKAGE_PRICE_HELPER);
++  });
++
++  it("asks for a price when the field cannot be read", () => {
++    expect(packagePriceIssue(null, "one_time")).toBe(
++      "Enter a price, for example 19.99, or 0 to make it free.",
++    );
++  });
++});
+diff --git a/src/utils/packagePrice.ts b/src/utils/packagePrice.ts
+new file mode 100644
+index 0000000..e4e4428
+--- /dev/null
++++ b/src/utils/packagePrice.ts
+@@ -0,0 +1,45 @@
++// S-FEE (owner ruling 2026-09-30) — package price rule, mirrored from the
++// backend (src/packages/packages.service.ts, PAID_PACKAGE_MIN_CENTS).
++//
++// A package is either free (exactly $0, one-time) or paid at $19.99 or more.
++// The backend is the authority; this keeps the editor's inline copy in step
++// with it so coaches see the rule before they save.
++
++import type { PackageBillingInterval } from "../api/packagesApi";
++
++export const PAID_PACKAGE_MIN_CENTS = 1999;
++
++export const PACKAGE_PRICE_HELPER =
++  "Paid packages start at $19.99, or make it free.";
++export const PACKAGE_FREE_ONE_TIME_MESSAGE =
++  "Free packages are one-time. Switch billing to One-time, or set a price of $19.99 or more.";
++
++/**
++ * Returns the inline problem with a price, or null when it is allowed.
++ * `previousCents` is the saved price when editing: a package saved below
++ * $19.99 before the rule keeps working while its price is unchanged.
++ */
++export function packagePriceIssue(
++  cents: number | null,
++  billingInterval: PackageBillingInterval,
++  previousCents?: number | null,
++): string | null {
++  if (cents == null)
++    return "Enter a price, for example 19.99, or 0 to make it free.";
++  if (cents === 0) {
++    return billingInterval === "one_time"
++      ? null
++      : PACKAGE_FREE_ONE_TIME_MESSAGE;
++  }
++  if (cents < PAID_PACKAGE_MIN_CENTS && cents !== previousCents) {
++    return PACKAGE_PRICE_HELPER;
++  }
++  return null;
++}
++
++/** Backend error codes for the price rule (packages.service.ts). */
++export const PACKAGE_PRICE_ERROR_CODES = new Set([
++  "PACKAGE_PRICE_BELOW_MINIMUM",
++  "PACKAGE_RECURRING_PRICE_BELOW_MINIMUM",
++  "PACKAGE_FREE_MUST_BE_ONE_TIME",
++]);

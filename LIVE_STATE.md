@@ -39,6 +39,7 @@ Two recurring terms:
 | 10-01 14:28 | Android via Google Play (A); existing dev account; owner recruits testers tonight | PWA scrapped. Closed test steps sent; operator prepares Play checklist + .aab after #625 deploys. |
 | 10-01 14:26 | "If its even going to be 1% worse, tell me, ill scrap it" | PWA is worse (health data, secure storage, biometrics, offline, smoothness); recommended scrap. |
 | 10-01 14:25 | iOS native day 1; Android v1.0 via a separate QR to an installable web app (PWA), identical feel | S-PWA spike queued next; QR form + Android wearables scope asked. |
+| 10-01 16:32 | "Focus on letting in progress agents finish - note what they accomplished, update LAST_OPERATOR_STATE - lets get to a safe place and work on agent 110's takeover!" | Wrap-up order to all 7; nothing new started; all finished by ~16:50. #319 merged (bb161a34). Handoff written: LAST_OPERATOR_STATE top section + handoffs/op-7c52cefa/NEXT_OPERATOR_PROMPT_v4.md. |
 | 10-01 16:30 | Dunning 1A: when a client in dunning updates their card, auto-charge the open invoice right away and unlock on success | S-DUNNING #628/#322 round 2 before audits. |
 | 10-01 16:30 | Dunning 2A: a client who cancels while in dunning -> the unpaid invoice is voided and access ends immediately (no Day-10 lock, no further collection) | S-DUNNING #628/#322 round 2. |
 | 10-01 16:30 | Google Play app creation + closed testing are owner tasks for later; stop reminding; keep progressing known work | Operator keeps the Android build path ready (#320 + #323 + #319). |

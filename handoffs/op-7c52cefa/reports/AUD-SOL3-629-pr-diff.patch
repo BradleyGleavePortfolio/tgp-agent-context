@@ -1,0 +1,485 @@
+diff --git a/src/packages/packages.service.ts b/src/packages/packages.service.ts
+index 4e003184..09f73e43 100644
+--- a/src/packages/packages.service.ts
++++ b/src/packages/packages.service.ts
+@@ -79,6 +79,24 @@ export interface SubscribersPage {
+   total_returned: number;
+ }
+ 
++/**
++ * S-FEE — smallest price a PAID package can have, in cents ($19.99). A
++ * package is either free (exactly 0, one-time) or at least this much.
++ */
++export const PAID_PACKAGE_MIN_CENTS = 1999;
++// Stripe's minimum USD charge. Only packages saved before the $19.99 floor
++// (price unchanged since) are checked against this instead.
++const STRIPE_MIN_CHARGE_CENTS = 50;
++
++interface PricingFloorOptions {
++  enforcePrimaryMinimum: boolean;
++  enforceRecurringMinimum: boolean;
++}
++const ENFORCE_ALL_FLOORS: PricingFloorOptions = {
++  enforcePrimaryMinimum: true,
++  enforceRecurringMinimum: true,
++};
++
+ @Injectable()
+ export class PackagesService {
+   private readonly logger = new Logger(PackagesService.name);
+@@ -169,6 +187,13 @@ export class PackagesService {
+         'recurring_interval_count' in data
+           ? (data.recurring_interval_count as number | null)
+           : row.recurring_interval_count,
++    }, {
++      // S-FEE — the $19.99 floor applies to a price the coach is setting now.
++      enforcePrimaryMinimum:
++        'amount_cents' in data && data.amount_cents !== row.amount_cents,
++      enforceRecurringMinimum:
++        'recurring_amount_cents' in data &&
++        data.recurring_amount_cents !== row.recurring_amount_cents,
+     });
+ 
+     // If price-shaping fields changed, clear the cached Stripe Price id so
+@@ -343,6 +368,11 @@ export class PackagesService {
+         | 'year'
+         | null,
+       recurring_interval_count: row.recurring_interval_count,
++    }, {
++      // S-FEE — a package newly put on sale must meet the $19.99 floor; an
++      // already-published package saved before the floor is left as is.
++      enforcePrimaryMinimum: !row.published_at,
++      enforceRecurringMinimum: !row.published_at,
+     });
+     // TODO(PR-8): once content-attach lands, gate sellable packages
+     // here on `is_sellable === false || contents.length > 0`. Allowed
+@@ -523,7 +553,7 @@ export class PackagesService {
+     recurring_amount_cents?: number | null;
+     recurring_interval?: string | null;
+     recurring_interval_count?: number | null;
+-  }) {
++  }, opts: PricingFloorOptions = ENFORCE_ALL_FLOORS) {
+     if (!input.name?.trim()) {
+       throw new BadRequestException({
+         error: 'PACKAGE_INVALID',
+@@ -540,13 +570,38 @@ export class PackagesService {
+       input.recurring_amount_cents != null ||
+       input.recurring_interval != null ||
+       input.recurring_interval_count != null;
+-    if (!Number.isInteger(input.amount_cents) || input.amount_cents < 50) {
+-      // Stripe minimum charge for USD is 50 cents; under that the API rejects.
++    // S-FEE (owner ruling 2026-09-30) — a package is either FREE (exactly 0,
++    // one-time, no recurring companion) or PAID at PAID_PACKAGE_MIN_CENTS or
++    // more. The floor keeps the coach's net meaningful after the card fee and
++    // the TGP 2%. On update the floor applies only when the price changes, so
++    // packages saved before this rule keep working until the coach edits the
++    // price (never silently rewritten); they still need the Stripe minimum.
++    if (!Number.isInteger(input.amount_cents) || input.amount_cents < 0) {
+       throw new BadRequestException({
+         error: 'PACKAGE_INVALID',
++        message: 'amount_cents must be a whole number of cents, for example 1999 for $19.99.',
++      });
++    }
++    if (input.amount_cents === 0) {
++      if (input.billing_type === 'recurring' || hasRecurringCompanion) {
++        throw new BadRequestException({
++          error: 'PACKAGE_FREE_MUST_BE_ONE_TIME',
++          message:
++            input.billing_type === 'recurring'
++              ? 'Free packages are one-time. Switch the package to one-time, or set a price of $19.99 or more.'
++              : 'Free packages cannot have a recurring price. Remove the recurring price, or set a price of $19.99 or more.',
++        });
++      }
++    } else if (
++      input.amount_cents <
++      (opts.enforcePrimaryMinimum ? PAID_PACKAGE_MIN_CENTS : STRIPE_MIN_CHARGE_CENTS)
++    ) {
++      throw new BadRequestException({
++        error: 'PACKAGE_PRICE_BELOW_MINIMUM',
+         message: hasRecurringCompanion
+-          ? 'one-time amount_cents must be an integer ≥ 50 (Stripe minimum)'
+-          : 'amount_cents must be an integer ≥ 50 (Stripe minimum)',
++          ? 'Paid packages start at $19.99. Set the one-time price to $19.99 or more.'
++          : 'Paid packages start at $19.99, or make it free.',
++        minimum_cents: PAID_PACKAGE_MIN_CENTS,
+       });
+     }
+     if (input.currency && !/^[a-z]{3}$/i.test(input.currency)) {
+@@ -624,11 +679,16 @@ export class PackagesService {
+             'recurring companion requires recurring_amount_cents and recurring_interval',
+         });
+       }
+-      if (!Number.isInteger(r.amt!) || (r.amt as number) < 50) {
++      if (
++        !Number.isInteger(r.amt!) ||
++        (r.amt as number) <
++          (opts.enforceRecurringMinimum ? PAID_PACKAGE_MIN_CENTS : STRIPE_MIN_CHARGE_CENTS)
++      ) {
+         throw new BadRequestException({
+-          error: 'PACKAGE_INVALID',
++          error: 'PACKAGE_RECURRING_PRICE_BELOW_MINIMUM',
+           message:
+-            'recurring_amount_cents must be an integer ≥ 50 (Stripe minimum for the recurring companion)',
++            'The recurring price starts at $19.99. Set it to $19.99 or more, or remove the recurring price.',
++          minimum_cents: PAID_PACKAGE_MIN_CENTS,
+         });
+       }
+       if (r.interval !== 'week' && r.interval !== 'month' && r.interval !== 'year') {
+diff --git a/test/packages.service.spec.ts b/test/packages.service.spec.ts
+index 96264f6b..d3e9ac65 100644
+--- a/test/packages.service.spec.ts
++++ b/test/packages.service.spec.ts
+@@ -228,7 +228,7 @@ describe('PackagesService', () => {
+ 
+   describe('update', () => {
+     it('rejects update by non-owner with 404 PACKAGE_NOT_FOUND (DL-5 enumeration fix)', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       const err = await svc
+         .update('coach-2', pkg.id, { name: 'p2' })
+         .catch((e) => e);
+@@ -245,7 +245,7 @@ describe('PackagesService', () => {
+     });
+ 
+     it('clears stripe_price_id when amount changes', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       prisma._rows[0].stripe_price_id = 'price_old';
+       prisma._rows[0].stripe_product_id = 'prod_keep';
+       const updated = await svc.update('coach-1', pkg.id, {
+@@ -256,7 +256,7 @@ describe('PackagesService', () => {
+     });
+ 
+     it('keeps stripe_price_id when only name changes', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       prisma._rows[0].stripe_price_id = 'price_keep';
+       const updated = await svc.update('coach-1', pkg.id, { name: 'p2' });
+       expect(updated.stripe_price_id).toBe('price_keep');
+@@ -265,7 +265,7 @@ describe('PackagesService', () => {
+     it('PR-6 round-trips duration_periods on create+update', async () => {
+       const pkg = await svc.create('coach-1', {
+         name: 'p',
+-        amount_cents: 1000,
++        amount_cents: 2500,
+         duration_periods: 12,
+       });
+       expect(pkg.duration_periods).toBe(12);
+@@ -297,14 +297,14 @@ describe('PackagesService', () => {
+ 
+   describe('archive', () => {
+     it('sets archived_at + is_active=false', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       const a = await svc.archive('coach-1', pkg.id);
+       expect(a.archived_at).toBeTruthy();
+       expect(a.is_active).toBe(false);
+     });
+ 
+     it('is idempotent', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       const a = await svc.archive('coach-1', pkg.id);
+       const b = await svc.archive('coach-1', pkg.id);
+       expect(a.archived_at).toEqual(b.archived_at);
+@@ -313,12 +313,12 @@ describe('PackagesService', () => {
+ 
+   describe('listPublicForCoach', () => {
+     it('filters out archived, inactive, AND draft packages', async () => {
+-      const a = await svc.create('coach-1', { name: 'a', amount_cents: 1000 });
+-      const b = await svc.create('coach-1', { name: 'b', amount_cents: 1000 });
+-      const c = await svc.create('coach-1', { name: 'c', amount_cents: 1000 });
++      const a = await svc.create('coach-1', { name: 'a', amount_cents: 2500 });
++      const b = await svc.create('coach-1', { name: 'b', amount_cents: 2500 });
++      const c = await svc.create('coach-1', { name: 'c', amount_cents: 2500 });
+       // d → created and left DRAFT (never published) to assert drafts are
+       // filtered out; the returned row is not needed by the assertions.
+-      await svc.create('coach-1', { name: 'd', amount_cents: 1000 });
++      await svc.create('coach-1', { name: 'd', amount_cents: 2500 });
+       // Publish a + b + c so they're not DRAFT.
+       await svc.publish('coach-1', a.id);
+       await svc.publish('coach-1', b.id);
+@@ -334,7 +334,7 @@ describe('PackagesService', () => {
+ 
+   describe('PR-6: publish / unpublish', () => {
+     it('publish sets published_at and is idempotent', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       expect(pkg.published_at).toBeNull();
+       const first = await svc.publish('coach-1', pkg.id);
+       expect(first.published_at).toBeTruthy();
+@@ -344,7 +344,7 @@ describe('PackagesService', () => {
+     });
+ 
+     it('unpublish clears published_at and is idempotent', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       await svc.publish('coach-1', pkg.id);
+       const first = await svc.unpublish('coach-1', pkg.id);
+       expect(first.published_at).toBeNull();
+@@ -353,7 +353,7 @@ describe('PackagesService', () => {
+     });
+ 
+     it('publish rejects archived packages', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       await svc.archive('coach-1', pkg.id);
+       await expect(svc.publish('coach-1', pkg.id)).rejects.toBeInstanceOf(
+         BadRequestException,
+@@ -361,7 +361,7 @@ describe('PackagesService', () => {
+     });
+ 
+     it('publish IDOR-guarded — foreign coach 404s', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       await expect(svc.publish('coach-2', pkg.id)).rejects.toBeInstanceOf(
+         NotFoundException,
+       );
+@@ -389,7 +389,7 @@ describe('PackagesService', () => {
+       for (const cadence of ['week', 'month', 'year'] as const) {
+         const p = await svc.create('coach-1', {
+           name: `r-${cadence}`,
+-          amount_cents: 1000,
++          amount_cents: 2500,
+           billing_type: 'recurring',
+           interval: cadence,
+         });
+@@ -401,7 +401,7 @@ describe('PackagesService', () => {
+       await expect(
+         svc.create('coach-1', {
+           name: 'bad',
+-          amount_cents: 1000,
++          amount_cents: 2500,
+           billing_type: 'recurring',
+           interval: 'month',
+           recurring_amount_cents: 5000,
+@@ -414,7 +414,7 @@ describe('PackagesService', () => {
+       await expect(
+         svc.create('coach-1', {
+           name: 'bad',
+-          amount_cents: 1000,
++          amount_cents: 2500,
+           billing_type: 'one_time',
+           recurring_amount_cents: 5000,
+         }),
+@@ -425,7 +425,7 @@ describe('PackagesService', () => {
+       await expect(
+         svc.create('coach-1', {
+           name: 'bad',
+-          amount_cents: 1000,
++          amount_cents: 2500,
+           billing_type: 'one_time',
+           recurring_amount_cents: 10,
+           recurring_interval: 'month',
+@@ -437,7 +437,7 @@ describe('PackagesService', () => {
+       await expect(
+         svc.create('coach-1', {
+           name: 'bad',
+-          amount_cents: 1000,
++          amount_cents: 2500,
+           billing_type: 'one_time',
+           recurring_amount_cents: 5000,
+           // @ts-expect-error invalid cadence on purpose
+@@ -449,7 +449,7 @@ describe('PackagesService', () => {
+     it('update clears recurring_stripe_price_id when recurring fields change', async () => {
+       const pkg = await svc.create('coach-1', {
+         name: 'p',
+-        amount_cents: 1000,
++        amount_cents: 2500,
+         billing_type: 'one_time',
+         recurring_amount_cents: 5000,
+         recurring_interval: 'month',
+@@ -685,18 +685,19 @@ describe('PackagesService', () => {
+   });
+ 
+   describe('B1: combo min/max error copy', () => {
+-    it('primary minimum copy is GENERIC when there is no recurring companion', async () => {
++    it('primary minimum copy is specific when there is no recurring companion', async () => {
+       const err = await svc
+         .create('coach-1', { name: 'p', amount_cents: 10 })
+         .catch((e) => e);
+       expect(err).toBeInstanceOf(BadRequestException);
+       expect((err as BadRequestException).getResponse()).toEqual({
+-        error: 'PACKAGE_INVALID',
+-        message: 'amount_cents must be an integer ≥ 50 (Stripe minimum)',
++        error: 'PACKAGE_PRICE_BELOW_MINIMUM',
++        message: 'Paid packages start at $19.99, or make it free.',
++        minimum_cents: 1999,
+       });
+     });
+ 
+-    it('primary minimum copy DISAMBIGUATES the one-time leg when a recurring companion is present', async () => {
++    it('primary minimum copy names the one-time price when a recurring companion is present', async () => {
+       const err = await svc
+         .create('coach-1', {
+           name: 'combo',
+@@ -708,13 +709,13 @@ describe('PackagesService', () => {
+         .catch((e) => e);
+       expect(err).toBeInstanceOf(BadRequestException);
+       expect((err as BadRequestException).getResponse()).toEqual({
+-        error: 'PACKAGE_INVALID',
+-        message:
+-          'one-time amount_cents must be an integer ≥ 50 (Stripe minimum)',
++        error: 'PACKAGE_PRICE_BELOW_MINIMUM',
++        message: 'Paid packages start at $19.99. Set the one-time price to $19.99 or more.',
++        minimum_cents: 1999,
+       });
+     });
+ 
+-    it('recurring companion minimum copy names the recurring companion', async () => {
++    it('recurring companion minimum copy names the recurring price', async () => {
+       const err = await svc
+         .create('coach-1', {
+           name: 'combo',
+@@ -726,16 +727,130 @@ describe('PackagesService', () => {
+         .catch((e) => e);
+       expect(err).toBeInstanceOf(BadRequestException);
+       expect((err as BadRequestException).getResponse()).toEqual({
+-        error: 'PACKAGE_INVALID',
++        error: 'PACKAGE_RECURRING_PRICE_BELOW_MINIMUM',
+         message:
+-          'recurring_amount_cents must be an integer ≥ 50 (Stripe minimum for the recurring companion)',
++          'The recurring price starts at $19.99. Set it to $19.99 or more, or remove the recurring price.',
++        minimum_cents: 1999,
+       });
+     });
+   });
+ 
++  describe('S-FEE: $19.99 minimum or free', () => {
++    const codeOf = (err: unknown) =>
++      ((err as BadRequestException).getResponse() as { error: string }).error;
++
++    it('accepts exactly $19.99 one-time and recurring, rejects $19.98', async () => {
++      await expect(svc.create('coach-1', { name: 'a', amount_cents: 1999 })).resolves.toMatchObject({
++        amount_cents: 1999,
++      });
++      await expect(
++        svc.create('coach-1', {
++          name: 'm',
++          amount_cents: 1999,
++          billing_type: 'recurring',
++          interval: 'month',
++        }),
++      ).resolves.toMatchObject({ amount_cents: 1999 });
++      const err = await svc.create('coach-1', { name: 'b', amount_cents: 1998 }).catch((e) => e);
++      expect(codeOf(err)).toBe('PACKAGE_PRICE_BELOW_MINIMUM');
++    });
++
++    it('accepts the $49.00 monthly offer', async () => {
++      const pkg = await svc.create('coach-1', {
++        name: 'Monthly coaching',
++        amount_cents: 4900,
++        billing_type: 'recurring',
++        interval: 'month',
++      });
++      expect(pkg.amount_cents).toBe(4900);
++    });
++
++    it('allows exactly $0 as a free one-time package', async () => {
++      const pkg = await svc.create('coach-1', { name: 'Free intro', amount_cents: 0 });
++      expect(pkg.amount_cents).toBe(0);
++    });
++
++    it('rejects $0 on a recurring package or with a recurring price', async () => {
++      const recurring = await svc
++        .create('coach-1', { name: 'r0', amount_cents: 0, billing_type: 'recurring', interval: 'month' })
++        .catch((e) => e);
++      expect(recurring).toBeInstanceOf(BadRequestException);
++      expect((recurring as BadRequestException).getResponse()).toEqual({
++        error: 'PACKAGE_FREE_MUST_BE_ONE_TIME',
++        message:
++          'Free packages are one-time. Switch the package to one-time, or set a price of $19.99 or more.',
++      });
++      const combo = await svc
++        .create('coach-1', {
++          name: 'c0',
++          amount_cents: 0,
++          billing_type: 'one_time',
++          recurring_amount_cents: 4900,
++          recurring_interval: 'month',
++        })
++        .catch((e) => e);
++      expect(codeOf(combo)).toBe('PACKAGE_FREE_MUST_BE_ONE_TIME');
++    });
++
++    it('rejects negative and fractional prices with a specific message', async () => {
++      for (const amount_cents of [-1, 1999.5]) {
++        const err = await svc.create('coach-1', { name: 'x', amount_cents }).catch((e) => e);
++        expect((err as BadRequestException).getResponse()).toEqual({
++          error: 'PACKAGE_INVALID',
++          message: 'amount_cents must be a whole number of cents, for example 1999 for $19.99.',
++        });
++      }
++    });
++
++    it('update: a price change below $19.99 is rejected; setting it to $0 makes it free', async () => {
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
++      const err = await svc.update('coach-1', pkg.id, { amount_cents: 1500 }).catch((e) => e);
++      expect(codeOf(err)).toBe('PACKAGE_PRICE_BELOW_MINIMUM');
++      const free = await svc.update('coach-1', pkg.id, { amount_cents: 0 });
++      expect(free.amount_cents).toBe(0);
++    });
++
++    it('update: a package saved below $19.99 before the rule is not rewritten and stays editable', async () => {
++      const pkg = await svc.create('coach-1', { name: 'legacy', amount_cents: 2500 });
++      prisma._rows[0].amount_cents = 1000; // saved before the floor existed
++      const renamed = await svc.update('coach-1', pkg.id, { name: 'legacy 2' });
++      expect(renamed.amount_cents).toBe(1000);
++      const same = await svc.update('coach-1', pkg.id, { amount_cents: 1000, name: 'legacy 3' });
++      expect(same.amount_cents).toBe(1000);
++      const lower = await svc.update('coach-1', pkg.id, { amount_cents: 900 }).catch((e) => e);
++      expect(codeOf(lower)).toBe('PACKAGE_PRICE_BELOW_MINIMUM');
++    });
++
++    it('update: a recurring price change below $19.99 is rejected', async () => {
++      const pkg = await svc.create('coach-1', {
++        name: 'combo',
++        amount_cents: 5000,
++        billing_type: 'one_time',
++        recurring_amount_cents: 4900,
++        recurring_interval: 'month',
++      });
++      const err = await svc
++        .update('coach-1', pkg.id, { recurring_amount_cents: 1500 })
++        .catch((e) => e);
++      expect(codeOf(err)).toBe('PACKAGE_RECURRING_PRICE_BELOW_MINIMUM');
++    });
++
++    it('publish: a draft below $19.99 cannot go on sale; an already-published one is left as is', async () => {
++      const draft = await svc.create('coach-1', { name: 'draft', amount_cents: 2500 });
++      prisma._rows[0].amount_cents = 1000;
++      const err = await svc.publish('coach-1', draft.id).catch((e) => e);
++      expect(codeOf(err)).toBe('PACKAGE_PRICE_BELOW_MINIMUM');
++
++      const live = await svc.create('coach-1', { name: 'live', amount_cents: 2500 });
++      prisma._rows[1].amount_cents = 1000;
++      prisma._rows[1].published_at = new Date('2026-01-01T00:00:00Z');
++      await expect(svc.publish('coach-1', live.id)).resolves.toMatchObject({ amount_cents: 1000 });
++    });
++  });
++
+   describe('PR-6: getOwnedDetail', () => {
+     it('returns row + content_count and IDOR-404s foreign coach', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       prisma._contents.push(
+         { package_id: pkg.id, removed_at: null },
+         { package_id: pkg.id, removed_at: null },
+@@ -752,7 +867,7 @@ describe('PackagesService', () => {
+ 
+   describe('PR-6: listSubscribers', () => {
+     it('paginates and IDOR-404s foreign coach', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       // Seed 75 purchases.
+       for (let i = 0; i < 75; i++) {
+         prisma._purchases.push({
+@@ -782,7 +897,7 @@ describe('PackagesService', () => {
+     });
+ 
+     it('caps limit at 200', async () => {
+-      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 1000 });
++      const pkg = await svc.create('coach-1', { name: 'p', amount_cents: 2500 });
+       const page = await svc.listSubscribers('coach-1', pkg.id, {
+         limit: 99999,
+       });

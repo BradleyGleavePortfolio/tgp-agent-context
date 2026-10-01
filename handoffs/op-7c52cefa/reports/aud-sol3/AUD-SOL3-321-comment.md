@@ -1,0 +1,23 @@
+AUDIT GPT-6.1 Sol — growth-project-mobile#321 @ 8bc4de3aaf266616cc4d42f32ea4a0ed65931c4e — VERDICT: REQUEST CHANGES
+
+**A/B/C: 0/1/1.** Independent exact-head T3 package-editor audit paired with backend #629; no pushes, merges or production actions. [Candidate](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/321)
+
+### B — must fix
+
+**B-321-1 — actual price-save failures still display raw/generic errors without the required recovery/reference path.** The updated save catch maps three floor codes, but all other failures fall through to `errorMessage(err, 'Please check your inputs and try again.')` (`CoachPackageEditScreen.tsx:205-228`), without status-aware network/session handling or a request reference/support route; `errorMessage` simply passes through the server/JS error and `errorCode` reads only `data.error`, not a machine `data.code`. This is the existing fallback inside the modified save flow, not a claim that this PR introduced it; the owner's explicit no-vague-error requirement applies to that user-facing path. [Save catch](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/8bc4de3aaf266616cc4d42f32ea4a0ed65931c4e/src/screens/coach/payments/CoachPackageEditScreen.tsx#L205-L228), [error extraction](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/8bc4de3aaf266616cc4d42f32ea4a0ed65931c4e/src/types/common.ts#L37-L65).
+
+Independent real-screen tests changed the price to $49 and pressed Save: a 500 carrying `request_id: sol321-reference` displayed only “Internal server error”; a network failure displayed only “Network Error,” with no working next step. Both regressions failed at this exact head; there is no reporting/reference handling in this catch. [Affected real screen](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/8bc4de3aaf266616cc4d42f32ea4a0ed65931c4e/src/screens/coach/payments/CoachPackageEditScreen.tsx#L172-L233).
+
+Minimal fix: use a package-save error mapper that reads status and machine code/error; distinguish offline/timeout (connection plus Retry), ended session (sign in), known validation/ownership/locked cases (specific correction), and unknown/server failures (short request reference, working support route and Sentry reporting). Preserve the new floor messages and add real-screen failure tests rather than only success/domain-code mocks.
+
+### C / boundaries
+
+**C-321-1:** `packagePriceIssue` exempts any unchanged legacy cents regardless of a billing-interval change; it has no previous interval input. Align its grandfathering with the owner decision on backend C-629-1 so a new below-floor billing configuration is not silently treated as an unchanged offer. [Helper](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/8bc4de3aaf266616cc4d42f32ea4a0ed65931c4e/src/utils/packagePrice.ts#L22-L38), [paired audit](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/629)
+
+The bounded floor helper and inline copy otherwise match the intended 1999/zero-one-time rule, save validation uses the same helper, unchanged legacy cents remain editable, and the three existing backend `error` floor codes receive the specific “Check the price” message. No auth/native/dependency changes occur in this four-file diff. Do not release free creation until backend #595/#629 actually admit zero through the HTTP DTO boundary; backend B-629-1 is reproduced separately. [Editor/helper diff](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/321), [backend audit](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/629)
+
+### Tests / exact-head CI
+
+Through heavy.sh, `npx jest --runInBand --ci src/utils/__tests__/packagePrice.test.ts src/__tests__/CoachPackageEditScreen.lockPreview.test.tsx`: **2 suites / 15 tests passed**; real-screen below-floor save/domain-alert tests would fail on the earlier screen. Independent `src/__tests__/aud-sol3-price-errors.test.tsx -t 'AUD-SOL3 actionable'`: **2 failures**, preserved in `ops/reports/AUD-SOL3-321-{error-proof.log,price-errors.test.tsx}`. [Candidate tests](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/8bc4de3aaf266616cc4d42f32ea4a0ed65931c4e/src/__tests__/CoachPackageEditScreen.lockPreview.test.tsx#L175-L245)
+
+All four exact-head checks succeeded. No device or real checkout was performed; merge the complete backend free contract first, then re-audit the integrated pair. [Typecheck/lint/test](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/36935381026/job/110614292862), [CodeQL](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/36935381020).

@@ -61,3 +61,35 @@
 - #629 @ 32d81faa: all required checks green.
 - mobile #321 @ 8bc4de3a: Typecheck/lint/test, Analyze (js-ts), Analyze (actions), CodeQL all green.
 - Worktrees removed after the final push.
+
+## Round 2 (operator 17:05 mail, wrap-up 19:10), 2026-10-01 16:40 PDT
+
+**PR:** backend #627, head `70680675ab1e45159c60f94b1204014e5bf828e0` (branch `agent/clinic/s-fee-coach-net`). This is a normal push of a merge commit; nothing was force pushed. PR body updated with a WIP/handoff banner and the fix-round table. Fix-round comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/627#issuecomment-5942743139
+
+**Done**
+- **(a) Scheduled sweep.** `src/checkout/settlement-sweep.cron.ts` (`*/15 * * * *`) and `src/checkout/cron-lease.service.ts`.
+  - Single runner: CronLease row, one conditional UPDATE `lease_until < now` or a primary-key INSERT; 10-minute lease, released at the end of the run.
+  - Bounded: 25 settlements plus 50 transfers per run, 8-minute deadline.
+  - Retries: per-transfer backoff (1/5/15/60/240/1440 minutes, 6 attempts).
+  - Idempotent: unique ChargeSettlement per charge; the unique ConnectTransfer idempotency key is the Stripe Idempotency-Key.
+  - Kill switch `SFEE_SETTLEMENT_SWEEP_ENABLED`, registered in ENV_RULES, prod-switches.yml (owner billing, STUB_ALLOWED) and .env.example.
+  - Codes: SFEE_TRANSFER_FAILED, SFEE_TRANSFER_PLATFORM_BALANCE_INSUFFICIENT, SFEE_TRANSFER_ACCOUNT_RESTRICTED (+_FINAL, stored as the last_error prefix), SFEE_SWEEP_{DISABLED,SKIPPED_LOCK_HELD,LOCK_ERROR,FAILED,DEADLINE_REACHED,TRANSFERS_FAILED,DONE}, SFEE_SETTLEMENT_{RETRY_FAILED,FAILED}.
+- **(b) Main merge and migration rename.** Merged origin/main 10dff85c in merge commit aaa2655f, no conflicts. Migration renamed to `20270210000000_s_fee_charge_settlement`, after #622's 20270203000000 and the open-PR prefixes of #595, #604, #587, #601, #602, #605, #607 and #609. It now also creates CronLease with RLS enabled and forced, plus service_role and owner policies.
+- **(c)** PR body and comment updated; this report section written.
+
+**Tests (local, via heavy.sh)**
+- `env CI=false npx jest --runInBand --forceExit` on these 9 files: test/s-fee-settlement-sweep.spec.ts, test/transfer-orchestrator.service.spec.ts, test/purchase-split-handler.service.spec.ts, test/s-fee-charge-settlement.spec.ts, test/payment-ops.controller.spec.ts, test/checkout-webhook-fee-split.spec.ts, test/env-validation.spec.ts, test/deploy-readiness.spec.ts and test/prod-readiness/env-discovery.spec.ts. Result: 9 suites, 379 passed, 1 skipped.
+- eslint on changed files: clean.
+- r75 range check against 10dff85c: OK, no positive token change.
+- Local tsc: **not verified.** It ran out of memory at the 2.5 GB heap cap; the 4 GB re-run was still waiting for the shared lock at wrap-up and was cancelled. The CI build-and-test is the typecheck.
+
+**CI at 70680675**
+- Pass: Banned cast tokens, CodeQL, Forward migrations, Reversible migrations, Schema parity, build-sbom, danger, mwb-3-live-tests, npm audit, rls-floor-guard, rls-live-tests, test-deploy-readiness.
+- build-and-test: see the final line below.
+
+**Opus REQUEST CHANGES @ 606b4760**
+- **B-627-1: PARTIAL.** Fixed in 70680675: the sweeper is now scheduled, and transfer failures are coded and retried, not swallowed. **Open:** the orphan backfill in `runSettlementSweep` (`charge-settlement.service.ts`) filters `settlements: { none: {} }`. A missed renewal charge on a purchase that already has a settlement is therefore never settled. Fix direction: list paid invoices/charges per subscription (or reconcile `invoice.paid` events) against ChargeSettlement by charge id.
+- **B-627-2: NOT ADDRESSED.** Concurrent or duplicate refund events over-reverse. Probe: /home/user/workspace/ops/aud-opus/probe_627_concurrency.spec.ts. Fix direction: serialize per charge (row lock or a compare-and-set on ChargeSettlement.refunded_cents), and derive reversal amounts from the charge's cumulative `amount_refunded` minus what is already reversed, keyed by refund id.
+
+**Not started (remaining queue):** the B-627-1 renewal backfill, the B-627-2 refund concurrency fix, and a local tsc confirmation. #629 and mobile #321 are untouched this round, as instructed.
+- **CI final:** all required checks green at 70680675, including build-and-test. deploy-readiness-gate was skipped, as on PRs. MERGEABLE. Worktree /home/user/workspace/wt/s-fee-backend removed.

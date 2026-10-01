@@ -1,0 +1,3013 @@
+diff --git a/src/screens/TrustCenterScreen.tsx b/src/screens/TrustCenterScreen.tsx
+index ca7f6fd..5092c09 100644
+--- a/src/screens/TrustCenterScreen.tsx
++++ b/src/screens/TrustCenterScreen.tsx
+@@ -29,12 +29,13 @@ import { Ionicons } from '@expo/vector-icons';
+ import { Spacing, Radius } from '../theme/index';
+ import { typography, shadows } from '../theme/tokens';
+ import { track } from '../lib/analytics';
+-import api, { deletionApi } from '../services/api';
++import api from '../services/api';
+ import { dataExportApi } from '../services/dataExportApi';
+ import { helpUrl } from '../config/env';
+ import { useTheme, ThemeColors } from '../theme/ThemeProvider';
+ import { Colors } from '../constants/colors';
+ import type { NavigationProp, ParamListBase } from '@react-navigation/native';
++import { HELP_UNAVAILABLE_COPY, deletionErrorCopy } from './settings/deletionErrors';
+ 
+ // ─── Types ────────────────────────────────────────────────────────────────────
+ 
+@@ -162,7 +163,6 @@ export default function TrustCenterScreen({ navigation }: { navigation: Navigati
+   const [meta, setMeta] = useState<TrustMeta | null>(null);
+   const [loading, setLoading] = useState(true);
+   const [exportBusy, setExportBusy] = useState(false);
+-  const [deleteBusy, setDeleteBusy] = useState(false);
+ 
+   // Fire trust_center_opened once on mount
+   useEffect(() => {
+@@ -198,41 +198,20 @@ export default function TrustCenterScreen({ navigation }: { navigation: Navigati
+         'Your data export has been queued. Open Data & Privacy in Settings to track progress and download the file when ready.',
+         [{ text: 'OK' }],
+       );
+-    } catch {
+-      Alert.alert('Request Failed', 'Could not submit your export request. Please try again later.');
++    } catch (err) {
++      Alert.alert('Export not started', deletionErrorCopy(err, 'export', 'trust_center.export'));
+     } finally {
+       setExportBusy(false);
+     }
+   }, []);
+ 
++  // Deletion needs re-authentication and shows the scheduled date + cancel,
++  // so it lives on the shared Delete account screen (registered in both the
++  // client and coach navigators), not in an inline alert.
+   const handleDeleteAccount = useCallback(() => {
+-    Alert.alert(
+-      'Delete My Account',
+-      'This will schedule your account for permanent deletion after a 14-day grace period. You can cancel within that window from Settings.',
+-      [
+-        { text: 'Cancel', style: 'cancel' },
+-        {
+-          text: 'Confirm Deletion',
+-          style: 'destructive',
+-          onPress: async () => {
+-            track('account_deletion_requested');
+-            setDeleteBusy(true);
+-            try {
+-              await deletionApi.requestDeletion();
+-              Alert.alert(
+-                'Confirmation email sent',
+-                'We have emailed a confirmation link. After you confirm, your account enters a 14-day grace period during which you can cancel from Settings.',
+-              );
+-            } catch {
+-              Alert.alert('Request Failed', 'Could not schedule account deletion. Please try again later.');
+-            } finally {
+-              setDeleteBusy(false);
+-            }
+-          },
+-        },
+-      ],
+-    );
+-  }, []);
++    track('account_deletion_opened');
++    navigation?.navigate?.('DeleteAccount');
++  }, [navigation]);
+ 
+   return (
+     <ScrollView
+@@ -344,7 +323,6 @@ export default function TrustCenterScreen({ navigation }: { navigation: Navigati
+             intent="warning"
+             style={styles.actionBtn}
+             onPress={handleDeleteAccount}
+-            disabled={deleteBusy}
+             accessibilityRole="button"
+             accessibilityLabel="Delete my account"
+           >
+@@ -353,13 +331,9 @@ export default function TrustCenterScreen({ navigation }: { navigation: Navigati
+             </View>
+             <View style={styles.actionBtnText}>
+               <Text style={[styles.actionBtnLabel, styles.dangerText]}>Delete my account</Text>
+-              <Text style={styles.actionBtnSub}>14-day grace period before permanent deletion</Text>
++              <Text style={styles.actionBtnSub}>A grace period to change your mind before permanent deletion</Text>
+             </View>
+-            {deleteBusy ? (
+-              <ActivityIndicator size="small" color={colors.error} />
+-            ) : (
+-              <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+-            )}
++            <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+           </HapticPressable>
+         </View>
+       </View>
+@@ -393,10 +367,7 @@ export default function TrustCenterScreen({ navigation }: { navigation: Navigati
+           accessibilityLabel="Open the help centre"
+           onPress={() => {
+             Linking.openURL(helpUrl('/privacy')).catch(() => {
+-              Alert.alert(
+-                'Help unavailable',
+-                'Could not open the help centre right now. Please try again later.',
+-              );
++              Alert.alert('Help unavailable', HELP_UNAVAILABLE_COPY);
+             });
+           }}
+         >
+diff --git a/src/screens/coach/SettingsScreen.tsx b/src/screens/coach/SettingsScreen.tsx
+index c8bcb5f..681d832 100644
+--- a/src/screens/coach/SettingsScreen.tsx
++++ b/src/screens/coach/SettingsScreen.tsx
+@@ -17,7 +17,13 @@ import { useCurrentUser } from '../../hooks/useCurrentUser';
+ // replacing the old useAuthStore.signOut() which only cleared tokens as a
+ // side effect and left previous-user data in memory for the next login.
+ import { signOut } from '../../services/authActions';
+-import { coachApi, profileApi, notificationsApi, usersApi, AccountStatus } from '../../services/api';
++import {
++  coachApi,
++  profileApi,
++  notificationsApi,
++  deletionApi,
++  AccountStatus,
++} from '../../services/api';
+ import { helpUrl } from '../../config/env';
+ import { featureFlags } from '../../config/featureFlags';
+ 
+@@ -38,6 +44,7 @@ import { ProfileSection } from './settings/ProfileSection';
+ import { SettingsToggles } from './settings/SettingsToggles';
+ import { BillingSection } from './settings/BillingSection';
+ import { DangerZone } from './settings/DangerZone';
++import { HELP_UNAVAILABLE_COPY, deletionErrorCopy } from '../settings/deletionErrors';
+ 
+ export default function SettingsScreen() {
+   const { colors } = useTheme();
+@@ -122,8 +129,17 @@ export default function SettingsScreen() {
+   const loadAccountStatus = useCallback(async () => {
+     setAccountStatusLoading(true);
+     try {
+-      const res = await usersApi.getAccountStatus();
+-      setAccountStatus(res.data ?? null);
++      // Canonical in-app deletion status (POST /me/delete-account flow). The
++      // legacy /users/me/account status reflects a different, unused path.
++      const res = await deletionApi.getDeletionStatus();
++      const st = res.data;
++      // C-313-2: only `confirmed` is scheduled. A legacy `requested` row is
++      // finished from the Delete account screen, so it routes there.
++      const scheduled = st?.state === 'confirmed';
++      setAccountStatus({
++        deletionScheduled: scheduled,
++        permanentDeletionAt: scheduled ? (st?.purge_after ?? null) : null,
++      });
+     } catch (err) {
+       // 404 means the backend has not yet shipped the status endpoint — treat
+       // as "no scheduled deletion" so the UI shows the request-deletion path.
+@@ -141,7 +157,12 @@ export default function SettingsScreen() {
+ 
+   useEffect(() => {
+     loadAccountStatus();
+-  }, [loadAccountStatus]);
++    // Refresh after returning from the Delete account screen.
++    const unsubscribe = navigation.addListener?.('focus', loadAccountStatus);
++    return () => {
++      if (typeof unsubscribe === 'function') unsubscribe();
++    };
++  }, [loadAccountStatus, navigation]);
+ 
+   const updateSetting = async <K extends keyof CoachSettings>(key: K, value: CoachSettings[K]) => {
+     const previous = settings;
+@@ -267,13 +288,13 @@ export default function SettingsScreen() {
+     try {
+       const supported = await Linking.canOpenURL(url);
+       if (!supported) {
+-        Alert.alert('Help unavailable', 'Could not open the help centre right now. Please try again later.');
++        Alert.alert('Help unavailable', HELP_UNAVAILABLE_COPY);
+         return;
+       }
+       await Linking.openURL(url);
+     } catch (err) {
+       console.warn('coach SettingsScreen: failed to open help URL', err);
+-      Alert.alert('Help unavailable', 'Could not open the help centre right now. Please try again later.');
++      Alert.alert('Help unavailable', HELP_UNAVAILABLE_COPY);
+     }
+   };
+ 
+@@ -289,13 +310,13 @@ export default function SettingsScreen() {
+           onPress: async () => {
+             setDeletionBusy(true);
+             try {
+-              await usersApi.cancelAccountDeletion();
++              await deletionApi.cancelDeletion();
+               await loadAccountStatus();
+               successTap();
+               Alert.alert('Deletion canceled', 'Your account is no longer scheduled for deletion.');
+             } catch (err) {
+               const msg =
+-                errorMessage(err, 'Could not cancel deletion. Contact support if this keeps happening.');
++                deletionErrorCopy(err, 'cancel', 'coach_settings.cancel_deletion');
+               Alert.alert('Could not cancel', msg);
+             } finally {
+               setDeletionBusy(false);
+diff --git a/src/screens/settings/DeleteAccountScreen.tsx b/src/screens/settings/DeleteAccountScreen.tsx
+index c073558..eab1528 100644
+--- a/src/screens/settings/DeleteAccountScreen.tsx
++++ b/src/screens/settings/DeleteAccountScreen.tsx
+@@ -1,28 +1,34 @@
+ /**
+- * DeleteAccountScreen
++ * DeleteAccountScreen — in-app account deletion (Apple 5.1.1(v), GDPR/RCW
++ * 19.373 right to deletion). Shared by the client and coach Settings.
+  *
+- * Implements the GDPR right-to-erasure user flow for The Growth Project.
++ * Flow (backend src/account-deletion/, PR #608):
++ *  1. GET /me/delete-account/status on open, on screen focus and when the app
++ *     returns to the foreground. `confirmed` shows the status view; `deleted`
++ *     (or any 403 ACCOUNT_DELETED) shows the completion view and signs out;
++ *     a legacy `requested` row is NOT scheduled and is finished from the form;
++ *     a status error shows a retry state, never the form.
++ *  2. The form explains what is deleted and kept, asks for DELETE or the
++ *     account email, then a re-auth matching the account's sign-in methods:
++ *     password, Sign in with Apple (iOS), or Google (Supabase OAuth again).
++ *  3. POST /auth/recent-auth-token mints a single-use token from that proof;
++ *     POST /me/delete-account with X-Recent-Auth-Token schedules the deletion
++ *     in the same request. Apple users also send the authorization code so
++ *     the server can revoke Sign in with Apple tokens.
++ *  4. Timing copy uses the server's grace_days, purge_after and completes_by.
++ *     Apple copy says access was removed only when the server reports
++ *     `revoked`; otherwise it explains how to remove the app from Apple ID.
+  *
+- * Two-phase flow:
+- *  1. User reads what will happen and what will be kept/removed.
+- *  2. User types "DELETE" or their email address to prove intent.
+- *  3. POST /me/delete-account — sends a confirmation email.
+- *  4. On success: log out, show a toast explaining the next steps.
+- *
+- * The 14-day grace period (and cancellation from Settings) is explained
+- * in the body copy. No abbreviation — every claim here is doctrine-accurate.
+- *
+- * Doctrine rules enforced:
+- *  - No emoji anywhere.
+- *  - No forbidden tokens (income, finance, netWorth, confetti, trophy).
+- *  - Theme tokens only (useTheme().colors).
+- *  - accessibilityLabel + accessibilityRole on every interactive element.
+- *  - Cormorant Garamond for the display heading, Inter for body.
++ * Copy rules: every claim must match the backend erasure manifest
++ * (src/account-deletion/account-deletion.manifest.ts). No emoji, no
++ * exclamation marks, theme tokens only, accessibilityLabel + accessibilityRole
++ * on every control.
+  */
+ 
+-import React, { useState, useMemo } from 'react';
++import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+ import {
+   Alert,
++  AppState,
+   View,
+   Text,
+   StyleSheet,
+@@ -34,164 +40,553 @@ import { Ionicons } from '@expo/vector-icons';
+ import HapticPressable from '../../components/HapticPressable';
+ import { useTheme, ThemeColors } from '../../theme/ThemeProvider';
+ import { useCurrentUser } from '../../hooks/useCurrentUser';
+-import { warningTap } from '../../utils/haptics';
++import { warningTap, successTap } from '../../utils/haptics';
+ import { signOut } from '../../services/authActions';
+-import { deletionApi } from '../../services/api';
+-import { errorMessage } from '../../types/common';
++import { SESSION_ENDED_COPY, deletionErrorCopy, isSessionEnded401 } from './deletionErrors';
++import {
++  deletionApi,
++  isAccountDeletedError,
++  AppleRevocationOutcome,
++  DeletionStatus,
++  RecentAuthProof,
++} from '../../services/api';
++import { isAppleAuthAvailable, reauthenticateWithApple } from '../../utils/appleAuth';
++import { reauthenticateWithGoogle } from '../../utils/googleReauth';
++import { getSignInProviders, SignInProvider } from '../../utils/authProviders';
++import { errorStatus } from '../../types/common';
+ import type { NavigationProp, ParamListBase } from '@react-navigation/native';
+ 
+ // The user must type this exact string (case-insensitive) OR their registered
+-// email address to enable the confirm button. This prevents accidental taps.
++// email address before the re-auth controls are enabled.
+ const REQUIRED_CONFIRMATION = 'DELETE';
+ 
++// Mirrors the backend erasure manifest: deleted or irreversibly scrubbed when
++// the deletion completes.
++export const PERMANENTLY_DELETED: readonly string[] = [
++  'Your profile, body measurements and consultation answers',
++  'Food, water, fasting, weight and workout logs, check-ins and habits',
++  'Health and activity data synced from Apple Health or connected devices, and bloodwork you entered, including uploaded files',
++  'Your conversations with Roman, the AI assistant',
++  'Your messages, community posts, comments, direct messages, voice notes and reactions',
++  'Coach media, notes and briefs, if you coach',
++  'Your targets, recipes, lists and preferences',
++  'Notification settings and push notification tokens',
++];
++
++// Mirrors the manifest's retained rows (operator retention policy).
++export const KEPT_RECORDS: readonly string[] = [
++  'Payment and tax records that Stripe keeps for as long as the law requires. Our own copies keep only amounts, dates and payment references, with no name or contact details.',
++  'One deletion record with a random reference, the date and the result. It holds no name, email or account details.',
++  'If you coach: your clients are not deleted. They keep their own data and the plans you assigned, unchanged and without your contact details, and are no longer linked to you.',
++];
++
++export const BILLING_NOTE =
++  'Any subscription or payment plan you have, as a client or as a coach, is cancelled when the deletion completes, and scheduled reminders and emails stop. Until then it stays active.';
++
++export const APPLE_FALLBACK =
++  'You can also remove this app from your Apple ID yourself: on your iPhone open Settings, tap your name, then Sign-In & Security, then Sign in with Apple, choose this app and stop using it with your Apple ID.';
++
+ interface DeleteAccountScreenProps {
+   navigation: NavigationProp<ParamListBase>;
+ }
+ 
++type ReauthMethod = 'password' | 'apple' | 'google';
++type LoadPhase = 'loading' | 'ready' | 'error' | 'deleted';
++
++export function formatDeletionDate(iso?: string | null): string | null {
++  if (!iso) return null;
++  const d = new Date(iso);
++  if (isNaN(d.getTime())) return null;
++  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
++}
++
++function reauthErrorMessage(err: unknown, method: ReauthMethod): string {
++  const status = errorStatus(err);
++  // C-313-6: a 401 from the auth guard means the session ended, not that the
++  // password or provider proof was wrong.
++  if (isSessionEnded401(err)) return SESSION_ENDED_COPY;
++  if (status === 401) {
++    if (method === 'password') return 'That password is not correct. Check it and enter it again.';
++    if (method === 'apple') return 'Apple could not confirm it is you. Tap Sign in with Apple to try again.';
++    return 'Google could not confirm it is you. Sign in with the Google account you use here and try again.';
++  }
++  return deletionErrorCopy(err, 'confirm', 'delete_account.reauth');
++}
++
+ export default function DeleteAccountScreen({ navigation }: DeleteAccountScreenProps) {
+   const { colors } = useTheme();
+   const styles = useMemo(() => makeStyles(colors), [colors]);
+   const currentUser = useCurrentUser();
+ 
++  const [phase, setPhase] = useState<LoadPhase>('loading');
++  const [statusError, setStatusError] = useState(
++    'We could not check your account deletion status. Check your connection, then try again.',
++  );
++  const [status, setStatus] = useState<DeletionStatus | null>(null);
++  const [appleOutcome, setAppleOutcome] = useState<AppleRevocationOutcome | null>(null);
+   const [confirmText, setConfirmText] = useState('');
++  const [password, setPassword] = useState('');
++  const [appleAvailable, setAppleAvailable] = useState(false);
++  const [providers, setProviders] = useState<SignInProvider[] | null>(null);
+   const [busy, setBusy] = useState(false);
+   const [error, setError] = useState<string | null>(null);
++  const signedOut = useRef(false);
+ 
+   const userEmail = currentUser?.email ?? '';
+ 
+-  // Button is active when the user has typed either "DELETE" (case-insensitive)
+-  // or their exact registered email address.
+   const confirmTextIsValid =
+     confirmText.trim().toUpperCase() === REQUIRED_CONFIRMATION ||
+-    confirmText.trim().toLowerCase() === userEmail.toLowerCase();
++    (userEmail !== '' && confirmText.trim().toLowerCase() === userEmail.toLowerCase());
++
++  const markDeleted = useCallback(() => {
++    setPhase('deleted');
++  }, []);
++
++  const loadStatus = useCallback(
++    async (opts: { quiet?: boolean } = {}) => {
++      if (!opts.quiet) setPhase('loading');
++      try {
++        const res = await deletionApi.getDeletionStatus();
++        const next = res.data ?? null;
++        setStatus(next);
++        setPhase(next?.state === 'deleted' ? 'deleted' : 'ready');
++      } catch (err) {
++        if (isAccountDeletedError(err)) {
++          markDeleted();
++          return;
++        }
++        // Unknown state: never fall back to the request form.
++        if (!opts.quiet) {
++          setStatusError(deletionErrorCopy(err, 'check', 'delete_account.status'));
++          setPhase('error');
++        }
++      }
++    },
++    [markDeleted],
++  );
++
++  useEffect(() => {
++    loadStatus();
++    let mounted = true;
++    isAppleAuthAvailable()
++      .then((ok) => {
++        if (mounted) setAppleAvailable(ok);
++      })
++      .catch(() => setAppleAvailable(false));
++    getSignInProviders()
++      .then((list) => {
++        if (mounted) setProviders(list);
++      })
++      .catch(() => setProviders(null));
++    return () => {
++      mounted = false;
++    };
++  }, [loadStatus]);
+ 
+-  const handleConfirm = async () => {
+-    if (!confirmTextIsValid) return;
++  // Recheck when the screen regains focus or the app returns to the
++  // foreground: the deletion may have completed in the meantime.
++  useEffect(() => {
++    const unsubscribeFocus = navigation.addListener('focus', () => {
++      loadStatus({ quiet: true });
++    });
++    const appState = AppState.addEventListener('change', (next) => {
++      if (next === 'active') loadStatus({ quiet: true });
++    });
++    return () => {
++      unsubscribeFocus();
++      appState.remove();
++    };
++  }, [navigation, loadStatus]);
++
++  // Deletion completed: clear the local session once.
++  useEffect(() => {
++    if (phase === 'deleted' && !signedOut.current) {
++      signedOut.current = true;
++      signOut();
++    }
++  }, [phase]);
++
++  const schedule = async (
++    proof: RecentAuthProof,
++    method: ReauthMethod,
++    appleAuthorizationCode?: string | null,
++  ) => {
++    let token: string;
++    try {
++      const res = await deletionApi.issueRecentAuthToken(proof);
++      token = res.data.token;
++    } catch (err) {
++      if (isAccountDeletedError(err)) return markDeleted();
++      setError(reauthErrorMessage(err, method));
++      return;
++    }
++    try {
++      const res = await deletionApi.requestDeletion(token, appleAuthorizationCode);
++      setPassword('');
++      setConfirmText('');
++      setAppleOutcome(res.data.apple_revocation ?? null);
++      setStatus({
++        state: 'confirmed',
++        requested_at: res.data.requested_at,
++        confirmed_at: res.data.confirmed_at,
++        grace_days: res.data.grace_days,
++        purge_after: res.data.purge_after,
++        completes_by: res.data.completes_by ?? null,
++        cancellable: res.data.cancellable,
++      });
++      setPhase('ready');
++    } catch (err) {
++      if (isAccountDeletedError(err)) return markDeleted();
++      setError(deletionErrorCopy(err, 'schedule', 'delete_account.schedule'));
++    }
++  };
++
++  const runReauth = async (method: ReauthMethod, task: () => Promise<void>) => {
++    if (!confirmTextIsValid || busy) return;
++    if (method === 'password' && !password) return;
+     setError(null);
+     setBusy(true);
+     warningTap();
+-
+     try {
+-      await deletionApi.requestDeletion();
+-      // Inform the user before signing them out. We call signOut after the
+-      // alert so the auth-event navigation reset does not race with the Alert
+-      // dismissal on older React Navigation versions.
+-      Alert.alert(
+-        'Account scheduled for deletion',
+-        'Your account is scheduled for deletion in 14 days. You can cancel anytime before then from Settings. Contact support if you need immediate confirmation.',
+-        [{ text: 'OK', onPress: () => signOut() }],
+-        { cancelable: false },
+-      );
+-    } catch (err) {
+-      const msg = errorMessage(err, 'Could not request account deletion. Please try again.');
+-      setError(msg);
++      await task();
++    } finally {
+       setBusy(false);
+     }
+   };
+ 
+-  return (
+-    <View style={styles.container}>
+-      {/* Header */}
+-      <View style={styles.topBar}>
+-        <HapticPressable
+-          intent="light"
+-          onPress={() => navigation.goBack()}
+-          style={styles.backBtn}
+-          accessibilityRole="button"
+-          accessibilityLabel="Go back"
+-        >
+-          <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
+-        </HapticPressable>
+-        <Text style={styles.topTitle}>Delete account</Text>
+-        <View style={styles.backBtn} />
++  const handleDeleteWithPassword = () =>
++    runReauth('password', () => schedule({ password }, 'password'));
++
++  const handleDeleteWithApple = () =>
++    runReauth('apple', async () => {
++      const apple = await reauthenticateWithApple();
++      if (!apple.success || !apple.identityToken) {
++        if (!apple.cancelled) {
++          setError(apple.error || 'Apple could not confirm it is you. Tap Sign in with Apple to try again.');
++        }
++        return;
++      }
++      await schedule(
++        { provider: 'apple', provider_token: apple.identityToken },
++        'apple',
++        apple.authorizationCode,
++      );
++    });
++
++  const handleDeleteWithGoogle = () =>
++    runReauth('google', async () => {
++      const google = await reauthenticateWithGoogle();
++      if (!google.success || !google.accessToken) {
++        if (!google.cancelled) {
++          setError(google.error || 'Google could not confirm it is you. Tap Continue with Google to try again.');
++        }
++        return;
++      }
++      await schedule({ provider: 'google_session', provider_token: google.accessToken }, 'google');
++    });
++
++  const handleKeepAccount = () => {
++    Alert.alert('Keep your account?', 'Your account will no longer be scheduled for deletion.', [
++      { text: 'Back', style: 'cancel' },
++      {
++        text: 'Keep my account',
++        onPress: async () => {
++          setBusy(true);
++          setError(null);
++          try {
++            await deletionApi.cancelDeletion();
++            successTap();
++            setAppleOutcome(null);
++            await loadStatus();
++            Alert.alert('Deletion cancelled', 'Your account is no longer scheduled for deletion.');
++          } catch (err) {
++            if (isAccountDeletedError(err)) {
++              markDeleted();
++              return;
++            }
++            if (errorStatus(err) === 409) {
++              setError('Your deletion is already being completed and can no longer be cancelled.');
++              return;
++            }
++            setError(deletionErrorCopy(err, 'cancel', 'delete_account.cancel'));
++          } finally {
++            setBusy(false);
++          }
++        },
++      },
++    ]);
++  };
++
++  const header = (
++    <View style={styles.topBar}>
++      <HapticPressable
++        intent="light"
++        onPress={() => navigation.goBack()}
++        style={styles.backBtn}
++        accessibilityRole="button"
++        accessibilityLabel="Go back"
++      >
++        <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
++      </HapticPressable>
++      <Text style={styles.topTitle}>Delete account</Text>
++      <View style={styles.backBtn} />
++    </View>
++  );
++
++  const errorView = error ? (
++    <Text style={styles.errorText} accessibilityLiveRegion="assertive">
++      {error}
++    </Text>
++  ) : null;
++
++  const deletedList = (
++    <View style={styles.card}>
++      {PERMANENTLY_DELETED.map((item) => (
++        <View key={item} style={styles.listRow}>
++          <Ionicons name="close-circle-outline" size={16} color={colors.error} />
++          <Text style={styles.listText}>{item}</Text>
++        </View>
++      ))}
++    </View>
++  );
++
++  const graceDays =
++    typeof status?.grace_days === 'number' && status.grace_days > 0 ? status.grace_days : null;
++  const gracePeriod = graceDays ? `${graceDays}-day grace period` : 'grace period';
++  const isAppleAccount = providers?.includes('apple') ?? false;
++
++  if (phase === 'loading') {
++    return (
++      <View style={styles.container}>
++        {header}
++        <View style={styles.centered}>
++          <ActivityIndicator color={colors.primary} accessibilityLabel="Loading deletion status" />
++        </View>
++      </View>
++    );
++  }
++
++  // ── Completed ──────────────────────────────────────────────────────────────
++  if (phase === 'deleted') {
++    return (
++      <View style={styles.container}>
++        {header}
++        <View style={styles.centered}>
++          <Text style={styles.statusDate} testID="deletion-complete">
++            Your account has been deleted
++          </Text>
++          <Text style={[styles.bodyText, { marginTop: 12, textAlign: 'center' }]}>
++            Your personal data has been removed. You are being signed out of this device.
++          </Text>
++        </View>
+       </View>
++    );
++  }
+ 
++  // ── Status unknown ─────────────────────────────────────────────────────────
++  if (phase === 'error') {
++    return (
++      <View style={styles.container}>
++        {header}
++        <View style={styles.centered}>
++          <Text style={styles.bodyText} testID="status-error">
++            {statusError}
++          </Text>
++          <HapticPressable
++            intent="light"
++            style={styles.keepBtn}
++            onPress={() => loadStatus()}
++            accessibilityRole="button"
++            accessibilityLabel="Try again"
++            testID="status-retry"
++          >
++            <Text style={styles.keepBtnText}>Try again</Text>
++          </HapticPressable>
++        </View>
++      </View>
++    );
++  }
++
++  // ── Status view: deletion scheduled ────────────────────────────────────────
++  if (status?.state === 'confirmed') {
++    const date = formatDeletionDate(status.purge_after);
++    const cancellable = status.cancellable !== false;
++    const showAppleFallback =
++      appleOutcome !== 'revoked' && (isAppleAccount || (appleOutcome !== null && appleOutcome !== 'not_requested'));
++    return (
++      <View style={styles.container}>
++        {header}
++        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
++          <View style={styles.warningBanner}>
++            <Ionicons name="time-outline" size={20} color={colors.error} />
++            <Text style={styles.warningText} testID="deletion-scheduled-banner">
++              Your account is scheduled for deletion.
++            </Text>
++          </View>
++          <Text style={styles.sectionHeading}>Permanent deletion date</Text>
++          <View style={styles.card}>
++            <Text style={styles.statusDate} testID="deletion-date">
++              {date ?? 'When the grace period ends'}
++            </Text>
++            <Text style={[styles.bodyText, { marginTop: 12 }]} testID="deletion-timing">
++              {date
++                ? `After ${date}, your account and the data listed below are permanently deleted. This is finished within a day of that date and cannot be undone.`
++                : 'When the grace period ends, your account and the data listed below are permanently deleted, usually within a day. This cannot be undone.'}
++            </Text>
++            <Text style={[styles.bodyText, { marginTop: 12 }]}>
++              {cancellable
++                ? 'Until then you can keep using the app, and you can cancel the deletion here at any time.'
++                : 'The grace period has ended, so this deletion can no longer be cancelled.'}
++            </Text>
++          </View>
++          {appleOutcome === 'revoked' ? (
++            <View style={styles.card}>
++              <Text style={styles.bodyText} testID="apple-revoked">
++                Apple confirmed that this app no longer has access to your Apple ID.
++              </Text>
++            </View>
++          ) : null}
++          {showAppleFallback ? (
++            <View style={styles.card}>
++              <Text style={styles.bodyText} testID="apple-fallback">
++                {APPLE_FALLBACK}
++              </Text>
++            </View>
++          ) : null}
++          <Text style={styles.sectionHeading}>Permanently deleted</Text>
++          {deletedList}
++          <Text style={styles.sectionHeading}>Subscriptions and payments</Text>
++          <View style={styles.card}>
++            <Text style={styles.bodyText}>{BILLING_NOTE}</Text>
++          </View>
++          {errorView}
++          {cancellable ? (
++            <HapticPressable
++              intent="light"
++              style={[styles.keepBtn, busy && styles.deleteBtnDisabled]}
++              onPress={handleKeepAccount}
++              disabled={busy}
++              accessibilityRole="button"
++              accessibilityLabel="Cancel deletion and keep my account"
++              testID="keep-account-button"
++            >
++              {busy ? (
++                <ActivityIndicator color={colors.textOnPrimary} />
++              ) : (
++                <Text style={styles.keepBtnText}>Keep my account</Text>
++              )}
++            </HapticPressable>
++          ) : null}
++          <HapticPressable
++            intent="light"
++            style={styles.cancelBtn}
++            onPress={() => signOut()}
++            accessibilityRole="button"
++            accessibilityLabel="Sign out"
++            testID="sign-out-button"
++          >
++            <Text style={styles.cancelBtnText}>Sign out</Text>
++          </HapticPressable>
++        </ScrollView>
++      </View>
++    );
++  }
++
++  // ── Request form (also finishes a legacy unconfirmed request) ─────────────
++  const known = providers ?? [];
++  const offerAll = providers === null;
++  let showPassword = offerAll || known.includes('email');
++  let showApple = appleAvailable && (offerAll || known.includes('apple'));
++  let showGoogle = offerAll || known.includes('google');
++  if (!showPassword && !showApple && !showGoogle) {
++    // No matching method on this device: offer everything the platform has.
++    showPassword = true;
++    showApple = appleAvailable;
++    showGoogle = true;
++  }
++  const passwordEnabled = confirmTextIsValid && password.length > 0 && !busy;
++  const providerEnabled = confirmTextIsValid && !busy;
++  const methods = [
++    showPassword ? 'enter your password' : null,
++    showApple ? 'confirm with Apple' : null,
++    showGoogle ? 'confirm with Google' : null,
++  ].filter((m): m is string => m !== null);
++  const methodsText =
++    methods.length > 1
++      ? `${methods.slice(0, -1).join(', ')} or ${methods[methods.length - 1]}`
++      : methods[0];
++
++  return (
++    <View style={styles.container}>
++      {header}
+       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
++        {status?.state === 'requested' ? (
++          <View style={styles.card}>
++            <Text style={styles.bodyText} testID="legacy-request-notice">
++              You asked to delete your account earlier, but that request was not confirmed, so
++              nothing is scheduled yet. Confirm below to schedule the deletion.
++            </Text>
++          </View>
++        ) : null}
+ 
+-        {/* Warning banner */}
+         <View style={styles.warningBanner}>
+           <Ionicons name="warning-outline" size={20} color={colors.error} />
+           <Text style={styles.warningText}>
+-            This action is irreversible after the 14-day grace period.
++            Deletion becomes permanent when the {gracePeriod} ends.
+           </Text>
+         </View>
+ 
+-        {/* What happens */}
+         <Text style={styles.sectionHeading}>What happens when you delete your account</Text>
+         <View style={styles.card}>
+           <Text style={styles.bodyText}>
+-            When you tap "Confirm deletion" below, your deletion request is
+-            registered for account{' '}
+-            <Text style={styles.bodyBold}>{userEmail}</Text>.
++            When you confirm below, deletion of the account{' '}
++            <Text style={styles.bodyBold}>{userEmail}</Text> is scheduled straight away. You will
++            see the exact date on the next screen.
+           </Text>
+           <Text style={[styles.bodyText, { marginTop: 12 }]}>
+-            Your account will enter a{' '}
+-            <Text style={styles.bodyBold}>14-day grace period</Text>. During those
+-            14 days you can cancel deletion at any time from the Settings screen.
+-            Contact support if you need immediate confirmation.
++            There is a <Text style={styles.bodyBold}>{gracePeriod}</Text>. During that time you can
++            keep using the app and cancel the deletion from Settings, Delete account.
+           </Text>
+           <Text style={[styles.bodyText, { marginTop: 12 }]}>
+-            After 14 days, your personal data is permanently and irreversibly
+-            removed from our systems. You will not be able to recover your account
+-            or any data after that point.
++            When it ends, your personal data is permanently deleted, usually within a day. You will
++            not be able to recover your account or any data after that.
+           </Text>
+         </View>
+ 
+-        {/* What is permanently deleted */}
+         <Text style={styles.sectionHeading}>Permanently deleted</Text>
++        {deletedList}
++        <Text style={[styles.bodyText, { marginTop: 8, fontSize: 13, color: colors.textMuted }]}>
++          If you signed in with Apple, we also ask Apple to remove this app&apos;s access to your
++          Apple ID. You will see whether that worked, and how to do it yourself if it did not.
++        </Text>
++
++        <Text style={styles.sectionHeading}>What is kept</Text>
+         <View style={styles.card}>
+-          {[
+-            'Your profile, biometrics, and body measurements',
+-            'Food log, water log, and fasting records',
+-            'Workout history and exercise records',
+-            'Check-in entries and habit logs',
+-            'Weight log entries',
+-            'Community posts you authored',
+-            'All your recipes and saved recipes',
+-            'Shopping and grocery lists',
+-            'Notification and app preferences',
+-          ].map((item) => (
++          {KEPT_RECORDS.map((item) => (
+             <View key={item} style={styles.listRow}>
+-              <Ionicons name="close-circle-outline" size={16} color={colors.error} />
++              <Ionicons name="shield-checkmark-outline" size={16} color={colors.textMuted} />
+               <Text style={styles.listText}>{item}</Text>
+             </View>
+           ))}
+         </View>
+ 
+-        {/* What is kept (anonymized for compliance) */}
+-        <Text style={styles.sectionHeading}>Kept for legal and operational reasons</Text>
++        <Text style={styles.sectionHeading}>Subscriptions and payments</Text>
+         <View style={styles.card}>
+-          {[
+-            'Billing and invoice records (UK financial records law requires 6-year retention)',
+-            'Audit log entries — your identity is removed but the event record is kept for compliance',
+-            'Message threads — your identity and message text are removed; the thread structure is kept for the other party',
+-          ].map((item) => (
+-            <View key={item} style={styles.listRow}>
+-              <Ionicons name="shield-checkmark-outline" size={16} color={colors.textMuted} />
+-              <Text style={styles.listText}>{item}</Text>
+-            </View>
+-          ))}
+-          <Text style={[styles.bodyText, { marginTop: 12, fontSize: 13, color: colors.textMuted }]}>
+-            Your name, email address, and phone number are removed from all retained records.
+-          </Text>
++          <Text style={styles.bodyText}>{BILLING_NOTE}</Text>
+         </View>
+ 
+-        {/* Export reminder */}
+         <View style={styles.exportReminder}>
+           <Ionicons name="download-outline" size={18} color={colors.primary} />
+           <Text style={styles.exportReminderText}>
+-            Before deleting, consider downloading a copy of your data from Settings
+-            under Data &amp; Privacy.
++            Before deleting, consider downloading a copy of your data from Settings under Data
++            &amp; Privacy.
+           </Text>
+         </View>
+ 
+-        {/* Confirmation input */}
+-        <Text style={styles.sectionHeading}>Confirm your intent</Text>
++        <Text style={styles.sectionHeading}>Step 1: Confirm your intent</Text>
+         <View style={styles.card}>
+           <Text style={styles.bodyText}>
+-            Type{' '}
+-            <Text style={styles.bodyBold}>DELETE</Text>
+-            {' '}or your email address to continue:
++            Type <Text style={styles.bodyBold}>DELETE</Text> or your email address to continue:
+           </Text>
+           <TextInput
+             style={[styles.confirmInput, confirmTextIsValid && styles.confirmInputValid]}
+@@ -200,7 +595,7 @@ export default function DeleteAccountScreen({ navigation }: DeleteAccountScreenP
+               setConfirmText(t);
+               setError(null);
+             }}
+-            placeholder={`Type DELETE or ${userEmail}`}
++            placeholder={userEmail ? `Type DELETE or ${userEmail}` : 'Type DELETE'}
+             placeholderTextColor={colors.textMuted}
+             autoCapitalize="none"
+             autoCorrect={false}
+@@ -210,38 +605,91 @@ export default function DeleteAccountScreen({ navigation }: DeleteAccountScreenP
+           />
+         </View>
+ 
+-        {/* Error */}
+-        {error ? (
+-          <Text
+-            style={styles.errorText}
+-            accessibilityLiveRegion="assertive"
+-          >
+-            {error}
++        <Text style={styles.sectionHeading}>Step 2: Confirm it is you</Text>
++        <View style={styles.card}>
++          <Text style={styles.bodyText} testID="reauth-methods">
++            {`To continue, ${methodsText}.`}
+           </Text>
++          {showPassword ? (
++            <TextInput
++              style={styles.reauthInput}
++              value={password}
++              onChangeText={(t) => {
++                setPassword(t);
++                setError(null);
++              }}
++              placeholder="Password"
++              placeholderTextColor={colors.textMuted}
++              secureTextEntry
++              autoCapitalize="none"
++              autoCorrect={false}
++              autoComplete="password"
++              textContentType="password"
++              accessibilityLabel="Your password"
++              testID="password-input"
++            />
++          ) : null}
++        </View>
++
++        {errorView}
++
++        {showPassword ? (
++          <HapticPressable
++            intent="warning"
++            style={[styles.deleteBtn, !passwordEnabled && styles.deleteBtnDisabled]}
++            onPress={handleDeleteWithPassword}
++            disabled={!passwordEnabled}
++            accessibilityRole="button"
++            accessibilityLabel="Confirm with password and delete my account"
++            accessibilityHint="Schedules deletion and starts the grace period"
++            testID="confirm-button"
++          >
++            {busy ? (
++              <ActivityIndicator color={colors.textOnPrimary} />
++            ) : (
++              <Text style={styles.deleteBtnText}>Delete my account</Text>
++            )}
++          </HapticPressable>
+         ) : null}
+ 
+-        {/* Confirm button */}
+-        <HapticPressable
+-          intent="warning"
+-          style={[
+-            styles.deleteBtn,
+-            (!confirmTextIsValid || busy) && styles.deleteBtnDisabled,
+-          ]}
+-          onPress={handleConfirm}
+-          disabled={!confirmTextIsValid || busy}
+-          accessibilityRole="button"
+-          accessibilityLabel="Confirm account deletion"
+-          accessibilityHint="Registers your deletion request and starts the 14-day grace period"
+-          testID="confirm-button"
+-        >
+-          {busy ? (
+-            <ActivityIndicator color={colors.textOnPrimary} />
+-          ) : (
+-            <Text style={styles.deleteBtnText}>Confirm deletion</Text>
+-          )}
+-        </HapticPressable>
++        {showApple ? (
++          <>
++            {showPassword ? <Text style={styles.orText}>or</Text> : null}
++            <HapticPressable
++              intent="warning"
++              style={[styles.appleBtn, !providerEnabled && styles.deleteBtnDisabled]}
++              onPress={handleDeleteWithApple}
++              disabled={!providerEnabled}
++              accessibilityRole="button"
++              accessibilityLabel="Confirm with Apple and delete my account"
++              accessibilityHint="Opens Sign in with Apple, then schedules deletion"
++              testID="apple-confirm-button"
++            >
++              <Ionicons name="logo-apple" size={18} color={colors.background} />
++              <Text style={styles.appleBtnText}>Confirm with Apple and delete</Text>
++            </HapticPressable>
++          </>
++        ) : null}
++
++        {showGoogle ? (
++          <>
++            {showPassword || showApple ? <Text style={styles.orText}>or</Text> : null}
++            <HapticPressable
++              intent="warning"
++              style={[styles.appleBtn, !providerEnabled && styles.deleteBtnDisabled]}
++              onPress={handleDeleteWithGoogle}
++              disabled={!providerEnabled}
++              accessibilityRole="button"
++              accessibilityLabel="Confirm with Google and delete my account"
++              accessibilityHint="Opens Google sign-in, then schedules deletion"
++              testID="google-confirm-button"
++            >
++              <Ionicons name="logo-google" size={18} color={colors.background} />
++              <Text style={styles.appleBtnText}>Confirm with Google and delete</Text>
++            </HapticPressable>
++          </>
++        ) : null}
+ 
+-        {/* Cancel */}
+         <HapticPressable
+           intent="light"
+           style={styles.cancelBtn}
+@@ -251,7 +699,6 @@ export default function DeleteAccountScreen({ navigation }: DeleteAccountScreenP
+         >
+           <Text style={styles.cancelBtnText}>Cancel — keep my account</Text>
+         </HapticPressable>
+-
+       </ScrollView>
+     </View>
+   );
+@@ -400,4 +847,59 @@ const makeStyles = (colors: ThemeColors) =>
+       fontSize: 15,
+       color: colors.textSecondary,
+     },
++    reauthInput: {
++      marginTop: 12,
++      backgroundColor: colors.background,
++      borderRadius: 2,
++      borderWidth: 1,
++      borderColor: colors.border,
++      paddingHorizontal: 14,
++      paddingVertical: 12,
++      fontSize: 15,
++      color: colors.textPrimary,
++    },
++    orText: {
++      marginTop: 14,
++      fontSize: 13,
++      color: colors.textMuted,
++      textAlign: 'center',
++    },
++    appleBtn: {
++      marginTop: 14,
++      backgroundColor: colors.textPrimary,
++      borderRadius: 2,
++      paddingVertical: 16,
++      alignItems: 'center',
++      flexDirection: 'row',
++      justifyContent: 'center',
++      gap: 8,
++    },
++    appleBtnText: {
++      fontSize: 16,
++      fontWeight: '600',
++      color: colors.background,
++    },
++    statusDate: {
++      fontSize: 22,
++      fontWeight: '600',
++      color: colors.textPrimary,
++      marginTop: 6,
++    },
++    keepBtn: {
++      marginTop: 28,
++      backgroundColor: colors.primary,
++      borderRadius: 2,
++      paddingVertical: 16,
++      alignItems: 'center',
++    },
++    keepBtnText: {
++      fontSize: 16,
++      fontWeight: '600',
++      color: colors.textOnPrimary,
++    },
++    centered: {
++      flex: 1,
++      alignItems: 'center',
++      justifyContent: 'center',
++    },
+   });
+diff --git a/src/screens/settings/README.md b/src/screens/settings/README.md
+index c9e76a7..d0c9db6 100644
+--- a/src/screens/settings/README.md
++++ b/src/screens/settings/README.md
+@@ -10,22 +10,30 @@ Settings-area screens for The Growth Project mobile app.
+ 
+ **Purpose**
+ 
+-Allows a user to initiate permanent deletion of their account from within the app. The flow follows the two-phase model specified by GDPR Article 17 ("right to erasure"):
++In-app account deletion for both roles (Apple App Review 5.1.1(v); GDPR Art. 17; Washington My Health My Data Act right to deletion). Deletion can be completed entirely in the app: no email step, no contacting support.
+ 
+-1. User reads a clear summary of what will be permanently deleted and what must be retained for legal compliance.
+-2. User types `DELETE` (case-insensitive) or their registered email address to demonstrate deliberate intent. The confirm button is disabled until this gate passes.
+-3. On submit, `POST /me/delete-account` sends a single-use confirmation link to the user's registered email (24-hour TTL).
+-4. On API success, an `Alert.alert` explains the 14-day grace period and that the user can cancel from Settings. Pressing OK calls `signOut()`.
++**Flow**
+ 
+-The 14-day grace period and cancellation flow are handled on the server side. The mobile client does not need to implement the cancel flow here because the user's active session ends on sign-out. The cancel endpoint (`POST /me/delete-account/cancel`) remains accessible during the grace window; the user would need to sign back in and navigate to Settings to invoke it.
++1. On open the screen calls `GET /me/delete-account/status`. If a deletion is already scheduled it shows the **status view** (step 5) instead of the form.
++2. The user reads what is permanently deleted and what is retained (lists exported as `PERMANENTLY_DELETED` / `KEPT_RECORDS`; keep them in line with the backend finalizer fan-out in `growth-project-backend/src/account-deletion/account-deletion.fanout.ts`).
++3. The user types `DELETE` (case-insensitive) or their account email, then **re-authenticates**:
++   - password, or
++   - on iOS when available, the native Sign in with Apple sheet (`reauthenticateWithApple()` in `src/utils/appleAuth.ts`; requests no scopes and does NOT create a new session).
++4. `POST /auth/recent-auth-token` (`{ password }` or `{ provider: 'apple', provider_token }`) returns a short-lived single-use token; `POST /me/delete-account` with header `X-Recent-Auth-Token` schedules the deletion **in the same request** (the 14-day grace period starts now). Apple users also send `apple_authorization_code` so the server revokes their Sign in with Apple tokens. The request is idempotent on the server.
++5. **Status view:** the exact permanent-deletion date (`purge_after`), the deleted-data list, **Keep my account** (`POST /me/delete-account/cancel`, after a confirm alert) while `cancellable`, and Sign out. The user is not signed out automatically; the account stays usable during the grace period.
+ 
+-**API surface**
++Errors: 401 on re-auth shows "That password is not correct" / "Apple could not confirm it is you"; 429 shows a wait-a-minute message; other failures show the server message. The re-auth request is sent with `skipAuthRefresh` so a wrong password is not replayed by the 401 refresh interceptor against the 5/min throttle.
+ 
+-| Method | Endpoint | Auth required |
+-|--------|----------|---------------|
+-| `POST` | `/me/delete-account` | JWT bearer |
++The coach Settings danger zone and the Trust Center read/cancel the same canonical status (`deletionApi`) and open this screen; neither schedules deletion inline. The legacy `usersApi.deleteAccount` (`DELETE /users/me/account`) is not used by any deletion UI.
+ 
+-See `src/services/api.ts` — `deletionApi.requestDeletion()`.
++**API surface** (`src/services/api.ts`, `deletionApi`)
++
++| Method | Endpoint | Auth |
++|--------|----------|------|
++| `POST` | `/auth/recent-auth-token` | JWT bearer + password or fresh Apple identity token |
++| `POST` | `/me/delete-account` | JWT bearer + `X-Recent-Auth-Token` |
++| `GET` | `/me/delete-account/status` | JWT bearer |
++| `POST` | `/me/delete-account/cancel` | JWT bearer |
+ 
+ **Navigation**
+ 
+@@ -56,118 +64,10 @@ The screen is scanned by `src/__tests__/quietLuxuryDoctrine.test.ts`. It contain
+ `src/screens/settings/__tests__/DeleteAccountScreen.test.tsx`
+ 
+ Coverage:
+-- Render: title, 14-day grace copy, permanently-deleted list, kept-for-legal list, confirmation input, initial disabled state
+-- Confirmation gate: disabled on empty/wrong input, enabled on "DELETE" (case-insensitive), enabled on matching email (case-insensitive)
+-- Success: calls `deletionApi.requestDeletion`, shows success Alert with grace message, calls `signOut` after Alert OK
+-- Error: shows error text on API failure, does not call signOut, clears error when input changes
+-- Navigation: back button calls `navigation.goBack`, cancel button calls `navigation.goBack`
+-- Doctrine: rendered JSON contains no forbidden tokens
+-
+-**Related files**
+-
+-| File | Role |
+-|------|------|
+-| `src/services/api.ts` | `deletionApi` — HTTP client wrappers |
+-| `src/screens/client/SettingsScreen.tsx` | "Delete account" navigation row (client) |
+-| `src/screens/coach/SettingsScreen.tsx` | "Delete account" navigation row (coach) |
+-| `src/navigation/ClientNavigator.tsx` | Route registration (`MoreStack`) |
+-| `src/navigation/CoachNavigator.tsx` | Route registration (`SettingsStack`) |
+-| Backend: `src/account-deletion/` | State machine, cascade, finalize |
+----
+-# Data Export Screen — `src/screens/settings/`
+-
+-This screen implements GDPR Article 20 (right to data portability) for the mobile app. It lets any user (coach or client) request a complete copy of their personal data, check the status of an in-progress export, and download the finished file when it is ready.
+-
+-> **GDPR dependency note:** This screen is closely linked to the account deletion flow. If a user intends to delete their account, they should download their data here first. Once deletion is confirmed, the data cannot be recovered. The screen surfaces this warning at the bottom of the page.
+-
+----
+-
+-## Screens
+-
+-| Screen | File | Purpose |
+-|--------|------|---------|
+-| `DataExportScreen` | `DataExportScreen.tsx` | Main screen: explanation, request button, status display, download button. |
+-
+----
+-
+-## State machine
+-
+-```
+-         mount
+-           │
+-           ▼
+-        loading  ──loadStatus── ─── 404 ──► idle
+-           │                          ├── PENDING/RUNNING ──► polling
+-           │                          ├── READY ──────────► ready
+-           │                          ├── FAILED ──────────► failed
+-           │                          └── EXPIRED ─────────► expired
+-           │
+-        idle ──press "Request"──► requesting ──success──► polling
+-                                              └──error───► failed
+-
+-        polling ──poll every 5s── ─── READY ──► ready
+-                                       ├── FAILED ──► failed
+-                                       └── EXPIRED ──► expired
+-
+-        ready ──press "Download"──► Linking.openURL (external browser)
+-              ──press "Request new"──► requesting
+-
+-        failed ──press "Try again"──► requesting
+-               ──press "Cancel"──► idle
+-
+-        expired ──press "Request new"──► requesting
+-```
+-
+----
+-
+-## API endpoints consumed
+-
+-| Method | Path | Status |
+-|--------|------|--------|
+-| `POST` | `/v1/me/data-export/request` | LIVE |
+-| `GET` | `/v1/me/data-export/status` | LIVE |
+-| `GET` | `/v1/me/data-export/download?token=<jwt>` | Opened via `Linking.openURL` (browser) |
+-
+----
+-
+-## Where it is wired
+-
+-- **Client Settings screen:** `src/screens/settings/ClientSettingsScreen.tsx` — "Data export" row under "Account" section.
+-- **Coach Settings screen:** `src/screens/settings/CoachSettingsScreen.tsx` — same placement.
+-
+----
+-
+-## Env vars / feature flags
+-
+-| Variable | Purpose |
+-|----------|---------|
+-| `EXPO_PUBLIC_API_BASE_URL` | Base URL for the download redirect. Defaults to `https://api.thegrowthproject.app`. |
+-
+----
+-
+-## Tests
+-
+-| File | What it asserts |
+-|------|----------------|
+-| `src/screens/settings/__tests__/DataExportScreen.test.tsx` | Render, request flow, status polling, expired state, accessibility. |
+-
+-Specific test cases:
+-- Heading and included-data list render
+-- Request button shown in idle state
+-- Moves to polling state after requesting
+-- 409 Conflict shows "already in progress" error
+-- Generic network error shows error state
+-- Polling transitions to READY state
+-- File size and expiry date shown when ready
+-- Download button present when READY
+-- Polling transitions to FAILED state
+-- Initial EXPIRED status renders expired state
+-- Request new export from expired state works
+-- All interactive elements have `accessibilityLabel` + `accessibilityRole`
+-
+----
+-
+-## Future work
++- Request form: lists and grace copy, no email/support promises, doctrine tokens, DELETE/email gate plus password requirement, Apple option hidden when unavailable
++- Password re-auth: token minted then deletion scheduled with it, date shown, no auto sign-out; 401 wrong password, 429, scheduling failure stays on form
++- Apple re-auth: identity token proof, authorization code forwarded, silent cancel
++- Status view: scheduled date, cancel returns to the form, cancel hidden when not cancellable, sign out
++- Navigation: back and "Cancel — keep my account"
+ 
+-- **Push notification on ready:** Rather than polling, the app could receive a push notification when the export completes.
+-- **Progress bar:** Show a rough completion percentage during RUNNING state (requires a backend progress field on the export record).
++Also: `src/services/__tests__/deletionApi.test.ts` (wire shapes, header, Apple code), `src/services/__tests__/api.refresh.test.ts` (`skipAuthRefresh`), `src/utils/__tests__/appleAuth.test.ts` (`reauthenticateWithApple`).
+diff --git a/src/screens/settings/__tests__/DeleteAccountScreen.test.tsx b/src/screens/settings/__tests__/DeleteAccountScreen.test.tsx
+index f0afcb7..3bffd14 100644
+--- a/src/screens/settings/__tests__/DeleteAccountScreen.test.tsx
++++ b/src/screens/settings/__tests__/DeleteAccountScreen.test.tsx
+@@ -12,8 +12,26 @@ import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
+ 
+ jest.mock('../../../services/api', () => ({
+   deletionApi: {
++    issueRecentAuthToken: jest.fn(),
+     requestDeletion: jest.fn(),
++    getDeletionStatus: jest.fn(),
++    cancelDeletion: jest.fn(),
+   },
++  isAccountDeletedError: (err: { response?: { status?: number; data?: { code?: string } } }) =>
++    err?.response?.status === 403 && err.response.data?.code === 'ACCOUNT_DELETED',
++}));
++
++jest.mock('../../../utils/googleReauth', () => ({
++  reauthenticateWithGoogle: jest.fn(),
++}));
++
++jest.mock('../../../utils/authProviders', () => ({
++  getSignInProviders: jest.fn(),
++}));
++
++jest.mock('../../../utils/appleAuth', () => ({
++  isAppleAuthAvailable: jest.fn(),
++  reauthenticateWithApple: jest.fn(),
+ }));
+ 
+ jest.mock('../../../services/authActions', () => ({
+@@ -26,6 +44,7 @@ jest.mock('../../../hooks/useCurrentUser', () => ({
+ 
+ jest.mock('../../../utils/haptics', () => ({
+   warningTap: jest.fn(),
++  successTap: jest.fn(),
+ }));
+ 
+ // Provide a minimal theme so styled components don't crash
+@@ -58,257 +77,523 @@ import DeleteAccountScreen from '../DeleteAccountScreen';
+ import { deletionApi } from '../../../services/api';
+ import { signOut } from '../../../services/authActions';
+ import { useCurrentUser } from '../../../hooks/useCurrentUser';
++import { isAppleAuthAvailable, reauthenticateWithApple } from '../../../utils/appleAuth';
++import { reauthenticateWithGoogle } from '../../../utils/googleReauth';
++import { getSignInProviders } from '../../../utils/authProviders';
+ 
+ const mockedDeletionApi = deletionApi as jest.Mocked<typeof deletionApi>;
+ const mockedSignOut = signOut as jest.Mock;
+ const mockedUseCurrentUser = useCurrentUser as jest.Mock;
++const mockedAppleAvailable = isAppleAuthAvailable as jest.Mock;
++const mockedAppleReauth = reauthenticateWithApple as jest.Mock;
++const mockedGoogleReauth = reauthenticateWithGoogle as jest.Mock;
++const mockedProviders = getSignInProviders as jest.Mock;
++
++/** Typed test double: lets a partial fixture stand in for a full type. */
++function stub<T>(value: unknown): T {
++  return value as T;
++}
+ 
+ // ─── Helpers ──────────────────────────────────────────────────────────────────
+ 
++const focusListeners: Array<() => void> = [];
+ const mockNavigation = {
+   goBack: jest.fn(),
+   navigate: jest.fn(),
++  addListener: jest.fn((event: string, cb: () => void) => {
++    if (event === 'focus') focusListeners.push(cb);
++    return jest.fn();
++  }),
+ };
+ 
++const PURGE_AFTER = '2026-10-14T12:00:00.000Z';
++const PURGE_DATE_TEXT = 'October 14, 2026';
++
++function scheduledResponse(over: Record<string, unknown> = {}) {
++  return {
++    data: {
++      state: 'confirmed',
++      already_scheduled: false,
++      message: 'scheduled',
++      requested_at: '2026-09-30T12:00:00.000Z',
++      confirmed_at: '2026-09-30T12:00:00.000Z',
++      grace_days: 14,
++      purge_after: PURGE_AFTER,
++      completes_by: '2026-10-15T12:00:00.000Z',
++      cancellable: true,
++      apple_revocation: 'not_requested',
++      ...over,
++    },
++  };
++}
++
++function axiosError(status: number, message?: string, code?: string) {
++  return Object.assign(new Error('Request failed'), {
++    response: { status, data: { ...(message ? { message } : {}), ...(code ? { code } : {}) } },
++  });
++}
++
+ async function renderScreen() {
+-  return await render(
+-    <DeleteAccountScreen navigation={mockNavigation as never} />,
++  const utils = await render(
++    <DeleteAccountScreen navigation={stub<React.ComponentProps<typeof DeleteAccountScreen>['navigation']>(mockNavigation)} />,
+   );
++  // Wait for the initial status load to settle.
++  await waitFor(() => expect(mockedDeletionApi.getDeletionStatus).toHaveBeenCalled());
++  return utils;
++}
++
++function isDisabled(node: { props: { accessibilityState?: { disabled?: boolean }; disabled?: boolean } }) {
++  return node.props.accessibilityState?.disabled ?? node.props.disabled;
++}
++
++async function fillForm(
++  utils: Awaited<ReturnType<typeof renderScreen>>,
++  opts: { confirm?: string; password?: string } = {},
++) {
++  await waitFor(() => utils.getByTestId('confirm-input'));
++  await act(async () => {
++    fireEvent.changeText(utils.getByTestId('confirm-input'), opts.confirm ?? 'DELETE');
++  });
++  if (opts.password !== undefined) {
++    await act(async () => {
++      fireEvent.changeText(utils.getByTestId('password-input'), opts.password as string);
++    });
++  }
+ }
+ 
+ // ─── Tests ────────────────────────────────────────────────────────────────────
+ 
++function statusOf<T>(data: Record<string, unknown>): T {
++  return stub<T>({ data });
++}
++const tokenOk = () =>
++  mockedDeletionApi.issueRecentAuthToken.mockResolvedValue(
++    stub({ data: { token: 'recent-tok', expires_in_ms: 300000 } }),
++  );
++
+ describe('DeleteAccountScreen', () => {
+   beforeEach(() => {
+     jest.clearAllMocks();
++    focusListeners.length = 0;
+     mockedUseCurrentUser.mockReturnValue({
+       id: 'user-1',
+       email: 'test@example.com',
+       name: 'Test User',
+       role: 'student',
+     });
++    mockedDeletionApi.getDeletionStatus.mockResolvedValue(statusOf({ state: 'none', grace_days: 14 }));
++    mockedAppleAvailable.mockResolvedValue(false);
++    mockedProviders.mockResolvedValue(['email']);
+     jest.spyOn(Alert, 'alert');
+   });
+ 
+-  // ── Render ──────────────────────────────────────────────────────────────────
+-
+-  describe('render', () => {
+-    it('renders the screen title', async () => {
+-      const { getByText } = await renderScreen();
+-      expect(getByText('Delete account')).toBeTruthy();
+-    });
+-
+-    it('renders the 14-day grace period copy', async () => {
+-      const { getAllByText } = await renderScreen();
++  describe('request form', () => {
++    it('renders server grace period and the manifest-derived lists', async () => {
++      const { getByText, getAllByText } = await renderScreen();
++      await waitFor(() => getByText(/Your profile, body measurements/i));
++      expect(getAllByText('Delete account').length).toBeGreaterThan(0);
+       expect(getAllByText(/14-day grace period/i).length).toBeGreaterThan(0);
++      expect(getByText(/Payment and tax records that Stripe keeps/i)).toBeTruthy();
++      expect(getByText(/One deletion record with a random reference/i)).toBeTruthy();
++      expect(getByText(/clients are not deleted/i)).toBeTruthy();
++      expect(getAllByText(/cancelled when the deletion completes/i).length).toBeGreaterThan(0);
++      expect(getByText(/conversations with Roman/i)).toBeTruthy();
++      expect(getByText(/usually within a day/i)).toBeTruthy();
+     });
+ 
+-    it('renders the permanently deleted list', async () => {
+-      const { getByText } = await renderScreen();
+-      expect(getByText(/Your profile, biometrics/i)).toBeTruthy();
++    it('C-313-1: uses the grace period the server reports', async () => {
++      mockedDeletionApi.getDeletionStatus.mockResolvedValue(statusOf({ state: 'none', grace_days: 30 }));
++      const { getAllByText, queryByText } = await renderScreen();
++      await waitFor(() => getAllByText(/30-day grace period/i));
++      expect(queryByText(/14-day/i)).toBeNull();
+     });
+ 
+-    it('renders the kept-for-legal list', async () => {
+-      const { getByText } = await renderScreen();
+-      expect(getByText(/Billing and invoice records/i)).toBeTruthy();
+-    });
+-
+-    it('renders the confirmation input field', async () => {
+-      const { getByTestId } = await renderScreen();
+-      expect(getByTestId('confirm-input')).toBeTruthy();
+-    });
+-
+-    it('renders the confirm deletion button as disabled initially', async () => {
+-      const { getByTestId } = await renderScreen();
+-      const btn = getByTestId('confirm-button');
+-      expect(btn.props.accessibilityState?.disabled ?? btn.props.disabled).toBe(true);
++    it('B-313-2/B-313-4: never claims Apple access is revoked, nor a universal anonymization promise', async () => {
++      const { toJSON, getByTestId } = await renderScreen();
++      await waitFor(() => getByTestId('confirm-input'));
++      const json = JSON.stringify(toJSON());
++      expect(json).not.toMatch(/access to your Apple ID is also revoked/i);
++      expect(json).not.toMatch(/removed from all retained records/i);
++      expect(json).not.toMatch(/confirmation email|Contact support/i);
+     });
+ 
+-    it('does not contain forbidden tokens (emoji, income, finance, netWorth)', async () => {
+-      const { toJSON } = await renderScreen();
++    it('does not contain forbidden tokens (emoji, exclamation marks, income, finance, netWorth)', async () => {
++      const { toJSON, getByTestId } = await renderScreen();
++      await waitFor(() => getByTestId('confirm-input'));
+       const json = JSON.stringify(toJSON());
+-      const forbiddenTokens = new RegExp(['income', 'finance', 'netWorth', 'conf' + 'etti', '\ud83c'].join('|'));
++      const forbiddenTokens = new RegExp(
++        ['income', 'finance', 'netWorth', 'conf' + 'etti', '\\ud83c', '[a-z]!'].join('|'),
++      );
+       expect(json).not.toMatch(forbiddenTokens);
+     });
+-  });
+-
+-  // ── Confirmation gate ───────────────────────────────────────────────────────
+ 
+-  describe('confirmation gate', () => {
+-    it('disables the button when input is empty', async () => {
+-      const { getByTestId } = await renderScreen();
+-      const btn = getByTestId('confirm-button');
+-      expect(btn.props.accessibilityState?.disabled ?? btn.props.disabled).toBe(true);
++    it('keeps the delete button disabled until DELETE and a password are entered', async () => {
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('confirm-button'));
++      expect(isDisabled(utils.getByTestId('confirm-button'))).toBe(true);
++      await fillForm(utils, { confirm: 'delete' });
++      expect(isDisabled(utils.getByTestId('confirm-button'))).toBe(true);
++      await fillForm(utils, { confirm: 'delete', password: 'pw' });
++      expect(isDisabled(utils.getByTestId('confirm-button'))).toBe(false);
+     });
+ 
+-    it('disables the button when input is wrong text', async () => {
+-      const { getByTestId } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'wrong text');
+-      const btn = getByTestId('confirm-button');
+-      expect(btn.props.accessibilityState?.disabled ?? btn.props.disabled).toBe(true);
++    it('accepts the account email (case-insensitive) instead of DELETE', async () => {
++      const utils = await renderScreen();
++      await fillForm(utils, { confirm: 'TEST@example.com', password: 'pw' });
++      expect(isDisabled(utils.getByTestId('confirm-button'))).toBe(false);
+     });
+ 
+-    it('enables the button when input is "DELETE" (case-insensitive)', async () => {
+-      const { getByTestId } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'delete');
+-      const btn = getByTestId('confirm-button');
+-      expect(btn.props.accessibilityState?.disabled ?? btn.props.disabled).toBeFalsy();
++    it('rejects other confirmation text', async () => {
++      const utils = await renderScreen();
++      await fillForm(utils, { confirm: 'remove', password: 'pw' });
++      expect(isDisabled(utils.getByTestId('confirm-button'))).toBe(true);
+     });
+ 
+-    it('enables the button when input matches the user email', async () => {
+-      const { getByTestId } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'test@example.com');
+-      const btn = getByTestId('confirm-button');
+-      expect(btn.props.accessibilityState?.disabled ?? btn.props.disabled).toBeFalsy();
++    it('offers only the password for an email account without Apple available', async () => {
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('confirm-input'));
++      expect(utils.queryByTestId('apple-confirm-button')).toBeNull();
++      expect(utils.queryByTestId('google-confirm-button')).toBeNull();
+     });
+ 
+-    it('is case-insensitive for the email match', async () => {
+-      const { getByTestId } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'TEST@EXAMPLE.COM');
+-      const btn = getByTestId('confirm-button');
+-      expect(btn.props.accessibilityState?.disabled ?? btn.props.disabled).toBeFalsy();
++    it('offers every platform option when the sign-in method is unknown', async () => {
++      mockedProviders.mockResolvedValue(null);
++      mockedAppleAvailable.mockResolvedValue(true);
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('google-confirm-button'));
++      expect(utils.getByTestId('password-input')).toBeTruthy();
++      expect(utils.getByTestId('apple-confirm-button')).toBeTruthy();
+     });
+   });
+ 
+-  // ── Success state ───────────────────────────────────────────────────────────
+-
+-  describe('success state', () => {
+-    it('calls deletionApi.requestDeletion on confirm', async () => {
+-      mockedDeletionApi.requestDeletion.mockResolvedValue({
+-        data: { message: 'Email sent', expires_at: '2026-01-01T00:00:00Z' },
+-      } as never);
+-
+-      const { getByTestId } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'DELETE');
+-
++  describe('password re-auth', () => {
++    it('mints a recent-auth token, schedules deletion with it and shows the date and window', async () => {
++      tokenOk();
++      mockedDeletionApi.requestDeletion.mockResolvedValue(stub(scheduledResponse()));
++      const utils = await renderScreen();
++      await fillForm(utils, { password: 'hunter2' });
+       await act(async () => {
+-        await fireEvent.press(getByTestId('confirm-button'));
++        fireEvent.press(utils.getByTestId('confirm-button'));
+       });
++      await waitFor(() => utils.getByTestId('deletion-date'));
++      expect(mockedDeletionApi.issueRecentAuthToken).toHaveBeenCalledWith({ password: 'hunter2' });
++      expect(mockedDeletionApi.requestDeletion).toHaveBeenCalledWith('recent-tok', undefined);
++      expect(utils.getByTestId('deletion-date').props.children).toBe(PURGE_DATE_TEXT);
++      expect(utils.getByTestId('deletion-timing').props.children).toMatch(
++        `After ${PURGE_DATE_TEXT}, your account and the data listed below are permanently deleted. This is finished within a day`,
++      );
++      expect(utils.getByTestId('keep-account-button')).toBeTruthy();
++      expect(utils.queryByTestId('apple-fallback')).toBeNull();
++      expect(mockedSignOut).not.toHaveBeenCalled();
++    });
+ 
+-      await waitFor(() => {
+-        expect(mockedDeletionApi.requestDeletion).toHaveBeenCalledTimes(1);
++    it('shows a wrong-password message on 401, does not request deletion and does not sign out', async () => {
++      mockedDeletionApi.issueRecentAuthToken.mockRejectedValue(stub(axiosError(401)));
++      const utils = await renderScreen();
++      await fillForm(utils, { password: 'nope' });
++      await act(async () => {
++        fireEvent.press(utils.getByTestId('confirm-button'));
+       });
++      await waitFor(() => utils.getByText(/password is not correct/i));
++      expect(mockedDeletionApi.requestDeletion).not.toHaveBeenCalled();
++      expect(mockedSignOut).not.toHaveBeenCalled();
+     });
+ 
+-    it('shows a success Alert with the 14-day grace message', async () => {
+-      mockedDeletionApi.requestDeletion.mockResolvedValue({
+-        data: { message: 'Email sent', expires_at: '2026-01-01T00:00:00Z' },
+-      } as never);
+-
+-      const { getByTestId } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'DELETE');
+-
++    it('shows a rate-limit message on 429', async () => {
++      mockedDeletionApi.issueRecentAuthToken.mockRejectedValue(stub(axiosError(429)));
++      const utils = await renderScreen();
++      await fillForm(utils, { password: 'pw' });
+       await act(async () => {
+-        await fireEvent.press(getByTestId('confirm-button'));
++        fireEvent.press(utils.getByTestId('confirm-button'));
+       });
++      await waitFor(() => utils.getByText(/Too many attempts/i));
++    });
+ 
+-      await waitFor(() => {
+-        expect(Alert.alert).toHaveBeenCalledWith(
+-          expect.stringContaining('scheduled for deletion'),
+-          expect.stringContaining('14 days'),
+-          expect.any(Array),
+-          expect.any(Object),
+-        );
++    it('an expired identity check when scheduling says so, offers to confirm again and stays on the form', async () => {
++      tokenOk();
++      mockedDeletionApi.requestDeletion.mockRejectedValue(
++        stub(axiosError(401, 'Recent authentication required')),
++      );
++      const utils = await renderScreen();
++      await fillForm(utils, { password: 'pw' });
++      await act(async () => {
++        fireEvent.press(utils.getByTestId('confirm-button'));
+       });
++      await waitFor(() =>
++        utils.getByText('The check that it is you has expired. Confirm it is you again, then send the request.'),
++      );
++      expect(utils.queryByTestId('deletion-date')).toBeNull();
++      expect(mockedSignOut).not.toHaveBeenCalled();
+     });
++  });
+ 
+-    it('calls signOut after the Alert button is pressed', async () => {
+-      mockedDeletionApi.requestDeletion.mockResolvedValue({
+-        data: { message: 'Email sent', expires_at: '2026-01-01T00:00:00Z' },
+-      } as never);
++  describe('Sign in with Apple re-auth (B-313-2)', () => {
++    beforeEach(() => {
++      mockedAppleAvailable.mockResolvedValue(true);
++      mockedProviders.mockResolvedValue(['apple']);
++      mockedAppleReauth.mockResolvedValue({
++        success: true,
++        identityToken: 'apple-id',
++        authorizationCode: 'apple-code',
++      });
++      tokenOk();
++    });
+ 
+-      // Capture the Alert callback so we can simulate pressing OK
+-      let alertCallback: (() => void) | undefined;
+-      (Alert.alert as jest.Mock).mockImplementation(
+-        (_title: string, _msg: string, buttons: Array<{ onPress?: () => void }>) => {
+-          alertCallback = buttons[0]?.onPress;
+-        },
++    async function confirmWithApple(outcome: string) {
++      mockedDeletionApi.requestDeletion.mockResolvedValue(
++        stub(scheduledResponse({ apple_revocation: outcome })),
+       );
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('apple-confirm-button'));
++      await fillForm(utils);
++      await act(async () => {
++        fireEvent.press(utils.getByTestId('apple-confirm-button'));
++      });
++      await waitFor(() => utils.getByTestId('deletion-date'));
++      return utils;
++    }
++
++    it('re-authenticates with Apple and forwards the authorization code for revocation', async () => {
++      const utils = await confirmWithApple('revoked');
++      expect(mockedDeletionApi.issueRecentAuthToken).toHaveBeenCalledWith({
++        provider: 'apple',
++        provider_token: 'apple-id',
++      });
++      expect(mockedDeletionApi.requestDeletion).toHaveBeenCalledWith('recent-tok', 'apple-code');
++      expect(utils.getByTestId('apple-revoked')).toBeTruthy();
++      expect(utils.queryByTestId('apple-fallback')).toBeNull();
++    });
+ 
+-      const { getByTestId } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'DELETE');
++    it.each(['not_configured', 'exchange_failed', 'revoke_failed', 'not_requested'])(
++      'outcome %s: no revocation claim, shows the Apple ID settings fallback',
++      async (outcome) => {
++        const utils = await confirmWithApple(outcome);
++        expect(utils.queryByTestId('apple-revoked')).toBeNull();
++        expect(utils.getByTestId('apple-fallback').props.children).toMatch(/Sign in with Apple/);
++        expect(JSON.stringify(utils.toJSON())).not.toMatch(/no longer has access/);
++      },
++    );
++
++    it('hides the password field for an Apple-only account', async () => {
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('apple-confirm-button'));
++      expect(utils.queryByTestId('password-input')).toBeNull();
++    });
+ 
++    it('stays silent when the user cancels the Apple sheet', async () => {
++      mockedAppleReauth.mockResolvedValue({ success: false, cancelled: true });
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('apple-confirm-button'));
++      await fillForm(utils);
+       await act(async () => {
+-        await fireEvent.press(getByTestId('confirm-button'));
++        fireEvent.press(utils.getByTestId('apple-confirm-button'));
+       });
++      expect(mockedDeletionApi.issueRecentAuthToken).not.toHaveBeenCalled();
++      expect(utils.queryByText(/Apple could not confirm/i)).toBeNull();
++    });
++  });
+ 
+-      await waitFor(() => {
+-        expect(alertCallback).toBeDefined();
+-      });
++  describe('Google re-auth (B-313-1)', () => {
++    beforeEach(() => {
++      mockedProviders.mockResolvedValue(['google']);
++    });
+ 
+-      await act(() => {
+-        alertCallback?.();
++    async function pressGoogle() {
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('google-confirm-button'));
++      expect(utils.queryByTestId('password-input')).toBeNull();
++      expect(isDisabled(utils.getByTestId('google-confirm-button'))).toBe(true);
++      await fillForm(utils);
++      await act(async () => {
++        fireEvent.press(utils.getByTestId('google-confirm-button'));
+       });
++      return utils;
++    }
++
++    it('OAuth-only success: fresh Google session proof schedules the deletion', async () => {
++      mockedGoogleReauth.mockResolvedValue({ success: true, accessToken: 'fresh-session' });
++      tokenOk();
++      mockedDeletionApi.requestDeletion.mockResolvedValue(stub(scheduledResponse()));
++      const utils = await pressGoogle();
++      await waitFor(() => utils.getByTestId('deletion-date'));
++      expect(mockedDeletionApi.issueRecentAuthToken).toHaveBeenCalledWith({
++        provider: 'google_session',
++        provider_token: 'fresh-session',
++      });
++      expect(mockedDeletionApi.requestDeletion).toHaveBeenCalledWith('recent-tok', undefined);
++    });
+ 
+-      expect(mockedSignOut).toHaveBeenCalledTimes(1);
++    it('cancel: stays on the form without an error', async () => {
++      mockedGoogleReauth.mockResolvedValue({ success: false, cancelled: true });
++      const utils = await pressGoogle();
++      expect(mockedDeletionApi.issueRecentAuthToken).not.toHaveBeenCalled();
++      expect(utils.queryByText(/Google could not confirm/i)).toBeNull();
++    });
++
++    it('stale or wrong account: the server 401 becomes a clear Google message', async () => {
++      mockedGoogleReauth.mockResolvedValue({ success: true, accessToken: 'other-account' });
++      mockedDeletionApi.issueRecentAuthToken.mockRejectedValue(stub(axiosError(401)));
++      const utils = await pressGoogle();
++      await waitFor(() => utils.getByText(/Google could not confirm it is you/i));
++      expect(mockedDeletionApi.requestDeletion).not.toHaveBeenCalled();
++      expect(mockedSignOut).not.toHaveBeenCalled();
++    });
++
++    it('provider error: shows the Google error text', async () => {
++      mockedGoogleReauth.mockResolvedValue({ success: false, error: 'access_denied' });
++      const utils = await pressGoogle();
++      await waitFor(() => utils.getByText('access_denied'));
+     });
+   });
+ 
+-  // ── Error state ─────────────────────────────────────────────────────────────
++  describe('legacy requested state (B-313-3)', () => {
++    it('is shown as not scheduled and can be completed with re-auth', async () => {
++      mockedDeletionApi.getDeletionStatus.mockResolvedValue(
++        statusOf({ state: 'requested', requested_at: '2026-01-01T00:00:00.000Z', grace_days: 14 }),
++      );
++      tokenOk();
++      mockedDeletionApi.requestDeletion.mockResolvedValue(stub(scheduledResponse()));
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('legacy-request-notice'));
++      expect(utils.queryByTestId('deletion-date')).toBeNull();
++      expect(utils.queryByText(/scheduled for deletion/i)).toBeNull();
++      await fillForm(utils, { password: 'pw' });
++      await act(async () => {
++        fireEvent.press(utils.getByTestId('confirm-button'));
++      });
++      await waitFor(() => utils.getByTestId('deletion-date'));
++      expect(mockedDeletionApi.requestDeletion).toHaveBeenCalledTimes(1);
++    });
++  });
+ 
+-  describe('error state', () => {
+-    it('shows an error message when the API call fails', async () => {
+-      mockedDeletionApi.requestDeletion.mockRejectedValue(
+-        new Error('Network error'),
++  describe('status view', () => {
++    beforeEach(() => {
++      mockedDeletionApi.getDeletionStatus.mockResolvedValue(
++        statusOf({ state: 'confirmed', purge_after: PURGE_AFTER, cancellable: true, grace_days: 14 }),
+       );
++    });
+ 
+-      const { getByTestId, findByText } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'DELETE');
++    it('shows the scheduled date instead of the form when deletion is already scheduled', async () => {
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('deletion-date'));
++      expect(utils.getByTestId('deletion-date').props.children).toBe(PURGE_DATE_TEXT);
++      expect(utils.queryByTestId('confirm-input')).toBeNull();
++    });
+ 
++    it('cancels the deletion after confirmation and returns to the form', async () => {
++      mockedDeletionApi.cancelDeletion.mockResolvedValue(stub({ data: { message: 'ok' } }));
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('keep-account-button'));
+       await act(async () => {
+-        await fireEvent.press(getByTestId('confirm-button'));
++        fireEvent.press(utils.getByTestId('keep-account-button'));
+       });
+-
+-      const errorText = await findByText(/Network error|Could not request/i);
+-      expect(errorText).toBeTruthy();
++      const alertMock = Alert.alert as jest.Mock;
++      const buttons = alertMock.mock.calls[0][2] as Array<{ text: string; onPress?: () => unknown }>;
++      const keep = buttons.find((b) => b.text === 'Keep my account');
++      mockedDeletionApi.getDeletionStatus.mockResolvedValue(statusOf({ state: 'none' }));
++      await act(async () => {
++        await keep?.onPress?.();
++      });
++      expect(mockedDeletionApi.cancelDeletion).toHaveBeenCalledTimes(1);
++      await waitFor(() => utils.getByTestId('confirm-input'));
+     });
+ 
+-    it('does not call signOut when the API fails', async () => {
+-      mockedDeletionApi.requestDeletion.mockRejectedValue(new Error('Server down'));
++    it('explains a 409 when the deletion is already being completed', async () => {
++      mockedDeletionApi.cancelDeletion.mockRejectedValue(stub(axiosError(409)));
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('keep-account-button'));
++      await act(async () => {
++        fireEvent.press(utils.getByTestId('keep-account-button'));
++      });
++      const buttons = (Alert.alert as jest.Mock).mock.calls[0][2] as Array<{
++        text: string;
++        onPress?: () => unknown;
++      }>;
++      await act(async () => {
++        await buttons.find((b) => b.text === 'Keep my account')?.onPress?.();
++      });
++      await waitFor(() => utils.getByText(/already being completed/i));
++    });
+ 
+-      const { getByTestId } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'DELETE');
++    it('hides cancel once the grace period can no longer be cancelled', async () => {
++      mockedDeletionApi.getDeletionStatus.mockResolvedValue(
++        statusOf({ state: 'confirmed', purge_after: PURGE_AFTER, cancellable: false }),
++      );
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('deletion-date'));
++      expect(utils.queryByTestId('keep-account-button')).toBeNull();
++    });
+ 
++    it('signs out from the status view', async () => {
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('sign-out-button'));
+       await act(async () => {
+-        await fireEvent.press(getByTestId('confirm-button'));
++        fireEvent.press(utils.getByTestId('sign-out-button'));
+       });
+-
+-      expect(mockedSignOut).not.toHaveBeenCalled();
++      expect(mockedSignOut).toHaveBeenCalled();
+     });
++  });
+ 
+-    it('clears the error when the user edits the confirmation input', async () => {
+-      mockedDeletionApi.requestDeletion.mockRejectedValue(new Error('Failed'));
++  describe('completion and errors (B-313-5)', () => {
++    it('a deleted status shows completion and signs out once', async () => {
++      mockedDeletionApi.getDeletionStatus.mockResolvedValue(
++        statusOf({ state: 'deleted', deleted_at: '2026-10-15T03:00:00.000Z' }),
++      );
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('deletion-complete'));
++      await waitFor(() => expect(mockedSignOut).toHaveBeenCalledTimes(1));
++    });
+ 
+-      const { getByTestId, queryByText } = await renderScreen();
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'DELETE');
++    it('a 403 ACCOUNT_DELETED from the API is treated as completion', async () => {
++      mockedDeletionApi.getDeletionStatus.mockRejectedValue(
++        stub(axiosError(403, 'Account has been deleted', 'ACCOUNT_DELETED')),
++      );
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('deletion-complete'));
++      expect(mockedSignOut).toHaveBeenCalledTimes(1);
++    });
+ 
++    it('rechecks on focus and moves to completion when the deletion has finished', async () => {
++      mockedDeletionApi.getDeletionStatus.mockResolvedValue(
++        statusOf({ state: 'confirmed', purge_after: PURGE_AFTER, cancellable: true }),
++      );
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('deletion-date'));
++      expect(mockNavigation.addListener).toHaveBeenCalledWith('focus', expect.any(Function));
++      mockedDeletionApi.getDeletionStatus.mockResolvedValue(statusOf({ state: 'deleted' }));
+       await act(async () => {
+-        await fireEvent.press(getByTestId('confirm-button'));
++        focusListeners.forEach((cb) => cb());
+       });
++      await waitFor(() => utils.getByTestId('deletion-complete'));
++      expect(mockedSignOut).toHaveBeenCalledTimes(1);
++    });
+ 
+-      // Edit the input — error should clear
+-      await fireEvent.changeText(getByTestId('confirm-input'), 'DELETE2');
+-      expect(queryByText(/Failed/)).toBeNull();
++    it('a status error shows a retry state, never the form, and does not sign out', async () => {
++      mockedDeletionApi.getDeletionStatus.mockRejectedValueOnce(new Error('Network Error'));
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByTestId('status-error'));
++      expect(utils.queryByTestId('confirm-input')).toBeNull();
++      expect(mockedSignOut).not.toHaveBeenCalled();
++      mockedDeletionApi.getDeletionStatus.mockResolvedValue(statusOf({ state: 'none' }));
++      await act(async () => {
++        fireEvent.press(utils.getByTestId('status-retry'));
++      });
++      await waitFor(() => utils.getByTestId('confirm-input'));
+     });
+   });
+ 
+-  // ── Navigation ──────────────────────────────────────────────────────────────
+-
+   describe('navigation', () => {
+-    it('calls navigation.goBack when the back button is pressed', async () => {
+-      const { getAllByRole } = await renderScreen();
+-      const buttons = getAllByRole('button');
+-      const backButton = buttons.find(
+-        (b) => b.props.accessibilityLabel === 'Go back',
+-      );
+-      expect(backButton).toBeTruthy();
+-      await fireEvent.press(backButton!);
++    it('goes back from the header back button', async () => {
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByLabelText('Go back'));
++      fireEvent.press(utils.getByLabelText('Go back'));
+       expect(mockNavigation.goBack).toHaveBeenCalled();
+     });
+ 
+-    it('calls navigation.goBack when "Cancel — keep my account" is pressed', async () => {
+-      const { getByText } = await renderScreen();
+-      await fireEvent.press(getByText('Cancel — keep my account'));
++    it('goes back from "Cancel — keep my account"', async () => {
++      const utils = await renderScreen();
++      await waitFor(() => utils.getByLabelText('Cancel, go back to Settings'));
++      fireEvent.press(utils.getByLabelText('Cancel, go back to Settings'));
+       expect(mockNavigation.goBack).toHaveBeenCalled();
+     });
+   });
+diff --git a/src/screens/settings/__tests__/deletionErrors.test.ts b/src/screens/settings/__tests__/deletionErrors.test.ts
+new file mode 100644
+index 0000000..67b2c3c
+--- /dev/null
++++ b/src/screens/settings/__tests__/deletionErrors.test.ts
+@@ -0,0 +1,135 @@
++/**
++ * Owner rule 13:34 (no vague errors) for deletion, export and help links,
++ * plus C-313-6 (an expired session is not "wrong password").
++ */
++jest.mock("../../../services/sentry", () => ({ captureError: jest.fn() }));
++import { captureError } from "../../../services/sentry";
++import {
++  DELETION_SUPPORT_EMAIL,
++  SESSION_ENDED_COPY,
++  deletionErrorCopy,
++  errorReference,
++  isSessionEnded401,
++} from "../deletionErrors";
++
++const http = (
++  status: number,
++  data: Record<string, unknown> = {},
++  headers: Record<string, string> = {},
++) => ({
++  response: { status, data, headers },
++});
++
++describe("deletionErrorCopy", () => {
++  beforeEach(() => jest.mocked(captureError).mockClear());
++
++  it("network: says the server was not reached and to check the connection", () => {
++    const copy = deletionErrorCopy(new Error("Network Error"), "schedule", "t");
++    expect(copy).toBe(
++      "We could not reach the server to schedule your account deletion. Check your connection, then try again.",
++    );
++    expect(captureError).not.toHaveBeenCalled();
++  });
++
++  it("429, 409 on cancel and the guard 401 get specific copy", () => {
++    expect(deletionErrorCopy(http(429), "confirm", "t")).toMatch(
++      /^Too many attempts/,
++    );
++    expect(deletionErrorCopy(http(409), "cancel", "t")).toBe(
++      "Your deletion is already being finished, so it can no longer be cancelled.",
++    );
++    expect(
++      deletionErrorCopy(
++        http(401, { code: "USER_NOT_FOUND", message: "User not found" }),
++        "check",
++        "t",
++      ),
++    ).toBe(SESSION_ENDED_COPY);
++  });
++
++  it("schedule with a rejected or reused recent-auth proof asks to confirm again", () => {
++    const expired =
++      "The check that it is you has expired. Confirm it is you again, then send the request.";
++    expect(
++      deletionErrorCopy(
++        http(401, { message: "Recent authentication required" }),
++        "schedule",
++        "t",
++      ),
++    ).toBe(expired);
++    expect(
++      deletionErrorCopy(
++        http(403, { error: "RECENT_AUTH_TOKEN_ALREADY_USED" }),
++        "schedule",
++        "t",
++      ),
++    ).toBe(expired);
++  });
++
++  it("unknown server error: reference, support address, Sentry", () => {
++    const copy = deletionErrorCopy(
++      http(
++        500,
++        { message: "boom" },
++        { "x-request-id": "3f0c7a52-6a51-4c55-9a0e-0c9d6f1b2a10" },
++      ),
++      "export",
++      "trust_center.export",
++    );
++    expect(copy).toBe(
++      `We could not start your data export because of a problem on our side. Reference: 3f0c7a52. Try again in a few minutes, or write to ${DELETION_SUPPORT_EMAIL} and mention the reference.`,
++    );
++    expect(captureError).toHaveBeenCalledWith(
++      expect.anything(),
++      expect.objectContaining({
++        where: "trust_center.export",
++        status: 500,
++        reference: "3f0c7a52",
++      }),
++    );
++  });
++
++  it("never uses the banned generic phrases", () => {
++    for (const err of [
++      new Error("x"),
++      http(500),
++      http(503),
++      http(418),
++      http(429),
++      http(409),
++    ]) {
++      const copy = deletionErrorCopy(err, "cancel", "t");
++      expect(copy).not.toMatch(/something went wrong/i);
++      expect(copy).not.toMatch(/^please try again\.?$/i);
++      expect(copy).not.toContain("!");
++    }
++  });
++});
++
++describe("C-313-6 guard 401 versus credential 401", () => {
++  it("recognises the guard 401s", () => {
++    expect(
++      isSessionEnded401(http(401, { message: "Invalid or expired token" })),
++    ).toBe(true);
++    expect(
++      isSessionEnded401(
++        http(401, { message: "No authentication token provided" }),
++      ),
++    ).toBe(true);
++    expect(isSessionEnded401(http(401, { code: "USER_NOT_FOUND" }))).toBe(true);
++  });
++  it("a rejected password is not a session end", () => {
++    expect(
++      isSessionEnded401(http(401, { message: "Invalid credentials" })),
++    ).toBe(false);
++    expect(
++      isSessionEnded401(http(403, { message: "Invalid or expired token" })),
++    ).toBe(false);
++  });
++  it("reads the reference from the body or headers", () => {
++    expect(errorReference(http(500, { request_id: "abcd1234ef" }))).toBe(
++      "abcd1234",
++    );
++    expect(errorReference(http(500))).toBeNull();
++  });
++});
+diff --git a/src/screens/settings/deletionErrors.ts b/src/screens/settings/deletionErrors.ts
+new file mode 100644
+index 0000000..83fcc12
+--- /dev/null
++++ b/src/screens/settings/deletionErrors.ts
+@@ -0,0 +1,127 @@
++/**
++ * Error copy for account deletion, data export and help links (owner rule
++ * 13:34: no vague errors). Every failure says what happened and gives a next
++ * step that works. Known statuses and codes get specific copy. Anything else
++ * shows a short reference, gives the support address and is reported to
++ * Sentry. The status code and the machine `code` are read; the server's
++ * message text is used only to recognise the auth guard's own 401s.
++ */
++import { captureError } from "../../services/sentry";
++
++export const DELETION_SUPPORT_EMAIL = "Bradley@Bradleytgpcoaching.com";
++
++export type DeletionAction =
++  "check" | "confirm" | "schedule" | "cancel" | "export";
++
++const WHAT: Record<DeletionAction, string> = {
++  check: "check your account deletion status",
++  confirm: "confirm it is you",
++  schedule: "schedule your account deletion",
++  cancel: "cancel the deletion",
++  export: "start your data export",
++};
++
++interface ResponseShape {
++  status?: number;
++  data?: unknown;
++  headers?: unknown;
++}
++
++function field(obj: unknown, key: string): unknown {
++  return typeof obj === "object" && obj !== null
++    ? Reflect.get(obj, key)
++    : undefined;
++}
++
++function responseOf(err: unknown): ResponseShape | null {
++  const r = field(err, "response");
++  if (typeof r !== "object" || r === null) return null;
++  const status = field(r, "status");
++  return {
++    status: typeof status === "number" ? status : undefined,
++    data: field(r, "data"),
++    headers: field(r, "headers"),
++  };
++}
++
++export function errorStatusOf(err: unknown): number | undefined {
++  return responseOf(err)?.status;
++}
++
++export function errorCodeOf(err: unknown): string | undefined {
++  const code = field(responseOf(err)?.data, "code");
++  return typeof code === "string" ? code : undefined;
++}
++
++/** First 8 characters of the server request id (body or response header). */
++export function errorReference(err: unknown): string | null {
++  const res = responseOf(err);
++  const fromBody = field(res?.data, "request_id");
++  const fromHeader = field(res?.headers, "x-request-id");
++  const fromRequest = field(
++    field(field(err, "config"), "headers"),
++    "X-Request-Id",
++  );
++  const id = [fromBody, fromHeader, fromRequest].find(
++    (v): v is string => typeof v === "string" && v.length > 0,
++  );
++  return id ? id.replace(/-/g, "").slice(0, 8) : null;
++}
++
++const GUARD_401 =
++  /invalid or expired token|no authentication token|token missing subject|user not found/i;
++
++/**
++ * A 401 from the backend auth guard (the session itself ended), as opposed to
++ * a 401 for a rejected password or provider proof (C-313-6).
++ */
++export function isSessionEnded401(err: unknown): boolean {
++  const res = responseOf(err);
++  if (res?.status !== 401) return false;
++  if (errorCodeOf(err) === "USER_NOT_FOUND") return true;
++  const message = field(res.data, "message");
++  return typeof message === "string" && GUARD_401.test(message);
++}
++
++export const RECENT_AUTH_EXPIRED_COPY =
++  "The check that it is you has expired. Confirm it is you again, then send the request.";
++
++export const SESSION_ENDED_COPY =
++  "Your sign-in on this phone has ended. Sign out, sign in again, then come back here.";
++
++export function deletionErrorCopy(
++  err: unknown,
++  action: DeletionAction,
++  where: string,
++): string {
++  const res = responseOf(err);
++  if (!res || res.status === undefined) {
++    return `We could not reach the server to ${WHAT[action]}. Check your connection, then try again.`;
++  }
++  if (res.status === 429)
++    return "Too many attempts in a short time. Wait a minute, then try again.";
++  if (isSessionEnded401(err)) return SESSION_ENDED_COPY;
++  // POST /me/delete-account: the recent-auth proof was missing, expired or
++  // already used (RecentAuthGuard 401, or 403 RECENT_AUTH_TOKEN_ALREADY_USED).
++  if (
++    action === "schedule" &&
++    (res.status === 401 ||
++      field(res.data, "error") === "RECENT_AUTH_TOKEN_ALREADY_USED")
++  ) {
++    return RECENT_AUTH_EXPIRED_COPY;
++  }
++  if (res.status === 409 && action === "cancel") {
++    return "Your deletion is already being finished, so it can no longer be cancelled.";
++  }
++  const reference = errorReference(err);
++  captureError(err, {
++    where,
++    status: res.status,
++    code: errorCodeOf(err),
++    reference,
++  });
++  const ref = reference ? ` Reference: ${reference}.` : "";
++  return `We could not ${WHAT[action]} because of a problem on our side.${ref} Try again in a few minutes, or write to ${DELETION_SUPPORT_EMAIL}${reference ? " and mention the reference" : ""}.`;
++}
++
++export const HELP_UNAVAILABLE_COPY = `The help centre did not open on this phone. Write to ${DELETION_SUPPORT_EMAIL} and we will help.`;
+diff --git a/src/services/__tests__/api.refresh.test.ts b/src/services/__tests__/api.refresh.test.ts
+index 3197b3d..e1f04c1 100644
+--- a/src/services/__tests__/api.refresh.test.ts
++++ b/src/services/__tests__/api.refresh.test.ts
+@@ -76,6 +76,7 @@ jest.mock('../secureStorage', () => ({
+ const axiosMock = jest.requireMock('axios') as {
+   __instance: {
+     request: jest.Mock;
++    post: jest.Mock;
+     interceptors: {
+       response: { handlers: Array<{ rejected?: ResponseErrorHandler }> };
+     };
+@@ -85,7 +86,9 @@ const secureStorageMock = jest.requireMock('../secureStorage') as {
+   secureStorage: { getItem: jest.Mock; setItem: jest.Mock };
+ };
+ 
++import { Alert } from 'react-native';
+ import {
++  DELETION_COMPLETE_NOTICE,
+   __resetRefreshStateForTests,
+   __setRefreshSessionForTests,
+   __setSignOutForTests,
+@@ -300,4 +303,79 @@ describe('api.ts — refresh-cycle race fix', () => {
+ 
+     expect(signOutMock).toHaveBeenCalledTimes(2);
+   });
++
++  it('skipAuthRefresh: a rejected re-auth credential 401 goes straight to the caller (no refresh, no replay)', async () => {
++    const err = fake401({ url: '/auth/recent-auth-token', skipAuthRefresh: true } as AxiosRequestConfig);
++    await expect(handler(err)).rejects.toBe(err);
++    expect(refreshSessionMock).not.toHaveBeenCalled();
++    expect(axiosMock.__instance.request).not.toHaveBeenCalled();
++    expect(signOutMock).not.toHaveBeenCalled();
++  });
++
++  describe('B-313-5: deleted account at refresh failure (backend receipt, B-608-10)', () => {
++    let alertSpy: jest.SpyInstance;
++    beforeEach(() => {
++      refreshSessionMock.mockResolvedValue({
++        data: { session: null },
++        error: new Error('User from sub claim in JWT does not exist'),
++      });
++      secureStorageMock.secureStorage.getItem.mockImplementation(async (k: string) =>
++        k === 'supabase_token' ? 'stale-access-token' : k === 'supabase_refresh_token' ? 'r' : null,
++      );
++      axiosMock.__instance.post.mockReset();
++      alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => undefined);
++    });
++    afterEach(() => {
++      alertSpy.mockRestore();
++      secureStorageMock.secureStorage.getItem.mockImplementation(async (k: string) =>
++        k === 'supabase_refresh_token' ? 'fake-refresh-token' : null,
++      );
++    });
++
++    it('server confirms deleted: signs out once and tells the person the deletion is complete', async () => {
++      axiosMock.__instance.post.mockResolvedValue({ data: { state: 'deleted' } });
++      await Promise.allSettled([
++        handler(fake401({ url: '/me/delete-account/status' })),
++        handler(fake401({ url: '/x' })),
++      ]);
++      expect(axiosMock.__instance.post).toHaveBeenCalledTimes(1);
++      const [url, body, config] = axiosMock.__instance.post.mock.calls[0];
++      expect(url).toBe('/account-deletion/receipt');
++      expect(body).toBeUndefined();
++      expect(config).toEqual(
++        expect.objectContaining({
++          headers: { Authorization: 'Bearer stale-access-token' },
++          skipAuthRefresh: true,
++        }),
++      );
++      expect(signOutMock).toHaveBeenCalledTimes(1);
++      expect(alertSpy).toHaveBeenCalledTimes(1);
++      expect(alertSpy).toHaveBeenCalledWith(DELETION_COMPLETE_NOTICE.title, DELETION_COMPLETE_NOTICE.body);
++    });
++
++    it('404 NO_DELETION_RECEIPT: an ordinary sign-out, never called "deleted"', async () => {
++      axiosMock.__instance.post.mockRejectedValue({
++        response: { status: 404, data: { code: 'NO_DELETION_RECEIPT' } },
++      });
++      await handler(fake401()).catch(() => undefined);
++      expect(signOutMock).toHaveBeenCalledTimes(1);
++      expect(alertSpy).not.toHaveBeenCalled();
++    });
++
++    it('receipt unreachable (network): an ordinary sign-out, never called "deleted"', async () => {
++      axiosMock.__instance.post.mockRejectedValue(new Error('Network Error'));
++      await handler(fake401()).catch(() => undefined);
++      expect(signOutMock).toHaveBeenCalledTimes(1);
++      expect(alertSpy).not.toHaveBeenCalled();
++    });
++
++    it('no stored token: no receipt call', async () => {
++      secureStorageMock.secureStorage.getItem.mockImplementation(async (k: string) =>
++        k === 'supabase_refresh_token' ? 'r' : null,
++      );
++      await handler(fake401()).catch(() => undefined);
++      expect(axiosMock.__instance.post).not.toHaveBeenCalled();
++      expect(signOutMock).toHaveBeenCalledTimes(1);
++    });
++  });
+ });
+diff --git a/src/services/__tests__/deletionApi.test.ts b/src/services/__tests__/deletionApi.test.ts
+new file mode 100644
+index 0000000..ca7d5da
+--- /dev/null
++++ b/src/services/__tests__/deletionApi.test.ts
+@@ -0,0 +1,99 @@
++// Wire-shape tests for the in-app account deletion client (Apple 5.1.1(v)).
++// Backend contract: growth-project-backend src/account-deletion (PR #608).
++
++jest.mock('axios', () => {
++  const instance = {
++    get: jest.fn(),
++    post: jest.fn(),
++    put: jest.fn(),
++    patch: jest.fn(),
++    delete: jest.fn(),
++    request: jest.fn(),
++    interceptors: {
++      request: { use: jest.fn() },
++      response: { use: jest.fn() },
++    },
++    defaults: { headers: { common: {} } },
++  };
++  return {
++    __esModule: true,
++    default: { create: jest.fn(() => instance) },
++    __instance: instance,
++  };
++});
++
++const axiosMock = jest.requireMock('axios') as {
++  __instance: { get: jest.Mock; post: jest.Mock };
++};
++
++// eslint-disable-next-line @typescript-eslint/no-var-requires
++const { deletionApi, RECENT_AUTH_HEADER, isAccountDeletedError } = require('../api');
++
++describe('deletionApi', () => {
++  beforeEach(() => {
++    axiosMock.__instance.get.mockReset().mockResolvedValue({ data: {} });
++    axiosMock.__instance.post.mockReset().mockResolvedValue({ data: {} });
++  });
++
++  it('issueRecentAuthToken posts a password proof without refresh-and-replay', async () => {
++    await deletionApi.issueRecentAuthToken({ password: 'pw' });
++    expect(axiosMock.__instance.post).toHaveBeenCalledWith(
++      '/auth/recent-auth-token',
++      { password: 'pw' },
++      expect.objectContaining({ skipAuthRefresh: true }),
++    );
++  });
++
++  it('issueRecentAuthToken posts an Apple identity token proof', async () => {
++    await deletionApi.issueRecentAuthToken({ provider: 'apple', provider_token: 'id-tok' });
++    expect(axiosMock.__instance.post).toHaveBeenCalledWith(
++      '/auth/recent-auth-token',
++      { provider: 'apple', provider_token: 'id-tok' },
++      expect.anything(),
++    );
++  });
++
++  it('requestDeletion sends X-Recent-Auth-Token and no body for password users', async () => {
++    await deletionApi.requestDeletion('recent-tok');
++    expect(RECENT_AUTH_HEADER).toBe('X-Recent-Auth-Token');
++    expect(axiosMock.__instance.post).toHaveBeenCalledWith(
++      '/me/delete-account',
++      {},
++      { headers: { 'X-Recent-Auth-Token': 'recent-tok' } },
++    );
++  });
++
++  it('requestDeletion forwards the Apple authorization code for token revocation', async () => {
++    await deletionApi.requestDeletion('recent-tok', 'apple-code');
++    expect(axiosMock.__instance.post).toHaveBeenCalledWith(
++      '/me/delete-account',
++      { apple_authorization_code: 'apple-code' },
++      { headers: { 'X-Recent-Auth-Token': 'recent-tok' } },
++    );
++  });
++
++  it('getDeletionStatus and cancelDeletion hit the canonical routes', async () => {
++    await deletionApi.getDeletionStatus();
++    await deletionApi.cancelDeletion();
++    expect(axiosMock.__instance.get).toHaveBeenCalledWith('/me/delete-account/status');
++    expect(axiosMock.__instance.post).toHaveBeenCalledWith('/me/delete-account/cancel');
++  });
++
++  it('issueRecentAuthToken posts a Google session proof (B-313-1)', async () => {
++    await deletionApi.issueRecentAuthToken({ provider: 'google_session', provider_token: 'sess' });
++    expect(axiosMock.__instance.post).toHaveBeenCalledWith(
++      '/auth/recent-auth-token',
++      { provider: 'google_session', provider_token: 'sess' },
++      expect.objectContaining({ skipAuthRefresh: true }),
++    );
++  });
++
++  it('isAccountDeletedError recognises only the 403 ACCOUNT_DELETED signal (B-313-5)', () => {
++    const err = (status: number, data: unknown) => ({ response: { status, data } });
++    expect(isAccountDeletedError(err(403, { code: 'ACCOUNT_DELETED' }))).toBe(true);
++    expect(isAccountDeletedError(err(403, { code: 'FORBIDDEN' }))).toBe(false);
++    expect(isAccountDeletedError(err(401, { code: 'ACCOUNT_DELETED' }))).toBe(false);
++    expect(isAccountDeletedError(new Error('Network Error'))).toBe(false);
++    expect(isAccountDeletedError(null)).toBe(false);
++  });
++});
+diff --git a/src/services/api.ts b/src/services/api.ts
+index 6733444..5c6c615 100644
+--- a/src/services/api.ts
++++ b/src/services/api.ts
+@@ -76,7 +76,7 @@ import { withTutorialSignal } from '../tutorial/tutorialEvents';
+ import { logger } from '../utils/logger';
+ import { generateIdempotencyKey } from '../utils/idempotency';
+ import { REQUEST_ID_HEADER, newRequestId } from '../utils/correlation';
+-import { Platform } from 'react-native';
++import { Alert, Platform } from 'react-native';
+ import { nativeBuildNumber, purchasePolicyHeader } from '../config/purchaseSurfaces';
+ import type { SignupPolicyResponse } from '../lib/signupPolicy';
+ 
+@@ -151,6 +151,11 @@ const MAX_REFRESH_ATTEMPTS = 2;
+ type RetryableConfig = AxiosRequestConfig & {
+   _refreshAttempts?: number;
+   _lastUsedCycleId?: number;
++  // Set on requests whose 401 means "the credential in the BODY/HEADER was
++  // rejected" (re-auth password, single-use recent-auth token), not "the
++  // session expired". Refresh-and-retry would replay a wrong password against
++  // a 5/min throttle, so these 401s go straight back to the caller.
++  skipAuthRefresh?: boolean;
+ };
+ 
+ async function performRefresh(): Promise<string> {
+@@ -194,6 +199,19 @@ async function handleRefreshFailure(): Promise<void> {
+   // cycle still works without depending on a wall-clock timer.
+   if (loggedOutOnce) return;
+   loggedOutOnce = true;
++  // B-313-5 / backend B-608-10: once an account is deleted, Supabase can no
++  // longer refresh its session. Before signing out, ask the server whether
++  // the token this phone last held belongs to a deleted account, so the
++  // person is told the deletion is complete rather than silently signed
++  // out. Only a server-confirmed `deleted` counts; any other answer, or no
++  // answer, is an ordinary sign-out.
++  let deletionComplete = false;
++  try {
++    const stale = await secureStorage.getItem('supabase_token');
++    if (stale) deletionComplete = await deletedByReceipt(stale);
++  } catch {
++    deletionComplete = false;
++  }
+   // Full sign-out on refresh failure: clears all auth keys (both stores),
+   // resets analytics/Sentry, and emits logout. Lazy import avoids a require
+   // cycle between api.ts and authActions.ts (authActions imports profileApi
+@@ -208,6 +226,33 @@ async function handleRefreshFailure(): Promise<void> {
+     logger.error('API', 'signOut on refresh failure threw', err);
+     authEvents.emit('logout');
+   }
++  if (deletionComplete) {
++    Alert.alert(DELETION_COMPLETE_NOTICE.title, DELETION_COMPLETE_NOTICE.body);
++  }
++}
++
++/** Shown once when the server confirms the signed-out account was deleted. */
++export const DELETION_COMPLETE_NOTICE = {
++  title: 'Your account is deleted',
++  body: 'Your account and your data have been deleted, as you asked. You have been signed out of this phone.',
++} as const;
++
++/**
++ * POST /account-deletion/receipt with the (possibly expired) access token.
++ * The server answers `{ state: 'deleted' }` only for a deleted account and
++ * 404 NO_DELETION_RECEIPT otherwise.
++ */
++async function deletedByReceipt(accessToken: string): Promise<boolean> {
++  try {
++    const res = await api.post<{ state?: string }>('/account-deletion/receipt', undefined, {
++      headers: { Authorization: `Bearer ${accessToken}` },
++      skipAuthRefresh: true,
++      timeout: 8000,
++    } as RetryableConfig);
++    return res?.data?.state === 'deleted';
++  } catch {
++    return false;
++  }
+ }
+ 
+ api.interceptors.response.use(
+@@ -247,7 +292,7 @@ api.interceptors.response.use(
+       return Promise.reject(error);
+     }
+ 
+-    if (error.response.status !== 401 || !originalConfig) {
++    if (error.response.status !== 401 || !originalConfig || originalConfig.skipAuthRefresh) {
+       return Promise.reject(error);
+     }
+ 
+@@ -896,11 +941,18 @@ export const systemApi = {
+     }>('/system/trust-meta'),
+ };
+ 
+-// ── Phase 10 — GDPR right to erasure ────────────────────────────────────────
+-// These endpoints drive the two-phase deletion flow introduced in
+-// src/account-deletion/. Separate from the legacy usersApi.deleteAccount
+-// and usersApi.cancelAccountDeletion which were the earlier 30-day soft-
+-// delete stubs. Both sets co-exist; the new flow is the canonical one.
++// ── Phase 10 — GDPR right to erasure / Apple 5.1.1(v) in-app deletion ──────
++// Canonical in-app flow (backend src/account-deletion/):
++//   1. POST /auth/recent-auth-token  — fresh re-auth (password, a fresh
++//      Sign in with Apple identity token, or a fresh Google sign-in session).
++//      Returns a short-lived single-use token bound to the caller.
++//   2. POST /me/delete-account with header X-Recent-Auth-Token — schedules the
++//      deletion in the same request: the grace period starts now and the
++//      response carries the exact purge date. Idempotent.
++//   3. GET  /me/delete-account/status — state + purge date for the status view.
++//   4. POST /me/delete-account/cancel — cancel during the grace period.
++// The legacy usersApi.deleteAccount (DELETE /users/me/account) is not used by
++// the app's deletion screen.
+ 
+ export interface DeletionStatus {
+   state: 'none' | 'requested' | 'confirmed' | 'deleted';
+@@ -908,19 +960,90 @@ export interface DeletionStatus {
+   confirmed_at?: string | null;
+   grace_days?: number | null;
+   purge_after?: string | null;
++  /** Latest time the nightly job is expected to have finished (purge_after + 1 day). */
++  completes_by?: string | null;
+   deleted_at?: string | null;
++  cancellable?: boolean | null;
+ }
+ 
++/**
++ * Outcome of the server's Sign in with Apple token revocation (backend
++ * apple-token-revocation.service.ts). Only 'revoked' means Apple confirmed
++ * the app's access was removed; every other value needs the manual fallback.
++ */
++export type AppleRevocationOutcome =
++  | 'revoked'
++  | 'not_requested'
++  | 'not_configured'
++  | 'exchange_failed'
++  | 'revoke_failed';
++
++export interface DeletionScheduledResponse {
++  state: 'confirmed';
++  already_scheduled: boolean;
++  message: string;
++  requested_at: string | null;
++  confirmed_at: string | null;
++  grace_days: number;
++  purge_after: string;
++  completes_by?: string | null;
++  cancellable: boolean;
++  apple_revocation?: AppleRevocationOutcome;
++}
++
++/**
++ * Re-auth proof for POST /auth/recent-auth-token. `google_session` is the
++ * access token of a Supabase session created by a Google sign-in moments ago
++ * (the app has no Google client id, so it cannot obtain a Google ID token).
++ */
++export type RecentAuthProof =
++  | { password: string }
++  | { provider: 'apple'; provider_token: string }
++  | { provider: 'google_session'; provider_token: string };
++
++/**
++ * True when the API reports the account as deleted (backend auth guard:
++ * 403 { code: 'ACCOUNT_DELETED' }). This is the terminal deletion signal.
++ */
++export function isAccountDeletedError(err: unknown): boolean {
++  if (typeof err !== 'object' || err === null) return false;
++  const response: unknown = Reflect.get(err, 'response');
++  if (typeof response !== 'object' || response === null) return false;
++  const data: unknown = Reflect.get(response, 'data');
++  return (
++    Reflect.get(response, 'status') === 403 &&
++    typeof data === 'object' &&
++    data !== null &&
++    Reflect.get(data, 'code') === 'ACCOUNT_DELETED'
++  );
++}
++
++export const RECENT_AUTH_HEADER = 'X-Recent-Auth-Token';
++
+ export const deletionApi = {
+-  /** Request deletion — sends a confirmation email with a single-use 24h link. */
+-  requestDeletion: () =>
+-    api.post<{ message: string; expires_at: string }>('/me/delete-account'),
++  /** Mint a short-lived recent-auth token (password, Apple or Google re-auth proof). */
++  issueRecentAuthToken: (proof: RecentAuthProof) =>
++    api.post<{ token: string; expires_in_ms: number }>('/auth/recent-auth-token', proof, {
++      skipAuthRefresh: true,
++    } as RetryableConfig),
++
++  /**
++   * Schedule deletion now (grace period starts immediately). Requires the
++   * recent-auth token. Apple users pass the authorization code from the
++   * re-auth sheet so the server can revoke their Sign in with Apple tokens.
++   */
++  requestDeletion: (recentAuthToken: string, appleAuthorizationCode?: string | null) =>
++    api.post<DeletionScheduledResponse>(
++      '/me/delete-account',
++      appleAuthorizationCode ? { apple_authorization_code: appleAuthorizationCode } : {},
++      { headers: { [RECENT_AUTH_HEADER]: recentAuthToken } },
++    ),
+ 
+   /** Get current deletion state (none | requested | confirmed | deleted). */
+   getDeletionStatus: () =>
+     api.get<DeletionStatus>('/me/delete-account/status'),
+ 
+-  /** Cancel a pending deletion within the 14-day grace period. */
++  /** Cancel a pending deletion within the grace period. */
+   cancelDeletion: () =>
+     api.post<{ message: string }>('/me/delete-account/cancel'),
+ };
+diff --git a/src/utils/__tests__/appleAuth.test.ts b/src/utils/__tests__/appleAuth.test.ts
+index 62c92a6..f1dcf73 100644
+--- a/src/utils/__tests__/appleAuth.test.ts
++++ b/src/utils/__tests__/appleAuth.test.ts
+@@ -15,7 +15,7 @@ jest.mock('../../services/api', () => ({
+   default: { post: (...args: unknown[]) => mockApiPost(...args) },
+ }));
+ 
+-import { buildAppleAuthBody, signInWithApple } from '../appleAuth';
++import { buildAppleAuthBody, reauthenticateWithApple, signInWithApple } from '../appleAuth';
+ import { secureStorage } from '../../services/secureStorage';
+ import AsyncStorage from '@react-native-async-storage/async-storage';
+ 
+@@ -116,3 +116,38 @@ describe('buildAppleAuthBody (live + fixed backend contract)', () => {
+     expect(buildAppleAuthBody({ identityToken: 'jwt', givenName: 'x'.repeat(300) }).full_name).toHaveLength(200);
+   });
+ });
++
++describe('reauthenticateWithApple (account deletion re-auth)', () => {
++  beforeEach(() => {
++    Platform.OS = 'ios';
++    mockSignInAsync.mockReset();
++    mockApiPost.mockReset();
++  });
++
++  it('returns the identity token and authorization code without creating a session', async () => {
++    mockSignInAsync.mockResolvedValueOnce({ identityToken: 'fresh-id', authorizationCode: 'code-1' });
++    const res = await reauthenticateWithApple();
++    expect(res).toEqual({ success: true, identityToken: 'fresh-id', authorizationCode: 'code-1' });
++    expect(mockSignInAsync).toHaveBeenCalledWith({ requestedScopes: [] });
++    expect(mockApiPost).not.toHaveBeenCalled();
++  });
++
++  it('reports a user cancel silently', async () => {
++    mockSignInAsync.mockRejectedValueOnce({ code: 'ERR_REQUEST_CANCELED' });
++    expect(await reauthenticateWithApple()).toEqual({ success: false, cancelled: true });
++  });
++
++  it('fails when Apple returns no identity token', async () => {
++    mockSignInAsync.mockResolvedValueOnce({ identityToken: null });
++    const res = await reauthenticateWithApple();
++    expect(res.success).toBe(false);
++    expect(res.error).toMatch(/identity token/);
++  });
++
++  it('is unavailable off iOS', async () => {
++    Platform.OS = 'android';
++    const res = await reauthenticateWithApple();
++    expect(res.success).toBe(false);
++    expect(mockSignInAsync).not.toHaveBeenCalled();
++  });
++});
+diff --git a/src/utils/__tests__/googleReauth.test.ts b/src/utils/__tests__/googleReauth.test.ts
+new file mode 100644
+index 0000000..255a37d
+--- /dev/null
++++ b/src/utils/__tests__/googleReauth.test.ts
+@@ -0,0 +1,89 @@
++// Google re-auth for account deletion (B-313-1): fresh Supabase Google OAuth
++// session token, nothing stored, cancel and provider errors surfaced.
++
++jest.mock('expo-auth-session', () => ({ makeRedirectUri: jest.fn(() => 'tgp://auth/callback') }));
++jest.mock('expo-web-browser', () => ({ openAuthSessionAsync: jest.fn() }));
++jest.mock('../../config/env', () => ({ env: { SUPABASE_URL: 'https://abc.supabase.co' } }));
++jest.mock('../../services/secureStorage', () => ({
++  secureStorage: { getItem: jest.fn(), setItem: jest.fn(), removeItem: jest.fn() },
++}));
++
++import * as WebBrowser from 'expo-web-browser';
++import { reauthenticateWithGoogle, parseOAuthRedirect } from '../googleReauth';
++import { providersFromAccessToken } from '../authProviders';
++import { secureStorage } from '../../services/secureStorage';
++
++const openAuth = WebBrowser.openAuthSessionAsync as jest.Mock;
++
++function jwt(claims: Record<string, unknown>): string {
++  const enc = (o: unknown) => Buffer.from(JSON.stringify(o)).toString('base64url');
++  return `${enc({ alg: 'ES256' })}.${enc(claims)}.sig`;
++}
++
++describe('reauthenticateWithGoogle', () => {
++  beforeEach(() => jest.clearAllMocks());
++
++  it('returns the fresh session access token without storing anything', async () => {
++    openAuth.mockResolvedValue({
++      type: 'success',
++      url: 'tgp://auth/callback#access_token=fresh-tok&refresh_token=r&expires_in=3600',
++    });
++    await expect(reauthenticateWithGoogle()).resolves.toEqual({ success: true, accessToken: 'fresh-tok' });
++    const [url, redirect] = openAuth.mock.calls[0];
++    expect(url).toContain('https://abc.supabase.co/auth/v1/authorize?provider=google');
++    expect(url).toContain('prompt=select_account');
++    expect(redirect).toBe('tgp://auth/callback');
++    expect(secureStorage.setItem).not.toHaveBeenCalled();
++  });
++
++  it('reports a cancelled browser as cancelled, not as an error', async () => {
++    openAuth.mockResolvedValue({ type: 'cancel' });
++    await expect(reauthenticateWithGoogle()).resolves.toEqual({ success: false, cancelled: true });
++  });
++
++  it('surfaces a provider error from the redirect', async () => {
++    openAuth.mockResolvedValue({
++      type: 'success',
++      url: 'tgp://auth/callback?error=access_denied&error_description=Signups+not+allowed',
++    });
++    const res = await reauthenticateWithGoogle();
++    expect(res.success).toBe(false);
++    expect(res.error).toBe('access_denied: Signups not allowed');
++  });
++
++  it('fails when no token comes back, or the browser throws', async () => {
++    openAuth.mockResolvedValueOnce({ type: 'success', url: 'tgp://auth/callback' });
++    expect((await reauthenticateWithGoogle()).error).toBe('No access token received');
++    openAuth.mockRejectedValueOnce(new Error('browser unavailable'));
++    expect((await reauthenticateWithGoogle()).error).toBe('browser unavailable');
++  });
++
++  it('parses tokens only from the hash', () => {
++    expect(parseOAuthRedirect('x://cb?access_token=leak')).toEqual({ error: 'No access token received' });
++    expect(parseOAuthRedirect('x://cb#access_token=t')).toEqual({ accessToken: 't' });
++  });
++});
++
++describe('providersFromAccessToken', () => {
++  it('reads app_metadata.providers, then the single provider', () => {
++    expect(providersFromAccessToken(jwt({ app_metadata: { providers: ['google'] } }))).toEqual(['google']);
++    expect(providersFromAccessToken(jwt({ app_metadata: { provider: 'email' } }))).toEqual(['email']);
++    expect(providersFromAccessToken(jwt({ app_metadata: { providers: ['email', 'apple'] } }))).toEqual([
++      'email',
++      'apple',
++    ]);
++  });
++
++  it('returns null when it cannot tell', () => {
++    expect(providersFromAccessToken(null)).toBeNull();
++    expect(providersFromAccessToken('garbage')).toBeNull();
++    expect(providersFromAccessToken(jwt({ app_metadata: { providers: ['github'] } }))).toBeNull();
++    expect(providersFromAccessToken(jwt({ sub: 'x' }))).toBeNull();
++  });
++
++  it('decodes non-ASCII claims', () => {
++    expect(
++      providersFromAccessToken(jwt({ name: 'Zoë', app_metadata: { providers: ['google'] } })),
++    ).toEqual(['google']);
++  });
++});
+diff --git a/src/utils/appleAuth.ts b/src/utils/appleAuth.ts
+index 8ea9f28..f19c8e4 100644
+--- a/src/utils/appleAuth.ts
++++ b/src/utils/appleAuth.ts
+@@ -175,3 +175,48 @@ export async function signInWithApple(
+     return { success: false, error: msg };
+   }
+ }
++
++// ── Re-authentication (account deletion, Apple 5.1.1(v)) ──────────────────────
++
++export interface AppleReauthResult {
++  success: boolean;
++  /** Fresh Apple identity token for POST /auth/recent-auth-token (provider=apple). */
++  identityToken?: string;
++  /**
++   * Single-use authorization code. Sent with POST /me/delete-account so the
++   * server can exchange it and revoke the user's Sign in with Apple tokens.
++   * Never logged or stored.
++   */
++  authorizationCode?: string | null;
++  cancelled?: boolean;
++  error?: string;
++}
++
++/**
++ * Show the native Sign in with Apple sheet to prove the user is present,
++ * WITHOUT creating a new app session (unlike signInWithApple, nothing is
++ * posted to /auth/apple and no tokens are stored). No name/email scopes are
++ * requested: the account already exists.
++ */
++export async function reauthenticateWithApple(): Promise<AppleReauthResult> {
++  if (Platform.OS !== 'ios') {
++    return { success: false, error: 'Apple sign-in is only available on iOS' };
++  }
++  try {
++    const credential = await AppleAuthentication.signInAsync({ requestedScopes: [] });
++    if (!credential?.identityToken) {
++      return { success: false, error: 'No identity token returned from Apple' };
++    }
++    return {
++      success: true,
++      identityToken: credential.identityToken,
++      authorizationCode: credential.authorizationCode ?? null,
++    };
++  } catch (err) {
++    const authErr = err as { code?: string; message?: string };
++    if (authErr?.code === APPLE_CANCEL_CODE) {
++      return { success: false, cancelled: true };
++    }
++    return { success: false, error: authErr?.message || 'Apple sign-in failed' };
++  }
++}
+diff --git a/src/utils/authProviders.ts b/src/utils/authProviders.ts
+new file mode 100644
+index 0000000..eb2d34d
+--- /dev/null
++++ b/src/utils/authProviders.ts
+@@ -0,0 +1,62 @@
++/**
++ * Which sign-in methods the signed-in account has, read from the stored
++ * Supabase access token's `app_metadata` (`providers`, or the legacy single
++ * `provider`). Used to offer the matching re-auth option. Returns null when
++ * it cannot tell; callers then offer every option the platform supports.
++ */
++import { secureStorage } from '../services/secureStorage';
++
++export type SignInProvider = 'email' | 'apple' | 'google';
++
++const BASE64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
++
++/** base64url → UTF-8 string without relying on atob/Buffer (Hermes-safe). */
++export function decodeBase64Url(input: string): string | null {
++  const clean = input.replace(/-/g, '+').replace(/_/g, '/').replace(/=+$/, '');
++  const bytes: number[] = [];
++  let buffer = 0;
++  let bits = 0;
++  for (const ch of clean) {
++    const v = BASE64.indexOf(ch);
++    if (v < 0) return null;
++    buffer = (buffer << 6) | v;
++    bits += 6;
++    if (bits >= 8) {
++      bits -= 8;
++      bytes.push((buffer >> bits) & 0xff);
++    }
++  }
++  try {
++    return decodeURIComponent(bytes.map((b) => `%${b.toString(16).padStart(2, '0')}`).join(''));
++  } catch {
++    return null;
++  }
++}
++
++export function providersFromAccessToken(token: string | null): SignInProvider[] | null {
++  if (!token) return null;
++  const payload = token.split('.')[1];
++  if (!payload) return null;
++  const json = decodeBase64Url(payload);
++  if (!json) return null;
++  let claims: unknown;
++  try {
++    claims = JSON.parse(json);
++  } catch {
++    return null;
++  }
++  if (typeof claims !== 'object' || claims === null) return null;
++  const meta: unknown = Reflect.get(claims, 'app_metadata');
++  if (typeof meta !== 'object' || meta === null) return null;
++  const list: unknown = Reflect.get(meta, 'providers');
++  const single: unknown = Reflect.get(meta, 'provider');
++  const raw = Array.isArray(list) ? list : typeof single === 'string' ? [single] : [];
++  const known = raw.filter(
++    (p): p is SignInProvider => p === 'email' || p === 'apple' || p === 'google',
++  );
++  return known.length > 0 ? known : null;
++}
++
++export async function getSignInProviders(): Promise<SignInProvider[] | null> {
++  return providersFromAccessToken(await secureStorage.getItem('supabase_token'));
++}
+diff --git a/src/utils/googleReauth.ts b/src/utils/googleReauth.ts
+new file mode 100644
+index 0000000..8a7d5da
+--- /dev/null
++++ b/src/utils/googleReauth.ts
+@@ -0,0 +1,68 @@
++/**
++ * Google re-authentication for sensitive actions (account deletion).
++ *
++ * The app signs Google accounts in through Supabase's Google OAuth flow and
++ * ships no Google client id, so it cannot get a Google-issued ID token.
++ * Instead it runs the same Supabase Google OAuth flow again and returns the
++ * access token of that brand-new session as the proof
++ * `{ provider: 'google_session', provider_token }`. The backend accepts it
++ * only if the token belongs to the signed-in account and its `amr` records a
++ * Google sign-in within the re-auth window, so the app's existing session
++ * cannot be replayed.
++ *
++ * Nothing is stored: the current app session is left unchanged.
++ * Works for existing Google accounts even while Google sign-up is off.
++ */
++import * as AuthSession from 'expo-auth-session';
++import * as WebBrowser from 'expo-web-browser';
++import { env } from '../config/env';
++import { errorMessage } from '../types/common';
++
++export interface GoogleReauthResult {
++  success: boolean;
++  /** Access token of the fresh Supabase session (provider=google_session). */
++  accessToken?: string;
++  cancelled?: boolean;
++  error?: string;
++}
++
++/** Parse a Supabase OAuth redirect: tokens in the hash, errors in hash or query. */
++export function parseOAuthRedirect(url: string): { accessToken?: string; error?: string } {
++  const hash = url.split('#')[1];
++  const query = url.split('?')[1]?.split('#')[0];
++  for (const fragment of [hash, query]) {
++    if (!fragment) continue;
++    const params = new URLSearchParams(fragment);
++    const err = params.get('error');
++    if (err) {
++      const desc = params.get('error_description');
++      return { error: desc ? `${err}: ${desc.replace(/\+/g, ' ')}` : err };
++    }
++  }
++  const accessToken = hash ? new URLSearchParams(hash).get('access_token') : null;
++  return accessToken ? { accessToken } : { error: 'No access token received' };
++}
++
++export async function reauthenticateWithGoogle(): Promise<GoogleReauthResult> {
++  try {
++    const redirectUri = AuthSession.makeRedirectUri({ scheme: 'tgp', path: 'auth/callback' });
++    // prompt=select_account makes Google show the account chooser instead of
++    // silently reusing a browser session, so the person actively confirms.
++    const authorizeUrl =
++      `${env.SUPABASE_URL}/auth/v1/authorize?provider=google` +
++      `&redirect_to=${encodeURIComponent(redirectUri)}` +
++      `&prompt=select_account`;
++    const result = await WebBrowser.openAuthSessionAsync(authorizeUrl, redirectUri);
++    if (result.type === 'cancel' || result.type === 'dismiss') {
++      return { success: false, cancelled: true };
++    }
++    if (result.type !== 'success' || !result.url) {
++      return { success: false, error: 'Google sign-in did not finish' };
++    }
++    const parsed = parseOAuthRedirect(result.url);
++    if (!parsed.accessToken) return { success: false, error: parsed.error };
++    return { success: true, accessToken: parsed.accessToken };
++  } catch (err) {
++    return { success: false, error: errorMessage(err) || 'Google sign-in failed' };
++  }
++}

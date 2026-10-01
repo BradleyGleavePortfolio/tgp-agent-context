@@ -1,0 +1,2414 @@
+diff --git a/docs/README.md b/docs/README.md
+index 5cd63d1e..7400feb0 100644
+--- a/docs/README.md
++++ b/docs/README.md
+@@ -15,28 +15,28 @@ shape, and the smoke-test contract. Read it first.
+ 
+ ## Operator runbooks
+ 
+-| Doc | What it covers |
+-|---|---|
+-| [`deploy-runbook.md`](./deploy-runbook.md) | End-to-end deploy procedure for staging and production: env validation tiers, migrations, OWNER bootstrap, feature-flag rollout order, Stripe wiring, smoke tests, rollback, operator workflow for production secrets. Also covers Supabase project/key cross-pinning (§0.1), app-`Role.owner` vs Supabase project owner (§0.2), Fly secrets being write-only (§1.1), Prisma migration baseline requirement on a non-greenfield production DB (§2.1), the post-deploy migration smoke (§5.1), federation-token rotation across both apps (§7c), and the deploy-affecting PR docs rule (§10). |
+-| [`stripe-setup.md`](./stripe-setup.md) | Stripe dashboard configuration: products, prices, webhook secrets, customer portal. |
+-| [`audit-and-gdpr.md`](./audit-and-gdpr.md) | `AuditLog` schema and call sites; GDPR data-export and soft-delete account-lifecycle endpoints; operator path for honoring a manual deletion request; PII scrub follow-up. |
+-| [`entitlements.md`](./entitlements.md) | Product-entitlement read model: `fitness_only` / `finance_only` / `performance_os` bundles, per-product status (trialing/active/past_due/canceled/suspended/inactive/unknown), how degraded finance maps to `unknown` (never silently to `inactive`), how GDPR grace period collapses to `suspended`, and the additive Phase-2 override-table shape kept here so a future migration is mechanical. No migration in Phase 1. |
+-| [`metrics.md`](./metrics.md) | Server-side metrics: PostHog event taxonomy in `src/analytics/events.ts`, OWNER-only `/api/admin/metrics` counter shape, what is and is not synthesized. |
+-| [`admin-reports.md`](./admin-reports.md) | OWNER-only operational reports / CSV+JSON exports under `/api/admin/reports/*`: when to use which report, common curl recipes, output envelope contract, privacy contract (no per-record activity in the clients CSV), failure modes when finance federation is degraded. |
+-| [`admin/control-room-spec.md`](./admin/control-room-spec.md) | **Docs-only target spec** for the OWNER admin console as a Healthie/EHR-style operator control room: KPI cards, ARR/MRR math, coach/client cohorts, retention/dunning, universal person search, person profile timeline, finance federation, product usage, support flags, integrations health, audit/RBAC, safety confirmations. Reconciles every existing `/api/admin/*` endpoint against the future-state UI and enumerates the exact endpoint gaps a follow-up runtime PR must close. |
+-| [`staging-execution-tracker.md`](./staging-execution-tracker.md) | Staging cut-over checklist and validation tracker. |
+-| [`e2e-qa-runbook.md`](./e2e-qa-runbook.md) | Manual end-to-end QA sweep against a deployed environment. Run after smoke green. Lists the credentialled prereqs the smoke script intentionally does not exercise. |
+-| [`invite-landing.md`](./invite-landing.md) | Deep-link / universal-link contract and the QR validation harness. |
+-| [`coach-console-integration.md`](./coach-console-integration.md) | BFF contract followed for `tgp-coach-console`. |
+-| [`AI_MOBILE_PATCH_INSTRUCTIONS.md`](./AI_MOBILE_PATCH_INSTRUCTIONS.md) | Mobile-side patch notes for the AI assistant. |
+-| [`ptm.md`](./ptm.md) | Predictive Tracking Model (Phase 1) operator guide: the three tables (`ClientSignal`, `ClientOutcome`, `PtmPrediction`), the fire-and-forget signal-collection contract, score interpretation (advisory only), the privacy posture (mobile clients never see raw scores), and the forward path through Phase 1B (heuristic + nightly recompute), 1C (admin teaching surface), and 1D (weighted v2 engine). |
++| Doc                                                                    | What it covers                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
++| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| [`deploy-runbook.md`](./deploy-runbook.md)                             | End-to-end deploy procedure for staging and production: env validation tiers, migrations, OWNER bootstrap, feature-flag rollout order, Stripe wiring, smoke tests, rollback, operator workflow for production secrets. Also covers Supabase project/key cross-pinning (§0.1), app-`Role.owner` vs Supabase project owner (§0.2), Fly secrets being write-only (§1.1), Prisma migration baseline requirement on a non-greenfield production DB (§2.1), the post-deploy migration smoke (§5.1), federation-token rotation across both apps (§7c), and the deploy-affecting PR docs rule (§10). |
++| [`stripe-setup.md`](./stripe-setup.md)                                 | Stripe dashboard configuration: products, prices, webhook secrets, customer portal.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
++| [`audit-and-gdpr.md`](./audit-and-gdpr.md)                             | `AuditLog` schema and call sites; GDPR data-export and soft-delete account-lifecycle endpoints; operator path for honoring a manual deletion request; PII scrub follow-up.                                                                                                                                                                                                                                                                                                                                                                                                                   |
++| [`entitlements.md`](./entitlements.md)                                 | Product-entitlement read model: `fitness_only` / `finance_only` / `performance_os` bundles, per-product status (trialing/active/past_due/canceled/suspended/inactive/unknown), how degraded finance maps to `unknown` (never silently to `inactive`), how GDPR grace period collapses to `suspended`, and the additive Phase-2 override-table shape kept here so a future migration is mechanical. No migration in Phase 1.                                                                                                                                                                  |
++| [`metrics.md`](./metrics.md)                                           | Server-side metrics: PostHog event taxonomy in `src/analytics/events.ts`, OWNER-only `/api/admin/metrics` counter shape, what is and is not synthesized.                                                                                                                                                                                                                                                                                                                                                                                                                                     |
++| [`admin-reports.md`](./admin-reports.md)                               | OWNER-only operational reports / CSV+JSON exports under `/api/admin/reports/*`: when to use which report, common curl recipes, output envelope contract, privacy contract (no per-record activity in the clients CSV), failure modes when finance federation is degraded.                                                                                                                                                                                                                                                                                                                    |
++| [`admin/control-room-spec.md`](./admin/control-room-spec.md)           | **Docs-only target spec** for the OWNER admin console as a Healthie/EHR-style operator control room: KPI cards, ARR/MRR math, coach/client cohorts, retention/dunning, universal person search, person profile timeline, finance federation, product usage, support flags, integrations health, audit/RBAC, safety confirmations. Reconciles every existing `/api/admin/*` endpoint against the future-state UI and enumerates the exact endpoint gaps a follow-up runtime PR must close.                                                                                                    |
++| [`staging-execution-tracker.md`](./staging-execution-tracker.md)       | Staging cut-over checklist and validation tracker.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
++| [`e2e-qa-runbook.md`](./e2e-qa-runbook.md)                             | Manual end-to-end QA sweep against a deployed environment. Run after smoke green. Lists the credentialled prereqs the smoke script intentionally does not exercise.                                                                                                                                                                                                                                                                                                                                                                                                                          |
++| [`invite-landing.md`](./invite-landing.md)                             | Deep-link / universal-link contract and the QR validation harness.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
++| [`coach-console-integration.md`](./coach-console-integration.md)       | BFF contract followed for `tgp-coach-console`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
++| [`AI_MOBILE_PATCH_INSTRUCTIONS.md`](./AI_MOBILE_PATCH_INSTRUCTIONS.md) | Mobile-side patch notes for the AI assistant.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
++| [`ptm.md`](./ptm.md)                                                   | Predictive Tracking Model (Phase 1) operator guide: the three tables (`ClientSignal`, `ClientOutcome`, `PtmPrediction`), the fire-and-forget signal-collection contract, score interpretation (advisory only), the privacy posture (mobile clients never see raw scores), and the forward path through Phase 1B (heuristic + nightly recompute), 1C (admin teaching surface), and 1D (weighted v2 engine).                                                                                                                                                                                   |
+ 
+ ## Coach-facing content
+ 
+-| Folder | What it covers |
+-|---|---|
+-| [`help/`](./help/README.md) | Public coach help: setup checklist, first-invite walkthrough, console tour, FAQ, support boundaries, contact intake spec. Also houses the `_tokens.md` registry and the `_decisions.md` editorial log. |
+-| [`emails/onboarding/`](./emails/onboarding/README.md) | Coach onboarding email sequence. Each file is one email with frontmatter capturing trigger, subject, and CTA. The sequence is opt-in by behavior, not a fixed cadence. |
++| Folder                                                | What it covers                                                                                                                                                                                         |
++| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
++| [`help/`](./help/README.md)                           | Public coach help: setup checklist, first-invite walkthrough, console tour, FAQ, support boundaries, contact intake spec. Also houses the `_tokens.md` registry and the `_decisions.md` editorial log. |
++| [`emails/onboarding/`](./emails/onboarding/README.md) | Coach onboarding email sequence. Each file is one email with frontmatter capturing trigger, subject, and CTA. The sequence is opt-in by behavior, not a fixed cadence.                                 |
+ 
+ ## Module READMEs
+ 
+@@ -98,7 +98,8 @@ when modifying a feature.
+ - [`src/invite-landing/README.md`](../src/invite-landing/README.md):
+   HTML landing at `/join/:code` and `/invite/:code`.
+ - [`src/public-pages/README.md`](../src/public-pages/README.md):
+-  Durable `/download/*`, `/signup`, `/privacy`, `/terms`,
++  Durable `/download/*`, `/signup`, `/privacy`,
++  `/consumer-health-privacy`, `/terms`,
+   `/security`, `/status` pages.
+ 
+ ### Data and tooling
+diff --git a/docs/deploy-runbook.md b/docs/deploy-runbook.md
+index 90ab9352..810fc6af 100644
+--- a/docs/deploy-runbook.md
++++ b/docs/deploy-runbook.md
+@@ -7,6 +7,7 @@ a single operator can stand up staging from this document without
+ reading the codebase.
+ 
+ > Companion docs:
++>
+ > - `docs/stripe-setup.md` — Stripe dashboard configuration.
+ > - `docs/coach-console-integration.md` — coach console BFF contracts.
+ > - `docs/invite-landing.md` — public invite landing layout.
+@@ -93,27 +94,27 @@ required at boot. The boot fails loudly when hard or prod-tier vars are
+ missing. The summary below restates the rules so you can prepare
+ `fly secrets set` ahead of time.
+ 
+-| Variable | Tier | Notes |
+-| --- | --- | --- |
+-| `DATABASE_URL` | hard | Postgres connection string from Supabase → Settings → Database. Use the **session pooler** for runtime queries. |
+-| `SUPABASE_URL` | hard | `https://<project-ref>.supabase.co`. Used for JWKS and admin API. |
+-| `SUPABASE_SERVICE_ROLE_KEY` | hard | Service-role key. Treat as a secret. |
+-| `PUBLIC_INVITE_BASE_URL` | prod | `https://app.trygrowthproject.com/join`. Drives invite-code URLs. |
+-| `PUBLIC_WEB_SIGNUP_URL` | prod | Landing page used when no app is installed. Until a marketing signup page exists, point this at the durable backend route `https://app.trygrowthproject.com/signup`. |
+-| `APP_STORE_URL` | prod | Final iOS App Store URL. **Do not invent a placeholder Apple ID** — until the listing is live, point this at the durable backend route `https://app.trygrowthproject.com/download/ios`. Flip to the real URL when the App Store listing is approved. |
+-| `PLAY_STORE_URL` | prod | Final Google Play URL. **Do not invent a placeholder package id** — until the listing is live, point this at the durable backend route `https://app.trygrowthproject.com/download/android`. Flip to the real URL when the Play listing is approved. |
+-| `CORS_ORIGINS` | prod | Comma-separated list of allowed origins for the coach console. **Wildcard is rejected at boot.** |
+-| `STRIPE_SECRET_KEY` | prod | `sk_test_…` for staging, `sk_live_…` for production. |
+-| `STRIPE_WEBHOOK_SECRET` | prod | `whsec_…` from Stripe → Developers → Webhooks. |
+-| `STRIPE_PRICE_ID_FITNESS` | prod | `price_…` of the flat coach plan. |
+-| `SENTRY_DSN` | prod | Server-side DSN. Without this, prod errors are invisible. |
+-| `REDIS_URL` | prod (feature-tier; warn-only) | `redis://` or `rediss://` URL backing the rate-limit storage. Required once the app runs on >1 Fly machine — without it, throttler counters are per-machine and an attacker can multiplex across replicas. Boot logs the chosen backend at LOG level under `ThrottlerConfig`. Use the Fly-managed Upstash add-on (`fly redis create`) or a managed instance. |
+-| `POSTHOG_KEY` | optional | Product analytics. AnalyticsModule no-ops when unset. |
+-| `PERPLEXITY_API_KEY` | optional | AI chat falls back to a deterministic responder when unset. |
+-| `USDA_API_KEY` | optional | Food search returns errors at call time when unset. |
+-| `COACH_CODE_GATE_ENABLED` | optional | Feature flag — `true` to require an invite code on signup. |
+-| `BILLING_ENFORCEMENT` | optional | `enforce` to block writes for past_due/canceled coaches. Default = observe-only. |
+-| `STRIPE_PRICE_ID_FINANCE` | optional | Reserved for a future finance-vertical price. |
++| Variable                    | Tier                           | Notes                                                                                                                                                                                                                                                                                                                                                        |
++| --------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
++| `DATABASE_URL`              | hard                           | Postgres connection string from Supabase → Settings → Database. Use the **session pooler** for runtime queries.                                                                                                                                                                                                                                              |
++| `SUPABASE_URL`              | hard                           | `https://<project-ref>.supabase.co`. Used for JWKS and admin API.                                                                                                                                                                                                                                                                                            |
++| `SUPABASE_SERVICE_ROLE_KEY` | hard                           | Service-role key. Treat as a secret.                                                                                                                                                                                                                                                                                                                         |
++| `PUBLIC_INVITE_BASE_URL`    | prod                           | `https://app.trygrowthproject.com/join`. Drives invite-code URLs.                                                                                                                                                                                                                                                                                            |
++| `PUBLIC_WEB_SIGNUP_URL`     | prod                           | Landing page used when no app is installed. Until a marketing signup page exists, point this at the durable backend route `https://app.trygrowthproject.com/signup`.                                                                                                                                                                                         |
++| `APP_STORE_URL`             | prod                           | Final iOS App Store URL. **Do not invent a placeholder Apple ID** — until the listing is live, point this at the durable backend route `https://app.trygrowthproject.com/download/ios`. Flip to the real URL when the App Store listing is approved.                                                                                                         |
++| `PLAY_STORE_URL`            | prod                           | Final Google Play URL. **Do not invent a placeholder package id** — until the listing is live, point this at the durable backend route `https://app.trygrowthproject.com/download/android`. Flip to the real URL when the Play listing is approved.                                                                                                          |
++| `CORS_ORIGINS`              | prod                           | Comma-separated list of allowed origins for the coach console. **Wildcard is rejected at boot.**                                                                                                                                                                                                                                                             |
++| `STRIPE_SECRET_KEY`         | prod                           | `sk_test_…` for staging, `sk_live_…` for production.                                                                                                                                                                                                                                                                                                         |
++| `STRIPE_WEBHOOK_SECRET`     | prod                           | `whsec_…` from Stripe → Developers → Webhooks.                                                                                                                                                                                                                                                                                                               |
++| `STRIPE_PRICE_ID_FITNESS`   | prod                           | `price_…` of the flat coach plan.                                                                                                                                                                                                                                                                                                                            |
++| `SENTRY_DSN`                | prod                           | Server-side DSN. Without this, prod errors are invisible.                                                                                                                                                                                                                                                                                                    |
++| `REDIS_URL`                 | prod (feature-tier; warn-only) | `redis://` or `rediss://` URL backing the rate-limit storage. Required once the app runs on >1 Fly machine — without it, throttler counters are per-machine and an attacker can multiplex across replicas. Boot logs the chosen backend at LOG level under `ThrottlerConfig`. Use the Fly-managed Upstash add-on (`fly redis create`) or a managed instance. |
++| `POSTHOG_KEY`               | optional                       | Product analytics. AnalyticsModule no-ops when unset.                                                                                                                                                                                                                                                                                                        |
++| `PERPLEXITY_API_KEY`        | optional                       | AI chat falls back to a deterministic responder when unset.                                                                                                                                                                                                                                                                                                  |
++| `USDA_API_KEY`              | optional                       | Food search returns errors at call time when unset.                                                                                                                                                                                                                                                                                                          |
++| `COACH_CODE_GATE_ENABLED`   | optional                       | Feature flag — `true` to require an invite code on signup.                                                                                                                                                                                                                                                                                                   |
++| `BILLING_ENFORCEMENT`       | optional                       | `enforce` to block writes for past_due/canceled coaches. Default = observe-only.                                                                                                                                                                                                                                                                             |
++| `STRIPE_PRICE_ID_FINANCE`   | optional                       | Reserved for a future finance-vertical price.                                                                                                                                                                                                                                                                                                                |
+ 
+ To preflight a `.env` file locally before pushing it as Fly secrets:
+ 
+@@ -193,7 +194,7 @@ even if the dashboard shows the new one.
+ 
+    Store the dump somewhere durable (1Password vault attachment, S3
+    bucket, etc.) — never commit it. Do **not** add `--no-owner --no-acl`:
+-   the S1 privilege/RLS migration's state *is* owners, grants and
++   the S1 privilege/RLS migration's state _is_ owners, grants and
+    policies, and a dump that excludes them cannot reproduce it. Even a
+    full dump is a reference copy for diagnosis and comparison; **this
+    repository contains no demonstrated restore procedure for a live
+@@ -234,7 +235,7 @@ even if the dashboard shows the new one.
+ ### 2.1 Production needs a Prisma migration baseline before the first deploy
+ 
+ `prisma migrate deploy` requires the target database to either be
+-empty *or* to already have a populated `_prisma_migrations` table that
++empty _or_ to already have a populated `_prisma_migrations` table that
+ matches the repository's migration history. A production database that
+ was created out-of-band (Supabase SQL editor, restored snapshot,
+ sandbox copy, etc.) has neither, and `release.sh` will then refuse to
+@@ -245,7 +246,7 @@ This is a one-time setup — once baselined, every subsequent deploy
+ just runs `prisma migrate deploy` cleanly. The baseline contract:
+ 
+ 1. **Empty DB** (greenfield staging): no action needed. `prisma migrate
+-   deploy` creates the schema and seeds `_prisma_migrations` itself.
++deploy` creates the schema and seeds `_prisma_migrations` itself.
+ 2. **Populated DB that was built by a prior `prisma migrate deploy`**:
+    `_prisma_migrations` already exists. No action needed.
+ 3. **Populated DB that was NOT built by Prisma** (manual schema, raw
+@@ -258,10 +259,10 @@ just runs `prisma migrate deploy` cleanly. The baseline contract:
+    received. The established route is:
+ 
+    1. prove equivalence first — `prisma migrate diff --from-url
+-      "$DIRECT_URL" --to-migrations prisma/migrations --shadow-database-url
+-      <disposable DB>` must report no difference (or every difference must
++"$DIRECT_URL" --to-migrations prisma/migrations --shadow-database-url
++<disposable DB>` must report no difference (or every difference must
+       be understood and closed by a forward migration);
+-   2. only then mark the *proven-present* migrations applied, one by one,
++   2. only then mark the _proven-present_ migrations applied, one by one,
+       from a trusted shell against `DIRECT_URL`, under separate production
+       authorization, recording the diff output alongside;
+    3. re-dispatch `Fly Deploy`; step 1 must now show no P3005 and step 4's
+@@ -284,13 +285,13 @@ For every migration:
+ 2. **Run the migration via the release command** (Fly auto-runs it; do
+    not invoke `prisma migrate deploy` from your laptop against the
+    prod DB).
+-3. **If the deploy aborts**, first *observe* what is running — do not
++3. **If the deploy aborts**, first _observe_ what is running — do not
+    presume it. A `release_command` failure means Fly did not roll out the
+    new image, but confirm with `fly machines list -a <app>` (or the
+    `machines-before.json` manifest) that the previous image is still
+-   serving; `verify-fly-release.sh`/`/readyz` can also fail *after* the
++   serving; `verify-fly-release.sh`/`/readyz` can also fail _after_ the
+    rollout, in which case the new image is serving (stage C in
+-   `docs/delivery-controls.md` §7). Then *where* it aborted decides
++   `docs/delivery-controls.md` §7). Then _where_ it aborted decides
+    whether the database changed:
+    - **`release.sh` step 0 or 1** (verifier contract preflight, status
+      check), the evidence gate, or the image build: nothing was applied.
+@@ -301,7 +302,7 @@ For every migration:
+      ahead of the running code. Follow §11.4 before re-dispatching. Never
+      "undo" this by deleting the migration directory (see step 4).
+ 4. **If the deploy succeeded but the new code is broken**, the gated
+-   path is **forward-only**: revert the offending *code* on `main` through
++   path is **forward-only**: revert the offending _code_ on `main` through
+    a reviewed PR, let CI / CodeQL / SBOM run on the new head, then dispatch
+    `Fly Deploy` with that head as `release_sha` (see
+    `docs/delivery-controls.md` §7). The gate accepts only the current
+@@ -311,7 +312,7 @@ For every migration:
+ 
+    A revert commit must **never delete or edit an applied migration
+    directory**: `prisma migrate deploy` would then find a history mismatch
+-   and refuse — that fails the *next* release closed, it does not roll the
++   and refuse — that fails the _next_ release closed, it does not roll the
+    schema back. Revert application code only; if schema must move, ship a
+    new forward migration (S1-owned content).
+ 
+@@ -356,7 +357,7 @@ For every migration:
+    will say "up to date" after an out-of-band `down.sql`. Truth is
+    `prisma/migrations/<m>/verify.sql` (run automatically by
+    `scripts/release.sh` step 4 on the next release). Do **not** run
+-   `prisma migrate resolve --rolled-back` for a migration that *succeeded*
++   `prisma migrate resolve --rolled-back` for a migration that _succeeded_
+    and was reversed by hand: it refuses (P3012) or no-ops if an older failed
+    row exists. Re-apply forward transactionally instead
+    (`psql "$DIRECT_URL" --single-transaction -v ON_ERROR_STOP=1 -f migration.sql`),
+@@ -530,7 +531,7 @@ Full setup lives in `docs/stripe-setup.md`. Operational summary:
+ 
+ - **Staging = test mode.** Use `sk_test_…`, a separate Stripe account,
+   `whsec_…` from the test-mode webhook endpoint. `bin/stripe listen
+-  --forward-to <staging>/api/v1/webhooks/stripe` is fine for spot-checks.
++--forward-to <staging>/api/v1/webhooks/stripe` is fine for spot-checks.
+ - **Production = live mode.** A separate Stripe account, `sk_live_…`,
+   separate webhook endpoint. Never reuse a staging signing secret in
+   production.
+@@ -551,18 +552,18 @@ Full setup lives in `docs/stripe-setup.md`. Operational summary:
+ 
+ ## 7. Rollback playbook
+ 
+-| Symptom | Action |
+-| --- | --- |
+-| Deploy aborted on `release_command` at step 0/1 (`FAIL at line` inside the preflight/status block; log shows no `step 2:`). | Nothing applied — Fly keeps the previous machines and the schema is unchanged. Fix forward (missing/invalid required-verifier contract, P3005 baseline, connectivity), re-dispatch. |
+-| Deploy aborted on `release_command` at step 2 or later (log shows `step 2: applying pending migrations` before the failure). | Fly keeps the previous machines **but applied migrations stay applied**. Do not delete the migration directory. Follow §11.4: read `_prisma_migrations`, decide fix-forward vs. transactional manual reverse (S1 content, separate authorization), then re-dispatch. |
+-| `release_command` refused at step 4 `catalog verifier FAILED`. | Schema drift or incomplete migration detected in `pg_catalog` after `migrate deploy`. The migration rows say applied; the catalog disagrees. Investigate the named `verify.sql`; §11.4 step 6. |
++| Symptom                                                                                                                        | Action                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
++| ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| Deploy aborted on `release_command` at step 0/1 (`FAIL at line` inside the preflight/status block; log shows no `step 2:`).    | Nothing applied — Fly keeps the previous machines and the schema is unchanged. Fix forward (missing/invalid required-verifier contract, P3005 baseline, connectivity), re-dispatch.                                                                                                                                                                                                                                                                                                                                                                                                                         |
++| Deploy aborted on `release_command` at step 2 or later (log shows `step 2: applying pending migrations` before the failure).   | Fly keeps the previous machines **but applied migrations stay applied**. Do not delete the migration directory. Follow §11.4: read `_prisma_migrations`, decide fix-forward vs. transactional manual reverse (S1 content, separate authorization), then re-dispatch.                                                                                                                                                                                                                                                                                                                                        |
++| `release_command` refused at step 4 `catalog verifier FAILED`.                                                                 | Schema drift or incomplete migration detected in `pg_catalog` after `migrate deploy`. The migration rows say applied; the catalog disagrees. Investigate the named `verify.sql`; §11.4 step 6.                                                                                                                                                                                                                                                                                                                                                                                                              |
+ | `release_command` failed with `./scripts/release.sh: 25: set: Illegal option -` (or any `set: Illegal option -<single-char>`). | CRLF in a shell script. `dash` (Debian's `/bin/sh`) rejects `set -e\r` because it treats the `\r` as a flag character. Fix: ensure `scripts/*.sh` are committed with LF endings (enforced by `.gitattributes`), and that `fly.toml`'s `release_command` invokes the script via `bash ./scripts/release.sh` rather than `sh ./scripts/release.sh`. To audit locally: `git ls-files -z 'scripts/*.sh' \| xargs -0 file \| grep CRLF` should return nothing. To repair an in-tree CRLF script: `dos2unix scripts/release.sh && git add scripts/release.sh && git commit -m 'fix: normalize release.sh to LF'`. |
+-| App boots but env-validation throws. | Add the missing secret, redeploy. Boot logs identify the missing var. |
+-| Health endpoint stays red after deploy. | `Fly Logs (operator)` workflow (read-only, `fly-logs.yml`) or `fly logs -a <app>` for the stack trace. If unrelated to schema, roll back the *code* via a revert PR through the gated path; the ungated image route in §3 is emergency-only and its target tag comes from `machines-before.json`. |
+-| Stripe webhooks 400-ing in production. | Verify `STRIPE_WEBHOOK_SECRET` matches the live endpoint. Check Sentry for the rejection reason. |
+-| Coach console hits CORS error. | Check `CORS_ORIGINS` for the exact origin (scheme + host + port). Wildcard is rejected. |
+-| Invite landing page empty. | Verify `PUBLIC_INVITE_BASE_URL`, `APP_STORE_URL`, `PLAY_STORE_URL`, `PUBLIC_WEB_SIGNUP_URL`. Empty values fall through to placeholder defaults baked into `invite-landing.controller.ts`. |
+-| Need to fully roll back a destructive or privilege/RLS migration. | No demonstrated restore route exists (§3 step 4). Ship a reviewed forward reverse migration (S1-owned) and, if the previous image must serve meanwhile, prove caller/schema compatibility explicitly first. |
++| App boots but env-validation throws.                                                                                           | Add the missing secret, redeploy. Boot logs identify the missing var.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
++| Health endpoint stays red after deploy.                                                                                        | `Fly Logs (operator)` workflow (read-only, `fly-logs.yml`) or `fly logs -a <app>` for the stack trace. If unrelated to schema, roll back the _code_ via a revert PR through the gated path; the ungated image route in §3 is emergency-only and its target tag comes from `machines-before.json`.                                                                                                                                                                                                                                                                                                           |
++| Stripe webhooks 400-ing in production.                                                                                         | Verify `STRIPE_WEBHOOK_SECRET` matches the live endpoint. Check Sentry for the rejection reason.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
++| Coach console hits CORS error.                                                                                                 | Check `CORS_ORIGINS` for the exact origin (scheme + host + port). Wildcard is rejected.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
++| Invite landing page empty.                                                                                                     | Verify `PUBLIC_INVITE_BASE_URL`, `APP_STORE_URL`, `PLAY_STORE_URL`, `PUBLIC_WEB_SIGNUP_URL`. Empty values fall through to placeholder defaults baked into `invite-landing.controller.ts`.                                                                                                                                                                                                                                                                                                                                                                                                                   |
++| Need to fully roll back a destructive or privilege/RLS migration.                                                              | No demonstrated restore route exists (§3 step 4). Ship a reviewed forward reverse migration (S1-owned) and, if the previous image must serve meanwhile, prove caller/schema compatibility explicitly first.                                                                                                                                                                                                                                                                                                                                                                                                 |
+ 
+ ### 7.1 Shell script line-ending hazard (release_command)
+ 
+@@ -609,17 +610,17 @@ Workflow name: **Fly Secrets Set (operator)**
+ 
+ What it sets:
+ 
+-| Variable | Source |
+-| --- | --- |
+-| `PUBLIC_INVITE_BASE_URL` | hardcoded — `https://app.trygrowthproject.com/join` |
+-| `PUBLIC_WEB_SIGNUP_URL` | hardcoded — `https://app.trygrowthproject.com/signup` |
+-| `APP_STORE_URL` | hardcoded — `https://app.trygrowthproject.com/download/ios` |
+-| `PLAY_STORE_URL` | hardcoded — `https://app.trygrowthproject.com/download/android` |
+-| `CORS_ORIGINS` | hardcoded — `https://console.trygrowthproject.com` |
+-| `STRIPE_PRICE_ID_FITNESS` | hardcoded — `price_1TQij2DUoC5CCVhSDxe9Bin1` |
+-| `STRIPE_SECRET_KEY` | GitHub Actions secret of the same name |
+-| `STRIPE_WEBHOOK_SECRET` | GitHub Actions secret of the same name |
+-| `SENTRY_DSN` | GitHub Actions secret of the same name |
++| Variable                  | Source                                                          |
++| ------------------------- | --------------------------------------------------------------- |
++| `PUBLIC_INVITE_BASE_URL`  | hardcoded — `https://app.trygrowthproject.com/join`             |
++| `PUBLIC_WEB_SIGNUP_URL`   | hardcoded — `https://app.trygrowthproject.com/signup`           |
++| `APP_STORE_URL`           | hardcoded — `https://app.trygrowthproject.com/download/ios`     |
++| `PLAY_STORE_URL`          | hardcoded — `https://app.trygrowthproject.com/download/android` |
++| `CORS_ORIGINS`            | hardcoded — `https://console.trygrowthproject.com`              |
++| `STRIPE_PRICE_ID_FITNESS` | hardcoded — `price_1TQij2DUoC5CCVhSDxe9Bin1`                    |
++| `STRIPE_SECRET_KEY`       | GitHub Actions secret of the same name                          |
++| `STRIPE_WEBHOOK_SECRET`   | GitHub Actions secret of the same name                          |
++| `SENTRY_DSN`              | GitHub Actions secret of the same name                          |
+ 
+ What it does NOT set: `DATABASE_URL`, `SUPABASE_URL`,
+ `SUPABASE_SERVICE_ROLE_KEY`, `USDA_API_KEY`, `PERPLEXITY_API_KEY`,
+@@ -639,8 +640,8 @@ Prerequisites:
+    - `STRIPE_WEBHOOK_SECRET` — `whsec_…` from the live webhook
+      endpoint in Stripe → Developers → Webhooks.
+    - `SENTRY_DSN` — server DSN from the production Sentry project.
+-   The workflow fails with a list of missing names if any of these
+-   are absent.
++     The workflow fails with a list of missing names if any of these
++     are absent.
+ 
+ To run:
+ 
+@@ -800,7 +801,7 @@ store and in `fly tokens`.
+    environment reviewer must approve before anything reaches Fly.
+ 
+ 4. **Watch the run go green.** The `Verify FLY_API_TOKEN is configured`
+-   step prints the token *length* (not the value) and the deploy
++   step prints the token _length_ (not the value) and the deploy
+    proceeds. If the run still fails red, check the step log for one of:
+ 
+    - `FLY_API_TOKEN GitHub Actions secret is not set` — the secret was
+@@ -841,12 +842,13 @@ We satisfy that requirement by serving durable, server-rendered
+ "trust" pages from this backend at the same `app.trygrowthproject.com`
+ host the invite-landing and download status pages already use.
+ 
+-| Page | URL | Purpose |
+-| --- | --- | --- |
+-| Privacy | `https://app.trygrowthproject.com/privacy` | Plain-language privacy policy. App Store / Play Store privacy URL. |
+-| Terms | `https://app.trygrowthproject.com/terms` | Terms of service. Required by Stripe Customer Portal business info and by app review. |
+-| Security | `https://app.trygrowthproject.com/security` | Practical security posture and incident-reporting channel. |
+-| Status | `https://app.trygrowthproject.com/status` | Honest description of public surface today; replace with a live status feed when monitoring is wired in. |
++| Page                    | URL                                                        | Purpose                                                                                                                                                 |
++| ----------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| Privacy                 | `https://app.trygrowthproject.com/privacy`                 | Plain-language privacy policy. App Store / Play Store privacy URL.                                                                                      |
++| Consumer Health Privacy | `https://app.trygrowthproject.com/consumer-health-privacy` | Consumer Health Data Privacy Policy (Washington My Health My Data Act, RCW 19.373). Must be linked from the App Store / Play Store listing and the app. |
++| Terms                   | `https://app.trygrowthproject.com/terms`                   | Terms of service. Required by Stripe Customer Portal business info and by app review.                                                                   |
++| Security                | `https://app.trygrowthproject.com/security`                | Practical security posture and incident-reporting channel.                                                                                              |
++| Status                  | `https://app.trygrowthproject.com/status`                  | Honest description of public surface today; replace with a live status feed when monitoring is wired in.                                                |
+ 
+ These pages live in `src/public-pages/` next to the existing
+ `/download/*` and `/signup` status pages, and they are excluded from
+@@ -859,6 +861,9 @@ listing:
+ 1. **Privacy URL** — paste `https://app.trygrowthproject.com/privacy`
+    into App Store Connect → App Privacy and into Play Console →
+    Policy → App content → Privacy policy.
++   Also link `https://app.trygrowthproject.com/consumer-health-privacy`
++   from the listing description (RCW 19.373.020 treats the store
++   download page as part of the app's homepage).
+ 2. **Terms / EULA URL** — paste
+    `https://app.trygrowthproject.com/terms`. App Store Connect uses
+    the standard Apple EULA by default; if you want to override it,
+@@ -971,12 +976,12 @@ in May 2026 — production drifted ~25 migrations behind without any
+ deploy turning red. The shell flags now in place make that mode of
+ silent failure structurally impossible.
+ 
+-| Flag | What it catches |
+-|------|-----------------|
+-| `-E` | ERR trap inherited by functions / subshells / `$(...)` |
+-| `-e` | Exit on any unhandled non-zero exit code |
+-| `-u` | Unset variable = error (catches typos in env var names) |
+-| `-o pipefail` | Pipeline exit = first non-zero, not last command |
++| Flag          | What it catches                                         |
++| ------------- | ------------------------------------------------------- |
++| `-E`          | ERR trap inherited by functions / subshells / `$(...)`  |
++| `-e`          | Exit on any unhandled non-zero exit code                |
++| `-u`          | Unset variable = error (catches typos in env var names) |
++| `-o pipefail` | Pipeline exit = first non-zero, not last command        |
+ 
+ If you ever need to "tolerate" a failure (e.g. `migrate status` returning 1
+ when migrations are pending), guard the specific call with `|| true` and
+@@ -1055,9 +1060,9 @@ case Fly's release status is the only signal.
+    Ship a fix-forward migration, or — if the applied change must be
+    reversed — a transactional manual reverse under separate production
+    authorization (`psql "$DIRECT_URL" --single-transaction -v
+-   ON_ERROR_STOP=1 -f <reverse.sql>`), then re-dispatch the current `main`.
++ON_ERROR_STOP=1 -f <reverse.sql>`), then re-dispatch the current `main`.
+    Migration/verifier content is S1-owned.
+-5. If `_prisma_migrations` holds a *failed* row (`finished_at IS NULL`,
++5. If `_prisma_migrations` holds a _failed_ row (`finished_at IS NULL`,
+    `rolled_back_at IS NULL`) for the S1 migration — its DDL ran in one
+    transaction and was rolled back — the operator runs
+    `prisma migrate resolve --rolled-back <name>` against `DIRECT_URL` and
+@@ -1066,7 +1071,7 @@ case Fly's release status is the only signal.
+    failed row unless the catalog has been verified to contain the DDL — it
+    would only fabricate history. This is a deliberate manual step — CI never
+    resolves migrations.
+-5b. After `resolve --rolled-back`, `prisma migrate status` reports
++   5b. After `resolve --rolled-back`, `prisma migrate status` reports
+    "Database schema is up to date" although the migration is not applied
+    (S1S2-B-07). Never read that as done: always re-run the release and let
+    step 4's catalog verifier decide.
+diff --git a/src/main.ts b/src/main.ts
+index a4b39716..202d02df 100644
+--- a/src/main.ts
++++ b/src/main.ts
+@@ -158,11 +158,13 @@ async function bootstrap() {
+       // domain (not under /api). See WellKnownController.
+       '.well-known/apple-app-site-association',
+       '.well-known/assetlinks.json',
+-      // Public trust surface (privacy, terms, security, status). Mounted
++      // Public trust surface (privacy, consumer health privacy, terms,
++      // security, status). Mounted
+       // outside /api so they resolve as bare paths under
+       // app.trygrowthproject.com — that is the URL shape app store
+       // reviewers and early customers expect.
+       'privacy',
++      'consumer-health-privacy',
+       'terms',
+       'security',
+       'status',
+@@ -177,6 +179,7 @@ async function bootstrap() {
+       'help/faq',
+       'help/support',
+       'help/contact',
++      'help/delete-account',
+       // R46 — Public coach landing pages (canonical `/p/...` slug routes) AND
+       // B3 (PR-18) — verified custom-domain apex routes (`GET /`,
+       // `GET /checkout`, `POST /leads`, `POST /view`). Both shapes are pinned
+diff --git a/src/public-pages/README.md b/src/public-pages/README.md
+index 8a0a9cfe..2fc4a5b3 100644
+--- a/src/public-pages/README.md
++++ b/src/public-pages/README.md
+@@ -8,12 +8,20 @@ public host `app.trygrowthproject.com`. Two clusters live here:
+   vars `APP_STORE_URL`, `PLAY_STORE_URL`, and
+   `PUBLIC_WEB_SIGNUP_URL` until the real App Store / Play Store
+   listings and the marketing signup page exist.
+-- **Trust pages** — `/privacy`, `/terms`, `/security`, `/status`.
++- **Trust pages** — `/privacy`, `/consumer-health-privacy`, `/terms`,
++  `/security`, `/status`.
+   Real public pages used as the privacy policy, terms of service,
+   security posture, and operational status URLs filed with the App
+   Store / Play Store, the Stripe Customer Portal, and shared with
+   early customers. See `trust-pages.html.ts` for editorial guard
+   rails.
++- **Account deletion page** — `/help/delete-account` (rendered by
++  `help-pages.html.ts`, public, no login). The web URL filed in Google
++  Play's data-deletion section: app and developer name, the in-app path
++  (mobile #313), the email route for people without the app, what is
++  deleted and kept, and the timings. Linked from the Privacy Policy, the
++  `/help` nav and overview, and the shared policy footer. Ships with
++  backend #608 / mobile #313; pinned by `test/help-delete-account.spec.ts`.
+ 
+ ## Purpose
+ 
+@@ -29,12 +37,12 @@ public host `app.trygrowthproject.com`. Two clusters live here:
+ 
+ ## Key files
+ 
+-| File | What it owns |
+-|---|---|
+-| `public-pages.controller.ts` | `GET /download/ios`, `GET /download/android`, `GET /signup`, `GET /signup/:code`, `GET /privacy`, `GET /terms`, `GET /security`, `GET /status` |
+-| `public-pages.html.ts` | Status-page templates (download / signup), invite-code sanitizer |
+-| `trust-pages.html.ts` | Trust-page templates (privacy / terms / security / status), support email constant |
+-| `public-pages.module.ts` | Wires the controller (no service needed) |
++| File                         | What it owns                                                                                                                                                                   |
++| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
++| `public-pages.controller.ts` | `GET /download/ios`, `GET /download/android`, `GET /signup`, `GET /signup/:code`, `GET /privacy`, `GET /consumer-health-privacy`, `GET /terms`, `GET /security`, `GET /status` |
++| `public-pages.html.ts`       | Status-page templates (download / signup), invite-code sanitizer                                                                                                               |
++| `trust-pages.html.ts`        | Trust-page templates (privacy / consumer health / terms / security / status), support email, policy paths, shared footer links, `safeHref`                                     |
++| `public-pages.module.ts`     | Wires the controller (no service needed)                                                                                                                                       |
+ 
+ ## Routing
+ 
+@@ -48,6 +56,7 @@ app, the URLs resolve as bare paths under the public hostname:
+ - `https://app.trygrowthproject.com/signup?code=GP-A1B2C3`
+ - `https://app.trygrowthproject.com/signup/GP-A1B2C3`
+ - `https://app.trygrowthproject.com/privacy`
++- `https://app.trygrowthproject.com/consumer-health-privacy`
+ - `https://app.trygrowthproject.com/terms`
+ - `https://app.trygrowthproject.com/security`
+ - `https://app.trygrowthproject.com/status`
+@@ -69,10 +78,10 @@ page or a `mailto:` subject.
+ ## Caching
+ 
+ - `/signup/:code` and `/signup?code=…` send `Cache-Control: no-store,
+-  max-age=0`. The personalized variant must not land in a shared
++max-age=0`. The personalized variant must not land in a shared
+   cache.
+ - Bare `/signup`, `/download/ios`, `/download/android`: `public,
+-  max-age=300`. Five minutes is short enough that operator-driven
++max-age=300`. Five minutes is short enough that operator-driven
+   copy changes propagate quickly and long enough to absorb a viral
+   invite link.
+ 
+@@ -110,11 +119,45 @@ swap over without a code change.
+ 
+ ## Trust pages
+ 
+-`/privacy`, `/terms`, `/security`, `/status` are real public pages
+-used as the privacy policy, terms of service, security posture, and
++`/privacy`, `/consumer-health-privacy`, `/terms`, `/security`,
++`/status` are real public pages used as the privacy policy, consumer
++health data privacy policy, terms of service, security posture, and
+ operational status URLs filed with the App Store, the Play Store, and
+ the Stripe Customer Portal. They live in `trust-pages.html.ts`.
+ 
++### Policy accuracy rules (2026-09-30 rewrite)
++
++- `/privacy` and `/consumer-health-privacy` describe only behaviour the
++  app and backend ship. Features behind a default-off flag are written
++  as "if enabled". Every vendor named is one the code calls (Supabase,
++  Fly.io, Stripe, Anthropic, Perplexity, PostHog, Sentry, Crisp, Resend,
++  Expo push, Apple / Google sign-in, Apple Health / Health Connect,
++  USDA FoodData Central, Open Food Facts). Adding a vendor that receives
++  personal data means updating both pages.
++- `/consumer-health-privacy` follows RCW 19.373.020 (categories,
++  purposes, sources, shared categories, recipients, affiliates, how to
++  exercise rights) and RCW 19.373.040 (confirm/access, recipient list,
++  withdraw consent, delete incl. processors and backups within six
++  months, 45-day response with one 45-day extension, free twice a year,
++  appeal within 45 days, Attorney General complaint link).
++- The consumer health policy must stay one click from every public
++  page: it is in the trust-page header nav, and `policyFooterLinks()`
++  puts it in the footer of every trust, help, signup and download page.
++  The mobile Trust Center links to the same path.
++- Roman copy must match the owner rulings and the D2 two-box consent
++  (owner-approved 2026-10-01 09:07 PDT): box 1 (required) is the
++  personal-training waiver plus collection and use for coaching
++  (`consult-consent-v2`); box 2 (optional, unticked) is Roman and coach
++  AI drafts processed by Anthropic (AI consent ledger, `client-ai-v3`),
++  withdrawn in Settings > Privacy > Roman and AI; stopping all
++  collection is Settings > Account > Delete account. Also: private from
++  coaches, staff access only for support / safety / debugging, 180-day
++  retention, client delete. The consumer health "Consent" section is
++  the approved text byte for byte (pinned in `test/trust-pages.spec.ts`).
++- The clinic partner is never named. Copy says "clinic partner".
++- Section links go through `safeHref()`: site-relative paths, `mailto:`
++  and `https:` only; anything else renders as `#`.
++
+ Editorial guard rails (see `test/trust-pages.spec.ts`):
+ 
+ - The official support contact (`Bradley@Bradleytgpcoaching.com`,
+@@ -140,10 +183,10 @@ public launch outside an invite-only beta.
+ 
+ ## Tests
+ 
+-| File | Covers |
+-|---|---|
+-| `test/public-pages.spec.ts` | Render shape, code sanitizer, cache headers, route mounting under bare paths |
+-| `test/trust-pages.spec.ts` | Privacy / terms / security / status render shape, key copy, no fake certifications, no AI fingerprints |
++| File                        | Covers                                                                                                                                                                                                                                                                     |
++| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| `test/public-pages.spec.ts` | Render shape, code sanitizer, cache headers, route mounting under bare paths                                                                                                                                                                                               |
++| `test/trust-pages.spec.ts`  | Privacy / consumer health / terms / security / status render shape, key copy, RCW 19.373 disclosures and rights, vendor list, Roman disclosures, 16+, footer links on help/signup/download pages, HTML escaping and `safeHref`, no fake certifications, no AI fingerprints |
+ 
+ ## Operational notes
+ 
+diff --git a/src/public-pages/help-pages.html.ts b/src/public-pages/help-pages.html.ts
+index e97101f8..f6781223 100644
+--- a/src/public-pages/help-pages.html.ts
++++ b/src/public-pages/help-pages.html.ts
+@@ -1,5 +1,6 @@
+ // Durable, server-rendered self-serve help surface: /help, /help/setup,
+-// /help/first-client, /help/tour, /help/faq, /help/support, /help/contact.
++// /help/first-client, /help/tour, /help/faq, /help/support, /help/contact,
++// /help/delete-account (public account-deletion page for Google Play).
+ //
+ // These pages are the public, no-vendor coach-facing help destination.
+ // Content is sourced from docs/help/*.md (PR #101) and rendered as static
+@@ -22,7 +23,15 @@
+ // Mounted outside the /api prefix in main.ts so they resolve as bare paths
+ // under the public hostname.
+ 
+-import { SUPPORT_EMAIL } from './trust-pages.html';
++import {
++  ACCOUNT_DELETION_EMAIL,
++  CONSUMER_HEALTH_POLICY_PATH,
++  DELETE_ACCOUNT_HELP_PATH,
++  PRIVACY_POLICY_PATH,
++  SUPPORT_EMAIL,
++  policyFooterLinks,
++  safeHref,
++} from './trust-pages.html';
+ 
+ // Re-export for tests and any future caller that expects to find the
+ // support address on the help module.
+@@ -41,18 +50,26 @@ const INVITE_BASE_URL = 'https://app.trygrowthproject.com/join';
+ const STATUS_URL = 'https://app.trygrowthproject.com/status';
+ 
+ export type HelpPage =
+-  | 'index'
+-  | 'setup'
+-  | 'first-client'
+-  | 'tour'
+-  | 'faq'
+-  | 'support'
+-  | 'contact';
++  'index' | 'setup' | 'first-client' | 'tour' | 'faq' | 'support' | 'contact' | 'delete-account';
++
++// App name (operator, 2026-10-01) and developer name for the Google Play
++// listing; the account-deletion page must name both (Play "Data deletion").
++// The developer name is the company name the policies use; the owner must
++// confirm it matches the Play Console developer name exactly.
++export const PLAY_APP_NAME = 'TGP Fitness';
++export const PLAY_DEVELOPER_NAME = 'The Growth Project';
++
++// Subject line we ask people to use for an emailed deletion request.
++export const DELETION_EMAIL_SUBJECT = 'Delete my account';
+ 
+ interface RenderedSection {
+   heading: string;
+   paragraphs: string[];
+   bullets?: string[];
++  // Optional paragraphs rendered after the bullets.
++  closing?: string[];
++  // Optional links rendered last (site-relative, mailto: or https: only).
++  links?: ReadonlyArray<{ label: string; href: string }>;
+ }
+ 
+ interface QAndA {
+@@ -94,6 +111,7 @@ const NAV_ENTRIES: ReadonlyArray<{ slug: HelpPage; label: string; path: string }
+   { slug: 'faq', label: 'FAQ', path: '/help/faq' },
+   { slug: 'support', label: 'Support', path: '/help/support' },
+   { slug: 'contact', label: 'Contact', path: '/help/contact' },
++  { slug: 'delete-account', label: 'Delete account', path: DELETE_ACCOUNT_HELP_PATH },
+ ];
+ 
+ function indexContent(): HelpPageContent {
+@@ -127,6 +145,13 @@ function indexContent(): HelpPageContent {
+           'Contact support — what to include in a message so the first reply is the useful one.',
+         ],
+       },
++      {
++        heading: 'Your account',
++        paragraphs: [
++          'Delete account explains how to delete your account and data, in the app or by email without the app, what we delete, what we keep and how long it takes.',
++        ],
++        links: [{ label: 'Delete your account', href: DELETE_ACCOUNT_HELP_PATH }],
++      },
+       {
+         heading: 'How this content is maintained',
+         paragraphs: [
+@@ -153,9 +178,7 @@ function setupContent(): HelpPageContent {
+       },
+       {
+         heading: '2. Complete your coach profile',
+-        paragraphs: [
+-          'In the console, open Settings → Profile and fill in:',
+-        ],
++        paragraphs: ['In the console, open Settings → Profile and fill in:'],
+         bullets: [
+           'Display name (this is what clients see).',
+           'A one-paragraph bio (two to four sentences is enough).',
+@@ -337,8 +360,7 @@ function faqContent(): HelpPageContent {
+               'Promotion to coach is manual at sign-up. Reply to your welcome email and we will promote it within one business day.',
+           },
+           {
+-            question:
+-              'I signed in with the wrong provider — can I switch from Google to Apple?',
++            question: 'I signed in with the wrong provider — can I switch from Google to Apple?',
+             answer:
+               'The provider is part of your identity in our system, so the two sign-ins map to two separate accounts. If you signed up with the wrong one, write in via the Contact page and we will merge the accounts.',
+           },
+@@ -383,8 +405,7 @@ function faqContent(): HelpPageContent {
+           },
+           {
+             question: 'Can I schedule a message to send later?',
+-            answer:
+-              'Not yet. You can save a draft and send it manually when ready.',
++            answer: 'Not yet. You can save a draft and send it manually when ready.',
+           },
+           {
+             question: 'Are messages encrypted?',
+@@ -540,8 +561,7 @@ function contactContent(): HelpPageContent {
+           name: 'category',
+           type: 'enum',
+           required: 'yes',
+-          notes:
+-            'One of: outage, billing, client_signup, data, security, account_merge, other.',
++          notes: 'One of: outage, billing, client_signup, data, security, account_merge, other.',
+         },
+         {
+           name: 'subject',
+@@ -565,8 +585,7 @@ function contactContent(): HelpPageContent {
+           name: 'attachments',
+           type: 'file[]',
+           required: 'no',
+-          notes:
+-            'Up to 5 files, 10 MB each. Images, PDFs, plain text only.',
++          notes: 'Up to 5 files, 10 MB each. Images, PDFs, plain text only.',
+         },
+         {
+           name: 'console_url',
+@@ -578,8 +597,7 @@ function contactContent(): HelpPageContent {
+           name: 'user_agent',
+           type: 'string',
+           required: 'no',
+-          notes:
+-            'Auto-filled by the form, useful for browser-specific issues.',
++          notes: 'Auto-filled by the form, useful for browser-specific issues.',
+         },
+         {
+           name: 'ts_iso',
+@@ -611,6 +629,115 @@ function contactContent(): HelpPageContent {
+   };
+ }
+ 
++// ---------------------------------------------------------------------------
++// /help/delete-account — Google Play account-deletion page.
++//
++// Public, no login. Every fact here comes from code or the published policy:
++//  - In-app path: growth-project-mobile #313 (client: profile tab > Settings >
++//    Data & Privacy > Delete my account; coach: Settings tab > Privacy & Data >
++//    Delete my account; DeleteAccountScreen re-auth and "Keep my account").
++//  - 14-day grace + nightly finalization within a day: backend #608
++//    src/account-deletion/account-deletion.service.ts (graceDays default 14,
++//    FINALIZE_WINDOW_MS one day); admin force-delete has no grace period.
++//  - Deleted vs kept: #608 account-deletion.manifest.ts / README "Operator
++//    policy" and #313 PERMANENTLY_DELETED / KEPT_RECORDS / BILLING_NOTE.
++//  - Roman 180 days, backups six months, 30-day reply, 45 days for consumer
++//    health data: the Privacy Policy and Consumer Health Data Privacy Policy
++//    (./trust-pages.html.ts).
++// Ships with #608/#313: do not publish before that behaviour is live.
++// ---------------------------------------------------------------------------
++function deleteAccountContent(): HelpPageContent {
++  return {
++    title: `Delete your ${PLAY_APP_NAME} account — ${PLAY_DEVELOPER_NAME}`,
++    headline: 'Delete your account',
++    intro:
++      `How to delete your ${PLAY_APP_NAME} account and the data linked to it, ` +
++      'in the app or by email if you no longer have the app. ' +
++      `${PLAY_APP_NAME} is made by ${PLAY_DEVELOPER_NAME}.`,
++    sections: [
++      {
++        heading: 'Delete your account in the app',
++        paragraphs: [
++          'You can delete your account yourself in the app. You do not need to email us.',
++        ],
++        bullets: [
++          'If you are a client: open the profile tab (the person icon in the bottom bar), tap Settings, then under Data & Privacy tap Delete my account.',
++          'If you are a coach: open the Settings tab, then under Privacy & Data tap Delete my account.',
++          'Read what will be deleted and what we keep, type DELETE or your account email, then confirm it is you with your password, Sign in with Apple or Google, whichever you use to sign in.',
++          'Your deletion is scheduled straight away and the app shows the date it becomes permanent. Until then you can open the same screen and tap Keep my account to cancel it.',
++        ],
++        closing: [
++          'If you used Sign in with Apple, you can also remove the app from your Apple ID: on your iPhone open Settings, tap your name, then Sign-In & Security, then Sign in with Apple, choose the app and stop using it with your Apple ID.',
++        ],
++      },
++      {
++        heading: 'Ask us by email if you do not have the app',
++        paragraphs: [
++          `Email ${ACCOUNT_DELETION_EMAIL} with the subject line “${DELETION_EMAIL_SUBJECT}”. So we can confirm the account is yours:`,
++        ],
++        bullets: [
++          'Send it from the email address you use to sign in to the app.',
++          'Include the name on the account and say whether you are a client or a coach.',
++          'If you can no longer send from that address, tell us which address the account uses. We will email that address and delete nothing until you reply from it to confirm.',
++          'We will never ask for your password, a card number or a sign-in code. Do not send them.',
++        ],
++        closing: [
++          'You can also ask us to delete only some of your health data instead of your whole account. Say which data in the same email.',
++          'Once we have confirmed the account is yours, we delete it straight away. There is no 14-day grace period for a deletion we carry out at your request, so it cannot be cancelled.',
++        ],
++        links: [
++          {
++            label: `Email ${ACCOUNT_DELETION_EMAIL}`,
++            href: `mailto:${ACCOUNT_DELETION_EMAIL}?subject=${encodeURIComponent(DELETION_EMAIL_SUBJECT)}`,
++          },
++        ],
++      },
++      {
++        heading: 'What we delete',
++        paragraphs: ['When the deletion completes, we permanently delete or irreversibly scrub:'],
++        bullets: [
++          'Your sign-in account, name, email address and phone number',
++          'Your profile, body measurements and consultation answers',
++          'Food, water, fasting, weight and workout logs, check-ins and habits',
++          'Health and activity data synced from Apple Health or connected devices, and bloodwork you entered, including uploaded files',
++          'Your conversations with Roman, the AI assistant',
++          'Your messages, community posts, comments, direct messages, voice notes and reactions',
++          'Coach media, notes and briefs, if you coach',
++          'Your targets, recipes, lists and preferences',
++          'Notification settings and push notification tokens',
++        ],
++        closing: [
++          'Any subscription or payment plan you have, as a client or as a coach, is cancelled when the deletion completes, and scheduled reminders and emails stop. Until then it stays active.',
++        ],
++      },
++      {
++        heading: 'What we keep, and for how long',
++        paragraphs: [],
++        bullets: [
++          'Payment and tax records held by Stripe, our payment processor, for as long as the law requires. Our own copies keep only amounts, dates and payment references, with no name or contact details.',
++          'One deletion record with a random reference, the date and the result. It holds no name, email or account details.',
++          'If you coach: your clients are not deleted. They keep their own data and the plans you assigned them, without your contact details, and see that their coach is no longer available.',
++          'Backups: our providers overwrite backups on a rolling schedule, and no copy is kept more than six months after a confirmed deletion request.',
++          'Security and audit logs: as long as needed to protect the service and meet legal duties.',
++        ],
++      },
++      {
++        heading: 'How long it takes',
++        paragraphs: [],
++        bullets: [
++          'In the app: a 14-day grace period starts when you confirm. When it ends, your data is deleted within one day, and the app shows the date.',
++          'By email: we reply within 30 days of receiving your request. Requests about consumer health data under Washington law are answered within 45 days, as our Consumer Health Data Privacy Policy explains.',
++          'Roman conversations: while your account is open, each message is deleted automatically 180 days after it is sent. When your account is deleted, they are deleted with it.',
++        ],
++        links: [
++          { label: 'Privacy Policy', href: PRIVACY_POLICY_PATH },
++          { label: 'Consumer Health Data Privacy Policy', href: CONSUMER_HEALTH_POLICY_PATH },
++        ],
++      },
++    ],
++  };
++}
++
+ export function renderHelpPage(page: HelpPage): string {
+   const content =
+     page === 'index'
+@@ -625,7 +752,9 @@ export function renderHelpPage(page: HelpPage): string {
+               ? faqContent()
+               : page === 'support'
+                 ? supportContent()
+-                : contactContent();
++                : page === 'contact'
++                  ? contactContent()
++                  : deleteAccountContent();
+   return baseDocument(page, content);
+ }
+ 
+@@ -641,9 +770,7 @@ function baseDocument(active: HelpPage, c: HelpPageContent): string {
+   const qaSections = (c.qaSections ?? []).map(renderQASection).join('\n');
+   const checklist = c.checklist ? renderChecklist(c.checklist) : '';
+   const intakeTable = c.intakeTable ? renderIntakeTable(c.intakeTable) : '';
+-  const footnote = c.footnote
+-    ? `\n  <p class="footnote">${escapeHtml(c.footnote)}</p>`
+-    : '';
++  const footnote = c.footnote ? `\n  <p class="footnote">${escapeHtml(c.footnote)}</p>` : '';
+ 
+   const nav = NAV_ENTRIES.map((entry) => {
+     const cls = entry.slug === active ? 'nav-link active' : 'nav-link';
+@@ -681,6 +808,7 @@ function baseDocument(active: HelpPage, c: HelpPageContent): string {
+   section p { font-size: 16px; line-height: 1.6; margin: 0 0 12px 0; color: #3A332B; }
+   section ul { margin: 0 0 12px 0; padding: 0 0 0 20px; }
+   section li { font-size: 16px; line-height: 1.6; margin: 0 0 6px 0; color: #3A332B; }
++  section p.links a { color: #1F1B16; text-decoration: underline; }
+   table.intake { border-collapse: collapse; width: 100%; margin: 0 0 12px 0; font-size: 14px; }
+   table.intake th, table.intake td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #E8E1D4; vertical-align: top; color: #3A332B; }
+   table.intake th { font-weight: 600; color: #1F1B16; background: #F4EFE6; }
+@@ -701,6 +829,7 @@ function baseDocument(active: HelpPage, c: HelpPageContent): string {
+ ${body}${footnote}
+   <footer class="brand-footer">
+     <span>The Growth Project</span>
++    <span>${policyFooterLinks()}</span>
+     <span><a href="${supportEmailHref}">${supportEmail}</a></span>
+   </footer>
+ </main>
+@@ -710,28 +839,32 @@ ${body}${footnote}
+ 
+ function renderSection(s: RenderedSection): string {
+   const heading = escapeHtml(s.heading);
+-  const paragraphs = s.paragraphs
+-    .map((p) => `    <p>${escapeHtml(p)}</p>`)
+-    .join('\n');
++  const paragraphs = s.paragraphs.map((p) => `    <p>${escapeHtml(p)}</p>`).join('\n');
+   const bullets =
+     s.bullets && s.bullets.length > 0
+       ? '\n    <ul>\n' +
+         s.bullets.map((b) => `      <li>${escapeHtml(b)}</li>`).join('\n') +
+         '\n    </ul>'
+       : '';
++  const closing = (s.closing ?? []).map((p) => `\n    <p>${escapeHtml(p)}</p>`).join('');
++  const links =
++    s.links && s.links.length > 0
++      ? '\n    <p class="links">' +
++        s.links
++          .map((l) => `<a href="${escapeAttr(safeHref(l.href))}">${escapeHtml(l.label)}</a>`)
++          .join(' · ') +
++        '</p>'
++      : '';
+   return `  <section>
+     <h2>${heading}</h2>
+-${paragraphs}${bullets}
++${paragraphs}${bullets}${closing}${links}
+   </section>`;
+ }
+ 
+ function renderQASection(s: RenderedQASection): string {
+   const heading = escapeHtml(s.heading);
+   const items = s.items
+-    .map(
+-      (qa) =>
+-        `    <h3>${escapeHtml(qa.question)}</h3>\n    <p>${escapeHtml(qa.answer)}</p>`,
+-    )
++    .map((qa) => `    <h3>${escapeHtml(qa.question)}</h3>\n    <p>${escapeHtml(qa.answer)}</p>`)
+     .join('\n');
+   return `  <section>
+     <h2>${heading}</h2>
+@@ -741,9 +874,7 @@ ${items}
+ 
+ function renderChecklist(c: { heading: string; bullets: string[] }): string {
+   const heading = escapeHtml(c.heading);
+-  const bullets = c.bullets
+-    .map((b) => `      <li>${escapeHtml(b)}</li>`)
+-    .join('\n');
++  const bullets = c.bullets.map((b) => `      <li>${escapeHtml(b)}</li>`).join('\n');
+   return `  <section>
+     <h2>${heading}</h2>
+     <ul>
+@@ -752,11 +883,7 @@ ${bullets}
+   </section>`;
+ }
+ 
+-function renderIntakeTable(t: {
+-  heading: string;
+-  intro: string;
+-  fields: ContactField[];
+-}): string {
++function renderIntakeTable(t: { heading: string; intro: string; fields: ContactField[] }): string {
+   const heading = escapeHtml(t.heading);
+   const intro = escapeHtml(t.intro);
+   const rows = t.fields
+diff --git a/src/public-pages/public-pages.controller.ts b/src/public-pages/public-pages.controller.ts
+index e4141b71..6ea1d165 100644
+--- a/src/public-pages/public-pages.controller.ts
++++ b/src/public-pages/public-pages.controller.ts
+@@ -99,6 +99,16 @@ export class PublicPagesController {
+     return this.sendTrust(res, renderTrustPage('privacy'));
+   }
+ 
++  // Consumer Health Data Privacy Policy (Washington My Health My Data Act,
++  // RCW 19.373.020). Linked from every trust, help, signup and download page
++  // and from the mobile Trust Center.
++  @Public()
++  @Get('consumer-health-privacy')
++  @Throttle({ default: { ttl: 60000, limit: 60 } })
++  consumerHealthPrivacy(@Res() res: Response) {
++    return this.sendTrust(res, renderTrustPage('consumer-health'));
++  }
++
+   @Public()
+   @Get('terms')
+   @Throttle({ default: { ttl: 60000, limit: 60 } })
+@@ -174,6 +184,15 @@ export class PublicPagesController {
+     return this.sendHelp(res, 'contact');
+   }
+ 
++  // Google Play account-deletion page: public, no login, so a person can ask
++  // for deletion without installing the app.
++  @Public()
++  @Get('help/delete-account')
++  @Throttle({ default: { ttl: 60000, limit: 60 } })
++  helpDeleteAccount(@Res() res: Response) {
++    return this.sendHelp(res, 'delete-account');
++  }
++
+   private send(res: Response, html: string) {
+     res.setHeader('Content-Type', 'text/html; charset=utf-8');
+     res.setHeader('Cache-Control', 'public, max-age=300');
+diff --git a/src/public-pages/public-pages.html.ts b/src/public-pages/public-pages.html.ts
+index 604bbdc2..e2884c91 100644
+--- a/src/public-pages/public-pages.html.ts
++++ b/src/public-pages/public-pages.html.ts
+@@ -1,3 +1,5 @@
++import { policyFooterLinks } from './trust-pages.html';
++
+ export type DownloadPlatform = 'ios' | 'android';
+ 
+ // Quiet-luxury, mobile-first HTML. Mirrors the aesthetic of the invite
+@@ -86,9 +88,7 @@ export function renderSignupPage(inviteCode?: string | null): string {
+         'If you run into trouble, email us with the code below and we will ' +
+         'help you finish setup.',
+       cta_label: 'Email us',
+-      cta_href:
+-        `mailto:${SUPPORT_EMAIL}` +
+-        `?subject=${encodeURIComponent('Invite ' + code)}`,
++      cta_href: `mailto:${SUPPORT_EMAIL}` + `?subject=${encodeURIComponent('Invite ' + code)}`,
+       invite_code: code,
+     });
+   }
+@@ -138,6 +138,7 @@ function baseDocument(p: PageContent): string {
+   a.cta { display: inline-block; padding: 14px 22px; border-radius: 999px; background: #1F1B16; color: #FBF8F3; text-decoration: none; font-weight: 500; font-size: 15px; }
+   a.cta:hover { background: #3A332B; }
+   footer { margin-top: 40px; font-size: 13px; color: #8A7F6E; }
++  footer a { color: #8A7F6E; text-decoration: underline; }
+ </style>
+ </head>
+ <body>
+@@ -145,7 +146,7 @@ function baseDocument(p: PageContent): string {
+   <h1>${headline}</h1>
+   <p>${body}</p>${codeBlock}
+   <a class="cta" href="${ctaHref}">${ctaLabel}</a>
+-  <footer>The Growth Project</footer>
++  <footer>The Growth Project · ${policyFooterLinks()}</footer>
+ </main>
+ </body>
+ </html>`;
+diff --git a/src/public-pages/trust-pages.html.ts b/src/public-pages/trust-pages.html.ts
+index 10745a70..04cb66da 100644
+--- a/src/public-pages/trust-pages.html.ts
++++ b/src/public-pages/trust-pages.html.ts
+@@ -1,5 +1,5 @@
+-// Durable, server-rendered "trust" pages: /privacy, /terms, /security,
+-// /status. These exist as the public surface that app store reviewers and
++// Durable, server-rendered "trust" pages: /privacy,
++// /consumer-health-privacy, /terms, /security, /status. These exist as the public surface that app store reviewers and
+ // early customers expect to find at a real product domain. They share the
+ // quiet-luxury aesthetic of the invite landing and download pages so the
+ // public surface (https://app.trygrowthproject.com/...) reads as one
+@@ -30,9 +30,45 @@ export const SUPPORT_EMAIL = 'Bradley@Bradleytgpcoaching.com';
+ 
+ // Last-reviewed date for the policy text. Bump when copy changes.
+ // Format ISO-8601 (UTC) so it sorts and renders consistently.
+-export const POLICY_LAST_REVIEWED = '2026-04-27';
++export const POLICY_LAST_REVIEWED = '2026-10-01';
+ 
+-export type TrustPage = 'privacy' | 'terms' | 'security' | 'status';
++// Public paths of the two privacy documents. The mobile app links to the
++// same paths (growth-project-mobile src/config/env.ts), so keep them stable.
++export const PRIVACY_POLICY_PATH = '/privacy';
++export const CONSUMER_HEALTH_POLICY_PATH = '/consumer-health-privacy';
++
++// Public account-deletion page (Google Play: a web URL where anyone can ask
++// for account and data deletion without installing the app). Linked from the
++// Privacy Policy, the /help nav and the shared policy footer.
++export const DELETE_ACCOUNT_HELP_PATH = '/help/delete-account';
++
++// Mailbox for deletion requests from people who cannot use the app, as set
++// by the operator for the Google Play deletion page (2026-10-01 15:30 PT).
++export const ACCOUNT_DELETION_EMAIL = 'Bradleyapple1031@gmail.com';
++
++export type TrustPage = 'privacy' | 'consumer-health' | 'terms' | 'security' | 'status';
++
++// Order and labels of the header nav. Every trust page links to every other
++// one, and the consumer health policy is always one click away (RCW
++// 19.373.020 requires a prominent link).
++const TRUST_NAV: ReadonlyArray<{ page: TrustPage; href: string; label: string }> = [
++  { page: 'privacy', href: PRIVACY_POLICY_PATH, label: 'Privacy' },
++  {
++    page: 'consumer-health',
++    href: CONSUMER_HEALTH_POLICY_PATH,
++    label: 'Consumer Health Privacy',
++  },
++  { page: 'terms', href: '/terms', label: 'Terms' },
++  { page: 'security', href: '/security', label: 'Security' },
++  { page: 'status', href: '/status', label: 'Status' },
++];
++
++interface RenderedLink {
++  label: string;
++  // Site-relative path ("/privacy") or mailto:/https: URL. Anything else is
++  // rendered as "#" by safeHref().
++  href: string;
++}
+ 
+ interface RenderedSection {
+   heading: string;
+@@ -40,6 +76,10 @@ interface RenderedSection {
+   paragraphs: string[];
+   // Optional bulleted list rendered after the paragraphs.
+   bullets?: string[];
++  // Optional paragraphs rendered after the bullets.
++  closing?: string[];
++  // Optional links rendered last.
++  links?: RenderedLink[];
+ }
+ 
+ interface TrustPageContent {
+@@ -51,75 +91,345 @@ interface TrustPageContent {
+   footnote?: string;
+ }
+ 
++// ---------------------------------------------------------------------------
++// Privacy Policy (/privacy)
++//
++// Accuracy rules for this copy (see README "Trust pages"):
++//  - Describe only behaviour that ships in the app and backend. Features that
++//    stay behind a default-off flag are described with "if enabled".
++//  - Name every vendor that receives personal data, and only vendors that the
++//    code actually calls.
++//  - Never name the clinic partner. Say "clinic partner".
++// ---------------------------------------------------------------------------
+ function privacyContent(): TrustPageContent {
+   return {
+     title: 'Privacy Policy — The Growth Project',
+     headline: 'Privacy Policy',
+     intro:
+-      'The Growth Project (“we”, “us”) provides coaching software used by ' +
+-      'independent coaches and the people they coach. This page describes, ' +
+-      'in plain terms, what personal data we collect, why we collect it, ' +
+-      'and the choices you have. It is written as company policy and is ' +
+-      'intended to be reviewed by counsel before any public launch outside ' +
+-      'an invite-only beta.',
++      'The Growth Project (“TGP”, “we”, “us”) provides personal-training ' +
++      'software used by independent coaches and the people they coach, ' +
++      'including Roman, an AI assistant inside the app. This policy explains ' +
++      'what personal data we collect, where it comes from, why we use it, who ' +
++      'receives it, how long we keep it and the choices you have. It describes ' +
++      'the app as it works today; features that are switched on only for some ' +
++      'accounts are marked “if enabled”. It is a company-drafted statement of ' +
++      'practice, and counsel review is recommended.',
+     sections: [
+       {
+-        heading: 'What we collect',
++        heading: 'Personal training only',
+         paragraphs: [
+-          'We collect the minimum data required to operate the product:',
++          'TGP is a personal-training service. It is not a medical service, it does not diagnose or treat any condition, and nothing in the app, from Roman or from your coach is medical advice. We collect health and fitness information only to deliver personal training that you ask for.',
+         ],
++      },
++      {
++        heading: 'Consumer health data',
++        paragraphs: [
++          'Much of what you share with TGP is health information, for example your consultation answers, body measurements, food logs, sleep and heart-rate data. Our Consumer Health Data Privacy Policy describes that data, who receives it and how to exercise your rights over it, including the rights of Washington residents under the My Health My Data Act (RCW 19.373).',
++        ],
++        links: [
++          {
++            label: 'Read the Consumer Health Data Privacy Policy',
++            href: CONSUMER_HEALTH_POLICY_PATH,
++          },
++        ],
++      },
++      {
++        heading: 'What we collect',
++        paragraphs: ['Depending on how you use TGP, we collect:'],
+         bullets: [
+-          'Account data — your email address, display name, and the coach who invited you.',
+-          'Coaching data — check-ins, habits, weight, food and water logs, workouts, and messages you send to your coach.',
+-          'Device and usage data — basic logs (IP address, user-agent, request timestamps) and product analytics events used to improve the app.',
+-          'Billing data — handled by Stripe on our behalf; we store only the subscription identifiers needed to provision access. We do not store full card numbers.',
++          'Account and contact details — your name, email address (an Apple private relay address if you choose Hide My Email with Sign in with Apple), optional phone number, account role (client or coach), the invite code you used and the coach you are connected to. Passwords are handled by our authentication provider and are never stored in plain text.',
++          'Identifiers — your TGP account ID, sign-in identifiers from Supabase, Apple or Google, and your device’s push-notification token.',
++          'Consultation answers — your goal and why it matters, the sex used for nutrition formulas, date of birth, height, weight and goal weight, activity level, sleep, training experience and preferences, injuries, session length, training days and time, where you train and your equipment, how you eat, foods you avoid, meals per day, tracking history and what gets in the way, and your answers to the readiness questions (heart condition, chest pain, dizziness, bone or joint problems, medication, pregnancy or another reason) with any notes you add. We also store what we work out from them: your calorie and macro targets and the training plan you are assigned. Earlier versions of your answers are kept while your account exists.',
++          'Coaching logs — meals and foods you log, macros, water, fasting, workouts (exercises, sets, reps, load and duration), check-ins (mood, energy, sleep and notes), habits, weight and progress entries.',
++          'Apple Health or Health Connect data, only if you connect it — steps, active energy, heart rate, resting heart rate, heart-rate variability, VO2 max, workouts and distance, weight, body fat, blood pressure, sleep, blood-oxygen saturation, respiratory rate and body temperature, with the source, time and time zone of each reading. Apple Health is on iPhone; Health Connect is on Android. The app reads this data with your permission and sends it to our servers so you and your coach can see it; it does not write data back to Apple Health or Health Connect.',
++          'Messages and community content — messages with your coach; posts, comments and reactions in the community spaces your coach runs, your space memberships and when you joined them; direct messages and voice notes if enabled; and reports and blocks you make.',
++          'Roman conversations — what you write to Roman and Roman’s replies.',
++          'Payments — card details are entered into Stripe’s checkout and are collected by Stripe. We receive and store payment status, amounts, currency, the package or subscription purchased, refunds, invoices, billing email, and your card brand, last four digits and expiry month. For coaches we also store Stripe payout status and amounts, the bank name and last four digits of the payout account, and AI-credit balances and spending. We never receive or store full card or bank account numbers.',
++          'Support — conversations in in-app support chat (provided by Crisp) together with your name, email, role, plan and account workspace, and emails you send us.',
++          'Device, usage and diagnostic data — IP address, browser or device type, app version, request times and security logs; product analytics events and screen views linked to your account ID; and crash and performance reports that include your account ID and email address.',
++          'Food searches — the words you search for when logging food.',
+         ],
+       },
++      {
++        heading: 'Where it comes from',
++        bullets: [
++          'You, when you sign up, complete the consultation, log, message, post or contact support.',
++          'Your phone’s Apple Health or Health Connect store, only after you grant permission in the app.',
++          'Your coach, who sets your plan and targets and writes to you.',
++          'Our own systems and Roman, which calculate targets, generate plans and replies, and record how the app is used.',
++          'Apple or Google, when you sign in with them, and Stripe, which tells us whether a payment succeeded.',
++          'Other members, when they reply to you or mention you in a community space.',
++        ],
++        paragraphs: [],
++      },
+       {
+         heading: 'How we use it',
+-        paragraphs: [
+-          'We use your data to operate the coaching experience: to render your dashboards, to deliver messages between you and your coach, to compute reminders and nudges, and to keep the service secure and reliable. We do not sell personal data, and we do not use coaching content to train third-party AI models.',
++        bullets: [
++          'To run your personal training: build your plan and targets, show your progress, and let you and your coach work together.',
++          'To power Roman and your coach’s AI drafts about you, after you agree (see “Roman and AI” below).',
++          'To send the messages you expect: account emails, reminders and push notifications.',
++          'To provide support, keep the service safe and secure, prevent abuse, moderate the community and fix problems.',
++          'To understand, in aggregate, which parts of the app work and which do not.',
++          'To process payments and coach payouts, and to meet legal, tax and accounting duties.',
++        ],
++        paragraphs: [],
++        closing: [
++          'We do not sell personal data. We do not use health data for advertising or marketing, we do not show third-party ads, and we do not track you across other companies’ apps or websites. We do not use your data to train AI models.',
+         ],
+       },
+       {
+-        heading: 'AI features',
++        heading: 'Who can see your data',
++        bullets: [
++          'You.',
++          'Your coach, and any coach on their team who is assigned to you: your profile, consultation answers including readiness answers, targets and plan, logs, check-ins, connected health data and your messages with them. If any readiness answer is yes, your coach is told so they can adjust your training.',
++          'Members of a community space you belong to: what you post, comment or react there, and your name. Coaches can sort the members of their spaces by when they joined.',
++          'Roman conversations are not visible to your coach, assistant coaches or any coach-facing screen. They are stored securely; TGP staff can access them only for support, safety and debugging.',
++          'TGP staff, only when needed to provide support, keep people safe, fix problems, secure the service or meet a legal duty.',
++          'The service providers listed below, only to run the service for us.',
++        ],
++        paragraphs: [],
++        closing: [
++          'Some coaches run programmes alongside a clinic partner. No account, consultation, coaching, health, wearable or Roman data is exchanged with any clinic partner, and clinic partners have no access to the app or to your data.',
++        ],
++      },
++      {
++        heading: 'Roman and AI',
+         paragraphs: [
+-          'The app includes AI-assisted features (for example, suggested check-in summaries). When AI is involved, we send only the minimum context required to generate the response, and we do not retain that context for model training. AI-generated suggestions are guidance, not medical, legal, or financial advice.',
++          'Roman is an AI assistant powered by Anthropic. At the start of the consultation the app shows two separate boxes on one screen. The first, which you need to tick to continue, covers the personal-training waiver and lets TGP and your coach collect and use your information to coach you. The second is optional and starts unticked: it lets Roman and your coach’s AI drafts use your information, names Anthropic as the AI provider and lists the data it receives. If you leave it unticked, nothing about you is sent to Anthropic, and your plan, your coach, the community and Roman’s guided tour work as usual.',
++          'When you use Roman, we send Anthropic your message, the earlier turns of that conversation, and context drawn from your own account: your profile, consultation and readiness answers, food logs, workouts and workout history, check-ins, wearable, health and sleep data, messages with your coach and the community posts you write. When your coach asks for an AI draft about you, the same kinds of data are sent. Only your own data is used — never another client’s, and never your coach’s private notes about you.',
++          'Roman conversations are deleted automatically 180 days after each message is sent. You can delete a conversation at any time in the app, which removes its messages from our database straight away. You can allow or withdraw the optional AI agreement at any time in Settings > Privacy > Roman and AI; when you withdraw it, Roman and AI drafts about you stop until you agree again.',
++          'If we turn it on, coaches can also use AI inbox sorting in the community. Anthropic sorts the community posts and messages a coach has not yet answered into five groups (urgent, a win to celebrate, a form check, general, no action needed) and writes a short summary of each for the coach. Sorting only includes posts and messages from members who ticked the optional AI box; everything else stays in the coach’s regular inbox, unsorted. For each item it receives up to 240 characters of the text, the name of the member who wrote it, the cohort name and how many hours ago it was posted. It only sorts and summarises: it never replies, posts or acts on anything, and only the coach sees the result. Perplexity, if enabled, is used to write short generic encouragement after your first logged milestones (it receives only the type of milestone, not your data).',
++          'Roman gives general fitness and nutrition guidance, not medical advice. If something sounds like an emergency, Roman points you to 911; if you are in crisis, to 988.',
+         ],
+       },
+       {
+-        heading: 'Sharing',
++        heading: 'Service providers',
+         paragraphs: [
+-          'Your coaching data is visible to your coach (that is the point of the product). We use a small number of vetted vendors to operate the service — for example, our hosting provider, our database provider, our email provider, our error-monitoring provider, and Stripe for billing. Each vendor receives only the data needed for that function.',
++          'We use these providers to run the service. Each receives only what it needs for its job and processes it on our behalf. We do not sell data to them, and we do not let them use your data for their own advertising.',
++        ],
++        bullets: [
++          'Supabase — sign-in, database and file storage (for example voice notes, if enabled).',
++          'Fly.io — hosting for our servers.',
++          'Stripe — card payments, invoices and coach payouts.',
++          'Anthropic — Roman and coach AI drafts, after you agree; sorting and summarising a coach’s unanswered community posts and messages for that coach, if turned on, only for members who agreed.',
++          'Perplexity — generic milestone messages, if enabled.',
++          'PostHog — product analytics.',
++          'Sentry — crash and performance monitoring.',
++          'Crisp — in-app support chat.',
++          'Resend — account and notification emails.',
++          'Expo, with Apple and Google push services — delivery of push notifications.',
++          'Apple and Google — Sign in with Apple and Google sign-in, if you choose them.',
++          'Apple Health (iPhone) and Health Connect (Android) — the on-device health stores you can choose to connect. We read from them; we do not send your TGP data to them.',
++          'USDA FoodData Central and Open Food Facts — food search. Our servers send them only the words you search for, never your name, account or health data. Search results are cached for 24 hours.',
+         ],
+       },
+       {
+-        heading: 'Your rights',
++        heading: 'Legal reasons',
+         paragraphs: [
+-          'You can request a copy of your data, request correction of inaccurate data, or request deletion of your account at any time by emailing the address below. We respond within 30 days. If you are in a jurisdiction with formal privacy rights (for example the EEA, the UK, or California), those rights apply to you regardless of where you live.',
++          'We may disclose information when the law requires it, to protect someone’s safety, or to protect TGP and its users from fraud or abuse. If TGP is reorganised or sold, personal data would move only under this policy, and we would tell you first.',
+         ],
+       },
+       {
+-        heading: 'Retention',
++        heading: 'How long we keep it',
++        bullets: [
++          'Account, consultation, coaching, health and community data — while your account is open, until you delete it or ask us to delete it.',
++          'Roman conversations — up to 180 days per message, or less if you delete them.',
++          'Food search results — 24 hours in our cache.',
++          'Payment, invoice and tax records — as long as the law requires.',
++          'Security and audit logs — as long as needed to protect the service and meet legal duties.',
++          'Backups — overwritten on our providers’ rolling schedule, and never kept beyond six months after a confirmed deletion request.',
++        ],
++        paragraphs: [],
++      },
++      {
++        heading: 'Deleting your account',
+         paragraphs: [
+-          'We retain account and coaching data while your account is active. When you delete your account, we delete or de-identify your personal data within 30 days, except where we are required by law to retain billing or audit records.',
++          'You can delete your account in the app: Settings, then Delete account. You confirm with your password or Sign in with Apple, and deletion is scheduled straight away with a 14-day grace period during which you can cancel. After that, your profile, consultation answers, logs, connected health data, Roman conversations, notifications and community memberships are permanently deleted, and the content of your community posts and messages is removed. If you used Sign in with Apple, we ask Apple to revoke TGP’s access. We keep only the payment records the law requires.',
++          `You can also ask us to delete your account, or only some of your health data, by emailing ${SUPPORT_EMAIL}. We tell our service providers about deletion requests so they delete their copies too.`,
++        ],
++        links: [
++          {
++            label: 'How to delete your account, with or without the app',
++            href: DELETE_ACCOUNT_HELP_PATH,
++          },
++        ],
++      },
++      {
++        heading: 'Your rights and choices',
++        bullets: [
++          'See and download your data — in the app (Trust & Privacy, then Request data export) or by email.',
++          'Correct your data — in the app, or by email.',
++          'Delete your account or specific data — as described above.',
++          'Withdraw your AI agreement — Roman and AI drafts about you stop.',
++          'Disconnect Apple Health or Health Connect — at any time in the app or in your phone’s settings; we stop receiving new readings.',
++          'Turn off push notifications — in your phone’s settings.',
++        ],
++        paragraphs: [],
++        closing: [
++          `To exercise any right, email ${SUPPORT_EMAIL} from the address on your account. We may ask you to confirm your identity, we never require you to create a new account, and we respond within 30 days. Where privacy laws give you more rights (for example in Washington, California, the UK or the EEA), we honour them. If we decline a request you can appeal, as described in the Consumer Health Data Privacy Policy.`,
+         ],
+       },
+       {
+         heading: 'Children',
+         paragraphs: [
+-          'The Growth Project is not directed to children under 16. We do not knowingly collect data from children under 16. If you believe a child has registered, email us and we will delete the account.',
++          'You must be 16 or older to use TGP. The service is not directed to children under 16 and we do not knowingly collect their data. If you believe a child under 16 has an account, email us and we will delete it.',
++        ],
++      },
++      {
++        heading: 'Security',
++        paragraphs: [
++          'We protect data with encryption in transit and at rest, access controls and monitoring. No system is perfectly secure; our Security page describes what we do today.',
++        ],
++        links: [{ label: 'Security', href: '/security' }],
++      },
++      {
++        heading: 'Changes',
++        paragraphs: [
++          'When we change this policy we update the date at the top and, for material changes, tell you in the app or by email first. We will not collect new categories of health data, or use it for new purposes, without telling you and asking for your agreement first.',
+         ],
+       },
+       {
+         heading: 'Contact',
+         paragraphs: [
+-          `For privacy questions, data requests, or to exercise any right described above, email ${SUPPORT_EMAIL}. We aim to respond within five business days.`,
++          `For privacy questions or requests, email ${SUPPORT_EMAIL}. We aim to reply within five business days.`,
++        ],
++      },
++    ],
++    footnote:
++      'This policy is a company-drafted statement of practice; counsel review is recommended before relying on it for compliance with any specific regulation.',
++  };
++}
++
++// ---------------------------------------------------------------------------
++// Consumer Health Data Privacy Policy (/consumer-health-privacy)
++//
++// Written to the disclosure list in RCW 19.373.020 and the consumer rights in
++// RCW 19.373.040 (Washington My Health My Data Act). Same accuracy rules as
++// the privacy policy above.
++// ---------------------------------------------------------------------------
++function consumerHealthContent(): TrustPageContent {
++  return {
++    title: 'Consumer Health Data Privacy Policy — The Growth Project',
++    headline: 'Consumer Health Data Privacy Policy',
++    intro:
++      'This policy explains how The Growth Project (“TGP”, “we”, “us”) ' +
++      'collects, uses and shares consumer health data, and how you can ' +
++      'exercise your rights over it. It is written for the Washington My ' +
++      'Health My Data Act (RCW 19.373) and applies to everyone who uses TGP. ' +
++      'It adds to our Privacy Policy, which covers all personal data. TGP is ' +
++      'a personal-training service: it does not diagnose or treat any ' +
++      'condition. This is a company-drafted statement of practice, and ' +
++      'counsel review is recommended.',
++    sections: [
++      {
++        heading: 'What counts as consumer health data',
++        paragraphs: [
++          'Consumer health data is personal information that is linked or reasonably linkable to you and identifies your past, present or future physical or mental health. In TGP that includes body measurements, readiness and injury answers, food and fitness logs, sleep and heart-rate readings, and anything about your health that you choose to write in a message, post or Roman conversation. It also includes conclusions drawn from that data, such as your calorie and macro targets.',
++        ],
++      },
++      {
++        heading: 'Categories we collect and why',
++        bullets: [
++          'Body and profile measurements — sex used for nutrition formulas, date of birth, height, weight, goal weight, body fat. Used to calculate your targets, choose a suitable plan and show progress.',
++          'Readiness and safety answers — heart condition, chest pain, dizziness, bone or joint problems, medication, pregnancy or another reason to take care, injuries, and any notes you add. Used to adapt your training safely and, if any answer is yes, to tell your coach.',
++          'Lifestyle and nutrition — activity level, sleep, way of eating, foods you avoid, meals per day, food, macro, water and fasting logs. Used to coach your nutrition and habits.',
++          'Fitness and training — training experience, workouts, sets, reps, load, duration, distance and workout history. Used to build and adjust your plan.',
++          'Check-ins — mood, energy, sleep and notes. Used to follow how you are doing between sessions.',
++          'Connected health data, only if you connect Apple Health or Health Connect — steps, active energy, heart rate, resting heart rate, heart-rate variability, VO2 max, workouts, distance, weight, body fat, blood pressure, sleep, blood-oxygen saturation, respiratory rate and body temperature. Used to show your activity, recovery and sleep to you and your coach and to personalise coaching.',
++          'Health information in your words — anything health-related you write to your coach, in a community space or to Roman. Used to deliver the conversation you started.',
++          'Derived information — calorie and macro targets, the plan assigned to you, trends in your readings, and Roman’s replies. Used to coach you.',
++        ],
++        paragraphs: [],
++        closing: [
++          'We use consumer health data only to provide the personal training you ask for, to provide Roman and your coach’s AI drafts after you agree, to keep the service safe and secure, and to meet legal duties. We do not use it for advertising or marketing, we do not sell it, and we do not use it to train AI models.',
++        ],
++      },
++      {
++        heading: 'Where it comes from',
++        bullets: [
++          'You — your consultation answers, logs, check-ins, messages, posts and Roman conversations.',
++          'Your phone’s Apple Health or Health Connect store, after you grant permission in the app.',
++          'Your coach — the plan, targets and messages they create for you.',
++          'Our systems and Roman — the targets, plans, trends and replies we calculate or generate from your data.',
++        ],
++        paragraphs: [],
++      },
++      {
++        heading: 'Categories we share',
++        paragraphs: ['We share the health data described above only as follows:'],
++        bullets: [
++          'Your coach, and any coach on their team assigned to you — your consultation and readiness answers, targets and plan, logs, check-ins, connected health data and your messages with them. Your Roman conversations are never shared with your coach.',
++          'Other members of community spaces you join — only the health information you choose to post there.',
++          'Service providers that process data on our behalf: Supabase (database, sign-in and file storage) and Fly.io (hosting) receive all categories; Anthropic receives the categories listed in your AI agreement to generate Roman’s replies and your coach’s AI drafts, and, if turned on, up to 240 characters of each community post or message your coach has not yet answered, with your name, the cohort name and its age, so it can sort and summarise them for your coach (only if you ticked the optional AI box); Sentry (error monitoring) and PostHog (product analytics) may receive health details that appear in an error report or app event; Crisp (support chat) receives what you choose to tell support; Resend (email) and Expo (push notifications) receive the content of the emails and notifications we send you.',
++          'Authorities, when the law requires it or to protect someone’s safety.',
+         ],
+       },
++      {
++        heading: 'Who we do not share with',
++        bullets: [
++          'No clinic partner. Some coaches run programmes alongside a clinic partner; no account, consultation, coaching, health, wearable or Roman data is exchanged with any clinic partner, and clinic partners have no access to the app.',
++          'No data brokers or advertisers. We do not sell consumer health data and we do not share it for advertising.',
++          'No affiliates. TGP has no affiliates that receive consumer health data.',
++          'Food search providers (USDA FoodData Central and Open Food Facts) receive only the words you search for, never your identity or health data.',
++        ],
++        paragraphs: [],
++      },
++      {
++        heading: 'Consent',
++        paragraphs: [
++          // D2 two-box consent (owner-approved 2026-10-01 09:07 PDT). Byte-exact
++          // approved copy; pinned by test/trust-pages.spec.ts.
++          "Before we collect your consultation answers, the app shows two separate boxes on one screen. The first, which you need to tick to continue, covers the personal-training waiver and lets TGP and your coach collect and use your information to coach you. The second is optional: it lets Roman and your coach's AI drafts use your information, names Anthropic as the AI provider and lists the data it receives. If you leave it unticked, nothing about you is sent to Anthropic. Connecting Apple Health or Health Connect asks for separate permission on your phone. We will not collect new categories of health data, or use or share it for new purposes, without telling you first and asking for your agreement.",
++          'You can withdraw the optional AI agreement at any time in Settings > Privacy; Roman and AI drafts about you then stop. To stop all collection, delete your account in Settings > Account. You can also disconnect Apple Health or Health Connect, and delete your data, as described below.',
++        ],
++      },
++      {
++        heading: 'Your rights',
++        bullets: [
++          'Confirm and access — ask whether we collect, share or sell your consumer health data, and get a copy of it.',
++          'Recipient list — get a list of every third party and affiliate we have shared your consumer health data with, and an email address or online contact for each.',
++          'Withdraw consent — stop our collection and sharing that relies on your agreement.',
++          'Delete — have your consumer health data deleted, from our systems and from those of the providers we shared it with.',
++          'Appeal — ask us to reconsider if we decline a request.',
++        ],
++        paragraphs: [],
++        closing: ['We will not treat you differently for exercising these rights.'],
++      },
++      {
++        heading: 'How to make a request',
++        paragraphs: [
++          `Email ${SUPPORT_EMAIL} with “Health data request” in the subject and say which right you want to use. You can also delete your account and data in the app (Settings, then Delete account) and download a copy in the app (Trust & Privacy, then Request data export).`,
++          'To protect you, we verify requests: we will ask you to write from, or confirm access to, the email address on your account, or to sign in. You never need to create a new account to make a request. If we cannot verify a request with reasonable effort, we will ask for the minimum extra information we need.',
++          'Requests are free up to twice a year. If requests are clearly unfounded, excessive or repetitive, we may charge a reasonable fee or decline, and we will explain why.',
++          'We respond without undue delay and within 45 days of receiving your request. If we need more time because a request is complex, we may extend that once by up to 45 more days; if so, we will tell you why within the first 45 days.',
++        ],
++      },
++      {
++        heading: 'Deletion',
++        paragraphs: [
++          'When we delete your consumer health data we remove it from our live systems and tell every service provider we shared it with, so they delete their copies too. Copies in backups are deleted as the backups are overwritten, and never more than six months after we verify your request. Deleting your account in the app starts a 14-day grace period you can cancel; after that, deletion is permanent.',
++        ],
++      },
++      {
++        heading: 'Appeals',
++        paragraphs: [
++          `If we decline your request, you can appeal by replying to our decision or by emailing ${SUPPORT_EMAIL} with “Health data appeal” in the subject. We will tell you in writing what we did or did not do, and why, within 45 days of receiving your appeal. If we deny your appeal, you can contact the Washington State Attorney General at https://www.atg.wa.gov/file-complaint.`,
++        ],
++      },
++      {
++        heading: 'How we protect it',
++        paragraphs: [
++          'Only people and providers who need consumer health data to provide the service, keep people safe or fix problems can access it. We encrypt data in transit and at rest and limit staff access. We do not use location to identify or track people near health-care services, and we do not collect precise location.',
++        ],
++      },
++      {
++        heading: 'Contact',
++        paragraphs: [`Questions about this policy or your consumer health data: ${SUPPORT_EMAIL}.`],
++        links: [{ label: 'Read the full Privacy Policy', href: PRIVACY_POLICY_PATH }],
++      },
+     ],
+     footnote:
+-      'This policy is a company-drafted statement of practice; formal legal review is recommended before relying on it for compliance with any specific regulation.',
++      'This policy is a company-drafted statement of practice; counsel review is recommended before relying on it for compliance with any specific regulation.',
+   };
+ }
+ 
+@@ -129,32 +439,45 @@ function termsContent(): TrustPageContent {
+     headline: 'Terms of Service',
+     intro:
+       'These terms describe the agreement between you and The Growth Project ' +
+-      'when you use our software. They are written as a company policy draft ' +
+-      'and are intended to be reviewed by counsel before any public launch ' +
+-      'outside an invite-only beta.',
++      '(“TGP”) when you use our software. They are written as a company policy ' +
++      'draft, and counsel review is recommended.',
+     sections: [
+       {
+         heading: 'Eligibility and account',
+         paragraphs: [
+-          'You must be 16 or older to use the service. You are responsible for the accuracy of the information you provide and for keeping your account credentials safe. You may not share your account with anyone else.',
++          'You must be 16 or older to use the service. You can sign up as a client or as a coach; signing up with a coach’s invite code makes you that coach’s client. You are responsible for the accuracy of the information you provide and for keeping your account credentials safe. You may not share your account with anyone else.',
+         ],
+       },
+       {
+         heading: 'Acceptable use',
+         paragraphs: [
+-          'You agree not to misuse the service. In particular, you may not attempt to disrupt or break security controls, scrape or abuse the API, upload unlawful or harmful content, or impersonate another person. We may suspend or terminate accounts that violate these rules.',
++          'You agree not to misuse the service. In particular, you may not attempt to disrupt or break security controls, scrape or abuse the API, upload unlawful, harassing or harmful content, or impersonate another person. Community content can be reported and members can be blocked. We may remove content and suspend or terminate accounts that violate these rules.',
++        ],
++      },
++      {
++        heading: 'Personal training, not medical care',
++        paragraphs: [
++          'TGP is a personal-training service, not a medical or licensed health-care service. It does not diagnose or treat any condition. Information provided by the app, by Roman or other AI features, or by your coach within the app is general fitness and nutrition guidance and is not a substitute for professional medical, mental-health, legal or financial advice. Speak to a qualified professional before making decisions that affect your health. In an emergency call 911; in a mental-health crisis call or text 988.',
++          'Before your consultation you are asked to accept the personal-training waiver, which you need to do to continue. A separate, optional box lets Roman and your coach’s AI drafts use your information, processed by Anthropic. Roman is an AI assistant powered by Anthropic; its replies can be wrong, so use your judgement and check with your coach.',
+         ],
+       },
+       {
+-        heading: 'Coaching content',
++        heading: 'Privacy',
+         paragraphs: [
+-          'The Growth Project is a coaching tool, not a medical or licensed health-care service. Information provided by the app, by AI features, or by your coach within the app is for educational and motivational purposes and is not a substitute for professional medical, mental-health, legal, or financial advice. Always consult a qualified professional before making decisions that affect your health.',
++          'Our Privacy Policy and Consumer Health Data Privacy Policy explain how we handle your data. They form part of these terms.',
++        ],
++        links: [
++          { label: 'Privacy Policy', href: PRIVACY_POLICY_PATH },
++          {
++            label: 'Consumer Health Data Privacy Policy',
++            href: CONSUMER_HEALTH_POLICY_PATH,
++          },
+         ],
+       },
+       {
+         heading: 'Subscriptions and billing',
+         paragraphs: [
+-          'Paid subscriptions are billed through Stripe on the schedule shown at checkout. You can cancel at any time; cancellation takes effect at the end of the current billing period. Refunds are handled on a case-by-case basis — email the address below.',
++          'Paid coaching packages and subscriptions are billed through Stripe on the schedule shown at checkout. You can cancel at any time; cancellation takes effect at the end of the current billing period. Refunds are handled on a case-by-case basis — email the address below.',
+         ],
+       },
+       {
+@@ -172,7 +495,7 @@ function termsContent(): TrustPageContent {
+       {
+         heading: 'Termination',
+         paragraphs: [
+-          'You can stop using the service at any time and request account deletion. We can suspend or terminate accounts for violations of these terms or to protect the service and its users.',
++          'You can stop using the service at any time and delete your account in the app (Settings, then Delete account) or by email. We can suspend or terminate accounts for violations of these terms or to protect the service and its users.',
+         ],
+       },
+       {
+@@ -183,13 +506,11 @@ function termsContent(): TrustPageContent {
+       },
+       {
+         heading: 'Contact',
+-        paragraphs: [
+-          `Questions about these terms can be sent to ${SUPPORT_EMAIL}.`,
+-        ],
++        paragraphs: [`Questions about these terms can be sent to ${SUPPORT_EMAIL}.`],
+       },
+     ],
+     footnote:
+-      'This document is a company-drafted statement of terms; formal legal review is recommended before relying on it as a binding agreement.',
++      'This document is a company-drafted statement of terms; counsel review is recommended before relying on it as a binding agreement.',
+   };
+ }
+ 
+@@ -262,15 +583,13 @@ function statusContent(): TrustPageContent {
+     sections: [
+       {
+         heading: 'Public endpoints',
+-        paragraphs: [
+-          'The user-facing surface area today is small and intentionally so:',
+-        ],
++        paragraphs: ['The user-facing surface area today is small and intentionally so:'],
+         bullets: [
+           'https://app.trygrowthproject.com/signup — invite-only signup landing.',
+           'https://app.trygrowthproject.com/download/ios — iOS download status.',
+           'https://app.trygrowthproject.com/download/android — Android download status.',
+           'https://app.trygrowthproject.com/join/:code — invite landing for a specific code.',
+-          'https://app.trygrowthproject.com/privacy, /terms, /security, /status — these pages.',
++          'https://app.trygrowthproject.com/privacy, /consumer-health-privacy, /terms, /security, /status — these pages.',
+           'https://app.trygrowthproject.com/health — operator-facing liveness check.',
+         ],
+       },
+@@ -302,11 +621,13 @@ export function renderTrustPage(page: TrustPage): string {
+   const content =
+     page === 'privacy'
+       ? privacyContent()
+-      : page === 'terms'
+-        ? termsContent()
+-        : page === 'security'
+-          ? securityContent()
+-          : statusContent();
++      : page === 'consumer-health'
++        ? consumerHealthContent()
++        : page === 'terms'
++          ? termsContent()
++          : page === 'security'
++            ? securityContent()
++            : statusContent();
+   return baseDocument(page, content);
+ }
+ 
+@@ -319,26 +640,14 @@ function baseDocument(active: TrustPage, c: TrustPageContent): string {
+   const supportEmailHref = escapeAttr(`mailto:${SUPPORT_EMAIL}`);
+ 
+   const sections = c.sections.map(renderSection).join('\n');
+-  const footnote = c.footnote
+-    ? `\n  <p class="footnote">${escapeHtml(c.footnote)}</p>`
+-    : '';
++  const footnote = c.footnote ? `\n  <p class="footnote">${escapeHtml(c.footnote)}</p>` : '';
+ 
+-  // The header nav surfaces all four trust pages from any of them so
+-  // reviewers and customers can move between them in one click.
+-  const nav = (['privacy', 'terms', 'security', 'status'] as const)
+-    .map((slug) => {
+-      const label =
+-        slug === 'privacy'
+-          ? 'Privacy'
+-          : slug === 'terms'
+-            ? 'Terms'
+-            : slug === 'security'
+-              ? 'Security'
+-              : 'Status';
+-      const cls = slug === active ? 'nav-link active' : 'nav-link';
+-      return `<a class="${cls}" href="/${slug}">${label}</a>`;
+-    })
+-    .join('');
++  // The header nav surfaces every trust page from any of them so reviewers
++  // and customers can move between them in one click.
++  const nav = TRUST_NAV.map((item) => {
++    const cls = item.page === active ? 'nav-link active' : 'nav-link';
++    return `<a class="${cls}" href="${escapeAttr(safeHref(item.href))}">${escapeHtml(item.label)}</a>`;
++  }).join('');
+ 
+   return `<!doctype html>
+ <html lang="en">
+@@ -366,6 +675,7 @@ function baseDocument(active: TrustPage, c: TrustPageContent): string {
+   section p { font-size: 16px; line-height: 1.6; margin: 0 0 12px 0; color: #3A332B; }
+   section ul { margin: 0 0 12px 0; padding: 0 0 0 20px; }
+   section li { font-size: 16px; line-height: 1.6; margin: 0 0 6px 0; color: #3A332B; }
++  section p.links a { color: #2C4A36; text-decoration: underline; }
+   p.footnote { margin: 40px 0 0 0; font-size: 13px; line-height: 1.55; color: #8A7F6E; font-style: italic; }
+   footer.brand-footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #E8E1D4; font-size: 13px; color: #8A7F6E; display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
+   footer.brand-footer a { color: #8A7F6E; text-decoration: underline; }
+@@ -383,6 +693,7 @@ function baseDocument(active: TrustPage, c: TrustPageContent): string {
+ ${sections}${footnote}
+   <footer class="brand-footer">
+     <span>The Growth Project</span>
++    <span>${policyFooterLinks()}</span>
+     <span><a href="${supportEmailHref}">${supportEmail}</a></span>
+   </footer>
+ </main>
+@@ -392,21 +703,55 @@ ${sections}${footnote}
+ 
+ function renderSection(s: RenderedSection): string {
+   const heading = escapeHtml(s.heading);
+-  const paragraphs = s.paragraphs
+-    .map((p) => `    <p>${escapeHtml(p)}</p>`)
+-    .join('\n');
++  const paragraphs = s.paragraphs.map((p) => `    <p>${escapeHtml(p)}</p>`).join('\n');
+   const bullets =
+     s.bullets && s.bullets.length > 0
+       ? '\n    <ul>\n' +
+         s.bullets.map((b) => `      <li>${escapeHtml(b)}</li>`).join('\n') +
+         '\n    </ul>'
+       : '';
++  const closing = (s.closing ?? []).map((p) => `\n    <p>${escapeHtml(p)}</p>`).join('');
++  const links =
++    s.links && s.links.length > 0
++      ? '\n    <p class="links">' +
++        s.links
++          .map((l) => `<a href="${escapeAttr(safeHref(l.href))}">${escapeHtml(l.label)}</a>`)
++          .join(' · ') +
++        '</p>'
++      : '';
+   return `  <section>
+     <h2>${heading}</h2>
+-${paragraphs}${bullets}
++${paragraphs}${bullets}${closing}${links}
+   </section>`;
+ }
+ 
++/**
++ * Footer links to the Privacy Policy and the Consumer Health Data Privacy
++ * Policy. Shared with the help and status pages so every public page carries
++ * the consumer health policy link (RCW 19.373.020: "prominently publish a
++ * link ... on its homepage").
++ */
++export function policyFooterLinks(): string {
++  return (
++    `<a href="${escapeAttr(PRIVACY_POLICY_PATH)}">Privacy Policy</a>` +
++    ' · ' +
++    `<a href="${escapeAttr(CONSUMER_HEALTH_POLICY_PATH)}">Consumer Health Data Privacy Policy</a>` +
++    ' · ' +
++    `<a href="${escapeAttr(DELETE_ACCOUNT_HELP_PATH)}">Delete your account</a>`
++  );
++}
++
++/**
++ * Only site-relative paths, mailto: and https: URLs are rendered as links.
++ * Anything else (javascript:, data:, protocol-relative //host) becomes "#".
++ */
++export function safeHref(href: string): string {
++  if (/^\/(?!\/)[A-Za-z0-9/_-]*$/.test(href)) return href;
++  if (/^mailto:[^\s"'<>]+$/i.test(href)) return href;
++  if (/^https:\/\/[^\s"'<>]+$/i.test(href)) return href;
++  return '#';
++}
++
+ function escapeHtml(s: string): string {
+   return s
+     .replace(/&/g, '&amp;')
+diff --git a/test/help-delete-account.spec.ts b/test/help-delete-account.spec.ts
+new file mode 100644
+index 00000000..a3e7464f
+--- /dev/null
++++ b/test/help-delete-account.spec.ts
+@@ -0,0 +1,259 @@
++// Public account-deletion page (/help/delete-account), required by Google
++// Play: a web URL where anyone can ask for account and data deletion without
++// installing the app. These tests pin that the page is public (no login),
++// is linked from the Privacy Policy, /help and the shared footer, and states
++// only facts taken from code or the published policies:
++//  - in-app path and confirmation steps: growth-project-mobile #313
++//    (src/screens/client/SettingsScreen.tsx "Data & Privacy" > "Delete my
++//    account"; src/screens/coach/settings/DangerZone.tsx "Privacy & Data" >
++//    "Delete my account"; src/screens/settings/DeleteAccountScreen.tsx
++//    "Type DELETE or <email>", password / Apple / Google re-auth,
++//    "Keep my account", PERMANENTLY_DELETED, KEPT_RECORDS, BILLING_NOTE);
++//  - 14-day grace, finalization within one day, no grace on an admin
++//    deletion: backend #608 src/account-deletion/account-deletion.service.ts
++//    (graceDays default 14, FINALIZE_WINDOW_MS, adminForceDelete);
++//  - 30-day reply, 45 days for consumer health data, Roman 180 days, backups
++//    six months: src/public-pages/trust-pages.html.ts.
++import { readFileSync } from 'fs';
++import { join } from 'path';
++import type { Response } from 'express';
++import { PATH_METADATA } from '@nestjs/common/constants';
++import { IS_PUBLIC_KEY } from '../src/common/decorators/public.decorator';
++import { PublicPagesController } from '../src/public-pages/public-pages.controller';
++import {
++  DELETION_EMAIL_SUBJECT,
++  PLAY_APP_NAME,
++  PLAY_DEVELOPER_NAME,
++  renderHelpPage,
++  type HelpPage,
++} from '../src/public-pages/help-pages.html';
++import {
++  ACCOUNT_DELETION_EMAIL,
++  DELETE_ACCOUNT_HELP_PATH,
++  policyFooterLinks,
++  renderTrustPage,
++  type TrustPage,
++} from '../src/public-pages/trust-pages.html';
++import { renderDownloadPage, renderSignupPage } from '../src/public-pages/public-pages.html';
++
++interface FakeResState {
++  headers: Record<string, string>;
++  statusCode: number;
++  body: string;
++}
++
++// Minimal express Response double, typed without casts.
++function makeRes(): { res: Response; state: FakeResState } {
++  const state: FakeResState = { headers: {}, statusCode: 0, body: '' };
++  const res: Response = Object.assign(Object.create(null), {
++    status(code: number) {
++      state.statusCode = code;
++      return res;
++    },
++    setHeader(k: string, v: string) {
++      state.headers[k] = v;
++      return res;
++    },
++    send(payload: string) {
++      state.body = payload;
++      return res;
++    },
++  });
++  return { res, state };
++}
++
++function visibleText(html: string): string {
++  const bodyStart = html.indexOf('<body>');
++  const body = bodyStart >= 0 ? html.slice(bodyStart) : html;
++  const map: Record<string, string> = {
++    '&quot;': '"',
++    '&#39;': "'",
++    '&lt;': '<',
++    '&gt;': '>',
++    '&amp;': '&',
++  };
++  return body
++    .split(/<[^>]*>/)
++    .join(' ')
++    .replace(/&(?:quot|#39|lt|gt|amp);/g, (m) => map[m] ?? m)
++    .replace(/\s+/g, ' ');
++}
++
++const ALL_HELP_PAGES: HelpPage[] = [
++  'index',
++  'setup',
++  'first-client',
++  'tour',
++  'faq',
++  'support',
++  'contact',
++  'delete-account',
++];
++const ALL_TRUST_PAGES: TrustPage[] = ['privacy', 'consumer-health', 'terms', 'security', 'status'];
++const LINK = `href="${DELETE_ACCOUNT_HELP_PATH}"`;
++
++describe('/help/delete-account route', () => {
++  it('is served as a 200 HTML page without login', () => {
++    const controller = new PublicPagesController();
++    const { res, state } = makeRes();
++    controller.helpDeleteAccount(res);
++    expect(state.statusCode).toBe(200);
++    expect(state.headers['Content-Type']).toMatch(/text\/html/);
++    expect(state.headers['Cache-Control']).toBe('public, max-age=300');
++    expect(state.body).toContain('Delete your account');
++    const handler = PublicPagesController.prototype.helpDeleteAccount;
++    // @Public(): the global JwtAuthGuard skips token checks for this route.
++    expect(Reflect.getMetadata(IS_PUBLIC_KEY, handler)).toBe(true);
++    expect(Reflect.getMetadata(PATH_METADATA, handler)).toBe('help/delete-account');
++    expect(DELETE_ACCOUNT_HELP_PATH).toBe('/help/delete-account');
++  });
++
++  it('is excluded from the /api global prefix in main.ts', () => {
++    const main = readFileSync(join(__dirname, '..', 'src', 'main.ts'), 'utf8');
++    expect(main).toContain("'help/delete-account',");
++  });
++});
++
++describe('/help/delete-account is linked', () => {
++  it('from the Privacy Policy "Deleting your account" section', () => {
++    const html = renderTrustPage('privacy');
++    const section = html.slice(html.indexOf('<h2>Deleting your account</h2>'));
++    expect(section.slice(0, section.indexOf('</section>'))).toContain(LINK);
++  });
++
++  it('from the /help overview body and the nav of every help page', () => {
++    const index = renderHelpPage('index');
++    const body = index.slice(index.indexOf('<h2>Your account</h2>'));
++    expect(body.slice(0, body.indexOf('</section>'))).toContain(LINK);
++    for (const page of ALL_HELP_PAGES) {
++      const nav = renderHelpPage(page).match(/<nav class="help-nav">([\s\S]*?)<\/nav>/);
++      expect(nav?.[1]).toContain(LINK);
++    }
++  });
++
++  it('from the shared footer on every trust, help, download and signup page', () => {
++    expect(policyFooterLinks()).toContain(`${LINK}>Delete your account</a>`);
++    const pages = [
++      ...ALL_TRUST_PAGES.map((p) => renderTrustPage(p)),
++      ...ALL_HELP_PAGES.map((p) => renderHelpPage(p)),
++      renderDownloadPage('ios'),
++      renderDownloadPage('android'),
++      renderSignupPage(null),
++    ];
++    for (const html of pages) {
++      const footer = html.slice(html.lastIndexOf('<footer'));
++      expect(footer).toContain(LINK);
++    }
++  });
++});
++
++describe('/help/delete-account content', () => {
++  const html = renderHelpPage('delete-account');
++  const text = visibleText(html);
++
++  it('names the app and the developer as on the Google Play listing', () => {
++    expect(PLAY_APP_NAME).toBe('TGP Fitness');
++    expect(PLAY_DEVELOPER_NAME).toBe('The Growth Project');
++    expect(text).toContain('How to delete your TGP Fitness account');
++    expect(text).toContain('TGP Fitness is made by The Growth Project.');
++    expect(html).toContain('<title>Delete your TGP Fitness account — The Growth Project</title>');
++  });
++
++  it('gives the exact in-app path from mobile #313 for clients and coaches', () => {
++    expect(text).toContain(
++      'If you are a client: open the profile tab (the person icon in the bottom bar), tap Settings, then under Data & Privacy tap Delete my account.',
++    );
++    expect(text).toContain(
++      'If you are a coach: open the Settings tab, then under Privacy & Data tap Delete my account.',
++    );
++    expect(text).toContain(
++      'type DELETE or your account email, then confirm it is you with your password, Sign in with Apple or Google',
++    );
++    expect(text).toContain('tap Keep my account to cancel it.');
++  });
++
++  it('gives a working email route with a subject line and identity check, never a password', () => {
++    expect(ACCOUNT_DELETION_EMAIL).toBe('Bradleyapple1031@gmail.com');
++    expect(DELETION_EMAIL_SUBJECT).toBe('Delete my account');
++    expect(text).toContain(
++      'Email Bradleyapple1031@gmail.com with the subject line “Delete my account”.',
++    );
++    expect(html).toContain(
++      'href="mailto:Bradleyapple1031@gmail.com?subject=Delete%20my%20account"',
++    );
++    expect(text).toContain('Send it from the email address you use to sign in to the app.');
++    expect(text).toContain(
++      'Include the name on the account and say whether you are a client or a coach.',
++    );
++    expect(text).toContain('delete nothing until you reply from it to confirm');
++    expect(text).toContain('We will never ask for your password, a card number or a sign-in code.');
++    // Never asks for a password, card or code anywhere else on the page.
++    expect(text).not.toMatch(/(send|include|tell us) (us )?your password/i);
++  });
++
++  it('lists what is deleted, matching #313 PERMANENTLY_DELETED and #608 tombstoning', () => {
++    for (const item of [
++      'Your sign-in account, name, email address and phone number',
++      'Your profile, body measurements and consultation answers',
++      'Food, water, fasting, weight and workout logs, check-ins and habits',
++      'Health and activity data synced from Apple Health or connected devices, and bloodwork you entered, including uploaded files',
++      'Your conversations with Roman, the AI assistant',
++      'Your messages, community posts, comments, direct messages, voice notes and reactions',
++      'Coach media, notes and briefs, if you coach',
++      'Your targets, recipes, lists and preferences',
++      'Notification settings and push notification tokens',
++    ]) {
++      expect(text).toContain(item);
++    }
++    expect(text).toContain(
++      'Any subscription or payment plan you have, as a client or as a coach, is cancelled when the deletion completes',
++    );
++  });
++
++  it('lists what is kept and for how long, matching #313 KEPT_RECORDS and the policies', () => {
++    expect(text).toContain(
++      'Payment and tax records held by Stripe, our payment processor, for as long as the law requires. Our own copies keep only amounts, dates and payment references, with no name or contact details.',
++    );
++    expect(text).toContain(
++      'One deletion record with a random reference, the date and the result. It holds no name, email or account details.',
++    );
++    expect(text).toContain('If you coach: your clients are not deleted.');
++    expect(text).toContain(
++      'no copy is kept more than six months after a confirmed deletion request',
++    );
++    // Same six-month backup limit the Privacy Policy publishes.
++    expect(visibleText(renderTrustPage('privacy'))).toContain(
++      'never kept beyond six months after a confirmed deletion request',
++    );
++  });
++
++  it('states the timings: 14-day grace, one day to finish, 30-day reply, Roman 180 days', () => {
++    expect(text).toContain(
++      'In the app: a 14-day grace period starts when you confirm. When it ends, your data is deleted within one day, and the app shows the date.',
++    );
++    expect(text).toContain('By email: we reply within 30 days of receiving your request.');
++    expect(text).toContain('answered within 45 days');
++    expect(text).toContain('each message is deleted automatically 180 days after it is sent');
++    expect(text).toContain(
++      'There is no 14-day grace period for a deletion we carry out at your request, so it cannot be cancelled.',
++    );
++    // The commitments come from the published policies.
++    expect(visibleText(renderTrustPage('privacy'))).toContain('we respond within 30 days');
++    expect(visibleText(renderTrustPage('privacy'))).toContain('14-day grace period');
++    expect(visibleText(renderTrustPage('consumer-health'))).toContain(
++      'within 45 days of receiving your request',
++    );
++  });
++
++  it('follows the copy rules: no exclamation marks, emoji, placeholders or clinic partner', () => {
++    expect(text).not.toContain('!');
++    expect(text).not.toMatch(
++      /[\u{1F300}-\u{1FAFF}\u{1F600}-\u{1F64F}\u{1F900}-\u{1F9FF}\u{2600}-\u{27BF}]/u,
++    );
++    // Placeholder / unfinished-copy checks run for this page in
++    // test/help-pages.spec.ts (ALL_PAGES includes 'delete-account').
++    expect(html).not.toMatch(/\$\{[A-Z_]+\}/);
++    expect(text).not.toMatch(/clinic/i);
++    expect(text).not.toMatch(/something went wrong|please try again/i);
++  });
++});
+diff --git a/test/help-pages.spec.ts b/test/help-pages.spec.ts
+index 32b20077..d631551b 100644
+--- a/test/help-pages.spec.ts
++++ b/test/help-pages.spec.ts
+@@ -42,6 +42,7 @@ const ALL_PAGES: ReadonlyArray<HelpPage> = [
+   'faq',
+   'support',
+   'contact',
++  'delete-account',
+ ];
+ 
+ const ROUTE_HANDLERS: ReadonlyArray<{
+diff --git a/test/trust-pages.spec.ts b/test/trust-pages.spec.ts
+index cf50c5b2..a4c6e5db 100644
+--- a/test/trust-pages.spec.ts
++++ b/test/trust-pages.spec.ts
+@@ -1,9 +1,44 @@
+ import { PublicPagesController } from '../src/public-pages/public-pages.controller';
++import { readFileSync } from 'fs';
++import { join } from 'path';
++import { PATH_METADATA } from '@nestjs/common/constants';
+ import {
+   renderTrustPage,
++  safeHref,
++  policyFooterLinks,
+   SUPPORT_EMAIL,
+   POLICY_LAST_REVIEWED,
++  PRIVACY_POLICY_PATH,
++  CONSUMER_HEALTH_POLICY_PATH,
++  type TrustPage,
+ } from '../src/public-pages/trust-pages.html';
++import { renderHelpPage } from '../src/public-pages/help-pages.html';
++import { TRIAGE_CATEGORIES } from '../src/community/ai-triage/triage-output.schema';
++import buildInboxTriagePrompt from '../src/community/ai-triage/prompts/inbox-triage.prompt';
++import { renderDownloadPage, renderSignupPage } from '../src/public-pages/public-pages.html';
++
++const ALL_TRUST_PAGES: TrustPage[] = ['privacy', 'consumer-health', 'terms', 'security', 'status'];
++
++// Visible text of a page: tags removed, entities decoded. Lets copy
++// assertions read like the page a person sees.
++function visibleText(html: string): string {
++  // Text nodes only: drop <head> (styles), then split on tags. Test helper
++  // for reading trusted, server-rendered copy; not a sanitizer.
++  const bodyStart = html.indexOf('<body>');
++  const body = bodyStart >= 0 ? html.slice(bodyStart) : html;
++  return decodeEntities(body.split(/<[^>]*>/).join(' ')).replace(/\s+/g, ' ');
++}
++
++function decodeEntities(s: string): string {
++  const map: Record<string, string> = {
++    '&quot;': '"',
++    '&#39;': "'",
++    '&lt;': '<',
++    '&gt;': '>',
++    '&amp;': '&',
++  };
++  return s.replace(/&(?:quot|#39|lt|gt|amp);/g, (m) => map[m] ?? m);
++}
+ 
+ function makeRes() {
+   const headers: Record<string, string> = {};
+@@ -80,19 +115,21 @@ describe('PublicPagesController trust pages', () => {
+     expect(res.body).toContain('Status');
+     // The endpoints section should enumerate the real surface area.
+     expect(res.body).toContain('https://app.trygrowthproject.com/signup');
+-    expect(res.body).toContain(
+-      'https://app.trygrowthproject.com/download/ios',
+-    );
+-    expect(res.body).toContain(
+-      'https://app.trygrowthproject.com/download/android',
+-    );
++    expect(res.body).toContain('https://app.trygrowthproject.com/download/ios');
++    expect(res.body).toContain('https://app.trygrowthproject.com/download/android');
+     expect(res.body).toContain('https://app.trygrowthproject.com/health');
+     // Explicit reporting channel.
+     expect(res.body).toContain(SUPPORT_EMAIL);
+   });
+ 
+   it('sets a sensible Cache-Control on every trust page', () => {
+-    for (const route of ['privacy', 'terms', 'security', 'status'] as const) {
++    for (const route of [
++      'privacy',
++      'consumerHealthPrivacy',
++      'terms',
++      'security',
++      'status',
++    ] as const) {
+       const res = makeRes();
+       (controller as any)[route](res);
+       expect(res.headers['Cache-Control']).toBe('public, max-age=300');
+@@ -119,10 +156,11 @@ describe('PublicPagesController trust pages', () => {
+     }
+   });
+ 
+-  it('includes a navigation header linking the four trust pages from each page', () => {
+-    for (const slug of ['privacy', 'terms', 'security', 'status'] as const) {
++  it('includes a navigation header linking every trust page from each page', () => {
++    for (const slug of ALL_TRUST_PAGES) {
+       const html = renderTrustPage(slug);
+       expect(html).toContain('href="/privacy"');
++      expect(html).toContain('href="/consumer-health-privacy"');
+       expect(html).toContain('href="/terms"');
+       expect(html).toContain('href="/security"');
+       expect(html).toContain('href="/status"');
+@@ -142,4 +180,414 @@ describe('PublicPagesController trust pages', () => {
+   it('emits a last-reviewed date in ISO-8601 (YYYY-MM-DD) form', () => {
+     expect(POLICY_LAST_REVIEWED).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+   });
++
++  it('marks the consumer health page active in the nav on that page only', () => {
++    expect(renderTrustPage('consumer-health')).toContain(
++      '<a class="nav-link active" href="/consumer-health-privacy">',
++    );
++    expect(renderTrustPage('privacy')).toContain(
++      '<a class="nav-link" href="/consumer-health-privacy">',
++    );
++  });
++});
++
++describe('Consumer Health Data Privacy Policy (/consumer-health-privacy)', () => {
++  const controller = new PublicPagesController();
++
++  it('is served as a 200 HTML page on the bare consumer-health-privacy path', () => {
++    const res = makeRes();
++    controller.consumerHealthPrivacy(res);
++    expect(res.statusCode).toBe(200);
++    expect(res.headers['Content-Type']).toMatch(/text\/html/);
++    expect(res.body).toContain('Consumer Health Data Privacy Policy');
++    expect(res.body).toContain(POLICY_LAST_REVIEWED);
++    expect(
++      Reflect.getMetadata(PATH_METADATA, PublicPagesController.prototype.consumerHealthPrivacy),
++    ).toBe('consumer-health-privacy');
++    expect(CONSUMER_HEALTH_POLICY_PATH).toBe('/consumer-health-privacy');
++    expect(PRIVACY_POLICY_PATH).toBe('/privacy');
++  });
++
++  it('is excluded from the /api global prefix in main.ts', () => {
++    const main = readFileSync(join(__dirname, '..', 'src', 'main.ts'), 'utf8');
++    expect(main).toContain("'consumer-health-privacy',");
++  });
++
++  it('covers every RCW 19.373.020 disclosure', () => {
++    const text = visibleText(renderTrustPage('consumer-health'));
++    for (const heading of [
++      'Categories we collect and why',
++      'Where it comes from',
++      'Categories we share',
++      'Who we do not share with',
++      'Your rights',
++      'How to make a request',
++    ]) {
++      expect(text).toContain(heading);
++    }
++    expect(text).toContain('RCW 19.373');
++    // Named recipients, including the AI provider.
++    for (const vendor of [
++      'Supabase',
++      'Fly.io',
++      'Anthropic',
++      'Sentry',
++      'PostHog',
++      'Crisp',
++      'Resend',
++      'Expo',
++    ]) {
++      expect(text).toContain(vendor);
++    }
++    expect(text).toMatch(/No affiliates/);
++  });
++
++  it('states the RCW 19.373.040 rights, timelines and appeal path', () => {
++    const text = visibleText(renderTrustPage('consumer-health'));
++    expect(text).toMatch(/Confirm and access/);
++    expect(text).toMatch(/Recipient list .*email address or online contact/);
++    expect(text).toMatch(/Withdraw consent/);
++    expect(text).toMatch(/Delete — have your consumer health data deleted/);
++    expect(text).toMatch(/within 45 days of receiving your request/);
++    expect(text).toMatch(/extend that once by up to 45 more days/);
++    expect(text).toMatch(/free up to twice a year/);
++    expect(text).toMatch(/never need to create a new account/);
++    expect(text).toMatch(/never more than six months after we verify your request/);
++    expect(text).toMatch(/tell every service provider we shared it with/);
++    expect(text).toMatch(/Appeals/);
++    expect(text).toMatch(/in writing .* within 45 days of receiving your appeal/);
++    expect(text).toContain('https://www.atg.wa.gov/file-complaint');
++    expect(text).toContain(SUPPORT_EMAIL);
++  });
++
++  it('states no sale, no advertising use and no clinic-partner exchange', () => {
++    const text = visibleText(renderTrustPage('consumer-health'));
++    expect(text).toMatch(/do not sell consumer health data/);
++    expect(text).toMatch(/do not use it for advertising or marketing/);
++    expect(text).toMatch(/No clinic partner/);
++    expect(text).toMatch(/Roman conversations are never shared with your coach/);
++  });
++
++  it('states the owner-approved D2 Consent section byte for byte (approved 2026-10-01 09:07 PDT)', () => {
++    const text = visibleText(renderTrustPage('consumer-health'));
++    const approved = [
++      "Before we collect your consultation answers, the app shows two separate boxes on one screen. The first, which you need to tick to continue, covers the personal-training waiver and lets TGP and your coach collect and use your information to coach you. The second is optional: it lets Roman and your coach's AI drafts use your information, names Anthropic as the AI provider and lists the data it receives. If you leave it unticked, nothing about you is sent to Anthropic. Connecting Apple Health or Health Connect asks for separate permission on your phone. We will not collect new categories of health data, or use or share it for new purposes, without telling you first and asking for your agreement.",
++      'You can withdraw the optional AI agreement at any time in Settings > Privacy; Roman and AI drafts about you then stop. To stop all collection, delete your account in Settings > Account. You can also disconnect Apple Health or Health Connect, and delete your data, as described below.',
++    ];
++    for (const paragraph of approved) expect(text).toContain(paragraph);
++    // Box 2 withdrawal and the delete-account path for stopping all collection.
++    expect(text).toContain('in Settings > Privacy; Roman and AI drafts about you then stop.');
++    expect(text).toContain('To stop all collection, delete your account in Settings > Account.');
++    // Rendered escaped, as plain paragraphs inside the Consent section.
++    const html = renderTrustPage('consumer-health');
++    const consent = html.slice(html.indexOf('>Consent<'), html.indexOf('>Your rights<'));
++    expect(consent).toContain('Settings &gt; Privacy;');
++    expect(consent).toContain('your coach&#39;s AI drafts');
++  });
++
++  it('links back to the Privacy Policy and keeps the counsel-review notice', () => {
++    const html = renderTrustPage('consumer-health');
++    expect(html).toContain('<a href="/privacy">Read the full Privacy Policy</a>');
++    expect(html).toMatch(/counsel review is recommended/);
++  });
++});
++
++describe('Privacy Policy accuracy (/privacy)', () => {
++  const html = renderTrustPage('privacy');
++  const text = visibleText(html);
++
++  it('links prominently to the consumer health policy', () => {
++    expect(html).toContain(
++      '<a href="/consumer-health-privacy">Read the Consumer Health Data Privacy Policy</a>',
++    );
++  });
++
++  it('names every service provider the code calls', () => {
++    for (const vendor of [
++      'Supabase',
++      'Fly.io',
++      'Stripe',
++      'Anthropic',
++      'Perplexity',
++      'PostHog',
++      'Sentry',
++      'Crisp',
++      'Resend',
++      'Expo',
++      'Sign in with Apple',
++      'Google sign-in',
++      'Apple Health',
++      'Health Connect',
++      'USDA FoodData Central',
++      'Open Food Facts',
++    ]) {
++      expect(text).toContain(vendor);
++    }
++  });
++
++  it('describes Roman: Anthropic, private from the coach, 180 days, client delete, staff access', () => {
++    expect(text).toMatch(/Roman is an AI assistant powered by Anthropic/);
++    expect(text).toMatch(/Roman conversations are not visible to your coach/);
++    expect(text).toMatch(/deleted automatically 180 days after each message is sent/);
++    expect(text).toMatch(/delete a conversation at any time/);
++    expect(text).toMatch(/only for support, safety and debugging/);
++    expect(text).toMatch(/two separate boxes on one screen/);
++    expect(text).toMatch(/never your coach’s private notes/);
++  });
++
++  it('covers retention, deletion, rights, no sale and children 16+', () => {
++    expect(text).toMatch(/How long we keep it/);
++    expect(text).toMatch(/Settings, then Delete account/);
++    expect(text).toMatch(/14-day grace period/);
++    expect(text).toMatch(/We do not sell personal data/);
++    expect(text).toMatch(/do not use health data for advertising or marketing/);
++    expect(text).toMatch(/You must be 16 or older/);
++    expect(text).toMatch(
++      /No account, consultation, coaching, health, wearable or Roman data is exchanged with any clinic partner/,
++    );
++  });
++
++  it('no longer makes the old inaccurate claims', () => {
++    expect(text).not.toMatch(/store only the subscription identifiers/);
++    expect(text).not.toMatch(/Your coaching data is visible to your coach \(that is the point/);
++    expect(text).not.toMatch(/minimum context required/);
++  });
++
++  it('keeps the company-drafted, counsel-review notice', () => {
++    expect(text).toMatch(/company-drafted statement of practice/);
++    expect(text).toMatch(/counsel review is recommended/);
++  });
++});
++
++describe('Terms of Service eligibility', () => {
++  it('requires 16+ and links both privacy documents', () => {
++    const html = renderTrustPage('terms');
++    expect(visibleText(html)).toMatch(/You must be 16 or older to use the service/);
++    expect(html).toContain('<a href="/privacy">Privacy Policy</a>');
++    expect(html).toContain(
++      '<a href="/consumer-health-privacy">Consumer Health Data Privacy Policy</a>',
++    );
++    expect(visibleText(html)).toMatch(/company-drafted statement of terms/);
++  });
++});
++
++describe('policy copy hygiene', () => {
++  it('mentions a clinic only as “clinic partner” (never by name)', () => {
++    for (const slug of ALL_TRUST_PAGES) {
++      const text = visibleText(renderTrustPage(slug));
++      const mentions = text.match(/clinic\s*\w*/gi) ?? [];
++      for (const m of mentions) expect(m.toLowerCase()).toMatch(/^clinic partners?$/);
++    }
++  });
++
++  it('uses no exclamation marks in policy copy', () => {
++    for (const slug of ['privacy', 'consumer-health', 'terms'] as const) {
++      expect(visibleText(renderTrustPage(slug))).not.toContain('!');
++    }
++  });
++
++  it('bumped the last-reviewed date for the D2 consent rewrite', () => {
++    expect(POLICY_LAST_REVIEWED >= '2026-10-01').toBe(true);
++  });
++
++  it('no page still describes the old single-box agreement (D2: two boxes)', () => {
++    for (const slug of ['privacy', 'consumer-health', 'terms'] as const) {
++      const text = visibleText(renderTrustPage(slug));
++      expect(text).not.toMatch(/single “I agree” box/);
++      expect(text).not.toMatch(/single "I agree" box/);
++    }
++  });
++
++  // B-611-1 (round 2): the community AI disclosure must describe what
++  // src/community/ai-triage does once backend #626 (R2b AI egress gateway,
++  // branch agent/clinic/r2b-ai-consent-gateway) is live: coach inbox sorting
++  // (classify into TRIAGE_CATEGORIES + summarise; fields from
++  // inbox-triage.prompt.ts; coach/owner only; read-only), and ONLY for authors
++  // with a live box-2 grant. The gate is in #626 at
++  //   src/community/ai-triage/ai-triage.service.ts  (`egress.consentedClients`
++  //     drops every item whose author has no grant before the prompt is built)
++  //   src/ai-egress/ai-egress.service.ts            (`consentedClients`, and the
++  //     live grant re-check on every send; fails closed)
++  // and is proven by #626's test/community/ai-triage/ai-triage.service.spec.ts
++  // ("AiTriageService — R2b box-2 consent"). #611 must not ship the triage
++  // flag on before #626: FEATURE_COMMUNITY_AI_TRIAGE stays off until then.
++  // Never "moderation" or "review"; never "does not depend on the AI box".
++  it('describes community AI as coach inbox sorting, only for members who ticked box 2', () => {
++    const privacy = visibleText(renderTrustPage('privacy'));
++    const health = visibleText(renderTrustPage('consumer-health'));
++    for (const text of [privacy, health]) {
++      expect(text).not.toMatch(/community content (review|for moderation)/i);
++      expect(text).not.toMatch(/review community content/i);
++      expect(text).not.toMatch(/does not depend on the optional AI box/i);
++      expect(text).not.toMatch(/separate from this box/i);
++      expect(text).not.toMatch(/for Roman or AI drafts/);
++    }
++    // The owner-approved box-2 sentence is back, byte for byte, in both places.
++    expect(privacy).toContain(
++      'If you leave it unticked, nothing about you is sent to Anthropic, and your plan, your coach, the community and Roman’s guided tour work as usual.',
++    );
++    expect(health).toContain('If you leave it unticked, nothing about you is sent to Anthropic.');
++    expect(privacy).toContain(
++      'Anthropic sorts the community posts and messages a coach has not yet answered into five groups (urgent, a win to celebrate, a form check, general, no action needed)',
++    );
++    expect(privacy).toContain(
++      'Sorting only includes posts and messages from members who ticked the optional AI box; everything else stays in the coach’s regular inbox, unsorted.',
++    );
++    expect(privacy).toContain(
++      'it receives up to 240 characters of the text, the name of the member who wrote it, the cohort name and how many hours ago it was posted.',
++    );
++    expect(privacy).toContain(
++      'it never replies, posts or acts on anything, and only the coach sees the result',
++    );
++    expect(privacy).toContain(
++      'Anthropic — Roman and coach AI drafts, after you agree; sorting and summarising a coach’s unanswered community posts and messages for that coach, if turned on, only for members who agreed.',
++    );
++    expect(health).toContain(
++      'up to 240 characters of each community post or message your coach has not yet answered, with your name, the cohort name and its age, so it can sort and summarise them for your coach (only if you ticked the optional AI box)',
++    );
++  });
++
++  it('keeps the community AI disclosure tied to the code it describes', () => {
++    // Five groups named in the policy == the implemented categories.
++    expect(TRIAGE_CATEGORIES).toEqual([
++      'urgent',
++      'win_to_celebrate',
++      'form_check',
++      'general',
++      'no_action_needed',
++    ]);
++    // The fields the policy lists are exactly the ones rendered into the prompt.
++    const prompt = buildInboxTriagePrompt([
++      {
++        id: 'item-1',
++        kind: 'post',
++        preview: 'x'.repeat(300),
++        cohortName: 'Spring plan',
++        authorDisplayName: 'Sam Member',
++        ageHours: 5,
++      },
++    ]).user;
++    expect(prompt).toContain('cohort: Spring plan');
++    expect(prompt).toContain('from: Sam Member');
++    expect(prompt).toContain('age_hours: 5');
++    expect(prompt).toContain(`text: ${'x'.repeat(240)}`);
++    expect(prompt).not.toContain('x'.repeat(241));
++  });
++
++  // Owner ruling 2026-10-01 16:30: the public website diagnostic quiz
++  // (src/diagnostic, Perplexity "roadmap") belongs to another product and is
++  // being switched off, so no policy may mention it or the data it collected.
++  // "Device, usage and diagnostic data" is the technical-diagnostics category
++  // (crash and performance reports), not the quiz, and is the only allowed use.
++  it('no longer mentions the website diagnostic or its roadmap on any public page', () => {
++    const pages = [
++      ...ALL_TRUST_PAGES.map((p) => visibleText(renderTrustPage(p))),
++      ...(
++        [
++          'index',
++          'setup',
++          'first-client',
++          'tour',
++          'faq',
++          'support',
++          'contact',
++          'delete-account',
++        ] as const
++      ).map((p) => visibleText(renderHelpPage(p))),
++    ];
++    for (const text of pages) {
++      const rest = text.split('Device, usage and diagnostic data').join('');
++      expect(rest).not.toMatch(/diagnostic/i);
++      expect(rest).not.toMatch(/roadmap/i);
++      expect(rest).not.toMatch(/quiz/i);
++      expect(rest).not.toMatch(/on our website/i);
++    }
++    // Perplexity stays only for first-milestone encouragement, which
++    // src/first-win/first-win.service.ts still sends to Perplexity on main
++    // (generateFirstDataPointMessage: only the win type, no client data).
++    const privacy = visibleText(renderTrustPage('privacy'));
++    expect(privacy).toContain(
++      'Perplexity, if enabled, is used to write short generic encouragement after your first logged milestones (it receives only the type of milestone, not your data).',
++    );
++    expect(privacy).toContain('Perplexity — generic milestone messages, if enabled.');
++    expect(visibleText(renderTrustPage('consumer-health'))).not.toMatch(/Perplexity/);
++  });
++
++  it('describes box 2 as optional AI processing by Anthropic, withdrawn in Settings > Privacy > Roman and AI', () => {
++    const privacy = visibleText(renderTrustPage('privacy'));
++    expect(privacy).toContain(
++      'The second is optional and starts unticked: it lets Roman and your coach’s AI drafts use your information, names Anthropic as the AI provider and lists the data it receives.',
++    );
++    expect(privacy).toContain(
++      'You can allow or withdraw the optional AI agreement at any time in Settings > Privacy > Roman and AI',
++    );
++    expect(privacy).toContain('Settings, then Delete account');
++    const terms = visibleText(renderTrustPage('terms'));
++    expect(terms).toContain(
++      'A separate, optional box lets Roman and your coach’s AI drafts use your information, processed by Anthropic.',
++    );
++  });
++});
++
++describe('HTML escaping and link safety', () => {
++  it('escapes ampersands and quotes in policy copy', () => {
++    const html = renderTrustPage('privacy');
++    expect(html).toContain('Trust &amp; Privacy');
++    expect(html).not.toMatch(/Trust & Privacy/);
++    const body = html.slice(html.indexOf('<body>'));
++    // No raw double quotes leak into text nodes (only attributes use them).
++    expect(body.split(/<[^>]*>/).join('')).not.toContain('"');
++  });
++
++  it('renders no script tags or inline event handlers', () => {
++    for (const slug of ALL_TRUST_PAGES) {
++      const html = renderTrustPage(slug);
++      expect(html).not.toMatch(/<script/i);
++      expect(html).not.toMatch(/\son[a-z]+=/i);
++      expect(html).not.toMatch(/javascript:/i);
++    }
++  });
++
++  it('safeHref only allows site-relative, mailto and https links', () => {
++    expect(safeHref('/consumer-health-privacy')).toBe('/consumer-health-privacy');
++    expect(safeHref('mailto:a@b.co')).toBe('mailto:a@b.co');
++    expect(safeHref('https://www.atg.wa.gov/file-complaint')).toBe(
++      'https://www.atg.wa.gov/file-complaint',
++    );
++    expect(safeHref('javascript:alert(1)')).toBe('#');
++    expect(safeHref('//evil.example')).toBe('#');
++    expect(safeHref('data:text/html,x')).toBe('#');
++    expect(safeHref('http://plain.example')).toBe('#');
++    expect(safeHref('/x" onmouseover="y')).toBe('#');
++    expect(safeHref('https://a.example/"><script>')).toBe('#');
++  });
++});
++
++describe('consumer health policy link on other public pages', () => {
++  it('appears in the footer of every trust page', () => {
++    for (const slug of ALL_TRUST_PAGES) {
++      expect(renderTrustPage(slug)).toContain(policyFooterLinks());
++    }
++  });
++
++  it('appears in the footer of every help page', () => {
++    for (const page of [
++      'index',
++      'setup',
++      'first-client',
++      'tour',
++      'faq',
++      'support',
++      'contact',
++    ] as const) {
++      expect(renderHelpPage(page)).toContain('href="/consumer-health-privacy"');
++    }
++  });
++
++  it('appears on the signup and download pages', () => {
++    expect(renderSignupPage(null)).toContain('href="/consumer-health-privacy"');
++    expect(renderSignupPage('GP-TEST1')).toContain('href="/consumer-health-privacy"');
++    expect(renderDownloadPage('ios')).toContain('href="/consumer-health-privacy"');
++    expect(renderDownloadPage('android')).toContain('href="/consumer-health-privacy"');
++  });
+ });
