@@ -220,6 +220,7 @@ are ready to hand to an agent when the owner says go: `/home/user/workspace/ops/
 | 11:29 | **Fee math is the #1 massive issue** (coach payout = price - card processing - TGP 2%; TGP must never lose money on a sale). Enforce $19.99 minimum or free. Earnings screen fix logged. Coach onboarding built around the coach "aha": connect Stripe or bank, invite a client, receive first payment. Card-update placement: research the best practice (recommendation in TO-DO 4). **Stay on Expo Free** (no plan upgrade). |
 | 11:31 | **Master workout builder:** non-client-specific program library, build once, reuse for everyone, plus auto-assign tools (TO-DO 6). |
 | 11:31-11:32 | **Flags live on day 1:** community, MWB templates/autosave/undo/AI live-create/named regimes, dunning v2 (TO-DO 8; AI live-create gated by R2b, TO-DO 9). |
+| 11:38 | **Go on #306 fix round 5 if agent capacity allows** — launch when a slot frees (cap stays 7 subagents); sandbox crash = massive wasted work, so keep load low. |
 | 11:36 | **Money = a coach Home card that expands into full page(s); merge Business metrics into Money.** **No more agents:** record to-dos and decisions here with context and goal state. |
 
 ## 4. Operator rulings in force (owner may override)
