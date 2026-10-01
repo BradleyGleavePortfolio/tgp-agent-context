@@ -6,6 +6,22 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 14:45 PDT: R2b PR #626 open; B-ENVTRUTH launched
+- Backend #626 (R2b AI egress gateway, T4) head 9e72ab93, stacked on #622's branch (base
+  agent/clinic/r2a-ai-consent-ledger). One gateway src/ai-egress reads the live box-2 grant on every send (no cache;
+  ledger error -> refuse); 403 ai_consent_required with specific coach/client copy; 503 ai_egress_blocked for any
+  non-Anthropic client-data egress; 13-path inventory in PR body; guard test blocks direct AI SDK use outside
+  src/ai-egress; /ai/chat no longer uses Perplexity. Report handoffs/op-7c52cefa/reports/B-R2B.md.
+  Merge order: #625 -> #622 (update + delta attestations) -> retarget #626 to main -> dual audit -> merge.
+- Operator decisions on R2b forks: (1) deploy sequencing — the AI-consent ledger flag goes ON at the clinic deploy
+  together with #622 + #626 + mobile #310 (box-2 UI); R2b never deploys while the flag is off (would refuse all
+  client-data AI). (3) head-coach brief business totals and the coach's own Roman text are not client data: keep
+  exempt. (4) community triage skipping non-consenting authors and roster 404s are correct (consent + tenancy): accept.
+  (2) public diagnostic sends de-identified prospect scores to Perplexity without box 2: owner call (asked;
+  recommendation keep exemption and disclose Perplexity in the privacy policy).
+- B-R2B done. Launched B-ENVTRUTH: fix_round_624_319_env_truth_muq278g7 (Claude Opus 5.5).
+- Running (7/7): AUD-OPUS, AUD-SOL2, B-FIX, B-COPY, B-FEE, S-DUNNING, B-ENVTRUTH.
+
 ## OWNER 2026-10-01 14:28 PDT: Android = Google Play (option A); PWA scrapped
 Near-verbatim: "A- ive already setup a google play dev account - i jsut have no testers prepared! I'll figure that out
 tonight - How do I tell google 'I'm ready to test now!'" then "wait theres a way around it???" (12-tester rule).
