@@ -6,6 +6,24 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 13:55 PDT: B-306 done; Sol wave 2 launched; P0 PR #625 open
+- Mobile #306 fix round 5 pushed: head a81a6c8 (rebased on main c4963f8), CI green, T4. Owner 13:28 copy done (Welcome:
+  "Have a code from your coach? You can add it now or later."; title "Create your account"; 409 -> "An account with this
+  email already exists." + Log in / Reset password; coachless Messages -> Contact support); unknown errors show a
+  reference ID + Contact support and go to Sentry; mapper utils/authFailure.ts for S-ERRORS. Opus C-306-1 only partly
+  fixed (no-email attempts match by method for 30 min). Report handoffs/op-7c52cefa/reports/B-306.md. Needs Opus + Sol
+  final-head attestations at a81a6c8.
+- Builder questions resolved by operator: EXPO_PUBLIC_CRISP_WEBSITE_ID is set in Expo for development/preview/production
+  (verified via Expo API, names only). SIGNUP_ROLE_CHOICE_ENABLED stays on (matches owner 13:28 open signup).
+  Support fallback email: asked owner (public contact pages publish the owner's coaching email; no evidence the
+  hello@ inbox in the PR is monitored).
+- Finding: Expo has EXPO_PUBLIC_COACH_SIGNUP_SECRET as a PUBLIC env var in all environments (baked into binaries). Sent to
+  the Opus auth/env lens to judge whether the backend trusts it.
+- Backend #625 = B-DRIFT P0 PR (head 6234f497 at 13:55, builder still running).
+- Launched AUD-SOL2: sol_audit_wave_2_p0_625_306_muq13dq6 (GPT-6.1 Sol): #625 first, then #306 a81a6c8. Opus lens told
+  to take #625 next, then #306.
+- Running (7/7): AUD-OPUS, AUD-SOL2, B-FIX, B-COPY, B-R2B, B-DRIFT, B-FEE.
+
 ## OPERATOR 2026-10-01 13:50 PDT: AUD-SOL wave 1 done; B-FEE relaunched
 - Backend #622 @ fcb984f2: Sol APPROVE 0/0/0 (comment 5939918167); Opus APPROVE already on the same head. Both final-head
   T4 attestations present. PR is BEHIND main (be667142). Plan: merge the P0 drift fix first, then update #622 and get
