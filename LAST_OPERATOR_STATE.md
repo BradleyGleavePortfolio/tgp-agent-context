@@ -6,6 +6,22 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 15:45 PDT (wall clock): B-FEE done — #627 (T4) 606b4760, #629 (T3) 32d81faa, mobile #321 (T3) 8bc4de3a
+- Coach payout = price - actual Stripe fee - TGP 2% (separate charges and transfers, on_behalf_of, source_transaction);
+  refunds/disputes borne by the coach (transfer reversal, then next payout); $0/code grants never transfer. #629:
+  $19.99 minimum or $0. All CI green. Report handoffs/op-7c52cefa/reports/B-FEE.md.
+- Production facts (read-only): 0 CoachPackage, 0 ClientPurchase, 0 CoachSubscription, 0 PurchaseFanout -> builder
+  decisions 3 (migrate old subscriptions) and 9 (packages under $19.99) are moot.
+- Operator decisions: keep 4 (head coach without Stripe -> sub-coach keeps the 5%) and 5 (ACH strict fee + 2%);
+  6 rename #627's migration after #622's 20270203000000_ at rebase; 7 accepted with reconciliation flag.
+- DAY-1 BLOCKER found in decision 2: no schedule runs the payout/settlement sweep (admin endpoint only) -> coaches
+  would never be paid automatically. Fold into #627 round 2 (schedule + lock + idempotency + kill switch) so the money
+  flow is audited once. B-FEE builder re-queued for that when a slot frees.
+- Decision 1 (full-refund kept fee owed by a coach who never sells again; closing it needs Stripe Account Debits with
+  coach consent) -> default ship as is; told the owner; Account Debits = later owner/legal item.
+- Merge order for money PRs: #595 -> #629 -> #321; #627 after round 2 with dual audit.
+- Opus re-queued: full T4 audit of #626 at 360d8705. Queue: Sol #626 -> B-FEE #627 r2 -> Sol #629/#321 -> dual #627.
+
 ## OPERATOR 2026-10-01 15:40 PDT (wall clock): P0 DEPLOYED and verified
 - Owner 15:27 PDT "approve the run" -> operator approved run 36932415461; Deploy app SUCCESS. Production now runs
   8a709a68 (#606 C06 + #625). Migration 20270125000000_restore_schema_declared_objects finished 22:30:25 UTC, not
