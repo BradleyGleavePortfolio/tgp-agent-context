@@ -6,6 +6,24 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 14:00 PDT: P0 PR #625 ready for audit; S-DUNNING launched
+- Backend #625 final head 3647e785 (T4): additive guarded single-transaction migration
+  20270125000000_restore_schema_declared_objects (ListType enum, 10 columns, 4 tables, RLS server-only, $verify$ block
+  rolls back unless every object matches) + new blocking workflow "Schema parity (migrations match schema.prisma)" with a
+  shrink-only baseline of 104 older non-missing items. All required checks green; only non-required shellcheck fails on
+  untouched scripts/s10-core-diff-gate.sh (same on other PRs). Report handoffs/op-7c52cefa/reports/B-DRIFT.md.
+  Awaiting Opus + Sol attestations (both told #625 is top priority). Merge + deploy (fly-deploy runs migrate deploy) as
+  soon as both approve.
+- Operator decisions on B-DRIFT forks: accept the shrink-only baseline; follow-up BL-MIGRATION-REBASELINE queued (low).
+  The 3 "missing unique indexes" exist in production as partial unique indexes (WHERE NOT NULL), verified read-only,
+  so uniqueness is enforced. Onboarding-abandoned nudge after deploy: no action (production has 1 User row).
+  Parity check: operator will add it to required checks right after #625 merges (strengthening only) and fix
+  scripts/setup-branch-protection.sh in a follow-up, unless the owner objects.
+- Field-name mismatch: mobile reads/writes profile.onboarding_completed, backend uses onboardingCompleted. Sent to B-FIX
+  to verify end to end and fix (could re-route finished users into onboarding).
+- B-DRIFT done. S-DUNNING launched: make_10_day_payment_lockout_live_ready_s_dunning_muq1cu5t (Claude Opus 5.5).
+- Running (7/7): AUD-OPUS, AUD-SOL2, B-FIX, B-COPY, B-R2B, B-FEE, S-DUNNING.
+
 ## OPERATOR 2026-10-01 13:55 PDT: B-306 done; Sol wave 2 launched; P0 PR #625 open
 - Mobile #306 fix round 5 pushed: head a81a6c8 (rebased on main c4963f8), CI green, T4. Owner 13:28 copy done (Welcome:
   "Have a code from your coach? You can add it now or later."; title "Create your account"; 409 -> "An account with this
