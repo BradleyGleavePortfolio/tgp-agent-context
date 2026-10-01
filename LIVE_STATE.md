@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-09-30 18:40 PDT (commit time is authoritative)
+- **Updated:** 2026-09-30 19:10 PDT (commit time is authoritative)
 - **Operator:** Computer, session c712e04d ([thread](https://www.perplexity.ai/computer/tasks/c712e04d-91da-4589-b9b1-50d5663183a9)). Single writer for Bucket A since EXECUTE at 16:32 PDT. Session f32d73ae is dead (owner, 16:31); its unpublished plans reached this session as owner-extracted documents.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
@@ -13,6 +13,13 @@ Two recurring terms:
 - **Comp access:** free access granted without an in-app payment.
 
 ---
+
+## Merges and builds (19:10)
+- Mobile #304 (iOS paywall / App Store posture, T4) merged `9c6d8bfa` after Claude Opus 5.5 and GPT-6.1 Sol APPROVE at the same head plus green CI.
+- Mobile #311 (Android minSdk 26 for Health Connect, T1) merged `43475cc6` after GPT-6.1 Sol APPROVE.
+- Android internal APK (EAS 14a58449, production API) finished; used for owner coach signup before bootstrap.
+- Backend #606 (C06 macros) and #607 (C05/C07 intake, consent-first, coach consultation view) opened, CI green, audits running.
+- Open fix rounds: mobile #306 r3, #309, #310; backend auth stack CI (casts), Roman stack CI + consent on every AI path; account deletion + community safety (App Store 5.1.1(v), 1.2); engagement (welcome message, reminders).
 
 ## Owner directions log (newest first)
 
@@ -85,7 +92,7 @@ Two recurring terms:
 | M3 expo-updates | T3 | prior builder | [mobile #305](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/305) | Fresh audit running |
 | M4 role choice UI | T4 | Claude Fable 5.1 (started before the routing update) | [mobile #306](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/306) | Fix round for 5 findings running |
 | M5 supabase-js pin (Android build blocker) | T2 | prior builder | [mobile #307](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/307) | Merged `b5c29790` (GPT-6.1 Sol APPROVE, CI green) |
-| Roman canonical face | T1 | operator | [mobile #308](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/308) | GPT-6.1 Sol APPROVE; merging after branch update |
+| Roman canonical face | T1 | operator | [mobile #308](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/308) | Merged `57cd865b` |
 | C04 production bootstrap | T4 | operator | n/a | Waiting on the owner's account (Android build tonight) |
 | C05 consultation onboarding and intake storage | T3 mobile / T4 storage | queued | n/a | Spec: owner-extracted prototype (87 screens) |
 | C06 macros single source of truth | T3 | queued | n/a | Fix the profile contract; one calculator; floors 1,200/1,500 |
