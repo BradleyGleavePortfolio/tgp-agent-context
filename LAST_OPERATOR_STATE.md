@@ -37,7 +37,13 @@ Verified 13:14-13:20 PDT (GitHub API, live probes):
   to the owner 13:19. Not yet device-verified. It still carries the old google-services.json (pre-#318) and the EAS
   FCM V1 key is still null, so Android push will not deliver on this build.
 
-Freeze: no subagent, audit or build starts until the owner names a budget (prompt section 0.5).
+OWNER 13:19 PDT (binding): "agent budget - all 7, cautiously to prevent sandbox crashes!" / "PR's that have been audited
+and are ready, check dependencies - approval to merge whats safe!" / docs.zip attached (16 files; programs fixture sha256
+be932a56ae09f85e... verified). Freeze lifted: up to 7 subagents, launched staggered, heavy work serialized through
+heavy.sh, disk checked every block. Standing merge authority for PRs with their tier's audits and required checks at the
+exact head, after a dependency check.
+- MERGED mobile #318 (Android FCM google-services.json, T2, Sol APPROVE at 7d24103b, required checks green, up to date)
+  as `c4963f87` 20:20 UTC. Rung: merged (not in any build yet).
 
 ---
 
