@@ -63,6 +63,10 @@ The sandbox has 2 CPUs and 7 GB RAM, shared by up to 8 agents.
   build reports, /home/user/workspace/wt/* logs) no longer exist; ignore references to them.
 
 ## PR body contract (builders)
+Extra T4 trigger (operator 14:58, Opus C-625-6): any change to a CI gate's own files — `.github/workflows/*` that gate
+merges (schema-parity.yml, migration-dry-run.yml, required checks), `scripts/ci/*`, `prisma/schema-parity-baseline.sql`,
+`scripts/setup-branch-protection.sh` — is T4, because a pull_request run uses the PR's own copy and can weaken the
+gate for itself. Auditors read those diffs line by line.
 Keep the PR body's tier header current: Tier / Why / T4 trigger scan / T3 trigger scan / Bounded T1 / Builder-owner /
 Acceptance evidence / Promotion triggers. Add or update a "Fix round" table: finding ID -> what changed -> commit -> test that proves it.
 Re-grade upward on the first promotion trigger. Never lower a tier.

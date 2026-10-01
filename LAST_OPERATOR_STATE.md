@@ -6,6 +6,18 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 14:58 PDT: #625 round 2 at 67e707f0; #306 needs round 6
+- #625 @ f6c6c809: Sol REQUEST CHANGES 0/1/0 (B-625-3 actionlint SC2086 from the operator's round 1); Opus REQUEST
+  CHANGES (same finding as its B-625-1; SQL approved; C-625-1..6 recorded: public-by-default /recipes user content goes
+  live once the Recipe table exists, onboarding nudge false positives, shared migration prefix, post-deploy prod diff +
+  required-check decision, EXPO_PUBLIC_COACH_SIGNUP_SECRET unused -> delete, gate trust boundary). Operator round 2
+  pushed 67e707f0 (mode + `set --` + "$@"); local actionlint+shellcheck clean. Both lenses asked for exact-head verdicts.
+  C-625-6 added to AGENT_BRIEF_COMMON as a T4 trigger.
+- #306 @ a81a6c8: Sol REQUEST CHANGES 0/2/1 (B-306-4 incorrect auth recovery copy, B-306-5 lost error/reference/
+  reporting context; C-306-5 optional provider-identity hardening), comment 5940946469. Needs fix round 6 when a slot
+  frees (re-queue the completed B-306 builder: fix_round_5_on_mobile_306_role_choice_mupzg5i5).
+- Sol wave 2 re-queued for the #625 delta only, then finishes (frees the slot for #306 r6).
+
 ## OPERATOR 2026-10-01 14:45 PDT: R2b PR #626 open; B-ENVTRUTH launched
 - Backend #626 (R2b AI egress gateway, T4) head 9e72ab93, stacked on #622's branch (base
   agent/clinic/r2a-ai-consent-ledger). One gateway src/ai-egress reads the live box-2 grant on every send (no cache;
