@@ -44,3 +44,14 @@ e. iOS payments (owner 13:37: TGP is 1:1 personal training under 3.1.3(d), no Ap
 - Paid -> free auto-cancel at period end (T4 money). Lane: S-FEE.
 - Verify every client package list hides unpublished packages (auditors).
 - Clinic code use cap + daily redemption count + rotation runbook (C04).
+
+## 6. Owner answers 13:41 PDT
+- Paid client who is a clinic patient: coach stops billing manually and keeps access ("stop billing, keep access"
+  coach action, available to every coach). Replaces default (c).
+- Voluntary cancel: access ends; non-payment: dunning v2 Day-10 lockout.
+- Leak safety: daily signup count per code/package for coaches; coaches create/rotate codes and generate QR codes.
+- Banner wording approved. Roman pitches the top coach to coachless users (scripted).
+- iOS checkout: in-app Stripe under 3.1.3(d) (option A). Replaces default (e).
+- Still open: public code text, free clinic access term (b), unpaid-lead default (d), monthly live call idea,
+  voluntary cancel timing (end of paid period vs immediate).
+

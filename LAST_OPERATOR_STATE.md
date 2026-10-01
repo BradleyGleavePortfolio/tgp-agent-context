@@ -6,6 +6,36 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER DECISIONS 2026-10-01 13:41 PDT: billing behavior, coach safety tools, Roman pitch, in-app Stripe
+Near-verbatim:
+- "A $49 client who turns out to be a clinic patient - id need to just stop their billing manually while selectively
+  keeping their access, and that should be an option for coaches just in case" -> coach action "stop billing, keep
+  access" for any paid client (T4: money + entitlement; audited; cancels the Stripe subscription and grants access).
+- "A $49 client cancels - they kick rocks and no more access if voluntary, if its no-pay then it follows my 10 day
+  lockout sequence - go make sure this is wired and in prod, working as intended!" -> voluntary cancel: access ends
+  (operator asked: at the end of the paid period vs immediately; default end of paid period); non-payment: dunning v2
+  (charges Day 0/1/3/7, hard lockout Day 10).
+- "The clinic code leaks online -> daily count for coaches of signups under what packages can prevent this, and the
+  option for coaches to create/generate new qr codes/codes for safety!" -> coach daily signup count by code/package;
+  coaches create, rotate and revoke codes and generate QR codes in the app.
+- "Banner wording - totally fine, i like it."
+- Roman pitch to coachless users: "Sir/Ma'am, just so your aware, TGP's top coach has available slots. Enter code
+  GP-XXXX and join for $49/mo. Interested?" -> scripted Roman card (no AI call, so no consent dependency); shown only
+  while the featured coach is accepting clients; frequency-capped; "Not now" respected.
+- 13:41: "A) Pay inside the app with Stripe and say FUCK APPLES CUT - fight that hill" -> in-app Stripe checkout on
+  iOS under 3.1.3(d); no IAP; App Review notes argue one-to-one personal training.
+
+Operator verification 13:45 (read-only):
+- Dunning v2 is BUILT but NOT LIVE: `FEATURE_DUNNING_V2` is absent from production secrets (fly-secrets-list run
+  36885057965), so v1 dunning is active and the Day-10 lockout never fires. Schema columns exist in production.
+- The mobile app has no handler for the lockout guard's 403 `LOCKED_DUNNING` (zero references in src/), so a locked
+  client would see a generic error. Coach invite-code screens exist (InviteCodesScreen, InviteCodeRedeemersScreen);
+  no QR generation in the app (no QR library).
+- Still to verify before the flip: Stripe retry settings vs our own Day 0/1/3/7 retries (double charging risk), webhook
+  events subscribed, customer portal live (owner action), in-app blocker + update-card path, coach alerts.
+New lanes queued (in order after B-FEE): S-DUNNING (verify + wire + mobile lockout screen + flip plan, T4),
+S-ERRORS, S-COACH-TOOLS (stop billing keep access T4, daily signup count, code create/rotate + QR), banner + Roman pitch.
+
 ## OWNER RULING 2026-10-01 13:37 PDT: TGP is 1:1 personal training; no Apple in-app purchase
 Near-verbatim: "we qualify as personal training, 1:1 service - nothing more, nothing less. ... we dont apply as 'info
 sellers' and i'll die on that hill!" Binding position for App Review: coaching payments are for a coach's one-to-one
