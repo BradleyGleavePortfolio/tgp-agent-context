@@ -1613,3 +1613,8 @@ docs are audit-exempt under R14; product-code slices are not.
 - Consequences: remove invite-only copy from the welcome and signup screens; map known signup errors to specific copy;
   build a coachless home (enter code, buy a package) with no dead ends.
 
+
+## 2026-10-01 16:30 PDT — Dunning rulings (owner)
+- 1A: card update during dunning auto-charges the open invoice (our code initiates the charge) and unlocks on success.
+- 2A: cancel during dunning voids the unpaid invoice and ends access immediately.
+- Context: voluntary cancel outside dunning keeps access through the paid period (13:43 ruling); free/code grants never enter dunning.

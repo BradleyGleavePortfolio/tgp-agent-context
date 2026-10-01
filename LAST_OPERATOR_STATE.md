@@ -6,6 +6,13 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OWNER 2026-10-01 16:30 PDT: "1A + 2A -> Keep progressing on the known work. Rotate that Google play store testing and app creation needs done by owner (me) at a later time"
+- Recorded in LIVE_STATE + DECISION_LOG. S-DUNNING builder (make_10_day_payment_lockout_live_ready_s_dunning_muq1cu5t)
+  to run #628/#322 round 2 (1A auto-charge open invoice on card update with idempotency + unlock on invoice.paid; 2A
+  void open invoice + end access on cancel during dunning) at the next free slot; both lenses told to hold #628/#322.
+- Play app creation/testers: owner later; operator stops reminding. S-ERRORS launched (no_vague_errors_one_support_email_muq5xdfc).
+- Running 7/7: B-FEE, B-R2B, B-TRAIN, S-ERRORS, AUD-OPUS, AUD-SOL, AUD-SOL3. Next free slot -> S-DUNNING r2.
+
 ## OPERATOR 2026-10-01 16:50 PDT (wall clock): M-PLAY done — mobile #323 (T2) d8edf8e1 -> updated e0b0b01d
 - Switch OFF: zero Health Connect/Samsung health permissions, 18 manifest removal rules, HC plugin absent; ON: base 17
   health permissions + Samsung; iOS identical. 11 suites / 109 tests; CI green. Updated onto mobile main 56d4fc62.
