@@ -6,5 +6,5 @@ Copied from the operator sandbox so a successor in a fresh sandbox has them:
 - `STACK_RANGES.md` — backend auth stack heads and incremental audit ranges.
 - `CONSENT_D2_CONTRACT.md` — D2 two-box consent contract (box 1 required, box 2 optional AI).
 - `lanes/` — ready-to-launch builder objectives not started by owner direction 11:39 (S-FEE fee fix + $19.99 minimum, S-MWB Programs library, #306 fix round 5).
-- `NEXT_OPERATOR_PROMPT_v2.md` — the master prompt for agent 109 (clinic launch, PR grading, owner escalation).
+- `NEXT_OPERATOR_PROMPT_v3.md` — the master prompt for agent 109: EXECUTE doctrine, product spec as decided through 10-01, to-do list, PR grading, owner escalation (supersedes v2).
 Read LAST_OPERATOR_STATE.md first.
