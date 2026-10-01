@@ -6,6 +6,16 @@ Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5
 now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 Older sections below are agent 108's snapshot and stay as written unless corrected here.
 
+## OPERATOR 2026-10-01 16:35 PDT (wall clock): Opus APPROVE #626, #306 r7, #599, #624
+- Opus: #626 360d8705 APPROVE 0/0/3 (5942230057; C-626-1 source-text guard not a hard boundary, C-626-2 AI output
+  stored before withdrawal still served, C-626-3 triage empty without reason); #306 33eec6bc APPROVE 0/0/0 new
+  (5942285811); #599 8ae0fea5 APPROVE 0/0/3 (5942356078; patch-id c3c450fc confirmed); #624 1159da9b APPROVE 0/0/5
+  (5942356461; C-624-4: deploy_staged=true runs fly secrets deploy = restarts prod machines and applies ALL staged
+  secrets — never use without owner approval).
+- Merge-order note: whichever of #599/#624 lands second must keep AUTH_SIGNUP_WITH_CODE_PER_HOUR registered; same for
+  any env #626 reads.
+- Waiting on Sol for #626, #306 r7, #599, #319, #624. Opus now auditing #610 then #314 (full T4).
+
 ## OPERATOR 2026-10-01 16:25 PDT (wall clock): #599 resolved (8ae0fea5); M-PLAY launched
 - B-TRAIN resolved #599 against main 10dff85c: 894263f5 pure resolution (claimed patch-id equal to audited
   e3167fe7..7b496aca) + 8ae0fea5 one extra commit (single coach-cannot-redeem constant/message, restored warn log).

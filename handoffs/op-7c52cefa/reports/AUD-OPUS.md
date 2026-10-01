@@ -85,3 +85,45 @@
 ## Lane close (AUD-OPUS)
 - EXPO_PUBLIC_COACH_SIGNUP_SECRET: no code reads it (backend and mobile main, full history, every open PR head). The backend trusts nothing with that name: coach elevation is operator-only (selectRole refuses coach/owner; /auth/become-coach behind ALLOW_SELF_SERVICE_BECOME_COACH, default off; bootstrap uses BOOTSTRAP_SECRET). Severity low. Delete it from all EAS environments; rotate any server secret that ever shared its value.
 - Worktrees aud-opus-be and aud-opus-mob removed. Disk 63%.
+
+## Merge train (attestor role, from 15:25 PDT)
+### backend#597 @ b6b383c70d16b9eb20bd33ac9eef1d1b303db39f — APPROVE (A0 B0, C-597-1..3 carried)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/597#issuecomment-5941554558
+- Pure integration: parents e3167fe7 + 8a709a68; fresh local merge tree 3ea28242d905 == PR tree, no conflicts.
+- Main delta #606/#625: only ci.yml overlaps (different jobs, both hunks present); #597 has no prisma changes or migrations; Schema parity approved-mode OK (104/104) vs baseline at 8a709a68.
+- Local: 5 suites / 112 passed, 1 skipped (ops/aud-opus/jest_597_b6b3.log). Required CI all SUCCESS; shellcheck SC2015 pre-existing.
+
+### mobile#306 @ 501a9e0b4101c0210efe2c8a7ad94ec96d712165 — APPROVE (A0 B0 C1 new) — fix round 6
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/306#issuecomment-5941788926
+- C-306-5 closed (SAFE_CODE identifier-only), C-306-6 closed (bare 401 = wrong creds only for email). Backend main bab05f44 contract: 401 "Email not confirmed..." -> email_unconfirmed; 401 "Invalid email or password" -> invalid_credentials; both exact strings pinned in r6 tests.
+- C-306-8 Google 401 "email address is not verified" matches the provider-agnostic unconfirmed text -> "open the link we sent" copy for Google (rare).
+- Local: 29 PR test files -> 29 suites / 390 passed (ops/aud-opus/jest_306_r6.log). CI 4/4 SUCCESS.
+
+### backend#622 @ 42f2013dfc4f0fc62a50f146f80fbd23cc460251 — APPROVE (A0 B0, C-622-6/7 carried) — merge train
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/622#issuecomment-5941848049
+- Pure integration: parents fcb984f2 + bab05f44; fresh local merge tree dfef0ced == PR tree, no conflicts. Overlap only .env.example, prod-switches.yml (dup set identical to main), ci.yml (adds the R2a RLS step).
+- Migration 20270203000000_ai_processing_consent_ledger orders after #625's 20270125000000_; forward/reversible SUCCESS on the full chain. Schema parity approved-mode vs baseline at bab05f44: 104/104 OK; baseline file untouched.
+- Local: 7 suites / 209 passed (ops/aud-opus/jest_622_42f2.log). CI all SUCCESS incl. rls-live-tests (consent RLS suite 27/27); shellcheck SC2015 pre-existing.
+
+### backend#626 @ 360d8705acdd73c68b01640b753087bca06819fe — APPROVE (A0 B0 C3) — R2b AI egress gate, full T4
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/626#issuecomment-5942230057
+- Only src/ai-egress constructs SDK clients and calls providers; every send awaits assertMaySend; live ledger read per send (flag off or error = no grant); client data only to anthropic; retries/repairs re-check; wearables checks before cache. Crons/brief/triage filter to consenting ids and re-check at send; partial-consent brief re-aggregates from consenting ids only; triage cache key covers exact consented set. 403 ai_consent_required / 503 ai_egress_blocked / 404 tenancy pre-flight before consent read; refusals never wrapped. Forks hold (flag ON at clinic deploy; head-coach business brief and Roman coach surface exempt; triage/404 side effects). Diagnostic noted only (being removed).
+- C-626-1 guard is a source lint (call sites still hold SDK instances; aliasing/bracket shapes pass) -> egress owns clients; C-626-2 stored AI outputs from before a withdrawal remain served (brief row, drafts); C-626-3 triage send-time refusal collapses to empty triage.
+- Local: 14 suites / 298 passed (ops/aud-opus/jest_626.log). CI all SUCCESS at head.
+
+### mobile#306 @ 33eec6bcaa4951bd672b651faae61b80bb5f3153 — APPROVE (A0 B0, no new C) — fix round 7
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/306#issuecomment-5942285811
+- C-306-8 closed (provider-specific unverified-email copy). Google backend failure is now a failure (provisional session and user_data removed; no server_confirmed bypass). Identity-free markers match only identity-free sign-ins; method-only kept for the refusal caution only (removes my r5 accepted residual). Provider config faults referenced and reported; native Apple codes through SAFE_CODE; provider invite refusals mapped.
+- Local: 31 PR test files -> 31 suites / 411 passed (ops/aud-opus/jest_306_r7.log). CI 4/4 SUCCESS.
+
+### backend#599 (merge train) @ 8ae0fea5341b1e832356e725fafb46ee1025ea71 — APPROVE (A0 B0 C3: C-599-1/2 carried, C-599-3 new optional)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/599#issuecomment-5942356078
+- Pure integration verified: patch-id of diff(10dff85c, 894263f5) == patch-id of audited diff(e3167fe7, 7b496aca) (c3c450fc); merge-tree(base e3167fe7, 10dff85c, 7b496aca) tree == 894263f5 tree (1f7c5d1f). 12-hunk table consistent. No migration/schema change; parity green.
+- 8ae0fea5 reviewed fully: one coach_cannot_redeem constant + body shared with select-role; warn log (id + role only) restored; no decision/status change. C-599-3: owner refusal copy has no next step.
+- Local: 7 suites / 149 passed (ops/aud-opus/jest_599_8ae0.log). CI all SUCCESS.
+
+### backend#624 @ 1159da9bd4391aa50b13131cccb008623d06e17e — APPROVE (A0 B0; B-624-1 closed; C-624-4/5 new; C-624-1/2/3 carried)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/624#issuecomment-5942356461
+- Range-diff: 3 audited commits identical after rebase onto 10dff85c; delta 7654b3ad + 1159da9b. Malformed unregistered names -> MALFORMED_n + length bucket (probe: absent from JSON and markdown). Post-check via --json + jq; specific errors. Registrations match code defaults.
+- C-624-4: new deploy_staged=true runs fly secrets deploy (applies every staged secret on the app; rolling restart). C-624-5: well-formed unregistered names still printed (by design).
+- Local: 6 suites / 202 passed, 1 skipped (ops/aud-opus/jest_624_1159.log). CI green except pre-existing shellcheck SC2015 (s10-core-diff-gate.sh, also failing on main).
