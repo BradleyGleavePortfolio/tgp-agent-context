@@ -341,11 +341,21 @@ EXECUTE that Bradley can override. When building, treat this as the spec.
    - **D3 (OR):** health prefill of onboarding moves to 1.0.1.
    - **Non-negotiable invariant:** one person's phone data must never upload into another account (Sol A-317-1 was
      exactly that).
-   - The wearables AI insight panel stays hidden (OR).
+   - The wearables AI insight panel stays hidden (OR), until R2b lands and Roman goes data-aware (12:51).
+   - **Owner 12:51:** wearables must be on at day 1: fix, audit, then flip `FEATURE_WEARABLES_INGEST_POST` and
+     `FEATURE_COMMUNITY_WEARABLE_PROMPTS`, and wire the orphaned coach wearable-prompts screen.
    - Known v1 limits: no background sync; later edits in Apple Health or Health Connect aren't re-synced.
 
 ### 4.4 Roman
-- **D1 (OR): scripted Roman only in 1.0** (tutorial, plan and macro explanations, reminders, welcome). Live Roman chat in
+- **OWNER OVERRIDE 10-01 12:51: Roman sees client data in v1.0.** He is "a super intelligent butler, coach's assistant,
+  and helper agent all-in-one". This supersedes the D1 line below. Requirements:
+  - R2b first: no client data reaches the AI without a live box-2 grant.
+  - The Roman grounding stack (#598/#601/#602/#603/#605) returns to the critical path. T4.
+  - **Roman approve-to-adjust** ("Sarah's recovery dropped, cut tomorrow's volume 15%, approve, sir?") is OFF today and
+    has no brain. Build the brain (wearable trend plus training load → a proposed change to the next workout), plus coach
+    Approve/Edit/Dismiss that applies through the workout builder, with an audit trail and the box-2 gate. Then audit and
+    flip it on.
+- ~~**D1 (OR): scripted Roman only in 1.0**~~ (superseded 12:51 for data-awareness; whether live free-form chat is in 1.0 follows from the owner's butler direction) (tutorial, plan and macro explanations, reminders, welcome). Live Roman chat in
   1.0.1. `EXPO_PUBLIC_FF_ROMAN_CHAT` and `FEATURE_ROMAN_CHAT_ENABLED` stay off; the Roman stack (#598, #601, #602, #603,
   #605) is off the critical path.
 - **Roman's face** is the older Black butler in `design/roman/` (09-30 16:40). The younger man in the mobile
@@ -507,6 +517,60 @@ audited fly-env-sync manifest. Verify each on Bradley's account right after it f
   the App Store Connect API key are already in Expo.
 - App Store package (C11): metadata, privacy labels, review notes stating the 3.1.3(d) basis, demo accounts,
   screenshots per the plan in `docs.zip`.
+
+### 4.11 Owner decisions 10-01 12:51 (coach side, community, blockers)
+
+Full text, plus the coach-side static check table, is in `LAST_OPERATOR_STATE.md` under "OWNER DECISIONS 2026-10-01
+12:51".
+
+**Day-1 blockers (owner):**
+- the dead Earnings screen;
+- coach setup wizard steps 2-5, which are hollow and have no Stripe button;
+- dunning v2 off, plus no end-to-end test of the Stripe customer portal;
+- "Download my data" writing to `/tmp`.
+
+**Money:** one "command center" page that swallows Business metrics. Reuse the existing `src/screens/coach/command-center/`
+screens (Overview, Inbox, ActionQueue, AtRisk, WinStreaks; mock switch `EXPO_PUBLIC_USE_MOCK_COMMAND_CENTER`). Don't
+build a new page.
+
+**Coach daily brief:** luxury, powered by Roman, runs once a day, turns scattered info into highlights ("Sir, we collected
+$x last night. Sarah and 2 others messaged you. I have response drafts made. Good morning").
+- Already built: backend `src/coach/brief/` (Anthropic, daily cron, push) and mobile `CoachBriefScreen`.
+- Missing: reply drafts, butler tone, the box-2 gate (client details go to Anthropic today without a consent check), and
+  verification that COACH_BRIEF_ENABLED and the cron are set on Fly.
+
+**Client list and detail:** easy search; tap into a client and see data, score, logs, wearables and billing.
+- Exists: search plus a status filter, and 10 detail tabs.
+- Missing: billing on client detail, the score in view, and consultation answers (in the S-REACH WIP).
+
+**Check-ins:** there is no dedicated coach review screen; the backend controller exists. **Booking inbox, packages,
+Stripe connect:** the screens exist; they need device passes.
+
+**Direct bank connection** (operator recommendation, owner to confirm): no separate bank path in v1.0. Stripe Express
+already collects the bank account, so frame the wizard step as "Add your bank to get paid (secured by Stripe)". Payouts-v2
+(Financial Connections) comes after S-FEE.
+
+**Community = a Telegram-style coach system** (operator proposal, owner to confirm). Four kinds of space:
+1. 1:1 DMs between coach and client;
+2. groups of the coach and a few clients;
+3. broadcast channels from the coach to many (scheduled and recurring);
+4. community boards (topic threads and pinned resources).
+
+Telegram basics: realtime delivery, replies, reactions, photos, read state, typing, @mentions, pins, mute, search, push,
+unread counts, block/report both ways.
+
+Coach superpowers:
+- a unified priority inbox with Roman triage and reply drafts;
+- segments (package, program, tag, signup date, last active, risk);
+- saved replies;
+- rich cards in chat (workout, meal plan, booking link, package link, check-in form);
+- voice notes, polls, quiet hours;
+- a moderation queue with the 24-hour commitment.
+
+v1.0 must-haves: DMs, clinic spaces, broadcast announcements, push, unread counts, block/report.
+
+**Open owner question:** the wizard is a day-1 blocker, but coaches only reach it if in-app coach sign-up ships (#597 +
+#306). Is role choice now must-ship, with no client-only fallback?
 
 ---
 
@@ -872,6 +936,17 @@ and near-verbatim words). Anything superseded stays, marked superseded. Unrecord
 | 16 | Audits #609/#312 | Welcome message at 13 min + reminders approved | T2 | Fri | Unaudited |
 | 17 | Sentry native init | Pre-JS crashes reported | T2 | Before Sat if cheap | Not started |
 | 18 | Data export to Supabase storage | "Download my data" reliable (not `/tmp`) | T4 (privacy/export) | Before App Review if possible | Not started |
+| 20 | Roman sees client data in v1.0 (owner 12:51) | R2b box-2 gate in the AI gateway + Roman grounding stack; Roman knows the client's plan, logs, macros, wearables | T4 | Day 1 per owner (risk: biggest scope add) | Not started |
+| 21 | Roman approve-to-adjust (recovery → volume change, coach approves) | Brain + Approve/Edit/Dismiss applying through the workout builder; audit trail; box-2 gate; then flag on | T4 | Day 1 per owner | OFF, no brain |
+| 22 | Wearables fix → audit → flip (ingest + wearable prompts + coach prompts screen) | Section 4.3 step 9 live | T4 | Day 1 | #623 Sol approved; #317 unaudited |
+| 23 | Coach daily brief to luxury | Reply drafts, butler tone, box-2 gate, COACH_BRIEF_ENABLED and cron verified | T4 (AI + client data) | Day 1 | Built, gaps listed in 4.11 |
+| 24 | Client detail: billing + score + consultation answers; better list sort | Section 4.11 | T2 | Day 1 | Partly in S-REACH WIP |
+| 25 | Coach check-in review screen | One place to review and respond to check-ins | T2 | Day 1 | Missing |
+| 26 | Telegram-style community (v1.0 must-haves first) | Section 4.11 | T3/T4 (realtime, safety) | Must-haves day 1; rest via OTA | Community API off in prod |
+| 27 | Money command center via existing `command-center/` | TO-DO 2 spec on live routes; Earnings dead routes retired | T2 | **Day-1 blocker** (owner) | Not started |
+| 28 | Coach wizard with "Add your bank to get paid" (Stripe Express) | Steps 2-5 real; first package; invite; checklist | T2 | **Day-1 blocker** (owner); needs role choice | Not started |
+| 29 | Dunning v2 + Stripe portal end-to-end test | Failed card → retries → portal update → recovered | T4 | **Day-1 blocker** | Waiting on Bradley's Stripe portal setting |
+| 30 | Data export to storage | Replaces item 18 | T4 | **Day-1 blocker** | Not started |
 | 19 | Backlog / 1.0.1 | Live Roman chat (D1); health prefill (D3); coach tutorial; Roman AI spend cap R9; seeded community rooms; MWB auto-assign rules; landing page; Android ≤13 Health Connect rationale screen; dedicated message for clients whose coach was deleted; remove unused `COACH_SIGNUP_SECRET`; background wearables sync | various | After go-live | Logged |
 
 When Bradley gives a budget, use the staged objectives in `handoffs/op-590e4a5b/lanes/` and the common brief. Put each
