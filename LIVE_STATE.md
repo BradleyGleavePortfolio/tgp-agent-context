@@ -1,14 +1,15 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-09-30 16:05 PDT
-- **Operator:** Computer (Claude Opus 5.5 Fast), session f32d73ae ([thread](https://www.perplexity.ai/computer/tasks/f32d73ae-304b-47f5-987b-696c33cd61e6)). This session is the single writer for both buckets.
+- **Updated:** 2026-09-30 17:05 PDT (commit time is authoritative)
+- **Operator:** Computer, session c712e04d ([thread](https://www.perplexity.ai/computer/tasks/c712e04d-91da-4589-b9b1-50d5663183a9)). Single writer for Bucket A since EXECUTE at 16:32 PDT. Session f32d73ae is dead (owner, 16:31); its unpublished plans reached this session as owner-extracted documents.
+- **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
-**Priority order (owner, 2026-09-30 10:48 and 11:42 PDT):**
-1. **Bucket A, the initial customer journey:** App Store submission as soon as possible, with the clinic flow working end to end.
+**Priority order (owner):**
+1. **Bucket A, the initial customer journey:** App Store submission Sat 10-03, clinic go-live by Wed 10-07.
 2. **Bucket B, the importer:** paused where it stands.
 
 Two recurring terms:
-- **Clinic partner:** the medical clinic whose clients join through a QR code. Its name is kept out of public repos.
+- **Clinic partner:** the medical clinic whose patients join through a QR code. Its name is kept out of public repos.
 - **Comp access:** free access granted without an in-app payment.
 
 ---
@@ -17,6 +18,11 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 09-30 16:53 | Replace the T0-T4 model routing doctrine with the owner's updated version. T0/T1 GPT-6 Luna, T2 GPT-6.1 Sol, T3 Claude Opus 5.5, T4 Claude Opus 5.5 + GPT-6.1 Sol. | [MODEL_ROUTING.md](MODEL_ROUTING.md) is now canonical. |
+| 09-30 16:40 | Roman already has a decided face: the older Black butler in `design/roman/`. The younger man in the mobile `assets/roman/` files is not Roman. | Mobile asset fix PR: canonical art plus a sha256 pin test. |
+| 09-30 16:38 | Production deploys of audited main commits, production flag and setting changes, and the C04 production data setup are authorized through 10-07. Submit to App Review as soon as release QA passes. Safety copy: warmer butler tone, and give useful general guidance and a safe next step before the physician line. AI spend: the coach has one refillable AI bucket shared with all of their clients; the owner account sees true dollar cost; starting hard limit $30/month for the owner's bucket. | R4 copy revision; new slice R9 (coach bucket, true-cost view, cap). |
+| 09-30 16:32 | EXECUTE for Bucket A. | Operator session c712e04d is the accountable operator and single writer for Bucket A. |
+| 09-30 16:31 | (1) Session f32d73ae is dead. (2) Roman's tutorial also explains wearables (connect, health and sleep data) and community and chats. (3) Community: one space with all clinic patients, one space per workout plan, and the coach can divide members by signup date. (4) Apple first. (5) Waiver = one quick "I agree" box that also lets TGP and Roman see the client's in-app data. (6) Roman sees all of the client's own data. (7) Tutorial teach-back: log your first meal and message your coach. (8) Clinic reporting is done by the owner personally; the clinic never sees anything and no patient data flows between the clinic and TGP. | Approval packet defaults #7 and #13 are overridden by (7) and (6). |
 | 09-30 11:48 | Client-to-coach payments are filed under App Review Guideline 3.1.3(d) (person-to-person services), processed through Stripe with no Apple in-app purchase, to pass the lowest cost to consumers. TGP is positioned as a B2B / person-to-person service. | Decided. Purchases of 1:1 coach packages stay visible on iOS, and the purchase copy names the individual coach. Hidden on iOS: AI credit packs, group or one-to-many products, and any seat upgrade (flag `EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES`). App Review notes will state the 3.1.3(d) basis. Fallback if Apple disagrees: an external link to web checkout on the US storefront (3.1.1(a)). |
 | 09-30 11:47 | Business model: a 2% take rate, not seat fees (payouts-v2 `platform-fee.service.ts` already implements 2% plus 50% of the payment-rail savings). Coach growth is product-led (PLG): download, choose coach, in-app tutorial, simple activation to the first client payment through TGP. Coach signup and Roman's intelligence are required. Client tutorial on day 1; coach tutorial on a later day as a secondary but required priority. | The coach PLG activation plan (P-series) is added: coach funnel, coach tutorial, payments compliance. The coach onboarding track ends by handing off to it. |
 | 09-30 11:44 | Anyone who downloads the app must be able to choose client or coach, and each role gets its own onboarding flow. | **Ruling R-ROLE-CHOICE-1:** role choice at account creation is allowed. Details below the table. |
@@ -38,67 +44,62 @@ Two recurring terms:
 
 ---
 
+---
+
 ## BUCKET A: Initial customer journey (clinic launch)
 
-- **Goal:** QR code → download → sign up → auto-attached to Bradley → personal-trainer consultation onboarding → macro targets explained by Roman → 1 of 3 programs auto-assigned and explained by Roman → Duolingo-grade tutorial → every basic function robust.
-- **Coaches:** self-serve signup with their own onboarding.
-- **Target:** App Store submission Sat 10-03 (mobile freeze), release Tue 10-06.
-- **Plan:** `clinic/PLAN_clinic_launch.md`. Audits: `clinic/recon-mobile.md`, `clinic/recon-backend.md`.
+- **Guardrail flow (owner):** QR code, App Store download, consultative personal-trainer onboarding, auto-attach to the owner as coach, auto-grant of the owner's free package, auto-assign one of three workout plans, then Roman's hands-on tutorial: workout plan and macro targets, community space and messaging the coach, connecting wearables and where health and sleep data live, ending with the teach-back (log first meal, message coach).
+- **Positioning:** personal training only; no diagnosis, treatment, or medical claims; Health & Fitness; medical device No.
 
-### Production facts (verified 2026-09-30)
+### Production facts (verified 2026-09-30 by c712e04d)
 
-- The app is not public on the App Store; the iTunes lookup returns 0. An App Store Connect record exists (id 6765847915).
-- The production database has 1 user, the system coach. There is no owner or coach account for Bradley, no clients, and 0 active purchases.
-- The RLS public-exposure migration is applied. The Supabase security advisor shows no exposed tables.
-- **Sign in with Apple is broken in production.** `POST /api/auth/apple` with the app's request body returns 400 `property identity_token should not exist`.
-- Signup policy: invite code not required; providers are email and Apple. Because of a field-name mismatch, the app still always demands an invite code.
-- `ANTHROPIC_API_KEY` exists as a Fly secret. Roman is pinned to `claude-3-7-sonnet-20250219`.
+- App not on the App Store (iTunes lookup for id 6765847915 returns 0 results).
+- Backend production ran `3a9369b9`; C02 (`bffae5f3`) deploy run 36772404536 approved 16:38 PDT under the owner's authorization.
+- Lean onboarding never saves: mobile sends `current_weight`, `dob`, `primary_goal` and more; `PUT /profile` whitelists `current_weight_lbs`, `date_of_birth`, `goal_type`, and `forbidNonWhitelisted: true` rejects the whole request. The backend macro calculator substitutes 180 lb, 175 cm, age 30.
+- Community and cohort modules exist but every mobile community flag defaults off; backend community flags are unclaimed in prod-switches.
+- Wearables (HealthKit, Health Connect) code and screens exist; no device verification on record.
+- Mobile `assets/roman/` showed the wrong man since 2026-06-10 (#231); canonical art is `design/roman/`.
+- No audit verdicts for any open clinic PR exist on GitHub. Two GPT-6 Sol reports from the dead session (backend #598 and #601, both REQUEST CHANGES) reached this session as owner-extracted documents. They are used only as fix input, not as audit evidence; every open PR gets fresh audits at its new head.
 
 ### Slices, PRs and status
 
-| ID | Slice | Tier | Lane / builder | PR | Status |
-|---|---|---|---|---|---|
-| C01 | Comp access: invite code bound to a package (`free` or `prepaid`), claimable $0 packages, revocation | T4 | Backend A, Claude Fable 5.1 | [backend #595](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/595) | The first cut (env list) is being reworked into the package-binding design. CI green except `npm audit`, which may predate this PR; being checked. |
-| C02 | Apple sign-in contract alias; signup-policy legacy fields | T4 | Backend A, Claude Fable 5.1 | pending | In build (top priority) |
-| C03 | Reliable attach: `invite_attached` flag, no re-parenting, clinic Wi-Fi signup limit | T4 | Backend A, Claude Fable 5.1 | pending | Queued after C02 |
-| C13 | Signup-time role choice, back end (`intended_role`) | T4 | Backend C13, Claude Fable 5.1 | pending | In build |
-| M1 | Signup-policy contract, paste invite code, attach-failure retry, Apple sends `token` (the live contract) | T3 | Mobile B, Claude Opus 5.5 | [mobile #303](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/303) | **MERGED** to mobile main at `60e43455` (audit round 3 APPROVE at `b34c7e9a`, GPT-6 Sol; CI green, 4,569 tests). The Android preview APK build [d3db0b56](https://expo.dev/accounts/the-growth-project/projects/tgp-health-and-wellness/builds/d3db0b56-6439-4c82-90bc-86592cadb648) **FAILED**. Hermes can't compile a non-literal dynamic `import()` in `@supabase/supabase-js` 2.106.x (it loads OpenTelemetry optionally). This blocks every store build from main, not just tonight's. Fix in progress: pin supabase-js to 2.105.0, which is verified clean (2.117.2 also fixes it upstream with a `react-native` export condition), plus a CI guard and a local Hermes compile. EAS env `EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES=true` created in preview and production. |
-| M2 | iOS flag `EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES`: hides non-P2P purchases (credit packs, seats and billing, group products); 1:1 coach packages stay visible | T3 | Mobile B | [mobile #304](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/304) | Fixes pushed; head `22104dde`, CI green. Re-audit running. Open owner item: packages carry no service-type field, so every client package is treated as 1:1; the backend 1:1 marker comes in the coach payments work (P slices). |
-| M3 | expo-updates OTA (channels, fingerprint runtime), buildNumber and versionCode bump | T3 | Mobile B | [mobile #305](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/305) | Fixes pushed; head `1b88f424`, stacked on #304, CI green. On builds 6 and up, iOS purchases stay hidden even if an update changes the flag: it takes both the flag explicitly off and a native build below 6. A publish script refuses a mismatched environment or an unreviewed gate. Re-audit running. |
-| M4 | Role choice before signup ("I'm here to train" or "I coach clients"); an invite code always means client; retries without `intended_role` against old backends | T4 | Mobile B | [mobile #306](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/306) | Audits at `bbc1faea`, both REQUEST CHANGES: the app ignores `signup-policy.role_choice`; a coach signup silently falls back to client; Login OAuth creates an account before the role question; the fallback notice is lost; a typed code is dropped. Fix round queued after the supabase-js pin. |
-| M2 | Home message and bell entries, push-tap routing, deferred push prompt, iOS hides purchases, package prompts suppressed | T3 | Mobile B | [mobile #304](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/304) | Open, CI green. Needs an audit. |
-| M3 | expo-updates (EAS Update) and build-number bump | T3 | Mobile B | [mobile #305](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/305) | Open, CI green. Needs an audit. |
-| M4 | Role-choice screen (client or coach), stacked on M1 | T4 | Mobile B | pending | Queued |
-| C04 | Production bootstrap: Bradley's owner account, clinic code, QR poster, reviewer demo accounts, store URLs | T4 | Operator | n/a | Waiting on Bradley's signup tonight |
-| O | Personal-trainer consultation onboarding (9 chapters, 31 screens, about 4.5 min) plus role choice and the coach onboarding track | T3/T4 | Planner, Claude Opus 5.5 | `clinic/plans/PLAN_onboarding_consultation.md` | **Plan done**; awaiting owner approval. Finding: today's Lean onboarding never saves to the server (field-name mismatch), and the macro calculation substitutes made-up defaults (180 lb, 175 cm, age 30). |
-| R | Roman intelligence: one Roman brain; context builder scoped to the client and their coach; model from config (primary `claude-sonnet-5-5`, fallback `claude-sonnet-4-6`); safety router; AI consent; evals | T4 | Planner, then builder Claude Fable 5.1 | `clinic/plans/PLAN_roman_intelligence.md` | **Plan done.** Back-end build of R1 (model plus boot probe; Roman currently returns blank replies because `claude-3-7-sonnet` was retired on 2026-02-19), R2 (consent), R3 (context), R4 (guardrails) and R8 (evals) **in progress**. The consent sheet and Roman UI await owner approval. |
-| T | Client tutorial: 7 action-gated steps within the Quiet Luxury rules (no confetti or streak visuals) | T2 | Planner, Claude Sonnet 5 | `clinic/plans/PLAN_tutorial.md` | **Plan done**; awaiting owner approval. |
-| PX | Clickable prototype of the onboarding, Roman and tutorial UI, for owner approval | T0 | Claude Opus 5.5 | [TGP Clinic Flow Prototype](https://www.perplexity.ai/computer/a/tgp-clinic-flow-prototype-1pouoYkBTPyVYm0wPu4_TA) | **Delivered 12:40** (87 screens). Approval Packet shared with 20 decisions and recommended defaults. **Waiting for owner approval.** Operator ruling applied: safety-screen answers are never sent to AI; Roman gets only a "clearance recommended" yes/no, which the consent sheet discloses. |
-| P | Coach PLG activation: coach onboarding, 5-step coach tutorial, first offer, share link or QR, first client payment on the web, iOS 1:1 purchase gate, App Review notes | T4 (money) | Planner, Claude Opus 5.5 | `clinic/plans/PLAN_coach_plg_activation.md` | **Plan done** (slices P01–P16, decisions D1–D10). **Money bug found:** in-app checkout uses destination charges with exactly a 2% application fee. Stripe debits processing fees from the platform on those, so TGP would lose about 0.9% plus 30¢ per card sale. The canonical `platform-fee.service.ts` (the coach pays processing) is used by no charge path. P01 fixes it before any real payment; production has 0 purchases, so nothing is lost yet. P01 is queued for the next free back-end lane. Also broken: package publish, share-link URLs (`/p/<token>` not served), checkout host `joingrowthproject.com` (no DNS record), earnings API paths. |
-| K | Content: 3 four-week programs, selection rules, macro method (floors 1,200 and 1,500 kcal, protein cap 35%), Roman scripts, 7-question intake | T2 | Claude Sonnet 5 | `clinic/content/` | Drafted. 12 exercises are missing from the catalog. Program sign-off is after tonight's APK build. |
-| C06–C12 | Macros as a single source of truth, program seeding and auto-assign, Roman explanation screens, tutorial, store package, release QA | T2–T4 | queued | n/a | Queued behind the plans and approvals |
+| Slice | Tier | Builder | PR | Status |
+|---|---|---|---|---|
+| C02 Apple sign-in contract | T4 | done | [backend #596](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/596) | Merged `bffae5f3`; production deploy approved 16:38 |
+| C13 signup role choice | T4 | prior builder | [backend #597](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/597) | Fresh audits running (GPT-6.1 Sol, Claude Opus 5.5) |
+| C03 reliable attach | T4 | prior builder | [backend #599](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/599) | Fresh audits running |
+| C01 comp access (free package binding) | T4 | prior builder | [backend #595](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/595) | Fresh audits running; rebase after #599 |
+| C14 throttler isolation | T4 (re-graded from T3: auth rate limiting) | prior builder | [backend #604](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/604) | Fresh audits running |
+| R1 model config | T2 | Claude Fable 5.1 (started before the routing update) | [backend #598](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/598) | Fixing Sol B1/C1 |
+| R2 AI consent | T4 | same | [backend #601](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/601) | Fixing Sol A1/A2/B1/C1; consent captured by the onboarding "I agree" box |
+| R3 client context | T4 | same | [backend #602](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/602) | Revising: Roman sees all of the client's own data |
+| R4 guardrails | T3 | same | [backend #603](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/603) | Revising copy per 16:38 ruling |
+| R8 evals | T2 | same | [backend #605](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/605) | Updating with R1-R4 |
+| R9 coach AI bucket, owner true-cost view, $30/month cap | T4 | queued | n/a | Queued behind R1-R4 |
+| M1 signup policy, paste code, Apple body | T4 (header) | done | [mobile #303](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/303) | Merged `60e43455` with one audit; governance finding G06/G10 recorded |
+| M2 core polish, iOS purchase hiding | T4 | prior builder | [mobile #304](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/304) | Fresh audit running (GPT-6.1 Sol); second audit queued |
+| M3 expo-updates | T3 | prior builder | [mobile #305](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/305) | Fresh audit running |
+| M4 role choice UI | T4 | Claude Fable 5.1 (started before the routing update) | [mobile #306](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/306) | Fix round for 5 findings running |
+| M5 supabase-js pin (Android build blocker) | T2 | prior builder | [mobile #307](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/307) | Fresh audit running |
+| Roman canonical face | T1 | operator | pending | Canonical art plus sha256 pin test |
+| C04 production bootstrap | T4 | operator | n/a | Waiting on the owner's account (Android build tonight) |
+| C05 consultation onboarding and intake storage | T3 mobile / T4 storage | queued | n/a | Spec: owner-extracted prototype (87 screens) |
+| C06 macros single source of truth | T3 | queued | n/a | Fix the profile contract; one calculator; floors 1,200/1,500 |
+| C07 three programs, auto-assign, clinic spaces | T3 | queued | n/a | One all-patients space, one per plan, signup-date divisions |
+| C08/C09 Roman explanations and tutorial | T3 | queued | n/a | Includes wearables and community; teach-back |
+| C11/C12 store package and release QA | T3 | operator | n/a | Privacy labels, review notes, demo accounts |
 
 ### Merge rules
 
-- **Merge gates:** T4 needs two independent audits (GPT-6 Sol and Claude Opus 5.5, neither of them the builder) plus green CI. T3 and T2 need one independent audit plus green CI.
-- **Deploy:** production deploys go through the gated `fly-deploy.yml` workflow, with operator approval under the 2026-09-29 17:21 authorization.
+- Builders per [MODEL_ROUTING.md](MODEL_ROUTING.md). Auditors are independent instances that did not build the change: GPT-6.1 Sol and Claude Opus 5.5.
+- T4: two independent audits plus green CI. T3/T2: one independent audit plus green CI. Audit verdicts are posted on the PR.
+- Production deploys go through the gated `fly-deploy.yml` workflow under the owner's 2026-09-30 16:38 authorization.
 
 ### Owner asks (open)
 
-1. ~~Build access~~: **done 11:58.** The Expo token is saved and verified: account role Owner on `the-growth-project`; the iOS distribution certificate and provisioning profile are valid until 2027-05-02; an App Store Connect API key (95C76WBFA6) is set up for submissions. The operator can build and submit iOS through EAS (eas-cli needs lowercase `https_proxy`).
-2. **Tonight:** sign up from the APK. The operator then promotes the account to owner with a free-tier coach seat and creates the clinic code and QR code.
-3. **Approve the plans:** onboarding consultation plus the coach track, Roman flows and UI, and the tutorial, when they are delivered.
-4. **Approve the workout programs** after tonight.
-
-### Timeline
-
-| Day | Date | Work |
-|---|---|---|
-| D0 | Wed 09-30 | Plans; auth, paywall and attach fixes; mobile M1–M4 |
-| D1 | Thu 10-01 | Merge and deploy wave 1; bootstrap; plan approvals; start onboarding, Roman and macros builds |
-| D2 | Fri 10-02 | Programs and auto-assign; Roman screens; tutorial; TestFlight build |
-| D3 | Sat 10-03 | Fixes; mobile freeze; submit to App Review |
-| D4–D6 | Sun 10-04 to Tue 10-06 | Review window; release |
+1. Sign up in the Android test build tonight when it is ready; the operator then runs C04.
+2. Two iPhone device passes (Friday evening, Saturday) through TestFlight.
+3. Final approval of the three workout programs once drafted.
 
 ---
 
@@ -107,7 +108,7 @@ Two recurring terms:
 - **Status:** paused by the owner on 2026-09-30 at 10:48 PDT ("change of gears"). No importer lane is running in this session. It resumes on the owner's word.
 - **EXECUTE history:**
   - EXECUTE was given to session c7aa658f (2026-09-29 11:00 PDT), then to session 5754504f (2026-09-29 16:15 PDT). See `LAST_OPERATOR_STATE.md`.
-  - This session produced a fresh readback (`READBACK_2026-09-30.md`) and has not received EXECUTE.
+  - Dead session f32d73ae produced a fresh importer readback (`READBACK_2026-09-30.md`); it never reached GitHub, and an owner-extracted copy exists. That readback has not received EXECUTE.
 - **Production:** backend main `3a9369b9` was deployed on 2026-09-30 at 00:28 UTC. `FEATURE_SCOUT_PILOT_COACH_IDS` is unset, so importer routes fail closed for every coach. No pilot run has happened, and there is no owner coach account yet; C04 in Bucket A creates it.
 - **Open importer PRs (none merged to main since the deploy):**
   - Backend: #584, #587 (with #593 stacked on it), #590, #581, #592, #589, #591 and #594 (base `integration/importer`).

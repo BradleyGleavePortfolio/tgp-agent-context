@@ -4,6 +4,8 @@
 
 **Single source of truth for all TGP agent canonical context.**
 
+> **Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md), effective 2026-09-30 (owner-issued T0-T4 grading and model routing).**
+>
 > **Canonical rules: [AGENT_RULES.md](AGENT_RULES.md), G01–G22, effective 2026-09-18.** The operator-adopted risk-tiered constitution supersedes the old R-numbered rules, audit-process addenda, and conflicting generic procedure in legacy handoffs. Historical files remain available for provenance, not as a competing constitution. Product acceptance criteria, unresolved material findings, and dependency ordering remain intact. See the [adoption decision](DECISION_LOG.md#2026-09-18-adopt-the-risk-tiered-constitution) for authority, review limitations, and the preserved prior baseline.
 
 This repo is the home for everything that crosses repo boundaries: rules, handoffs, audits, briefings, strategy docs, and design bibles. If a doc is referenced in more than one product repo — or by multiple agents — it belongs here, not in a product repo.
