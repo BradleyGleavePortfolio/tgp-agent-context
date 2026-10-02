@@ -149,6 +149,11 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
 - DEPLOY HELD: backend production stays at ba79605b. Main now carries #623, #626, #624 (+ #604, #632 next). #626 needs
   FEATURE_AI_CONSENT_LEDGER_ENABLED ON in the same window (OR-110-4) and no merged workflow can set flags (fly-env-sync stages
   GitHub-secret allowlist only). Deploy the whole leg once B-FLAGS' manifest merges. Running: 6 builders + 1 auditor (cap 7).
+- 23:28 Sol #604 delta @08658e77 REQUEST CHANGES B-604-1: four C14 ENV_RULES entries need explicit defaults (240/60/400/10) under
+  #624's env hygiene contract (build-and-test red at that head). Sent to B-607-FIX as a small first task. #632 update-branch refused
+  (merge conflict with #624) -> sent to S-SCHED-2 to resolve first. Brief updated: every backend lane must satisfy #624's contract.
+- 23:32 B-FLAGS launched (Opus; manifest on main + SC2015 PR). Running 7/7 = 7 builders, 0 auditors (no audit-ready heads right
+  now; next freed slot goes to auditors for #604/#632 deltas and fix-round re-audits).
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
