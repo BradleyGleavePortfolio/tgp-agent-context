@@ -101,6 +101,13 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   #627@7d66b350 (B-627-1/2), new #632 (S-SCHED backend, T2), new #633 (FEATURE_DUNNING_V2 flags-workflow input, T4).
   Rule from now: keep 2 of 7 slots for the audit lenses; next freed builder slot goes to auditors.
 - Migration prefixes reserved by lanes: 20270211000000 B-UGC (#610), 20270215000000 S-DUNNING-R2 (#628).
+- 21:55 S-SCHED DONE: backend #632 @4accdbc3 (T2) + mobile draft #325 @bc1398c2 (T2), CI green. Paused T3/T4 backend work
+  (validation, no-double-booking, ownership, new contracts, notification delivery) -> lane S-SCHED-2 objective written
+  (migration 20270212000000 reserved). Sol re-queued with a 6-PR batch (#632, #624, #608, #627, #633, #629).
+- 22:05 B-FEE-R3 DONE: #627 -> 2c57cc41, #629 -> 858eb40b (T4 now; migration 20270216000000), mobile #321 -> a9b1f49d; 5/5 findings
+  closed, CI green. Opus re-queued with a 6-PR batch (#627, #629, #321, #624, #608, #633). Running 7/7 = 5 builders + 2 auditors.
+  Owner decision queued for morning: refund/dispute residual recovery (Stripe account debits vs reserve; rec account debits).
+- Prefixes now: 0211 B-UGC, 0212 S-SCHED-2, 0215 S-DUNNING-R2, 0216 #629.
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
