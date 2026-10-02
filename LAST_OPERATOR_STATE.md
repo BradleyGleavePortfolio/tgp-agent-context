@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 15:11 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 15:25 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -10,9 +10,9 @@ Clean stop ordered by Bradley 13:34 ("let them finish, start no new work, keep u
 finished its active item or pushed WIP to wip/* branches; NO subagent is running; no deploy or flag change is pending; telemetry
 stopped. Pickup prompt: [handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md](handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md)
 (+ .docx). Kit: handoffs/op-6870f2ca/ (tools/, lanes/, reports/ with "HANDOFF FOR AGENT 113" sections, probes/).
-- Production backend f04289f9 (#607, deployed 13:01-13:08). Backend main c8e5e71f (+#644, +#649; neither deployed). Mobile main f34b5b99.
+- Production backend 9cfd70d6 (DEPLOYED 15:19-15:25: #635 + #644 + #646 + #649 on f04289f9). Backend main 9cfd70d6. Mobile main f34b5b99.
 - 112 merged: mobile #310, backend #607 (+deploy), mobile #324, backend #644, backend #649 (14:37; pre-deploy SELECT in
-  handoffs/op-6870f2ca/probes/aud-opus5-112/649-predeploy-select.sql). Release gate: no mobile build with #310 until #635 deployed.
+  handoffs/op-6870f2ca/probes/aud-opus5-112/649-predeploy-select.sql). Release gate LIFTED 15:25 (#635 deployed).
 - Live WIP branches: wip/B-JOURNEY-3-609-fixround @11fd4e10, wip/B-JOURNEY-3-312-fixround @25b111d5, wip/s-dunning-r4-backend
   @c8a1c95b, wip/s-dunning-r4-mobile @0b4813dc (= #322 head).
 - Operator rulings OR-112-1..20 are in the train log below and in v6 section 4.14.
@@ -111,6 +111,11 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 15:25 DEPLOYED backend 9cfd70d6 (= #635 consent v4 + Roman chats backend, #644 quiz off, #646 Stripe secrets, #649 Build Week
+  Day 1 copy) via fly-deploy run 37071843710 (migrations=apply-migrations; production env approved by operator under the standing
+  approval; main CI green). Verified: migration 20270224000000 finished 22:23:19Z, 0 unfinished; Day 1 focus "Consultation + Baseline";
+  Postgres ERROR/FATAL 0 (22:15-22:26Z); /health 200; /readyz db up; /diagnostic/questions 404 (quiz off live); /api/v1/checkout/
+  purchases 401. Manifest unchanged by these PRs (env-sync not re-run). RELEASE GATE OR-112-14 LIFTED (mobile builds may include #310).
 - 14:58 MERGED backend #635 (T4 consent copy v4 + Roman chats backend; Sol APPROVE 0/0/3 + Opus merge-delta APPROVE at exact head
   d68c4f68; 10/10 green) -> main 32e398ea. Main CI green.
 - 15:11 MERGED backend #646 (T4 secrets: no Stripe client secrets on coach routes, coach feed or client purchase list; Opus + Sol
