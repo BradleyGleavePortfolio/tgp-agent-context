@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 14:14 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 14:31 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -110,6 +110,13 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 14:31 B-SECRETS-2 DONE: backend #646 -> 32f7ede4 (10/10 green; BEHIND main, no conflict). GET /v1/checkout/purchases now
+  allow-lists CLIENT_PURCHASE_SELECT (mobile reads 9 fields, never a secret -> secret dropped for every status; resume goes through
+  payment-intent with the same idempotency key, owner-only); ALSO fixed GET /v1/coach/purchases sending whole rows incl. client
+  secrets (COACH_PURCHASE_SELECT). New spec 3/6 fail before, 6/6 after; 207 related tests pass. Retitled, fix-round row + comment.
+  Needs dual T4 audit. Risk: responses drop Stripe ids/idempotency keys (no reader in either repo).
+- 14:31 Operator: AUD-OPUS-5 posted #649 APPROVE at aa1da69d (T3) and #635 Opus delta APPROVE at 9c5ae5ef. Operator ran
+  update-branch on #649 -> 650d0e48 (merge of main #644); asked AUD-OPUS-5 for the merge-delta attestation so #649 can merge.
 - 14:14 OWNER (14:13, verbatim): "do the next 3 lgithest agent rounds - such as 2 simple fixes and a single audit agent - record the
   finishigns and update the prompt document slightly upon finish". Agent 112 resumed for exactly 3 light lanes (lane files in
   handoffs/op-6870f2ca/lanes/ at finish): B-SECRETS-2 (Opus builder; #646 also stops GET /v1/checkout/purchases returning Stripe
