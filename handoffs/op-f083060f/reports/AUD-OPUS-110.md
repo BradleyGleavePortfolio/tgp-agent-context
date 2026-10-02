@@ -137,3 +137,7 @@
 - B-633-2: the new failure lines have no next action (copy rule).
 - C-633-1: two rolling restarts on unset. C-633-2: SCOUT/PAIRING default 'true' re-set on every run (add `unchanged`). C-633-3: digests echoed.
 - Required CI green; shellcheck fails only on the existing SC2015.
+
+## mobile#313 DELTA @ 1e80017bf9ce8a7ed4e4679e60214b7fe2b398b5 — APPROVE (from 4c6028d5; A0 B0 C2 carried)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/313#issuecomment-5946353738
+- Single merge of main 0b7f197f (still tip). Per-file zero-context patch-ids equal for 14/15 files; the conflicted appleAuth.test.ts is a pure union (import plus the approved 4-case re-auth block; main's #306 tests kept); no main line removed. CI 4/4 green. C-313-8 closed.
