@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:35 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:36 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -96,6 +96,16 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:36 MERGED mobile #324 (fix(support): one support email + SupportEmailFallback + guard; T2; Sol APPROVE at e7c403f3 = exact
+  head; 3/3 required green) -> mobile main f34b5b99. Every other open mobile PR is now BEHIND (update-branch + delta before merge).
+- 13:36 B-FEE-R6 DONE: backend #627 -> c1d69c7f (B-627-5/6/7, C-627-4..7 closed; main 3bd6215b merged; merges cleanly with
+  f04289f9), mobile #321 -> 1413edb7 (B-321-6 node_modules symlink untracked; C-321-7). CI green. Fix-round comments 5960921658 /
+  5960715703. NOTHING not-started, no WIP. Needs re-audit by both lenses at these heads (agent 113). C-627-2 erasure overlap with
+  #608 carried (whichever merges second adds the four payee columns). #641 held_from_next_sale_cents == #627 open_balance[].held_cents.
+- 13:36 AUD-SOL-4 results seen on GitHub: mobile #314 APPROVE at 48d76d21 (now dual-APPROVED; HELD as a pair with backend #610, which
+  has Sol REQUEST CHANGES at a98d08b5); #324 APPROVE (merged). New builder PRs seen: backend #646 (client Stripe secrets never
+  sent to coach routes, S-COACH-BE-2), #647 (booking times in recipient zone + one inbox row per event, B-FLAGS-3), #648 (Expo push
+  delivery of inbox notifications, B-FLAGS-3).
 - 13:35 REVERTED (operator self-correction): 'require linear history' on main (backend + mobile), which the operator had enabled at
   ~13:27 without the owner's explicit words — v5 rule 0.5: any branch-protection change beyond Schema parity needs Bradley's words
   for that exact change. Live now exactly as before: linear OFF, conversation resolution OFF, strict, admin-enforced, 10/3 checks.
