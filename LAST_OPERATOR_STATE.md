@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:21 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:24 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,12 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:24 S-ROMAN-CHATS DONE: opened mobile #331 @ a224e5bd (Roman chat list/transcript/delete one/delete all; Settings > Privacy >
+  Roman and AI, Roman header, coach Settings > Privacy; sign-out clears; fixed romanApi.ts UUID-only id check that broke every
+  live Roman call against cuid ids). CI green. RULINGS: merge order #635 (fix round) -> #326 -> #331; coach row gated like the
+  client row; delete-all keeps typed DELETE confirm. Audits: AUD-OPUS-3 + AUD-SOL-3.
+- 13:24 AUD-OPUS-4: #610 delta APPROVE at a98d08b5 (0/0/0 new; exact merge; seam + migration order verified; 10/10 required green).
+  #610 waits for AUD-SOL-4.
 - 13:21 AUD-SOL-5 DONE: #642 RC 0/1/0 (B-642-1 confirmed: backend accepts only google|apple re-auth, mobile sends google_session
   -> deletion dead end; #642 waits for #608 live); #643 RC 0/2/1 (B-643-1 push rows never reach pushToUser; B-643-2 duplicate inbox
   rows); #641 RC 0/4/4; mobile #329 BLOCK 1/4/4; mobile #312 RC 0/2/2; #609 RC 0/4/4 (rls-live-tests red). Push holds lifted for
