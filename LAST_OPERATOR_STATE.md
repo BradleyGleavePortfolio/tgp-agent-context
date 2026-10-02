@@ -108,30 +108,30 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   closed, CI green. Opus re-queued with a 6-PR batch (#627, #629, #321, #624, #608, #633). Running 7/7 = 5 builders + 2 auditors.
   Owner decision queued for morning: refund/dispute residual recovery (Stripe account debits vs reserve; rec account debits).
 - Prefixes now: 0211 B-UGC, 0212 S-SCHED-2, 0215 S-DUNNING-R2, 0216 #629.
-- ~22:30 B-UGC DONE: #610 -> 9e4b3795, mobile #314 -> 41d829d (CI green; voice-note reporting full strength; C-610-4 deferred as
+- 22:25 B-UGC DONE: #610 -> 9e4b3795, mobile #314 -> 41d829d (CI green; voice-note reporting full strength; C-610-4 deferred as
   CI-gate change). Both auditors got #610/#314 appended. S-SCHED-2 launched (Opus). Running 7/7 = 5 builders + 2 auditors.
-- ~22:45 B-R2B-2 DONE: #626 -> d9be0c0d (B-626-2, C-626-4 fixed), NEW mobile #326 @32ed8546 (ai_consent_required /
+- 22:35 B-R2B-2 DONE: #626 -> d9be0c0d (B-626-2, C-626-4 fixed), NEW mobile #326 @32ed8546 (ai_consent_required /
   ai_egress_blocked on every AI surface). OR-110-4: FEATURE_AI_CONSENT_LEDGER_ENABLED goes ON in the same window as the #626
   deploy (day-1 flag ruling 11:31; #626 without the flag blocks all AI). Launched AUD-OPUS-2 (second Opus lens: #626, #326, #610,
   #314) instead of a builder because the audit queues were 10 deep. Running 7/7 = 4 builders + 3 auditors. Next builder slot:
   B-EXPORT, then S-ERRORS.
-- ~22:55 B-FIX2 DONE: #624 -> 75a4e563, #608 -> 2759e1a0 (migration 20270220000000), mobile #313 -> 1e80017 (merge-only),
+- 22:37 B-FIX2 DONE: #624 -> 75a4e563, #608 -> 2759e1a0 (migration 20270220000000), mobile #313 -> 1e80017 (merge-only),
   mobile #310 -> e1dbe7f; all queued to the right lenses (#310: Sol + AUD-OPUS-2; #313 delta: Sol + AUD-OPUS). B-EXPORT launched
   (Opus; stacked on #608; migration 20270221000000). Running 7/7 = 4 builders + 3 auditors. Non-required shellcheck SC2015 fails on
   main (scripts/s10-core-diff-gate.sh): queued as a small T4 fix.
-- ~23:05 B-TRAIN-2 DONE: #604 -> 87d09b1d, #607 -> d6ac47e8, #609 -> 5fd61a1b (forward merges onto 4bcfb444, required CI green).
+- 22:45 B-TRAIN-2 DONE: #604 -> 87d09b1d, #607 -> d6ac47e8, #609 -> 5fd61a1b (forward merges onto 4bcfb444, required CI green).
   New finding INT-607-1 (A, tenancy): #607's consultation read treats bare coach_id as head-coach membership; main's #597 needs an
   explicit membership row (phantom sub-coaches) -> B-607-FIX launched (Opus), which also re-grades #609 to T4 (env registration,
   live RLS tests). PRIORITY COLLISION FIXED: #607 took 20270212000000 and #609 20270213000000, so S-SCHED-2 moved to 20270222000000.
   Prefix map: 0210 #627, 0211 #610, 0212 #607, 0213 #609, 0215 #628, 0216 #629, 0220 #608, 0221 B-EXPORT, 0222 S-SCHED-2.
   PR body edits for #604/#607/#609 were refused by the safety check (texts in workspace reports/btrain2); not retried.
   #604 delta audits queued (Sol + AUD-OPUS). Running 7/7 = 4 builders + 3 auditors.
-- ~23:15 S-DUNNING-R2 DONE: #628 -> ba1d9480, mobile #322 -> 8991ddf (CI green); #633 @850ec148 RC from both lenses (B-633-1).
+- 22:47 S-DUNNING-R2 DONE: #628 -> ba1d9480, mobile #322 -> 8991ddf (CI green); #633 @850ec148 RC from both lenses (B-633-1).
 - Audit results in: #624 dual APPROVE @75a4e563; #632 Sol APPROVE @4accdbc3 (T2); #626 dual APPROVE @d9be0c0d; #608 Opus APPROVE,
   Sol RC B-608-12 (export not downloadable -> B-EXPORT running, stacked); #627 RC both (Sol B-627-2..5, Opus B3); #629 RC both;
   mobile #321 Opus RC; #610 Sol BLOCK (A-610-1 voice key traversal, A-610-2 wins RLS); mobile #314 Sol RC (B-314-2 no real native
   recorder/playback adapter). AUD-OPUS-2 flagged R-626-1: consent copy says AI chats kept 180 days (owner: forever).
-- 23:2x MERGED backend #626 -> 7a6cfd82 (main). NOT deployed: OR-110-4 needs FEATURE_AI_CONSENT_LEDGER_ENABLED ON in the same
+- 22:48 MERGED backend #626 -> 7a6cfd82 (main). NOT deployed: OR-110-4 needs FEATURE_AI_CONSENT_LEDGER_ENABLED ON in the same
   window and no audited workflow can set it (main's flags workflow only knows SCOUT/EXTENSION) -> lane B-FLAGS objective (desired-
   state manifest on #624 per v4 4.9). update-branch: #624 -> e3e0a314, #632 -> 0ae744b6, #604 -> 12a4d423 (deltas queued).
 - B-FEE-R4 launched (Opus). Objectives written: B-UGC-2, B-FLAGS, B-CONSENT-COPY (+ S-ERRORS). Running 7/7 = 4 builders + 3 auditors.
