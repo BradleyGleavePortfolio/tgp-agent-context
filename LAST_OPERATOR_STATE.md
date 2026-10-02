@@ -28,6 +28,10 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 10:22 #637 fix round 1 pushed e473428c (B-637-1 fail-closed apply-now verification on every started machine, bounded retry;
+  B-637-2 per-flag kill values via unsetIs + kill-switches command); #638 restacked 9a4fa721. Both lenses re-queued (top priority
+  after #639 delta). Operator rulings: C-637-11 not required (manifest must be able to remove secrets), C-637-12 flyctl pin not
+  required. B-JOURNEY relaunched (resumes wt/bj-609; #609 depends on #607).
 - 09:53 OWNER NOTE (Bradley 09:53, verbatim): "The Programs workout builder, the first big not-yet-started feature - to be clear it
   already is msotly built, just not accessible - lots of the infra already is built". Passed to S-MWB: reuse June MWB backend
   as-is; build only true gaps (library API, per-client clone key, program as package asset, bulk assign, saved-workout reuse);
