@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 16:01 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 16:05 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -16,6 +16,7 @@ stopped. Pickup prompt: [handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.m
 - Live WIP branches: wip/B-JOURNEY-3-609-fixround @11fd4e10, wip/B-JOURNEY-3-312-fixround @25b111d5, wip/s-dunning-r4-backend
   @c8a1c95b, wip/s-dunning-r4-mobile @0b4813dc (= #322 head).
 - Operator rulings OR-112-1..20 are in the train log below and in v6 section 4.14.
+- OWNER 16:04: recurring packages are the MOST CRITICAL item; never one-time-only (see train log).
 - Owner authority given to 112 (EXECUTE + push/merge 12:10, standing deploy 12:11, maximize safe lanes 12:38): ask once whether it
   carries over (recommend yes).
 
@@ -111,6 +112,12 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 16:05 OWNER DECISION (16:04, verbatim): "We absolutely NEED - LITERALLY MOST CRITICAL OF ALL - RECCURING packages and system, for sure - do NOT EVER compromise down to JUST one time payment as the only path!!!"
+  => Recurring packages are the #1 launch priority. Every purchase surface that sells a package (Day 1 sheet #334, package detail,
+  storefront/join links) must sell renewing plans as real Stripe subscriptions (existing path: POST /v1/checkout/sessions ->
+  Checkout mode=subscription with transfer_data to the coach's Connect account; webhooks activate; billing portal; dunning #628).
+  One-time-only is never acceptable; #334's "refuse renewing plans" is NOT an acceptable end state and #334 must not merge without
+  the recurring path. Supersedes the interim in OR-112-23.
 - 16:01 B-PAYSHEET DONE: NEW mobile #334 @5b6eb654 "fix(payments): Day 1 package sheet takes payment through payment-intent" (T4;
   3/3 green; 22/22 new tests fail on main): POST /v1/checkout/payment-intent with {package_id, idempotency_key}, one key per attempt
   (retries/cancels/declines reuse it), PaymentSheet gets customer id + ephemeral key + client secret, cancel silent, waits for
