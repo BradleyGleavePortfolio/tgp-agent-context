@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:16 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:18 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,10 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:18 AUD-SOL-3: backend #634 REQUEST CHANGES 0/2/1 at d1661ab8 (5960774667: B-634-2 partial — first-claim failures vanish after
+  the due band, retained future rows starve recovery; B-634-6 raw ORM diagnostics); mobile #325 APPROVE 0/0/1 at 36f05bba
+  (5960782021) -> #325 now dual-APPROVED but HELD: merges together with #634 (scheduling pair; clinic build calls #634 routes).
+  S-SCHED-4 agent interrupted dunning to fix #634 round 5 (its own code), then resumes S-DUNNING-R4.
 - 13:16 S-WEAR-2 DONE: mobile #317 -> 0b733fb (A-317-1 account binding through permission prompt/registration/import; Samsung
   uploader without binding removed; B-317-2 partial imports; B-317-5 'Not syncing here' + Reconnect; Health Connect clinic-only;
   coach wearable-prompts reachable). CI green. RULINGS: Health Connect ON in clinic Android build; REMOVE the 3 declared-but-unread
