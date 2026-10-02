@@ -28,6 +28,12 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 09:45 S-DUNNING-R3 done: #628 -> 739e9a54, mobile #322 -> 0b4813d (all Sol+Opus A/B/C closed; CI running). Queued for both
+  lenses. OR-111-2 (operator ruling on the lane's 3 questions): (a) Stripe webhook endpoint must subscribe charge.dispute.closed —
+  added to the owner Stripe checklist for the dunning flip (prompt section 7 item 2); (b) v1.0: lost disputes on a client
+  subscription are settled by support by hand (dispute cycle still blocks/unblocks automatically from webhooks); (c) a repeated
+  confirm reports what the first confirm paid; an invoice Stripe already paid shows $0 on that line with the plan settled — accepted.
+  B-FEE-R5 launched (#627 CI + OR-111-1, then mobile #321).
 - 09:33 MERGED backend #629 (S-FEE $19.99 min / $0; Sol + Opus APPROVE at 089e8a7e after rerun attempt 2 green) -> main b9ee8e0a.
   #632 update-branch -> af8976c8 (Sol T2 delta pending). Sol verdicts: #607 b74384fb RC 1/0/2 (A-607-4 retired membership persists
   plans under removed head); mobile #310 f85ffd36 RC 0/1/1 (B-310-8 no->yes->no clears newest withdrawal marker); Opus #634 RC
