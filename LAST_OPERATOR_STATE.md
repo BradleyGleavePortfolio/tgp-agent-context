@@ -84,6 +84,8 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
 - 21:38 Dual delta APPROVE #623@32bde193 -> MERGED -> main 4bcfb444 (not yet deployed). Opus release-order notes: turn on
   FEATURE_WEARABLES_INGEST_POST only after #608 deploys (C-623-1); keep wearable_insight.* out of the prod AI gateway allow-list
   until #626 merges (C-623-2); reconcile #623 with #604/#624, whichever lands second (C-623-3).
+- 21:42 Android production .aab FINISHED: EAS build 4d2665c6-d833-4bbf-bac6-4622d6d4f84b (versionCode 4, commit 0b7f197f, Health
+  Connect off), artifact on expo.dev (build page). Ready for the Play closed-test upload when the owner creates the app.
 - 21:40 B-TRAIN-2 launched (Opus): #604 -> #607 -> #609 forward merges. Running 7/7 builders; auditors re-queue as slots free.
 
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
