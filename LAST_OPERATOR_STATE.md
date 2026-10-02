@@ -126,6 +126,15 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   Prefix map: 0210 #627, 0211 #610, 0212 #607, 0213 #609, 0215 #628, 0216 #629, 0220 #608, 0221 B-EXPORT, 0222 S-SCHED-2.
   PR body edits for #604/#607/#609 were refused by the safety check (texts in workspace reports/btrain2); not retried.
   #604 delta audits queued (Sol + AUD-OPUS). Running 7/7 = 4 builders + 3 auditors.
+- ~23:15 S-DUNNING-R2 DONE: #628 -> ba1d9480, mobile #322 -> 8991ddf (CI green); #633 @850ec148 RC from both lenses (B-633-1).
+- Audit results in: #624 dual APPROVE @75a4e563; #632 Sol APPROVE @4accdbc3 (T2); #626 dual APPROVE @d9be0c0d; #608 Opus APPROVE,
+  Sol RC B-608-12 (export not downloadable -> B-EXPORT running, stacked); #627 RC both (Sol B-627-2..5, Opus B3); #629 RC both;
+  mobile #321 Opus RC; #610 Sol BLOCK (A-610-1 voice key traversal, A-610-2 wins RLS); mobile #314 Sol RC (B-314-2 no real native
+  recorder/playback adapter). AUD-OPUS-2 flagged R-626-1: consent copy says AI chats kept 180 days (owner: forever).
+- 23:2x MERGED backend #626 -> 7a6cfd82 (main). NOT deployed: OR-110-4 needs FEATURE_AI_CONSENT_LEDGER_ENABLED ON in the same
+  window and no audited workflow can set it (main's flags workflow only knows SCOUT/EXTENSION) -> lane B-FLAGS objective (desired-
+  state manifest on #624 per v4 4.9). update-branch: #624 -> e3e0a314, #632 -> 0ae744b6, #604 -> 12a4d423 (deltas queued).
+- B-FEE-R4 launched (Opus). Objectives written: B-UGC-2, B-FLAGS, B-CONSENT-COPY (+ S-ERRORS). Running 7/7 = 4 builders + 3 auditors.
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
