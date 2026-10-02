@@ -11,3 +11,11 @@ again later", 36 generic fallbacks, 18 raw error texts; backend 1,180 thrown HTT
    inventory + a guard test/lint that fails CI on "Something went wrong"/"Please try again" alone or Alert('Error'). Coordinate
    with lane B-R2B-2 (AI consent codes) and B-UGC/S-DUNNING (their surfaces) by reading their open PRs; do not edit their files.
 Report to /home/user/workspace/ops/reports/S-ERRORS-110.md as you go. Final answer (<400 words): PRs + heads, tests, CI, risks.
+
+## Operator addendum 23:40 (agent 110)
+- One support email everywhere (owner; backend #631 guard): Bradleyapple1031@gmail.com. Mobile main still has
+  src/screens/settings/deletionErrors.ts DELETION_SUPPORT_EMAIL = Bradley@Bradleytgpcoaching.com (from #313),
+  src/screens/support/SupportInboxScreen.tsx SUPPORT_EMAIL = hello@thegrowthproject.app, and CreateAccountScreen.tsx mailto
+  hello@thegrowthproject.app. Replace all with the single shared constant from #324's support-email module and add a mobile guard
+  test that fails on any other support address in src/ (mirror backend #631's guard). Check open PRs #314, #322, #327 for the same.
+- Mobile errorCode() must read the backend's machine `code` first (B-FEE-R3 note), then `error`.

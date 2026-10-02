@@ -1,6 +1,6 @@
 # TGP OPERATOR PROMPT v5 — Agent 111: clinic launch executive operator
 
-Written by agent 110 (Computer session f083060f, thread https://www.perplexity.ai/computer/tasks/f083060f-0079-42c5-8feb-18013de78e70) at Bradley's request (10-01 21:38: "keep progressing, updating the agent 110 prompt I gave you to reflect current state and issues - rename it agent 111 … for when your out of credits and retired happily!"). This snapshot: 2026-10-01 23:32 PDT (real clock). Agent 110 keeps regenerating it; the newest copy is in tgp-agent-context at handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md (and .docx). Paste this whole document as the first message to the next operator, and attach the same four owner documents plus docs.zip (section 3.4). It replaces prompt v4 (kept at handoffs/op-f083060f/TGP-Operator-Prompt-v4-Agent-110.md for history). Most of v4 is carried over word for word; the parts that changed are sections 0 (overarching facts, item 5), 2 (update note), 3, 4.13 (new), 5, 6.0 (110's lessons first), 7, 12 and 13.
+Written by agent 110 (Computer session f083060f, thread https://www.perplexity.ai/computer/tasks/f083060f-0079-42c5-8feb-18013de78e70) at Bradley's request (10-01 21:38: "keep progressing, updating the agent 110 prompt I gave you to reflect current state and issues - rename it agent 111 … for when your out of credits and retired happily!"). This snapshot: 2026-10-01 23:36 PDT (real clock). Agent 110 keeps regenerating it; the newest copy is in tgp-agent-context at handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md (and .docx). Paste this whole document as the first message to the next operator, and attach the same four owner documents plus docs.zip (section 3.4). It replaces prompt v4 (kept at handoffs/op-f083060f/TGP-Operator-Prompt-v4-Agent-110.md for history). Most of v4 is carried over word for word; the parts that changed are sections 0 (overarching facts, item 5), 2 (update note), 3, 4.13 (new), 5, 6.0 (110's lessons first), 7, 12 and 13.
 
 You are agent 111 in a chain of AI operators. Most of the work exists already. Your job is to finish it truthfully, to be exactly like agent 110, but 1% better. Section 6 tells you where 110 and 109 fell short, so you don't repeat it.
 
@@ -228,7 +228,7 @@ UPDATE 10-01 13:28-16:32 (agent 109 era; section 4.12 has the detail):
 - A P0 was found and fixed: production was missing schema objects (signup broken); \#625 restored them and was deployed and verified (section 5).
 - Dates still float under the 13:00 verdict.
 
-UPDATE 10-01 20:17-23:32 (agent 110 era; sections 4.13 and 5 have the detail):
+UPDATE 10-01 20:17-23:36 (agent 110 era; sections 4.13 and 5 have the detail):
 
 - Saturday 10-03 App Store submission is not realistic under "do it right"; about 20 day-1 items had no PR at 110's takeover. Give Bradley a measured date from merge throughput, never an optimistic one.
 - Agent 110 merged mobile #320 and #323 (Android gate) and backend #595, #630, #631 and #623, deployed backend ba79605b (consent ledger, role choice, $0 grants, private recipes, support email), built the Android production .aab (EAS 4d2665c6), and made Schema parity a required check.
@@ -849,7 +849,7 @@ Bradley's overarching facts (20:38, verbatim; above every lane objective): "1.) 
 
 The live, newest version of this section is the top of tgp-agent-context LAST_OPERATOR_STATE.md ("AGENT 110 TAKEOVER" + "Train log (agent 110)"). Agent 110 appends to that train log after every merge, deploy and lane result; if this prompt and the train log disagree, the train log wins.
 
-### AGENT 110 STATE FOR AGENT 111 — snapshot 2026-10-01 23:32 PDT (real clock)
+### AGENT 110 STATE FOR AGENT 111 — snapshot 2026-10-01 23:36 PDT (real clock)
 
 #### Production and mains
 
@@ -872,7 +872,7 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 
 #### Lanes agent 110 launched (objectives in tgp-agent-context handoffs/op-f083060f/lanes/; reports in handoffs/op-f083060f/reports/ when copied, else in the PR comments)
 
-- AUD-SOL (GPT-6.1 Sol): standing Sol lens. Batch done 23:12 (see train log); 23:32 #604 delta @08658e77 REQUEST CHANGES B-604-1 (four C14 ENV_RULES entries need explicit defaults 240/60/400/10 under #624's hygiene contract; build-and-test red) -> fix sent to B-607-FIX. Idle until fixes land.
+- AUD-SOL (GPT-6.1 Sol): standing Sol lens. Now (23:36): T4 audits of #636 and mobile #327 (support-email check). Earlier: #604 delta RC B-604-1 (fix sent to B-607-FIX).
 - AUD-OPUS (Claude Opus 5.5): standing Opus lens. Status: batch done 23:00: #627 RC 0/3/2, #629 RC 0/2/1, mobile #321 RC 0/2/1, #624 APPROVE (75a4e563) + delta ready at e3e0a314 (posting after danger fix), #608 APPROVE (export counted to B-EXPORT), #633 RC 0/2/3, mobile #313 delta APPROVE @1e80017, #604 delta APPROVE @12a4d423, #628 RC 0/2/4, mobile #322 RC 0/2/1.
 - AUD-OPUS-2 (Claude Opus 5.5): second Opus lens. Status: DONE: #626 APPROVE (merged), mobile #326 RC 0/2/3 (B-326-1/2), mobile #310 RC 0/1/1 (B-310-6: 180-day copy), #610 BLOCK 1/6/1 (confirms A-610-1; new B-610-5 voice not erased on deletion), mobile #314 RC 0/5/1 (verdict NOT posted: platform check refused the post; text in ops/aud-opus2-110/; superseded by B-UGC-2).
 - B-FIX2 (Claude Opus 5.5): T4 fix rounds. Status: DONE 22:37. backend #624 -> 75a4e563 (B-624-3: no flyctl output printed at all), backend #608 -> 2759e1a0 (B-608-11: durable cleanup record + nightly retry, migration 20270220000000), mobile #313 -> 1e80017 (merge-only; test conflict), mobile #310 -> e1dbe7f (B-310-5 + consultation flag declared in config/expected-env.json, T4 data). CI green except non-required shellcheck SC2015 in scripts/s10-core-diff-gate.sh (fails on main too; fix it — unassigned). Merge order note C-310-10: whichever of #313/#310 lands second keeps #310's consultation-draft purge. 108 WIP 8bdb5997 holds the env desired-state manifest #624 lacks (follow-up).
@@ -884,7 +884,7 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - B-TRAIN-2 (Claude Opus 5.5): forward merges. Status: DONE 22:45. #604 -> 87d09b1d (merge-only, patch-id proof; delta audits queued to Sol + AUD-OPUS), #607 -> d6ac47e8 (migration renamed 20270212000000; INT-607-1 tenancy finding -> B-607-FIX), #609 -> 5fd61a1b (migration renamed 20270213000000; re-grade T4). PR body edits were refused by the safety check (ready texts in reports/btrain2/; operator retry also refused -> left to B-607-FIX / morning).
 - B-607-FIX (Claude Opus 5.5): #607 INT-607-1 (explicit membership rule in API + RLS helper, phantom-chain tests) + #609 T4 readiness (env registration, live RLS tests). Status: running since 22:46.
 - S-SCHED-2 (Claude Opus 5.5): scheduling backend lifecycle/concurrency/ownership/contracts/notifications + #325 consumer changes. Status: running since 22:26 (migration 20270212000000).
-- B-EXPORT (Claude Opus 5.5): durable, downloadable data export stacked on #608 (migration 20270221000000). Status: running since 22:38.
+- B-EXPORT (Claude Opus 5.5): DONE 23:36. backend #636 @9b7a6a34 STACKED on #608 (private bucket data-exports via migration 20270221000000 + release check script; 5-min single-user download streamed through the API; deletion cleanup) and mobile #327 @227c5ad9 (base main). CI green. Plan: dual audit #636 + #327 -> operator merges #636 into #608 branch -> update #608 -> dual delta -> merge #608. Production step: normal deploy (release runs prisma migrate deploy + check script); leave DATA_EXPORT_STORAGE unset.
 - B-FEE-R4 (Claude Opus 5.5): fix round 4 on #627 (Sol B-627-2..5 + Opus B), #629, mobile #321. Status: running since 22:49.
 - B-UGC-2 (Claude Opus 5.5): #610 + #314 fix round (A-610-1/2, B-610-1..5, B-314-2..5, real recorder/playback, C-610-4 CI DB suites). Status: running since 22:59.
 - B-CONSENT-COPY (Claude Opus 5.5): client-ai-v4 retention copy (backend + #310), #326 one consent queue, #611 fix round. Status: running since 23:08.
@@ -921,7 +921,7 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - backend #633 @850ec148: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. ci(flags): FEATURE_DUNNING_V2 closed-choice input for the Fl
 - backend #634 @7284e079: DIRTY, T4; verdicts at this head: -. feat(scheduling): S-SCHED-2 authoritative booking lifecycle,
 - backend #635 @0a32b4fe: BEHIND, T4; verdicts at this head: -. feat(ai-consent): client-ai-v4 true AI-chat retention copy;
-- backend #636 @9b7a6a34: UNSTABLE (base agent/clinic/deletion-be/7c1d2e9a), T4; verdicts at this head: -. feat(data-export): private bucket storage + 5-minute user-bo
+- backend #636 @9b7a6a34: CLEAN (base agent/clinic/deletion-be/7c1d2e9a), T4; verdicts at this head: -. feat(data-export): private bucket storage + 5-minute user-bo
 - mobile #305 @45787152: CLEAN (base clinic/m2-core-polish), T3; verdicts at this head: -. clinic/m3: expo-updates (EAS Update, fingerprint runtime, ch
 - mobile #310 @e1dbe7f9: DIRTY, T4; verdicts at this head: Claude Opus 5.5:REQUEST CHANGES, GPT-6.1 Sol:REQUEST CHANGES. feat(onboarding): config-driven consultation onboarding behi
 - mobile #312 @5b26e1f4: DIRTY, T3; verdicts at this head: -. C05 item 7: Workout reminders toggle in Settings > Notificat
@@ -933,7 +933,7 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - mobile #324 @7f20255d: BEHIND, T2; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. fix(support): one support email (Bradleyapple1031@gmail.com)
 - mobile #325 @bc1398c2: BEHIND, T2; verdicts at this head: -. S-SCHED: native Calendar, coach controls and welcome-call tu
 - mobile #326 @32ed8546: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. fix(ai): handle ai_consent_required and ai_egress_blocked on
-- mobile #327 @227c5ad9: BLOCKED, T4; verdicts at this head: -. feat(data-export): working download via fresh 5-minute link,
+- mobile #327 @227c5ad9: CLEAN, T4; verdicts at this head: -. feat(data-export): working download via fresh 5-minute link,
 
 Older open PRs (backend below #595, mobile below #305) are not launch scope (108/109 triage); leave them alone.
 

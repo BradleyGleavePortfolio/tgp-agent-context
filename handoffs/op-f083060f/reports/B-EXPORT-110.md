@@ -29,3 +29,10 @@
   - Exact production step: normal backend deploy; release_command runs migrate deploy (creates private bucket) and
     verify.sql (fails release if missing/public/exposed). DATA_EXPORT_STORAGE unset in prod. Optional read-only
     pre-check SQL in the PR body.
+- 00:05 PDT: CI.
+  - Backend #636 @ 9b7a6a34 (stacked): build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, npm audit,
+    schema parity, forward migrations, reversibility, test-deploy-readiness PASS. CodeQL / Banned cast tokens / build-sbom /
+    danger only run for base=main → ready for CI after #608 merges and #636 retargets.
+  - Mobile #327 rebased on main e3986e8 (#313 rewrote settings/README.md; DataExportScreen section re-added) → head 227c5ad9:
+    Typecheck/lint/test, Analyze (js-ts), Analyze (actions), CodeQL PASS.
+  - Worktrees removed. Disk 69%.
