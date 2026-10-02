@@ -1,6 +1,6 @@
 # TGP OPERATOR PROMPT v6 — Agent 113: clinic launch executive operator
 
-Written by agent 112 (Computer session 6870f2ca, thread https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547) at Bradley's request (10-02 13:34: "lets prepare for your OUT OF CREDIT reitre ... prep for [the next agent] (a fresh, no prior context agent) who will need you to cleanly stop, no wasted work, and a great pickup-prompt from you - just like you used the agent 111 prompt document, but perferably yours would be even better!"). Snapshot: 2026-10-02 13:38 PDT (real clock). The newest copy lives in tgp-agent-context at handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md (and .docx). Paste this whole document as the first message to the next operator and attach the owner documents listed in section 3.4. It replaces prompt v5 (handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md, kept for history). Most of v5 is carried over word for word. Changed or new: the START HERE card (new), 0.A (new), 2 (10-02 update), 3 (rewritten: new ops kit), 4.14 (new), 5 (rewritten), 6.0 (112's lessons, new), 7, 12, 13, 14 and 16.
+Written by agent 112 (Computer session 6870f2ca, thread https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547) at Bradley's request (10-02 13:34: "lets prepare for your OUT OF CREDIT reitre ... prep for [the next agent] (a fresh, no prior context agent) who will need you to cleanly stop, no wasted work, and a great pickup-prompt from you - just like you used the agent 111 prompt document, but perferably yours would be even better!"). Snapshot: 2026-10-02 13:53 PDT (real clock). The newest copy lives in tgp-agent-context at handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md (and .docx). Paste this whole document as the first message to the next operator and attach the owner documents listed in section 3.4. It replaces prompt v5 (handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md, kept for history). Most of v5 is carried over word for word. Changed or new: the START HERE card (new), 0.A (new), 2 (10-02 update), 3 (rewritten: new ops kit), 4.14 (new), 5 (rewritten), 6.0 (112's lessons, new), 7, 12, 13, 14 and 16.
 
 Naming note: Bradley numbers operators by the agent being replaced. In his 13:34 message "112" meant the next agent. This document calls the next operator agent 113, because 111 ran the session before 112's. If Bradley calls you "112", that is you; never debate the number.
 
@@ -272,7 +272,7 @@ UPDATE 10-01 20:17-23:59 (agent 110 era; sections 4.13 and 5 have the detail):
 UPDATE 10-02 (agents 111 and 112; sections 4.14 and 5 have the detail):
 
 - Agent 111 (07:53-11:10) shipped the consent-ledger deploy (backend 3bd6215b, FEATURE_AI_CONSENT_LEDGER_ENABLED live) and the audited flag path (#637 fly-env-sync manifest), then ran out of credits mid-flight. Several of its lanes died without reports, and agent 112 reconstructed them from GitHub.
-- Agent 112 (11:20-13:38) merged mobile #310 (consultation onboarding), backend #607 (consultation intake; deployed 13:01-13:08 with migration 20270212000000) and mobile #324 (one support email). It also ran 17 parallel lanes that produced about 35 audit verdicts and 15 fix rounds or new PRs.
+- Agent 112 (11:20-13:53) merged mobile #310 (consultation onboarding), backend #607 (consultation intake; deployed 13:01-13:08 with migration 20270212000000) and mobile #324 (one support email). It also ran 17 parallel lanes that produced about 35 audit verdicts and 15 fix rounds or new PRs.
 - New launch blockers 112's auditors found:
   - Push notifications were saved but never sent to devices. Fix PRs #647/#648 are open.
   - Every live Roman call failed the app's id check. The fix is in #331.
@@ -327,7 +327,7 @@ You have no memory of this project and a brand-new sandbox: no repos, no ops/ fi
    - Flags and settings change only through the audited manifest .github/fly-env-desired-state.json and the fly-env-sync workflow (plan, then apply with confirm=SET, then verify). Any later sync applies the WHOLE manifest, so merging a manifest flip arms it at the next sync. Merge a flip PR only when its preconditions are live. `deploy_staged=true` needs Bradley's approval.
    - Strict "require up to date" on both mains: every merge makes every other PR BEHIND. update-branch (a merge of main) changes the head, and the tier's lenses must delta-attest the new head before merge. Plan merge order so expensive in-flight audits aren't invalidated, and merge backend/mobile pairs together.
    - Branch protection: Schema parity was added by Bradley's words (10-01 21:44). ANY other branch-protection change needs his explicit words for that exact change. 112 broke this once (linear history, 13:27) and reverted it at 13:35.
-   - Migration prefixes sort by timestamp. Next free: 20270224000000 (B-JOURNEY-2's Build Week copy PR may take it; check open PRs first). Taken: 20270211 #610, 20270212 #607 (applied), 20270213 #609, 20270215 #628, 20270216 (applied), 20270220 #608, 20270221 #636, 20270222 #634, 20270223 #640.
+   - Migration prefixes sort by timestamp. Next free: 20270225000000 (check open PRs first). Taken: 20270211 #610, 20270212 #607 (applied), 20270213 #609, 20270215 #628, 20270216 (applied), 20270220 #608, 20270221 #636, 20270222 #634, 20270223 #640.
    - pkill -f / pgrep -f match your own shell when the pattern is in your command line. Use pid files or `grep '[x]yz'`.
    - Plain `nohup … &` dies when the bash call ends. Use `setsid nohup … < /dev/null & disown`.
    - Use curl, not Python requests, through the credential proxy.
@@ -376,7 +376,7 @@ Bradley attached these to agent 112 (ask for any that are missing):
 - TGP_EXECUTE_Autonomous_Executive_Operator_Doctrine.docx
 - TGP-Agent-Rules.docx
 - TGP_T0-T4_Model_Routing_Updated.docx
-- PNWMG-Clinic-Launch-Plan.docx (the filename carries the partner's initials; never put them in a repo)
+- the clinic launch plan docx (its filename carries the partner's initials; never write them in a repo)
 - Approval-Packet-Client-Journey-v1.docx
 - TGP-Fitness-Four-week-master-programs.docx plus its JSON fixture
 - TGP-Fitness-App-Store-metadata.docx, -App-Review-notes.docx, -App-Store-package-and-release-blockers.docx, -first-review-screenshot-plan.docx
@@ -947,12 +947,34 @@ Agent 112 operator rulings (OR-112-n; Bradley can override any of them):
 - OR-112-12: Build Week Day 1 copy "Complete the 40-point diagnostic" is replaced by a data migration plus the seed file, pointing to the consultation, because the quiz is off (#644).
 - OR-112-13: backend and mobile pairs merge together, and the approved half waits: #634/#325, #610/#314, #641/#329+#332, #628/#322, #627/#321, #640/#328, #609/#312, #608/#636/#327.
 - OR-112-14 (inherited): no mobile build containing #310 (merged 12:11) until backend #635 with its fix round is merged and deployed.
+- OR-112-15: B-CONSENT-4 owner-adjacent items (decided by 112; Bradley can override):
+  - #611's changed deletion wording is accepted (it matches #608).
+  - Our own database dumps are kept no more than 30 days after a deploy, 90 days at most.
+  - The mobile app sends Sentry the account id only, never the email; #330 already does this, so verify at its audit.
+  - Sub-coach access to Roman chats (C-635-4) is a separate v1.0 PR.
+  - Listing the closed-account record on the help page and the mobile delete screen is one follow-up PR.
+  - #315's generic policy-link failure ("Please try again later") must be made specific before launch. Bradley's rule is that no generic error ships.
+  - Add Mux to the privacy vendor list if Mux is live; agent 113 verifies.
+  - The facts in the procedures doc's checklist go to Bradley (section 7): the Supabase plan and recovery window, a zero-data-retention agreement with Anthropic, and the Stripe, Sentry, Resend and PostHog plans.
+- OR-112-16: B-329-1 (a package create that times out can leave a duplicate draft) is graded B and fixed: creates are idempotent end to end. The backend honors the Idempotency-Key on package create, in #641's fix round or a small follow-up, and mobile #329 retries with the same key. Opus graded it C and Sol B; the hyperscaler bar decides.
+- OR-112-17: C-608-2 (admin force-delete without re-auth) and C-608-7 (unkeyed receipt digest) are fixed BEFORE launch in one small follow-up PR after #608 merges, not deferred to 1.0.1. Destructive admin actions need step-up auth, and receipt digests are keyed (HMAC); that is the hyperscaler bar (owner fact 1).
+- OR-112-18: Programs (S-MWB-2).
+  - Autosave currently lets any sub-coach in the tenant edit any plan; this predates #640. An owner/visibility check is required before launch, in a small follow-up after #640.
+  - Manifest flips after #640 deploys, in order: FEATURE_MWB_TEMPLATES; FEATURE_MWB_AUTOSAVE_UNDO plus MWB_AUTOSAVE_LOCK_TOKEN_SECRET; FEATURE_NAMED_REGIMES; then FEATURE_MWB_AI_LIVE_CREATE.
+  - The clinic EAS profile keeps Programs and autosave on.
+  - Merge order: #640, deploy, then #328.
+- OR-112-19: coach Money (S-COACH-BE-2).
+  - STRIPE_CONNECT_RETURN_URL and STRIPE_CONNECT_REFRESH_URL are set through a manifest PR after #641 deploys. Use the branded host https://app.trygrowthproject.com if it serves /api/v1/connect/onboarding/return and /refresh; otherwise use https://backend-spring-lake-3890.fly.dev. Agent 113 probes both and picks before writing the PR.
+  - Billing schedules stay sourced from the package, with no schema change; the pricing lock already blocks schedule edits while a package has active subscribers.
+  - GET /v1/checkout/purchases must stop returning a completed purchase's Stripe client secret to the client: a small follow-up before launch.
+  - When #628 merges, Money must read #628's sent-delivery rows for "card update link sent" (follow-up).
+- OR-112-20: #649's end-of-migration guard (it fails if Day 1 still names the diagnostic) is kept. Before deploying #649, agent 113 runs one read-only SELECT on the Build Week Day 1 rows in production and confirms they hold the original seed text, so the guard can't fail the deploy. The deploy needs migrations=apply-migrations.
 
 ## 5. Where things stand at handoff (verify; this goes stale in hours)
 
 The live, newest version of this section is the top of tgp-agent-context LAST_OPERATOR_STATE.md: "AGENT 112 TAKEOVER", then the "Train log (agent 112; newest first)". If this prompt and the train log disagree, the train log wins, and GitHub beats both.
 
-### AGENT 112 STATE FOR AGENT 113: snapshot 2026-10-02 13:38 PDT (real clock)
+### AGENT 112 STATE FOR AGENT 113: snapshot 2026-10-02 13:53 PDT (real clock)
 
 #### Production and mains
 
@@ -963,7 +985,7 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
   - fly-env-sync plan run 37058420196: "0 to set, 0 to unset ... 53 unchanged. Fly already matches the manifest".
 - Previous production deploy: 3bd6215b (111, 11:01), which carries the consent ledger with FEATURE_AI_CONSENT_LEDGER_ENABLED=true live.
 - Live signup-policy: providers email + apple; google_signin_enabled false (OR-112-1); role_choice true; no code required.
-- Backend main: f04289f9. Mobile main: f34b5b99 (#324, 13:36), on top of 2c17c241 (#310 consultation onboarding, 12:11).
+- Backend main: 5d1f224a (#644 on top of the deployed f04289f9). Mobile main: f34b5b99 (#324, 13:36), on top of 2c17c241 (#310 consultation onboarding, 12:11).
   - Required checks: backend 10, mobile 3. Both strict and admin-enforced, 0 reviews.
   - Linear history and conversation resolution are both OFF (unchanged from 10-01).
 - RELEASE GATE (OR-112-14): no mobile build containing #310 until backend #635, with its fix round, is merged and deployed.
@@ -975,29 +997,30 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - mobile #310: consultation onboarding (T4), 12:11 → 2c17c241.
 - backend #607: C05/C07 consultation intake (T4; Opus 5959951180 + Sol 5959946105 APPROVE at b4750d05), 12:53 → f04289f9. DEPLOYED 13:01-13:08.
 - mobile #324: one support email plus SupportEmailFallback (T2; Sol APPROVE at e7c403f3), 13:36 → f34b5b99.
+- backend #644: diagnostic quiz switched off in the fitness backend (T2; Sol APPROVE at d32dcfca; no mobile caller), 13:40 → 5d1f224a. NOT deployed yet; it rides the next deploy.
 
 #### Lanes agent 112 ran (all subagents are dead now; results are in GitHub and handoffs/op-6870f2ca/reports/)
 
 | Lane | Model | Scope | Final state at 112's stop | Report |
 |---|---|---|---|---|
 | AUD-OPUS-3 | Claude Opus 5.5 | lens | DONE. Verdicts: #607 APPROVE, #635 APPROVE (c2688010), #609 RC, #312 RC, #642 RC, #643 RC, #634 APPROVE (d1661ab8), #325 APPROVE, #331 RC, #333 APPROVE, #330 APPROVE, #305 RC | AUD-OPUS-3-112.md |
-| AUD-OPUS-4 | Claude Opus 5.5 | lens | Verdicts: #641 RC, #329 BLOCK (4071d0ce), #610 APPROVE (7a67fbef + delta a98d08b5), #314 APPROVE. At stop: #329 @83ee0e46, #332 @61eea115, #317 @58c2d53 assigned | AUD-OPUS-4-112.md |
-| AUD-SOL-3 | GPT-6.1 Sol | lens | Verdicts: #607 APPROVE, #628 RC, #322 RC, #635 RC (c2688010), #634 RC (d1661ab8), #325 APPROVE. At stop: #331, #333, #330, #305 assigned | AUD-SOL-3-112.md |
-| AUD-SOL-4 | GPT-6.1 Sol | lens | Verdicts: #627 RC, #321 BLOCK, #640 BLOCK, #328 RC (old heads), #610 RC (a98d08b5), #314 APPROVE, #324 APPROVE (merged). At stop: #644 assigned | AUD-SOL-4-112.md |
-| AUD-SOL-5 | GPT-6.1 Sol | lens | Verdicts: #642 RC, #643 RC, #641 RC, #329 BLOCK (4071d0ce), #312 RC, #609 RC; then #329 @83ee0e46 BLOCK, #332 RC. At stop: #317 assigned | AUD-SOL-5-112.md |
-| S-SCHED-4 | Claude Opus 5.5 | #634/#325, then S-DUNNING-R4 | #634 -> d1661ab8, #325 -> 36f05bba (round 4, done). Round 5 on #634 (Sol B-634-2/6) in progress at stop; dunning R4 parked -> wip/s-dunning-r4-* | S-SCHED-4-112.md, S-DUNNING-R4-112.md |
+| AUD-OPUS-4 | Claude Opus 5.5 | lens | DONE (queue empty). Verdicts: #641 RC (563e3f80), #329 BLOCK (4071d0ce), #610 APPROVE (7a67fbef + delta a98d08b5), #314 APPROVE (48d76d21), #329 BLOCK @83ee0e46 (A-329-1 only: Money page lives in #332), #332 RC @61eea115 (B-332-1 stale period numbers, no error), #317 APPROVE @58c2d53 | AUD-OPUS-4-112.md |
+| AUD-SOL-3 | GPT-6.1 Sol | lens | DONE (queue empty). Verdicts: #607 APPROVE, #628 RC 0/3/0, #322 RC 0/3/1, #635 RC 0/2/1 (c2688010), #634 RC 0/2/1 (d1661ab8), #325 APPROVE, #331 BLOCK 1/3/2 @a224e5bd (A: cross-account destructive intent / transport credential race), #333 RC 0/2/1 @abfc5d12, #330 RC 0/2/2 @4c61d915, #305 RC 0/4/3 @92c25ec8 | AUD-SOL-3-112.md |
+| AUD-SOL-4 | GPT-6.1 Sol | lens | DONE (queue empty). Verdicts: #627 RC, #321 BLOCK, #640 BLOCK, #328 RC (old heads), #610 RC 0/2/4 (a98d08b5), #314 APPROVE, #324 APPROVE (merged 13:36), #644 APPROVE (merged 13:40) | AUD-SOL-4-112.md |
+| AUD-SOL-5 | GPT-6.1 Sol | lens | DONE (queue empty). Verdicts: #642 RC 0/1/0, #643 RC, #641 RC 0/4/4 (563e3f80), #329 BLOCK (4071d0ce), #312 RC, #609 RC 0/4/4, #329 BLOCK 1/1/1 @83ee0e46, #332 RC 0/3/1 @61eea115, #317 RC 0/3/2 @58c2d53 (cancellation before fence creation, native reads after logout, cloud error mapping). Machine-readable handoff: probes/AUD-SOL-5-112/handoff-agent113.json | AUD-SOL-5-112.md |
+| S-SCHED-4 | Claude Opus 5.5 | #634/#325, then S-DUNNING-R4 | DONE: #634 round 5 -> 4d987916 (B-634-2a/2b, B-634-6, C-634-5; 19/19 green; 7/8 new tests fail on d1661ab8), #325 untouched at 36f05bba (dual APPROVE). S-DUNNING-R4 STOPPED: wip/s-dunning-r4-backend @c8a1c95b (#628 739e9a54 + main f04289f9; B-628-11/8/6 partly closed, 16 tests; remove one banned cast in a test, eslint, push to #628), wip/s-dunning-r4-mobile @0b4813dc (= #322 head; B-322-1/5/7, C-322-2 NOT STARTED). Auto-expiry PR NOT STARTED | S-SCHED-4-112.md, S-DUNNING-R4-112.md |
 | B-UGC-4 (then B-JOURNEY-3) | Claude Opus 5.5 | #610/#314, then #609/#312 | #610 -> 7a67fbef (update-branch a98d08b5), #314 -> 48d76d21 (done). B-JOURNEY-3 STOPPED: #609 still 40616dcf (rls-live-tests red), #312 still 90e78abe; WIP pushed: wip/B-JOURNEY-3-312-fixround @25b111d5 (B-312-1, C-312-2/3 done + tested; B-312-2 coded, race tests hang), wip/B-JOURNEY-3-609-fixround @11fd4e10 (B-609-1/2, C-609-3 coded, unrun). NOT STARTED: B-609-3, B-609-4, C-609-6, retitles | B-UGC-4-112.md, B-JOURNEY-3-112.md |
 | S-WEAR-2 | Claude Opus 5.5 | #317 | DONE: #317 -> 58c2d53 (rounds 4 + 4b) | S-WEAR-2-112.md |
-| S-ROMAN-CHATS | Claude Opus 5.5 | new mobile #331 | DONE: #331 @a224e5bd | S-ROMAN-CHATS-112.md |
+| S-ROMAN-CHATS | Claude Opus 5.5 | new mobile #331 | DONE: #331 @a224e5bd (now Opus RC + Sol BLOCK: fix round needed) | S-ROMAN-CHATS-112.md |
 | S-COACH-MOB-2 | Claude Opus 5.5 | #329 + new #332 | DONE: #329 -> 83ee0e46, #332 @61eea115 (stacked) | S-COACH-MOB-2-112.md |
-| S-RELEASE-MOB | Claude Opus 5.5 | #305, new #330, new #333 | DONE: #305 -> 92c25ec8, #330 @4c61d915, #333 @abfc5d12 | S-RELEASE-MOB-112.md |
-| B-JOURNEY-2 | Claude Opus 5.5 | #324, #644, #645, Build Week copy | #324 merged; #644 @d32dcfca; #645 correction push in progress at stop; Build Week PR (only if started) | B-JOURNEY-2-112.md |
+| S-RELEASE-MOB | Claude Opus 5.5 | #305, new #330, new #333 | DONE: #305 -> 92c25ec8, #330 @4c61d915, #333 @abfc5d12 (all three now Sol REQUEST CHANGES; #305 also Opus RC) | S-RELEASE-MOB-112.md |
+| B-JOURNEY-2 | Claude Opus 5.5 | #324, #644, #645, Build Week copy | DONE (no WIP): #324 merged 13:36; #644 merged 13:40; #645 -> 7b6165ab (script mirrors live: linear OFF, conversation OFF; T4, unaudited); NEW #649 @aa1da69d (T3, migration 20270224000000 Build Week Day 1 -> consultation copy, idempotent, down.sql, end guard). Both green, BEHIND main, need audit | B-JOURNEY-2-112.md |
 | B-FEE-R6 | Claude Opus 5.5 | #627/#321 | DONE: #627 -> c1d69c7f, #321 -> 1413edb7 (needs both lenses) | B-FEE-R6-112.md |
-| B-FLAGS-3 | Claude Opus 5.5 | #642/#643, then notifications | #642/#643 open (held by OR-112-1/2); NEW #647 (times + dedupe), #648 (Expo push delivery) | B-FLAGS-3-112.md |
-| S-COACH-BE-2 | Claude Opus 5.5 | #641 + secret-leak PR | NEW #646 (client Stripe secrets never sent to coach routes); #641 fix round in progress at stop | S-COACH-BE-2-112.md |
-| B-CONSENT-4 | Claude Opus 5.5 | #635 fixes, #326, #315, #611 | #635 -> 9c5ae5ef (fix round pushed); #326 -> 16e7e97c, #315 -> de1c79aa, #611 -> fda3afad (state at stop: see report) | B-CONSENT-4-112.md |
-| B-EXPORT-3 | Claude Opus 5.5 | #608, #636, #327 | #608 -> bdadfcb4, #636 -> 608985cf, #327 -> 395c3312 (state at stop: see report) | B-EXPORT-3-112.md |
-| S-MWB-2 | Claude Opus 5.5 | #640/#328 + undo | #640 -> 29dfae16, #328 -> 67f9ef4f (state at stop: see report) | S-MWB-2-112.md |
+| B-FLAGS-3 | Claude Opus 5.5 | #642/#643, then notifications | DONE (no WIP): #642/#643 open (held by OR-112-1/2); NEW #647 @3a93fbde (times in recipient zone + one inbox row per event; 5/5 fail on main), NEW #648 @81c52a12 (Expo push delivery + receipts cron + dead-token cleanup; Android dropped w/ hourly operator alert until FCM key; contains #647). Both 10/10 green, T4, unaudited. Order #647 -> #648 -> re-audit -> #643 flip. 7 follow-ups NOT STARTED (first: move older push paths onto the new sender), listed on #643 | B-FLAGS-3-112.md |
+| S-COACH-BE-2 | Claude Opus 5.5 | #641 + secret-leak PR | DONE (no WIP): #641 -> bb17e19a (B-641-1..4, C-641-1/3/4 incl. tax CSV export route; 5/5 fail before), NEW #646 @ea919f6b (client Stripe secrets removed from coach payment routes + package subscribers route; 5/6 fail before). Both all green; need dual audit | S-COACH-BE-2-112.md |
+| B-CONSENT-4 | Claude Opus 5.5 | #635 fixes, #326, #315, #611 | DONE: #635 -> 9c5ae5ef (B-635-4/5 fixed; C-635-4 sub-coach chat access deferred; build-and-test red on known flake release-evidence-gate.spec.ts:367, rerun requested by 112), #611 -> fda3afad (B-611-2, C-611-8 + vendor-deletion/backup procedures doc; publication hold until #608 live), #326 -> 16e7e97c (rebased onto main), #315 -> de1c79aa. All four need Opus + Sol deltas | B-CONSENT-4-112.md |
+| B-EXPORT-3 | Claude Opus 5.5 | #608, #636, #327 | DONE (no WIP): #608 -> bdadfcb4 (recipe erasure; conditional erasure of #609/#607 tables; google_session re-auth), #636 -> 608985cf stacked on #608 (B-636-5/6, C-636-2..5; C-636-6 pre-check in body), #327 -> 395c3312 (B-327-2, C-327-2). All CI green. Order: dual audit #636 -> merge into #608 branch -> dual delta #608 -> merge -> deploy (C-636-6 pre-check first) -> re-audit + merge #327 | B-EXPORT-3-112.md |
+| S-MWB-2 | Claude Opus 5.5 | #640/#328 + undo | DONE (no WIP): #640 -> 213a186d (A-640-1, B-640-2..4, C-640-5..10, Undo/Redo, 2nd-client clone 409, sub-coach day access, legacy archive guard; main f04289f9 merged; CI was running at 13:45), #328 -> 67f9ef4 (B-328-1..4, C-328-2; CI green). NOT STARTED: archive guard for programs referenced by #607 clinic program sets; program copies in #608 erasure manifest. Order: #640 -> deploy + MWB manifest flips -> #328 | S-MWB-2-112.md |
 
 #### Open launch PR board (generated by tools/board.py at the snapshot; regenerate it, because heads move)
 
@@ -1010,74 +1033,73 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 | #602 | bb5f13b0 | UNKNOWN | main | - | - | feat(roman): RomanClientContext builder + per-turn grounding injection (R3) |
 | #603 | 75c4a181 | UNKNOWN | main | - | - | feat(roman): guardrail contract, deterministic safety router, post-check, buffered emit (R |
 | #605 | 686d0888 | UNKNOWN | main | - | - | test(roman): eval harness — G1–G30 golden set, six CI layers, live runner (R8; stacked on  |
-| #608 | bdadfcb4 | BEHIND | main | APPROVE @4e926b35 | REQUEST CHANGES @4e926b35 | fix(account-deletion): in-app deletion completes on re-auth, Apple token revocation, full  |
-| #609 | 40616dcf | DIRTY | main | REQUEST CHANGES @40616dcf* | REQUEST CHANGES @40616dcf* | C05 items 6-7: coach welcome message at complete +13 min, workout reminders on plan days ( |
-| #610 | a98d08b5 | CLEAN | main | APPROVE @a98d08b5* | REQUEST CHANGES @a98d08b5* | feat(community): UGC safety for App Review 1.2 (content filter, blocking, ban/warn, flagge |
-| #611 | fda3afad | BLOCKED | main | APPROVE @0ed698a4 | REQUEST CHANGES @0ed698a4 | feat(public-pages): accurate privacy policy, consumer health data privacy policy, 16+ term |
-| #627 | c1d69c7f | BEHIND | main | REQUEST CHANGES @9d6351b0 | REQUEST CHANGES @9d6351b0 | fix(billing): coach payout = price - actual Stripe fee - 2% (S-FEE) |
-| #628 | 739e9a54 | UNKNOWN | main | APPROVE @739e9a54* | REQUEST CHANGES @739e9a54* | fix(dunning-v2): live-ready 10-day lockout + native card update, 1A pay-now, 2A cancel-in- |
-| #633 | 850ec148 | UNKNOWN | main | REQUEST CHANGES @850ec148* | REQUEST CHANGES @850ec148* | ci(flags): FEATURE_DUNNING_V2 closed-choice input for the Fly feature-flags operator workf |
-| #634 | d1661ab8 | UNKNOWN | main | APPROVE @d1661ab8* | REQUEST CHANGES @d1661ab8* | feat(scheduling): S-SCHED-2 authoritative booking lifecycle, no double booking, assignment |
-| #635 | 9c5ae5ef | BLOCKED | main | APPROVE @c2688010 | REQUEST CHANGES @c2688010 | feat(ai-consent): client-ai-v4 true AI-chat retention copy; Roman delete erases the transc |
-| #636 | 608985cf | UNSTABLE | agent/clinic/deletion-be/7c1 | REQUEST CHANGES @7883337f | REQUEST CHANGES @7883337f | feat(data-export): private bucket storage + 5-minute user-bound download (B-608-12, stacke |
-| #640 | 29dfae16 | DIRTY | main | BLOCK @2ac6395f | BLOCK @2ac6395f | feat(programs): coach program library API, bulk assign, program-as-package delivery (S-MWB |
-| #641 | 563e3f80 | UNKNOWN | main | REQUEST CHANGES @563e3f80* | REQUEST CHANGES @563e3f80* | feat(money): coach Money read model, truthful Connect status + refresh, HTTPS onboarding r |
-| #642 | 85950984 | UNKNOWN | main | REQUEST CHANGES @85950984* | REQUEST CHANGES @85950984* | chore(flags): GOOGLE_CLIENT_IDS -> github-secret, Google sign-in on day 1 (B-FLAGS-3, T4) |
-| #643 | f21b3c63 | UNKNOWN | main | REQUEST CHANGES @f21b3c63* | REQUEST CHANGES @f21b3c63* | chore(flags): BOOKING_REMINDERS_ENABLED -> on, reminders on at launch (OR-110-5, B-FLAGS-3 |
-| #644 | d32dcfca | CLEAN | main | - | - | chore(diagnostic): switch off the TGP Finance diagnostic quiz in the fitness backend (B-QU |
-| #645 | 89bea9b4 | BLOCKED | main | - | - | ci(branch-protection): setup script lists the 10 live required checks incl. Schema parity  |
-| #646 | ea919f6b | BEHIND | main | - | - | fix(payments): never send client Stripe secrets to coach routes |
+| #608 | bdadfcb4 | UNKNOWN | main | APPROVE @4e926b35 | REQUEST CHANGES @4e926b35 | fix(account-deletion): in-app deletion completes on re-auth, Apple token revocation, full  |
+| #609 | 40616dcf | UNKNOWN | main | REQUEST CHANGES @40616dcf (at head) | REQUEST CHANGES @40616dcf (at head) | C05 items 6-7: coach welcome message at complete +13 min, workout reminders on plan days ( |
+| #610 | a98d08b5 | UNKNOWN | main | APPROVE @a98d08b5 (at head) | REQUEST CHANGES @a98d08b5 (at head) | feat(community): UGC safety for App Review 1.2 (content filter, blocking, ban/warn, flagge |
+| #611 | fda3afad | UNKNOWN | main | APPROVE @0ed698a4 | REQUEST CHANGES @0ed698a4 | feat(public-pages): accurate privacy policy, consumer health data privacy policy, 16+ term |
+| #627 | c1d69c7f | UNKNOWN | main | REQUEST CHANGES @9d6351b0 | REQUEST CHANGES @9d6351b0 | fix(billing): coach payout = price - actual Stripe fee - 2% (S-FEE) |
+| #628 | 739e9a54 | UNKNOWN | main | APPROVE @739e9a54 (at head) | REQUEST CHANGES @739e9a54 (at head) | fix(dunning-v2): live-ready 10-day lockout + native card update, 1A pay-now, 2A cancel-in- |
+| #633 | 850ec148 | UNKNOWN | main | REQUEST CHANGES @850ec148 (at head) | REQUEST CHANGES @850ec148 (at head) | ci(flags): FEATURE_DUNNING_V2 closed-choice input for the Fly feature-flags operator workf |
+| #634 | 4d987916 | BEHIND | main | APPROVE @d1661ab8 | REQUEST CHANGES @d1661ab8 | feat(scheduling): S-SCHED-2 authoritative booking lifecycle, no double booking, assignment |
+| #635 | 9c5ae5ef | UNKNOWN | main | APPROVE @c2688010 | REQUEST CHANGES @c2688010 | feat(ai-consent): client-ai-v4 true AI-chat retention copy; Roman delete erases the transc |
+| #636 | 608985cf | CLEAN | agent/clinic/deletion-be/7c1 | REQUEST CHANGES @7883337f | REQUEST CHANGES @7883337f | feat(data-export): private bucket storage + 5-minute user-bound download (B-608-12, stacke |
+| #640 | 213a186d | UNKNOWN | main | BLOCK @2ac6395f | BLOCK @2ac6395f | feat(programs): coach program library API, bulk assign, program-as-package delivery (S-MWB |
+| #641 | bb17e19a | UNKNOWN | main | REQUEST CHANGES @563e3f80 | REQUEST CHANGES @563e3f80 | feat(money): coach Money read model, truthful Connect status + refresh, HTTPS onboarding r |
+| #642 | 85950984 | UNKNOWN | main | REQUEST CHANGES @85950984 (at head) | REQUEST CHANGES @85950984 (at head) | chore(flags): GOOGLE_CLIENT_IDS -> github-secret, Google sign-in on day 1 (B-FLAGS-3, T4) |
+| #643 | f21b3c63 | UNKNOWN | main | REQUEST CHANGES @f21b3c63 (at head) | REQUEST CHANGES @f21b3c63 (at head) | chore(flags): BOOKING_REMINDERS_ENABLED -> on, reminders on at launch (OR-110-5, B-FLAGS-3 |
+| #645 | 7b6165ab | BEHIND | main | - | - | ci(branch-protection): setup script lists the 10 live required checks incl. Schema parity  |
+| #646 | ea919f6b | UNKNOWN | main | - | - | fix(payments): never send client Stripe secrets to coach routes |
 | #647 | 3a93fbde | BEHIND | main | - | - | fix(notifications): booking times in the recipient's zone, one inbox row per event (B-643- |
 | #648 | 81c52a12 | BEHIND | main | - | - | feat(notifications): deliver inbox notifications to devices via Expo push (C-643-2) |
+| #649 | aa1da69d | BEHIND | main | - | - | fix(build-week): Day 1 points to the consultation, not the switched-off diagnostic (T3) |
 
-**growth-project-mobile** (17 open launch PRs; dependabot bumps and pre-launch PRs omitted)
+**growth-project-mobile** (16 open launch PRs; dependabot bumps and pre-launch PRs omitted)
 
 | PR | Head | State | Base | Latest Opus | Latest Sol | Title |
 |---|---|---|---|---|---|---|
-| #305 | 92c25ec8 | CLEAN | main | REQUEST CHANGES @92c25ec8* | - | feat(release): expo-updates OTA (fingerprint runtime; clinic, production and preview chann |
-| #312 | 90e78abe | BEHIND | main | REQUEST CHANGES @90e78abe* | REQUEST CHANGES @90e78abe* | C05 item 7: Workout reminders toggle in Settings > Notifications + device timezone sync |
-| #314 | 48d76d21 | CLEAN | main | APPROVE @48d76d21* | APPROVE @48d76d21* | feat(community): report, block, moderation actions and safety screen (Apple 1.2) |
-| #315 | de1c79aa | CLEAN | main | APPROVE @d9c2e669 | APPROVE @d9c2e669 | fix(trust-center): open the real privacy policy, link the consumer health policy, accurate |
-| #317 | 58c2d53f | CLEAN | main | REQUEST CHANGES @c7e35d84 | BLOCK @c7e35d84 | fix(wearables): S14 [T4] Apple Health / Health Connect connect, 30-day import, health and  |
-| #321 | 1413edb7 | CLEAN | main | REQUEST CHANGES @7322bbff | BLOCK @7322bbff | feat(packages): editor shows the $19.99 minimum or free rule inline (S-FEE) |
-| #322 | 0b4813dc | BEHIND | main | APPROVE @0b4813dc* | REQUEST CHANGES @0b4813dc* | feat(dunning): payment lockout + Days 0-9 banner + native Update card (PaymentSheet, 1A pa |
-| #324 | e7c403f3 | CLEAN | main | - | APPROVE @e7c403f3* | fix(support): one support email (Bradleyapple1031@gmail.com) in the app + guard (S-ERRORS, |
-| #325 | 36f05bba | CLEAN | main | APPROVE @36f05bba* | APPROVE @36f05bba* | S-SCHED: native Calendar, coach controls, welcome call and lifecycle contracts (T4, depend |
-| #326 | 16e7e97c | CLEAN | main | REQUEST CHANGES @32ed8546 | REQUEST CHANGES @32ed8546 | fix(ai): handle ai_consent_required and ai_egress_blocked on every AI surface (R2b, T4) |
-| #327 | 395c3312 | CLEAN | main | APPROVE @7e643f9b | REQUEST CHANGES @7e643f9b | feat(data-export): working download via fresh 5-minute link, specific error states (B-EXPO |
-| #328 | 67f9ef4f | CLEAN | main | REQUEST CHANGES @dbd5ceb9 | REQUEST CHANGES @dbd5ceb9 | feat(programs): coach Programs tab - build once, assign to many, add to package (S-MWB Pha |
-| #329 | 83ee0e46 | CLEAN | main | BLOCK @4071d0ce | BLOCK @83ee0e46* | feat(coach): setup wizard with Stripe Express onboarding, first package, invite + QR, Home |
-| #330 | 4c61d915 | CLEAN | main | APPROVE @4c61d915* | - | feat(sentry): native crash capture before JS loads (iOS/Android), no PII |
-| #331 | a224e5bd | CLEAN | main | REQUEST CHANGES @a224e5bd* | - | feat(roman): your conversations with Roman, list, open and delete (T4) |
-| #332 | 61eea115 | CLEAN | agent/clinic/s-coach-wizard | - | REQUEST CHANGES @61eea115* | feat(money): coach Money page and Home Money card, retire Earnings and Business metrics |
-| #333 | abfc5d12 | CLEAN | main | APPROVE @abfc5d12* | - | feat(release): pre-build release-env check per EAS profile (clinic, production, preview) |
+| #305 | 92c25ec8 | BEHIND | main | REQUEST CHANGES @92c25ec8 (at head) | REQUEST CHANGES @92c25ec8 (at head) | feat(release): expo-updates OTA (fingerprint runtime; clinic, production and preview chann |
+| #312 | 90e78abe | UNKNOWN | main | REQUEST CHANGES @90e78abe (at head) | REQUEST CHANGES @90e78abe (at head) | C05 item 7: Workout reminders toggle in Settings > Notifications + device timezone sync |
+| #314 | 48d76d21 | UNKNOWN | main | APPROVE @48d76d21 (at head) | APPROVE @48d76d21 (at head) | feat(community): report, block, moderation actions and safety screen (Apple 1.2) |
+| #315 | de1c79aa | UNKNOWN | main | APPROVE @d9c2e669 | APPROVE @d9c2e669 | fix(trust-center): open the real privacy policy, link the consumer health policy, accurate |
+| #317 | 58c2d53f | UNKNOWN | main | APPROVE @58c2d53f (at head) | REQUEST CHANGES @58c2d53f (at head) | fix(wearables): S14 [T4] Apple Health / Health Connect connect, 30-day import, health and  |
+| #321 | 1413edb7 | UNKNOWN | main | REQUEST CHANGES @7322bbff | BLOCK @7322bbff | feat(packages): editor shows the $19.99 minimum or free rule inline (S-FEE) |
+| #322 | 0b4813dc | UNKNOWN | main | APPROVE @0b4813dc (at head) | REQUEST CHANGES @0b4813dc (at head) | feat(dunning): payment lockout + Days 0-9 banner + native Update card (PaymentSheet, 1A pa |
+| #325 | 36f05bba | UNKNOWN | main | APPROVE @36f05bba (at head) | APPROVE @36f05bba (at head) | S-SCHED: native Calendar, coach controls, welcome call and lifecycle contracts (T4, depend |
+| #326 | 16e7e97c | UNKNOWN | main | REQUEST CHANGES @32ed8546 | REQUEST CHANGES @32ed8546 | fix(ai): handle ai_consent_required and ai_egress_blocked on every AI surface (R2b, T4) |
+| #327 | 395c3312 | UNKNOWN | main | APPROVE @7e643f9b | REQUEST CHANGES @7e643f9b | feat(data-export): working download via fresh 5-minute link, specific error states (B-EXPO |
+| #328 | 67f9ef4f | UNKNOWN | main | REQUEST CHANGES @dbd5ceb9 | REQUEST CHANGES @dbd5ceb9 | feat(programs): coach Programs tab - build once, assign to many, add to package (S-MWB Pha |
+| #329 | 83ee0e46 | UNKNOWN | main | BLOCK @83ee0e46 (at head) | BLOCK @83ee0e46 (at head) | feat(coach): setup wizard with Stripe Express onboarding, first package, invite + QR, Home |
+| #330 | 4c61d915 | BEHIND | main | APPROVE @4c61d915 (at head) | REQUEST CHANGES @4c61d915 (at head) | feat(sentry): native crash capture before JS loads (iOS/Android), no PII |
+| #331 | a224e5bd | BEHIND | main | REQUEST CHANGES @a224e5bd (at head) | BLOCK @a224e5bd (at head) | feat(roman): your conversations with Roman, list, open and delete (T4) |
+| #332 | 61eea115 | CLEAN | agent/clinic/s-coach-wizard | REQUEST CHANGES @61eea115 (at head) | REQUEST CHANGES @61eea115 (at head) | feat(money): coach Money page and Home Money card, retire Earnings and Business metrics |
+| #333 | abfc5d12 | BEHIND | main | APPROVE @abfc5d12 (at head) | REQUEST CHANGES @abfc5d12 (at head) | feat(release): pre-build release-env check per EAS profile (clinic, production, preview) |
 
 #### First moves for agent 113 (in this order)
 
 1. Bootstrap (START HERE), regenerate the board, and read every HANDOFF section. Then relaunch the two Opus and three Sol audit lenses with short queues, built from the board's "needs audit" heads below. Use handoffs/op-6870f2ca/lanes/AUD-*.md as templates.
-2. Unlock builds first: backend #635 (fix round 9c5ae5ef) needs a Sol re-audit plus an Opus delta, then merge and deploy (standing approval). After that comes mobile #326 (B-CONSENT-4's state per its HANDOFF), then mobile #331 (fix B-331-1 first).
+2. Unlock builds first. Backend #635's fix round 9c5ae5ef is all green (112 re-ran a known flaky test). It needs a Sol re-audit and an Opus delta, then merge and deploy (standing approval). After that comes mobile #326 (16e7e97c, needs deltas), then mobile #331. #331 first needs a fix round: Sol BLOCK 1/3/2 with A = a cross-account destructive-intent / transport-credential race, and Opus B-331-1.
 3. Merge the approved pairs as soon as their other half is approved:
-   - mobile #325 (dual APPROVE at 36f05bba) waits for backend #634: Opus APPROVE and Sol REQUEST CHANGES at d1661ab8, round 5 per S-SCHED-4's HANDOFF.
+   - mobile #325 (dual APPROVE at 36f05bba) waits for backend #634, now at round-5 head 4d987916. Its last verdicts were Opus APPROVE and Sol REQUEST CHANGES at d1661ab8, so it needs a Sol re-audit and an Opus delta.
    - mobile #314 (dual APPROVE at 48d76d21) waits for backend #610: Opus APPROVE and Sol REQUEST CHANGES at a98d08b5; needs a fix round.
    - For each pair: merge the backend half, deploy (re-run #634's zero-row queries first), run the manifest flips whose preconditions are live, then update-branch the mobile half, take a delta and merge.
-4. Release trio: #333 and #330 are Opus APPROVE, with Sol assigned at the stop (check the board). #305 is Opus REQUEST CHANGES (B-305-5/6). Order: #333, #330, #305. Verify the EAS env values before #333.
+4. Release trio, all needing a fix round. #333 is Opus APPROVE and Sol RC 0/2/1. #330 is Opus APPROVE and Sol RC 0/2/2. #305 is Opus RC (B-305-5/6) and Sol RC 0/4/3. One S-RELEASE lane fixes all three under a push hold, since both lenses have posted. Order: #333, #330, #305. Verify the EAS env values before #333.
 5. Needs audit by both lenses at the current heads:
    - #627 c1d69c7f / #321 1413edb7 (B-FEE-R6 done)
-   - #317 58c2d53 (assigned at stop)
    - #608 / #636 / #327 (B-EXPORT-3)
    - #640 / #328 (S-MWB-2)
    - #641 / #646 (S-COACH-BE-2)
    - #647 / #648 (notifications, T4)
-   - #644 (T2, one lens)
-   - #645 (T4 gate file)
+   - #645 @7b6165ab (T4 gate file; mirrors live protection)
+   - #649 @aa1da69d (T3, Build Week Day 1 copy migration 20270224000000; OR-112-20 pre-deploy SELECT)
    - #315 / #611 / #326 (B-CONSENT-4)
-   - whatever the in-flight lanes pushed after this snapshot.
+   - #634 @4d987916 (round 5; item 3) and #635 @9c5ae5ef (item 2).
 6. Restart these fixers from WIP branches and HANDOFF notes:
    - #609/#312: wip/B-JOURNEY-3-609-fixround @11fd4e10 and wip/B-JOURNEY-3-312-fixround @25b111d5. B-609-3 and B-609-4 were not started.
-   - dunning #628/#322: wip/s-dunning-r4-* per S-SCHED-4's HANDOFF.
-   - #329/#332 (Sol BLOCK/RC at 83ee0e46/61eea115).
+   - dunning #628/#322: wip/s-dunning-r4-backend @c8a1c95b (remove one banned cast in a test, eslint, finish B-628-11/8/6, push to #628) and the mobile items B-322-1/5/7, C-322-2 (not started).
+   - #329/#332: #329 BLOCK from both lenses at 83ee0e46 (Opus: only A-329-1, which closes when #332 merges into #329; Sol 1/1/1). #332 REQUEST CHANGES from both at 61eea115 (B-332-1: stale period numbers with no error). Also OR-112-16 (idempotent package create).
    - #610 (Sol RC at a98d08b5).
-   - #305 (B-305-5/6) and #331 (B-331-1).
+   - #317 wearables: Sol REQUEST CHANGES 0/3/2 at 58c2d53 (cancellation before fence creation, native reads after logout, cloud error mapping); Opus APPROVE at the same head.
+   - #305/#330/#333 (release trio, item 4) and #331 (item 2).
 7. Then start the not-started launch scope in section 12.C order, keeping 4-5 auditor lanes busy at all times.
 
 ## 6. Lessons: how to be 1% better
@@ -1193,10 +1215,11 @@ Owner actions (only he can do these):
    - confirm Connect is enabled;
    - pk_live on Fly (STRIPE_PUBLISHABLE_KEY) AND in the EAS clinic and production environments. #333 makes clinic and production builds fail without a live pk; send him the exact steps when #333 is ready to merge;
    - turn off Stripe failed-payment emails only after our email provider is live.
-3. After #641 deploys: STRIPE_CONNECT_RETURN_URL and STRIPE_CONNECT_REFRESH_URL must be set. Stripe onboarding returns 503 until they are. These are settings, so the operator sets them through a manifest PR; only send Bradley values he alone knows.
+3. After #641 deploys, STRIPE_CONNECT_RETURN_URL and STRIPE_CONNECT_REFRESH_URL must be set; Stripe onboarding returns 503 until they are. The operator does this through a manifest PR (OR-112-19), and Bradley does nothing.
 4. Install the next working build and sign up as coach. That unlocks C04: coach account, two packages plus GP-BRADLEY, the 3-program seed, welcome text (runtime only), appointment types, clinic spaces, QR code.
 5. Two iPhone TestFlight passes before submission.
-6. Google Play app and testers: his task, later. Do not remind him.
+6. Fill in the facts in #611's vendor-deletion and backup procedures checklist, needed before the policy is published: the Supabase plan and point-in-time-recovery window, whether TGP has a zero-data-retention agreement with Anthropic, and which Stripe, Sentry, Resend and PostHog plans are in use. Ask once, as a short list, when #611 is otherwise ready.
+7. Google Play app and testers: his task, later. Do not remind him.
 
 Open decisions (ask in the section 11 format, recommendation first, one at a time when they become relevant):
 
@@ -1483,9 +1506,13 @@ C. Launch scope not started (start as slots free; lane templates in handoffs/op-
 16. Telegram-grade messaging: all 10 items of the 10-01 13:00 verdict. None started; start after #610/#314 merge to avoid conflicts.
 17. Roman data-aware (grounding stack) plus approve-to-adjust with coach Approve/Edit/Dismiss (T4). Restack the Roman stack #598/#601/#602/#603/#605 after #635 merges.
 18. Coach daily brief (reply drafts, butler tone, box-2 gate; verify COACH_BRIEF_ENABLED and the cron on Fly); client detail (billing, score, consultation answers); coach check-in review.
-19. Deletion follow-ups: C-608-2, C-313-5, recipes left behind, a saved bookmark blocking delete, export omitting created recipes.
-20. MWB follow-ups: sub-coach day access, June clone 2nd-client 409, archive guard after #607.
+19. Deletion follow-ups: C-608-2 admin force-delete step-up re-auth and C-608-7 keyed receipt digest (OR-112-17, before launch), the legacy export function in account.service.ts (delete or align it), C-313-5, recipes left behind, a saved bookmark blocking delete, export omitting created recipes.
+20. MWB follow-ups (OR-112-18): an owner/visibility check on autosave (sub-coaches can edit any plan in the tenant; before launch); an archive guard for programs referenced by #607's clinic program sets; program copies added to #608's erasure manifest; older clones without a client recorded (low impact).
 21. Close #633 as superseded by the manifest path.
+22. B-CONSENT-4 follow-ups (OR-112-15): a specific #315 policy-link failure message (before launch); one PR for the closed-account record on the help page and the mobile delete screen; sub-coach access to Roman chats (C-635-4); Mux in the vendor list if live.
+23. #317: remove the two leftover Samsung-era permissions nothing reads (C-317-5) before the Play health declaration. Idempotent package create (OR-112-16).
+24. Notification follow-ups (7, listed in B-FLAGS-3's #643 comment), starting with moving the older push paths onto #648's sender.
+25. Money follow-ups (OR-112-19): stop returning the Stripe client secret on GET /v1/checkout/purchases (before launch); Money reads #628's dunning delivery rows; the Connect URLs manifest PR after #641 deploys.
 
 D. Manifest flips (each only after its preconditions are live in production):
 

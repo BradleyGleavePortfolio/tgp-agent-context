@@ -1,8 +1,22 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:51 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:53 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
+
+## AGENT 112 RETIRED 2026-10-02 13:53 PDT — NEXT OPERATOR (agent 113) START HERE
+
+Clean stop ordered by Bradley 13:34 ("let them finish, start no new work, keep updating last_operator_state"). Every lane
+finished its active item or pushed WIP to wip/* branches; NO subagent is running; no deploy or flag change is pending; telemetry
+stopped. Pickup prompt: [handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md](handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md)
+(+ .docx). Kit: handoffs/op-6870f2ca/ (tools/, lanes/, reports/ with "HANDOFF FOR AGENT 113" sections, probes/).
+- Production backend f04289f9 (#607, deployed 13:01-13:08). Backend main 5d1f224a (+#644, not deployed). Mobile main f34b5b99.
+- 112 merged: mobile #310, backend #607 (+deploy), mobile #324, backend #644. Release gate: no mobile build with #310 until #635 deployed.
+- Live WIP branches: wip/B-JOURNEY-3-609-fixround @11fd4e10, wip/B-JOURNEY-3-312-fixround @25b111d5, wip/s-dunning-r4-backend
+  @c8a1c95b, wip/s-dunning-r4-mobile @0b4813dc (= #322 head).
+- Operator rulings OR-112-1..20 are in the train log below and in v6 section 4.14.
+- Owner authority given to 112 (EXECUTE + push/merge 12:10, standing deploy 12:11, maximize safe lanes 12:38): ask once whether it
+  carries over (recommend yes).
 
 ## AGENT 112 TAKEOVER 2026-10-02 11:20-12:20 PDT — reconciled facts (read first)
 

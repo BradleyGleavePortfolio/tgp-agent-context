@@ -6,6 +6,7 @@ import RomanConversationScreen from '../RomanConversationScreen';
 import { useRomanChats } from '../useRomanChats';
 import { romanChatsEvents } from '../romanChatsEvents';
 import { authEvents } from '../../../utils/authEvents';
+import { chatDateLabel } from '../romanChatsCopy';
 import type { RomanChatSummary, RomanChatsApi, RomanChatsOutcome, RomanChatPage } from '../../../api/romanChatsApi';
 
 jest.mock('../../../services/api', () => ({ __esModule: true, default: {} }));
@@ -41,6 +42,13 @@ function makeApi(over: Partial<Record<keyof RomanChatsApi, jest.Mock>> = {}): Re
   };
 }
 beforeEach(() => { user = 'user-a'; jest.clearAllMocks(); });
+
+it('AUD-SOL: two UTC-day sessions on the same Pacific local day have distinct destructive labels', () => {
+  const earlier = { startedAt: '2026-10-01T22:00:00.000Z' };
+  const later = { startedAt: '2026-10-02T01:00:00.000Z' };
+  console.info('AUD-SOL same-local-day labels', chatDateLabel(earlier), chatDateLabel(later));
+  expect(chatDateLabel(earlier)).not.toEqual(chatDateLabel(later));
+});
 
 it('AUD-SOL: account A typed delete-all confirmation cannot authorize account B deletion', async () => {
   const sentOwners: Array<string | null> = [];

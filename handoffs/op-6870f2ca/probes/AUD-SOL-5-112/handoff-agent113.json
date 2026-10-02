@@ -1,0 +1,108 @@
+{
+  "lane": "AUD-SOL-5",
+  "operator": 112,
+  "handoff_to": 113,
+  "status": "clean-stop completed; accepting no new items",
+  "not_audited": [],
+  "latest_completed_assigned_audit_rounds": [
+    {
+      "repo": "growth-project-backend",
+      "pr": 642,
+      "head": "859509843e787afab1d7aa172381478b93f3ad94",
+      "verdict": "REQUEST CHANGES",
+      "counts": {"A": 0, "B": 1, "C": 0},
+      "comment_id": 5960161965,
+      "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/642#issuecomment-5960161965"
+    },
+    {
+      "repo": "growth-project-backend",
+      "pr": 643,
+      "head": "f21b3c632a80037c852f91e5d41e33d31d99ef9e",
+      "verdict": "REQUEST CHANGES",
+      "counts": {"A": 0, "B": 2, "C": 1},
+      "comment_id": 5960175016,
+      "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/643#issuecomment-5960175016"
+    },
+    {
+      "repo": "growth-project-backend",
+      "pr": 641,
+      "head": "563e3f80f913dd2a2b4efa5099d5e5944dabb19d",
+      "verdict": "REQUEST CHANGES",
+      "counts": {"A": 0, "B": 4, "C": 4},
+      "comment_id": 5960713012,
+      "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/641#issuecomment-5960713012"
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 329,
+      "head": "83ee0e46a81a1a24f8d8a5696cc3dfe92ce6ddfa",
+      "verdict": "BLOCK",
+      "counts": {"A": 1, "B": 1, "C": 1},
+      "comment_id": 5960983148,
+      "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/329#issuecomment-5960983148"
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 312,
+      "head": "90e78abe92ed94aea5f116fe630eb96c4c5f7b5a",
+      "verdict": "REQUEST CHANGES",
+      "counts": {"A": 0, "B": 2, "C": 2},
+      "comment_id": 5960816016,
+      "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/312#issuecomment-5960816016"
+    },
+    {
+      "repo": "growth-project-backend",
+      "pr": 609,
+      "head": "40616dcfa273501f1314890fa8966144b334cbdb",
+      "verdict": "REQUEST CHANGES",
+      "counts": {"A": 0, "B": 4, "C": 4},
+      "comment_id": 5960820683,
+      "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/609#issuecomment-5960820683"
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 332,
+      "head": "61eea1159aa68835ef2269a4cb9e9d46cd2533f6",
+      "verdict": "REQUEST CHANGES",
+      "counts": {"A": 0, "B": 3, "C": 1},
+      "comment_id": 5961043528,
+      "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/332#issuecomment-5961043528"
+    },
+    {
+      "repo": "growth-project-mobile",
+      "pr": 317,
+      "head": "58c2d53fa061071e193e5e3b5f981209425e9e0c",
+      "verdict": "REQUEST CHANGES",
+      "counts": {"A": 0, "B": 3, "C": 2},
+      "comment_id": 5961170156,
+      "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/317#issuecomment-5961170156",
+      "open_new_ids": ["B-317-6", "B-317-7", "B-317-8"],
+      "inherited_optional_ids": ["C-317-5", "C-317-6"],
+      "local_existing_tests": {"suites_passed": 16, "tests_passed": 208},
+      "local_independent_assertions_failed_as_expected": 5,
+      "required_checks_green_at_posted_head": true
+    }
+  ],
+  "historical_mobile_329_round": {
+    "head": "4071d0ce40d2c451addf1540654c2b16e5f66395",
+    "verdict": "BLOCK",
+    "counts": {"A": 1, "B": 4, "C": 4},
+    "comment_id": 5960771086,
+    "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/329#issuecomment-5960771086"
+  },
+  "report_paths": [
+    "/home/user/workspace/ops/reports/AUD-SOL-5-112.md",
+    "/home/user/workspace/ops/reports/S-COACH-MOB-2-112.md",
+    "/home/user/workspace/ops/reports/S-WEAR-2-112.md",
+    "/home/user/workspace/ops/reports/S-WEAR-2-112-pr317-body.md"
+  ],
+  "cleanup_status": "not performed: higher-priority developer workspace instruction prohibits deleting or cleaning up workspace files",
+  "retained_owned_worktrees": [
+    "/home/user/workspace/wt/aud-sol5-641",
+    "/home/user/workspace/wt/aud-sol5-609",
+    "/home/user/workspace/wt/aud-sol5-312",
+    "/home/user/workspace/wt/aud-sol5-329",
+    "/home/user/workspace/wt/aud-sol5-332",
+    "/home/user/workspace/wt/aud-sol5-317"
+  ]
+}
