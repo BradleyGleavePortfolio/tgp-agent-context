@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:26 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:27 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,14 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:27 B-JOURNEY-2 DONE: mobile #324 -> e7c403f3 (B-324-1 SupportEmailFallback; one support constant + stricter guard);
+  backend #644 @ 9697c735 B-QUIZ-OFF (DiagnosticModule unloaded; 3 quiz routes 404; no migration) -> operator update-branch ->
+  d32dcfca; backend #645 @ aa6a80f1 (protection script lists the 10 live required checks incl. Schema parity, T4).
+  SETTINGS CHANGE (operator, reversible): 'require linear history' ENABLED on main in backend + mobile (GraphQL
+  updateBranchProtectionRule; strict/admin-enforced/10 and 3 checks unchanged; squash merges unaffected). Conversation resolution
+  stays OFF (comment-based audits would stall). #645 to mirror live exactly. Build Week Day 1 copy 'Complete the 40-point
+  diagnostic' -> data migration 20270224000000 + seed file pointing to the consultation (same agent, new PR). Audits: #324/#644 ->
+  AUD-SOL-4 (T2 single lens); #645 -> both lenses after its fix push.
 - 13:26 S-COACH-MOB-2 DONE: mobile #329 -> 83ee0e46 (A-329-1 checklist no longer opens dead Earnings; B-329-1..4 + Cs; main
   merged; CI green); NEW stacked mobile #332 @ 61eea115 (coach Money page + Home Money card + charges list + payout settings;
   Earnings/Business metrics routes redirect to Money; no calls to the six 404 routes; CSV export not built — no backend route).
