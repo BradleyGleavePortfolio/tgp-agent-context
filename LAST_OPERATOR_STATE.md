@@ -28,6 +28,13 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 10:05 B-UGC-3 done: #610 -> c710b0dc (community-live-tests 91/91; real 500 on Hall/workspace-challenge comments fixed in unreleased
+  migration 20270211000000 sec. 5 — operator OK, prod last applied 20270205000000), mobile #314 -> 4192ba9 (native voice record +
+  playback via expo-audio ~56.0.12; needs a new EAS build; operator copied expo-audio 56.0.13 into shared deps/mobile). IDEA for
+  owner: make community-live-tests a required check (branch-protection change needs Bradley's words). B-EXPORT-2 done: #608 ->
+  4e926b35, #636 -> 7883337f, mobile #327 -> 7e643f9b (all findings closed). All four queued to both lenses.
+  Launched B-JOURNEY (#609 + mobile #312, mobile #324, B-QUIZ-OFF, setup-branch-protection.sh) and S-MWB (Programs builder phase 1).
+  Lanes now: AUD-OPUS, AUD-SOL-2, B-CONSENT-2, B-FEE-R5, S-SCHED-3, B-JOURNEY, S-MWB.
 - 09:50 B-FLAGS-2 done: #637 manifest (6879d164; every entry = current prod, merging changes nothing), #638 stacked flip
   FEATURE_AI_CONSENT_LEDGER_ENABLED unset->true (draft c375b2ac), #639 SC2015 (54a7aec8, all green). Deploy plan: merge #639 ->
   #637 -> retarget #638 to main, audit, merge -> fly-env-sync plan -> apply (stage) -> fly-deploy main -> plan again (verify).
