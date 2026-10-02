@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-10-01 20:36 PDT (commit time is authoritative). Operator from ~20:17 PDT: agent 110, session f083060f; agent 109 (7c52cefa) and 108 retired.
+- **Updated:** 2026-10-02 08:00 PDT (commit time is authoritative). Operator from 2026-10-02 07:53 PDT: agent 111, session 26029069 ([thread](https://www.perplexity.ai/computer/tasks/26029069-7f31-425f-8787-1d1c044f4c21)); agent 110 (f083060f) died ~00:00 PDT (credits), 109 and 108 retired. Takeover facts: LAST_OPERATOR_STATE.md "AGENT 111 TAKEOVER".
 - **Operator:** Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)), agent 108. Single writer for Bucket A since the owner's EXECUTE at 2026-10-01 08:28 PDT. Session c712e04d is retired as writer (silent since about 19:10 PDT 09-30; its thread is not readable from this session). Its working files that never reached GitHub (onboarding contract v1, `clinic_ops/BRIEF.md`) are lost; this file and the PR bodies are the recovered authority.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
@@ -36,6 +36,7 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-02 07:53 | Agent 111 takeover: read every attachment word for word; AUTONOMY doc = mentality, AGENT RULES = law, MODEL ROUTING = grading/execution, v5 prompt = first prompt; assume all prior agents/jobs died mid-work; read LAST_OPERATOR_STATE | Reconciled from GitHub 07:54-08:00 (LAST_OPERATOR_STATE "AGENT 111 TAKEOVER"); readback + budget question sent 08:00. |
 | 10-01 21:44 | "you do it! checkbox in GitHub's branch settings" (schema parity) | Done 21:45: backend main now requires 10 checks incl. Schema parity. |
 | 10-01 20:38 | "1.) ANYTHING LESS THAN HYPERSCALER QUALITY IS A DAY 1 BLOCKER 2.) WALL CLOCK TIME IS KEY #1 RESOURCE 3.) DO IT RIGHT, DO IT SMOOTH - SMOOTH IS FAST 4.) I WANT MORE, NOT LESS FUNCTIONALITY IF THE CHOICE ARISES" + "EXECUTE" | Binding over all lanes; added to the subagent brief. |
 | 10-01 20:32 | Budget "All 7, staggered"; repo writes "Yes: push + merge"; deploys "Standing approval" | Agent 110 first batch of 7 launched (handoffs/op-f083060f/lanes). Operator merges audited PRs and approves production deploys of audited main with CI green. |

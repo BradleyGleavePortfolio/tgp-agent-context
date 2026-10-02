@@ -1,7 +1,49 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 20:36 PDT (real clock, `date`). Operator: Computer, agent 110, session f083060f
-([thread](https://www.perplexity.ai/computer/tasks/f083060f-0079-42c5-8feb-18013de78e70)). Agent 109 (7c52cefa) retired.
-Single writer for Bucket A from 2026-10-01 ~20:17 PDT. Companion file: [LIVE_STATE.md](LIVE_STATE.md).
+Updated: 2026-10-02 08:00 PDT (real clock, `date`). Operator: Computer, agent 111, session 26029069
+([thread](https://www.perplexity.ai/computer/tasks/26029069-7f31-425f-8787-1d1c044f4c21)). Agent 110 (f083060f) died
+mid-work (credits) around 2026-10-02 00:00 PDT; all of its subagents are dead. Single writer for Bucket A from
+2026-10-02 07:53 PDT. Companion file: [LIVE_STATE.md](LIVE_STATE.md).
+
+## AGENT 111 TAKEOVER 2026-10-02 07:53-08:00 PDT — reconciled facts (read first)
+
+Read word for word: the 18 owner attachments (v5 prompt, Agent Rules, Model Routing, EXECUTE doctrine, docs), all of
+LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (historic), handoffs/op-f083060f
+(README, brief, lanes, reports). Ops bootstrap done (ops/ from op-7c52cefa + op-f083060f; shared deps install started 07:53).
+
+### Re-verified live (07:54-07:58 PDT)
+- Production backend ba79605b (fly-deploy run 36964740404, 10-01 21:29 PDT), /health + /readyz 200 (db up), uptime matches.
+  /api/me/ai-consent 401 (route live). /api/auth/signup-policy: email+apple, google off, role_choice true.
+- Supabase read-only: last migration 20270205000000_invite_grant_bindings (04:32 UTC). Postgres ERROR/FATAL logs: ZERO since
+  10-01 22:30 UTC (archived_at errors stopped with #625).
+- Backend main e5a6044a (= prod + #623 + #626 + #624), 10 required checks, strict. Mobile main e3986e89 (#313), 3 checks, strict.
+- No merges, deploys or verdicts happened after agent 110 died (last GitHub activity ~07:00 UTC).
+
+### What 110's dead lanes actually pushed (GitHub is the truth; lane reports were copied before they finished)
+| Lane | Pushed | Not done |
+|---|---|---|
+| B-607-FIX | #607 -> e8feb0d2 (INT-607-1 + 1b), #604 -> e159d665 (B-604-1 defaults 240/60/400/10); both CI green | #609 round; PR body notes |
+| B-CONSENT-COPY | NEW backend #635 @0a32b4fe (client-ai-v4 "kept until you delete them or your account"; Roman delete erases); mobile #310 -> f85ffd36 (copy v4 + consult-consent-v3, B-310-7, C-310-11) | #326, #611; backend #607 still defaults to consult-consent-v2 (must move to v3 with #310) |
+| B-FEE-R4 | #627 -> ef19980f, #629 -> d134f012 (fix-round comment posted), mobile #321 -> 4295fc79 (no fix-round comment) | #627 CI RED: env-registration (unregistered env reads + missing defaults) + deploy-readiness |
+| B-UGC-2 | #610 -> 304613e4 (A-610-1/2, B-610-1..5, C-610-4 CI job) | #610 CI RED: new community-live-tests job (community-events e2e Prisma errors); #314 not started |
+| B-FLAGS | nothing pushed (read-only findings in report: MWB_AUTOSAVE_LOCK_TOKEN_SECRET absent = boot precondition; BOOKING_REMINDERS_ENABLED must be literal "on") | whole lane; still blocks the deploy of main (OR-110-4) |
+| AUD-SOL | posted #636 RC 1/4/1 @9b7a6a34, mobile #327 RC 0/6/1 @227c5ad9 | #634, #325 never audited |
+| AUD-OPUS | — | #636, #327, #634, #325 never audited |
+
+### Board at 08:00 PDT (no PR is merge-ready: none has its tier's verdicts at its exact head)
+- Awaiting audit (CI green): backend #604 e159d665 (T4 delta), #607 e8feb0d2 (T4), #635 0a32b4fe (T4), #629 d134f012 (T4),
+  #634 dbc10b7b (T4), #632 b859a1c6 (T2 Sol delta); mobile #310 f85ffd36 (T4), #321 4295fc79 (T3), #325 b0c02156 (T4).
+- Awaiting fixes: #627 (CI red), #610 (CI red) + mobile #314 (RC), #636/#608/#327 (B-EXPORT r2), #628/#322/#633 (S-DUNNING-R3),
+  #611 + mobile #326 (consent copy), #609 (+ mobile #312 dirty), mobile #324 (S-ERRORS), mobile #317 (BLOCK, dirty).
+- Mobile #315 dual-approved at d9c2e669 but DIRTY; ships with/after #611.
+- Deploy of main e5a6044a HELD until an audited flag path can set FEATURE_AI_CONSENT_LEDGER_ENABLED in the same window (OR-110-4).
+
+### Corrections to 110's state
+- 110's log said B-FEE-R4 had not reached #629/#321; it pushed both. 110's log listed #636/#327 as awaiting first audits;
+  Sol already posted RC on both. #627's round-4 head is CI red (110's report claimed local green only).
+
+### Owner questions asked 08:00 PDT (readback): agent budget for 111 (recommend 7 staggered, 2 auditor slots);
+B-627-3 refund/dispute residual recovery (recommend payout delay + in-code clawback now, debit_negative_balances once coach
+terms carry consent).
 
 ## AGENT 110 TAKEOVER 2026-10-01 20:17-20:36 PDT — verified facts, owner decisions, first batch
 
