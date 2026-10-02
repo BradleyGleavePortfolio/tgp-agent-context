@@ -50,6 +50,15 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   Needs Sol delta. (First push attempt was blocked by the platform safety check until the owner authorized repo writes at 20:32.)
 - Commit identity used by agent 110: "TGP Agent 110 <agent@tgp.invalid>" (owner: identity is irrelevant).
 
+### Train log (agent 110)
+- 20:52 AUD-SOL: APPROVE mobile #323@b8b81415, #320@bbfdebc6, backend #631@ac83aa73, #595@f2eecae5 (0/0/3 C), #626@9551d2c8;
+  REQUEST CHANGES mobile #324@7f20255d (B-324-1: support email launch failures silent; needs visible recovery, copyable
+  address, Retry, tests). #623 unchanged (no update yet).
+- 20:55 MERGED mobile #320 (T2, Sol APPROVE at exact head, 4/4 checks green) squash -> mobile main 33e38e31.
+  Updated #323 -> 408d41ac (pure merge of main), Sol delta queued. Backend #631 held until #595/#626 merge (avoids re-audit churn
+  on the in-flight T4 Opus audits).
+- #324 B-324-1 fix -> S-ERRORS lane at the next free builder slot.
+
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
