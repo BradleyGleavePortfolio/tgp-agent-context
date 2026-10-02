@@ -123,3 +123,17 @@
 - Value-fragment trace: fly-env-sync has none. fly-env-truth's remote program never prints or throws value text. C-624-6: `cat ssh-stderr.txt` (fly-env-truth.yml:112) is the last raw relay (defense in depth).
 - Carried C-624-1..5. BEHIND main 4bcfb444: fresh merge-tree clean (8144a849), no new env reads on main, so a delta is expected to be integration-only.
 - Local: 6 suites, 218 passed, 1 skipped. Required CI green; shellcheck fails only on the existing s10-core-diff-gate.sh SC2015 (not required).
+
+## backend#608 @ 2759e1a0520ac7bee6c23a7dcf45a551fef694d1 — APPROVE (T4 fix-round; A0 B0 C5)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/608#issuecomment-5946324411
+- Sol B-608-11 closed: only ENOENT counts as deleted; a durable per-machine cleanup record plus Sentry, and the runner rejects; the nightly drain runs first. Migration 20270220000000 is additive, has no user id, and is service_role-only under FORCE RLS.
+- Export on local /tmp (download_available=false): LAUNCH BLOCKER (B severity) for the export feature, owned by B-EXPORT. Pre-existing on main, so not counted against #608. I differ from Sol's B-608-12 only on where it is counted.
+- C-608-2/7/8/9 carried. New C-608-10: on multi-machine expiry, the wrong machine's ENOENT clears file_url, and the owning machine's orphan sweep keeps files with any row (fix: keep only files a READY row owns). Merge-order note C-627-2.
+- Local: 10 suites, 114 passed. Merged with main 4bcfb444 (tree 583fe70f): the manifest suites pass (4 suites, 33). Required CI green.
+
+## backend#633 @ 850ec148a23f69b1f7e5efd8fba43cd7972a7715 — REQUEST CHANGES (full T4; A0 B2 C3)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/633#issuecomment-5946330390
+- B-633-1 (concur with Sol): the awk '{print $1}' table parse misses staged or partial rows (`* ` / `! `), so the rollback is false-green, and there is no pipefail. Fix: the JSON+jq projection (as in #624), unset in any status, a strict post-check, and a fake-flyctl spec.
+- B-633-2: the new failure lines have no next action (copy rule).
+- C-633-1: two rolling restarts on unset. C-633-2: SCOUT/PAIRING default 'true' re-set on every run (add `unchanged`). C-633-3: digests echoed.
+- Required CI green; shellcheck fails only on the existing SC2015.

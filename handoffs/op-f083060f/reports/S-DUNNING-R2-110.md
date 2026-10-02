@@ -24,13 +24,13 @@ Builder: Claude Opus 5.5 (T4). Backend #628, mobile #322. Nothing merged, no Str
   address, matching mobile #324's constant. It should re-export from `src/constants/support.ts` once #324 lands.
 - reports/S-DUNNING.md Stripe settings list updated (7 items) and F15/F16 marked resolved.
 
-## State at 22:40 PDT
+## Final state (23:00 PDT)
 
 | Repo | PR | Branch | Head |
 |---|---|---|---|
-| backend | #628 | `agent/clinic/s-dunning-v2-live` | `5be90ef1` (main `4bcfb444` merged in) |
-| mobile | #322 | `agent/clinic/s-dunning-lockout-screen` | `8991ddf` (main `0b7f197` merged in) |
-| backend | #633 (flags workflow, own T4 PR) | `agent/clinic/s-dunning-flags-workflow` | `850ec148` |
+| backend | #628 | `agent/clinic/s-dunning-v2-live` | `ba1d9480cdd93e69504804c32117e83bc913c6ba` (main `4bcfb444` merged in). CI: all 16 green |
+| mobile | #322 | `agent/clinic/s-dunning-lockout-screen` | `8991ddf37ddc5488fc1448d5cdb6f3b04dc1af26` (main `0b7f197` merged in). CI: all green |
+| backend | #633 (flags workflow, own T4 PR) | `agent/clinic/s-dunning-flags-workflow` | `850ec148a23f69b1f7e5efd8fba43cd7972a7715`. CI: green except the pre-existing Infra Lint shellcheck |
 
 PR bodies: reports/S-DUNNING-R2-backend-pr-body.md, reports/S-DUNNING-R2-mobile-pr-body.md and
 reports/S-DUNNING-flags-workflow-pr-body.md.
@@ -52,3 +52,14 @@ because the repo's "never shrink" rule and the C12 audit test pin them. The coac
 1. Stripe failed-payment and 3DS emails: OFF once the email transport is verified live (default). Until then leave them ON.
 2. Apple Pay / Google Pay in the Update card sheet: not now (default). This needs a merchant id + config plugin, a package.json change.
 3. Remove the portal route after the minimum app version includes #322: yes (default), as a follow-up.
+
+### Tests (all targeted, `--runInBand`, via heavy.sh) and CI
+- Backend local: tsc exit 0 (NODE_OPTIONS 4096, merged tree). eslint on the 33 changed files: exit 0. jest: 14 suites/208 (merged tree),
+  4 suites/68 (+1 pre-existing skip) after the R75 fix, plus the pre-merge batches (7/125, 11/158, 13/294). R75 range: OK.
+- Backend CI at ba1d9480: build-and-test 632 suites / 10767 tests passed. R75, schema parity, forward and reversible migrations,
+  CodeQL and RLS live all passed.
+- Mobile local: tsc exit 0. eslint 0 errors. jest 33 suites/387. vendor-name guard passed. validate-app-config OK.
+- Mobile CI at 8991ddf: Typecheck, lint, test success (402 suites / 5433 tests). CodeQL passed.
+
+### Cleanup
+Worktrees wt/sdun2-mob, wt/sdun2-flags and wt/sdun2-be were removed (symlinks unlinked first). Shared deps were not touched.

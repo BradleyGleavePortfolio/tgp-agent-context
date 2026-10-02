@@ -1,6 +1,6 @@
 # TGP OPERATOR PROMPT v5 — Agent 111: clinic launch executive operator
 
-Written by agent 110 (Computer session f083060f, thread https://www.perplexity.ai/computer/tasks/f083060f-0079-42c5-8feb-18013de78e70) at Bradley's request (10-01 21:38: "keep progressing, updating the agent 110 prompt I gave you to reflect current state and issues - rename it agent 111 … for when your out of credits and retired happily!"). This snapshot: 2026-10-01 22:45 PDT (real clock). Agent 110 keeps regenerating it; the newest copy is in tgp-agent-context at handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md (and .docx). Paste this whole document as the first message to the next operator, and attach the same four owner documents plus docs.zip (section 3.4). It replaces prompt v4 (kept at handoffs/op-f083060f/TGP-Operator-Prompt-v4-Agent-110.md for history). Most of v4 is carried over word for word; the parts that changed are sections 0 (overarching facts, item 5), 2 (update note), 3, 4.13 (new), 5, 6.0 (110's lessons first), 7, 12 and 13.
+Written by agent 110 (Computer session f083060f, thread https://www.perplexity.ai/computer/tasks/f083060f-0079-42c5-8feb-18013de78e70) at Bradley's request (10-01 21:38: "keep progressing, updating the agent 110 prompt I gave you to reflect current state and issues - rename it agent 111 … for when your out of credits and retired happily!"). This snapshot: 2026-10-01 22:50 PDT (real clock). Agent 110 keeps regenerating it; the newest copy is in tgp-agent-context at handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md (and .docx). Paste this whole document as the first message to the next operator, and attach the same four owner documents plus docs.zip (section 3.4). It replaces prompt v4 (kept at handoffs/op-f083060f/TGP-Operator-Prompt-v4-Agent-110.md for history). Most of v4 is carried over word for word; the parts that changed are sections 0 (overarching facts, item 5), 2 (update note), 3, 4.13 (new), 5, 6.0 (110's lessons first), 7, 12 and 13.
 
 You are agent 111 in a chain of AI operators. Most of the work exists already. Your job is to finish it truthfully, to be exactly like agent 110, but 1% better. Section 6 tells you where 110 and 109 fell short, so you don't repeat it.
 
@@ -228,7 +228,7 @@ UPDATE 10-01 13:28-16:32 (agent 109 era; section 4.12 has the detail):
 - A P0 was found and fixed: production was missing schema objects (signup broken); \#625 restored them and was deployed and verified (section 5).
 - Dates still float under the 13:00 verdict.
 
-UPDATE 10-01 20:17-22:45 (agent 110 era; sections 4.13 and 5 have the detail):
+UPDATE 10-01 20:17-22:50 (agent 110 era; sections 4.13 and 5 have the detail):
 
 - Saturday 10-03 App Store submission is not realistic under "do it right"; about 20 day-1 items had no PR at 110's takeover. Give Bradley a measured date from merge throughput, never an optimistic one.
 - Agent 110 merged mobile #320 and #323 (Android gate) and backend #595, #630, #631 and #623, deployed backend ba79605b (consent ledger, role choice, $0 grants, private recipes, support email), built the Android production .aab (EAS 4d2665c6), and made Schema parity a required check.
@@ -849,12 +849,12 @@ Bradley's overarching facts (20:38, verbatim; above every lane objective): "1.) 
 
 The live, newest version of this section is the top of tgp-agent-context LAST_OPERATOR_STATE.md ("AGENT 110 TAKEOVER" + "Train log (agent 110)"). Agent 110 appends to that train log after every merge, deploy and lane result; if this prompt and the train log disagree, the train log wins.
 
-### AGENT 110 STATE FOR AGENT 111 — snapshot 2026-10-01 22:45 PDT (real clock)
+### AGENT 110 STATE FOR AGENT 111 — snapshot 2026-10-01 22:50 PDT (real clock)
 
 #### Production and mains
 
 - Production backend: ba79605b, deployed 10-01 21:29-21:34 PDT (fly-deploy run 36964740404, migrations=apply-migrations, production environment approved by agent 110 under the standing approval). Verified: /health 200; migrations 20270203000000_ai_processing_consent_ledger -> 20270204000000_recipe_private_by_default -> 20270205000000_invite_grant_bindings applied (finished, none rolled back); Postgres ERROR/FATAL 0 after deploy; 0 recipes, 0 public; /api/me/ai-consent 401 (live); community routes 404 (flags off, expected); signup-policy providers email + apple, google_signin_enabled false (GOOGLE_CLIENT_IDS reaches Fly only through #624's env sync). Production now has #597 role choice, #622 consent ledger, #599 invite attach, #595 free-package grants, #630 private recipes, #631 support email. The two 00000000000000_baseline rows with finished_at NULL are old rolled-back attempts (04-30), harmless.
-- Backend main: 4bcfb444 fix(wearables): S14 [T4] on-device lane - JWT-only subject, typed userId 400, on-device registration, contract fixture (#623). Mobile main: 0b7f197f feat(android): default closed-test builds to no Health Connect (#323). Required checks: backend 10 (build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, npm audit (high+critical, whole graph), CodeQL JS/TS (javascript-typescript), Banned cast tokens (R75 / R100.A2), build-sbom, danger, Schema parity (migrations match schema.prisma)); mobile 3 (Typecheck, lint, test; Analyze (javascript-typescript); Analyze (actions)). Both strict ("require up to date"), enforce_admins true, 0 required reviews.
+- Backend main: 7a6cfd82 feat(ai-egress): R2b single AI egress gate enforcing the live box-2 AI consent grant (T4) (#626). Mobile main: 0b7f197f feat(android): default closed-test builds to no Health Connect (#323). Required checks: backend 10 (build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, npm audit (high+critical, whole graph), CodeQL JS/TS (javascript-typescript), Banned cast tokens (R75 / R100.A2), build-sbom, danger, Schema parity (migrations match schema.prisma)); mobile 3 (Typecheck, lint, test; Analyze (javascript-typescript); Analyze (actions)). Both strict ("require up to date"), enforce_admins true, 0 required reviews.
 - Android: production .aab FINISHED, EAS build 4d2665c6-d833-4bbf-bac6-4622d6d4f84b (versionCode 4, commit 0b7f197f = mobile main after #320 + #323, Health Connect off). Ready for the Play closed-test upload whenever Bradley creates the Play app (his task; do not remind him). Never ship APK 14a58449. FCM V1 key still null (owner action).
 - Expo: 12 project env vars; Bradley re-added the Expo token at 20:33 as a user-scope vault credential named "Expo personal access token (TGP)" (host api.expo.dev).
 
@@ -866,7 +866,7 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - backend #630 recipes private by default (T4): Sol + Opus delta APPROVE @442fdb86; merged as 75442854.
 - backend #631 one support email (T2): Sol delta APPROVE @67e6a2e0; merged as ba79605b (deployed).
 - backend #623 wearables ingest (T4): Sol + Opus delta APPROVE @32bde193; merged as 4bcfb444 (not deployed yet).
-
+- backend #626 R2b single AI egress gate (T4): Opus (AUD-OPUS-2) + Sol APPROVE @d9be0c0d; merged as 7a6cfd82 (23:2x; NOT deployed: needs FEATURE_AI_CONSENT_LEDGER_ENABLED ON in the same window and no audited workflow can set it yet -> lane B-FLAGS).
 
 #### Lanes agent 110 launched (objectives in tgp-agent-context handoffs/op-f083060f/lanes/; reports in handoffs/op-f083060f/reports/ when copied, else in the PR comments)
 
@@ -875,7 +875,7 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - AUD-OPUS-2 (Claude Opus 5.5): second Opus lens, consent + UGC. Status: running #626, mobile #326, #610, mobile #314 (objective lanes/AUD-OPUS-2.md).
 - B-FIX2 (Claude Opus 5.5): T4 fix rounds. Status: DONE ~22:50. backend #624 -> 75a4e563 (B-624-3: no flyctl output printed at all), backend #608 -> 2759e1a0 (B-608-11: durable cleanup record + nightly retry, migration 20270220000000), mobile #313 -> 1e80017 (merge-only; test conflict), mobile #310 -> e1dbe7f (B-310-5 + consultation flag declared in config/expected-env.json, T4 data). CI green except non-required shellcheck SC2015 in scripts/s10-core-diff-gate.sh (fails on main too; fix it — unassigned). Merge order note C-310-10: whichever of #313/#310 lands second keeps #310's consultation-draft purge. 108 WIP 8bdb5997 holds the env desired-state manifest #624 lacks (follow-up).
 - B-UGC (Claude Opus 5.5): #610/#314 fix rounds + voice-note reporting + wins safety. Status: DONE ~22:30. backend #610 -> 9e4b3795, mobile #314 -> 41d829d, all CI green; all findings closed except C-610-4 (CI test DB = CI-gate change, deferred); voice: report target (migration 20270211000000), queue playback, 24h deadline, hide/warn/ban, block both ways, author delete, DM voice refused; fixed a bug where every voice-note create returned 400. Awaiting dual audit; voice flags stay off until audits + device pass.
-- S-DUNNING-R2 (Claude Opus 5.5): #628/#322: 1A, 2A, native update-card (OR-110-2). Status: running; opened #633 (FEATURE_DUNNING_V2 flags-workflow input, T4); migration 20270215000000.
+- S-DUNNING-R2 (Claude Opus 5.5): dunning 1A/2A + native card. Status: DONE ~23:15. backend #628 -> ba1d9480 (CI green, migration 20270215000000), mobile #322 -> 8991ddf (CI green), flags PR #633 @850ec148 (Sol + Opus REQUEST CHANGES, B-633-1; to be superseded by B-FLAGS manifest). Audits of #628/#322 queued (AUD-OPUS first, then Sol). Stripe live settings list for the owner in reports/S-DUNNING.md (section 7 here).
 - B-FEE-R3 (Claude Opus 5.5): #627 B-627-1/2; #629; mobile #321. Status: DONE 22:0x. #627 -> 2c57cc41, #629 -> 858eb40b (promoted T4: migration 20270216000000 first_published_at), mobile #321 -> a9b1f49d; all CI green, all 5 findings closed; awaiting audits (Sol + Opus on #627/#629, Opus on #321). Open owner decision: refund/dispute recovery (see 7).
 - S-SCHED (GPT-6.1 Sol): native Calendar from 108 WIP. Status: DONE. backend #632 @4accdbc3 (T2, CI + parity green) and mobile DRAFT #325 @bc1398c2 (T2, CI green, 404 suites). Paused higher-tier work (validation, concurrency, ownership, contracts, notification delivery) -> lane S-SCHED-2 (objective written, Opus, T3/T4, migration 20270212000000), not launched yet. Shared mobile deps need expo-calendar 56.0.10 after #325 merges.
 - B-R2B-2 (Claude Opus 5.5): #626 B-626-2 + mobile AI-consent errors. Status: DONE ~22:45. backend #626 -> d9be0c0d (B-626-2 + C-626-4 fixed; two main merges; PR title renamed feat(ai-egress) for danger), NEW mobile #326 @32ed8546 (both refusal codes on every AI surface), CI green. Merge order: #626 before #326; #310 and #326 in either order. FEATURE_AI_CONSENT_LEDGER_ENABLED must go ON with the #626 deploy (operator ruling OR-110-4; else every client sees "AI help is off").
@@ -883,40 +883,40 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - B-607-FIX (Claude Opus 5.5): #607 INT-607-1 (explicit membership rule in API + RLS helper, phantom-chain tests) + #609 T4 readiness (env registration, live RLS tests). Status: running since ~23:05.
 - S-SCHED-2 (Claude Opus 5.5): scheduling backend lifecycle/concurrency/ownership/contracts/notifications + #325 consumer changes. Status: running since ~22:30 (migration 20270212000000).
 - B-EXPORT (Claude Opus 5.5): durable, downloadable data export stacked on #608 (migration 20270221000000). Status: running since ~22:55.
-- Queued lane objectives (not launched): S-ERRORS (#324 B-324-1 + slices; also switch mobile errorCode() to read `code`); small CI fix for shellcheck SC2015 in scripts/s10-core-diff-gate.sh (T4 gate script).
+- B-FEE-R4 (Claude Opus 5.5): fix round 4 on #627 (Sol B-627-2..5 + Opus B), #629, mobile #321. Status: running since ~23:25.
+- Queued lane objectives (written, not launched; next free builder slots in this order): B-UGC-2 (#610 Sol BLOCK A-610-1/2 + B, #314 B-314-2..5 incl. real native recorder/playback), B-FLAGS (prod-switch desired-state manifest on #624 = the one audited path to set day-1 flags; supersede #633; shellcheck SC2015 fix), B-CONSENT-COPY (R-626-1: consent copy says chats kept 180 days, owner said forever; #310 copy; #611 fix round), S-ERRORS (#324 B-324-1 + slices; mobile errorCode() reads `code`).
 
 #### Open PR board (exact heads at snapshot; verify with prstat.py)
 
-- backend #598 @2c7b1de8: DIRTY, T2; verdicts at this head: -. feat(roman): model config, boot probe, /health/roman and hon
-- backend #601 @d767f65c: DIRTY, T4; verdicts at this head: -. feat(roman): AI processing consent record + server-side enfo
-- backend #602 @bb5f13b0: DIRTY, T4; verdicts at this head: -. feat(roman): RomanClientContext builder + per-turn grounding
-- backend #603 @75c4a181: BEHIND, T3; verdicts at this head: -. feat(roman): guardrail contract, deterministic safety router
-- backend #604 @87d09b1d: CLEAN, T4; verdicts at this head: -. fix(throttler): isolate named throttlers to their routes, pu
-- backend #605 @686d0888: DIRTY, T2; verdicts at this head: -. test(roman): eval harness — G1–G30 golden set, six CI layers
-- backend #607 @d6ac47e8: UNSTABLE, T4; verdicts at this head: -. C05/C07: consultation intake, idempotent onboarding complete
-- backend #608 @2759e1a0: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. fix(account-deletion): in-app deletion completes on re-auth,
-- backend #609 @5fd61a1b: UNSTABLE, T3; verdicts at this head: -. C05 items 6-7: coach welcome message at complete +13 min, wo
-- backend #610 @9e4b3795: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:BLOCK. feat(community): UGC safety for App Review 1.2 (content filt
-- backend #611 @e5777735: BEHIND, T3; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. feat(public-pages): accurate privacy policy, consumer health
-- backend #612 @2855141e: BEHIND, ?; verdicts at this head: -. chore(deps): bump @nestjs/testing from 11.1.26 to 12.1.1
-- backend #613 @8593a09b: BEHIND, ?; verdicts at this head: -. chore(deps): bump @types/node from 26.0.0 to 26.6.3
-- backend #614 @6572ccfd: BEHIND, ?; verdicts at this head: -. chore(deps): bump ts-jest from 29.4.9 to 29.4.14
-- backend #615 @f38569fb: BEHIND, ?; verdicts at this head: -. chore(deps): bump js-yaml from 4.3.2 to 5.4.2
-- backend #616 @a3d76527: BEHIND, ?; verdicts at this head: -. chore(deps): bump @aws-sdk/client-s3 from 3.1071.0 to 3.1141
-- backend #617 @be6c957a: BEHIND, ?; verdicts at this head: -. chore(deps): bump posthog-node from 5.36.8 to 5.54.1
-- backend #618 @8d612b72: BEHIND, ?; verdicts at this head: -. chore(deps): bump @nestjs/cli from 11.0.21 to 12.0.8
-- backend #619 @e53a0688: BEHIND, ?; verdicts at this head: -. chore(deps): bump @nestjs/platform-express from 11.1.26 to 1
-- backend #620 @aa9a0126: BEHIND, ?; verdicts at this head: -. chore(deps): bump @supabase/supabase-js from 2.108.1 to 2.11
-- backend #621 @1a7b6c26: BEHIND, ?; verdicts at this head: -. chore(deps): bump @nestjs/common from 11.1.26 to 12.1.1
-- backend #624 @75a4e563: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:APPROVE, Claude Opus 5.5:APPROVE. S-ENVTRUTH: register every src/ env read, ENV REGISTRATION b
-- backend #626 @d9be0c0d: CLEAN, T4; verdicts at this head: Claude Opus 5.5:APPROVE. feat(ai-egress): R2b single AI egress gate enforcing the liv
-- backend #627 @2c57cc41: CLEAN, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. fix(billing): coach payout = price - actual Stripe fee - 2%
-- backend #628 @ba1d9480: CLEAN, T4; verdicts at this head: -. fix(dunning-v2): live-ready 10-day lockout + native card upd
-- backend #629 @858eb40b: CLEAN, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. feat(packages): paid packages start at $19.99, or exactly $0
-- backend #632 @4accdbc3: BEHIND, T2; verdicts at this head: GPT-6.1 Sol:APPROVE. S-SCHED: explicit booking reminders and safe C04 appointment
-- backend #633 @850ec148: UNSTABLE, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. ci(flags): FEATURE_DUNNING_V2 closed-choice input for the Fl
+- backend #598 @2c7b1de8: UNKNOWN, T2; verdicts at this head: -. feat(roman): model config, boot probe, /health/roman and hon
+- backend #601 @d767f65c: UNKNOWN, T4; verdicts at this head: -. feat(roman): AI processing consent record + server-side enfo
+- backend #602 @bb5f13b0: UNKNOWN, T4; verdicts at this head: -. feat(roman): RomanClientContext builder + per-turn grounding
+- backend #603 @75c4a181: UNKNOWN, T3; verdicts at this head: -. feat(roman): guardrail contract, deterministic safety router
+- backend #604 @12a4d423: BLOCKED, T4; verdicts at this head: -. fix(throttler): isolate named throttlers to their routes, pu
+- backend #605 @686d0888: UNKNOWN, T2; verdicts at this head: -. test(roman): eval harness — G1–G30 golden set, six CI layers
+- backend #607 @d6ac47e8: UNKNOWN, T4; verdicts at this head: -. C05/C07: consultation intake, idempotent onboarding complete
+- backend #608 @2759e1a0: UNKNOWN, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:APPROVE. fix(account-deletion): in-app deletion completes on re-auth,
+- backend #609 @5fd61a1b: UNKNOWN, T3; verdicts at this head: -. C05 items 6-7: coach welcome message at complete +13 min, wo
+- backend #610 @9e4b3795: UNKNOWN, T4; verdicts at this head: GPT-6.1 Sol:BLOCK. feat(community): UGC safety for App Review 1.2 (content filt
+- backend #611 @e5777735: UNKNOWN, T3; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. feat(public-pages): accurate privacy policy, consumer health
+- backend #612 @2855141e: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump @nestjs/testing from 11.1.26 to 12.1.1
+- backend #613 @8593a09b: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump @types/node from 26.0.0 to 26.6.3
+- backend #614 @6572ccfd: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump ts-jest from 29.4.9 to 29.4.14
+- backend #615 @f38569fb: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump js-yaml from 4.3.2 to 5.4.2
+- backend #616 @a3d76527: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump @aws-sdk/client-s3 from 3.1071.0 to 3.1141
+- backend #617 @be6c957a: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump posthog-node from 5.36.8 to 5.54.1
+- backend #618 @8d612b72: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump @nestjs/cli from 11.0.21 to 12.0.8
+- backend #619 @e53a0688: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump @nestjs/platform-express from 11.1.26 to 1
+- backend #620 @aa9a0126: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump @supabase/supabase-js from 2.108.1 to 2.11
+- backend #621 @1a7b6c26: UNKNOWN, ?; verdicts at this head: -. chore(deps): bump @nestjs/common from 11.1.26 to 12.1.1
+- backend #624 @e3e0a314: BLOCKED, T4; verdicts at this head: -. S-ENVTRUTH: register every src/ env read, ENV REGISTRATION b
+- backend #627 @2c57cc41: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. fix(billing): coach payout = price - actual Stripe fee - 2%
+- backend #628 @ba1d9480: UNKNOWN, T4; verdicts at this head: -. fix(dunning-v2): live-ready 10-day lockout + native card upd
+- backend #629 @858eb40b: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. feat(packages): paid packages start at $19.99, or exactly $0
+- backend #632 @0ae744b6: BLOCKED, T2; verdicts at this head: -. S-SCHED: explicit booking reminders and safe C04 appointment
+- backend #633 @850ec148: UNKNOWN, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. ci(flags): FEATURE_DUNNING_V2 closed-choice input for the Fl
 - mobile #305 @45787152: CLEAN (base clinic/m2-core-polish), T3; verdicts at this head: -. clinic/m3: expo-updates (EAS Update, fingerprint runtime, ch
-- mobile #310 @e1dbe7f9: CLEAN, T4; verdicts at this head: -. feat(onboarding): config-driven consultation onboarding behi
+- mobile #310 @e1dbe7f9: CLEAN, T4; verdicts at this head: Claude Opus 5.5:REQUEST CHANGES. feat(onboarding): config-driven consultation onboarding behi
 - mobile #312 @5b26e1f4: BEHIND, T3; verdicts at this head: -. C05 item 7: Workout reminders toggle in Settings > Notificat
 - mobile #313 @1e80017b: CLEAN, T4; verdicts at this head: -. fix(account-deletion): in-app deletion completes with re-aut
 - mobile #314 @41d829d7: CLEAN, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. feat(community): report, block, moderation actions and safet
@@ -926,7 +926,7 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - mobile #322 @8991ddf3: CLEAN, T4; verdicts at this head: -. feat(dunning): payment lockout + Days 0-9 banner + native Up
 - mobile #324 @7f20255d: BEHIND, T2; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. fix(support): one support email (Bradleyapple1031@gmail.com)
 - mobile #325 @bc1398c2: BEHIND, T2; verdicts at this head: -. S-SCHED: native Calendar, coach controls and welcome-call tu
-- mobile #326 @32ed8546: CLEAN, T4; verdicts at this head: -. fix(ai): handle ai_consent_required and ai_egress_blocked on
+- mobile #326 @32ed8546: CLEAN, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. fix(ai): handle ai_consent_required and ai_egress_blocked on
 
 Older open PRs (backend below #595, mobile below #305) are not launch scope (108/109 triage); leave them alone.
 
@@ -1064,7 +1064,9 @@ Open owner questions (ask in the section 11 format, recommendation first):
 1.  Budget for agent 111 (recommend: 7 staggered, 2 slots kept for auditors).
 2.  LLC / D-U-N-S: only relevant if he wants a Play organization account (exempt from the 12-tester rule; needs a registered business and a D-U-N-S number, which can take up to 30 days). Do not raise it unless Play comes up.
 3.  DECISION NEEDED (from B-FEE-R3, 10-01 ~22:05): on a full refund or lost dispute, #627 nets the recovery now and claws it back from the coach's future transfers; if the coach has no future transfers, TGP is out of pocket, which breaks "TGP never loses money". Options: A) enable Stripe Connect account debits (recover from the coach's bank) for that residual case; B) hold a small rolling reserve from coach payouts. Operator recommendation: A (no change to normal payouts); until he answers, ship #627 as built (the residual case needs a refund larger than the coach's pending + future balance).
-4.  Any new decision a lane report raises (check the "owner decision" lines in every report; recommendation first).
+4.  DECISION NEEDED (from S-DUNNING-R2): Apple Pay / Google Pay in the native card sheet. Operator recommendation: yes for launch (owner fact 4: more functionality); needs an Apple Pay merchant ID in Apple Developer (owner action, free) and an app-config change; until he answers, cards only.
+5.  OWNER ACTIONS, Stripe live dashboard (from S-DUNNING-R2; do when #628 deploys): custom retry schedule Days 1/3/7 (not Smart Retries); after final retry leave subscription past-due; turn off Stripe failed-payment and 3DS emails only once TGP email transport is live; customer portal for older builds only (update payment method on, cancel at period end, no proration); Fly STRIPE_PUBLISHABLE_KEY = the pk_live key matching the live secret.
+6.  Any new decision a lane report raises (check the "owner decision" lines in every report; recommendation first).
 
 Answered by Bradley 20:32-21:44 (section 4.13): C-626-2 (keep AI chats), voice notes (reportable and ON at launch), standing deploy approval (yes), schema parity required check (done), billing placement (accepted, TGP-native look).
 
