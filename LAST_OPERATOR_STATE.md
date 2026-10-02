@@ -110,6 +110,13 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 14:31 B-315-ERR DONE: mobile #315 -> d545f5b6 (main f34b5b99 merged; 3/3 green). Policy-link failures now name the page and
+  differ by cause (offline / phone cannot open links -> selectable address + Copy button / other -> address + support email +
+  reference + SupportEmailFallback); Sentry gets only link id, cause, step, reference and query-less address via new
+  captureErrorWithoutPii (strips user, request data, breadcrumbs). 47/47 tests; 16 fail on de1c79aa.
+- 14:31 OR-112-21: #315 is now T4 (its own promotion rule fired: the screen sends data to Sentry) -> needs Opus + Sol at d545f5b6;
+  still merges with #611 (policies pair). Shared SupportEmailFallback copy "write to us" is first person -> small app-wide copy fix
+  (to-do, before launch).
 - 14:31 B-SECRETS-2 DONE: backend #646 -> 32f7ede4 (10/10 green; BEHIND main, no conflict). GET /v1/checkout/purchases now
   allow-lists CLIENT_PURCHASE_SELECT (mobile reads 9 fields, never a secret -> secret dropped for every status; resume goes through
   payment-intent with the same idempotency key, owner-only); ALSO fixed GET /v1/coach/purchases sending whole rows incl. client
