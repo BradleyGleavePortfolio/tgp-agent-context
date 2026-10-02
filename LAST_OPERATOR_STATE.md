@@ -1,10 +1,64 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-01 ~16:50 PDT (23:50 UTC). Agent 109 HANDOFF: safe stop, nothing running; agent 110 is next. Commit time is authoritative.
+Updated: 2026-10-01 20:36 PDT (real clock, `date`). Operator: Computer, agent 110, session f083060f
+([thread](https://www.perplexity.ai/computer/tasks/f083060f-0079-42c5-8feb-18013de78e70)). Agent 109 (7c52cefa) retired.
+Single writer for Bucket A from 2026-10-01 ~20:17 PDT. Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 
-Operator: Computer, agent 109, session 7c52cefa ([thread](https://www.perplexity.ai/computer/tasks/7c52cefa-29e8-4d2a-9515-4da0e5a78329)).
-Single writer for Bucket A from 2026-10-01 13:12 PDT. Agent 108 (session 590e4a5b) is retired: owner 13:12, "agent 108 is
-now dead and retired under another perplexity account, out of credits". Companion file: [LIVE_STATE.md](LIVE_STATE.md).
-Older sections below are agent 108's snapshot and stay as written unless corrected here.
+## AGENT 110 TAKEOVER 2026-10-01 20:17-20:36 PDT — verified facts, owner decisions, first batch
+
+### Re-verified live (20:20 PDT)
+- Production backend 8a709a68 healthy (/health 200; note /api/health is 404, the health route is /health). Supabase Postgres:
+  306 "column User.archived_at does not exist" errors 10-01 04:00-22:30 UTC, ZERO errors since the 15:30 PDT deploy (P0 fix
+  confirmed). signup-policy: providers email+apple, google_signin_enabled false (GOOGLE_CLIENT_IDS not on Fly yet).
+  /api/me/ai-consent 404 (#622 merged, not deployed), community routes 404 (flags off) — both expected.
+- Backend main 53b625d2, mobile main bb161a34: required checks green. Every open launch PR head matched 109's board exactly.
+- Expo (credential re-added by owner under this account, handle in vault): 12 project env vars, FCM V1 key still null, last
+  builds f5cac78e (Android preview, good) and 14a58449 (never ship). No new build.
+- Corrections to 109's state: mobile's third required check is "Analyze (actions)" (not "CodeQL"). Branch protection both
+  repos: strict, enforce_admins true, 0 required reviews.
+
+### OWNER DECISIONS 2026-10-01 20:32 PDT (verbatim answers to the readback; binding)
+- Budget: "All 7, staggered".
+- Repo writes: "Yes: push + merge" (agent 110 + subagents push; operator merges PRs with tier audits at the exact head and
+  required checks green; no deploys/branch-protection changes under this item).
+- Deploys: "Standing approval" — operator may approve the GitHub `production` environment for fly-deploy runs of AUDITED main
+  with CI green, then verifies /health + migrations and reports. If the platform blocks it, send the owner the one-click link.
+- "Voice notes should be reportable and ON at launch" — supersedes the operator default (off). Build voice-note reporting
+  (report target + action + moderation + block parity); FEATURE_COMMUNITY_VOICE_NOTES ON at launch after audit + device pass.
+- "I want to keep past AI chats forever" — C-626-2 answered: keep past AI replies after AI-consent withdrawal; supersedes the
+  09-30 17:42 180-day Roman chat retention (no time-based purge). OR-110-1: client-initiated chat delete and account deletion
+  still erase them (legal deletion rights / App Store 5.1.1(v)); privacy copy "kept until you delete them or your account".
+  #611's gate "the Roman 180-day sweep" is removed.
+- "any stripe pages ened tov be made to LOOK like TGP native - immersion is key" — billing placement accepted with this
+  requirement. OR-110-2: card entry/update = in-app native Stripe PaymentSheet (@stripe/stripe-react-native 0.64.0, already a
+  dependency, already used by PackageCheckoutScreen) themed with TGP tokens; receipts / next charge / cancel = native TGP screens
+  on backend routes; no browser-hosted Stripe portal in the client journey; unavoidable hosted pages (Connect Express
+  onboarding, 3DS) get Stripe branding (owner dashboard setting, to send later).
+- Schema parity: "idk what your asking here" — re-ask in plain words. OR-110-3 meanwhile: the operator treats "Schema parity
+  (migrations match schema.prisma)" as a mandatory merge gate for every backend PR.
+
+### Operator actions so far
+- Mobile #320: merged main bb161a34 into the branch, resolving the import-only LoginScreen.tsx conflict with #306 (kept both
+  import blocks). New head bbfdebc6. Zero-context patch-id main..bbfdebc6 == oldbase..1d16c105 == 21b5199c (resolution-only).
+  Needs Sol delta. (First push attempt was blocked by the platform safety check until the owner authorized repo writes at 20:32.)
+- Commit identity used by agent 110: "TGP Agent 110 <agent@tgp.invalid>" (owner: identity is irrelevant).
+
+### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
+| Lane | Model | Scope |
+|---|---|---|
+| AUD-SOL | GPT-6.1 Sol | deltas mobile #323, #320; backend #631 full; #595 delta; #626 re-audit; mobile #324; #623 delta after update |
+| AUD-OPUS | Claude Opus 5.5 | #595 delta; #626 re-audit; #630 full; #623 delta after update; then fix-round re-audits |
+| B-FIX2 | Claude Opus 5.5 | #624 B-624-3; #608 B-608-11 + mobile #313 merge-main; mobile #310 B-310-5 |
+| B-UGC | Claude Opus 5.5 | #610/#314 fix rounds + SUPPORT_EMAIL + NEW voice-note reporting (owner 20:32) |
+| S-DUNNING-R2 | Claude Opus 5.5 | #628/#322: 1A, 2A, native update-card (OR-110-2), flags-workflow PR |
+| B-FEE-R3 | Claude Opus 5.5 | #627 B-627-1/2 + tsc; #629; mobile #321 |
+| S-SCHED | GPT-6.1 Sol | native Calendar (backend + mobile) from 108's WIP, fresh PRs |
+Deferred to the next free slot: S-ERRORS remaining slices, S-REACH, then the day-1 items with no PR (12.2 list in v4 prompt).
+
+### Merge train plan (one PR at a time; strict up-to-date; operator only)
+Backend: #595 -> #626 -> #631 -> #623 -> #604 (operator forward-merge, adopt 20270205000000 rename) -> #630 -> fix-round PRs.
+Mobile: #323 -> #320 -> #324 -> #313/#310 (after fixes) -> #315 (check #611 dependency). Deploy after the backend train's
+first leg (#595/#626/#631/#623) with migrations=apply-migrations under the owner's standing approval.
+
 
 ## AGENT 109 HANDOFF TO AGENT 110 — 2026-10-01 ~16:50 PDT (real clock) — SAFE STOP. READ THIS FIRST.
 

@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-10-01 13:20 PDT (commit time is authoritative). Operator from 13:12 PDT: agent 109, session 7c52cefa; agent 108 retired.
+- **Updated:** 2026-10-01 20:36 PDT (commit time is authoritative). Operator from ~20:17 PDT: agent 110, session f083060f; agent 109 (7c52cefa) and 108 retired.
 - **Operator:** Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)), agent 108. Single writer for Bucket A since the owner's EXECUTE at 2026-10-01 08:28 PDT. Session c712e04d is retired as writer (silent since about 19:10 PDT 09-30; its thread is not readable from this session). Its working files that never reached GitHub (onboarding contract v1, `clinic_ops/BRIEF.md`) are lost; this file and the PR bodies are the recovered authority.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
@@ -36,6 +36,12 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-01 20:32 | Budget "All 7, staggered"; repo writes "Yes: push + merge"; deploys "Standing approval" | Agent 110 first batch of 7 launched (handoffs/op-f083060f/lanes). Operator merges audited PRs and approves production deploys of audited main with CI green. |
+| 10-01 20:32 | "Voice notes should be reportable and ON at launch" | Supersedes operator default (off). Lane B-UGC builds voice-note reporting; flag ON at launch after audit + device pass. |
+| 10-01 20:32 | "I want to keep past AI chats forever" | C-626-2 = keep; no time-based purge (supersedes 180-day retention). OR-110-1: user delete + account deletion still erase. |
+| 10-01 20:32 | "any stripe pages ... LOOK like TGP native - immersion is key" | OR-110-2: native PaymentSheet card update, native billing screens, no hosted portal in the client journey. |
+| 10-01 20:32 | Schema parity: "idk what your asking here" | Re-ask in plain words; OR-110-3: operator enforces schema parity as a merge gate meanwhile. |
+| 10-01 ~20:17 | Agent 110 takeover (v4 prompt + four owner documents) | Readback 20:30; all heads re-verified unchanged since 109's handoff. |
 | 10-01 14:28 | Android via Google Play (A); existing dev account; owner recruits testers tonight | PWA scrapped. Closed test steps sent; operator prepares Play checklist + .aab after #625 deploys. |
 | 10-01 14:26 | "If its even going to be 1% worse, tell me, ill scrap it" | PWA is worse (health data, secure storage, biometrics, offline, smoothness); recommended scrap. |
 | 10-01 14:25 | iOS native day 1; Android v1.0 via a separate QR to an installable web app (PWA), identical feel | S-PWA spike queued next; QR form + Android wearables scope asked. |
