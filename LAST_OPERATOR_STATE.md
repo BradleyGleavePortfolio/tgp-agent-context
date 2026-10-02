@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 14:39 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 15:11 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -111,6 +111,25 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 14:58 MERGED backend #635 (T4 consent copy v4 + Roman chats backend; Sol APPROVE 0/0/3 + Opus merge-delta APPROVE at exact head
+  d68c4f68; 10/10 green) -> main 32e398ea. Main CI green.
+- 15:11 MERGED backend #646 (T4 secrets: no Stripe client secrets on coach routes, coach feed or client purchase list; Opus + Sol
+  APPROVE at 32f7ede4 and both merge-deltas APPROVE at exact head 58c2d64a; 10/10 green) -> main 9cfd70d6. Deploy of main (carrying
+  #635, #644, #646, #649) follows once main CI is green.
+- 15:11 AUD-SOL-6 DONE: #635 APPROVE @d68c4f68; #646 APPROVE @32f7ede4 + delta @58c2d64a; mobile #321 APPROVE 0/0/0 @4f5b058d;
+  backend #627 REQUEST CHANGES 0/1/2 @c1d69c7f (NEW B-627-8: duplicate won-dispute reinstatement payment after a lost response/receipt
+  plus request-key expiry; B-627-5/6/7 closed). Probes: ops/evidence/AUD-SOL-6-112/.
+- 15:11 AUD-OPUS-6 DONE: #635 delta APPROVE, #646 APPROVE 0/0/2 + delta APPROVE, #321 APPROVE, #627 APPROVE 0/0/2 (C-627-2 carried;
+  C-627-8 failed-transfer log repay amount goes stale after refund/dispute). #646 Cs: owner admin purchase routes still return raw
+  secrets; cached secrets never cleared after payment completes. #321 dual-APPROVED -> HELD as pair with #627 (needs B-627-8 fix).
+- 15:11 LAUNCH BLOCKER found by AUD-OPUS-6 (outside its diffs): the mobile Day 1 package sheet (PackageSelectionSheet) cannot take
+  payment: it sends a field the backend rejects (400) to an endpoint that never returns payment secrets -> client sees "Payment failed.
+  Please try again." Fix: switch to the payment-intent endpoint, pass the customer id, specific error copy. Top of the to-do.
+- 15:11 S-RELEASE-2 DONE: #333 -> 806467b9 (B-333-2 malformed creds, B-333-3 no value text in errors, C-333-1 non-public hosts; 45 new
+  tests fail on old; now T4), #330 -> 7d640548 (B-330-3 breadcrumb/native privacy with real SDK payload test, B-330-4 mods reconcile on
+  every prebuild, C-330-1). 3/3 + CodeQL green. Both need dual re-audit. Deferred C-330-2 (owner/operator): one EAS preview build,
+  forced pre-JS crash reaches Sentry, Sentry "Prevent Storing of IP Addresses" ON. #333 before merge: `eas env:exec` check for clinic
+  + preview (every release build fails until EAS env has complete real values).
 - 14:39 #649 PRE-DEPLOY SELECT (read-only, Supabase, run as postgres): day1_rows 1, item_old/focus_old/narrative_old/artifact_old
   all true, guard_would_raise false, diagnostic_text_left false, migration_recorded 0, unfinished_migrations 0, role_bypasses_rls
   true -> GO for the deploy that carries #649 (if the release_command role differs from postgres, confirm it bypasses RLS).
