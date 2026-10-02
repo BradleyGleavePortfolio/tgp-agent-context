@@ -28,6 +28,9 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 10:24 S-SCHED-3 done: #634 -> 2a07ab25, mobile #325 -> 13b8a8f (all A/B/C closed; CI green). Queued to both lenses after #637/#638.
+  Rulings: pre-move warning ships now; canonical support address Bradleyapple1031@gmail.com (SupportInbox hello@ goes);
+  run #634's two pre-deploy zero-row queries (read-only) before deploying its migration. Launched S-COACH (coach wizard + Money).
 - 10:23 MERGED backend #639 (SC2015 fix, T4 dual APPROVE + dual delta at 2210c760) -> main e867fe62. #637 update-branch -> 1c28fb20
   (fix round 1 + main); both lenses auditing 1c28fb20, then #638. DEPLOY PLAN once #637 + #638 merge: fly-env-sync plan ->
   apply (confirm=SET, deploy_staged=false; stages FEATURE_AI_CONSENT_LEDGER_ENABLED=true) -> fly-deploy main (apply-migrations)
