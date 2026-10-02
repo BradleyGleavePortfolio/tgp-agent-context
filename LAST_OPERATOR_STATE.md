@@ -73,6 +73,18 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   use the proxy agent only for api.expo.dev; run with https_proxy=$HTTPS_PROXY EXPO_TOKEN=proxy-injected.
 - Next-slot queue: B-R2B-2 (#626 B-626-2 + mobile AI-consent error handling) -> B-TRAIN-2 (#604/#607/#609 forward merges) ->
   S-ERRORS (#324 B-324-1 + remaining slices).
+- 21:24 Dual delta APPROVE #630@442fdb86 -> MERGED -> main 75442854. Read-only recipe count before deploy: 0 total / 0 public.
+- 21:25 B-R2B-2 launched (Opus). 21:36 Sol delta APPROVE #631@67e6a2e0 -> MERGED -> main ba79605b.
+- 21:29-21:34 DEPLOYED backend ba79605b (fly-deploy run 36964740404, migrations=apply-migrations; production environment
+  approved by agent 110 under the owner's 20:32 standing approval). Verified: /health 200; _prisma_migrations applied
+  20270203000000_ai_processing_consent_ledger -> 20270204000000_recipe_private_by_default -> 20270205000000_invite_grant_bindings
+  (all finished, none rolled back); Postgres ERROR/FATAL 0 in 04:30-04:40Z; recipes 0/0 public after; /api/me/ai-consent now 401
+  (live); community 404 (flags off, expected). Prod now has #597 role choice, #622 consent ledger, #599, #595 grants, #630, #631.
+  The two old 00000000000000_baseline rows with finished_at NULL are rolled back (04-30) and harmless.
+- 21:38 Dual delta APPROVE #623@32bde193 -> MERGED -> main 4bcfb444 (not yet deployed). Opus release-order notes: turn on
+  FEATURE_WEARABLES_INGEST_POST only after #608 deploys (C-623-1); keep wearable_insight.* out of the prod AI gateway allow-list
+  until #626 merges (C-623-2); reconcile #623 with #604/#624, whichever lands second (C-623-3).
+- 21:40 B-TRAIN-2 launched (Opus): #604 -> #607 -> #609 forward merges. Running 7/7 builders; auditors re-queue as slots free.
 
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
