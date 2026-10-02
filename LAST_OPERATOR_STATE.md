@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:38 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:40 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -96,6 +96,18 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:40 B-CONSENT-4 DONE (no WIP, nothing started new): backend #635 -> 9c5ae5ef (B-635-4 coded 503 on delete failure, B-635-5
+  coded 400 on bad list query; Sol's 3 probes pass; C-635-4 sub-coach chat access deferred); build-and-test red only on
+  test/ci/release-evidence-gate.spec.ts:367 (known flake, untouched by the PR; fix commit 5d1bf809 was full-green) -> operator
+  re-ran failed jobs of run 37060221245. #611 -> fda3afad (B-611-2, C-611-8, vendor-deletion + backup procedures doc; publication hold
+  until #608 live). mobile #326 -> 16e7e97c (base moved to main), #315 -> de1c79aa ("kept until you delete them or your account").
+  All four need Opus + Sol deltas. New error code ROMAN_SESSIONS_QUERY_INVALID (docs/roman-chat-deletion.md).
+- 13:40 OR-112-15 (operator rulings on B-CONSENT-4 items): accept #611 changed deletion wording; own DB dumps kept <=30 days after a
+  deploy (90 max); mobile Sentry gets account id only (verify in #330); C-635-4 sub-coach chat access -> separate v1.0 PR;
+  closed-account record listing (help page + delete screen) -> one follow-up; #315 generic policy-link failure -> make specific
+  BEFORE launch (no generic errors); Mux added to vendor list only if live (113 verifies). Owner facts needed for #611 procedures
+  checklist (Supabase plan + PITR window, Anthropic zero-retention, Stripe/Sentry/Resend/PostHog plans) -> ask Bradley once when #611
+  is otherwise ready.
 - 13:38 B-JOURNEY-3 STOPPED (clean stop): #609 unchanged @40616dcf (rls-live-tests red), #312 unchanged @90e78abe. WIP pushed:
   wip/B-JOURNEY-3-312-fixround @25b111d5 (B-312-1 coded+tested, C-312-2/3 done; B-312-2 coded, its 2 race tests hang on the held
   save -> rewrite) and wip/B-JOURNEY-3-609-fixround @11fd4e10 (B-609-1, B-609-2, C-609-3 coded, NOT run). NOT STARTED: B-609-3
