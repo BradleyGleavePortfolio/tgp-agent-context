@@ -154,6 +154,11 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   (merge conflict with #624) -> sent to S-SCHED-2 to resolve first. Brief updated: every backend lane must satisfy #624's contract.
 - 23:32 B-FLAGS launched (Opus; manifest on main + SC2015 PR). Running 7/7 = 7 builders, 0 auditors (no audit-ready heads right
   now; next freed slot goes to auditors for #604/#632 deltas and fix-round re-audits).
+- 23:36 B-EXPORT DONE: backend #636 @9b7a6a34 (stacked on #608; closes B-608-12; migration 20270221000000 creates private bucket)
+  + mobile #327 @227c5ad9. Sol re-queued for both. Plan: dual-approve #636 -> merge #636 into #608's branch -> update #608 -> dual
+  delta -> merge #608 to main. Found: mobile main has two wrong support addresses (deletionErrors.ts from #313 =
+  Bradley@Bradleytgpcoaching.com; SupportInboxScreen + CreateAccountScreen = hello@thegrowthproject.app) vs owner's single address
+  Bradleyapple1031@gmail.com -> added to S-ERRORS objective (single constant + guard test).
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
