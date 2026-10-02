@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 12:42 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 12:55 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,17 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 12:55 AUD-OPUS-3 round 2: #609 REQUEST CHANGES 0/2/3 (B-609-1 rls-live-tests red: test matches Prisma message text, use SQLSTATE
+  23505; B-609-2 new kill switches need values/unsetIs + manifest entries; C-609-5 retitle Conventional Commits); mobile #312
+  REQUEST CHANGES 0/1/2 (B-312-1 generic alert on toggle failure); #642 REQUEST CHANGES 0/1/0 (B-642-1: merging arms the flip
+  because any later sync applies the whole manifest, and Google-only users cannot delete their account in-app until #608 is live
+  -> RULING: #642 merges only after #608 is deployed; B closes by ordering, no re-audit if head unchanged); #643 REQUEST CHANGES
+  0/1/1 (B-643-1: reminders show times in UTC and appear twice in inbox/unread -> RULING: not shipped as-is (sub-bar); fix via
+  notification follow-up owned by B-FLAGS-3 as a continuation).
+  NEW LAUNCH BLOCKER (to verify): push-channel notifications are stored but never sent to devices (no coach message, reminder or
+  welcome reaches the lock screen) -> B-FLAGS-3 continuation: verify end to end, then real Expo Push delivery (Android needs the
+  owner's FCM V1 key). #608 erasure must cover #609's 3 new tables + accept google_session re-auth -> sent to B-EXPORT-3.
+  Merge order: #607 -> #609 (update-branch, fixes) -> deploy -> mobile #312.
 - 12:45 AUD-OPUS-3: backend #607 APPROVE at b4750d05 (delta; merge-of-main pure; B-607-5 Danger title closed by operator retitle
   + re-run 19:30Z; C-607-6 migration 20270212000000 sorts before applied 20270216000000 — harmless, do not rename); backend #635
   APPROVE at c2688010 (0/0/1; B-635-2/3, C-635-1/2/3 closed). Waiting: Sol deltas on #607 and #635 (AUD-SOL-3).
