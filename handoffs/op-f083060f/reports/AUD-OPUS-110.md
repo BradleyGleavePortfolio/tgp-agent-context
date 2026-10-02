@@ -91,3 +91,11 @@
   - C-623-2: keep `wearable_insight.*` out of the gateway allow-list until #626 merges.
   - C-623-3: reconcile with #604 and #624.
 - CI at the exact head: 9/9 required plus Schema parity, all SUCCESS. Merge state CLEAN.
+
+## backend#627 @ 2c57cc41f28f6e281c9a2742aba40136d0e64a05 — REQUEST CHANGES (T4 round-3 re-audit; A0 B3 C2)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/627#issuecomment-5946175635
+- Closed: B-627-1 (backfill by charge id with a cursor), C-627-1 (migration 20270210000000). B-627-2 normal concurrency closed (probe is now a test).
+- Open B: B-627-2 residual (the 120 s lease has no renewal or fence; fix: renew-as-fence before each Stripe money call). B-627-5 (an ambiguous reversal result opens a second recovery; probe at head: effective 710 vs target 2670; fix: open a recovery only on a definitive 4xx, otherwise retry or GET the transfer, and re-converge on transfer.reversed). B-627-4 (a failed retrieveDispute falls back to the stale event's position and can undo a won dispute; fix: throw a retryable error).
+- C: C-627-2 (#608 manifest columns, merge order). C-627-3 (no aged-recovery alert; reconciliation counts the receivable inside platform net).
+- Owner decision: TGP CAN end net-negative (full refund −3.20 and lost dispute −18.20 per $100 until netted; Express accounts, so TGP is liable). Mitigations present: reversal plus PayeeRecovery netting. refund_application_fee is N/A. Options: alert plus cap / payout delay / debit_negative_balances / Account Debits.
+- Local: 12 suites, 138 passed (probe logs: ops/aud-opus-110/jest_627_2c57.log, probe_627_ambig.log). CI all green at the head.

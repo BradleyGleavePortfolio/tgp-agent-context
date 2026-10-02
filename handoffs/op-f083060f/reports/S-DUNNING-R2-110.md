@@ -23,3 +23,32 @@ Builder: Claude Opus 5.5 (T4). Backend #628, mobile #322. Nothing merged, no Str
 - Support email: the backend uses SUPPORT_EMAIL from trust-pages (#631). Mobile dunning copy now uses the owner's single
   address, matching mobile #324's constant. It should re-export from `src/constants/support.ts` once #324 lands.
 - reports/S-DUNNING.md Stripe settings list updated (7 items) and F15/F16 marked resolved.
+
+## State at 22:40 PDT
+
+| Repo | PR | Branch | Head |
+|---|---|---|---|
+| backend | #628 | `agent/clinic/s-dunning-v2-live` | `5be90ef1` (main `4bcfb444` merged in) |
+| mobile | #322 | `agent/clinic/s-dunning-lockout-screen` | `8991ddf` (main `0b7f197` merged in) |
+| backend | #633 (flags workflow, own T4 PR) | `agent/clinic/s-dunning-flags-workflow` | `850ec148` |
+
+PR bodies: reports/S-DUNNING-R2-backend-pr-body.md, reports/S-DUNNING-R2-mobile-pr-body.md and
+reports/S-DUNNING-flags-workflow-pr-body.md.
+
+### Fixes during the round
+- Backend CI R75 failed at 6720410e (`as any` +3 in test/dunning-r2-surfaces.spec.ts). Fixed in 8be3a9ce: the spec now uses
+  real HTTP and Nest DI. Local `check-r75.js --mode=range`: OK (as any -1). CI R75 passed at 5be90ef1.
+- Mobile CI failed at de83aa6: main's new rootNavigatorOnboardingField test (#320) has a navigation-ref mock without
+  getCurrentRoute. The mock was fixed in 8991ddf (test-only).
+- #633 "Infra Lint" fails on `scripts/s10-core-diff-gate.sh` (SC2015, from main commit 384035ec). This is pre-existing and fails on every
+  infra-touching PR (deletion-be, s-sched-backend, s-envtruth-backend). It is not caused by #633 and was not changed (not my lane).
+
+### Portal decision
+No client dunning surface opens the Stripe portal now. `POST /v1/checkout/billing-portal` stays for builds already in the stores,
+whose Plans past-due button calls it (dormant). The mobile `createBillingPortalSession` and the webview `billing.stripe.com` host stay,
+because the repo's "never shrink" rule and the C12 audit test pin them. The coach portal is separate.
+
+### Decisions needed (recommended default first)
+1. Stripe failed-payment and 3DS emails: OFF once the email transport is verified live (default). Until then leave them ON.
+2. Apple Pay / Google Pay in the Update card sheet: not now (default). This needs a merchant id + config plugin, a package.json change.
+3. Remove the portal route after the minimum app version includes #322: yes (default), as a follow-up.

@@ -1,0 +1,8 @@
+# S-SCHED-2 — agent 110 (Claude Opus 5.5 builder): scheduling backend lifecycle
+
+## 2026-10-01 22:40 PDT start checkpoint
+- Read common brief (owner facts 20:38), lane objective, S-SCHED spec + S-SCHED report, AGENT_RULES, LIVE_STATE.
+- Backend worktree `/home/user/workspace/wt/s-sched2-be`, new branch `agent110/s-sched-lifecycle` from main `4bcfb444`.
+- Mobile worktree `/home/user/workspace/wt/s-sched2-mob` on #325 branch `agent110/s-sched-mobile` (head `bc1398c2`). I am now #325's builder.
+- Grade: **T4** (changes who can read scheduling data: types/availability/open slots/sessions become assignment-gated; client reads drop coach-only notes; sub-coach booking). T3 parts: concurrency/state authority, cross-repo contracts, persistent schema (migration 20270212000000), shared notification primitive, CI live-test list (ci.yml one line = T4 trigger).
+- Base: main (not stacked on #632). #632 touches only the reminder env switch lines + seed; this PR does not touch those lines. Follow-up after both land: #632 seed should set `is_welcome: true` on "Quick initialization" (coach can also set it in-app).

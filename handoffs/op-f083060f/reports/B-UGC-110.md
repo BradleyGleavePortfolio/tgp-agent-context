@@ -11,7 +11,7 @@
 ## Final (round 3)
 PRs and heads:
 - Backend #610 https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/610 head 9e4b3795 (fix b3d85071 + merge main ba79605b). MERGEABLE. CI: all required checks pass, including Schema parity at this exact head (OR-110-3), Forward migrations, migrations reversible, rls-floor-guard, rls-live-tests, mwb-3-live-tests, build-and-test, Banned casts, CodeQL, npm audit, build-sbom, danger.
-- Mobile #314 https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/314 head 41d829d (fix ff21e5a + merge main 0b7f197 as 35988b5 + restore 41d829d). MERGEABLE. CI: see bottom.
+- Mobile #314 https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/314 head 41d829d (fix ff21e5a + merge main 0b7f197 as 35988b5 + restore 41d829d). MERGEABLE. CI: Typecheck/lint/test, Analyze (js-ts), Analyze (actions), CodeQL all pass.
 - PR bodies updated: tier header current (T4, never lowered), fix-round tables, voice delivered in #610/#314 directly, "audio cannot be text-filtered" stated, no flag flipped.
 
 Finding dispositions:
@@ -38,3 +38,4 @@ Risks / operator follow-ups:
 - Old coach app builds would fail parsing voice/win queue items (pre-launch; none in the wild).
 - ff21e5a alone fails mobile tsc (corrupted CommunityScreen from a local formatting revert); head 41d829d is correct. Mobile has no prettier config: do not run `npx prettier` there.
 - More > Community and the Community tab share a label when communityTab is ON (pre-existing).
+- 05:25 UTC Worktrees /home/user/workspace/wt/bugc-610 and /home/user/workspace/wt/bugc-314 removed (git worktree remove). Branches kept on origin. df 67%.
