@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:24 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:26 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,11 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:26 S-COACH-MOB-2 DONE: mobile #329 -> 83ee0e46 (A-329-1 checklist no longer opens dead Earnings; B-329-1..4 + Cs; main
+  merged; CI green); NEW stacked mobile #332 @ 61eea115 (coach Money page + Home Money card + charges list + payout settings;
+  Earnings/Business metrics routes redirect to Money; no calls to the six 404 routes; CSV export not built — no backend route).
+  RULINGS: #329 raised to T4 (retitled + comment); #332 audited alone, merged into #329's branch when dual-APPROVED, then #329 delta
+  closes A-329-1, then merge. Audits: AUD-OPUS-4 + AUD-SOL-5. Coach CSV export -> backlog (needs backend route; owner: more).
 - 13:24 S-ROMAN-CHATS DONE: opened mobile #331 @ a224e5bd (Roman chat list/transcript/delete one/delete all; Settings > Privacy >
   Roman and AI, Roman header, coach Settings > Privacy; sign-out clears; fixed romanApi.ts UUID-only id check that broke every
   live Roman call against cuid ids). CI green. RULINGS: merge order #635 (fix round) -> #326 -> #331; coach row gated like the
