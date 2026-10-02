@@ -25,6 +25,11 @@ the bar is met. You own exactly the task in your objective; nothing else.
   through /home/user/workspace/ops/heavy.sh (2-slot global lock; never wrap it in a short timeout). Deps: wait for
   /home/user/workspace/deps/<backend|mobile>/READY, then `bash /home/user/workspace/ops/link_deps.sh <backend|mobile>` inside
   your worktree.
+- SPEED RULES (operator 113, 16:50, owner "get this going even faster"): heavy.sh now has 3 memory-guarded slots and serves
+  `npx prisma generate` from a schema-hash cache (instant when the schema matches one already generated). Locally run ONLY the
+  jest spec files you added or changed (never whole folders), never local tsc, never whole-repo eslint; prettier/eslint on <=10
+  changed files is light and may run without heavy.sh. Push as soon as your new failing-before tests pass locally and let GitHub CI
+  (free, ~20 parallel jobs) be the full verifier; read failures with `gh run view --log-failed`.
 - Worktrees: create yours under /home/user/workspace/wt/<lane>-<n> from /home/user/workspace/repos/<repo>. When finished
   (or before your final answer) unlink node_modules and `git worktree remove --force` YOUR worktree. The operator authorizes and
   requires this; it is a disposable checkout of public GitHub content. Never delete anything else.
