@@ -110,6 +110,11 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
 - Prefixes now: 0211 B-UGC, 0212 S-SCHED-2, 0215 S-DUNNING-R2, 0216 #629.
 - ~22:30 B-UGC DONE: #610 -> 9e4b3795, mobile #314 -> 41d829d (CI green; voice-note reporting full strength; C-610-4 deferred as
   CI-gate change). Both auditors got #610/#314 appended. S-SCHED-2 launched (Opus). Running 7/7 = 5 builders + 2 auditors.
+- ~22:45 B-R2B-2 DONE: #626 -> d9be0c0d (B-626-2, C-626-4 fixed), NEW mobile #326 @32ed8546 (ai_consent_required /
+  ai_egress_blocked on every AI surface). OR-110-4: FEATURE_AI_CONSENT_LEDGER_ENABLED goes ON in the same window as the #626
+  deploy (day-1 flag ruling 11:31; #626 without the flag blocks all AI). Launched AUD-OPUS-2 (second Opus lens: #626, #326, #610,
+  #314) instead of a builder because the audit queues were 10 deep. Running 7/7 = 4 builders + 3 auditors. Next builder slot:
+  B-EXPORT, then S-ERRORS.
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
