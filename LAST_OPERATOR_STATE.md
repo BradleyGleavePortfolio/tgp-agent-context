@@ -119,6 +119,13 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   mobile #310 -> e1dbe7f; all queued to the right lenses (#310: Sol + AUD-OPUS-2; #313 delta: Sol + AUD-OPUS). B-EXPORT launched
   (Opus; stacked on #608; migration 20270221000000). Running 7/7 = 4 builders + 3 auditors. Non-required shellcheck SC2015 fails on
   main (scripts/s10-core-diff-gate.sh): queued as a small T4 fix.
+- ~23:05 B-TRAIN-2 DONE: #604 -> 87d09b1d, #607 -> d6ac47e8, #609 -> 5fd61a1b (forward merges onto 4bcfb444, required CI green).
+  New finding INT-607-1 (A, tenancy): #607's consultation read treats bare coach_id as head-coach membership; main's #597 needs an
+  explicit membership row (phantom sub-coaches) -> B-607-FIX launched (Opus), which also re-grades #609 to T4 (env registration,
+  live RLS tests). PRIORITY COLLISION FIXED: #607 took 20270212000000 and #609 20270213000000, so S-SCHED-2 moved to 20270222000000.
+  Prefix map: 0210 #627, 0211 #610, 0212 #607, 0213 #609, 0215 #628, 0216 #629, 0220 #608, 0221 B-EXPORT, 0222 S-SCHED-2.
+  PR body edits for #604/#607/#609 were refused by the safety check (texts in workspace reports/btrain2); not retried.
+  #604 delta audits queued (Sol + AUD-OPUS). Running 7/7 = 4 builders + 3 auditors.
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
