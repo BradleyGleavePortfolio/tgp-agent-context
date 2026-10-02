@@ -1,0 +1,242 @@
+All seven #646 own files unchanged across the main merge
+src/checkout/checkout.service.ts 8d82aeb527160e3791127b781c45fe07a8cd4690 8d82aeb527160e3791127b781c45fe07a8cd4690 
+src/checkout/client-purchases.select.ts ac8de9211002e4e5a90fd8902eefd076f02676d1 ac8de9211002e4e5a90fd8902eefd076f02676d1 
+src/checkout/coach-payments.select.ts 4e9affb5462e7f4f67a2532990a18b9ad438587d 4e9affb5462e7f4f67a2532990a18b9ad438587d 
+src/checkout/payment-ops.controller.ts 6ae95c0e1d8f430f2c063b35c87c390dd36fc58c 6ae95c0e1d8f430f2c063b35c87c390dd36fc58c 
+src/packages/packages.service.ts 87b9edb4445b8e1c4b7c08929d57cfc7aae5e5dc 87b9edb4445b8e1c4b7c08929d57cfc7aae5e5dc 
+test/client-purchases-field-select.spec.ts 1b0424761a9635a43c217b4c1763ed7169c1a57c 1b0424761a9635a43c217b4c1763ed7169c1a57c 
+test/coach-payments-field-select.spec.ts 7aeb72a18ba6a3323077580fb9f60b01110ae463 7aeb72a18ba6a3323077580fb9f60b01110ae463 
+Incoming / own-file intersection (must be empty)
+Schema, env and trusted gate seam
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index f00fbd7e..8a29db08 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -309,6 +309,15 @@ jobs:
+           psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c \
+             'CREATE TRIGGER trg_enforce_subcoach_head_cap BEFORE INSERT OR UPDATE ON "TeamSubCoachAssignment" FOR EACH ROW EXECUTE FUNCTION enforce_subcoach_head_cap();'
+ 
++      - name: Bootstrap + apply the clinic onboarding intake migration (B607-3)
++        # Minimal extra relations the intake audience helper reads, then the
++        # onboarding migration VERBATIM (tables, helper, policies), then the
++        # Supabase-default table grants so RLS (not a missing GRANT) decides.
++        run: |
++          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f scripts/ci/onboarding-intake-live-bootstrap.sql
++          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f prisma/migrations/20270212000000_clinic_onboarding_intake/migration.sql
++          psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f scripts/ci/onboarding-intake-live-grants.sql
++
+       - name: Run live RLS regression suite
+         # Use the dedicated rls-live jest config (jest.rls.config.js), which
+         # selects the DB-requiring RLS specs the default build-and-test job now
+@@ -320,7 +329,7 @@ jobs:
+         # across workers on one connection. NODE_OPTIONS raises the heap: even
+         # this single spec under --runInBand overruns Node's ~2GB default and
+         # OOM-aborts (exit 134); the runner has ~16GB so 4GB is safe.
+-        run: npx jest --config jest.rls.config.js test/rls/helper-functions.spec.ts --runInBand --testTimeout=60000
++        run: npx jest --config jest.rls.config.js test/rls/helper-functions.spec.ts test/rls/onboarding-intake-rls.spec.ts --runInBand --testTimeout=60000
+         env:
+           NODE_OPTIONS: --max-old-space-size=4096
+ 
+@@ -413,6 +422,9 @@ jobs:
+         # Also runs test/profile-put-concurrency.live.spec.ts (#606 B606-3): the
+         # PUT /profile per-user row-lock proof on real Postgres. It uses the same
+         # MWB3_TEST_DATABASE_URL gate and the same reset + full-schema bootstrap.
++        # And test/onboarding-tenancy-fence.live.spec.ts (#607 A607-3): the
++        # completion tenancy fence (User FOR SHARE) blocks a concurrent coach
++        # transfer on real Postgres; same gate and bootstrap.
+         # The five test/mwb-3-*.spec.ts files run under the DEFAULT jest config
+         # (jest.config.js matches them via testRegex). With MWB3_TEST_DATABASE_URL
+         # set they execute their live blocks instead of skipping. --runInBand so
+@@ -427,6 +439,7 @@ jobs:
+             test/mwb-3-undo.spec.ts \
+             test/mwb-3-revision-prune.cron.spec.ts \
+             test/profile-put-concurrency.live.spec.ts \
++            test/onboarding-tenancy-fence.live.spec.ts \
+             --runInBand --testTimeout=120000
+         env:
+           NODE_OPTIONS: --max-old-space-size=4096
+@@ -440,3 +453,15 @@ jobs:
+         run: npx jest --config jest.rls.config.js test/rls-mwb3-autosave-undo.spec.ts --runInBand --testTimeout=120000
+         env:
+           NODE_OPTIONS: --max-old-space-size=4096
++
++      - name: Run Roman delete-erases live spec (#635 B-635-1 / C-635-1)
++        # test/roman/roman-session-erase.live.spec.ts: on real Postgres, a
++        # deleted Roman chat frees the (user, surface, day) unique key so a
++        # fresh session opens the same day, concurrent opens converge, a late
++        # append to the deleted session is refused, the daily cap survives
++        # delete + reopen, and pre-upgrade soft-deleted rows are erased. Same
++        # MWB3_TEST_DATABASE_URL gate and reset + full-schema bootstrap; its own
++        # step so it never edits the shared default-lane spec list.
++        run: npx jest test/roman/roman-session-erase.live.spec.ts --runInBand --testTimeout=120000
++        env:
++          NODE_OPTIONS: --max-old-space-size=4096
+diff --git a/prisma/schema.prisma b/prisma/schema.prisma
+index ed4745a4..5b1eb9a2 100644
+--- a/prisma/schema.prisma
++++ b/prisma/schema.prisma
+@@ -516,6 +516,10 @@ model User {
+   // src/roman/roman.feature.ts. RLS scopes every row to userId at the DB
+   // layer (migration 20261216000000_add_roman_chat).
+   roman_sessions RomanSession[] @relation("RomanSessionUser")
++  // C05/C07 clinic onboarding (additive virtual back-relations).
++  onboarding_intake           ClientOnboardingIntake?          @relation("OnboardingIntakeClient")
++  onboarding_intake_revisions ClientOnboardingIntakeRevision[] @relation("OnboardingIntakeRevisionClient")
++  clinic_program_sets         ClinicProgramSet[]               @relation("ClinicProgramSetCoach")
+   roman_messages RomanMessage[] @relation("RomanMessageUser")
+ 
+   // R2a — AI processing consent ledger (box 2 of the onboarding consent
+@@ -2438,6 +2442,106 @@ model MacroTarget {
+   @@index([coach_id, created_at])
+ }
+ 
++// ─── C05/C07: clinic consultation intake + program set (additive) ─────────
++// One row per client. Holds the full versioned consultation answer set,
++// including the P1-P7 readiness screening. RLS: the client owns the row; the
++// client's CURRENT coach may read it (app.is_current_coach_of); Roman reads it
++// only in that client's own request context. Never exposed to anyone else.
++model ClientOnboardingIntake {
++  id                        String    @id @default(uuid())
++  client_id                 String    @unique
++  client                    User      @relation("OnboardingIntakeClient", fields: [client_id], references: [id], onDelete: Cascade)
++  // Consultation contract version, e.g. "consult-v1".
++  version                   String
++  // { <screen_key>: <value> } exactly as validated by consultation-answers.ts.
++  answers                   Json
++  completed_chapters        String[]  @default([])
++  // Server-stamped P0 acknowledgement (copy version + server time).
++  disclaimer_version        String?
++  disclaimer_accepted_at    DateTime?
++  // True when any P1-P7 answer is "yes" (or T3 injury is yes); drives the
++  // coach flag. Recomputed on every save.
++  screening_any_yes         Boolean   @default(false)
++  screening_flagged_at      DateTime?
++  saved_at                  DateTime  @default(now())
++  // Head of the append-only revision history (ClientOnboardingIntakeRevision).
++  current_revision          Int       @default(0)
++  // Engagement inputs (C1 first session date, S2 preferred time), denormalised
++  // for the engagement jobs (welcome message, reminders) so they need not
++  // parse the answer JSON.
++  first_session_date        DateTime? @db.Date
++  preferred_training_time   String?
++  // Completion claim (idempotency/concurrency) and the frozen result.
++  // completion_claim_token is the fencing token of the attempt holding the
++  // claim; finalisation is conditional on (token, current_revision) so a
++  // worker whose lease expired can never write completion effects.
++  completion_claimed_at     DateTime?
++  completion_claim_token    String?
++  completion_claim_revision Int?
++  selected_program_key      String?
++  completed_at              DateTime?
++  completion_result         Json?
++  created_at                DateTime  @default(now())
++  updated_at                DateTime  @updatedAt
++
++  revisions ClientOnboardingIntakeRevision[]
++
++  @@index([screening_any_yes, screening_flagged_at])
++  @@index([completed_at])
++}
++
++// Append-only history: every save of the consultation writes a new revision;
++// rows are never updated or deleted (owner ruling: forms are kept as
++// submitted, edits create a new version). RLS mirrors the intake (client
++// insert + read, current coach read), with no UPDATE/DELETE policy at all.
++model ClientOnboardingIntakeRevision {
++  id                     String                 @id @default(uuid())
++  intake_id              String
++  intake                 ClientOnboardingIntake @relation(fields: [intake_id], references: [id], onDelete: Cascade)
++  client_id              String
++  client                 User                   @relation("OnboardingIntakeRevisionClient", fields: [client_id], references: [id], onDelete: Cascade)
++  revision               Int
++  version                String
++  answers                Json
++  completed_chapters     String[]               @default([])
++  disclaimer_version     String?
++  disclaimer_accepted_at DateTime?
++  screening_any_yes      Boolean                @default(false)
++  // "save" for PUT /me/onboarding/consultation, "complete" when frozen by
++  // POST /me/onboarding/complete.
++  cause                  String
++  created_at             DateTime               @default(now())
++
++  @@unique([intake_id, revision])
++  @@index([client_id, created_at(sort: Desc)])
++}
++
++// One row per (coach, fixture version): the seeded master programs and the
++// community spaces for the clinic, written only by scripts/seed-clinic-programs.ts.
++// Read server-side by onboarding complete. RLS: the owning coach may read;
++// no client or public writes.
++model ClinicProgramSet {
++  id                    String   @id @default(uuid())
++  coach_id              String
++  coach                 User     @relation("ClinicProgramSetCoach", fields: [coach_id], references: [id], onDelete: Cascade)
++  fixture_version       String
++  fixture_sha256        String
++  approval_status       String
++  workspace_id          String   @db.Uuid
++  all_members_cohort_id String   @db.Uuid
++  // { <program_key>: { program_id, cohort_id, name } }
++  programs              Json
++  // Materialisation inputs copied from the fixture at seed time
++  // (frequency_variants, equipment_overrides, overlays, why templates).
++  materialisation       Json
++  active                Boolean  @default(true)
++  created_at            DateTime @default(now())
++  updated_at            DateTime @updatedAt
++
++  @@unique([coach_id, fixture_version])
++  @@index([coach_id, active])
++}
++
+ // ─── Sprint B: Real Meal Plans (templates + plans + assignments) ──────────
+ model MealTemplate {
+   id            String    @id @default(uuid())
+diff --git a/src/common/env-validation.ts b/src/common/env-validation.ts
+index 196bc9fb..978d9ac1 100644
+--- a/src/common/env-validation.ts
++++ b/src/common/env-validation.ts
+@@ -1278,6 +1278,13 @@ export const ENV_RULES: EnvRule[] = [
+     default: '3600000 = 1 h (non-positive / unparseable fall back)',
+     reason: 'Base of the dunning email-send retry backoff (base * 4^n), in milliseconds.',
+   },
++  {
++    name: 'CONSULT_CONSENT_COPY_VERSIONS',
++    tier: 'optional',
++    default: "consult-consent-v3 (unset, empty, or no known name -> ['consult-consent-v3'])",
++    reason:
++      "Comma-separated onboarding P0 (consent box 1) copy versions the intake accepts (#607). A P0 counts only when its copy_version is listed AND its text_sha256 equals that version's pinned full-screen digest (src/onboarding/consult-consent-copy.ts), so only versions whose exact text the server knows can be listed; unknown names are ignored (logged once as a warning by the onboarding module). Leave unset at launch.",
++  },
+   {
+     name: 'FEATURE_AI_CONSENT_LEDGER_ENABLED',
+     values: ['true', 'false'],
+diff --git a/src/observability/log-redaction.ts b/src/observability/log-redaction.ts
+index a558b70a..49898967 100644
+--- a/src/observability/log-redaction.ts
++++ b/src/observability/log-redaction.ts
+@@ -49,6 +49,12 @@ export const REDACT_KEYS: ReadonlySet<string> = new Set([
+   'bodyfat',
+   'fat_percentage',
+   'raw_bloodwork',
++  // Consultation onboarding (C05): answers include health screening and
++  // injury notes; never log them (operator privacy ruling 2026-09-30).
++  'answers',
++  'consultation_answers',
++  'completion_result',
++  'screening',
+   // Stripe / billing
+   'stripe_secret_key',
+   'stripe_webhook_secret',
+@@ -81,10 +87,7 @@ const ALLOWED_KEYS: ReadonlySet<string> = new Set([
+  *               parent call).
+  * @param seen   WeakSet used to detect circular references.
+  */
+-export function redactObject(
+-  value: unknown,
+-  seen: WeakSet<object> = new WeakSet(),
+-): unknown {
++export function redactObject(value: unknown, seen: WeakSet<object> = new WeakSet()): unknown {
+   if (value === null || typeof value !== 'object') return value;
+   if (seen.has(value as object)) return '[Circular]';
+   seen.add(value as object);

@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 15:25 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 15:29 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -11,7 +11,7 @@ finished its active item or pushed WIP to wip/* branches; NO subagent is running
 stopped. Pickup prompt: [handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md](handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md)
 (+ .docx). Kit: handoffs/op-6870f2ca/ (tools/, lanes/, reports/ with "HANDOFF FOR AGENT 113" sections, probes/).
 - Production backend 9cfd70d6 (DEPLOYED 15:19-15:25: #635 + #644 + #646 + #649 on f04289f9). Backend main 9cfd70d6. Mobile main f34b5b99.
-- 112 merged: mobile #310, backend #607 (+deploy), mobile #324, backend #644, backend #649 (14:37; pre-deploy SELECT in
+- 112 merged: mobile #310, backend #607 (+deploy), mobile #324, backend #644, backend #635, backend #646 (deployed 15:25 with #644/#649), backend #649 (14:37; pre-deploy SELECT in
   handoffs/op-6870f2ca/probes/aud-opus5-112/649-predeploy-select.sql). Release gate LIFTED 15:25 (#635 deployed).
 - Live WIP branches: wip/B-JOURNEY-3-609-fixround @11fd4e10, wip/B-JOURNEY-3-312-fixround @25b111d5, wip/s-dunning-r4-backend
   @c8a1c95b, wip/s-dunning-r4-mobile @0b4813dc (= #322 head).
@@ -111,6 +111,13 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 15:29 B-UGC-6 DONE: backend #610 -> 9f2c3865 (B-610-13 moderation action + notice in one transaction; B-610-8 voice erasure certified
+  only on a definite not-found from a confirmed bucket; C-610-9; 23 fail before / 302 pass after; 20/20 green incl.
+  community-live-tests; main 9cfd70d6 merged; #314 contract unchanged). Needs Sol re-audit + Opus delta -> merge with #314. Deferred to
+  B-UGC-5: C-610-10 author-delete half, C-610-11, C-610-12.
+- 15:29 ROUND 2 COMPLETE (4 lanes, 14:40-15:29): merged #635 + #646, deployed 9cfd70d6, release gate lifted; #321 dual-approved (held
+  for #627 B-627-8); #333/#330/#610 fixed and awaiting re-audit; package-sheet payment blocker logged (OR-112-22). Prompt v6 refreshed
+  (snapshot 15:29). No subagent running; telemetry stopped; nothing started further without an owner order.
 - 15:25 DEPLOYED backend 9cfd70d6 (= #635 consent v4 + Roman chats backend, #644 quiz off, #646 Stripe secrets, #649 Build Week
   Day 1 copy) via fly-deploy run 37071843710 (migrations=apply-migrations; production env approved by operator under the standing
   approval; main CI green). Verified: migration 20270224000000 finished 22:23:19Z, 0 unfinished; Day 1 focus "Consultation + Baseline";

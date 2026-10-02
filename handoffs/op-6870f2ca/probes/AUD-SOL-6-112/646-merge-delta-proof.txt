@@ -1,0 +1,181 @@
+Exact delta merge metadata
+58c2d64a7cf504a6643a84b53e4719fdf9419dd3
+32f7ede45e065175b04c228732e32382006057f9 32e398eaf1569b9a7a1528145bc93aeb049179c4
+26fb325233285f70170e0bcbbb55b22f7cbf6a3d
+Merge branch 'main' into agent/clinic/coach-payments-field-select
+Reconstructed merge tree
+26fb325233285f70170e0bcbbb55b22f7cbf6a3d
+Prior common main base
+3bd6215b0ff438dc7d790d79305cd2271968cd16
+Incoming main commits
+32e398ea feat(ai-consent): client-ai-v4 true AI-chat retention copy; Roman delete erases the transcript (T4) (#635)
+c8e5e71f fix(build-week): Day 1 points to the consultation, not the switched-off diagnostic (T3) (#649)
+5d1f224a chore(diagnostic): switch off the TGP Finance diagnostic quiz in the fitness backend (B-QUIZ-OFF, T2) (#644)
+f04289f9 feat(onboarding): C05/C07 consultation intake, idempotent complete, three-program rule table, seed loader, coach consultation view (#607)
+Incoming main files
+ .env.example                                       |   14 +-
+ .github/workflows/ci.yml                           |   27 +-
+ README.md                                          |   20 +-
+ docs/ai-consent-ledger.md                          |   33 +-
+ docs/build-week.md                                 |    2 +-
+ docs/clinic-onboarding.md                          |  387 ++
+ docs/diagnostic.md                                 |   11 +-
+ docs/roman-chat-deletion.md                        |  158 +
+ docs/security/role-gating.md                       |    2 +-
+ .../down.sql                                       |    7 +
+ .../migration.sql                                  |  317 ++
+ .../down.sql                                       |   48 +
+ .../migration.sql                                  |   87 +
+ prisma/schema.prisma                               |  104 +
+ prisma/seed-build-week.json                        |    8 +-
+ scripts/ci/onboarding-intake-live-bootstrap.sql    |   25 +
+ scripts/ci/onboarding-intake-live-grants.sql       |   12 +
+ scripts/seed-clinic-programs.ts                    |  235 +
+ seed/clinic-programs.v1.json                       | 5251 ++++++++++++++++++++
+ src/ai-consent/ai-consent.constants.ts             |   27 +-
+ src/app.module.ts                                  |   13 +-
+ src/build-week/README.md                           |    2 +-
+ src/common/decorators/roles.decorator.ts           |    5 +-
+ src/common/env-validation.ts                       |    7 +
+ src/diagnostic/README.md                           |   11 +-
+ src/invite-codes/invite-codes.service.ts           |   75 +-
+ src/macros/macros.service.ts                       |   37 +-
+ src/observability/log-redaction.ts                 |   11 +-
+ src/onboarding/clinic-programs.ts                  |  386 ++
+ src/onboarding/consult-consent-copy.ts             |  128 +
+ src/onboarding/consultation-answers.ts             |  474 ++
+ src/onboarding/consultation-definitions.ts         |  749 +++
+ src/onboarding/consultation-view.ts                |  192 +
+ src/onboarding/onboarding-completion-hooks.ts      |   26 +
+ src/onboarding/onboarding.controller.ts            |   85 +
+ src/onboarding/onboarding.dto.ts                   |   15 +
+ src/onboarding/onboarding.module.ts                |   14 +
+ src/onboarding/onboarding.service.ts               | 1151 +++++
+ src/onboarding/program-rules.ts                    |  258 +
+ src/onboarding/program-writer.ts                   |  118 +
+ src/roman/roman-chats.controller.ts                |  114 +
+ src/roman/roman-chats.query.ts                     |   99 +
+ src/roman/roman-erasure.sweep.ts                   |  187 +
+ src/roman/roman.constants.ts                       |   76 +
+ src/roman/roman.controller.ts                      |   20 +-
+ src/roman/roman.dto.ts                             |   12 +
+ src/roman/roman.module.ts                          |   10 +-
+ src/roman/roman.service.ts                         |  633 ++-
+ src/sub-coach/sub-coach-scope.service.ts           |   32 +
+ src/throttler/README.md                            |    4 +-
+ src/workout-builder/workout-builder.service.ts     |  267 +-
+ test/ai-consent/_support/fake-ledger-prisma.ts     |    4 +-
+ .../ai-consent-dunning-lockout.e2e.spec.ts         |    2 +-
+ test/ai-consent/ai-consent.controller.spec.ts      |   50 +-
+ test/ai-consent/ai-consent.service.spec.ts         |  140 +-
+ test/build-week-day1-consultation-copy.spec.ts     |  216 +
+ test/diagnostic-quiz-off.spec.ts                   |  137 +
+ test/macros-current-self.spec.ts                   |   39 +-
+ test/onboarding-audit-regressions.spec.ts          |  413 ++
+ test/onboarding-clinic-programs.spec.ts            |  233 +
+ test/onboarding-consent-copy.spec.ts               |  160 +
+ test/onboarding-consultation-answers.spec.ts       |  234 +
+ test/onboarding-program-rules.spec.ts              |  301 ++
+ test/onboarding-tenancy-fence.live.spec.ts         |  265 +
+ test/onboarding.service.spec.ts                    | 1949 ++++++++
+ test/rls/onboarding-intake-rls.spec.ts             |  609 +++
+ test/roman/roman-chats.controller.spec.ts          |  410 ++
+ test/roman/roman-erasure.sweep.spec.ts             |  290 ++
+ test/roman/roman-session-erase.live.spec.ts        |  371 ++
+ test/roman/roman-streaming.spec.ts                 |   22 +
+ test/roman/roman.controller.spec.ts                |   23 +-
+ test/roman/roman.service.spec.ts                   | 1042 +++-
+ test/seed-clinic-programs.spec.ts                  |  213 +
+ 73 files changed, 18760 insertions(+), 349 deletions(-)
+Head delta files
+ .env.example                                       |   14 +-
+ .github/workflows/ci.yml                           |   27 +-
+ README.md                                          |   20 +-
+ docs/ai-consent-ledger.md                          |   33 +-
+ docs/build-week.md                                 |    2 +-
+ docs/clinic-onboarding.md                          |  387 ++
+ docs/diagnostic.md                                 |   11 +-
+ docs/roman-chat-deletion.md                        |  158 +
+ docs/security/role-gating.md                       |    2 +-
+ .../down.sql                                       |    7 +
+ .../migration.sql                                  |  317 ++
+ .../down.sql                                       |   48 +
+ .../migration.sql                                  |   87 +
+ prisma/schema.prisma                               |  104 +
+ prisma/seed-build-week.json                        |    8 +-
+ scripts/ci/onboarding-intake-live-bootstrap.sql    |   25 +
+ scripts/ci/onboarding-intake-live-grants.sql       |   12 +
+ scripts/seed-clinic-programs.ts                    |  235 +
+ seed/clinic-programs.v1.json                       | 5251 ++++++++++++++++++++
+ src/ai-consent/ai-consent.constants.ts             |   27 +-
+ src/app.module.ts                                  |   13 +-
+ src/build-week/README.md                           |    2 +-
+ src/common/decorators/roles.decorator.ts           |    5 +-
+ src/common/env-validation.ts                       |    7 +
+ src/diagnostic/README.md                           |   11 +-
+ src/invite-codes/invite-codes.service.ts           |   75 +-
+ src/macros/macros.service.ts                       |   37 +-
+ src/observability/log-redaction.ts                 |   11 +-
+ src/onboarding/clinic-programs.ts                  |  386 ++
+ src/onboarding/consult-consent-copy.ts             |  128 +
+ src/onboarding/consultation-answers.ts             |  474 ++
+ src/onboarding/consultation-definitions.ts         |  749 +++
+ src/onboarding/consultation-view.ts                |  192 +
+ src/onboarding/onboarding-completion-hooks.ts      |   26 +
+ src/onboarding/onboarding.controller.ts            |   85 +
+ src/onboarding/onboarding.dto.ts                   |   15 +
+ src/onboarding/onboarding.module.ts                |   14 +
+ src/onboarding/onboarding.service.ts               | 1151 +++++
+ src/onboarding/program-rules.ts                    |  258 +
+ src/onboarding/program-writer.ts                   |  118 +
+ src/roman/roman-chats.controller.ts                |  114 +
+ src/roman/roman-chats.query.ts                     |   99 +
+ src/roman/roman-erasure.sweep.ts                   |  187 +
+ src/roman/roman.constants.ts                       |   76 +
+ src/roman/roman.controller.ts                      |   20 +-
+ src/roman/roman.dto.ts                             |   12 +
+ src/roman/roman.module.ts                          |   10 +-
+ src/roman/roman.service.ts                         |  633 ++-
+ src/sub-coach/sub-coach-scope.service.ts           |   32 +
+ src/throttler/README.md                            |    4 +-
+ src/workout-builder/workout-builder.service.ts     |  267 +-
+ test/ai-consent/_support/fake-ledger-prisma.ts     |    4 +-
+ .../ai-consent-dunning-lockout.e2e.spec.ts         |    2 +-
+ test/ai-consent/ai-consent.controller.spec.ts      |   50 +-
+ test/ai-consent/ai-consent.service.spec.ts         |  140 +-
+ test/build-week-day1-consultation-copy.spec.ts     |  216 +
+ test/diagnostic-quiz-off.spec.ts                   |  137 +
+ test/macros-current-self.spec.ts                   |   39 +-
+ test/onboarding-audit-regressions.spec.ts          |  413 ++
+ test/onboarding-clinic-programs.spec.ts            |  233 +
+ test/onboarding-consent-copy.spec.ts               |  160 +
+ test/onboarding-consultation-answers.spec.ts       |  234 +
+ test/onboarding-program-rules.spec.ts              |  301 ++
+ test/onboarding-tenancy-fence.live.spec.ts         |  265 +
+ test/onboarding.service.spec.ts                    | 1949 ++++++++
+ test/rls/onboarding-intake-rls.spec.ts             |  609 +++
+ test/roman/roman-chats.controller.spec.ts          |  410 ++
+ test/roman/roman-erasure.sweep.spec.ts             |  290 ++
+ test/roman/roman-session-erase.live.spec.ts        |  371 ++
+ test/roman/roman-streaming.spec.ts                 |   22 +
+ test/roman/roman.controller.spec.ts                |   23 +-
+ test/roman/roman.service.spec.ts                   | 1042 +++-
+ test/seed-clinic-programs.spec.ts                  |  213 +
+ 73 files changed, 18760 insertions(+), 349 deletions(-)
+Own original file names
+src/checkout/checkout.service.ts
+src/checkout/client-purchases.select.ts
+src/checkout/coach-payments.select.ts
+src/checkout/payment-ops.controller.ts
+src/packages/packages.service.ts
+test/client-purchases-field-select.spec.ts
+test/coach-payments-field-select.spec.ts
+Original and updated own patch IDs
+43fe692ac3f20ccdaf7768457cf99f0441af9b65 0000000000000000000000000000000000000000
+43fe692ac3f20ccdaf7768457cf99f0441af9b65 0000000000000000000000000000000000000000
+Incoming delta and main patch IDs
+bf33b0274e1a4986cab091667c96205627615223 0000000000000000000000000000000000000000
+bf33b0274e1a4986cab091667c96205627615223 0000000000000000000000000000000000000000
+Whitespace check
+
+Full incoming-main diff is byte-identical to 32f7ede4..58c2d64a diff (cmp exit 0).
