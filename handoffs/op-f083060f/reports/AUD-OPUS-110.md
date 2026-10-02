@@ -141,3 +141,37 @@
 ## mobile#313 DELTA @ 1e80017bf9ce8a7ed4e4679e60214b7fe2b398b5 — APPROVE (from 4c6028d5; A0 B0 C2 carried)
 - Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/313#issuecomment-5946353738
 - Single merge of main 0b7f197f (still tip). Per-file zero-context patch-ids equal for 14/15 files; the conflicted appleAuth.test.ts is a pure union (import plus the approved 4-case re-auth block; main's #306 tests kept); no main line removed. CI 4/4 green. C-313-8 closed.
+
+## OPERATOR ACTION (22:58) — #624 @ e3e0a314: required `danger` FAILS at the exact head
+- Cause: dangerfile.js:84-105 passes when the PR title OR the latest commit subject is Conventional Commits. At 75a4e563 the latest subject was conventional; at e3e0a314 it is "Merge branch 'main' into ..." and the title "S-ENVTRUTH: register every src/ env read, ..." is not conventional. So danger now fails (comment 5937803200).
+- Fix (no code, head unchanged): retitle #624 to Conventional Commits, e.g. `ci(env): S-ENVTRUTH register every src/ env read, ENV REGISTRATION board invariant, fly env sync + read-only env-truth workflows (T4)`. Then re-run the failed danger job (`gh run rerun <run-id> --failed`). danger.yml triggers on pull_request with the default types (opened, synchronize, reopened), so a retitle alone does not re-trigger it. The re-run reads the new title from the API.
+- The delta itself is clean: zero-context and full patch-id of main 7a6cfd82..e3e0a314 = 75a4e563's audited range (136efd7b); fresh merge-tree 4d64d692 = head tree. The Opus DELTA APPROVE posts as soon as danger plus the in-progress required checks are green at e3e0a314.
+
+## backend#604 DELTA @ 12a4d423fc0704047b7f7d785ae911c42c6293cd — APPROVE (from 21ffc02c; supersedes the 87d09b1d request)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/604#issuecomment-5946437661
+- main 7a6cfd82..12a4d423 has the same full patch-id (b744884a) and zero-context patch-id (7e4625a6) as the audited e1dd4c39..21ffc02c; same 18 files; fresh merge-tree 8651a300 = head tree.
+- #597 adoption is intact inside _passwordLoginUnlocked; #599 attach paths are untouched. Required CI green at the head.
+
+## backend#628 @ ba1d9480cdd93e69504804c32117e83bc913c6ba — REQUEST CHANGES (full T4; A0 B2 C4)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/628#issuecomment-5946454011
+- B-628-1 (probe-confirmed, probe_628_2a_paid_before_list.spec.ts): a retry paid before listOpenInvoices, so 2A DELETEs the subscription and ends a just-paid period with no refund (expected option A). The reconciler out-of-band 2A has the same gap. Fix: re-read the subscription before the DELETE.
+- B-628-2: on multi-plan confirm, a partial payment then a decline or error says "nothing was charged" / "nothing changed" (:910/:940/:992). Fix: per-purchase results; copy keyed on amount_paid_cents.
+- C-628-1 requires_action does not check paid first; C-628-2 publishable_key '' fallback (fail closed 503); C-628-3 DTO 400s without code; C-628-4 the CANCEL_INCOMPLETE window re-entitles (extend the stale guard to client_canceled_at) plus the lock lands within 1 h of Day 10.
+- Integer cents, webhook replay, retry race and Day 0/9/10 verified. Local 7 suites, 226 passed. Required CI green. BEHIND main 7a6cfd82; merge-tree clean.
+
+## mobile#322 @ 8991ddf37ddc5488fc1448d5cdb6f3b04dc1af26 — REQUEST CHANGES (full T4; A0 B2 C1)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/322#issuecomment-5946462409
+- B-322-1: declined/processing copy ignores amount_paid_cents ("nothing was charged" after a partial payment; mirrors B-628-2).
+- B-322-2: a network error or timeout on confirm says "We could not reach the server, so nothing was charged" (dunningErrorCopy.ts:153-161), but 1A may have paid. Fix: "could not confirm whether your payment went through" plus a status refresh.
+- C-322-1: the pre-confirm End my plan alert promises access ends now (conditional after the B-628-1 fix).
+- The contract matches #628; CI 4/4 green; merge state clean.
+
+## backend#624 DELTA @ e3e0a3140f289347006648acd7d6864a107cd0a1 — NOT POSTED (waiting on the required `danger` check)
+- The delta is clean: patch-id 136efd7b equals the audited range; fresh merge-tree 4d64d692 = head tree; every other required check is green.
+- `danger` fails only on the Conventional Commits title rule (the latest subject is a merge). Operator: retitle to e.g. `ci(env): S-ENVTRUTH ...` and re-run the danger job (pull_request default types do not include `edited`).
+- The APPROVE text is ready at ops/aud-opus-110/624_delta_verdict_READY.md. Post it after danger is green at e3e0a314 (re-check the head first).
+
+## backend#624 DELTA @ e3e0a3140f289347006648acd7d6864a107cd0a1 — APPROVE (POSTED 23:07, from 75a4e563; C-624-1..6 carried)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/624#issuecomment-5946499617
+- Head re-checked before posting. All 10 required checks are success at e3e0a314: build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, npm audit, CodeQL, Banned cast tokens, build-sbom, danger (06:05:22Z after the retitle and re-run) and Schema parity.
+- Non-required checks: shellcheck fails on the existing SC2015 in scripts/s10-core-diff-gate.sh; danger dry-run was still running.

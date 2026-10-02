@@ -1,6 +1,6 @@
 # TGP OPERATOR PROMPT v5 — Agent 111: clinic launch executive operator
 
-Written by agent 110 (Computer session f083060f, thread https://www.perplexity.ai/computer/tasks/f083060f-0079-42c5-8feb-18013de78e70) at Bradley's request (10-01 21:38: "keep progressing, updating the agent 110 prompt I gave you to reflect current state and issues - rename it agent 111 … for when your out of credits and retired happily!"). This snapshot: 2026-10-01 22:51 PDT (real clock). Agent 110 keeps regenerating it; the newest copy is in tgp-agent-context at handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md (and .docx). Paste this whole document as the first message to the next operator, and attach the same four owner documents plus docs.zip (section 3.4). It replaces prompt v4 (kept at handoffs/op-f083060f/TGP-Operator-Prompt-v4-Agent-110.md for history). Most of v4 is carried over word for word; the parts that changed are sections 0 (overarching facts, item 5), 2 (update note), 3, 4.13 (new), 5, 6.0 (110's lessons first), 7, 12 and 13.
+Written by agent 110 (Computer session f083060f, thread https://www.perplexity.ai/computer/tasks/f083060f-0079-42c5-8feb-18013de78e70) at Bradley's request (10-01 21:38: "keep progressing, updating the agent 110 prompt I gave you to reflect current state and issues - rename it agent 111 … for when your out of credits and retired happily!"). This snapshot: 2026-10-01 23:06 PDT (real clock). Agent 110 keeps regenerating it; the newest copy is in tgp-agent-context at handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md (and .docx). Paste this whole document as the first message to the next operator, and attach the same four owner documents plus docs.zip (section 3.4). It replaces prompt v4 (kept at handoffs/op-f083060f/TGP-Operator-Prompt-v4-Agent-110.md for history). Most of v4 is carried over word for word; the parts that changed are sections 0 (overarching facts, item 5), 2 (update note), 3, 4.13 (new), 5, 6.0 (110's lessons first), 7, 12 and 13.
 
 You are agent 111 in a chain of AI operators. Most of the work exists already. Your job is to finish it truthfully, to be exactly like agent 110, but 1% better. Section 6 tells you where 110 and 109 fell short, so you don't repeat it.
 
@@ -228,7 +228,7 @@ UPDATE 10-01 13:28-16:32 (agent 109 era; section 4.12 has the detail):
 - A P0 was found and fixed: production was missing schema objects (signup broken); \#625 restored them and was deployed and verified (section 5).
 - Dates still float under the 13:00 verdict.
 
-UPDATE 10-01 20:17-22:51 (agent 110 era; sections 4.13 and 5 have the detail):
+UPDATE 10-01 20:17-23:06 (agent 110 era; sections 4.13 and 5 have the detail):
 
 - Saturday 10-03 App Store submission is not realistic under "do it right"; about 20 day-1 items had no PR at 110's takeover. Give Bradley a measured date from merge throughput, never an optimistic one.
 - Agent 110 merged mobile #320 and #323 (Android gate) and backend #595, #630, #631 and #623, deployed backend ba79605b (consent ledger, role choice, $0 grants, private recipes, support email), built the Android production .aab (EAS 4d2665c6), and made Schema parity a required check.
@@ -849,7 +849,7 @@ Bradley's overarching facts (20:38, verbatim; above every lane objective): "1.) 
 
 The live, newest version of this section is the top of tgp-agent-context LAST_OPERATOR_STATE.md ("AGENT 110 TAKEOVER" + "Train log (agent 110)"). Agent 110 appends to that train log after every merge, deploy and lane result; if this prompt and the train log disagree, the train log wins.
 
-### AGENT 110 STATE FOR AGENT 111 — snapshot 2026-10-01 22:51 PDT (real clock)
+### AGENT 110 STATE FOR AGENT 111 — snapshot 2026-10-01 23:06 PDT (real clock)
 
 #### Production and mains
 
@@ -871,8 +871,8 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 #### Lanes agent 110 launched (objectives in tgp-agent-context handoffs/op-f083060f/lanes/; reports in handoffs/op-f083060f/reports/ when copied, else in the PR comments)
 
 - AUD-SOL (GPT-6.1 Sol): standing Sol lens. Status: running batch #632, #624, #608, #627@2c57cc41, #633, #629, then #626, #326, #610, #314.
-- AUD-OPUS (Claude Opus 5.5): standing Opus lens. Status: running batch #627, #629, mobile #321, #624, #608, #633.
-- AUD-OPUS-2 (Claude Opus 5.5): second Opus lens, consent + UGC. Status: running #626, mobile #326, #610, mobile #314 (objective lanes/AUD-OPUS-2.md).
+- AUD-OPUS (Claude Opus 5.5): standing Opus lens. Status: batch done 23:00: #627 RC 0/3/2, #629 RC 0/2/1, mobile #321 RC 0/2/1, #624 APPROVE (75a4e563) + delta ready at e3e0a314 (posting after danger fix), #608 APPROVE (export counted to B-EXPORT), #633 RC 0/2/3, mobile #313 delta APPROVE @1e80017, #604 delta APPROVE @12a4d423, #628 RC 0/2/4, mobile #322 RC 0/2/1.
+- AUD-OPUS-2 (Claude Opus 5.5): second Opus lens. Status: DONE: #626 APPROVE (merged), mobile #326 RC 0/2/3 (B-326-1/2), mobile #310 RC 0/1/1 (B-310-6: 180-day copy), #610 BLOCK 1/6/1 (confirms A-610-1; new B-610-5 voice not erased on deletion), mobile #314 RC 0/5/1 (verdict NOT posted: platform check refused the post; text in ops/aud-opus2-110/; superseded by B-UGC-2).
 - B-FIX2 (Claude Opus 5.5): T4 fix rounds. Status: DONE 22:37. backend #624 -> 75a4e563 (B-624-3: no flyctl output printed at all), backend #608 -> 2759e1a0 (B-608-11: durable cleanup record + nightly retry, migration 20270220000000), mobile #313 -> 1e80017 (merge-only; test conflict), mobile #310 -> e1dbe7f (B-310-5 + consultation flag declared in config/expected-env.json, T4 data). CI green except non-required shellcheck SC2015 in scripts/s10-core-diff-gate.sh (fails on main too; fix it — unassigned). Merge order note C-310-10: whichever of #313/#310 lands second keeps #310's consultation-draft purge. 108 WIP 8bdb5997 holds the env desired-state manifest #624 lacks (follow-up).
 - B-UGC (Claude Opus 5.5): #610/#314 fix rounds + voice-note reporting + wins safety. Status: DONE 22:25. backend #610 -> 9e4b3795, mobile #314 -> 41d829d, all CI green; all findings closed except C-610-4 (CI test DB = CI-gate change, deferred); voice: report target (migration 20270211000000), queue playback, 24h deadline, hide/warn/ban, block both ways, author delete, DM voice refused; fixed a bug where every voice-note create returned 400. Awaiting dual audit; voice flags stay off until audits + device pass.
 - S-DUNNING-R2 (Claude Opus 5.5): dunning 1A/2A + native card. Status: DONE 22:47. backend #628 -> ba1d9480 (CI green, migration 20270215000000), mobile #322 -> 8991ddf (CI green), flags PR #633 @850ec148 (Sol + Opus REQUEST CHANGES, B-633-1; to be superseded by B-FLAGS manifest). Audits of #628/#322 queued (AUD-OPUS first, then Sol). Stripe live settings list for the owner in reports/S-DUNNING.md (section 7 here).
@@ -884,7 +884,8 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - S-SCHED-2 (Claude Opus 5.5): scheduling backend lifecycle/concurrency/ownership/contracts/notifications + #325 consumer changes. Status: running since 22:26 (migration 20270212000000).
 - B-EXPORT (Claude Opus 5.5): durable, downloadable data export stacked on #608 (migration 20270221000000). Status: running since 22:38.
 - B-FEE-R4 (Claude Opus 5.5): fix round 4 on #627 (Sol B-627-2..5 + Opus B), #629, mobile #321. Status: running since 22:49.
-- Queued lane objectives (written, not launched; next free builder slots in this order): B-UGC-2 (#610 Sol BLOCK A-610-1/2 + B, #314 B-314-2..5 incl. real native recorder/playback), B-FLAGS (prod-switch desired-state manifest on #624 = the one audited path to set day-1 flags; supersede #633; shellcheck SC2015 fix), B-CONSENT-COPY (R-626-1: consent copy says chats kept 180 days, owner said forever; #310 copy; #611 fix round), S-ERRORS (#324 B-324-1 + slices; mobile errorCode() reads `code`).
+- B-UGC-2 (Claude Opus 5.5): #610 + #314 fix round (A-610-1/2, B-610-1..5, B-314-2..5, real recorder/playback, C-610-4 CI DB suites). Status: running since 22:59.
+- Queued lane objectives (written, not launched; next free builder slots in this order): B-CONSENT-COPY (R-626-1/B-310-6 180-day copy -> client-ai-v4 "kept until you delete them or your account"; #326 B-326-1/2; #611), B-FLAGS (prod-switch desired-state manifest on #624; supersede #633; shellcheck SC2015), S-DUNNING-R3 (#628/#322 Opus RC: cancel after retry paid, partial-charge copy, lost-confirm copy), S-ERRORS (#324 B-324-1 + slices; mobile errorCode() reads `code`).
 
 #### Open PR board (exact heads at snapshot; verify with prstat.py)
 
@@ -892,12 +893,12 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - backend #601 @d767f65c: DIRTY, T4; verdicts at this head: -. feat(roman): AI processing consent record + server-side enfo
 - backend #602 @bb5f13b0: DIRTY, T4; verdicts at this head: -. feat(roman): RomanClientContext builder + per-turn grounding
 - backend #603 @75c4a181: BEHIND, T3; verdicts at this head: -. feat(roman): guardrail contract, deterministic safety router
-- backend #604 @12a4d423: BLOCKED, T4; verdicts at this head: -. fix(throttler): isolate named throttlers to their routes, pu
+- backend #604 @12a4d423: CLEAN, T4; verdicts at this head: GPT-6.1 Sol:APPROVE, Claude Opus 5.5:APPROVE. fix(throttler): isolate named throttlers to their routes, pu
 - backend #605 @686d0888: DIRTY, T2; verdicts at this head: -. test(roman): eval harness — G1–G30 golden set, six CI layers
 - backend #607 @d6ac47e8: BEHIND, T4; verdicts at this head: -. C05/C07: consultation intake, idempotent onboarding complete
 - backend #608 @2759e1a0: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:APPROVE. fix(account-deletion): in-app deletion completes on re-auth,
 - backend #609 @5fd61a1b: BEHIND, T3; verdicts at this head: -. C05 items 6-7: coach welcome message at complete +13 min, wo
-- backend #610 @9e4b3795: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:BLOCK. feat(community): UGC safety for App Review 1.2 (content filt
+- backend #610 @9e4b3795: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:BLOCK, Claude Opus 5.5:BLOCK. feat(community): UGC safety for App Review 1.2 (content filt
 - backend #611 @e5777735: BEHIND, T3; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. feat(public-pages): accurate privacy policy, consumer health
 - backend #612 @2855141e: BEHIND, ?; verdicts at this head: -. chore(deps): bump @nestjs/testing from 11.1.26 to 12.1.1
 - backend #613 @8593a09b: BEHIND, ?; verdicts at this head: -. chore(deps): bump @types/node from 26.0.0 to 26.6.3
@@ -909,21 +910,21 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - backend #619 @e53a0688: BEHIND, ?; verdicts at this head: -. chore(deps): bump @nestjs/platform-express from 11.1.26 to 1
 - backend #620 @aa9a0126: BEHIND, ?; verdicts at this head: -. chore(deps): bump @supabase/supabase-js from 2.108.1 to 2.11
 - backend #621 @1a7b6c26: BEHIND, ?; verdicts at this head: -. chore(deps): bump @nestjs/common from 11.1.26 to 12.1.1
-- backend #624 @e3e0a314: BLOCKED, T4; verdicts at this head: -. S-ENVTRUTH: register every src/ env read, ENV REGISTRATION b
+- backend #624 @e3e0a314: UNSTABLE, T4; verdicts at this head: Claude Opus 5.5:APPROVE. ci(env): S-ENVTRUTH register every src/ env read, env regist
 - backend #627 @2c57cc41: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. fix(billing): coach payout = price - actual Stripe fee - 2%
-- backend #628 @ba1d9480: BEHIND, T4; verdicts at this head: -. fix(dunning-v2): live-ready 10-day lockout + native card upd
+- backend #628 @ba1d9480: BEHIND, T4; verdicts at this head: Claude Opus 5.5:REQUEST CHANGES. fix(dunning-v2): live-ready 10-day lockout + native card upd
 - backend #629 @858eb40b: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. feat(packages): paid packages start at $19.99, or exactly $0
-- backend #632 @0ae744b6: BLOCKED, T2; verdicts at this head: -. S-SCHED: explicit booking reminders and safe C04 appointment
+- backend #632 @0ae744b6: UNSTABLE, T2; verdicts at this head: -. feat(scheduling): S-SCHED explicit booking reminders and saf
 - backend #633 @850ec148: BEHIND, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. ci(flags): FEATURE_DUNNING_V2 closed-choice input for the Fl
 - mobile #305 @45787152: CLEAN (base clinic/m2-core-polish), T3; verdicts at this head: -. clinic/m3: expo-updates (EAS Update, fingerprint runtime, ch
-- mobile #310 @e1dbe7f9: CLEAN, T4; verdicts at this head: Claude Opus 5.5:REQUEST CHANGES. feat(onboarding): config-driven consultation onboarding behi
+- mobile #310 @e1dbe7f9: CLEAN, T4; verdicts at this head: Claude Opus 5.5:REQUEST CHANGES, GPT-6.1 Sol:REQUEST CHANGES. feat(onboarding): config-driven consultation onboarding behi
 - mobile #312 @5b26e1f4: BEHIND, T3; verdicts at this head: -. C05 item 7: Workout reminders toggle in Settings > Notificat
-- mobile #313 @1e80017b: CLEAN, T4; verdicts at this head: Claude Opus 5.5:APPROVE. fix(account-deletion): in-app deletion completes with re-aut
+- mobile #313 @1e80017b: CLEAN, T4; verdicts at this head: Claude Opus 5.5:APPROVE, GPT-6.1 Sol:APPROVE. fix(account-deletion): in-app deletion completes with re-aut
 - mobile #314 @41d829d7: CLEAN, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. feat(community): report, block, moderation actions and safet
 - mobile #315 @d9c2e669: BEHIND, T3; verdicts at this head: GPT-6.1 Sol:APPROVE, Claude Opus 5.5:APPROVE. fix(trust-center): open the real privacy policy, link the co
 - mobile #317 @c7e35d84: DIRTY, T4; verdicts at this head: GPT-6.1 Sol:BLOCK, Claude Opus 5.5:REQUEST CHANGES. fix(wearables): S14 [T4] Apple Health / Health Connect conne
 - mobile #321 @a9b1f49d: CLEAN, T3; verdicts at this head: Claude Opus 5.5:REQUEST CHANGES. feat(packages): editor shows the $19.99 minimum or free rule
-- mobile #322 @8991ddf3: CLEAN, T4; verdicts at this head: -. feat(dunning): payment lockout + Days 0-9 banner + native Up
+- mobile #322 @8991ddf3: CLEAN, T4; verdicts at this head: Claude Opus 5.5:REQUEST CHANGES. feat(dunning): payment lockout + Days 0-9 banner + native Up
 - mobile #324 @7f20255d: BEHIND, T2; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES. fix(support): one support email (Bradleyapple1031@gmail.com)
 - mobile #325 @bc1398c2: BEHIND, T2; verdicts at this head: -. S-SCHED: native Calendar, coach controls and welcome-call tu
 - mobile #326 @32ed8546: CLEAN, T4; verdicts at this head: GPT-6.1 Sol:REQUEST CHANGES, Claude Opus 5.5:REQUEST CHANGES. fix(ai): handle ai_consent_required and ai_egress_blocked on

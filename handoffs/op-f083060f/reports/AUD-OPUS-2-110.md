@@ -36,3 +36,28 @@
   - Operator decision: also bump consult-consent-v2 to v3 (recommended yes).
 - C-310-11: the pending marker can be double-written, leaving a stale marker (harmless here; it widens B-326-2).
 - Local: 7 suites / 182 tests passed, expected-env guard OK. CI: 4/4 green.
+
+## backend#610 @ 9e4b37958ea500b849cfad125b26f86a6ebeb3d9 — BLOCK (A1 B6 C1)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/610#issuecomment-5946416979
+- Prior Opus findings: B-610-1 is mostly closed (the filter, win report and Hide, author delete and circle-only REST feed are in place). C-610-1, C-610-2 and C-610-3 are closed. C-610-4 is carried.
+- A-610-1 (Sol), confirmed with my own probe (ops/aud-opus2-110/probe_610_voice_traversal.spec.ts, PASS): a dot-segment storage_key passes the prefix check. The SDK URL normalizes into another bucket, and the service-role key signs it.
+- B-610-5 (new): author delete, Hide/Ban and account deletion never erase voice recordings. Account deletion skips CommunityVoiceNote and the bucket entirely.
+- B-610-6: Sol's A-610-2 (wins RLS), which I rate B. app.current_user_id comes only from the backend GUC and no non-service caller reaches it today, but the data-layer invariant is wrong.
+- B-610-1, B-610-2, B-610-3 and B-610-4 (Sol): all confirmed by code trace.
+- C-610-4: acceptable for merging, NOT acceptable for a voice-ON launch. Wire COMMUNITY_TEST_DATABASE_URL to the rls-live-tests DB first.
+- Local: 10 head suites / 182 tests passed, plus the probe; the moderation e2e skipped (no DB). CI: all green including Schema parity; merge state BEHIND.
+
+## mobile#314 @ 41d829d7a788a30a03b22943402209be3448804a — REQUEST CHANGES (A0 B5 C1) — DRAFTED, NOT POSTED
+- Verdict body: ops/aud-opus2-110/314_verdict.md. Posting was stopped by the platform action-safety check, so it needs the operator's go-ahead before it is posted, unchanged, at the same head.
+- Prior Opus findings: B-314-1 is closed in the UI (SafetyMenu on wins, win report target, own delete). C-314-1, C-314-2 and C-314-3 are closed.
+- B-314-2 (Sol), confirmed: no recorder or playback adapter is registered and there is no native audio module, so voice cannot record or play, even in the coach queue.
+- B-314-3 (Sol), confirmed: a rejected mailto on the safety email is not handled.
+- B-314-4 (Sol), confirmed: CommunitySafety is reachable only in the flag-gated tab, while wins are live in More.
+- B-314-5 (Sol), confirmed by probe (probe_314_voicePlayerStaleUrl.test.tsx; log probe_314_player.log, 1 passed): a refreshed URL is never loaded.
+- B-314-6 (new): "Warning sent." (CoachCommunityModerationScreen.tsx:107) appears even though the backend only sends a best-effort push. This is the mobile half of B-610-4.
+- C-314-4: community.dm.blocked is mapped, but the backend no longer emits it.
+- Local: 10 suites / 179 tests passed. The jest_314_41d8.log failure is the first probe version (wrong testID), fixed and re-run. CI: 4/4 green; merge state CLEAN.
+
+## Housekeeping
+- All my worktrees are removed: wt/aud-opus2-{626,610,326,326x310,310,314}. Probe sources are kept under ops/aud-opus2-110/.
+- A first #314 jest run hung after printing its results (open handles) and held heavy.lock. I killed only that process of mine.

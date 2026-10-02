@@ -9,7 +9,12 @@ src/ai-consent/ai-consent.constants.ts ~line 34 on main; mobile #310 copy.ts ~li
    any 180-day AI-chat purge job/config if one exists, tests.
 2. Mobile: matching copy + version on #310's branch (you are #310's copy builder for this change only; coordinate the merge-order
    note C-310-10) and in any other mobile surface that states AI retention.
-3. #611 (public pages: privacy policy, consumer health): fix every A/B in its audits and make the privacy policy state AI chat
+3. mobile #326 @ 32ed8546 (AI refusal handling; you are its builder for this round): AUD-OPUS-2 B-326-1 (after a lost response the
+   sheet says "AI help is still off" though the grant may be saved: say "not confirmed" and reconcile) and B-326-2 (the sheet's grant
+   bypasses #310's write queue and pending-withdrawal marker; next app-open drain withdraws the user's newer yes: route every grant
+   and withdrawal through ONE queue; probe on the merged #310+#326 tree), plus #310's B-310-6 (the 180-day copy; same fix as 1-2) and
+   the onboarding consent version bump to v3 AUD-OPUS-2 recommends. Merge order: #310 before #326.
+4. #611 (public pages: privacy policy, consumer health): fix every A/B in its audits and make the privacy policy state AI chat
    retention truthfully (kept until deleted; deleted with the account) — never name the clinic partner.
 Merge main first (no rebase). Update PR bodies; if a body edit is refused by a safety check, do not work around it.
 Report to /home/user/workspace/ops/reports/B-CONSENT-COPY-110.md. Final answer (<400 words): PRs + heads, tests, CI, risks.

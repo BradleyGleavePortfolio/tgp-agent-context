@@ -9,3 +9,8 @@
 
 ## 22:45 operator correction applied
 - Migration renamed to `prisma/migrations/20270222000000_scheduling_lifecycle_integrity` (20270212000000 now #607, 20270213000000 #609). Base stays main (not stacked on #632 or #607).
+
+## 23:10 backend build checkpoint (uncommitted, worktree s-sched2-be)
+- Code: access service (assignment-gated reads/books), open-slots by session_type_id, authoritative lifecycle (advisory lock per coach + in-tx re-validation + exclusion-constraint floor), SessionView (client-safe fields, meeting_link_status, cancellable/reschedulable), my-coaches, scope=past, welcome marker + per-type default link, emitter rewritten (one in-app row + real push, tap routing), reminders incl. pending_provider + link-missing wording.
+- Tests (heavy.sh jest --runInBand): scheduling-lifecycle-integrity, booking-emitter, scheduling-reminder-delivery, slot-computer-bookable, booking-reminder.job -> 5 suites / 92 tests pass; live spec skipped locally (no Postgres; runs in mwb-3-live-tests).
+- ci.yml: one additive line (live spec into mwb-3 list) = T4 trigger.
