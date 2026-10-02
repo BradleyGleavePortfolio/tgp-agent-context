@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:28 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:31 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,9 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:31 S-WEAR-2 fix round 4b: mobile #317 -> 58c2d53 (3 unread Health Connect permissions removed + exact-match test; 15 read
+  permissions remain; confirm-on-disconnect with coded failure paths). CI green. Audits: AUD-OPUS-4 + AUD-SOL-5 (after #329/#332).
+  S-WEAR-2 lane complete.
 - 13:28 S-RELEASE-MOB DONE: mobile #305 -> 92c25ec (base retargeted to main; expo-updates OTA, clinic channel, non-blocking
   launch check, publish script refuses env drift; DEP CHANGE expo-updates); NEW #330 @ 4c61d91 (Sentry native crash capture via
   config plugin; screenshots/view hierarchy/network breadcrumbs off; Sentry user = account id only); NEW #333 @ abfc5d1
