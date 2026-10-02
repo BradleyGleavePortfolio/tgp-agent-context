@@ -135,6 +135,14 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   window and no audited workflow can set it (main's flags workflow only knows SCOUT/EXTENSION) -> lane B-FLAGS objective (desired-
   state manifest on #624 per v4 4.9). update-branch: #624 -> e3e0a314, #632 -> 0ae744b6, #604 -> 12a4d423 (deltas queued).
 - B-FEE-R4 launched (Opus). Objectives written: B-UGC-2, B-FLAGS, B-CONSENT-COPY (+ S-ERRORS). Running 7/7 = 4 builders + 3 auditors.
+- 23:00 AUD-OPUS batch: RC on #627 (0/3/2), #629 (0/2/1), mobile #321 (0/2/1), #633 (0/2/3), #628 (0/2/4), mobile #322 (0/2/1);
+  APPROVE #624 @75a4e563, #608 @2759e1a0, mobile #313 delta @1e80017, #604 delta @12a4d423. #624 delta at e3e0a314 held: required
+  `danger` failed after update-branch (non-conventional title + merge commit). 23:04 operator retitled #624 (ci(env): …) and #632
+  (feat(scheduling): …) and re-ran Danger: SUCCESS. Infra Lint (not required) still fails on shellcheck SC2015 (main-wide; B-FLAGS).
+- 23:02 AUD-OPUS-2 DONE: #326 RC (B-326-1/2), #310 RC (B-310-6 = 180-day copy), #610 BLOCK 1/6/1 (new B-610-5: voice not erased on
+  deletion), #314 RC 0/5/1 (post refused by platform check; not retried; folded into B-UGC-2 from the file).
+- 22:59 B-UGC-2 launched (Opus; adds B-610-5 + C-610-4 CI DB suites). Objectives written: S-DUNNING-R3; B-CONSENT-COPY now also
+  covers #326 B-326-1/2 + #310 B-310-6 + onboarding consent v3. Next slots: B-CONSENT-COPY, B-FLAGS, S-DUNNING-R3, S-ERRORS.
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
