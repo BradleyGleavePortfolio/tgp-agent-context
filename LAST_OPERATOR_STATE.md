@@ -115,6 +115,10 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   deploy (day-1 flag ruling 11:31; #626 without the flag blocks all AI). Launched AUD-OPUS-2 (second Opus lens: #626, #326, #610,
   #314) instead of a builder because the audit queues were 10 deep. Running 7/7 = 4 builders + 3 auditors. Next builder slot:
   B-EXPORT, then S-ERRORS.
+- ~22:55 B-FIX2 DONE: #624 -> 75a4e563, #608 -> 2759e1a0 (migration 20270220000000), mobile #313 -> 1e80017 (merge-only),
+  mobile #310 -> e1dbe7f; all queued to the right lenses (#310: Sol + AUD-OPUS-2; #313 delta: Sol + AUD-OPUS). B-EXPORT launched
+  (Opus; stacked on #608; migration 20270221000000). Running 7/7 = 4 builders + 3 auditors. Non-required shellcheck SC2015 fails on
+  main (scripts/s10-core-diff-gate.sh): queued as a small T4 fix.
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
