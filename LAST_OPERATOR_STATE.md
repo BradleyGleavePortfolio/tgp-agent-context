@@ -28,24 +28,29 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
-- 10:05 B-UGC-3 done: #610 -> c710b0dc (community-live-tests 91/91; real 500 on Hall/workspace-challenge comments fixed in unreleased
+- 09:49 (real clock; the 4 entries below were first written with times that ran ahead of the clock and are corrected to commit
+  times) MERGED backend #632 (S-SCHED reminders, T2, Sol APPROVE at af8976c8) -> main 97467678. #639 dual APPROVE at 54a7aec8 ->
+  update-branch -> 2210c760 (dual delta pending). #637: Opus APPROVE, Sol RC 0/2/0 (B-637-1 apply-now verification fails open;
+  B-637-2 runbook unset re-enables defaults-on flags) -> B-FLAGS-2 re-queued for fix round 1. B-JOURNEY cancelled at ~20 min to stay
+  within 7 subagents (resume from worktree wt/bj-609 when a slot frees). Opus: #607 RC, #310 RC (A0 B1 C3), #608 delta APPROVE 4e926b35.
+- 09:35 B-UGC-3 done: #610 -> c710b0dc (community-live-tests 91/91; real 500 on Hall/workspace-challenge comments fixed in unreleased
   migration 20270211000000 sec. 5 — operator OK, prod last applied 20270205000000), mobile #314 -> 4192ba9 (native voice record +
   playback via expo-audio ~56.0.12; needs a new EAS build; operator copied expo-audio 56.0.13 into shared deps/mobile). IDEA for
   owner: make community-live-tests a required check (branch-protection change needs Bradley's words). B-EXPORT-2 done: #608 ->
   4e926b35, #636 -> 7883337f, mobile #327 -> 7e643f9b (all findings closed). All four queued to both lenses.
   Launched B-JOURNEY (#609 + mobile #312, mobile #324, B-QUIZ-OFF, setup-branch-protection.sh) and S-MWB (Programs builder phase 1).
   Lanes now: AUD-OPUS, AUD-SOL-2, B-CONSENT-2, B-FEE-R5, S-SCHED-3, B-JOURNEY, S-MWB.
-- 09:50 B-FLAGS-2 done: #637 manifest (6879d164; every entry = current prod, merging changes nothing), #638 stacked flip
+- 09:27 B-FLAGS-2 done: #637 manifest (6879d164; every entry = current prod, merging changes nothing), #638 stacked flip
   FEATURE_AI_CONSENT_LEDGER_ENABLED unset->true (draft c375b2ac), #639 SC2015 (54a7aec8, all green). Deploy plan: merge #639 ->
   #637 -> retarget #638 to main, audit, merge -> fly-env-sync plan -> apply (stage) -> fly-deploy main -> plan again (verify).
   S-SCHED-3 launched (#634 + mobile #325 fix round, both lenses' findings).
-- 09:45 S-DUNNING-R3 done: #628 -> 739e9a54, mobile #322 -> 0b4813d (all Sol+Opus A/B/C closed; CI running). Queued for both
+- 09:25 S-DUNNING-R3 done: #628 -> 739e9a54, mobile #322 -> 0b4813d (all Sol+Opus A/B/C closed; CI running). Queued for both
   lenses. OR-111-2 (operator ruling on the lane's 3 questions): (a) Stripe webhook endpoint must subscribe charge.dispute.closed —
   added to the owner Stripe checklist for the dunning flip (prompt section 7 item 2); (b) v1.0: lost disputes on a client
   subscription are settled by support by hand (dispute cycle still blocks/unblocks automatically from webhooks); (c) a repeated
   confirm reports what the first confirm paid; an invoice Stripe already paid shows $0 on that line with the plan settled — accepted.
   B-FEE-R5 launched (#627 CI + OR-111-1, then mobile #321).
-- 09:33 MERGED backend #629 (S-FEE $19.99 min / $0; Sol + Opus APPROVE at 089e8a7e after rerun attempt 2 green) -> main b9ee8e0a.
+- 09:17 MERGED backend #629 (S-FEE $19.99 min / $0; Sol + Opus APPROVE at 089e8a7e after rerun attempt 2 green) -> main b9ee8e0a.
   #632 update-branch -> af8976c8 (Sol T2 delta pending). Sol verdicts: #607 b74384fb RC 1/0/2 (A-607-4 retired membership persists
   plans under removed head); mobile #310 f85ffd36 RC 0/1/1 (B-310-8 no->yes->no clears newest withdrawal marker); Opus #634 RC
   0/4/5, #325 RC 0/2/5. B-FLAGS-2 opened #637 (manifest), #638 (stacked ledger flip), #639 (SC2015). AUD-SOL relaunched as AUD-SOL-2
