@@ -27,6 +27,19 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
   4. Won disputes / reinstatements net against the open balance. A coach who never sells again leaves an open receivable:
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
+### Agent 111 batch 1 (launched 08:06-08:10 PDT; objectives handoffs/op-26029069/lanes/)
+| Lane | Model | Scope |
+|---|---|---|
+| AUD-SOL | GPT-6.1 Sol | #604 delta, #635, #629, #634 + mobile #325, #632 delta, then #607 + mobile #310 |
+| AUD-OPUS | Claude Opus 5.5 | #604 delta, #635, #629, #634 + mobile #325, mobile #321 (T3), then #607 + mobile #310 |
+| B-FLAGS-2 | Claude Opus 5.5 | audited launch-flag manifest in fly-env-sync (deploy blocker, OR-110-4) + #633 fold-in + SC2015 PR |
+| B-CONSENT-2 | Claude Opus 5.5 | #607 consult-consent-v3 (first), mobile #326 (stack on #310), #611 fix round |
+| B-UGC-3 | Claude Opus 5.5 | #610 community-live-tests red, mobile #314 fix round (native voice record/playback) |
+| B-EXPORT-2 | Claude Opus 5.5 | #636 + mobile #327 (+ #608 if needed) |
+| S-DUNNING-R3 | Claude Opus 5.5 | #628 + mobile #322 (Sol 10+6 B, Opus 2+2 B) |
+Queue for free slots: B-FEE-R5 (#627 CI + OR-111-1), #609 (+ mobile #312), S-ERRORS (#324 + slices), #317 S14 round,
+B-QUIZ-OFF, setup-branch-protection.sh 10th check, S-REACH, coachless banner + Roman pitch, S-COACH-TOOLS, native billing screens.
+
 ### Re-verified live (07:54-07:58 PDT)
 - Production backend ba79605b (fly-deploy run 36964740404, 10-01 21:29 PDT), /health + /readyz 200 (db up), uptime matches.
   /api/me/ai-consent 401 (route live). /api/auth/signup-policy: email+apple, google off, role_choice true.
