@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:46 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:47 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -96,6 +96,13 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:47 B-JOURNEY-2 DONE (no WIP): backend #645 -> 7b6165ab (branch-protection script mirrors live exactly: linear OFF,
+  conversation OFF, strict, admins, 0 reviews, 10 checks; spec pins all; only the settings block was exercised in tests, no live
+  change; T4, needs dual audit). NEW backend #649 @aa1da69d (T3): migration 20270224000000_build_week_day1_consultation_copy (4
+  idempotent updates limited to day 1 + old text; also focus area/narrative/artifact fields; down.sql restores; seed + docs match;
+  end guard raises if Day 1 still names the diagnostic). Both green, BEHIND main.
+- 13:47 OR-112-20: keep #649's end guard; before deploying #649 run one read-only SELECT on production Build Week Day 1 rows to confirm
+  original seed text (so the guard cannot fail the deploy); deploy with migrations=apply-migrations.
 - 13:46 AUD-SOL-5 DONE (queue empty): mobile #329 @83ee0e46 BLOCK 1/1/1, #332 @61eea115 RC 0/3/1, #317 @58c2d53 RC 0/3/2
   (cancellation before fence creation, extra native reads after logout, cloud error mapping; 5 independent assertions fail). #317 =
   Opus APPROVE + Sol RC -> needs a wearables fix round (S-WEAR-3). Handoff JSON: ops/evidence/AUD-SOL-5-112/handoff-agent113.json.
