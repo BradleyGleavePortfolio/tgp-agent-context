@@ -28,6 +28,13 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 09:05 #629 dual APPROVE at d134f012 -> update-branch -> 089e8a7e; Sol delta BLOCK B-629-5 = build-and-test failed on
+  test/ci/release-evidence-gate.spec.ts "newest run wins" (spec byte-identical to main; main CI green at e5d10bd8). Operator ran
+  that spec 3/3 PASS locally at 089e8a7e (43/43) -> transient; `gh run rerun 37026913517 --failed`; then Sol + Opus delta.
+  Verdicts in: #632 Sol APPROVE b859a1c6 (T2; merges after #629); #634 Sol RC 0/4/1 + #325 Sol RC 0/1/2 (-> S-SCHED-3 lane,
+  queued); mobile #321 Opus RC 0/2/4 (T3; -> B-FEE-R5 lane, queued); #607 fix round 4 pushed b74384fb (consult-consent-v3), Sol
+  auditing #607 + #310 now; #610 new head 48860b48 (B-UGC-3). B-UGC-3 added expo-audio ~56.0.12 to mobile #314 (needs new
+  native build; approved by operator: free Expo SDK module).
 - 08:17 MERGED backend #604 (C14 throttler, T4: Sol + Opus APPROVE at e159d665, 10/10 required green, CLEAN) -> main e5d10bd8.
   Sol: #629 APPROVE d134f012 (Opus pending); #635 REQUEST CHANGES 0/1/1 (B-635-1 same-day fresh session P2002 after delete;
   C-635-1 erase pre-upgrade tombstones) -> back to B-CONSENT-2.
