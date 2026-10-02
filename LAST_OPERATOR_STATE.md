@@ -96,6 +96,13 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:40 AUD-OPUS-4 DONE (queue empty, worktree removed): mobile #329 @83ee0e46 BLOCK 1/0/2 (only A-329-1: Money page is in #332;
+  closes by #332 merge into #329 + delta), mobile #332 @61eea115 RC 0/1/4 (B-332-1: after switching period the Money page shows the
+  old period's numbers under the new label and no error on failed load), mobile #317 @58c2d53 APPROVE 0/0/2 (C-317-5 remove two
+  unread Samsung-era permissions before the Play health declaration). #332 comment lists the #641 summary-data assumptions to
+  re-check (currency, MRR cadence, breakdown sums to net, paid vs lost chargebacks).
+- 13:40 OR-112-16: B-329-1 (timed-out package create can leave a duplicate draft) = B, fix: backend honors Idempotency-Key on package
+  create (#641 fix round or small follow-up) + mobile #329 retries with the same key.
 - 13:40 B-CONSENT-4 DONE (no WIP, nothing started new): backend #635 -> 9c5ae5ef (B-635-4 coded 503 on delete failure, B-635-5
   coded 400 on bad list query; Sol's 3 probes pass; C-635-4 sub-coach chat access deferred); build-and-test red only on
   test/ci/release-evidence-gate.spec.ts:367 (known flake, untouched by the PR; fix commit 5d1bf809 was full-green) -> operator
