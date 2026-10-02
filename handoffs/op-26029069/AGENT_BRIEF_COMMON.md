@@ -67,7 +67,7 @@ anything below that bar is a day-1 blocker. You own exactly the task in your obj
   reversing that charge's own transfer; anything Stripe refuses joins the held amount. Recovery = forward-only netting from the
   coach's next transfer(s) until settled; no payout delay, no debit_negative_balances, no Account Debits, no reversal of the
   coach's other past transfers. Won disputes net the open balance; a coach who never sells again leaves an alerted receivable.
-- Migration prefixes: next free after 20270222000000 is 20270223000000 (ask the operator before taking one).
+- Migration prefixes: 20270223000000 = S-MWB (mwb_program_delivery). Next free: 20270224000000 (ask the operator before taking one).
 
 ## Sandbox limits (a sandbox crash is a tier-1 incident)
 The sandbox has 2 CPUs and 7 GB RAM, shared by up to 8 agents.

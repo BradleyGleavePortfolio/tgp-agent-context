@@ -28,6 +28,10 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 09:53 OWNER NOTE (Bradley 09:53, verbatim): "The Programs workout builder, the first big not-yet-started feature - to be clear it
+  already is msotly built, just not accessible - lots of the infra already is built". Passed to S-MWB: reuse June MWB backend
+  as-is; build only true gaps (library API, per-client clone key, program as package asset, bulk assign, saved-workout reuse);
+  most effort on mobile reachability. Migration 20270223000000 reserved for S-MWB; next free 20270224000000.
 - 09:49 (real clock; the 4 entries below were first written with times that ran ahead of the clock and are corrected to commit
   times) MERGED backend #632 (S-SCHED reminders, T2, Sol APPROVE at af8976c8) -> main 97467678. #639 dual APPROVE at 54a7aec8 ->
   update-branch -> 2210c760 (dual delta pending). #637: Opus APPROVE, Sol RC 0/2/0 (B-637-1 apply-now verification fails open;
