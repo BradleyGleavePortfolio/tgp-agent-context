@@ -14,3 +14,11 @@
 - Code: access service (assignment-gated reads/books), open-slots by session_type_id, authoritative lifecycle (advisory lock per coach + in-tx re-validation + exclusion-constraint floor), SessionView (client-safe fields, meeting_link_status, cancellable/reschedulable), my-coaches, scope=past, welcome marker + per-type default link, emitter rewritten (one in-app row + real push, tap routing), reminders incl. pending_provider + link-missing wording.
 - Tests (heavy.sh jest --runInBand): scheduling-lifecycle-integrity, booking-emitter, scheduling-reminder-delivery, slot-computer-bookable, booking-reminder.job -> 5 suites / 92 tests pass; live spec skipped locally (no Postgres; runs in mwb-3-live-tests).
 - ci.yml: one additive line (live spec into mwb-3 list) = T4 trigger.
+
+## 23:14 backend PR opened
+- PR #634 `agent110/s-sched-lifecycle` head `7284e079` onto main `7a6cfd82` (rebased; not stacked). Tier T4.
+- Local: 22 targeted suites pass (5 new/rewritten + 17 neighbours, 328 + 92 + 60 tests across runs); live spec skips locally (no Postgres), runs in mwb-3-live-tests. tsc exit 0; eslint/prettier clean; check-r75 OK (as any -1, as unknown as -2, as never -1).
+- merge-tree clean vs #632 0ae744b6, #607 e8feb0d2, #609 5fd61a1b (ci.yml line placed away from #607's insertion).
+- Added my-coaches welcome.completed_at (persistent welcome-done signal).
+- PR body: /home/user/workspace/ops/reports/S-SCHED-2-110-backend-pr-body.md
+- Next: mobile #325 commits while CI runs.
