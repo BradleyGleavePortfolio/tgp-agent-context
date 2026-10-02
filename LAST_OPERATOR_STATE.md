@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:41 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:42 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -96,6 +96,12 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:42 B-FLAGS-3 DONE (no WIP): backend #647 @3a93fbde fix(notifications) booking times in recipient zone + one inbox row per
+  event (B-643-1; reminder spec 5/5 fails on main), #648 @81c52a12 feat(notifications) Expo push delivery (C-643-2: receipts cron,
+  dead-token cleanup, Android dropped with one operator alert/hour until FCM V1 key, per-user rate limits, no health/message text on
+  lock screen, inbox hides stored duplicates; built on #647). Both 10/10 green, T4, need dual audit. Order #647 -> #648 -> #643
+  flip; #642 after #608 live. 7 follow-ups NOT STARTED (listed in #643 fix-round comment; first: move older push paths onto the
+  new sender).
 - 13:41 S-MWB-2 DONE (no WIP): backend #640 -> 213a186d (A-640-1, B-640-2..4, C-640-5..10 + Undo/Redo, 2nd-client clone 409,
   sub-coach day access, legacy archive guard; merged main f04289f9, one conflict resolved; CI running at 13:45), mobile #328 ->
   67f9ef4 (B-328-1..4, C-328-2; CI green). Both need dual re-audit. NOT STARTED: archive guard for programs referenced by #607 clinic
