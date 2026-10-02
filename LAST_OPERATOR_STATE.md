@@ -111,6 +111,9 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 14:39 #649 PRE-DEPLOY SELECT (read-only, Supabase, run as postgres): day1_rows 1, item_old/focus_old/narrative_old/artifact_old
+  all true, guard_would_raise false, diagnostic_text_left false, migration_recorded 0, unfinished_migrations 0, role_bypasses_rls
+  true -> GO for the deploy that carries #649 (if the release_command role differs from postgres, confirm it bypasses RLS).
 - 14:39 OWNER (14:38, verbatim): "start the next 4 agents - get them done as effecient as possible without loosing any quality!"
   Operator update-branch: backend #635 -> d68c4f68 (tree 70cf5c78, not the e193eb50 Opus predicted because main moved to c8e5e71f
   with #649 -> Opus merge-delta needed), mobile #321 -> 4f5b058d (merge of f34b5b99). Launched 4 lanes (files in ops/lanes):
