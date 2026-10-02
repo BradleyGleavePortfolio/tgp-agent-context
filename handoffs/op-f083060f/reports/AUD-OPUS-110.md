@@ -99,3 +99,27 @@
 - C: C-627-2 (#608 manifest columns, merge order). C-627-3 (no aged-recovery alert; reconciliation counts the receivable inside platform net).
 - Owner decision: TGP CAN end net-negative (full refund −3.20 and lost dispute −18.20 per $100 until netted; Express accounts, so TGP is liable). Mitigations present: reversal plus PayeeRecovery netting. refund_application_fee is N/A. Options: alert plus cap / payout delay / debit_negative_balances / Account Debits.
 - Local: 12 suites, 138 passed (probe logs: ops/aud-opus-110/jest_627_2c57.log, probe_627_ambig.log). CI all green at the head.
+
+## backend#629 @ 858eb40b27a3ab9967e16a52e57423c717e9e41e — REQUEST CHANGES (full T4; A0 B2 C1)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/629#issuecomment-5946235935
+- Closed: B-629-1, B-629-2 (normal path), C-629-1.
+- B-629-3 (concur with Sol): the first_published_at backfill counts invite-grant ClientPurchases; fix: filter `source IS NULL AND amount_cents > 0`.
+- B-629-4: the PACKAGE_FREE_MUST_BE_ONE_TIME copy says "switch to one-time", but PATCH to one_time with billing_interval null returns 400 "one_time packages cannot have an interval" (`??` merge at packages.service.ts:205-208; probe confirmed).
+- C-629-2: DTO 400s have no code; currency is required in the DTO but defaulted in the service. Probe: every mobile create body (no currency) gets 400.
+- Local: 6 suites, 174 passed. CI all green. Probe: ops/aud-opus-110/probe_629_mobile_bodies.spec.ts.
+
+## mobile#321 @ a9b1f49d7417c2e40dc6405f79f15f3614076a20 — REQUEST CHANGES (full T3; A0 B2 C1)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/321#issuecomment-5946247630
+- Closed: B-321-1 (coded save failures with reference, support and Sentry), C-321-1.
+- B-321-2: toBackendCreate omits the required currency, so every app create gets 400 (backend probe). Fix: `currency ?? 'usd'` plus a contract test.
+- B-321-3: an edit-mode billing change is dropped by toBackendUpdate while the app says "Changes saved"; the $0-on-recurring path loops. Fix: send the billing fields (needs B-629-4) or lock Billing in edit mode.
+- C-321-2: DTO text passes through to the UI on a 400 with no code.
+- RELEASE BLOCKER (outside the diff; route to a lane): the app has no publish UI. App-created packages stay drafts and checkout refuses them; drafts show as 'active'.
+- CI green at the head.
+
+## backend#624 @ 75a4e5633a44ea61be89279a6db84d1faf252a1a — APPROVE (T4 fix-round; A0 B0 C6)
+- Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/624#issuecomment-5946281034
+- Sol B-624-3 closed: no flyctl output is ever printed (stdout to /dev/null or the jq name+status projection; stderr only grep -q classified; EXIT trap; 13 hostile regressions).
+- Value-fragment trace: fly-env-sync has none. fly-env-truth's remote program never prints or throws value text. C-624-6: `cat ssh-stderr.txt` (fly-env-truth.yml:112) is the last raw relay (defense in depth).
+- Carried C-624-1..5. BEHIND main 4bcfb444: fresh merge-tree clean (8144a849), no new env reads on main, so a delta is expected to be integration-only.
+- Local: 6 suites, 218 passed, 1 skipped. Required CI green; shellcheck fails only on the existing s10-core-diff-gate.sh SC2015 (not required).

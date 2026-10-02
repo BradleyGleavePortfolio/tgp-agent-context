@@ -164,7 +164,25 @@ Not editable from this lane: the classifier blocked it for #604. The ready text 
 
 ### CI at d6ac47e8
 
-Pending; see the update below.
+Checked 22:45 PDT.
+
+- **All 9 required checks pass:**
+  - build-and-test (7m08s)
+  - rls-floor-guard
+  - rls-live-tests: it applied `20270212000000_clinic_onboarding_intake/migration.sql`, and `PASS test/rls/onboarding-intake-rls.spec.ts` and `helper-functions.spec.ts`
+  - mwb-3-live-tests
+  - npm audit
+  - CodeQL JS/TS
+  - Banned cast tokens
+  - build-sbom
+  - danger
+- **Migration Dry-Run:** Schema parity pass, Forward migrations apply cleanly pass, New migrations are reversible pass.
+- **Other checks:** actionlint and danger dry-run pass.
+- **shellcheck fails. It is not required, and the failure was already there:**
+  - It reports SC2015 in main's `scripts/s10-core-diff-gate.sh`, which #607 does not touch.
+  - The same check also fails on main at `10dff85c`, `bab05f44` and `8a709a68`.
+  - Sol's #607 audit had already recorded it as a known issue.
+  - mergeStateStatus is UNSTABLE only because of this check.
 
 ## #609 (C05 items 6-7: coach welcome message at onboarding complete + 13 min, and workout reminders), pushed ~22:33 PDT
 
@@ -217,9 +235,39 @@ These are not fixed here.
 
 ### CI at 5fd61a1b
 
-Pending; see the update below.
+Checked 22:50 PDT.
+
+- **All 9 required checks pass:**
+  - build-and-test (7m17s)
+  - rls-floor-guard
+  - rls-live-tests
+  - mwb-3-live-tests
+  - npm audit
+  - CodeQL JS/TS
+  - Banned cast tokens
+  - build-sbom
+  - danger
+- **Migration Dry-Run:** Schema parity pass, Forward migrations apply cleanly pass, New migrations are reversible pass. The reversibility check covers `20270213000000`.
+- **shellcheck fails. It is not required.** The SC2015 failure in main's `s10-core-diff-gate.sh` was already there before this PR.
+- **Audit note:** no live RLS test exercises #609's `CoachWelcomeSettings` / `ClientEngagementJob` policies. #609 does not touch ci.yml or test/rls, so its RLS is covered only by migration dry-run and static review.
 
 ## Migration prefixes taken by this lane (please record)
 
 - `20270212000000`: #607, clinic_onboarding_intake
 - `20270213000000`: #609, clinic_engagement
+
+## Wrap-up (22:52 PDT)
+
+- **Remote heads**, verified with `ls-remote`. main is still `4bcfb444`.
+  - #604: `87d09b1d`
+  - #607: `d6ac47e8`
+  - #609: `5fd61a1b`
+- **Worktrees** wt/btrain2-604, wt/btrain2-607 and wt/btrain2-609 are removed. The local branches stay for reference.
+- **Not done, because the classifier blocked it:** PR body edits and PR comments. Ready-to-apply bodies:
+  - `btrain2/604-body.new.md`
+  - `btrain2/607-body.forward-merge.md` (append it)
+  - `btrain2/609-body.forward-merge.md` (append it)
+- **Decisions needed** (my recommended default comes first in each):
+  1. **#604:** both T4 lenses re-attest `87d09b1d`, then merge. It has no dependency on #607 or #609.
+  2. **INT-607-1:** run a bounded #607 fix round. It should make API rule (b), SQL rule (b), and the head in rule (c) require main's explicit membership row, with unit and live RLS phantom-chain tests. Then run one T4 re-audit over `245da2e7..<fix head>` covering the merge, the follow-ups and the fix. The alternative is to accept the risk because no phantom coach rows exist. That would need a production query by the operator, and I do not recommend it.
+  3. **#609:** re-grade to T4 and run two first audits after #607's fix round, plus an env-truth registration for its three env names.
