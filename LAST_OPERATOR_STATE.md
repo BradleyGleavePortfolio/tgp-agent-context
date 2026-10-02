@@ -96,6 +96,13 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:41 S-MWB-2 DONE (no WIP): backend #640 -> 213a186d (A-640-1, B-640-2..4, C-640-5..10 + Undo/Redo, 2nd-client clone 409,
+  sub-coach day access, legacy archive guard; merged main f04289f9, one conflict resolved; CI running at 13:45), mobile #328 ->
+  67f9ef4 (B-328-1..4, C-328-2; CI green). Both need dual re-audit. NOT STARTED: archive guard for programs referenced by #607 clinic
+  program sets; program copies in #608 erasure manifest. Behaviour change: package programs reach buyers via delivery job (~1 min).
+- 13:41 OR-112-18: autosave owner/visibility check (any tenant sub-coach can edit any plan; pre-existing) = before-launch follow-up;
+  manifest flips after #640 deploys: FEATURE_MWB_TEMPLATES; FEATURE_MWB_AUTOSAVE_UNDO + MWB_AUTOSAVE_LOCK_TOKEN_SECRET;
+  FEATURE_NAMED_REGIMES; then FEATURE_MWB_AI_LIVE_CREATE; clinic EAS keeps Programs + autosave on; order #640 -> deploy -> #328.
 - 13:41 B-EXPORT-3 DONE (no WIP): backend #608 -> bdadfcb4, #636 -> 608985cf (stacked on #608), mobile #327 -> 395c3312; all CI
   green. Order for 113: dual audit #636 -> merge #636 into #608's branch -> dual delta #608 -> merge -> deploy (run #636's C-636-6
   pre-check first: the migration block in a rolled-back txn as deploy role) -> re-audit #327 -> merge after #608/#636 deployed.
