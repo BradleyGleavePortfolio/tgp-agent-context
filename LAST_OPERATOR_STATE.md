@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:44 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:46 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -96,6 +96,14 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:46 S-COACH-BE-2 DONE (no WIP): backend #641 -> bb17e19a (B-641-1 real dunning email time, B-641-2 lost chargeback not paid,
+  B-641-3 one currency per summary + MONEY_CURRENCY_INVALID, B-641-4 MRR from real billing schedule, C-641-1/3/4 incl. tax CSV export
+  route; 5/5 fail before), NEW #646 @ea919f6b fix(payments) client Stripe secrets removed from coach purchases/detail/failed/earnings
+  + package subscribers routes (5/6 fail before; 131/131). Both all green; need dual audit (#646 T3+).
+- 13:46 OR-112-19: Connect URLs via manifest PR after #641 deploys (prefer https://app.trygrowthproject.com if it serves
+  /api/v1/connect/onboarding/return|refresh, else the fly.dev host; 113 probes); billing schedule stays package-sourced (no schema
+  change); GET /v1/checkout/purchases must stop returning completed purchases' client secret (follow-up before launch); Money must
+  read #628 sent-delivery rows once #628 merges.
 - 13:44 S-SCHED-4 DONE: backend #634 round 5 -> 4d987916 (B-634-2a first-claim catch-up window, B-634-2b moved-later rows
   'parked', B-634-6 safeDiagnostic on all reminder logs + recovery_failed, C-634-5 seed welcome marker; 19 green + 1 skipped; 7/8 new
   tests fail on d1661ab8; comment 5961064570; main NOT merged in; migration 20270222000000 unchanged). Needs Sol re-audit + Opus
