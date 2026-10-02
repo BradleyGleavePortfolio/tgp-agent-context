@@ -28,6 +28,12 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 10:31 S-MWB done: backend #640 (2ac6395f, T4; migration 20270223000000) + mobile #328 (dbd5ceb, T3): Programs tab, week x day grid
+  into the existing builder, saved workouts, bulk assign (per-client results, idempotent), program in packages incl. $0 grants.
+  Rulings: clinic EAS profile keeps EXPO_PUBLIC_FF_MWB_PROGRAMS/AUTOSAVE on; backend FEATURE_MWB_TEMPLATES, FEATURE_MWB_AUTOSAVE_UNDO
+  (+ MWB_AUTOSAVE_LOCK_TOKEN_SECRET), FEATURE_NAMED_REGIMES flip via manifest when #640 deploys; routes ungated by tier. Open:
+  builder undo button (spec says autosave AND undo -> follow-up lane), sub-coach day access, June clone route 2nd-client 409, archive
+  guard after #607. Launched AUD-OPUS-2 (second Opus lens: #628/#322, #610/#314, #640/#328) to balance the audit queue.
 - 10:24 S-SCHED-3 done: #634 -> 2a07ab25, mobile #325 -> 13b8a8f (all A/B/C closed; CI green). Queued to both lenses after #637/#638.
   Rulings: pre-move warning ships now; canonical support address Bradleyapple1031@gmail.com (SupportInbox hello@ goes);
   run #634's two pre-deploy zero-row queries (read-only) before deploying its migration. Launched S-COACH (coach wizard + Money).
