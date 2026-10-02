@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:27 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:28 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,13 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:28 S-RELEASE-MOB DONE: mobile #305 -> 92c25ec (base retargeted to main; expo-updates OTA, clinic channel, non-blocking
+  launch check, publish script refuses env drift; DEP CHANGE expo-updates); NEW #330 @ 4c61d91 (Sentry native crash capture via
+  config plugin; screenshots/view hierarchy/network breadcrumbs off; Sentry user = account id only); NEW #333 @ abfc5d1
+  (release-env check in EAS pre-install; clinic requires live Stripe pk + API/Supabase/Sentry + 11 eas.json values). All CI green.
+  RULINGS: live Stripe key REQUIRED on clinic + production builds; before merging #333 the operator verifies the EAS environment
+  values (check:release-env) so builds do not break; merge order #333 -> #330 -> #305, then one preview build + device check (forced
+  pre-JS crash reaches Sentry); keep the Sentry plugin until Expo supports Sentry SDK 8. Audits: AUD-OPUS-3 + AUD-SOL-3 (after #331).
 - 13:27 B-JOURNEY-2 DONE: mobile #324 -> e7c403f3 (B-324-1 SupportEmailFallback; one support constant + stricter guard);
   backend #644 @ 9697c735 B-QUIZ-OFF (DiagnosticModule unloaded; 3 quiz routes 404; no migration) -> operator update-branch ->
   d32dcfca; backend #645 @ aa6a80f1 (protection script lists the 10 live required checks incl. Schema parity, T4).
