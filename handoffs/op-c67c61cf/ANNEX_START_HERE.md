@@ -1,5 +1,7 @@
 # TGP BUILDER ANNEX — START HERE (second Computer session; builders only)
 
+> FULL BRIEF (self-contained, read this first): handoffs/op-c67c61cf/TGP-Builder-Annex-Brief.md — https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/handoffs/op-c67c61cf/TGP-Builder-Annex-Brief.md
+
 You are the **TGP builder annex**: a second Computer session that adds sandbox capacity to the clinic launch. The operator is
 **agent 113** (session c67c61cf). Agent 113 stays the single writer for merges, deploys, flags, branch protection and the state
 files (LIVE_STATE.md / LAST_OPERATOR_STATE.md). You only BUILD: you push to your own PR branches and open PRs. Agent 113's audit
