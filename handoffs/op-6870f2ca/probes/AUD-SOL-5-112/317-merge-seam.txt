@@ -1,0 +1,34 @@
+fd151304a6d1e468cf7935c35453749539b57218
+100644 556a642f320ccc6e509fd7171c5c6d517840bdd1 1	src/hooks/useHealthConnectSync.test.tsx
+100644 d89eb84066334372d4b5b7b6231e74d18f2a6af5 3	src/hooks/useHealthConnectSync.test.tsx
+100644 a7e4a4d95aa633b95ec5af8bb5d9949ad7445e15 1	src/screens/client/wearables/ConnectProviderSheet.tsx
+100644 740d6c0ef432acabe47c71365a07c502aaea2879 2	src/screens/client/wearables/ConnectProviderSheet.tsx
+100644 45b898e297676dee48aaee60b5a1ed3666aeebcd 3	src/screens/client/wearables/ConnectProviderSheet.tsx
+100644 ceb33c45685ce49e98205abf8e268d65aa0a0333 1	src/services/authActions.ts
+100644 dcec3b879ea2b795309b656b6c66c06fbcff597e 2	src/services/authActions.ts
+100644 8c138ae7a077c912f5dcfb317f3150c56d52a6d3 3	src/services/authActions.ts
+100644 6a482c9a929a97c75b641beaf9bdd59a10a81518 1	src/services/health/healthConnect/__tests__/healthConnectSyncService.test.ts
+100644 26749511e1d802fa8d8d2bfea2b3d116ecd9ea28 2	src/services/health/healthConnect/__tests__/healthConnectSyncService.test.ts
+100644 7cfce55e2b4a6adc7e6620c06e5629be166ce7e3 3	src/services/health/healthConnect/__tests__/healthConnectSyncService.test.ts
+100644 11e0b51a470721677369f773e8423cc58428d174 1	src/services/health/healthConnect/healthConnectSyncService.ts
+100644 8cc23e1cbe730554273f8ade133abdfedf1f224f 2	src/services/health/healthConnect/healthConnectSyncService.ts
+100644 63ea60a3caea3212b11121fbbca4bf2bd25536d8 3	src/services/health/healthConnect/healthConnectSyncService.ts
+100644 1d9154b5ed9e5f8ee9f9e0b1333ad867eec7aefe 1	src/services/health/onDeviceConnect.ts
+100644 89e43059b72fe1e1e25d11561ecccc834f3f75da 2	src/services/health/onDeviceConnect.ts
+100644 b9c0eea7e69b4023dd1bc4a435a576ff8b5f5475 3	src/services/health/onDeviceConnect.ts
+
+Auto-merging src/config/featureFlags.ts
+CONFLICT (modify/delete): src/hooks/useHealthConnectSync.test.tsx deleted in 54916fa^1 and modified in 54916fa^2.  Version 54916fa^2 of src/hooks/useHealthConnectSync.test.tsx left in tree.
+Auto-merging src/screens/client/wearables/ConnectProviderSheet.tsx
+CONFLICT (content): Merge conflict in src/screens/client/wearables/ConnectProviderSheet.tsx
+Auto-merging src/services/__tests__/authActions.test.ts
+Auto-merging src/services/authActions.ts
+CONFLICT (content): Merge conflict in src/services/authActions.ts
+Auto-merging src/services/health/healthConnect/__tests__/healthConnectClient.test.ts
+Auto-merging src/services/health/healthConnect/__tests__/healthConnectSyncService.test.ts
+CONFLICT (content): Merge conflict in src/services/health/healthConnect/__tests__/healthConnectSyncService.test.ts
+Auto-merging src/services/health/healthConnect/healthConnectClient.ts
+Auto-merging src/services/health/healthConnect/healthConnectSyncService.ts
+CONFLICT (content): Merge conflict in src/services/health/healthConnect/healthConnectSyncService.ts
+Auto-merging src/services/health/onDeviceConnect.ts
+CONFLICT (content): Merge conflict in src/services/health/onDeviceConnect.ts

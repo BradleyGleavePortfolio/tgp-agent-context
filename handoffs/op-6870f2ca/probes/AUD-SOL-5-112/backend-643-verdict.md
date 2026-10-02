@@ -1,0 +1,23 @@
+AUDIT GPT-6.1 Sol — growth-project-backend#643 @ f21b3c632a80037c852f91e5d41e33d31d99ef9e — VERDICT: REQUEST CHANGES
+
+Independent AUD-SOL-5 / agent 112. A0 / B2 / C1.
+
+The complete diff correctly sets the literal `on` accepted by the two cron handlers, and merging alone does not apply secrets or restart production. ([manifest diff](https://github.com/BradleyGleavePortfolio/growth-project-backend/commit/f21b3c632a80037c852f91e5d41e33d31d99ef9e), [cron gates](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/f21b3c632a80037c852f91e5d41e33d31d99ef9e/src/scheduling/jobs/reminder.job.ts#L53-L101), [operator-only apply workflow](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/f21b3c632a80037c852f91e5d41e33d31d99ef9e/.github/workflows/fly-env-sync.yml#L60-L100))
+
+The enabled sweeps select scheduled sessions, and database delivery keys prevent two machines from claiming the same reminder; this does not establish device delivery or a correct installed-app inbox. ([`reminder.job.ts:118-183`](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/f21b3c632a80037c852f91e5d41e33d31d99ef9e/src/scheduling/jobs/reminder.job.ts#L118-L183))
+
+**B-643-1 — Enabling the launch switch does not deliver a device reminder.** `BookingEmitter.writeBoth` inserts `inapp` and `push` rows through `createNotification`, but that method only creates a database row: neither reminder reaches `pushToUser` or another device dispatcher. ([`booking.emitter.ts:207-237`](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/f21b3c632a80037c852f91e5d41e33d31d99ef9e/src/notifications/emitters/booking.emitter.ts#L207-L237), [`notifications.service.ts:297-354`](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/f21b3c632a80037c852f91e5d41e33d31d99ef9e/src/notifications/notifications.service.ts#L297-L354))
+
+Minimal fix: keep this flip blocked until a prerequisite routes eligible booking reminders through real push delivery with preference checks and bounded retry/idempotency; prove one push to each eligible participant and zero pushes when disabled or opted out. The PR already acknowledges this gap, but deferring it after activation does not meet the owner’s launch quality bar. ([acknowledged runtime risk](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/643))
+
+**B-643-2 — The flip creates duplicate visible inbox items and double unread badges.** `writeBoth` writes two rows per participant, whereas `listNotifications` and its unread count filter by user, not `channel`; installed mobile builds receive both copies, not one reminder. ([`booking.emitter.ts:215-229`](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/f21b3c632a80037c852f91e5d41e33d31d99ef9e/src/notifications/emitters/booking.emitter.ts#L215-L229), [`notifications.service.ts:360-393`](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/f21b3c632a80037c852f91e5d41e33d31d99ef9e/src/notifications/notifications.service.ts#L360-L393))
+
+Minimal fix: show/count only canonical in-app rows, or use one durable notification with separate delivery state; test the real emitter plus inbox/count, not only a mocked emitter. This is an activation defect even though its implementation predates the one-line PR. ([activation risk acknowledged by builder](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/643))
+
+**C-643-1 — Optional follow-up: recipient-local scheduling copy.** Reminder bodies hard-code UTC time, so recipients outside UTC see the UTC hour instead of their local appointment hour. ([`booking.emitter.ts:166-200,244-253`](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/f21b3c632a80037c852f91e5d41e33d31d99ef9e/src/notifications/emitters/booking.emitter.ts#L166-L253)) Render the structured timestamp in the recipient's timezone and test a non-UTC recipient.
+
+Verification: exact-head manifest validation passed, hash `e62824ed6cae12958219bb38efd4e035aa36c06f7d68570d4de76027c3b254fa`, matching the builder’s acceptance evidence; all 10 required checks are green at this exact head. ([PR evidence](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/643), [checks](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/643/checks))
+
+Recommended operator sequence: build/deploy the notification-delivery prerequisite, re-audit the activation, then merge/apply this switch. Do not bundle a manifest apply with #642 until its Google-deletion prerequisite is closed.
+
+No push, merge, workflow dispatch or production action by this auditor.

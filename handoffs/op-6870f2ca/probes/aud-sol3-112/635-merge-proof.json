@@ -1,0 +1,22 @@
+{
+  "head": "c2688010c9a665e70106123fae6a8a8d35c7df83",
+  "first_merge": {
+    "commit": "526036e877817b60c0fc5d51cb86d27a3ec08cfe",
+    "parents": ["e7f67576fddfe77418b51a653d3492fcb43fba5f", "e867fe628f90981f55dce2011ffbb00cfd61df8e"],
+    "candidate_tree": "a312ce66b88377dcd491f92fb2196786d1cfb602",
+    "merge_tree_result": "a312ce66b88377dcd491f92fb2196786d1cfb602",
+    "own_patch_id_before": "a29056489e06ffa88781c0a1e6c7babd70dc12a7",
+    "own_patch_id_after": "a29056489e06ffa88781c0a1e6c7babd70dc12a7"
+  },
+  "second_merge": {
+    "commit": "c2688010c9a665e70106123fae6a8a8d35c7df83",
+    "parents": ["98af609e415fa33eeacbf1a13a7264d78d100468", "3bd6215b0ff438dc7d790d79305cd2271968cd16"],
+    "candidate_tree": "68bc6fbe3f87f47f937626c102d3c9ec64edd5d1",
+    "merge_tree_result": "68bc6fbe3f87f47f937626c102d3c9ec64edd5d1",
+    "own_patch_id_before": "bb8ff7ab5ad3f5032dd62364dd6234705098b487",
+    "own_patch_id_after": "bb8ff7ab5ad3f5032dd62364dd6234705098b487"
+  },
+  "patch_method": "git diff -U0 respective-actual-main-merge-base own-head | git patch-id --stable; compare to git diff -U0 merged-main merge-commit",
+  "own_fix_commits": ["653a9bfb", "98af609e"],
+  "diff_check": "git diff --check e7f67576 HEAD: exit 0"
+}

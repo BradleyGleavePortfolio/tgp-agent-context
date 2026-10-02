@@ -1,0 +1,15 @@
+Banned cast tokens (R75 / R100.A2)	pass	13s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322460/job/110998479519	
+CodeQL	pass	3s	https://github.com/BradleyGleavePortfolio/growth-project-backend/runs/110999653400	
+CodeQL JS/TS (javascript-typescript)	pass	3m13s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322494/job/110998478586	
+Schema parity (migrations match schema.prisma)	pass	1m2s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322736/job/110998480631	
+build-and-test	pass	7m14s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322530/job/110998479251	
+build-sbom	pass	21s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322578/job/110998479813	
+comment-deploy-readiness	pass	7s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322652/job/110998943936	
+danger	pass	34s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322595/job/110998479856	
+mwb-3-live-tests	pass	2m50s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322530/job/110998479266	
+npm audit (high+critical, whole graph)	pass	14s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322579/job/110998480063	
+rls-floor-guard	pass	16s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322530/job/110998479340	
+rls-live-tests	pass	1m50s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322530/job/110998478941	
+size-label	pass	5s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322675/job/110998479805	
+test-deploy-readiness	pass	1m14s	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322652/job/110998480328	
+deploy-readiness-gate	skipping	0	https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37055322652/job/110998482293	

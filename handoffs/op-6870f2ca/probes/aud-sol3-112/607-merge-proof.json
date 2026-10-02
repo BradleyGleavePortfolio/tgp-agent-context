@@ -1,0 +1,20 @@
+{
+  "repository": "BradleyGleavePortfolio/growth-project-backend",
+  "pull_request": 607,
+  "head": "b4750d053b466453ee9b34808abd405b85e5a892",
+  "parents": [
+    "f6fa244bd60dab4851571a83328c254791151ce2",
+    "3bd6215b0ff438dc7d790d79305cd2271968cd16"
+  ],
+  "candidate_tree": "1b3108b72f222d4ed029cbdee21d8e7354abba80",
+  "independently_reconstructed_merge_tree": "1b3108b72f222d4ed029cbdee21d8e7354abba80",
+  "old_own_zero_context_stable_patch_id": "7c1332111510c5143550dc1493adc22f308d01af",
+  "new_own_zero_context_stable_patch_id": "7c1332111510c5143550dc1493adc22f308d01af",
+  "diff_check": "passed",
+  "verdict_posted": false,
+  "blocking_required_check": "danger",
+  "blocking_reason": "PR title does not satisfy Conventional Commits requirement",
+  "failure_job_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37052493838/job/110989048264",
+  "feedback_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/607#issuecomment-5922835269",
+  "last_observation_utc": "2026-10-02T19:27:54Z"
+}

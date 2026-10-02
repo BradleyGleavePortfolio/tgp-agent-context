@@ -1,0 +1,50 @@
+[
+  {
+    "repo": "growth-project-backend",
+    "pr": 642,
+    "head": "859509843e787afab1d7aa172381478b93f3ad94",
+    "verdict": "REQUEST CHANGES",
+    "A": 0, "B": 1, "C": 0,
+    "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/642#issuecomment-5960161965"
+  },
+  {
+    "repo": "growth-project-backend",
+    "pr": 643,
+    "head": "f21b3c632a80037c852f91e5d41e33d31d99ef9e",
+    "verdict": "REQUEST CHANGES",
+    "A": 0, "B": 2, "C": 1,
+    "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/643#issuecomment-5960175016"
+  },
+  {
+    "repo": "growth-project-backend",
+    "pr": 641,
+    "head": "563e3f80f913dd2a2b4efa5099d5e5944dabb19d",
+    "verdict": "REQUEST CHANGES",
+    "A": 0, "B": 4, "C": 4,
+    "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/641#issuecomment-5960713012"
+  },
+  {
+    "repo": "growth-project-mobile",
+    "pr": 329,
+    "head": "4071d0ce40d2c451addf1540654c2b16e5f66395",
+    "verdict": "BLOCK",
+    "A": 1, "B": 4, "C": 4,
+    "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/329#issuecomment-5960771086"
+  },
+  {
+    "repo": "growth-project-mobile",
+    "pr": 312,
+    "head": "90e78abe92ed94aea5f116fe630eb96c4c5f7b5a",
+    "verdict": "REQUEST CHANGES",
+    "A": 0, "B": 2, "C": 2,
+    "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/312#issuecomment-5960816016"
+  },
+  {
+    "repo": "growth-project-backend",
+    "pr": 609,
+    "head": "40616dcfa273501f1314890fa8966144b334cbdb",
+    "verdict": "REQUEST CHANGES",
+    "A": 0, "B": 4, "C": 4,
+    "comment_url": "https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/609#issuecomment-5960820683"
+  }
+]

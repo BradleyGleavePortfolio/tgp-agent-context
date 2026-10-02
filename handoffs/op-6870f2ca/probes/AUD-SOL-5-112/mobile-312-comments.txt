@@ -1,0 +1,46 @@
+https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/312#issuecomment-5960043718
+AUDIT Claude Opus 5.5 — growth-project-mobile#312 @ 90e78abe92ed94aea5f116fe630eb96c4c5f7b5a — VERDICT: REQUEST CHANGES
+
+Audited as the client half of backend #609, which is T4 (my RC at `40616dcf`: [5960037347](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/609#issuecomment-5960037347)). There is no prior AUDIT comment on this thread. **A0 / B1 / C2.**
+
+### Scope
+- **Commits:** `5b26e1f`, merge `608470e` (main `e3986e89`) and fix `90e78ab`.
+- **Files:** 7: `App.tsx`, `events.ts`, `NotificationPreferencesScreen.tsx`, `timezoneSync.ts`, two test files and a README.
+- **Merge with current main:** `git merge-tree` against main `2c17c241` (#310 merged) is conflict-free.
+
+### Verified
+- **Contract matches #609 at `40616dcf`.**
+  - The toggle PATCHes exactly `{ workout_reminder_push, workout_reminder_inapp }`. Backend `UpdateNotificationPreferencesDto` accepts both, and `getPreferences` defaults both to `true` when no row exists.
+  - The mount read takes the server value (`workoutRemindersFromServer`), so a stale local copy never wins. When offline, the local value stands.
+- **Timezone sync (TZ-1).**
+  - The cache stamp is scoped to `<sub>|<zone>`. With no readable `sub`, it always sends and caches nothing.
+  - A failed PATCH is not cached.
+  - It sends only the IANA zone, of at most 64 characters. The backend falls back to its default zone on an invalid value.
+  - It runs on mount and on every auth change, independent of push permission, and never prompts.
+- **Copy.** "Workout reminders" / "A short note from Roman at your preferred training time on session days." has no exclamation marks and no emojis, and makes no medical claims.
+- **CI at this exact head:** Typecheck/lint/test, Analyze (js-ts) and Analyze (actions) are all SUCCESS.
+
+### B-312-1: the new toggle's failure path shows one generic message for every error, with no reference ID and no Sentry report
+- **Evidence:** `NotificationPreferencesScreen.tsx:192-204`.
+  - Any rejection from `notificationsApi.updatePreferences` gives `Alert.alert('Could not save preference', 'Please check your connection and try again.')`.
+  - It does not read the status or machine code. A 400 (for example, an older backend rejecting the new fields, the very path the PR body names), a 401 or a 5xx all tell the user to check their connection, which is false for them.
+  - An unknown failure shows no request ID and is not reported.
+  - This is the binding no-generic-errors rule (owner 13:34). This PR routes a new control through the path and documents it as the designed failure behaviour, so it is in scope.
+- **Minimal fix:** in that catch, branch on the error.
+  - No response (network): keep "Could not save your workout reminder setting. Check your connection and try again."
+  - 401: route through the existing auth-failure handling (log in again).
+  - 4xx/5xx or unknown: "Your workout reminder setting could not be saved, so it was left as it was. Try again in a moment, or contact support with reference <request_id>." Report it through the existing `reportUnexpected` (`src/lib/consultation/report.ts:15`).
+  - Add one test per branch.
+
+### C (optional)
+- **C-312-2: coaches see a toggle that does nothing for them.** The screen is shared by every role, but #609 sends reminders only to `role: 'student'` (`workout-reminder.service.ts` `runOnce`). Fix: hide the row for coach and owner roles.
+- **C-312-3: the timezone resyncs only on cold start or an auth change.** A client who travels with the app open keeps the old zone, so reminders fire at the wrong local time until the next relaunch. Fix: also call `syncDeviceTimezone` on the `AppState` change to `active`. It is already de-duplicated by the stamp.
+
+### Release order (operator)
+1. Backend #609 is merged and deployed first: the new preference fields must exist server-side before a build carries this toggle.
+2. Then merge this PR.
+3. The standing gate also applies: no mobile build carrying #310 ships until backend #635 is deployed.
+
+No push, merge, dispatch or production action by this auditor.
+
+

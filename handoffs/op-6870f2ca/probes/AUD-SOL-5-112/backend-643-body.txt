@@ -1,0 +1,61 @@
+## Tier header
+
+- **Tier:** T4
+- **Why:** production ops. This flips a production launch switch (`BOOKING_REMINDERS_ENABLED`) through the desired-state manifest, which starts two production cron sweeps that write notifications for every scheduled booking. Merging alone changes nothing. Production changes only when the operator runs `Fly Env Sync (operator)` in apply mode.
+- **T4 trigger scan:** production flag flip that starts user-facing notifications. No code change. No CI-gate file touched.
+- **T3 trigger scan:** none.
+- **Bounded T1:** none.
+- **Builder-owner:** B-FLAGS-3 (agent 112, Claude Opus 5.5 builder).
+- **Acceptance evidence:** see below.
+- **Promotion triggers:** n/a (already T4; one line).
+
+Base `main` @ 3bd6215b (= production; it contains #632 @ 97467678, which is deployed). Operator ruling OR-110-5: reminders ON at launch.
+
+## The flip (one line)
+
+```diff
+-    "BOOKING_REMINDERS_ENABLED": "unset",
++    "BOOKING_REMINDERS_ENABLED": "on",
+```
+
+This must be the literal `on`. `src/scheduling/jobs/reminder.job.ts:59` and `:84` enable only on `process.env.BOOKING_REMINDERS_ENABLED === 'on'`. `ENV_RULES` declares `values: ['on','off']` and `unsetIs: 'off'` (`src/common/env-validation.ts:1115-1123`). The manifest validator rejects `true` (`test/ci/fly-env-sync-behavior.spec.ts:765-770`). The `gates` text is still accurate, so it is unchanged.
+
+## Safety from code (head f21b3c63 = main 3bd6215b plus the one line; read-only)
+
+**With zero live bookings, both sweeps are a no-op.**
+- 1 h sweep: `*/5 * * * *` UTC, window [now+55m, now+65m] (`reminder.job.ts:54-76`). 24 h sweep: `*/15 * * * *` UTC, window [now+23h45m, now+24h15m] (`:79-101`).
+- Each tick runs one indexed `coachingSession.findMany` with `status:'scheduled'` and `start_at` in the window (`:118-124`). With no rows, the loop at `:128` does not run and nothing is written. The summary log line only fires when `due.length > 0` (`:159-163`), so there is no log noise.
+
+**Idempotent across ticks and Fly machines.**
+- Before any emit, each (session, user, kind) is claimed by inserting a `NotificationDeliveryLog` row (`reminder.job.ts:142-146`, `:170-185`). That row is unique on `[session_id, user_id, kind]` (`prisma/schema.prisma:2104`). When two machines or two overlapping ticks race, the second gets the unique violation and skips.
+
+**Delivery failures cannot cause errors or retry storms.**
+- The claim happens before the emit, so a failed emit is never re-sent. Delivery is at most once, and nothing loops.
+- The emit is wrapped in try/catch and failures are logged as a `warn` only (`reminder.job.ts:148-155`). `BookingEmitter.writeBoth` also catches internally and never throws (`src/notifications/emitters/booking.emitter.ts:231-237`).
+- If the DB itself fails on `findMany`, the job throws. `@nestjs/schedule` 6.1.3 (`ScheduleExplorer.wrapFunctionInTryCatchBlocks`) catches and logs it, and the next attempt is simply the next scheduled tick (5 or 15 min). There are no retries in between.
+- **There is no FCM or APNs call in this path.** `emitReminder24h` and `emitReminder1h` (`booking.emitter.ts:166-203`) call `NotificationsService.createNotification` twice, once with `channel:'inapp'` and once with `channel:'push'`. `createNotification` (`src/notifications/notifications.service.ts:297-354`) checks preferences and the 60-second per-user/kind push throttle (`:331-342`), then only inserts a `Notification` row (`:344`). The Expo SDK is called only by `pushToCoach` / `pushToUser` (`:480-631`), which this path never reaches. So a missing Android FCM key cannot produce errors, ticket failures or retries here.
+
+## Open risks for the operator (pre-existing; not changed by this PR)
+
+These come from code that predates this flip. Turning reminders on is what makes users see them.
+1. **No device push for reminders.** The `channel:'push'` row is stored but never sent to a device (see above). Reminders appear only in the in-app inbox. The other booking and message emitters share this pattern.
+2. **Each reminder appears twice in the inbox.** `listNotifications` filters only on `user_id` (`notifications.service.ts:360-385`). The unread count (`:391`, and `getUnreadCount` at `:461`) does not filter on channel either. Mobile `fetchNotifications` (`src/services/notificationsApi.ts`) renders whatever the API returns. Each reminder therefore shows as 2 items and adds 2 to the unread count, for both client and coach.
+3. **Times are shown in UTC.** The body text is `... at HH:MM UTC` (`booking.emitter.ts:167-168,187-188`, `formatTime`). Mobile has no special handling for `booking_reminder_*` kinds, so users read the time in UTC.
+
+Recommended default: merge and apply this flip as ruled (OR-110-5), and open one follow-up notification lane (T2/T3) that (a) sends `channel:'push'` rows through `pushToUser`, (b) shows only `inapp` rows in the inbox and the unread count, and (c) renders reminder times in the recipient's time zone. If the owner bar says reminders must not ship with risk 2 or 3, hold the apply until that lane is deployed.
+
+## Sequence (docs/runbooks/launch-flags.md)
+
+1. The operator merges this PR.
+2. `Fly Env Sync (operator)`, `mode=plan`. Expected row: `BOOKING_REMINDERS_ENABLED | flag | on | absent | absent | set | not on Fly`, `Plan: 1 to set, 0 to unset`.
+3. `mode=apply confirm=SET`. #632 is already deployed, so add `deploy_staged=true` (one rolling restart, then proof inside every started machine; pinned by `fly-env-sync-behavior.spec.ts:619-633`), or let the staged value ride the next backend deploy.
+4. Run plan again. The row must read `Deployed | match | keep`.
+
+**Rollback / kill:** `unsetIs: 'off'`. Open a one-line PR back to `"unset"` and apply it with `deploy_staged=true`. In an emergency, run `fly secrets unset -a backend-spring-lake-3890 BOOKING_REMINDERS_ENABLED` first (runbook kill-switch table, line 120).
+
+## Acceptance evidence (head f21b3c63)
+
+- `node scripts/fly-env/fly-env-manifest.js validate .github/fly-env-desired-state.json src/common/env-validation.ts` prints `Desired state OK: 26 flags (2 declared with a value), 27 secrets, 14 excluded; manifest sha256 e62824ed6cae12958219bb38efd4e035aa36c06f7d68570d4de76027c3b254fa`.
+- `heavy.sh npx jest --runInBand --forceExit test/ci/fly-env-manifest.spec.ts test/ci/fly-env-sync-behavior.spec.ts test/ci/fly-env-workflows.spec.ts test/booking-reminder.job.spec.ts test/prod-readiness/env-registration.spec.ts`: 5 suites, 181/181 passed. `fly-env-manifest.spec.ts` alone is 67/67, the same as the baseline.
+- `prettier --check .github/fly-env-desired-state.json`: clean. No test edits.
+

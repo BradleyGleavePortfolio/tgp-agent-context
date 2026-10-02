@@ -1,0 +1,61 @@
+## Tier header
+
+- **Tier:** T4
+- **Why:** production ops. It copies a production secret (`GOOGLE_CLIENT_IDS`, the Google sign-in audience) from GitHub Actions to Fly through the desired-state manifest, and that turns Google sign-in on for every installed build. Merging alone changes nothing. Production changes only when the operator runs `Fly Env Sync (operator)` in apply mode.
+- **T4 trigger scan:** production secret and sign-in surface (auth). No code change. No CI-gate file touched (`.github/fly-env-desired-state.json` is the data the sync workflow reads; it is not a merge gate).
+- **T3 trigger scan:** none.
+- **Bounded T1:** none.
+- **Builder-owner:** B-FLAGS-3 (agent 112, Claude Opus 5.5 builder).
+- **Acceptance evidence:** see below.
+- **Promotion triggers:** n/a (already T4; one line).
+
+Base `main` @ 3bd6215b (= production). Owner 10-01 10:01: "Google sign-in on day 1".
+
+## The flip (one line)
+
+```diff
+-    "GOOGLE_CLIENT_IDS": "unset",
++    "GOOGLE_CLIENT_IDS": "github-secret",
+```
+
+The `gates` text for this name is still true after the flip ("The GitHub secret GOOGLE_CLIENT_IDS exists; flip to github-secret to copy it to Fly. Must be a comma list of non-empty client ids"), so it is unchanged.
+
+## Facts
+
+- The GitHub Actions repo secret `GOOGLE_CLIENT_IDS` exists, updated 2026-10-01 17:38:44 UTC (`gh secret list`). It holds the Web client id `963513798354-...`. The Supabase Google provider was updated to that client, and `tgp://auth/callback` is on the allow-list. Both workflow steps read it: `.github/workflows/fly-env-sync.yml:166` (plan) and `:290` (stage).
+- Live production today: `GET https://backend-spring-lake-3890.fly.dev/api/auth/signup-policy` (2026-10-02 19:28 UTC) returns `"providers":["email","apple"]`, `"google_signin_enabled":false`, `"apple_signin_enabled":true`. Apple being on proves that `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are set, so the only missing input for Google is an audience.
+
+## What turns the button on (backend and mobile agree)
+
+Backend (read-only code reading at 3bd6215b):
+- `src/auth/google-verifier.service.ts:48-58` `getAudiences()`: `GOOGLE_CLIENT_IDS`, split on commas and trimmed, with empty entries dropped. It falls back to `GOOGLE_CLIENT_ID`. `:60-62` `isConfigured()` returns `audiences.length > 0`.
+- `src/auth/auth.service.ts:936`: `googleEnabled = supabaseConfigured && this.googleVerifier.isConfigured()`. `:943` adds `'google'` to `providers`. `:957` sets `google_signin_enabled: googleEnabled`.
+- The sign-in itself, `POST /auth/google` (`auth.service.ts:975-1010`), checks the Supabase session token with `supabaseAdmin.auth.getUser(token)` and requires a Google identity. It does not use `GOOGLE_CLIENT_IDS`. The env var only controls whether the policy advertises Google, plus the `provider=google` ID-token branch of `/auth/recent-auth-token` (`auth.service.ts:1977`).
+- The manifest loader rejects an empty or blank entry before any write (`scripts/fly-env/fly-env-manifest.js:129`). This matches the `ENV_RULES` validator (`src/common/env-validation.ts:261-277`).
+
+Mobile (main 2c17c241):
+- `src/lib/signupPolicy.ts:93-100`: `googleEnabled = providers.includes('google')` when `providers` is an array. Only when `providers` is missing does it read the legacy field, and then only an explicit `google_signin_enabled === true` counts. Unknown or failed policy means Google is hidden (`STRICT_SIGNUP_POLICY` / `UNKNOWN_SIGNUP_POLICY`, `:60-66`, `:138-144`).
+- `LoginScreen.tsx:116-118,222-225,545` and `CreateAccountScreen.tsx:196-197,267,985,1380` render "Continue with Google" only when `policy.googleEnabled`. Both screens fetch the policy on mount.
+- `src/utils/googleAuth.ts`: Supabase `/auth/v1/authorize?provider=google` goes to `tgp://auth/callback`, then `POST /auth/google` runs with the Supabase access token.
+
+**What installed builds show after apply:** after the apply and the restart, the policy returns `providers:["email","google","apple"]` and `google_signin_enabled:true`. Every build that reads the policy shows "Continue with Google" on Login and Create Account the next time either screen mounts. No app update is needed, and nothing changes for email or Apple. The only policy fields that change are `providers` and `google_signin_enabled`.
+
+**Known gap (not caused by this PR):** in-app account deletion for Google-only users. Mobile main re-authenticates with `{ provider: 'google_session', provider_token }` (`DeleteAccountScreen.tsx:290`, `services/api.ts:1027-1034`). Backend main accepts only `provider` in `['google','apple']` (`src/auth/auth.dto.ts:501-505`), so that call gets a 400 until backend #608 (adds `google_session`) is deployed. This is already true today for anyone who signed up with Google earlier. Turning Google on makes the path reachable for new users, so #608 has to be deployed before App Review (App Store 5.1.1(v)).
+
+## Sequence (docs/runbooks/launch-flags.md)
+
+1. The operator merges this PR.
+2. `Fly Env Sync (operator)`, `mode=plan`. Expected row: `GOOGLE_CLIENT_IDS | secret | github-secret | absent | absent | set | not on Fly`, `Plan: 1 to set, 0 to unset`. The plan never prints the value (pinned by `test/ci/fly-env-sync-behavior.spec.ts:717-728`).
+3. `mode=apply confirm=SET`, plus `deploy_staged=true` if no backend deploy is coming in this window (one rolling restart, then proof inside every started machine). Otherwise the staged value rides the next deploy.
+4. Check: `GET /api/auth/signup-policy` returns `"google"` in `providers` and `google_signin_enabled:true`.
+
+**Rollback / kill:** if the name is absent there is no audience, so Google is not advertised. Open a one-line PR back to `"unset"` and apply it with `deploy_staged=true`. In an emergency, run `fly secrets unset -a backend-spring-lake-3890 GOOGLE_CLIENT_IDS` first (runbook section 5). Mobile hides the button on its next policy fetch.
+
+## Acceptance evidence (head 85950984)
+
+- `node scripts/fly-env/fly-env-manifest.js validate .github/fly-env-desired-state.json src/common/env-validation.ts` prints `Desired state OK: 26 flags (1 declared with a value), 27 secrets, 14 excluded; manifest sha256 51b2bd806a99f05b0f86bc5e01970d88cdf291bf802ba7c213c8f257e271614a`.
+- `heavy.sh npx jest --runInBand --forceExit test/ci/fly-env-manifest.spec.ts`: 67/67 passed (matches the baseline).
+- `heavy.sh npx jest --runInBand --forceExit test/ci/fly-env-manifest.spec.ts test/ci/fly-env-sync-behavior.spec.ts test/ci/fly-env-workflows.spec.ts`: 3 suites, 136/136 passed.
+- `heavy.sh npx jest --runInBand --forceExit test/auth-signup-role-choice.spec.ts test/auth-apple.spec.ts test/auth-apple-mobile-contract.spec.ts test/qa-p0-launch-blockers.spec.ts test/env-validation.spec.ts test/prod-readiness/env-registration.spec.ts`: 6 suites, 196/196 passed. This covers `auth-apple.spec.ts:475-490`: Google is omitted with no audience and advertised once the verifier is configured.
+- `prettier --check .github/fly-env-desired-state.json`: clean. No test edits.
+
