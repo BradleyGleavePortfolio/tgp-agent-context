@@ -28,6 +28,10 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 09:50 B-FLAGS-2 done: #637 manifest (6879d164; every entry = current prod, merging changes nothing), #638 stacked flip
+  FEATURE_AI_CONSENT_LEDGER_ENABLED unset->true (draft c375b2ac), #639 SC2015 (54a7aec8, all green). Deploy plan: merge #639 ->
+  #637 -> retarget #638 to main, audit, merge -> fly-env-sync plan -> apply (stage) -> fly-deploy main -> plan again (verify).
+  S-SCHED-3 launched (#634 + mobile #325 fix round, both lenses' findings).
 - 09:45 S-DUNNING-R3 done: #628 -> 739e9a54, mobile #322 -> 0b4813d (all Sol+Opus A/B/C closed; CI running). Queued for both
   lenses. OR-111-2 (operator ruling on the lane's 3 questions): (a) Stripe webhook endpoint must subscribe charge.dispute.closed —
   added to the owner Stripe checklist for the dunning flip (prompt section 7 item 2); (b) v1.0: lost disputes on a client
