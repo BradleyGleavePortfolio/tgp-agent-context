@@ -143,6 +143,12 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   deletion), #314 RC 0/5/1 (post refused by platform check; not retried; folded into B-UGC-2 from the file).
 - 22:59 B-UGC-2 launched (Opus; adds B-610-5 + C-610-4 CI DB suites). Objectives written: S-DUNNING-R3; B-CONSENT-COPY now also
   covers #326 B-326-1/2 + #310 B-310-6 + onboarding consent v3. Next slots: B-CONSENT-COPY, B-FLAGS, S-DUNNING-R3, S-ERRORS.
+- 23:08 B-CONSENT-COPY launched (Opus). 23:12 Sol batch: APPROVE #624 e3e0a314, #632 0ae744b6, #604 12a4d423, mobile #313 1e80017;
+  RC #326 (0/4/0), #310 (0/2/0), #628 (0/10/1), #322 (0/6/1).
+- 23:15 MERGED backend #624 -> e5a6044a and mobile #313 -> e3986e89. update-branch #604 -> 08658e77 (Sol delta first, then Opus).
+- DEPLOY HELD: backend production stays at ba79605b. Main now carries #623, #626, #624 (+ #604, #632 next). #626 needs
+  FEATURE_AI_CONSENT_LEDGER_ENABLED ON in the same window (OR-110-4) and no merged workflow can set flags (fly-env-sync stages
+  GitHub-secret allowlist only). Deploy the whole leg once B-FLAGS' manifest merges. Running: 6 builders + 1 auditor (cap 7).
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
