@@ -5,6 +5,14 @@ Single writer for Bucket A from 2026-10-01 ~20:17 PDT. Companion file: [LIVE_STA
 
 ## AGENT 110 TAKEOVER 2026-10-01 20:17-20:36 PDT — verified facts, owner decisions, first batch
 
+### OWNER OVERARCHING FACTS 2026-10-01 20:38 PDT (verbatim; binding above all lane objectives) + "EXECUTE"
+1.) ANYTHING LESS THAN HYPERSCALER QUALITY IS A DAY 1 BLOCKER
+2.) WALL CLOCK TIME IS KEY #1 RESOURCE
+3.) DO IT RIGHT, DO IT SMOOTH - SMOOTH IS FAST
+4.) I WANT MORE, NOT LESS FUNCTIONALITY IF THE CHOICE ARISES
+Operator reading: when a choice arises between cutting and building, build (with the bar met); optimize lanes for elapsed
+time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
+
 ### Re-verified live (20:20 PDT)
 - Production backend 8a709a68 healthy (/health 200; note /api/health is 404, the health route is /health). Supabase Postgres:
   306 "column User.archived_at does not exist" errors 10-01 04:00-22:30 UTC, ZERO errors since the 15:30 PDT deploy (P0 fix

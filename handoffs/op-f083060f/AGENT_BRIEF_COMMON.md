@@ -29,6 +29,10 @@ anything below that bar is a day-1 blocker. You own exactly the task in your obj
   D3 health prefill of onboarding is 1.0.1; D4 client-only fallback CANCELLED (12:55): role choice (#597 chain + #306)
   and the full coach path must ship, SIGNUP_ROLE_CHOICE_ENABLED ON at launch (the flag stays a working kill switch).
 
+- OWNER OVERARCHING FACTS 2026-10-01 20:38 PDT (binding above everything in your objective): "1.) ANYTHING LESS THAN
+  HYPERSCALER QUALITY IS A DAY 1 BLOCKER 2.) WALL CLOCK TIME IS KEY #1 RESOURCE 3.) DO IT RIGHT, DO IT SMOOTH - SMOOTH IS FAST
+  4.) I WANT MORE, NOT LESS FUNCTIONALITY IF THE CHOICE ARISES". Get it right the first time (no audit ping-pong); when a
+  choice is cut-vs-build, build it to the bar.
 - OWNER DECISIONS 2026-10-01 20:32 PDT (binding, newest wins):
   - Voice notes: "Voice notes should be reportable and ON at launch". Voice notes need a report target, a report action,
     moderation-queue handling and block parity, then FEATURE_COMMUNITY_VOICE_NOTES goes ON at launch (after audit + device pass).
