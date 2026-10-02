@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:09 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:14 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,17 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:13 AUD-OPUS-3: backend #634 APPROVE at d1661ab8 (0/0/1) and mobile #325 APPROVE at 36f05bba (0/0/1). Sol (AUD-SOL-3)
+  pending on both. #634 pre-deploy checks run read-only at 13:12: overlaps 0, inverted ranges 0, 'Quick initialization' session
+  types 0 (C-634-5 moot today).
+- 13:12 B-UGC-4 DONE: backend #610 -> 7a67fbef, mobile #314 -> 48d76d21, all 6 B's fixed, CI green incl. community-live-tests
+  99/99. RULINGS: one-line ci.yml change (adds live spec to community-live-tests) APPROVED as a gate strengthening (T4, auditors
+  read it); account deletion fail-closed on voice-note erasure failure (stop + retry) APPROVED. Re-audits: AUD-OPUS-4 + AUD-SOL-3.
+  Launch flips after deploy: FEATURE_COMMUNITY_API/POSTS/MESSAGES/PUSH/REALTIME true; VOICE_NOTES only after audits + device pass.
+  Same agent re-tasked to B-JOURNEY-3 (#609/#312 fix round; push hold until AUD-SOL-5 posts).
+- 13:10 Sandbox tuning: ops/heavy.sh now runs TWO heavy slots (one per CPU; second slot only if MemAvailable >= 2.2 GB); old
+  single-slot version kept as ops/heavy.sh.1slot. Builders were starving in the queue (B-UGC-4 and AUD-OPUS-3 local runs timed out).
+  Monitor restarted (pid file ops/sandbox_monitor.pid); heavyq now counts heavy.sh processes incl. wrappers (~2x real jobs).
 - 13:01-13:08 DEPLOYED backend f04289f9 (#607) — fly-deploy run 37057884825 (release_sha f04289f9, migrations=apply-migrations;
   production environment approved by operator 112 under the owner's standing deploy approval; push CI on f04289f9 green except the
   known non-required release-please). Verify: migration 20270212000000_clinic_onboarding_intake finished 20:05:07Z, not rolled
