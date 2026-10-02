@@ -159,6 +159,10 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   delta -> merge #608 to main. Found: mobile main has two wrong support addresses (deletionErrors.ts from #313 =
   Bradley@Bradleytgpcoaching.com; SupportInboxScreen + CreateAccountScreen = hello@thegrowthproject.app) vs owner's single address
   Bradleyapple1031@gmail.com -> added to S-ERRORS objective (single constant + guard test).
+- 23:58 S-SCHED-2 DONE: NEW backend #634 @dbc10b7b (T4; migration 20270222000000), #632 -> b859a1c6 (main merged), mobile #325 ->
+  b0c02156 (T4; after #634). Read-only prod checks: overlap preflight 0 pairs; btree_gist not installed (migration installs it).
+  OR-110-5: BOOKING_REMINDERS_ENABLED=on (only `on` works) via B-FLAGS manifest in #632's deploy window (v4 4.9 Wave A).
+  AUD-OPUS re-queued (#636, #327, #634, #325); Sol queue: #636, #327, #632 delta, #634, #325. Running 7/7 = 5 builders + 2 auditors.
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
