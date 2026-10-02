@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:42 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:44 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -96,6 +96,12 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:44 S-SCHED-4 DONE: backend #634 round 5 -> 4d987916 (B-634-2a first-claim catch-up window, B-634-2b moved-later rows
+  'parked', B-634-6 safeDiagnostic on all reminder logs + recovery_failed, C-634-5 seed welcome marker; 19 green + 1 skipped; 7/8 new
+  tests fail on d1661ab8; comment 5961064570; main NOT merged in; migration 20270222000000 unchanged). Needs Sol re-audit + Opus
+  delta; then merge #634, re-run the 2 zero-row pre-deploy queries, deploy, then update-branch #325 (dual APPROVE @36f05bba) + delta +
+  merge. S-DUNNING-R4 STOPPED: wip/s-dunning-r4-backend @c8a1c95b (B-628-11/8/6 partly; 16 tests; one banned cast in a test must go),
+  wip/s-dunning-r4-mobile @0b4813dc (= #322 head; B-322-1/5/7, C-322-2 NOT STARTED). Auto-expiry follow-up NOT STARTED.
 - 13:42 B-FLAGS-3 DONE (no WIP): backend #647 @3a93fbde fix(notifications) booking times in recipient zone + one inbox row per
   event (B-643-1; reminder spec 5/5 fails on main), #648 @81c52a12 feat(notifications) Expo push delivery (C-643-2: receipts cron,
   dead-token cleanup, Android dropped with one operator alert/hour until FCM V1 key, per-user rate limits, no health/message text on
