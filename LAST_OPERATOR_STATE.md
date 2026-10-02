@@ -28,6 +28,12 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 10:33 B-CONSENT-2 done: #607 f6fa244b, mobile #310 c2414203, mobile #326 8f8d6424 (stacked on #310), #611 0ed698a4; #635
+  e7f67576 got RC from BOTH lenses after the lane ended (Opus 0/1/2, Sol 0/2/3). Rulings: #611 publication hold — merges only after
+  the ledger deploy, #608 live and written vendor-deletion/backup procedures; #611's rewritten deletion wording (lists what is kept)
+  accepted for accuracy (owner may object); mobile #315 Trust Center "deleted after 180 days" -> "kept until you delete them or your
+  account" (B-CONSENT-3); mobile support addresses consolidated in #324 (B-JOURNEY). Launched B-CONSENT-3 (#635 first, #326 re-merge,
+  #315 line, #611 procedures doc).
 - 10:31 S-MWB done: backend #640 (2ac6395f, T4; migration 20270223000000) + mobile #328 (dbd5ceb, T3): Programs tab, week x day grid
   into the existing builder, saved workouts, bulk assign (per-client results, idempotent), program in packages incl. $0 grants.
   Rulings: clinic EAS profile keeps EXPO_PUBLIC_FF_MWB_PROGRAMS/AUTOSAVE on; backend FEATURE_MWB_TEMPLATES, FEATURE_MWB_AUTOSAVE_UNDO

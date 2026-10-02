@@ -52,3 +52,24 @@ output is unparseable, plan warns with Fix and declared values are re-staged (sa
 `flyctl secrets deploy` applies every staged secret on the app (plan lists foreign staged names). Legacy
 fly-feature-flags-set.yml (scout/pairing, awk post-check) untouched; its names are excluded. Calendar/meet/zoom/diagnostic/importer
 flags are on Fly with unknown values -> excluded until an in-machine read adopts them. ENV_RULES `values:` must stay one-line.
+
+## Fix round 1 (10-02 ~10:00-10:40 PDT): Sol REQUEST CHANGES 0/2/0 on 6879d164 (Opus APPROVE)
+- Merged main 97467678 (#604, #629, #632; not #639) into agent/clinic/flags-manifest (7d0b73dc, clean auto-merge; #632's
+  BOOKING_REMINDERS_ENABLED rule (default now OFF, only "on" enables) kept with values ['on','off']).
+- B-637-1 (e473428c): apply-now fails closed. Deploy when staged/pending/unproven (absent listing + no pre-check = unproven, new
+  unproven.txt); no-op path probes every started machine first and deploys on any mismatch. Fleet proof = secrets list --json +
+  machines list --json (id/state) + in-machine check on EVERY started machine (`ssh console --machine <id>`, stdin /dev/null);
+  verify deployed: exact presence, all declared Deployed, >=1 started, none transitioning, every started machine match/absent
+  (missing result = unproven); bounded retry 6x20s (exit 3 = retry), last attempt -> ::error:: with names/machine ids + Fix.
+  "machine matches" wording removed; stopped machines -> warning, never counted proven. Plan/stage-only unchanged (warnings).
+- B-637-2 (e473428c): ENV_RULES `unsetIs: 'on'|'off'` one-liner on all 26 managed flags (descriptive); validator requires it +
+  off value for defaults-on; killSwitches()/`kill-switches` CLI; plan prints defaults-on kills; runbook s5 rewritten with the
+  generated table (drift-tested). Defaults-on = FEATURE_COMMUNITY_SCHEMA, SIGNUP_ROLE_CHOICE_ENABLED (kill = set false).
+  Test calls the real readers isCommunitySchemaEnabled()/signupRoleChoiceEnabled().
+- Evidence at e473428c: jest 5 suites / 219 PASS; tsc 0 (3584 MB heap); eslint 0; prettier clean; actionlint+sc0.9.0 clean;
+  check-r75 OK. Fix-round comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/637#issuecomment-5957508827
+- #638 restacked: 9a4fa721 on e473428c (one-line ledger flip; validate OK sha 0ed9002f...).
+- Not done (optional C): C-637-11 (would block manifest-driven secret rollback; owner decision), C-637-12 (flyctl pin, repo-wide).
+- #637 CI at e473428c: all pass incl. build-and-test (16 pass); only shellcheck (scripts/*.sh) fails = pre-existing SC2015 in
+  s10-core-diff-gate.sh, fixed by #639 (deliberately not included). #638 @ 9a4fa721: jest 3 suites / 136 PASS (stacked; ready for CI).
+- Status: fix round 1 DONE. Needs re-audit of #637 @ e473428c (B-637-1/2). Worktrees removed.

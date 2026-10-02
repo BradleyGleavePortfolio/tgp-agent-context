@@ -32,3 +32,40 @@ STEP 1 DONE b74384fb3915f3b482384ddddb609e618bd8bc36
   - tsc exit 0, eslint 0, R75 OK.
 - PR body updated; fix-round comment https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/635#issuecomment-5956261388
 - Logs: ops/bconsent2-111/logs/635-*.log
+
+## backend #607 fix round 5 (Sol RC 5956402585 at b74384fb) — 2026-10-02
+- Head: b74384fb -> 9ae4c22a1eae85b4e4354a6688fc71955def3acb (merge main b9ee8e0a = dfacefb0, fix 9ae4c22a). Pushed fast-forward.
+- A-607-4 FIXED: clone tenant decided in the completion tx via SubCoachScopeService.lockMembershipHeadCoachIdInTx (seat/delegation row FOR SHARE after the User FOR SHARE fence); differs from pre-read -> TenancyChangedError re-run (bounded, 409).
+- C-607-3 FIXED: isLockConflict (P2034, P2010 40P01/40001/55P03) retried, then 409 completion_in_progress.
+- C-607-4 FIXED: alert "was flagged for extra care".
+- Tests: jest 5 suites/117 PASS (onboarding.service, audit-regressions, consent-copy, consultation-answers, sub-coach-scope); live onboarding-tenancy-fence.live.spec 6/6 on local PG 18.6; tsc 0; eslint 0; R75 OK. Logs ops/bconsent2-111/logs/607r2-*.log.
+- Comment https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/607#issuecomment-5956755621
+
+## mobile #310 fix round 7 (Sol RC 5956403041 at f85ffd36) — 2026-10-02
+- Head: f85ffd36 -> bdaa19df1e19b8820080f1f19b0de7ea72b13eeb (8f604cc fix, bdaa19d email). Pushed fast-forward to agent/clinic/c05-mobile/95a5bd59.
+- B-310-8 FIXED: runAiMarkerStep module queue + aiChoiceSeq/aiLoadEpoch; only the latest choice acts. Sol's AUD-SOL probe passes unmodified.
+- C-310-9 FIXED: AI_CHOICE_UNKNOWN_LINE after the 3 s wait.
+- SUPPORT_EMAIL -> Bradleyapple1031@gmail.com. Open: main's DELETION_SUPPORT_EMAIL (Bradley@Bradleytgpcoaching.com) and SupportInboxScreen (hello@thegrowthproject.app) differ; decision for operator.
+- Tests: 8 suites/204 PASS + 124/124 after email change; tsc 0; eslint 0. Logs ops/bconsent2-111/logs/310r7-*.log.
+- Comment https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/310#issuecomment-5956921804
+
+## mobile #326 fix round 1 (Opus RC 5946335206, Sol RC 5946328312 at 32ed8546) — 2026-10-02
+- Head: 32ed8546 -> 8f8d6424c3a0d7517ef7e86c48077b66d4550516 (merge #310 f85ffd36 = 30dc4b4, merge #310 bdaa19df = 57c1ba3, fix 8f8d642). Base changed to agent/clinic/c05-mobile/95a5bd59 (stacked on #310; #310 merges first).
+- FIXED: Opus B-326-1/B-326-2, Sol B-326-1..4, Opus C-326-1..3; v4 byte parity with #635 in fixtures/grant body.
+- Tests: 17 suites / 504 PASS (list in PR body); tsc 0; eslint 0 errors (3 pre-existing warnings, AIGuideScreen). No R75 script in mobile.
+- Comment https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/326#issuecomment-5957003923
+
+## backend #611 fix round 4 (Sol RC 5942652597 0/4/1, Opus RC 5938041862 at e5777735) — 2026-10-02
+- Head: e5777735 -> 0ed698a43220b902eeaffc7fad48214ec48f63c5 (merge main b9ee8e0a = 6bbbbb2e, fix 0ed698a4).
+- FIXED: retention "kept until you delete them or your account" (no 180-day), quiz text pinned absent, ACCOUNT_DELETION_EMAIL -> SUPPORT_EMAIL Bradleyapple1031@gmail.com, B-611-2, B-611-3, B-611-4, C-611-1 (ship order). B-611-1: operator publication gate (no code).
+- Mobile #315 NEEDS a change: Trust Center bullet "your Roman conversations, which are deleted after 180 days" (and its test). Not touched.
+- Tests: 6 suites / 101 PASS; tsc 0; eslint 0; R75 OK. Logs ops/bconsent2-111/logs/611-*.log.
+- Comment https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/611#issuecomment-5957177906
+
+## backend #607 fix round 6 (Opus APPROVE 5956875415 at 9ae4c22a, C-607-5 optional) — 2026-10-02
+- Head 9ae4c22a -> f6fa244bd60dab4851571a83328c254791151ce2. Re-stamp P0 time when the stored v3 is not provable; new spec. 4 suites / 107 PASS; tsc 0; eslint 0; R75 OK. shellcheck failure is pre-existing (scripts/s10-core-diff-gate.sh SC2015), not required.
+- Comment https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/607#issuecomment-5957328313
+
+## mobile #310 fix round 8 (Opus RC 5956875944 at f85ffd36) — 2026-10-02
+- Head bdaa19df -> c2414203403880ef4b97f2e9aa3a90678bbaa925. B-310-8 already fixed (r7); C-310-12 "Open Privacy in Settings"; C-310-13 single CONSENT_TITLE. 8 suites / 197 PASS; tsc 0; eslint 0. #326 merges clean on it (not re-merged).
+- Comment https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/310#issuecomment-5957780867
