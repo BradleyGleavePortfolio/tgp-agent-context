@@ -28,6 +28,11 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 10:23 MERGED backend #639 (SC2015 fix, T4 dual APPROVE + dual delta at 2210c760) -> main e867fe62. #637 update-branch -> 1c28fb20
+  (fix round 1 + main); both lenses auditing 1c28fb20, then #638. DEPLOY PLAN once #637 + #638 merge: fly-env-sync plan ->
+  apply (confirm=SET, deploy_staged=false; stages FEATURE_AI_CONSENT_LEDGER_ENABLED=true) -> fly-deploy main (apply-migrations)
+  -> fly-env-sync plan (verify) -> /health, migrations, Postgres errors. BOOKING_REMINDERS_ENABLED=on (OR-110-5) needs its own
+  one-line manifest PR next (reminders stay off until then; no live bookings).
 - 10:22 #637 fix round 1 pushed e473428c (B-637-1 fail-closed apply-now verification on every started machine, bounded retry;
   B-637-2 per-flag kill values via unsetIs + kill-switches command); #638 restacked 9a4fa721. Both lenses re-queued (top priority
   after #639 delta). Operator rulings: C-637-11 not required (manifest must be able to remove secrets), C-637-12 flyctl pin not
