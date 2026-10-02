@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 15:45 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 16:01 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -111,6 +111,16 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 16:01 B-PAYSHEET DONE: NEW mobile #334 @5b6eb654 "fix(payments): Day 1 package sheet takes payment through payment-intent" (T4;
+  3/3 green; 22/22 new tests fail on main): POST /v1/checkout/payment-intent with {package_id, idempotency_key}, one key per attempt
+  (retries/cancels/declines reuse it), PaymentSheet gets customer id + ephemeral key + client secret, cancel silent, waits for
+  entitlement, per-cause copy + SupportEmailFallback + reference, no secrets to Sentry, free plans via claim-free, amount_cents
+  ("$NaN" fixed). No overlap with open PRs (#322 shares the Stripe return URL; switch to its appearance helper after both land).
+- 16:01 OR-112-23: payment-intent charges monthly/yearly plans once with open-ended access -> backend must reject renewing packages on
+  payment-intent with a coded error (before launch); the sheet routes renewing plans to subscription checkout (build it if missing:
+  launch scope). #334 refusing renewing plans is the safe interim.
+- 16:01 ROUND 3 COMPLETE (2 lanes, 15:35-16:00). Prompt v6 refreshed (snapshot 16:01). No subagent running; nothing started further
+  without an owner order.
 - 15:45 AUD-SOL-7 DONE: Sol APPROVE on backend #610 @9f2c3865 (0/0/3; B-610-13/8 closed), mobile #333 @806467b9 (0/0/0), mobile
   #330 @7d640548 (0/0/1; DSN-removal probe failures confirmed harness artifact). Each now needs only an Opus DELTA (Opus approved the
   pre-fix heads a98d08b5 / abfc5d12 / 4c61d915), then: #610 merge + deploy + community flips, then #314 update + delta + merge;

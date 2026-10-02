@@ -1,0 +1,86 @@
+**Tier:** T4 (re-graded upward in fix round 1, per the GPT-6.1 Sol audit lens: a release gate that validates live payment and auth credentials and writes to build logs; a new EAS build hook can fail every release build)
+**Why:** Lane S-RELEASE-MOB item 3. A clinic release build must not ship when a required `EXPO_PUBLIC_*` value is missing or a placeholder. `--release-env` already existed (S-ENVTRUTH) but was not wired into any build, checked only non-empty, and knew nothing about build profiles.
+**T4 trigger scan:** audited as T4 (release-gate credential validation and build-log hygiene). No `.github/workflows/*`, `scripts/ci/*` or branch-protection file is touched. CI still runs `node scripts/check-expected-env.js` unchanged; the source-scan mode behaves as before. No auth, payment, PII or migration change. Values are never printed.
+**T3 trigger scan:** yes. New `eas-build-pre-install` npm hook (package.json **scripts only**, no dependency change), and new rules that can stop a release build.
+**Bounded T1:** `docs/RELEASE_ENV_CHECK.md`.
+**Builder-owner:** Claude Opus 5.5 (S-RELEASE-MOB, agent 112). Owner: operator. Needs an independent audit plus green CI.
+**Acceptance evidence:** `releaseEnvProfile.test.js` (new) + `expectedEnv.test.js` + `validateAppConfig.test.js`: 164/164 locally at 806467b (99 at round 0). The new B-333-2 / B-333-3 / C-333-1 blocks fail 45 tests against abfc5d1. The Sol independent probe passes 5/5 at 806467b (4 of them failed at abfc5d1). CI green at 806467b. `node scripts/check-expected-env.js` OK. CI runs tsc and the full suites.
+**Promotion triggers:** adding a bypass flag; changing `releaseProfiles` requirements; moving the hook to a workflow file.
+
+## What it checks (`node scripts/check-expected-env.js --list --profile clinic`)
+| Profile | Values that must be set and real | Stripe |
+|---|---|---|
+| **clinic** | `EXPO_PUBLIC_API_URL`, `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`, `EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `EXPO_PUBLIC_SENTRY_DSN` | `pk_live_` |
+| production | same five | `pk_live_` |
+| preview | the four `kind: "required"` names | `pk_live_` or `pk_test_` |
+| development | skipped | — |
+
+Each value is rejected when:
+- **Placeholder:** empty, `your_…_here`, `REPLACE_WITH_*`, `<…>`, `${…}`, `changeme` / `todo` / `xxx`, or a copied masked `*****`.
+- **URL** (`API_URL`, `SUPABASE_URL`, `HELP_BASE_URL`): not `https`, or the host is localhost, an emulator or private IP, `example.*`, or `*.invalid` / `*.test` / `*.local`.
+- **Supabase anon key:** it must be one of two complete keys.
+  - A JWT with three non-empty base64url parts, a signed header (`alg` set, not `none`), role `anon`, a signature of at least 32 bytes, and an `exp` that has not passed.
+  - Or an `sb_publishable_` key followed by at least 20 letters, digits, `_` or `-`.
+  - A **service_role JWT** or an **`sb_secret_`** key fails, because either would ship an RLS bypass in the bundle. The service-role check runs first, even when the token is malformed in other ways.
+- **Sentry DSN:** not of the form `https://<key>@<host>/<id>`.
+- **Stripe key:** it must be a complete publishable key: `pk_live_` or `pk_test_`, then 24 to 247 letters and digits, and not one repeated character. A test key fails on a store profile.
+- **URL hosts (C-333-1):** these also fail:
+  - 172.16/12, 100.64/10 (CGNAT), 169.254/16 and 0/8;
+  - IPv6 loopback, unspecified, ULA (`fc00::/7`), link-local and IPv4-mapped;
+  - `*.internal`, `*.lan`, `*.home.arpa`;
+  - single-label names.
+- **No value text in logs (B-333-3):** every failure message is fixed text. The URL scheme is no longer echoed.
+- These are shape checks only. They make no network call to Stripe, Supabase or Sentry.
+
+**Build parity:** for clinic, every resolved `eas.json` `build.clinic.env` value must reach the build unchanged:
+- the 7 clinic `EXPO_PUBLIC_FF_*` / mock flags
+- `EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES`
+- `EXPO_PUBLIC_NOTIFICATIONS_MOCK`, `EXPO_PUBLIC_USE_MOCK_COMMAND_CENTER`
+- `TGP_ANDROID_HEALTH_CONNECT`
+
+The existing secret-shaped-name check stays.
+
+## How it runs
+- **EAS:** `"eas-build-pre-install": "node scripts/check-expected-env.js --eas-hook"`.
+  - It runs before `npm install`, so it fails fast and saves build minutes on the Free plan. It needs only Node built-ins: no TypeScript, so the source scan is left to CI.
+  - The profile comes from `EAS_BUILD_PROFILE`. A non-release profile is skipped. An unset profile fails closed.
+- **Operator, before queueing a build:** `eas env:exec production 'npm run check:release-env -- --profile clinic'`.
+- `scripts/eas-profile.js` resolves `extends` the way EAS does. It is byte-identical to the copy in mobile #305, so the two PRs add the same file and merge without conflict in either order.
+
+## Tests
+```
+heavy.sh npx jest --runInBand scripts/__tests__/releaseEnvProfile.test.js scripts/__tests__/expectedEnv.test.js scripts/__tests__/validateAppConfig.test.js  -> 3 suites, 99 passed
+node scripts/check-expected-env.js -> OK (57 names)
+EAS_BUILD_PROFILE=development node scripts/check-expected-env.js --eas-hook -> skipped, exit 0
+EAS_BUILD_PROFILE=clinic node scripts/check-expected-env.js --eas-hook (no values) -> 5 problems, exit 1
+```
+The new suite covers:
+- every placeholder and format rule, including service_role and sb_secret_ keys
+- real-looking values passing
+- Stripe live vs test per profile
+- a clinic flag overridden in the build environment
+- CLI output never containing the value
+- the hook's skip and fail-closed paths
+- the package.json hook wiring
+- the clinic list exactly as above
+
+## Before merging (operator)
+Once merged, every `preview`, `production` and `clinic` EAS build runs this gate. Run `eas env:exec production 'npm run check:release-env -- --profile clinic'` and `eas env:exec preview 'npm run check:release-env -- --profile preview'` first. If the production environment has no `EXPO_PUBLIC_SENTRY_DSN`, or still holds a Stripe test key, the clinic build fails with the exact fix. Both requirements are by design (owner error-reporting rule; real clients pay). Flagged for operator confirmation.
+
+## Fix rounds
+| Round | Head | Finding | Disposition |
+|---|---|---|---|
+| 0 | abfc5d1 | — (initial; CI green) | — |
+
+### Fix round 1 (agent 112, S-RELEASE-2): merge of main f34b5b9 (2cf13c2), then fix commit 806467b
+
+| Finding | What changed | Commit | Test that proves it |
+|---|---|---|---|
+| B-333-2 (Sol): malformed credentials pass | Stripe: `pk_(live\|test)_` + 24-247 alphanumerics, not one repeated char; test-mode prefix named first on live profiles. Supabase JWT: 3 non-empty base64url parts (valid length), JSON-object header with `alg` set and not `none`, JSON-object payload, role `anon`, signature >= 32 bytes, `exp` not past; `sb_publishable_` needs >= 20 body chars; service-role still named first, never reflected | 806467b | `releaseEnvProfile.test.js` › `B-333-2: incomplete or malformed credentials fail the release gate` (bare `pk_live_`/`pk_test_`, 23-char, repeated, bad chars, too long; empty header/signature `.<payload>.`, empty signature, bad base64url, non-JSON header, `alg: none`, short signature, expired; bare/short `sb_publishable_`; positive controls for 24- and 99-char Stripe keys, a full anon JWT, a hosted-format publishable key) |
+| B-333-3 (Sol): value text in build-log errors | `valueProblem` returns fixed text only (`must be an https URL`); all diagnostics reviewed: parity lines print only the reviewed eas.json value, never the build value | 806467b | `releaseEnvProfile.test.js` › `B-333-3: failure text never reflects any part of a value` (canary in URL scheme/host, JWT parts/role/header, publishable/secret keys, DSN, Stripe; CLI `--release-env --profile clinic` and `--eas-hook` with 6 malformed values: exit 1, `6 problem(s)`, no canary and no value in stdout/stderr) |
+| C-333-1 (Opus + Sol): non-public hosts | `BAD_HOSTS` list: 172.16/12, 100.64/10, 169.254/16, 0/8, IPv6 `::1`/`::`/ULA/link-local/IPv4-mapped, `.internal`/`.lan`/`.home.arpa`, single-label, trailing-dot `localhost.` | 806467b | `releaseEnvProfile.test.js` › `C-333-1: every non-public host form fails` (18 rejected, 4 public controls pass) |
+| Tier reconcile (Sol) | Header re-graded T3 -> T4 | PR body | — |
+
+Local: `heavy.sh env CI=true npx jest --runInBand --forceExit --runTestsByPath scripts/__tests__/releaseEnvProfile.test.js scripts/__tests__/expectedEnv.test.js scripts/__tests__/validateAppConfig.test.js`. At 806467b: 3 suites, 164/164. The new blocks against abfc5d1's checker: 45 failed / 50 passed. Sol probe `ops/aud-sol3-112/mobile333-independent-boundaries.test.js`: 5/5 at 806467b. eslint is clean. `node scripts/check-expected-env.js` OK; `guard:vendors` and `validate:config` OK. CI at 806467b: Typecheck/lint/test, Analyze (js-ts), Analyze (actions) and CodeQL all pass.
+
+

@@ -1,0 +1,195 @@
+**Tier:** T4 (abuse controls on user-generated content, cross-user visibility rules, membership removal (ban), one additive migration (enum values + nullable column), App Review 1.2 release blocker). Never lowered.
+**Why:** Store-package review: community had no objectionable-content filter, no community-wide user blocking, ban/warn were recorded but not enforced, and the mobile review queue called `GET /community/moderation/flagged`, which did not exist. Apple 1.2 requires a filter, reporting with timely action, blocking and published contact information. Fix round 3 (lane B-UGC, agent 110) closes the Opus audit findings (B-610-1, C-610-1..4) and, per the owner decision of 20:32, makes **voice notes reportable in this PR directly so they can be ON at launch**, plus the member wins surface (More > Community) made safe instead of gated off (owner 20:38: more, not less).
+**T4 trigger scan:**
+- Authorization / visibility: two-way read-side block filter (`CommunitySafetyService.filterBlocked` / `assertVisibleTo` / `hiddenFromViewer`, one `UserBlock` lookup in both directions) on Hall posts, comments and replies, cohort messages, DMs, challenge comments + leaderboard, voice notes (list, by id, delete probe), cohort roster, workout leaderboard, wins, search, Today, reaction counts, coach-authored lessons, events and challenges. Reads by id answer 404. This round: the **blocker** gets `403 community.dm.blocked_by_you` with the way forward; the **blocked** member gets the same `404 community.dm.not_found` body as a missing conversation (the block is not revealed, C-610-1).
+- Wins (B-610-1): audience is the author's coach circle only, and only when that coach runs a non-archived community workspace (that workspace's queue owns reports on the win); otherwise a member sees only their own wins. No cross-tenant feed (`visibility: 'public'` accepted for old clients, stored as `circle`). Removed (banned) members cannot post (`403 community.win.removed_member`) and their wins leave the feed. Hidden wins (`hidden_at`) never reappear. Author delete `DELETE /community/wins/:id` (anyone else gets the same 404 as a missing win).
+- Voice notes: new report target `voice_note`; the coach queue gets a 15-minute signed playback link (`media`) for open reports on live notes, never for hidden/deleted notes. Only people who can play a note can report it (same 404 as missing). Hide / Warn / Ban work on voice notes; a ban removes the author's access. Author delete also soft-deletes the search row. DM voice notes are refused before any write (`400 community.voice.dm_not_supported`): there is no server-side DM thread binding, so they could not be moderated.
+- Membership mutation: `ban` sets every membership of the author in that workspace to `removed`; if the author never joined a cohort, a `removed` membership is created in the default cohort so the ban also blocks wins. Workspace coach and platform owners can never be banned (`403 community.moderation.cannot_ban_coach`, now with a message); the check runs before any write.
+- Migration `20270211000000_community_reports_voice_notes_and_wins`: `CommunityModerationTargetType` + `voice_note`, `win` (ADD VALUE IF NOT EXISTS, irreversible by nature, documented); `"CommunityWin"."hidden_at"` nullable, no default, no backfill. Two server-only tables (both ENABLE + FORCE RLS, service_role policy, RESTRICTIVE deny for anon/authenticated, no API-role grants): `community_workspace_bans` (round 2) and `community_voice_erasures` (round 5, section 6). `"CommunityWin"` RLS is rewritten in section 4 (round 2, tightened in round 5). down.sql drops the column, both tables and `app.community_win_author_coach`. Fix round 4 (C-610-4): section 5 widens `community_messages_scope_shape_check` so a scope `cohort` row may have no cohort only when it is a tagged post / challenge comment naming its parent (comments on Hall posts and workspace-wide challenges were rejected with 23514 and answered 500); down.sql restores the old check.
+- **Round 5 (lane B-UGC-4):** a win's `coach_id` is bound to its author on INSERT (RLS `WITH CHECK` plus trigger, through the SECURITY DEFINER `app.community_win_author_coach`). Moderator authority on wins is only `is_current_coach_of(author)`; the `coach_id = me` arm is gone. The teammate helper also checks the author's coach. Moderation is escalation-only (dismiss < warn < hide < ban) and writes by compare-and-set. A weaker action gets `409 community.moderation.already_actioned`; a racing one gets `409 community.moderation.changed`. Member notices are keyed per (report, action). Voice-recording erasure is recorded durably before any soft delete, then retried every 10 minutes until storage confirms the object is gone. This covers author delete, moderation Hide/Ban and account deletion. Account deletion now stops finalization for the next run if the voice-note read or the erasure record fails; before, a failed read was logged and the rows stayed signable. The section 5 scope-shape CHECK arms are wrapped in `IS TRUE` and require `plan_context_type IS NOT NULL`.
+- **Round 6 (lane B-UGC-6):** a moderation action is ONE database transaction: the compare-and-set resolution, the ban row and membership removal, the content soft-hide, the recording erasure intent and the member notice commit together or not at all (B-610-13). The coach/owner ban refusal stays a read-only check before the transaction; storage erasure, realtime and push run only after the commit. Recording erasure completes only on a verified object-level absence: the storage server's `Object not found` (body code 404/NoSuchKey, HTTP 400/404) for the exact key plus a confirmed bucket (`getBucket`); a generic 400, bucket-not-found, auth, 5xx, transport error or ambiguous not-found keeps the work open for the retry cron (B-610-8). The owner-folder check needs a confirmed bucket too (a missing bucket lists empty) and ignores the dashboard `.emptyFolderPlaceholder` (C-610-9). No route, payload, error code, migration, env name or CI gate change.
+- **T4 gate file:** `.github/workflows/ci.yml` gains one line: `test/community/rls/community-message-shape.live.spec.ts` in the community-live-tests jest list. No job, trigger, permission or required-check change.
+- **Migration order:** `20270211000000` sorts before main's `20270216000000`. `prisma migrate deploy` applies every unapplied migration regardless of order. Forward migrations, reversibility and Schema parity are green on round 5 commits. No rename.
+- Every queue item now carries `respond_by` (created + 24 h) and `overdue`, so the 24-hour commitment is visible and testable.
+- Audio cannot be text-filtered: voice notes are not transcribed, so the word-list filter cannot run on them. Honest position: voice notes rely on report + moderation (reason sheet, coach + TGP review within 24 hours, Hide/Warn/Ban, two-way block, author delete). Win title and description go through the same text filter as posts (422 before the write).
+**T3 (round 6):** no contract change for mobile #314: same routes, payloads and codes. A failed notice write now leaves nothing enforced (the endpoint already failed in that case). Posts/messages repositories gain an optional transaction client on `findById` / `softDelete` (backwards compatible).
+**T3 (round 5):** new response codes `community.moderation.already_actioned` (409, carries `current_action`) and `community.moderation.changed` (409). `member_notice.stored` is true only when a notice for that action is stored; a replay answers `stored: true, push: 'not_sent'`. Mobile #314 maps both codes. New cron provider `VoiceErasureService` (`*/10 * * * *`, hardcoded, no new env name).
+**T3 trigger scan:** contract changes this round (mobile #314 consumes them): flagged item `target_type` adds `voice_note` and `win`, plus `media` (`{ kind:'voice_note', url, duration_ms, mime_type } | null`), `removed`, `respond_by`, `overdue`; report body accepts `target_type: voice_note | win`; `GET /community/feed` rows carry `user_id, display_name, title, description, created_at, is_mine` (legacy `displayName, action, createdAt` kept); new `DELETE /community/wins/:id`; new codes `community.dm.blocked_by_you`, `community.win.not_found`, `community.win.removed_member`, `community.voice.dm_not_supported`; every voice error code now carries a human `message`. `CreateVoiceNoteDto.storage_key` is now validated: before this round the global whitelist pipe rejected every voice-note create with "property storage_key should not exist", so no member could publish a voice note at all.
+**T3 (round 4):** `CommunityRealtimeService.broadcastCommunityEvent` now always removes its channel (also on subscribe timeout / send failure); no contract change.
+**Bounded T1:** README Safety section (wins policy, voice-note reporting, which roles can be banned, the audio honesty note); doc comments on the wins routes.
+**Builder/owner:** Claude Opus 5.5 (T4 builder). Round 2 (two-way block) built by lane B-COPY and supersedes agent 108's WIP branch `wip/op590e4a5b-copy-610-20261001` (1f4e158e); this round builds on that head (d1e1732f). Owner: operator. Needs two independent audits (GPT-6.1 Sol and Claude Opus 5.5, neither the builder) plus green CI. Not self-audited.
+**Acceptance evidence:** in-memory service suites below (the CI proof for these flows) + CI on the head SHA, including Schema parity. Device evidence owed by the device pass: record a voice note -> another member reports it -> coach queue plays it -> Hide removes it everywhere; block from a voice note hides both ways; share a win -> report -> Hide; banned member cannot share.
+**Promotion triggers:** any route here losing `CommunityFeatureFlagGuard`/`JwtAuthGuard`; any path that lets a ban target the workspace coach; filtering moved after the write; block filtering removed from any listed surface or made one-way; a community GET route without a block-filter classification, or a classified handler that stops delegating to its asserted service method (wiring guard fails); `/community/moderation/flagged` returning workspaces the coach does not own; a playback link served for a hidden or deleted voice note; a wins feed that reaches outside the coach circle; any new table without RLS; any moderation enforcement or member-notice write moved outside the action transaction (round 6); erasure completing on anything but a verified object-level absence in a confirmed bucket (round 6). **Flags are not flipped by this PR**: `FEATURE_COMMUNITY_VOICE_NOTES` stays as configured; the operator flips it after both audits + device pass.
+
+**Dependencies:** OR-109-1 safety contact = the repo's one `SUPPORT_EMAIL` (`src/public-pages/trust-pages.html.ts`). #631 is now merged to main and merged into this branch, so `GET /community/safety` serves Bradleyapple1031@gmail.com; the retired `COMMUNITY_SAFETY_CONTACT_EMAIL` override is ignored (one address everywhere). Mobile #314 must merge with or after this PR.
+
+---
+
+## What was broken -> fixed
+| Area | Before | After |
+|---|---|---|
+| Content filter | none (length checks/rate limits only) | word-list filter with normalisation on every community text write and on wins, 422 before the write |
+| Blocking | coach-client messaging only | `UserBlock` honoured two-way on every member read and interaction path (list in README); DMs closed both ways; blocker told how to undo, blocked side sees "not available" |
+| Ban | recorded only | removes the author's workspace memberships (creates a removed one when none) + hides the content; coach/owner protected |
+| Warn | recorded only | notifies the author (community push), access kept |
+| Mobile queue | `GET /community/moderation/flagged` 404 | implemented; voice notes play in the queue; 24-hour respond-by + overdue |
+| Voice notes | not reportable, could not be created (DTO bug) | reportable, playable by the coach, hide/warn/ban, block parity, author delete, creatable |
+| Wins | unfiltered, unreportable, global cross-tenant feed | filtered, reportable, coach-circle only, hide, ban, author delete |
+| Contact | not in-app | `GET /community/safety` serves the repo's one `SUPPORT_EMAIL` |
+
+## Known limits (documented in the README)
+- Word-list filter, not a classifier; misses go through Report -> queue.
+- **Audio cannot be text-filtered.** Voice notes are not transcribed; they rely on report + moderation (above). Stated plainly here and in the README.
+- DM voice notes are refused (no server-side DM thread binding to moderate against).
+- Realtime pings carry ids only; content is always refetched through the filtered REST routes.
+- Reported DM content is visible to the workspace coach in the queue (the reporter chose to report it).
+- The 24-hour commitment is operational (named moderators/cover); the queue now shows `respond_by`/`overdue`, it does not page anyone.
+- List cursors come from the unfiltered page, so a page can be shorter than `limit` when blocked authors are dropped.
+- C-610-4 (DB-backed proof of these flows) deferred, see fix-round table.
+
+## Earlier rounds (history, unchanged except where marked)
+
+### Round 1 tests (local sandbox, `--maxWorkers=1 --ci`, serialised through the heavy-job lock)
+```
+npx jest test/community/safety <8 touched test/community specs>
+  PASS test/community/safety/community-safety-flow.spec.ts     (new)
+  PASS test/community/safety/community-content-filter.spec.ts  (new)
+  PASS test/community/challenges/community-challenges.service.spec.ts
+  PASS test/community/challenges/community-challenges-cross-surface.spec.ts
+  PASS test/community/messages/community-messages-coach-reply.service.spec.ts
+  5 DB-backed e2e suites skipped locally (no database): community-dms/messages/moderation/plan-context/posts e2e
+  Tests: 70 passed, 41 skipped
+npx jest --roots src/community/search --roots src/community/voice   (not in the default CI roots)
+  6 suites, 55 passed (two voice specs repaired: prettier had split the @ts-expect-error'd constructor call)
+pre-commit (lefthook): banned-cast-tokens net 0, eslint 0 warnings, prettier clean, full tsc --noEmit clean.
+```
+CI on the head SHA is the authoritative full run.
+
+
+
+### Fix rounds 1-2
+| Finding / input | What changed | Commit | Test that proves it |
+|---|---|---|---|
+| owner-approved copy 10-01 09:07 | `GET /community/safety` now serves the approved copy byte for byte from exported constants: `COMMUNITY_GUIDELINES` (seven rules, incl. new rule 5 "Keep private things private..." and rule 7 "This space is not for emergencies... 911... 988."), `COMMUNITY_RESPONSE_COMMITMENT` (24-hour sentence + removal + block sentence), default contact was the retired address at that time (since round 3: the repo's one `SUPPORT_EMAIL`, override retired). README "Published contact" and "Operational requirement" sections carry the served text and the owner's 24-hour operating commitment. No logic, route, guard or schema change. | b8ce8d35 | new `test/community/safety/community-safety-copy.spec.ts` (guidelines exact + order, full commitment exact, 24-hour sentence, default email + blank-env fallback + override, report reason labels, no `!`/emoji); existing `community-safety-flow.spec.ts` unchanged and green |
+
+Tier re-check for that round: copy-only; no promotion trigger fired; tier unchanged (T4).
+
+| Finding / input | What changed | Commit | Test that proves it |
+|---|---|---|---|
+| B-COPY-610-1 (lane brief): approved copy "If you block someone, they can no longer see your posts" must be true both ways | Completed and extended agent 108's WIP 1f4e158 (reviewed critically): two-way filter on posts, comments, cohort messages, DMs, challenge comments + leaderboard, voice notes, roster, workout leaderboard, wins, search, Today; WIP missed coach-authored lessons, events, challenges and Today event/challenge (a client can block their coach in coach messaging, same `UserBlock` row), reactions, event pushes; all added. Removed the open copy note. | d1e1732f | `test/community/safety/community-block-two-way.spec.ts` (both directions + bystander + unblock restores, per surface); `community-classroom.service.spec.ts`, `community-events.service.spec.ts`, `community-challenges.service.spec.ts` two-way describes |
+| B-COPY-610-2: regression guard | Every community GET route is enumerated from Nest metadata and must be FILTERED (method body calls a block helper) or EXEMPT with a written reason (coach/owner work surfaces, own data, metadata) | d1e1732f | `community-block-two-way.spec.ts` "regression guard" |
+| B-COPY-610-3: report on every message/post | DM rows: only the two participants can report or react (was: any workspace member who knew the id) | d1e1732f | `community-safety-flow.spec.ts` "a DM can be reported only by one of its two participants"; two-way spec "a DM message can be reacted to only by its two participants" |
+| B-COPY-610-4: client privacy (first names to other members) | `memberFirstName` on roster, block list, workout leaderboard (non-coach), wins; coach views unchanged | d1e1732f | two-way spec "client privacy" tests; `community-cohort-members.service.spec.ts`; flow spec block list |
+| Owner rule 13:34 (no generic errors) | Block refusals and `community.dm.blocked` carry stable `code` + human `message` with a next step | d1e1732f | flow spec "every block refusal carries a stable code and a human message" |
+| R75 banned casts | New tests use a typed `asUser` and a shared `build()`; net 0 | d1e1732f | `node scripts/check-r75.js --mode=range --base=origin/main --head=HEAD` -> OK |
+
+Tier re-check for this round: still T4 (visibility rules widened in scope, never in what is shown). Promotion triggers: none fired. Rebased on main be667142 before this round.
+
+~~Operator decision requested: voice notes cannot be reported yet.~~ Resolved: owner decision 20:32, voice notes ON at launch; voice-note reporting is built in this PR (fix round 3 below).
+
+Tests run this round (heavy.sh, `--runInBand --ci`, head d1e1732f):
+```
+npx jest --runInBand --ci test/community/safety test/community/classroom/community-classroom.service.spec.ts test/community/events/community-events.service.spec.ts test/community/challenges test/community/cohorts/community-cohort-members.service.spec.ts test/community.service.spec.ts test/community/messages test/community/dm-enabled-resolver.spec.ts
+  15 suites passed, 1 skipped (DB); 255 passed, 2 skipped
+npx jest --runInBand --ci --roots src/community/search --roots src/community/voice --roots src/community/challenges --roots test/community/safety
+  13 suites, 188 passed
+DB-backed e2e (events, reactions, foundation, moderation, dms, posts): skipped locally (no database); CI runs them
+npx tsc --noEmit -p tsconfig.json: clean
+eslint --max-warnings=0 + prettier --check on changed files: clean
+node scripts/check-r75.js --mode=range --base=origin/main --head=HEAD: OK, no positive token change
+```
+
+
+## Fix round 3 (lane B-UGC, agent 110): Opus audit 5942471860 + voice notes ON
+Merged main into the branch first (merge commits only, no rebase, no force): eeeeef89, then 9e4b3795 (brings #631 one support email, #630, #595).
+
+| Finding ID | What changed | Commit | Test that proves it |
+|---|---|---|---|
+| B-610-1 wins unsafe | Text filter on title + description (422, nothing stored); report target `win`; coach-circle-only feed (none cross-tenant, coachless member sees own only); `hidden_at` honoured by every feed; removed member 403 `community.win.removed_member`; author `DELETE /community/wins/:id`; ban creates a removed membership when the author never joined a cohort; feed serves the app contract with first names + `is_mine` | b3d85071 | `test/community/safety/community-voice-wins-safety.spec.ts` "member wins" (9 tests: filter, circle only, no workspace, contract, report -> Hide, Ban without cohort, block both ways, author delete + 404 for others, deleted win shows Removed) |
+| Voice notes ON (owner 20:32) | Report target `voice_note` (migration 20270211000000); queue playback link (15 min, live notes only), `removed`, `respond_by`/`overdue` on every item; Hide/Warn/Ban; block parity both ways incl. delete probe; author delete also hides the search row; DM voice refused `community.voice.dm_not_supported`; voice codes carry messages | b3d85071 | same spec "voice notes" (11 tests: report + playback + 24 h, overdue, only listeners can report, Hide everywhere + no link, Warn, Ban, coach never banned + no write, author delete -> Removed, block both ways, DM refused, m:ss label); `src/community/voice/__tests__/community-voice.service.spec.ts` (+6) |
+| Discovered: voice create always 400 | `CreateVoiceNoteDto.storage_key` decorated (`IsString`, 1..512) so the whitelist pipe keeps it | b3d85071 | new `src/community/voice/__tests__/community-voice.dto.spec.ts` (real `ValidationPipe` settings from main.ts: keeps key, rejects missing/empty/oversized, still forbids unknown fields) |
+| C-610-1 blocker vs blocked DM | Blocker: 403 `community.dm.blocked_by_you` "You blocked this member. To message them again, unblock them in Community safety."; blocked side: identical 404 body to a missing conversation | b3d85071 | `community-safety-flow.spec.ts` "block closes DMs in both directions...", "every block refusal carries a stable code and a human message"; `community-block-two-way.spec.ts` "DMs: closed both ways..." |
+| C-610-2 guard checked classification, not wiring | Guard now also requires each classified controller handler to `return this.<service>.<entry>(` and, when the entry differs from the asserted method, the entry body to call it | b3d85071 | `community-block-two-way.spec.ts` "regression guard" + "the wiring check rejects a handler that calls a different method" |
+| C-610-3 coach ban refusal copy | `CANNOT_BAN_COACH` carries a human message; README lists which roles can be banned (membership-role coach/assistant can; the workspace coach and platform owners cannot) | b3d85071 | `community-safety-flow.spec.ts` + wins/voice spec "a ban can never target the workspace coach" (asserts code + message, no write) |
+| C-610-4 no DB-backed proof | **Deferred, operator follow-up.** Wiring `COMMUNITY_TEST_DATABASE_URL` into CI changes a CI gate (a T4 trigger outside this lane). The in-memory suites drive the real services end to end and are the CI proof; the DB e2e suites run where a database is configured (`community-moderation.e2e.spec.ts` now provides `VoiceUploadProvider`) | n/a | n/a |
+| OR-109-1 one support address | Safety contact = `SUPPORT_EMAIL`; env override retired | b3d85071 | `community-safety-copy.spec.ts` (equals `SUPPORT_EMAIL`, ignores the retired override); `test/support-email.guard.spec.ts` (from #631) green on this head |
+
+Tier re-check for this round: T4, unchanged (never lowered). New T4 surface (migration, voice/win moderation) is listed in the header. Promotion triggers: none fired.
+
+Tests run this round (heavy.sh, `--runInBand`), head 9e4b3795:
+```
+heavy.sh npx tsc --noEmit -p tsconfig.json (NODE_OPTIONS heap 4096), after merging main: clean
+heavy.sh npx jest --runInBand test/community/safety src/community/voice/__tests__ test/community/challenges/community-challenges.service.spec.ts test/entitlement-guards-mounted.spec.ts test/support-email.guard.spec.ts
+  13 suites, 236 passed (incl. new community-voice-wins-safety 20, community-voice.dto 3, #631 support-email guard)
+heavy.sh npx jest --runInBand test/community test/community.service.spec.ts test/rls/community-voice-rls.spec.ts
+  41 suites passed, 10 skipped (DB-backed e2e, no database locally); 604 passed, 103 skipped
+heavy.sh npx jest --runInBand <migration-wide guards: rls-g2-nq1, rls-g2-b-drain, rls-g2-r-ready, rls-g2-c-contract, dependency-compatibility, ci/delivery-artifact, restore-schema-declared-objects-migration, invariants/locked_defaults>
+  4 suites ran, 132 passed
+prisma migrate diff (main schema -> branch schema): exactly the two enum values + hidden_at, matching migration.sql
+eslint + prettier --check on the 19 changed files: clean
+node scripts/check-r75.js --mode=range --base=origin/main --head=HEAD: OK, no positive token change; no `as any` / `as unknown as` added
+CI on 9e4b3795: Schema parity pass, Forward migrations apply cleanly pass, migrations reversible pass, rls-floor-guard pass, rls-live-tests pass, mwb-3-live-tests pass, Banned cast tokens pass, CodeQL pass, npm audit pass, build-sbom pass, danger pass, build-and-test pass (all required checks green; deploy-readiness-gate skipped by design)
+```
+
+
+## Fix round 4 (lane B-UGC-3, agent 111): C-610-4 community-live-tests red
+Main e5a6044a was already merged into this branch (8e0db445); origin/main unchanged since, so no new merge commit was needed. Migration 20270211000000 kept (no new migration file). No new env names.
+
+Root cause, from the CI logs (not guessed): the DB-backed community suites had never run for real. Before this round all 9 suites failed in `beforeAll` (91/91 failed before one assertion); after the seeding/DI fix they ran and exposed one product defect and one process leak.
+
+| Finding ID | What changed | Commit | Test that proves it |
+|---|---|---|---|
+| C-610-4 (1) seeding | The 8 e2e suites seeded a hand-made minimal "User" with raw SQL: `42804` (role text vs enum "Role") and `23502` (NULL supabase_id / email) on the real migrated table. New typed seed helper `test/community/_support/community-live-seed.ts` writes complete rows through Prisma; the stub JWT guard attaches the full User row. Suites fixed, nothing skipped, weakened or deleted | 48860b48 | community-live-tests run 37025651006 job 110899483453: 90 of 91 tests passed (all 9 suites ran) |
+| C-610-4 (2) Nest DI | `CommunityMessagesService` gained `PlanContextService`; the messages and moderation suites never provided it (silently skipped since June: green-by-skip). Provided `PlanContextService` + repository | 48860b48 | same run: both suites compile and run |
+| C-610-4 (3) discovered product defect: comments on Hall posts and workspace-wide challenges always 500 | Comments are `community_messages` rows (scope `cohort`, tagged `plan_context_type`) that copy the parent's `cohort_id`; a Hall post / workspace-wide challenge has none, and `community_messages_scope_shape_check` (20261212000000) required `cohort_id` for every scope `cohort` row: Postgres `23514`, API 500 on every such comment. The check now also accepts a cohort-less row only when it is a tagged post/challenge comment naming its parent; plain cohort messages and DMs unchanged. Appended as section 5 of this PR's own unreleased migration 20270211000000 (+ down.sql reverse with the rollback caveat) | 807fe34b | `community-posts.e2e.spec.ts` "3. any active member may comment -> 201" (the one failing test of run 37025651006) |
+| C-610-4 (4) hang: "Jest did not exit", job cancelled at 30 min | `CommunityRealtimeService.broadcastCommunityEvent` removed the channel only after a successful send. With realtime ON and no Realtime server (the messages suite sets `FEATURE_COMMUNITY_REALTIME=true`) the subscribe timed out, the channel was never removed, and the Realtime socket kept reconnecting forever: a live handle in CI and a timer per failed broadcast in production during a Realtime outage. The channel is now removed in `finally` (cleanup failure is logged, never thrown) | 807fe34b | new `test/community/realtime/community-realtime-channel-cleanup.spec.ts` (5: success, subscribe timeout, send failure, cleanup throws, flag off); local probe against an unreachable Realtime: old code still running at 150 s (killed by the timeout), new code exits on its own (73 s including ts-jest startup; probe not committed) |
+
+Tier re-check for this round: T4, unchanged (never lowered). New T4 surface: the scope-shape check change in the PR's migration (listed above). Promotion triggers: none fired.
+
+Tests run this round (heavy.sh, `--runInBand`), heads 807fe34b and c710b0dc (c710b0dc only types the new spec's channel fake: CI type-check on 807fe34b failed with TS7022 on it):
+```
+heavy.sh npx jest --runInBand --forceExit --runTestsByPath test/community/realtime/{broadcast-ping-contract,community-realtime-channel-cleanup,no-pii-in-broadcast,posthog-event-names}.spec.ts test/community/safety/community-safety-flow.spec.ts test/community/safety/community-ugc-round2.spec.ts
+  6 suites, 69 passed (incl. new community-realtime-channel-cleanup 5)
+leak probe (scratch spec, SUPABASE_URL=http://127.0.0.1:54321, FEATURE_COMMUNITY_REALTIME=true, --detectOpenHandles, timeout 150 s):
+  old service: exit 124 (still alive at 150 s); new service: exit 0 after 73 s
+round 4 part 1 (48860b48): local DI probe (database unreachable, $connect stubbed): all 8 Nest e2e suites compile their modules
+prettier --write + eslint --max-warnings=0 on the changed TS files: clean
+node scripts/check-r75.js --mode=range --base=origin/main --head=HEAD: OK, no positive token change
+CI on 48860b48: build-and-test pass; community-live-tests 90/91 (the one failure is fixed by section 5 above), then cancelled at 30 min by the hang fixed above
+heavy.sh tsc --noEmit -p tsconfig.json (heap 4096) on c710b0dc: clean
+CI on 807fe34b: community-live-tests pass (9 suites, 91/91, job done in 2m37s; run 37032954601); build-and-test failed only at type-check on the new spec (fixed in c710b0dc)
+CI on c710b0dc: community-live-tests pass (run 37033716656: 9 suites, 91/91), build-and-test pass, rls-floor-guard pass, rls-live-tests pass, mwb-3-live-tests pass, npm audit pass, CodeQL pass, Banned cast tokens pass, build-sbom pass, danger pass, Schema parity pass, Forward migrations apply cleanly pass, migrations reversible pass; shellcheck fails on the pre-existing SC2015 (not touched here)
+```
+
+## Fix round 5 (lane B-UGC-4, agent 112): Sol BLOCK + Opus REQUEST CHANGES on c710b0dc
+
+Main 3bd6215b merged (merge commit ea72c1fc, clean, no new env names). Fix commit 3c29f3b8; test type fix 6397f84b; 7a67fbef updates the `account-deletion.service.spec.ts` fixture for the new erasure step (finalization now reads voice notes and records the owner-folder erasure first). CI at 7a67fbef: every check green, including build-and-test, Schema parity, Forward migrations, reversibility, rls-live-tests and community-live-tests.
+
+| Finding | Change | Commit | Test (fails on c710b0dc) |
+|---|---|---|---|
+| A-610-2 (Sol) = B-610-6 (Opus): win `coach_id` could be forged; moderator arm trusted `coach_id` | Migration section 4: `app.community_win_author_coach(text)`. INSERT `WITH CHECK coach_id IS NOT DISTINCT FROM` the author's coach. Trigger raises 42501 on a mismatched insert. SELECT/UPDATE moderator arm is only `is_current_coach_of(user_id)`. Teammate helper requires the author's coach | 3c29f3b8 | `community-wins-rls.live.spec.ts`: self-coach insert denied; foreign, banned and null coach denied; legitimate inserts allowed; a forged self-coach row gives no unhide; a forged foreign row is invisible to that circle |
+| B-610-4: Warn then Ban kept only the warn notice while answering `stored: true` | Escalation-only `act` with CAS `resolveIfUnchanged` (3 tries). Notice key `community:moderation_notice:<id>:<action>`. `storeModerationNotice` returns created/exists/skipped; push only on created. Coded 409s | 3c29f3b8 | `community-ugc-round2.spec.ts` "B-610-4 round 5": Warn then Ban stores a ban notice; replay is idempotent; a weaker action is a 409 that writes nothing; two race tests |
+| B-610-5: a failed storage erasure was never retried | Table `community_voice_erasures` (section 6) and `voice-erasure.ts`. Work is recorded before the soft delete and completed only on verified removal (`objectGone` / `ownerFolderEmpty`), with backoff. `VoiceErasureService` cron runs with a lease. Used by author delete, moderation Hide/Ban and account deletion; a failed record aborts finalization | 3c29f3b8, 6397f84b, 7a67fbef | "B-610-5 round 5": outage then cron completes; moderation outage; a reported success is not trusted; record before soft delete; concurrent cron lease; non-canonical key. `community-voice.service.spec.ts`: ordering and record failure. `account-deletion.voice-erasure.spec.ts`: record failure aborts; an outage leaves open rows |
+| B-610-7: NULL `plan_context_type` passed the scope-shape CHECK as UNKNOWN | Section 5 arms wrapped in `IS TRUE`; the cohort-less arm requires `plan_context_type IS NOT NULL` | 3c29f3b8 | New `community-message-shape.live.spec.ts` (legitimate shapes stored; the NULL-discriminator shape and other cohort-less shapes refused), added to community-live-tests |
+
+Failing-before: every test above exercises behaviour or APIs that are absent at c710b0dc. The old policy admitted the forged rows, the old CHECK admitted the NULL row, the old dedup by report id dropped the ban notice, and the old delete had no erasure record. This is shown by construction. The specs were not run against c710b0dc (operator 12:37: targeted runs only, CI is the gate).
+
+Report: ops/reports/B-UGC-4-112.md.
+
+## Fix round 6 (lane B-UGC-6, agent 112): GPT-6.1 Sol REQUEST CHANGES 0/2/4 on a98d08b5
+
+Main merged three times (c8e5e71f; 32e398ea #635; 9cfd70d6 #646 as merge 9f2c3865; all clean, no conflict; main's `ci.yml` Roman live step kept, this PR's `community-live-tests` job unchanged; no new env names, no migration change). Fix commit 92228e32; merge 978da810; 7230ff3f renames the folder-marker constant (the R100 stub scanner flags the upper-case token `PLACEHOLDER` in src/ as BLOCK_SHIP, which turned the informational test-deploy-readiness red at 978da810); 9e89b13f makes live case 5 count only this report's notices (case 4's Hide already stored one for the same member); 9f2c3865 merges main 9cfd70d6 (payments only, disjoint) = head.
+
+| Finding | Change | Commit | Test (fails on a98d08b5) |
+|---|---|---|---|
+| B-610-13 (Sol): enforcement and the member notice were two commits; a failed notice left a silent ban with no notice | `act()` runs one `$transaction`: CAS `resolveGuarded` first (takes the report row lock), then `banAuthor(tx)` (ban row + memberships removed), `hideTarget(tx)` (post/message/voice/win soft-hide, `recordVoiceErasures(tx)` before the voice soft delete), then `storeModerationNotice(tx)`. `assertBannable` (coach/owner refusal) is read-only and runs before the transaction. `attemptVoiceErasures`, realtime and push run after commit; a post-commit erasure-attempt failure is logged, the cron owns it. Posts/messages repos take an optional `tx`. In-memory Prisma transactions now roll back on throw / failed commit and refuse root-client writes while one is open | 92228e32, 9e89b13f | `test/community/safety/community-ugc-round6.spec.ts`: "AUD-SOL: a failed notice transaction cannot leave a member silently banned" (Sol's probe; the failure is injected into the single transaction), "a lost COMMIT after enforcement (process death) rolls back the ban, the hidden recording, its erasure work and the resolution", "a Ban is one transaction that holds every enforcement write, and storage runs only after it commits", "a failed Hide notice leaves a post visible and the report open"; recovery: "the retry after a failed action applies everything exactly once". Live Postgres: `community-moderation.e2e.spec.ts` case 5 (a real trigger refuses the notice insert for that member: 500, no ban row, membership active, message visible, report open, no notice; after the trigger is dropped the retry bans once with one notice) in community-live-tests |
+| B-610-8 (Sol; Opus C-610-8 promoted): `objectGone` reused the publish-safe classification (any 400 / 404 / "not found" = gone) | New `isObjectNotFound` (body code `404`/`NoSuchKey` + message `Object not found`, HTTP 400/404 only) and `bucketConfirmed` (`getBucket` returns the configured bucket). `objectGone` is true only for both; present = false; everything else null (row stays open, retried). `ownerFolderEmpty` also needs a confirmed bucket. `statObject` (publish) unchanged | 92228e32 | `community-ugc-round6.spec.ts` "AUD-SOL: ambiguous storage HTTP 400 cannot certify a recording erased" (Sol's probe verbatim + the cron keeps it open). New `src/community/voice/__tests__/voice-erasure-verification.spec.ts` over the REAL storage SDK with a fake fetch: 10 inconclusive answers (generic 400, Bucket not found, invalid JWT, 401, 403, 500, 503 HTML, gateway 404, generic "Not found", transport) are null and keep a failed-removal row open; object-not-found is unknown when the bucket is missing / 500 / unreachable / different; outage -> ambiguous 400 -> missing bucket -> recovery through `VoiceErasureService.retryDue`; owner folder in a missing bucket stays open |
+| C-610-9 (Sol + Opus, one-liner in the touched provider) | `ownerFolderEmpty` / `removeOwnerFolder` ignore `.emptyFolderPlaceholder` (page of 10 so it cannot hide a real file) | 92228e32 | `voice-erasure-verification.spec.ts` "C-610-9: the dashboard folder placeholder alone counts as empty; a real file behind it does not" |
+| Fixtures | `community-ugc-round2.spec.ts`: the competing Ban in the 409 race is now another moderator's committed write before our transaction (a write inside ours rolls back with it); the notice-failure test wraps the tx client. `account-deletion.voice-erasure.spec.ts`: storage stub gains `getBucket` (the real client has it) | 92228e32 | both suites green |
+
+Failing-before (run, not by construction): with the four src files restored to a98d08b5 and the new harness, `community-ugc-round6.spec.ts` + the real-SDK matrix gave **23 failed / 19 passed** (every B-610-13 failing-before test, both Sol probes, every inconclusive/bucket case). Fixed code: targeted run `test/community/safety src/community/voice/__tests__ test/account-deletion.voice-erasure.spec.ts test/account-deletion.service.spec.ts` **302 passed, 5 skipped (live-DB e2e, CI only), 0 failed**. eslint clean on the 10 changed files; `node scripts/check-r75.js --mode=range --base=origin/main --head=HEAD` OK (net 0).
+
+Deferred to the follow-up PR (B-UGC-5, operator ruling OR-112-6): C-610-10 author-delete half (erasure record + soft delete in one transaction in `community-voice.service.ts`; the moderation Hide/Ban half is closed by B-610-13), C-610-11 (`app.community_win_author_coach` EXECUTE grant), C-610-12 (reset `attempts` when a completed erasure is reopened; `voice-erasure.ts` not touched this round).
+
+Report: ops/reports/B-UGC-6-112.md.
+
