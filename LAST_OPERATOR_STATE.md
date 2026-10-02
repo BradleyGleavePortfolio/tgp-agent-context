@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 12:36 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 12:42 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -29,6 +29,20 @@ FLAGS_LAUNCH_LEDGER.md, the v5 prompt (handoffs/op-f083060f), handoffs/op-260290
   1 auditor = 0.5 unit (7 builders <-> 14 auditors). Operator monitors the sandbox (ops/sandbox_monitor.sh -> ops/sandbox.log,
   one line/min: used/avail MB, load, disk %, heavy-queue depth, worktrees) and tunes the builder/auditor mix.
   12:36: 5 builders + 4 auditors = 7.0 units (added AUD-SOL-4 and AUD-OPUS-4; queues split).
+
+- 12:38 "Lets maximize our github lanes - get to work! I want audits flying, builders building, tons of fixers" + 12:38 "as much as
+  safely possible given dependency and cross threading workloads" -> binding: SUPERSEDES the 12:30 numeric cap. Run as many lanes
+  as is SAFE: (1) sandbox telemetry (ops/sandbox.log) — pause new launches if disk > 80%, avail mem < 1.5 GB, or heavy queue
+  stays > 6 for 10 min; (2) no two lanes write the same PR/files (G04); (3) dependency order (push holds until the other lens's
+  verdict is posted, so one fix round closes both lenses). Process: builders offload tsc/full suites to GitHub Actions (free for
+  public repos); npm cache cleaned (+1 GB disk).
+- 12:40 Wave A launched: AUD-SOL-5 (#642/#643 flips, #641/#329, #609/#312), B-CONSENT-4, S-ROMAN-CHATS, S-COACH-BE-2, B-JOURNEY-2.
+  Wave B lane files ready (launch after telemetry check): S-COACH-MOB-2, B-FEE-R6, S-MWB-2, S-RELEASE-MOB.
+- 12:38 AUD-OPUS-4 done: backend #641 REQUEST CHANGES 0/2/4, mobile #329 BLOCK 1/2/4 (Money UI entirely missing: Home card, Money
+  page, Business metrics fold-in, Payout settings, old Earnings/Business screens still call six 404 routes). C-641-2 (pre-existing,
+  SECURITY): coach payment routes send the client's Stripe client_secret + ephemeral key to the coach -> separate T4 PR in
+  S-COACH-BE-2. After #641 deploys: STRIPE_CONNECT_RETURN_URL / STRIPE_CONNECT_REFRESH_URL must be set (Stripe onboarding 503 until).
+- 12:38 B-FLAGS-3 opened backend #642 (GOOGLE_CLIENT_IDS -> github-secret) and #643 (BOOKING_REMINDERS_ENABLED -> on).
 
 ### Lane roster (agent 112; weighted 7.0/7 units; see 12:30 cap ruling)
 | Lane | Model | Scope | Launched |
