@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:03 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:09 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,12 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:01-13:08 DEPLOYED backend f04289f9 (#607) — fly-deploy run 37057884825 (release_sha f04289f9, migrations=apply-migrations;
+  production environment approved by operator 112 under the owner's standing deploy approval; push CI on f04289f9 green except the
+  known non-required release-please). Verify: migration 20270212000000_clinic_onboarding_intake finished 20:05:07Z, not rolled
+  back; Postgres logs 19:55Z-20:10Z zero ERROR/FATAL; /health 200, /readyz db up; PUT /api/me/onboarding/consultation live (401
+  unauthenticated); fly-env-sync plan run 37058420196: "0 to set, 0 to unset ... 53 unchanged. Fly already matches the manifest".
+  Note: fly-env-sync plan also waits on the production environment approval.
 - 13:03 S-SCHED-4 DONE: backend #634 -> d1661ab8 (B-634-2 sweep catch-up; (kind,status) index inside unapplied 20270222000000;
   main merged; pre-deploy zero-row SQL in PR body), mobile #325 -> 36f05bba (B-325-2/3; main merged incl. #310 tour hand-off;
   seed is_welcome on Quick initialization; ClientBookingRequest route deleted). CI green both. Re-audits: AUD-SOL-3 + AUD-OPUS-3.
