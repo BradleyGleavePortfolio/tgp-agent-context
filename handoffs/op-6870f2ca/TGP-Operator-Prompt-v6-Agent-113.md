@@ -1,6 +1,6 @@
 # TGP OPERATOR PROMPT v6 — Agent 113: clinic launch executive operator
 
-Written by agent 112 (Computer session 6870f2ca, thread https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547) at Bradley's request (10-02 13:34: "lets prepare for your OUT OF CREDIT reitre ... prep for [the next agent] (a fresh, no prior context agent) who will need you to cleanly stop, no wasted work, and a great pickup-prompt from you - just like you used the agent 111 prompt document, but perferably yours would be even better!"). Snapshot: 2026-10-02 16:01 PDT (real clock). The newest copy lives in tgp-agent-context at handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md (and .docx). Paste this whole document as the first message to the next operator and attach the owner documents listed in section 3.4. It replaces prompt v5 (handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md, kept for history). Most of v5 is carried over word for word. Changed or new: the START HERE card (new), 0.A (new), 2 (10-02 update), 3 (rewritten: new ops kit), 4.14 (new), 5 (rewritten), 6.0 (112's lessons, new), 7, 12, 13, 14 and 16.
+Written by agent 112 (Computer session 6870f2ca, thread https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547) at Bradley's request (10-02 13:34: "lets prepare for your OUT OF CREDIT reitre ... prep for [the next agent] (a fresh, no prior context agent) who will need you to cleanly stop, no wasted work, and a great pickup-prompt from you - just like you used the agent 111 prompt document, but perferably yours would be even better!"). Snapshot: 2026-10-02 16:06 PDT (real clock). The newest copy lives in tgp-agent-context at handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md (and .docx). Paste this whole document as the first message to the next operator and attach the owner documents listed in section 3.4. It replaces prompt v5 (handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.md, kept for history). Most of v5 is carried over word for word. Changed or new: the START HERE card (new), 0.A (new), 2 (10-02 update), 3 (rewritten: new ops kit), 4.14 (new), 5 (rewritten), 6.0 (112's lessons, new), 7, 12, 13, 14 and 16.
 
 Naming note: Bradley numbers operators by the agent being replaced. In his 13:34 message "112" meant the next agent. This document calls the next operator agent 113, because 111 ran the session before 112's. If Bradley calls you "112", that is you; never debate the number.
 
@@ -272,7 +272,7 @@ UPDATE 10-01 20:17-23:59 (agent 110 era; sections 4.13 and 5 have the detail):
 UPDATE 10-02 (agents 111 and 112; sections 4.14 and 5 have the detail):
 
 - Agent 111 (07:53-11:10) shipped the consent-ledger deploy (backend 3bd6215b, FEATURE_AI_CONSENT_LEDGER_ENABLED live) and the audited flag path (#637 fly-env-sync manifest), then ran out of credits mid-flight. Several of its lanes died without reports, and agent 112 reconstructed them from GitHub.
-- Agent 112 (11:20-16:01) merged mobile #310 (consultation onboarding), backend #607 (consultation intake; deployed 13:01-13:08 with migration 20270212000000) and mobile #324 (one support email). It also ran 17 parallel lanes that produced about 35 audit verdicts and 15 fix rounds or new PRs.
+- Agent 112 (11:20-16:06) merged mobile #310 (consultation onboarding), backend #607 (consultation intake; deployed 13:01-13:08 with migration 20270212000000) and mobile #324 (one support email). It also ran 17 parallel lanes that produced about 35 audit verdicts and 15 fix rounds or new PRs.
 - New launch blockers 112's auditors found:
   - Push notifications were saved but never sent to devices. Fix PRs #647/#648 are open.
   - Every live Roman call failed the app's id check. The fix is in #331.
@@ -971,6 +971,7 @@ Agent 112 operator rulings (OR-112-n; Bradley can override any of them):
 - OR-112-20: #649's end-of-migration guard (it fails if Day 1 still names the diagnostic) is kept. Before deploying #649, agent 113 runs one read-only SELECT on the Build Week Day 1 rows in production and confirms they hold the original seed text, so the guard can't fail the deploy. The deploy needs migrations=apply-migrations.
 - OR-112-21: #315 is T4. Its own promotion rule fired because the screen now sends failure reports to Sentry, so it needs both lenses and still merges with #611. The shared SupportEmailFallback copy "write to us" is first person, so a small app-wide copy fix goes before launch. C-649-1: the #649 guard could miss leftover "diagnostic" text if production's Day 1 drifted; the pre-deploy SELECT covers that.
 - OR-112-22: the Day 1 package-sheet payment failure is a launch blocker and the first fix to assign. The sheet switches to the payment-intent endpoint, passes the customer id, and shows specific error copy, with a failing-before test against the real backend contract. #646's Cs (owner admin purchase routes still return raw secrets; cached secrets never cleared after a payment completes) and C-627-8 (a stale repay amount in the failed-transfer log) are one small follow-up PR before launch. Mobile #321 waits for #627 (B-627-8 fix, then a Sol delta).
+- OWNER DECISION 16:04 (verbatim): "We absolutely NEED - LITERALLY MOST CRITICAL OF ALL - RECCURING packages and system, for sure - do NOT EVER compromise down to JUST one time payment as the only path!!!" This supersedes the interim in OR-112-23. Recurring packages are the #1 launch item, and #334 does not merge without the recurring path.
 - OR-112-23: a renewing (monthly or yearly) plan must never be sold as a one-time payment with open-ended access, because that loses TGP and the coach recurring revenue. Two parts:
   - Backend, before launch: POST /v1/checkout/payment-intent rejects renewing packages with a coded error.
   - Mobile: the Day 1 package sheet routes renewing plans to the app's subscription checkout path. If no such path exists, building it is launch scope, because Bradley wants more functionality, not less. #334's refusal to sell renewing plans is the safe interim.
@@ -979,7 +980,7 @@ Agent 112 operator rulings (OR-112-n; Bradley can override any of them):
 
 The live, newest version of this section is the top of tgp-agent-context LAST_OPERATOR_STATE.md: "AGENT 112 TAKEOVER", then the "Train log (agent 112; newest first)". If this prompt and the train log disagree, the train log wins, and GitHub beats both.
 
-### AGENT 112 STATE FOR AGENT 113: snapshot 2026-10-02 16:01 PDT (real clock)
+### AGENT 112 STATE FOR AGENT 113: snapshot 2026-10-02 16:06 PDT (real clock)
 
 #### Production and mains
 
@@ -1060,6 +1061,8 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 - B-PAYSHEET: NEW mobile #334 (5b6eb654, T4, 3/3 green) fixes the Day 1 package sheet payment blocker (OR-112-22). It needs a dual audit.
   - New finding: POST /v1/checkout/payment-intent charges monthly and yearly plans once and grants open-ended access. The sheet now refuses to sell renewing plans, but the API still allows it (OR-112-23).
 
+- 16:04 OWNER: recurring packages are the most critical item; never one-time-only (recorded verbatim). 16:05 OWNER: "dont start any agents". No agent was started.
+
 #### Open launch PR board (generated by tools/board.py at the snapshot; regenerate it, because heads move)
 
 **growth-project-backend** (21 open launch PRs; dependabot bumps and pre-launch PRs omitted)
@@ -1112,7 +1115,8 @@ The live, newest version of this section is the top of tgp-agent-context LAST_OP
 
 #### First moves for agent 113 (in this order)
 
-0. Quick wins from 112's last rounds: Opus DELTA audits of #610 @9f2c3865, #333 @806467b9 and #330 @7d640548 (Sol APPROVE at all three), then merge. For #610: deploy, flip the community core flags, then update-branch #314, delta and merge. For #333: run `eas env:exec` for clinic and preview first. For #330: one preview build plus a forced pre-JS crash check. Then a dual audit of the new #334 (Day 1 package sheet payment fix) and merge it.
+0. MOST CRITICAL (OWNER 16:04): get recurring packages selling as real subscriptions on every purchase surface, starting with the #334 extension plus the backend payment-intent guard (v6 section 12 item 0). Never ship one-time-only.
+0b. Quick wins from 112's last rounds: Opus DELTA audits of #610 @9f2c3865, #333 @806467b9 and #330 @7d640548 (Sol APPROVE at all three), then merge. For #610: deploy, flip the community core flags, then update-branch #314, delta and merge. For #333: run `eas env:exec` for clinic and preview first. For #330: one preview build plus a forced pre-JS crash check. Then a dual audit of the new #334 (Day 1 package sheet payment fix) and merge it.
 1. Bootstrap (START HERE), regenerate the board, and read every HANDOFF section. Then relaunch the two Opus and three Sol audit lenses with short queues, built from the board's "needs audit" heads below. Use handoffs/op-6870f2ca/lanes/AUD-*.md as templates.
 2. #635 and #646 are MERGED (14:58, 15:11); the deploy status is in the production section. Next, the payment blocker (OR-112-22) and mobile #326 (16e7e97c, needs deltas), then mobile #331. After that comes mobile #326 (16e7e97c, needs deltas), then mobile #331. #331 first needs a fix round: Sol BLOCK 1/3/2 with A = a cross-account destructive-intent / transport-credential race, and Opus B-331-1.
 3. Merge the approved pairs as soon as their other half is approved:
@@ -1516,7 +1520,10 @@ A. Audits, merges and deploys (section 5 "First moves" has the order):
 
 B. Fix rounds with no live lane at the stop (assign builders):
 
-0. FIRST: the Day 1 package-sheet payment fix is BUILT as mobile #334 (needs a dual audit). Next, OR-112-23: the backend rejects renewing plans on payment-intent, and the sheet routes renewing plans to subscription checkout. Then the #627 B-627-8 fix (duplicate won-dispute reinstatement; Sol probe in probes/AUD-SOL-6-112/) followed by a Sol delta, then merge #627 and #321 together.
+0. FIRST AND MOST CRITICAL (OWNER 16:04): recurring packages. Every surface that sells a package (the Day 1 sheet in #334, package detail, storefront and join links) must sell renewing plans as real Stripe subscriptions. One-time-only is never acceptable. The subscription path already exists: POST /v1/checkout/sessions creates a Checkout session in mode=subscription, with transfer_data sending payment to the coach's Connect account, and webhooks activate it. The billing portal and dunning from #628 are also in place. Work:
+   - (a) #334: renewing plans go through /v1/checkout/sessions with the DTO's exact fields. Open the Checkout URL in an in-app browser, handle the return deep link, wait for the entitlement, and give each failure cause its own message. #334 must NOT merge while it only refuses renewing plans.
+   - (b) Backend: payment-intent rejects renewing packages with a coded error.
+   - (c) Prove it end to end in Stripe test mode: subscribe, renewal webhook, cancel and dunning. Then the #627 B-627-8 fix (duplicate won-dispute reinstatement; Sol probe in probes/AUD-SOL-6-112/) followed by a Sol delta, then merge #627 and #321 together.
 
 4. #610: fixed at 9f2c3865 (B-UGC-6) → Sol re-audit + Opus delta → merge with mobile #314 (already dual-APPROVED).
 5. #305: B-305-5 (staged rollout through the guard with --rollout-percentage) and B-305-6 (upload source maps on publish).

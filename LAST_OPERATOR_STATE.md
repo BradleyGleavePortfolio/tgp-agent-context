@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 16:05 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 16:06 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -112,6 +112,7 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 16:06 OWNER (16:05, verbatim): "dont start any agents". None started. Recurring-first scope written into prompt v6 sections 12, 4.14 and the first moves for 113.
 - 16:05 OWNER DECISION (16:04, verbatim): "We absolutely NEED - LITERALLY MOST CRITICAL OF ALL - RECCURING packages and system, for sure - do NOT EVER compromise down to JUST one time payment as the only path!!!"
   => Recurring packages are the #1 launch priority. Every purchase surface that sells a package (Day 1 sheet #334, package detail,
   storefront/join links) must sell renewing plans as real Stripe subscriptions (existing path: POST /v1/checkout/sessions ->
