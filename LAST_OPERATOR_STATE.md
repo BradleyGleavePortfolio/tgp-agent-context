@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:18 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:21 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,10 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:21 AUD-SOL-5 DONE: #642 RC 0/1/0 (B-642-1 confirmed: backend accepts only google|apple re-auth, mobile sends google_session
+  -> deletion dead end; #642 waits for #608 live); #643 RC 0/2/1 (B-643-1 push rows never reach pushToUser; B-643-2 duplicate inbox
+  rows); #641 RC 0/4/4; mobile #329 BLOCK 1/4/4; mobile #312 RC 0/2/2; #609 RC 0/4/4 (rls-live-tests red). Push holds lifted for
+  S-COACH-BE-2 (#641), S-COACH-MOB-2 (#329), B-JOURNEY-3 (#609/#312); B-FLAGS-3 notification work given Sol's #643 root cause.
 - 13:18 AUD-SOL-3: backend #634 REQUEST CHANGES 0/2/1 at d1661ab8 (5960774667: B-634-2 partial — first-claim failures vanish after
   the due band, retained future rows starve recovery; B-634-6 raw ORM diagnostics); mobile #325 APPROVE 0/0/1 at 36f05bba
   (5960782021) -> #325 now dual-APPROVED but HELD: merges together with #634 (scheduling pair; clinic build calls #634 routes).
