@@ -28,6 +28,14 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 10:41 MERGED backend #637 (launch-flag manifest + plan/apply/verify; dual APPROVE at 1c28fb20, checks green) -> main 91359821.
+  #638 retargeted to main; operator merged main into it (add/add conflict; patch-id fc7edcdb identical to the audited flip) ->
+  4a121b67, ready for review; dual delta pending (last gate before deploy). B-FEE-R5 done: #627 9d6351b0 (CI green; OR-111-1
+  implemented: $100 refund -> reverse $94.80, hold $5.20 from next sale; lost dispute w/ $15 fee -> hold $20.20; refused reversal
+  -> hold $100 netted across next sales; TGP +$2.00 per charge), mobile #321 7322bbf (Opus 0/2/4 closed; trial-days/features
+  inputs removed because backend stores neither — operator ruling: keep out; IDEA for owner: real package free trials, T4).
+  Queued: #627 + #321 -> AUD-OPUS-2 and Sol. Launched S-WEAR (mobile #317 fix round). Deploy will apply 1 migration
+  (20270216000000_package_first_published_at).
 - 10:33 B-CONSENT-2 done: #607 f6fa244b, mobile #310 c2414203, mobile #326 8f8d6424 (stacked on #310), #611 0ed698a4; #635
   e7f67576 got RC from BOTH lenses after the lane ended (Opus 0/1/2, Sol 0/2/3). Rulings: #611 publication hold — merges only after
   the ledger deploy, #608 live and written vendor-deletion/backup procedures; #611's rewritten deletion wording (lists what is kept)
