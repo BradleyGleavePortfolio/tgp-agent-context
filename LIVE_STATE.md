@@ -36,6 +36,7 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-02 13:34 | "let them finish, start no new work, keep updating last_operator_state ... prep for [the next agent] ... cleanly stop, no wasted work, and a great pickup-prompt" | Clean-stop order sent to all active lanes 13:36; no new work; no deploys; pickup prompt v6 in handoffs/op-6870f2ca/. |
 | 10-02 12:40 | "now let all of these agents completely - record the process and results, and then move forward" | Binding: current 17 lanes run to completion; results processed + recorded as they land; next wave planned after. |
 | 10-02 12:38 | "Lets maximize our github lanes - get to work! I want audits flying, builders building, tons of fixers" + "as much as safely possible given dependency and cross threading workloads" | Binding; supersedes the 12:30 numeric cap: max SAFE lanes by telemetry + no overlapping writers + dependency order. Wave A (5 lanes) launched 12:40; wave B staged. |
 | 10-02 12:30 | "7 buidlers/fixers -> 14 auditors = same to me - use this as the implied cap ruling and MONITOR SANDBOX STATE and try to find the chefs kiss balance, pelase" | Binding cap ruling: 7 builder-units, auditor = 0.5. Sandbox monitor running (ops/sandbox.log). 12:36: 5 builders + 4 auditors = 7.0 units. |
