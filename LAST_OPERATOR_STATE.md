@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:40 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:41 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -96,6 +96,15 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:41 B-EXPORT-3 DONE (no WIP): backend #608 -> bdadfcb4, #636 -> 608985cf (stacked on #608), mobile #327 -> 395c3312; all CI
+  green. Order for 113: dual audit #636 -> merge #636 into #608's branch -> dual delta #608 -> merge -> deploy (run #636's C-636-6
+  pre-check first: the migration block in a rolled-back txn as deploy role) -> re-audit #327 -> merge after #608/#636 deployed.
+- 13:41 OR-112-17: C-608-2 (admin force-delete without re-auth) + C-608-7 (unkeyed receipt digest) fixed BEFORE launch in one small
+  follow-up PR after #608 merges (step-up auth for destructive admin actions; HMAC-keyed digest). Not 1.0.1.
+- 13:40 MERGED backend #644 (chore(diagnostic): quiz off in the fitness backend; T2; Sol APPROVE 0/0/1 at d32dcfca = exact head;
+  10/10 required green; no mobile caller of /diagnostic on main) -> backend main 5d1f224a. NOT deployed (rides the next deploy).
+- 13:41 AUD-SOL-4 DONE (queue empty): #610 RC 0/2/4 @a98d08b5, #314 APPROVE, #324 APPROVE, #644 APPROVE. Operator removed its 4
+  worktrees (disk 66%).
 - 13:40 AUD-OPUS-4 DONE (queue empty, worktree removed): mobile #329 @83ee0e46 BLOCK 1/0/2 (only A-329-1: Money page is in #332;
   closes by #332 merge into #329 + delta), mobile #332 @61eea115 RC 0/1/4 (B-332-1: after switching period the Money page shows the
   old period's numbers under the new label and no error on failed load), mobile #317 @58c2d53 APPROVE 0/0/2 (C-317-5 remove two
