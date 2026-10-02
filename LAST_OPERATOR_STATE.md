@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 12:30 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 12:36 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -24,7 +24,13 @@ FLAGS_LAUNCH_LEDGER.md, the v5 prompt (handoffs/op-f083060f), handoffs/op-260290
 - 12:26 asked for a status update and why parallelism is not higher -> answered (7 subagents = owner budget; 8-agent hard cap
   incl. operator; 2 CPU / 7 GB sandbox, heavy jobs serialized).
 
-### Lane roster (agent 112; 7/7 slots)
+- 12:30 "7 buidlers/fixers -> 14 auditors = same to me - use this as the implied cap ruling and MONITOR SANDBOX STATE and try to
+  find the chefs kiss balance, pelase" -> binding CAP RULING: weighted budget of 7 builder-units; 1 builder/fixer = 1 unit,
+  1 auditor = 0.5 unit (7 builders <-> 14 auditors). Operator monitors the sandbox (ops/sandbox_monitor.sh -> ops/sandbox.log,
+  one line/min: used/avail MB, load, disk %, heavy-queue depth, worktrees) and tunes the builder/auditor mix.
+  12:36: 5 builders + 4 auditors = 7.0 units (added AUD-SOL-4 and AUD-OPUS-4; queues split).
+
+### Lane roster (agent 112; weighted 7.0/7 units; see 12:30 cap ruling)
 | Lane | Model | Scope | Launched |
 |---|---|---|---|
 | AUD-SOL-3 | GPT-6.1 Sol | #607 delta, #628/#322, #635, #627/#321, #640/#328, #609/#312 | 12:24 |
@@ -34,6 +40,8 @@ FLAGS_LAUNCH_LEDGER.md, the v5 prompt (handoffs/op-f083060f), handoffs/op-260290
 | B-FLAGS-3 | Claude Opus 5.5 | manifest flips GOOGLE_CLIENT_IDS, BOOKING_REMINDERS_ENABLED=on | 12:27 |
 | S-WEAR-2 | Claude Opus 5.5 | mobile #317 wearables | 12:29 |
 | S-SCHED-4 | Claude Opus 5.5 | #634 + mobile #325 | 12:29 |
+| AUD-SOL-4 | GPT-6.1 Sol | #627/#321, #640/#328, #609/#312 (split from AUD-SOL-3, which keeps #628/#322, #607, #635) | 12:36 |
+| AUD-OPUS-4 | Claude Opus 5.5 | #641/#329 (+ completeness vs S-COACH objective), #609/#312 (split from AUD-OPUS-3) | 12:36 |
 Queue (next free slot, in order): B-CONSENT-4 (#326 retarget+merge main, #315 copy, #611 + procedures doc, #635 findings),
 S-COACH-2 (verify/finish #641/#329), B-FEE-R6 (#627/#321 after Sol), S-MWB-2 (#640/#328 after Sol + undo button),
 S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup-branch-protection.sh), S-REACH, Roman stack.
