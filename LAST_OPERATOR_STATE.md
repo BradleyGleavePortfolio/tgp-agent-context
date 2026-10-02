@@ -28,6 +28,11 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
 ### Train log (agent 111; newest first)
+- 09:33 MERGED backend #629 (S-FEE $19.99 min / $0; Sol + Opus APPROVE at 089e8a7e after rerun attempt 2 green) -> main b9ee8e0a.
+  #632 update-branch -> af8976c8 (Sol T2 delta pending). Sol verdicts: #607 b74384fb RC 1/0/2 (A-607-4 retired membership persists
+  plans under removed head); mobile #310 f85ffd36 RC 0/1/1 (B-310-8 no->yes->no clears newest withdrawal marker); Opus #634 RC
+  0/4/5, #325 RC 0/2/5. B-FLAGS-2 opened #637 (manifest), #638 (stacked ledger flip), #639 (SC2015). AUD-SOL relaunched as AUD-SOL-2
+  (#632 delta, #637/#638/#639, #635 e7f67576, #610).
 - 09:05 #629 dual APPROVE at d134f012 -> update-branch -> 089e8a7e; Sol delta BLOCK B-629-5 = build-and-test failed on
   test/ci/release-evidence-gate.spec.ts "newest run wins" (spec byte-identical to main; main CI green at e5d10bd8). Operator ran
   that spec 3/3 PASS locally at 089e8a7e (43/43) -> transient; `gh run rerun 37026913517 --failed`; then Sol + Opus delta.
