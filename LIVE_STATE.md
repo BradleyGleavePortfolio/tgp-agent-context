@@ -36,6 +36,7 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-02 08:03 | Budget "All 7, staggered"; refund/chargeback: "send the coach an alert, we sent the customer $xxx, that we're holding the sum of our 2% fee and the stripe fees from his next sale, in addition to the standard charges ... we will settle up by wage gouging" | 7 subagents staggered (2 audit slots). OR-111-1: alert + forward netting from the coach's next sale(s) (2% + Stripe fees + any refused reversal); no payout delay/bank debits/past-transfer clawback; lane B-FEE-R5 on #627. |
 | 10-02 07:53 | Agent 111 takeover: read every attachment word for word; AUTONOMY doc = mentality, AGENT RULES = law, MODEL ROUTING = grading/execution, v5 prompt = first prompt; assume all prior agents/jobs died mid-work; read LAST_OPERATOR_STATE | Reconciled from GitHub 07:54-08:00 (LAST_OPERATOR_STATE "AGENT 111 TAKEOVER"); readback + budget question sent 08:00. |
 | 10-01 21:44 | "you do it! checkbox in GitHub's branch settings" (schema parity) | Done 21:45: backend main now requires 10 checks incl. Schema parity. |
 | 10-01 20:38 | "1.) ANYTHING LESS THAN HYPERSCALER QUALITY IS A DAY 1 BLOCKER 2.) WALL CLOCK TIME IS KEY #1 RESOURCE 3.) DO IT RIGHT, DO IT SMOOTH - SMOOTH IS FAST 4.) I WANT MORE, NOT LESS FUNCTIONALITY IF THE CHOICE ARISES" + "EXECUTE" | Binding over all lanes; added to the subagent brief. |

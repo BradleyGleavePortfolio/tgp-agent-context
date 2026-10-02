@@ -10,6 +10,23 @@ Read word for word: the 18 owner attachments (v5 prompt, Agent Rules, Model Rout
 LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (historic), handoffs/op-f083060f
 (README, brief, lanes, reports). Ops bootstrap done (ops/ from op-7c52cefa + op-f083060f; shared deps install started 07:53).
 
+### OWNER DECISIONS 2026-10-02 08:03 PDT (answers to the 111 readback; binding)
+- Budget: "All 7, staggered (Recommended)" = 7 subagents, staggered; 2 slots kept for the Sol + Opus audit lenses.
+- Refund / chargeback recovery (B-627-3), verbatim: "A coach sells a package -> customer chargebacks -> we send the coach an
+  alert, we sent the customer $xxx,, that wer'e holding the sum of our 2% fee and the stripe fees from his next sale, in
+  addition to the standard charges - make sense? Basically we will settle up by wage gouging!"
+  Operator ruling OR-111-1 (implementation of that answer, lane B-FEE-R5 on #627):
+  1. On a refund or a chargeback, the coach gets an alert (push + Money "needs attention" + email when the provider is live) with
+     exact amounts: what the customer got back, and the amount TGP is holding from the coach's next sale = TGP's 2% + every
+     Stripe fee on that charge (processing fee Stripe keeps, dispute fee), on top of the next sale's standard fees.
+  2. The coach's share of the refunded charge comes back by reversing that charge's own transfer; whatever Stripe refuses
+     (coach already paid out) joins the held amount.
+  3. Recovery is forward-only netting: the held amount is deducted from the coach's next transfer(s) until fully settled
+     (carried across sales; Money page shows the open balance). No payout delay, no debit_negative_balances, no Account
+     Debits, no reversal of the coach's other past sales' transfers (supersedes round 4's 90-day clawback).
+  4. Won disputes / reinstatements net against the open balance. A coach who never sells again leaves an open receivable:
+     SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
+
 ### Re-verified live (07:54-07:58 PDT)
 - Production backend ba79605b (fly-deploy run 36964740404, 10-01 21:29 PDT), /health + /readyz 200 (db up), uptime matches.
   /api/me/ai-consent 401 (route live). /api/auth/signup-policy: email+apple, google off, role_choice true.
@@ -41,9 +58,7 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
 - 110's log said B-FEE-R4 had not reached #629/#321; it pushed both. 110's log listed #636/#327 as awaiting first audits;
   Sol already posted RC on both. #627's round-4 head is CI red (110's report claimed local green only).
 
-### Owner questions asked 08:00 PDT (readback): agent budget for 111 (recommend 7 staggered, 2 auditor slots);
-B-627-3 refund/dispute residual recovery (recommend payout delay + in-code clawback now, debit_negative_balances once coach
-terms carry consent).
+### Owner questions asked 08:00 PDT (readback): agent budget; B-627-3 recovery. ANSWERED 08:03 (see OWNER DECISIONS above).
 
 ## AGENT 110 TAKEOVER 2026-10-01 20:17-20:36 PDT — verified facts, owner decisions, first batch
 
