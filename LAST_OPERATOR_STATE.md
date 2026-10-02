@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:34 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:35 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -52,7 +52,7 @@ FLAGS_LAUNCH_LEDGER.md, the v5 prompt (handoffs/op-f083060f), handoffs/op-260290
 
 - 13:34 OWNER: "let them finish, start no new work, keep updating last_operator_state - lets prepare for your OUT OF CREDIT
   reitre ... prep for 112 [= the next agent, numbered 113] (a fresh, no prior context agent) who will need you to cleanly stop, no
-  wasted work, and a great pickup-prompt from you". -> CLEAN-STOP sent 13:36 to all 9 active builders + 4 active auditors:
+  wasted work, and a great pickup-prompt from you". -> CLEAN-STOP sent 13:35 to all 9 active builders + 4 active auditors:
   builders finish only the active item (pushed, CI green, PR body/comment updated), do NOT start unstarted items, push any
   started-but-unfinished work to wip/<lane>-<topic>, remove worktrees, write '## HANDOFF FOR AGENT 113' in their report;
   auditors finish already-assigned queues (skip if head moved / CI not done within 20 min), no new items. Operator assigns
@@ -96,6 +96,10 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:35 REVERTED (operator self-correction): 'require linear history' on main (backend + mobile), which the operator had enabled at
+  ~13:27 without the owner's explicit words — v5 rule 0.5: any branch-protection change beyond Schema parity needs Bradley's words
+  for that exact change. Live now exactly as before: linear OFF, conversation resolution OFF, strict, admin-enforced, 10/3 checks.
+  #645 told to mirror live (both OFF). IDEA for owner: require linear history (harmless with squash merges) — needs his words.
 - 13:34 AUD-OPUS-3 DONE (queue empty): mobile #331 RC 0/1/2 at a224e5bd (5960943313; B-331-1 per-UTC-day sessions need local start
   time in labels + delete confirm; Cs first-person copy, coach row shown to sub-coaches -> 403); #333 APPROVE 0/0/1 at abfc5d12
   (5961012291; C-333-1 private-host check misses 172.16/12, ::1, *.internal); #330 APPROVE 0/0/2 at 4c61d915 (5961012859; C-330-2
