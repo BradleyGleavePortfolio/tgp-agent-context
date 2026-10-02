@@ -42,7 +42,7 @@ FLAGS_LAUNCH_LEDGER.md, the v5 prompt (handoffs/op-f083060f), handoffs/op-260290
 | S-SCHED-4 | Claude Opus 5.5 | #634 + mobile #325 | 12:29 |
 | AUD-SOL-4 | GPT-6.1 Sol | #627/#321, #640/#328, #609/#312 (split from AUD-SOL-3, which keeps #628/#322, #607, #635) | 12:36 |
 | AUD-OPUS-4 | Claude Opus 5.5 | #641/#329 (+ completeness vs S-COACH objective), #609/#312 (split from AUD-OPUS-3) | 12:36 |
-Queue (next free slot, in order): B-CONSENT-4 (#326 retarget+merge main, #315 copy, #611 + procedures doc, #635 findings),
+Queue (next free slot, in order): B-CONSENT-4 (lane file ready), S-ROMAN-CHATS (lane file ready), (#326 retarget+merge main, #315 copy, #611 + procedures doc, #635 findings),
 S-COACH-2 (verify/finish #641/#329), B-FEE-R6 (#627/#321 after Sol), S-MWB-2 (#640/#328 after Sol + undo button),
 S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup-branch-protection.sh), S-REACH, Roman stack.
 
@@ -67,6 +67,14 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 12:45 AUD-OPUS-3: backend #607 APPROVE at b4750d05 (delta; merge-of-main pure; B-607-5 Danger title closed by operator retitle
+  + re-run 19:30Z; C-607-6 migration 20270212000000 sorts before applied 20270216000000 — harmless, do not rename); backend #635
+  APPROVE at c2688010 (0/0/1; B-635-2/3, C-635-1/2/3 closed). Waiting: Sol deltas on #607 and #635 (AUD-SOL-3).
+  Routing from the #635 audit: (1) LAUNCH BLOCKER: mobile has no Roman chat list/delete screen while #310 copy promises "kept until
+  you delete them" -> lane S-ROMAN-CHATS queued; (2) "or your account" true only once #608 deploys (B-EXPORT-3); (3) export must
+  include Roman chats -> added to B-EXPORT-3; (4) SHIP ORDER: deploy #635 before any mobile build carrying #310.
+- 12:33 Danger on #607 failed only on the PR title (not Conventional Commits) -> operator retitled + re-ran Danger (green 19:30Z).
+  Brief updated: PR titles must be Conventional Commits; auditors never stall the whole queue on one PR.
 - 12:15 ops bootstrap: repos cloned (full history), ops/ tooling from handoffs/op-7c52cefa + op-26029069, shared deps install.
 
 ## AGENT 111 TAKEOVER 2026-10-02 07:53-08:00 PDT — reconciled facts (read first)
