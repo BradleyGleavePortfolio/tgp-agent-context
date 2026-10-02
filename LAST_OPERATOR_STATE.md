@@ -96,6 +96,10 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:46 AUD-SOL-5 DONE (queue empty): mobile #329 @83ee0e46 BLOCK 1/1/1, #332 @61eea115 RC 0/3/1, #317 @58c2d53 RC 0/3/2
+  (cancellation before fence creation, extra native reads after logout, cloud error mapping; 5 independent assertions fail). #317 =
+  Opus APPROVE + Sol RC -> needs a wearables fix round (S-WEAR-3). Handoff JSON: ops/evidence/AUD-SOL-5-112/handoff-agent113.json.
+  Operator removed its 6 worktrees (disk 63%).
 - 13:46 S-COACH-BE-2 DONE (no WIP): backend #641 -> bb17e19a (B-641-1 real dunning email time, B-641-2 lost chargeback not paid,
   B-641-3 one currency per summary + MONEY_CURRENCY_INVALID, B-641-4 MRR from real billing schedule, C-641-1/3/4 incl. tax CSV export
   route; 5/5 fail before), NEW #646 @ea919f6b fix(payments) client Stripe secrets removed from coach purchases/detail/failed/earnings
