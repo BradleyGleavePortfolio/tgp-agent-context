@@ -27,6 +27,11 @@ LAST_OPERATOR_STATE.md, LIVE_STATE.md, FLAGS_LAUNCH_LEDGER.md, DECISION_LOG.md (
   4. Won disputes / reinstatements net against the open balance. A coach who never sells again leaves an open receivable:
      SFEE_RECOVERY_OPEN alert to the operator/owner (accepted residual; production has 0 paid sales).
 
+### Train log (agent 111; newest first)
+- 08:17 MERGED backend #604 (C14 throttler, T4: Sol + Opus APPROVE at e159d665, 10/10 required green, CLEAN) -> main e5d10bd8.
+  Sol: #629 APPROVE d134f012 (Opus pending); #635 REQUEST CHANGES 0/1/1 (B-635-1 same-day fresh session P2002 after delete;
+  C-635-1 erase pre-upgrade tombstones) -> back to B-CONSENT-2.
+
 ### Agent 111 batch 1 (launched 08:06-08:10 PDT; objectives handoffs/op-26029069/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
