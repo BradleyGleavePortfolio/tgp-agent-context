@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:15 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:16 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,12 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:16 S-WEAR-2 DONE: mobile #317 -> 0b733fb (A-317-1 account binding through permission prompt/registration/import; Samsung
+  uploader without binding removed; B-317-2 partial imports; B-317-5 'Not syncing here' + Reconnect; Health Connect clinic-only;
+  coach wearable-prompts reachable). CI green. RULINGS: Health Connect ON in clinic Android build; REMOVE the 3 declared-but-unread
+  health permissions (least privilege); ADD confirm-on-disconnect (C-317-4) now; FEATURE_WEARABLES_INGEST_POST flips only after
+  #608 is deployed; later flips FEATURE_COMMUNITY_WEARABLE_PROMPTS=true + clinic EXPO_PUBLIC_FF_COMMUNITY_WEARABLE_PROMPTS=true;
+  WEARABLE_AI_INSIGHTS stays unset. Same agent pushing fix round 4b; audits (Opus-3 + a Sol lens) start at that head.
 - 13:15 AUD-OPUS-4: backend #610 APPROVE at 7a67fbef (0/0/5, 5960733421) and mobile #314 APPROVE at 48d76d21 (0/0/2, 5960733821).
   Operator ran update-branch on #610 -> a98d08b5 (merge of main f04289f9); Opus delta + Sol (AUD-SOL-4) at a98d08b5 pending.
   RULINGS: deletion fail-safe accepted; FEATURE_COMMUNITY_VOICE_NOTES stays off until native EAS build + iOS/Android device pass;
