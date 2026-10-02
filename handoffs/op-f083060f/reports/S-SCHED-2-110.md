@@ -22,3 +22,10 @@
 - Added my-coaches welcome.completed_at (persistent welcome-done signal).
 - PR body: /home/user/workspace/ops/reports/S-SCHED-2-110-backend-pr-body.md
 - Next: mobile #325 commits while CI runs.
+
+## 23:30 checkpoint — backend CI + mobile build
+- Backend #634 head 7284e079 CI: every required check green (build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, npm audit, CodeQL, Banned cast tokens, build-sbom, danger, Schema parity, Forward migrations / reversible = migration-dry-run). `test/scheduling-booking-concurrency.live.spec.ts` ran for the first time in mwb-3-live-tests: PASS (lane total 60/60, none skipped).
+- `shellcheck (scripts/*.sh)` fails on SC2015 in scripts/s10-core-diff-gate.sh only, which is pre-existing and outside my diff (brief: ignore).
+- Mobile #325 (agent110/s-sched-mobile): client contracts are wired: my-coaches + welcome marker, session_type_id on open slots, include_archived, scope=past + before cursor, reschedulable/meeting_link_status. All 19 backend codes map to next-step copy. Live notification rows are normalised, and center taps use the role-aware push table. Coach types screen has the welcome toggle, default call link, and server-backed archive/restore. The coach agenda shows link status and client name.
+- Found: legacy `ClientBookingRequest` route (pre-existing, no navigate callers, not in the push table) sends no session_type_id and would now get SESSION_TYPE_REQUIRED. It is unreachable; recommend deleting it in a follow-up. Not changed here.
+- mobile tsc (shared deps): the only errors are the 2 pre-existing `expo-calendar/legacy` module-not-found errors (shared deps lack expo-calendar, which the branch's package.json from the prior builder adds; CI installs it).

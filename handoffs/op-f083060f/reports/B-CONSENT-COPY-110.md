@@ -13,3 +13,11 @@ Builder: Claude Opus 5.5. Status: IN PROGRESS. Never merged, never pushed main, 
 - `DELETE /roman/sessions/:id` is a SOFT delete on main (sets deleted_at; messages stay). So "kept until you delete them" would be
   false unless the client delete erases the transcript (OR-110-1). Fixed in the backend PR (see below).
 - #607 (open, other lane) accepts only `consult-consent-v2` by default (`DEFAULT_CONSULT_CONSENT_COPY_VERSION`).
+
+## 1. Backend PR #635 (new, onto main 7a6cfd82) — branch agent/clinic/ai-consent-copy-v4, head 0a32b4fe
+- client-ai-v4 copy: "...private from your coach and are kept until you delete them or delete your account." combined sha256 fbf82140...
+- v3 grants: unchanged exact-match rule -> needs_reconsent, no consent, history kept; POST v3 -> 409; withdraw recorded against v3.
+- DELETE /roman/sessions/:id now ERASES (was soft delete on main): messages hard-deleted + subject context cleared in one tx;
+  appendMessage refuses a deleted session; content-free in-window user-turn count kept so a delete never resets the daily cap.
+- No 180-day purge job/config exists on main (nothing to remove). Account-deletion half depends on #608 (manifest erases Roman rows).
+- Local: 7 suites passed (ai-consent x3, roman x4); tsc 0; eslint 0. Body: ops/bconsent110/be_pr_body.md.

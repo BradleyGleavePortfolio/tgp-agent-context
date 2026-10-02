@@ -47,6 +47,9 @@ anything below that bar is a day-1 blocker. You own exactly the task in your obj
   - Agent budget: all 7 subagents, staggered. Repo writes: builders push to their PR branches; ONLY the operator merges/deploys.
 - Operator ruling OR-110-3: backend "Schema parity (migrations match schema.prisma)" is a mandatory merge gate for every
   backend PR (must have run and passed at the exact head); since 21:45 it is also the 10th GitHub required check on main.
+- Main (backend) gained #624 S-ENVTRUTH at e5a6044a (23:15): every env read must be registered in src/common/env-validation.ts
+  ENV_RULES with an explicit default where the contract requires it; test/ci env hygiene specs enforce it. When you merge main,
+  register every new env name properly; never weaken the test or widen its legacy exemption.
 - Operator ruling OR-110-4: FEATURE_AI_CONSENT_LEDGER_ENABLED goes ON in the same window as the backend #626 deploy (#626
   without the ledger flag blocks all AI for every client). Merge order: #626 before mobile #326; #310 and #326 either order.
 - Migration prefixes reserved (do not collide): 20270203000000 #622(merged), 20270204000000 #630, 20270205000000 #595 (all three merged + deployed), 20270210000000 #627, 20270211000000 B-UGC #610, 20270212000000 #607, 20270213000000 #609, 20270215000000 S-DUNNING-R2 #628, 20270216000000 #629, 20270220000000 #608, 20270221000000 B-EXPORT, 20270222000000 S-SCHED-2.
