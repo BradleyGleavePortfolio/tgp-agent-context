@@ -1,6 +1,6 @@
 # TGP LIVE STATE
 
-- **Updated:** 2026-10-02 08:00 PDT (commit time is authoritative). Operator from 2026-10-02 07:53 PDT: agent 111, session 26029069 ([thread](https://www.perplexity.ai/computer/tasks/26029069-7f31-425f-8787-1d1c044f4c21)); agent 110 (f083060f) died ~00:00 PDT (credits), 109 and 108 retired. Takeover facts: LAST_OPERATOR_STATE.md "AGENT 111 TAKEOVER".
+- **Updated:** 2026-10-02 12:20 PDT (commit time is authoritative). Operator from 2026-10-02 12:10 PDT: agent 112, session 6870f2ca ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)); agent 111 (26029069) retired ~11:10 PDT (credits). Before that: agent 111 from 07:53; agent 110 (f083060f) died ~00:00 PDT (credits), 109 and 108 retired. Takeover facts: LAST_OPERATOR_STATE.md "AGENT 111 TAKEOVER".
 - **Operator:** Computer, session 590e4a5b ([thread](https://www.perplexity.ai/computer/tasks/590e4a5b-f81a-47d5-a4a1-914fd923c8a8)), agent 108. Single writer for Bucket A since the owner's EXECUTE at 2026-10-01 08:28 PDT. Session c712e04d is retired as writer (silent since about 19:10 PDT 09-30; its thread is not readable from this session). Its working files that never reached GitHub (onboarding contract v1, `clinic_ops/BRIEF.md`) are lost; this file and the PR bodies are the recovered authority.
 - **Governing rules:** [AGENT_RULES.md](AGENT_RULES.md) G01-G22 (effective; commit identity is irrelevant per owner). Model routing: [MODEL_ROUTING.md](MODEL_ROUTING.md).
 
@@ -36,6 +36,9 @@ Two recurring terms:
 
 | Time (PDT) | Direction | Operator disposition |
 |---|---|---|
+| 10-02 12:11 | "standing deploy approval granted!" | Recorded 12:20: agent 112 deploys audited main (CI green) via fly-env-sync plan -> apply -> fly-deploy -> verify, without asking per deploy. |
+| 10-02 12:10 | "EXECUTE — 7 agents staggered, push + merge approval" | Recorded 12:20: EXECUTE; 7 subagents staggered, 2 audit slots; standing merge authority after dependency check. Mobile #310 merged 12:11; #607 update-branch. |
+| 10-02 11:28 | "111 is out of credits and now retired - can you confidently pickup exactly where if left of? Did you find the list of to-do's and decisions ive made across the last 72hours?" | Agent 112 takeover; 72 h decisions + to-do ledger shared; 111's 11:01 deploy verified (migration applied, 0 Postgres errors, Fly matches manifest). |
 | 10-02 08:03 | Budget "All 7, staggered"; refund/chargeback: "send the coach an alert, we sent the customer $xxx, that we're holding the sum of our 2% fee and the stripe fees from his next sale, in addition to the standard charges ... we will settle up by wage gouging" | 7 subagents staggered (2 audit slots). OR-111-1: alert + forward netting from the coach's next sale(s) (2% + Stripe fees + any refused reversal); no payout delay/bank debits/past-transfer clawback; lane B-FEE-R5 on #627. |
 | 10-02 07:53 | Agent 111 takeover: read every attachment word for word; AUTONOMY doc = mentality, AGENT RULES = law, MODEL ROUTING = grading/execution, v5 prompt = first prompt; assume all prior agents/jobs died mid-work; read LAST_OPERATOR_STATE | Reconciled from GitHub 07:54-08:00 (LAST_OPERATOR_STATE "AGENT 111 TAKEOVER"); readback + budget question sent 08:00. |
 | 10-01 21:44 | "you do it! checkbox in GitHub's branch settings" (schema parity) | Done 21:45: backend main now requires 10 checks incl. Schema parity. |

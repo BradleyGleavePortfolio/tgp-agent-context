@@ -1,8 +1,45 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 08:00 PDT (real clock, `date`). Operator: Computer, agent 111, session 26029069
-([thread](https://www.perplexity.ai/computer/tasks/26029069-7f31-425f-8787-1d1c044f4c21)). Agent 110 (f083060f) died
-mid-work (credits) around 2026-10-02 00:00 PDT; all of its subagents are dead. Single writer for Bucket A from
-2026-10-02 07:53 PDT. Companion file: [LIVE_STATE.md](LIVE_STATE.md).
+Updated: 2026-10-02 12:20 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
+credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
+Companion file: [LIVE_STATE.md](LIVE_STATE.md).
+
+## AGENT 112 TAKEOVER 2026-10-02 11:20-12:20 PDT — reconciled facts (read first)
+
+Read word for word: the 17 owner attachments, all of LAST_OPERATOR_STATE.md (1,808 lines at d11fd94), LIVE_STATE.md,
+FLAGS_LAUNCH_LEDGER.md, the v5 prompt (handoffs/op-f083060f), handoffs/op-26029069 (brief, lanes, reports). Consolidated
+72-hour owner decisions + to-do ledger shared with the owner (operator workspace TGP-Decisions-and-ToDo-Ledger-2026-10-02.md).
+
+### OWNER DECISIONS 2026-10-02 (agent 112; binding)
+- 11:28 "111 is out of credits and now retired - can you confidently pickup exactly where if left of?" -> takeover.
+- 12:10 "EXECUTE — 7 agents staggered, push + merge approval" = EXECUTE; budget 7 subagents staggered (2 slots kept for the
+  Sol + Opus audit lenses); standing push + merge authority (audited PRs, after a dependency check).
+- 12:11 "standing deploy approval granted!" = standing deploy approval (audited main, CI green, plan -> apply -> deploy ->
+  verify) for agent 112.
+- Owner connected GitHub (admin on both repos) and Supabase (read-only use) at 12:07.
+
+### Facts after 111's last entry (10:41), reconstructed from GitHub + production (agent 112, verified 12:07-12:10)
+- 10:53 #638 (FEATURE_AI_CONSENT_LEDGER_ENABLED=true) merged -> backend main 3bd6215b (on #637 91359821).
+- 10:54/10:55 fly-env-sync apply; 11:01 Fly Deploy (workflow_dispatch) 3bd6215b success; 11:06 fly-env-sync plan (verify):
+  "Plan: 0 to set, 0 to unset, 0 staged earlier and waiting for a deploy, 53 unchanged. Fly already matches the manifest";
+  FEATURE_AI_CONSENT_LEDGER_ENABLED | flag | true | Deployed | match. OR-110-4 DONE.
+- Migration 20270216000000_package_first_published_at applied 18:05:32Z (finished 18:05:32.107Z, not rolled back).
+- Postgres logs 17:30Z-19:08Z: zero ERROR/FATAL/PANIC messages. /health 200, /readyz db up.
+- Live signup-policy: providers email + apple; google_signin_enabled false (GOOGLE_CLIENT_IDS not on Fly -> owner's 10-01 10:01
+  "Google sign-in day 1" NOT live: to-do); role_choice true; no invite/coach code required.
+- 111 lanes that died without final reports: S-COACH (pushed backend #641 563e3f80 + mobile #329 4071d0ce; completeness
+  unknown), B-CONSENT-3 (#635 -> c2688010 at 11:09; #326 re-merge, #315 copy line, #611 procedures doc not done), B-JOURNEY
+  (#609 -> 40616dcf, #312 -> 90e78abe; #324, B-QUIZ-OFF, setup-branch-protection.sh not done), S-WEAR (#317: nothing pushed),
+  AUD-SOL-2 / AUD-OPUS / AUD-OPUS-2 (verdicts posted through 18:06Z; rest of queues not done).
+
+### Train log (agent 112; newest first)
+- 12:11 MERGED mobile #310 (C05 consultation onboarding + D2 consent, T4; Opus APPROVE 17:45Z + Sol APPROVE 18:06Z at
+  c2414203, 3/3 required green, CLEAN) -> mobile main 2c17c241. Dependency check: release order is about builds/deploys, not
+  merges -> RELEASE GATE: no mobile build carrying #310 until backend #635 (client-ai-v4) is deployed (a v4 grant gets 409
+  from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
+- 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
+  attestation (Sol + Opus) at the new head, then merge.
+- 12:15 ops bootstrap: repos cloned (full history), ops/ tooling from handoffs/op-7c52cefa + op-26029069, shared deps install.
 
 ## AGENT 111 TAKEOVER 2026-10-02 07:53-08:00 PDT — reconciled facts (read first)
 
