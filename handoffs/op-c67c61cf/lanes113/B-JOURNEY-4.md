@@ -1,0 +1,29 @@
+# Lane B-JOURNEY-4 (agent 113) — Claude Opus 5.5 builder, T3/T4: backend #609 + mobile #312 (coach welcome message, workout reminders)
+Method (all 113 builder lanes): read /home/user/workspace/ops/AGENT_BRIEF_COMMON.md fully first. gh/git need bash
+api_credentials=["github"]. Commit identity: git -c user.name="TGP Agent 113" -c user.email="agent@tgp.invalid". Expo Free: never
+start an EAS build. Owner bar (binding): hyperscaler quality, get it right the first time (no audit ping-pong), more functionality
+not less, pristine Apple-level UX, no generic errors ever (every failure: what happened + a working next action; unknown -> short
+reference + support path + Sentry without PII), Quiet Luxury copy (no emojis, no exclamation marks, plain warm words, no first person
+"we/us" in client-facing error copy unless it is a named human).
+Process: your own worktree(s) under /home/user/workspace/wt/<lane>-<n>; wait for /home/user/workspace/deps/<kind>/READY, then
+link_deps.sh; backend: `/home/user/workspace/ops/heavy.sh npx prisma generate` after linking. Run ONLY targeted jest (your touched
+files + new failing-before tests) and eslint/prettier on changed files, all through /home/user/workspace/ops/heavy.sh (never wrap it
+in a short timeout). Push early; GitHub CI runs tsc + full suites (stacked PRs get no CI: say so in your report). Every finding you
+close gets a test that fails before and passes after. Keep the PR body tier header current (Tier / Why / T4 trigger scan / T3 trigger
+scan / Bounded T1 / Builder-owner / Acceptance evidence / Promotion triggers) and add a "Fix round" table (finding -> change ->
+commit -> test); if the platform refuses a long PR-body edit, post it as a PR comment instead and say so. Conventional Commits PR
+titles. Merging origin/main into your branch is fine (merge commit, no force-push unless your own branch after a rebase). Wait for
+required checks at your final head (max ~30 min; fix real failures; rerun the known flake once). Never merge, never dispatch
+workflows, never touch production, never change branch protection. Before your final answer: unlink node_modules and remove your
+worktrees. Report: /home/user/workspace/ops/reports/<LANE>-113.md (append as you go; end with "## HANDOFF").
+Final answer (<400 words): PR number(s), final head SHA(s), CI state at head, per-finding disposition, tests (command + result),
+overlaps/conflicts with other open PRs, anything needing an operator/owner decision (with your recommended default).
+
+PRs: backend #609 (agent/clinic/engagement-be/3f9c21ab @ 40616dcf, DIRTY = conflicts with main; migration 20270213000000) and mobile
+#312 (agent/clinic/engagement-mobile/5d2e8b17 @ 90e78abe). Pair (OR-112-13). You are the only writer of both.
+Start from agent 112's unpushed fix rounds on origin: wip/B-JOURNEY-3-609-fixround @ 11fd4e10 and wip/B-JOURNEY-3-312-fixround @
+25b111d5. Prior report: /home/user/workspace/ops/reports/B-JOURNEY-3-112.md (HANDOFF). Remaining: B-609-3, B-609-4, C-609-6, B-312-2
+(race tests), plus every other open A/B from both lenses' latest verdicts on each PR. Resolve #609's conflicts with origin/main (merge
+commit; keep migration prefix 20270213000000 sorted correctly before main's newer ones only if the chain allows, otherwise ask the
+operator for a new prefix in your report and keep going on other items). NEVER commit the coach welcome message text (it is server
+config, not code). Report: /home/user/workspace/ops/reports/B-JOURNEY-4-113.md.
