@@ -51,6 +51,10 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
 - Commit identity used by agent 110: "TGP Agent 110 <agent@tgp.invalid>" (owner: identity is irrelevant).
 
 ### Train log (agent 110)
+- 21:44 OWNER (verbatim): "you do it! checkbox in GitHub's branch settings" -> agent 110 added "Schema parity (migrations match
+  schema.prisma)" (app 15368) to backend main's required status checks via the branch-protection API. Now 10 required checks,
+  strict true, enforce_admins unchanged. OR-110-3 is now enforced by GitHub. Follow-up: scripts/setup-branch-protection.sh must
+  list the 10th check so a re-run cannot drop it (T4 CI-gate file; next builder slot).
 - 20:52 AUD-SOL: APPROVE mobile #323@b8b81415, #320@bbfdebc6, backend #631@ac83aa73, #595@f2eecae5 (0/0/3 C), #626@9551d2c8;
   REQUEST CHANGES mobile #324@7f20255d (B-324-1: support email launch failures silent; needs visible recovery, copyable
   address, Retry, tests). #623 unchanged (no update yet).
