@@ -14,6 +14,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 
 ### Train log (agent 113; newest last)
 - 2026-10-02 16:25 PDT: takeover recorded; 15 lanes running.
+- 2026-10-02 16:34 PDT: **OWNER DECISIONS 2026-10-02 16:34 PDT (verbatim):** "pple Pay / Google Pay in the payment sheet: yes / Live free-form Roman chat in v1.0: yes / Real free trials on packages: yes / Make the community live tests a required check: yes - but explain further what these tests are". Recorded as OR-113-2: (1) Apple Pay + Google Pay ON in the native PaymentSheet (Apple Pay needs the owner's merchant ID + Stripe Apple Pay certificate; shipped off-by-config until then) -> lane B-RECUR; (2) live free-form Roman chat ships in v1.0 (box-2 consent gate, grounded, guardrails, eval) -> lane S-ROMAN-DATA; (3) real free trials on packages (coach sets days, card up front, one trial per client per coach, trial-ending notice) -> new lane B-TRIALS + B-RECUR; (4) community-live-tests as a required check: owner said yes conditionally and asked for an explanation; NOT applied yet (branch protection needs his exact words for the exact change; job exists only on #610's branch until #610 merges). Earlier, owner 16:29 asked for a speed assessment; operator answered (41 PRs merged since 9/29; in-flight work likely by 10/4-10/5; full scope by 10/7 at risk, about a coin flip).
 
 ## AGENT 112 RETIRED 2026-10-02 13:53 PDT — NEXT OPERATOR (agent 113) START HERE
 
