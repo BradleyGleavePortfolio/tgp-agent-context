@@ -1,0 +1,19 @@
+[heavy] waiting for a slot: node probe649.mjs
+SELECT before up: {"day1_rows":1,"item_old":true,"focus_old":true,"narrative_old":true,"artifact_old":true,"guard_would_raise":false,"migration_recorded":0,"unfinished_migrations":0}
+SELECT after up : {"day1_rows":1,"item_old":false,"focus_old":false,"narrative_old":false,"artifact_old":false,"guard_would_raise":false,"migration_recorded":0,"unfinished_migrations":0}
+db after up == seed (all days, all fields): true
+days 2-7 untouched by up: true
+second up is a no-op: true
+down restores original exactly: true
+down action_items jsonb text byte-identical to original load: true
+second down is a no-op: true
+SELECT [drift focus_area edited]: {"day1_rows":1,"item_old":true,"focus_old":false,"narrative_old":true,"artifact_old":true,"guard_would_raise":true,"migration_recorded":0,"unfinished_migrations":0}
+  up [drift focus_area edited]: RAISED build_week_day1_consultation_copy: Day 1 still names the diagnostic after the update
+SELECT [drift item title edited]: {"day1_rows":1,"item_old":false,"focus_old":true,"narrative_old":true,"artifact_old":true,"guard_would_raise":true,"migration_recorded":0,"unfinished_migrations":0}
+  up [drift item title edited]: RAISED build_week_day1_consultation_copy: Day 1 still names the diagnostic after the update
+SELECT [no Day 1 row]: {"day1_rows":0,"item_old":null,"focus_old":null,"narrative_old":null,"artifact_old":null,"guard_would_raise":false,"migration_recorded":0,"unfinished_migrations":0}
+  up [no Day 1 row]: OK null
+SELECT [already new copy (seed re-run)]: {"day1_rows":1,"item_old":false,"focus_old":false,"narrative_old":false,"artifact_old":false,"guard_would_raise":false,"migration_recorded":0,"unfinished_migrations":0}
+  up [already new copy (seed re-run)]: OK {"focus_area":"Consultation + Baseline","t":"Complete your consultation","de":"Work through your consultation in the app from start to finish so your coach can tailor your plan. Honest answers only. This becomes the baseline every later week is measured against."}
+SELECT [drift: description still names diagnostic under a new title]: {"day1_rows":1,"item_old":false,"focus_old":true,"narrative_old":true,"artifact_old":true,"guard_would_raise":false,"migration_recorded":0,"unfinished_migrations":0}
+  up [drift: description still names diagnostic under a new title]: OK {"focus_area":"Consultation + Baseline","t":"Finish the intake","de":"Work through the diagnostic form end-to-end. Honest answers only — this becomes the baseline every later week is measured against."}

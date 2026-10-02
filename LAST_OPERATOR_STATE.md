@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 14:31 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 14:37 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -10,8 +10,9 @@ Clean stop ordered by Bradley 13:34 ("let them finish, start no new work, keep u
 finished its active item or pushed WIP to wip/* branches; NO subagent is running; no deploy or flag change is pending; telemetry
 stopped. Pickup prompt: [handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md](handoffs/op-6870f2ca/TGP-Operator-Prompt-v6-Agent-113.md)
 (+ .docx). Kit: handoffs/op-6870f2ca/ (tools/, lanes/, reports/ with "HANDOFF FOR AGENT 113" sections, probes/).
-- Production backend f04289f9 (#607, deployed 13:01-13:08). Backend main 5d1f224a (+#644, not deployed). Mobile main f34b5b99.
-- 112 merged: mobile #310, backend #607 (+deploy), mobile #324, backend #644. Release gate: no mobile build with #310 until #635 deployed.
+- Production backend f04289f9 (#607, deployed 13:01-13:08). Backend main c8e5e71f (+#644, +#649; neither deployed). Mobile main f34b5b99.
+- 112 merged: mobile #310, backend #607 (+deploy), mobile #324, backend #644, backend #649 (14:37; pre-deploy SELECT in
+  handoffs/op-6870f2ca/probes/aud-opus5-112/649-predeploy-select.sql). Release gate: no mobile build with #310 until #635 deployed.
 - Live WIP branches: wip/B-JOURNEY-3-609-fixround @11fd4e10, wip/B-JOURNEY-3-312-fixround @25b111d5, wip/s-dunning-r4-backend
   @c8a1c95b, wip/s-dunning-r4-mobile @0b4813dc (= #322 head).
 - Operator rulings OR-112-1..20 are in the train log below and in v6 section 4.14.
@@ -110,6 +111,13 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 14:37 AUD-OPUS-5 DONE: #649 APPROVE 0/0/2 @aa1da69d + merge-delta APPROVE @650d0e48; #635 APPROVE 0/0/3 @9c5ae5ef (delta from
+  c2688010; Sol's B-635-4/5 closed; needs Sol re-audit; update-branch clean, Opus approval carries if tree == e193eb50); #315 APPROVE
+  0/0/1 @d545f5b6 (T4 now -> needs Sol). Worktrees removed.
+- 14:37 MERGED backend #649 (T3; Opus APPROVE at exact head 650d0e48; 10/10 green) -> backend main c8e5e71f. NOT deployed; run the
+  read-only pre-deploy SELECT (probes/aud-opus5-112/649-predeploy-select.sql) before the deploy that carries it.
+- 14:37 Post-stop light round COMPLETE (3 lanes, 14:15-14:37). Prompt v6 refreshed (snapshot 14:37: board, section 5, 4.14 OR-112-21,
+  12). No subagent running; telemetry stopped. Agent 112 starts nothing further without an owner order.
 - 14:31 B-315-ERR DONE: mobile #315 -> d545f5b6 (main f34b5b99 merged; 3/3 green). Policy-link failures now name the page and
   differ by cause (offline / phone cannot open links -> selectable address + Copy button / other -> address + support email +
   reference + SupportEmailFallback); Sentry gets only link id, cause, step, reference and query-less address via new
