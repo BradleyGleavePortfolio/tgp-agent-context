@@ -92,6 +92,15 @@ time (parallel, staggered, no rework loops); EXECUTE re-affirmed for agent 110.
   Connect off), artifact on expo.dev (build page). Ready for the Play closed-test upload when the owner creates the app.
 - 21:40 B-TRAIN-2 launched (Opus): #604 -> #607 -> #609 forward merges. Running 7/7 builders; auditors re-queue as slots free.
 
+- 21:38-21:40 OWNER: keep progressing and keep the takeover prompt current for agent 111 ("for when your out of credits and
+  retired happily!"); 21:40 "EXECUTE - SIGNING OFF" (offline until morning). v5 prompt published 21:43:
+  handoffs/op-f083060f/TGP-Operator-Prompt-v5-Agent-111.{md,docx}; regenerated at every milestone (workspace script
+  /home/user/workspace/handoff111/publish.sh). Lane reports copied to handoffs/op-f083060f/reports/.
+- Builder pushes waiting for audit (no auditor slot free while 7 builders run): #624@75a4e563 (B-624-3), #608@2759e1a0
+  (B-608-11; plus NEW BLOCKER: data export writes to local /tmp, download_available=false -> users cannot download exports),
+  #627@7d66b350 (B-627-1/2), new #632 (S-SCHED backend, T2), new #633 (FEATURE_DUNNING_V2 flags-workflow input, T4).
+  Rule from now: keep 2 of 7 slots for the audit lenses; next freed builder slot goes to auditors.
+- Migration prefixes reserved by lanes: 20270211000000 B-UGC (#610), 20270215000000 S-DUNNING-R2 (#628).
 ### First batch (7 subagents, staggered; objectives in handoffs/op-f083060f/lanes/)
 | Lane | Model | Scope |
 |---|---|---|
