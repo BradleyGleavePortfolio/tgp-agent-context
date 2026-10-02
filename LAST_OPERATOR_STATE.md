@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 12:20 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 12:30 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -17,6 +17,26 @@ FLAGS_LAUNCH_LEDGER.md, the v5 prompt (handoffs/op-f083060f), handoffs/op-260290
 - 12:11 "standing deploy approval granted!" = standing deploy approval (audited main, CI green, plan -> apply -> deploy ->
   verify) for agent 112.
 - Owner connected GitHub (admin on both repos) and Supabase (read-only use) at 12:07.
+
+- 12:26 "Make sure your oeprating solely as the orchestrator, grading PR's, making owner adjacent decisions, ect. NOT as a coder
+  or grunt worker" -> binding: operator orchestrates, grades, decides, merges, deploys, records; every code/PR change goes to a
+  builder lane (the manifest flips the operator had started locally were discarded unpushed and handed to lane B-FLAGS-3).
+- 12:26 asked for a status update and why parallelism is not higher -> answered (7 subagents = owner budget; 8-agent hard cap
+  incl. operator; 2 CPU / 7 GB sandbox, heavy jobs serialized).
+
+### Lane roster (agent 112; 7/7 slots)
+| Lane | Model | Scope | Launched |
+|---|---|---|---|
+| AUD-SOL-3 | GPT-6.1 Sol | #607 delta, #628/#322, #635, #627/#321, #640/#328, #609/#312 | 12:24 |
+| AUD-OPUS-3 | Claude Opus 5.5 | #607 delta, #635, #609/#312, flag PRs | 12:24 |
+| B-EXPORT-3 | Claude Opus 5.5 | #608, #636, mobile #327 (App Store 5.1.1(v)) | 12:24 |
+| B-UGC-4 | Claude Opus 5.5 | #610 + mobile #314 (App Review 1.2, voice notes) | 12:27 |
+| B-FLAGS-3 | Claude Opus 5.5 | manifest flips GOOGLE_CLIENT_IDS, BOOKING_REMINDERS_ENABLED=on | 12:27 |
+| S-WEAR-2 | Claude Opus 5.5 | mobile #317 wearables | 12:29 |
+| S-SCHED-4 | Claude Opus 5.5 | #634 + mobile #325 | 12:29 |
+Queue (next free slot, in order): B-CONSENT-4 (#326 retarget+merge main, #315 copy, #611 + procedures doc, #635 findings),
+S-COACH-2 (verify/finish #641/#329), B-FEE-R6 (#627/#321 after Sol), S-MWB-2 (#640/#328 after Sol + undo button),
+S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup-branch-protection.sh), S-REACH, Roman stack.
 
 ### Facts after 111's last entry (10:41), reconstructed from GitHub + production (agent 112, verified 12:07-12:10)
 - 10:53 #638 (FEATURE_AI_CONSENT_LEDGER_ENABLED=true) merged -> backend main 3bd6215b (on #637 91359821).
