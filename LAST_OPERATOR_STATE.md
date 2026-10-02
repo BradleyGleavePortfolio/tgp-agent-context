@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 13:13 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:15 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,11 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:15 AUD-OPUS-4: backend #610 APPROVE at 7a67fbef (0/0/5, 5960733421) and mobile #314 APPROVE at 48d76d21 (0/0/2, 5960733821).
+  Operator ran update-branch on #610 -> a98d08b5 (merge of main f04289f9); Opus delta + Sol (AUD-SOL-4) at a98d08b5 pending.
+  RULINGS: deletion fail-safe accepted; FEATURE_COMMUNITY_VOICE_NOTES stays off until native EAS build + iOS/Android device pass;
+  Opus Cs ('Bucket not found' treated as deleted, placeholder stall, crash window, open coach-lookup grant, retry count) ->
+  post-merge follow-up PR before launch (queued: B-UGC-5).
 - 13:12 AUD-SOL-4 DONE: backend #627 REQUEST CHANGES 0/3/1 (5960082485); mobile #321 BLOCK 0/1/1 (5960679604); backend #640
   BLOCK 1/3/6 (5960191185); mobile #328 REQUEST CHANGES 0/4/1 (5960191675). Push holds lifted for B-FEE-R6 and S-MWB-2 (fold Sol +
   Opus findings in one round). Operator removed AUD-SOL-4's six worktrees (symlinks first; deps intact) -> disk 71%. AUD-SOL-4
