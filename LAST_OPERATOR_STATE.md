@@ -1,5 +1,5 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 12:55 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-02 13:03 PDT (real clock, `date`). Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
@@ -87,6 +87,16 @@ S-DUNNING-R4 (only if Sol RC on #628/#322), B-JOURNEY-2 (#324, B-QUIZ-OFF, setup
   from a pre-#635 server). Branch kept (mobile #326 is stacked on it; retarget + re-merge in B-CONSENT-4).
 - 12:11 backend #607 was BEHIND main (strict protection): update-branch (merge of main 3bd6215b) requested; dual delta
   attestation (Sol + Opus) at the new head, then merge.
+- 13:03 S-SCHED-4 DONE: backend #634 -> d1661ab8 (B-634-2 sweep catch-up; (kind,status) index inside unapplied 20270222000000;
+  main merged; pre-deploy zero-row SQL in PR body), mobile #325 -> 36f05bba (B-325-2/3; main merged incl. #310 tour hand-off;
+  seed is_welcome on Quick initialization; ClientBookingRequest route deleted). CI green both. Re-audits: AUD-SOL-3 + AUD-OPUS-3.
+  RULINGS: operator runs both pre-deploy queries read-only and requires zero rows before deploying #634; auto-expiry of
+  unanswered past requests is built for v1.0 (follow-up PR after #634/#325 approval). Same agent re-tasked to S-DUNNING-R4.
+- 12:58 AUD-SOL-3 DONE: #607 APPROVE at b4750d05 (0/0/0); #628 REQUEST CHANGES 0/3/0; mobile #322 REQUEST CHANGES 0/3/1; #635
+  REQUEST CHANGES 0/2/1 (generic uncoded 500s on deletion failure; list validation errors lack codes). #635 fixes -> B-CONSENT-4
+  (top of its lane); #628/#322 -> S-DUNNING-R4 (Sol probes in ops/aud-sol3-112/).
+- 12:53 MERGED backend #607 (C05/C07 consultation intake, T4; Opus APPROVE 5959951180 + Sol APPROVE 5959946105 at b4750d05; 10/10
+  required green) -> main f04289f9. Deploy of f04289f9 (migration 20270212000000) after push CI is green (standing approval).
 - 12:55 AUD-OPUS-3 round 2: #609 REQUEST CHANGES 0/2/3 (B-609-1 rls-live-tests red: test matches Prisma message text, use SQLSTATE
   23505; B-609-2 new kill switches need values/unsetIs + manifest entries; C-609-5 retitle Conventional Commits); mobile #312
   REQUEST CHANGES 0/1/2 (B-312-1 generic alert on toggle failure); #642 REQUEST CHANGES 0/1/0 (B-642-1: merging arms the flip
