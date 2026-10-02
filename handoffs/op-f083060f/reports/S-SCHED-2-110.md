@@ -29,3 +29,34 @@
 - Mobile #325 (agent110/s-sched-mobile): client contracts are wired: my-coaches + welcome marker, session_type_id on open slots, include_archived, scope=past + before cursor, reschedulable/meeting_link_status. All 19 backend codes map to next-step copy. Live notification rows are normalised, and center taps use the role-aware push table. Coach types screen has the welcome toggle, default call link, and server-backed archive/restore. The coach agenda shows link status and client name.
 - Found: legacy `ClientBookingRequest` route (pre-existing, no navigate callers, not in the push table) sends no session_type_id and would now get SESSION_TYPE_REQUIRED. It is unreachable; recommend deleting it in a follow-up. Not changed here.
 - mobile tsc (shared deps): the only errors are the 2 pre-existing `expo-calendar/legacy` module-not-found errors (shared deps lack expo-calendar, which the branch's package.json from the prior builder adds; CI installs it).
+
+## 23:45 — #632 merge-train resolution (operator mail 23:31)
+- I merged main e5a6044a (#624 S-ENVTRUTH) into agent110/s-sched-backend without rebasing. The new head is **b859a1c6** (parents 0ae744b6 + e5a6044a), pushed fast-forward.
+- The only conflict was prod-switches.yml, BOOKING_REMINDERS_ENABLED. I kept #624's owner `scheduling` and its launch-switch classification, and #632's explicit-on semantics. I also updated the auto-merged ENV_RULES entry so it states the real code default: `off (only "on" enables; unset/off/other disable)`. Its reason says it must be set to on at launch through the audited manifest. No test changed. env-registration's `launch === 'switch'` assertion still holds.
+- Local checks via heavy.sh: `npx jest --runInBand --forceExit --runTestsByPath` across 11 suites (booking-reminder.job, seed-coach-session-types, env-validation, env-registration, env-discovery, registry-loader, operator-keys-artifact, fly-env-classifier, deploy-readiness, ci/fly-env-sync-behavior, ci/fly-env-workflows): 486 passed, 1 skipped. The skip is the pre-existing conditional strict deploy-readiness gate. `tsc --noEmit` exit 0. Prettier is clean on my hunk; the rest of env-validation.ts has pre-existing drift from main.
+- I added a Fix round row and an operator-decision note to the #632 body.
+- **Semantic conflict for the operator to decide:** #624 records "ships on; only off disables" (operator 2026-10-01). #632, Sol-approved and the lane's "explicit" mandate, makes unset mean off. As a result, deploying #632 or #634 turns reminders off unless the switch is set. Recommended default: set `BOOKING_REMINDERS_ENABLED=on` through the B-FLAGS manifest in the same deploy window.
+- #634 also merged main (local 9a1f44bb) with byte-identical resolution lines, so either merge order stays clean. Verification is running before the push.
+
+## 23:58 — pushes
+- **#632** head b859a1c6: required CI all PASS (build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, npm audit, CodeQL, Banned cast tokens, build-sbom, danger, Schema parity). shellcheck fails only on the pre-existing SC2015 in s10-core-diff-gate.sh. No migrations in #632, so the migration jobs do not apply. It is ready for the merge train.
+- **#634** head **dbc10b7b**: two commits since the last entry.
+  - 9a1f44bb merges main with the same resolution as #632. Local verify via heavy.sh: 13 suites, 495 passed, 1 skipped (pre-existing), tsc 0.
+  - dbc10b7b gives open-slot INVALID_TIME plain next-step copy. The integrity spec passes 48/48, tsc 0, eslint 0, check-r75 OK (net: as any −1, as unknown as −2, as never −1).
+  - CI is running.
+- **Mobile #325** head **b0c02156** (one commit on top of bc1398c2, no rebase). CI all PASS: Typecheck/lint/test (full suite), Analyze js-ts, Analyze actions, CodeQL. Title and body are updated to T4 and say it depends on #634.
+  - Local: 8 suites / 145 tests and 6 neighbour suites / 63 tests passed, with `--runInBand --forceExit`.
+  - eslint: 0 errors, 1 pre-existing warning.
+  - tsc: only the 2 pre-existing expo-calendar module errors.
+  - merge-tree against mobile main e3986e8 is clean.
+  - package.json/lock is unchanged by me; the expo-calendar addition came from the prior builder.
+
+## 00:10 — done
+- #634 head dbc10b7b: every required check PASS (build-and-test, rls-floor-guard, rls-live-tests, mwb-3-live-tests, npm audit, CodeQL, Banned cast tokens, build-sbom, danger, Schema parity, Forward migrations + reversible). shellcheck fails only on the pre-existing SC2015.
+- merge-tree of #634 against #632 b859a1c6, #607 e8feb0d2 and #609 5fd61a1b: all clean.
+- Worktrees s-sched2-be, s-sched2-632 and s-sched2-mob are removed.
+- Operator/owner decisions, with recommended defaults:
+  1. BOOKING_REMINDERS_ENABLED: set `on` through the B-FLAGS manifest in the #632/#634 deploy window. Unset now means off, which contradicts #624's "ships on" note.
+  2. Run the #634 overlap preflight query (in the PR body) before the migration deploys.
+  3. #632's seed sets is_welcome on "Quick initialization" once #634 lands. Until then the mobile app falls back to the seed name.
+  4. Delete the unreachable legacy ClientBookingRequest route in a follow-up.

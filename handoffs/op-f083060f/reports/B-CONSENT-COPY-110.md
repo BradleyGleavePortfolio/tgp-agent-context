@@ -21,3 +21,10 @@ Builder: Claude Opus 5.5. Status: IN PROGRESS. Never merged, never pushed main, 
   appendMessage refuses a deleted session; content-free in-window user-turn count kept so a delete never resets the daily cap.
 - No 180-day purge job/config exists on main (nothing to remove). Account-deletion half depends on #608 (manifest erases Roman rows).
 - Local: 7 suites passed (ai-consent x3, roman x4); tsc 0; eslint 0. Body: ops/bconsent110/be_pr_body.md.
+
+## 2. Mobile #310 (agent/clinic/c05-mobile/95a5bd59): e1dbe7f9 -> f85ffd36
+
+- Merged mobile main e3986e89 (#313) as 229beb3 (no rebase). Conflicts: TrustCenterScreen (took #313 navigation), DeleteAccountScreen (+test): kept #310 draft purge after successful requestDeletion (C-310-10).
+- f85ffd3: B-310-6 copy v4 + consult-consent-v3 + hashes (P0 79ceeb6b...31c9, AI fbf82140...34f4 = backend #635), byte-exact parity test; B-310-7 `runAiLedgerWriteAs` / `grantAiChoiceAs` / `withdrawAiChoiceAs` identity fence for Settings (+ tests A->B held queue); C-310-11 `markAiPendingOnce` (test fails with 2 writes on old code).
+- Local: jest 12 suites / 304 passed; check-expected-env OK; tsc 0; eslint clean (14 files). Pushed fast-forward. PR body updated (fix round 6 table, release order).
+- #607 note for B-607-FIX lane: ops/bconsent110/607_consult_consent_v3_note.md (#607 default still consult-consent-v2 at e8feb0d2).
