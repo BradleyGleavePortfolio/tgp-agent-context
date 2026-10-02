@@ -44,6 +44,12 @@ FLAGS_LAUNCH_LEDGER.md, the v5 prompt (handoffs/op-f083060f), handoffs/op-260290
   S-COACH-BE-2. After #641 deploys: STRIPE_CONNECT_RETURN_URL / STRIPE_CONNECT_REFRESH_URL must be set (Stripe onboarding 503 until).
 - 12:38 B-FLAGS-3 opened backend #642 (GOOGLE_CLIENT_IDS -> github-secret) and #643 (BOOKING_REMINDERS_ENABLED -> on).
 
+- 12:40 "now let all of these agents completely - record the process and results, and then move forward" -> binding: no new
+  lanes launched until the current 17 finish; operator processes each lane's result as it lands (grade, merge when dual-approved
+  at head + green, deploy under standing approval), records process + results here, then plans the next wave.
+- 12:41 Wave B launched before that message: S-COACH-MOB-2, S-RELEASE-MOB, B-FEE-R6, S-MWB-2. Total 17 lanes (13 builders,
+  4 auditors: AUD-SOL-3/4/5, AUD-OPUS-3).
+
 ### Lane roster (agent 112; weighted 7.0/7 units; see 12:30 cap ruling)
 | Lane | Model | Scope | Launched |
 |---|---|---|---|
