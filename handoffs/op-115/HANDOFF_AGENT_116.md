@@ -349,3 +349,6 @@ Progress log (newest last):
   at T2. T1 holds back one module-wiring assertion (and its import) of b-trials-one-trial-rule.spec.ts; T2 restores it. Mobile #338
   now pairs with #673. Owner adds Stripe event customer.subscription.trial_will_end before the deploy. Next: un-draft #671 when its
   CI is green; Opus + Sol audit each piece in order; close #656 after all three are green.
+- 12:32 PDT. Roman stack fix: the lockout allow-list line `roman/context/me` moved from C1 into A2 (the route-table spec scans controller
+  files on disk). New heads: #665 A2 eb7cb7a8, #666 B 0ec835ca, #668 C1 fabc2268, #669 C2 6386c00b, #670 C3 fb671019 (#667 A1 bacd83e1
+  unchanged, CI green 15/15). Local: dunning route-table + both context specs 61/61.
