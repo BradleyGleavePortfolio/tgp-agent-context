@@ -61,6 +61,8 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   for coach video; #611 lists Mux (O-611-3). RESEND_API_KEY, SENTRY_DSN present. POSTHOG_KEY present but 8-15 chars (PostHog project keys
   are much longer) -> server-side analytics key likely not a real project key; owner to confirm. APPLE_AUDIENCES shape check still fails
   (owner action: Apple Sign-in keys).
+- 11:35 PDT MERGED mobile #305 (OTA; dual APPROVE 178f6401; 3/3 green; carries OR-115-5 doc fix) -> mobile main 367e6c48.
+  Update-branch (merge-only) mobile #317 82137c31 -> d0407b62. Holds: #315 (with #611), #338 (with #656).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
