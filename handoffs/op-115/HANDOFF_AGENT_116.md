@@ -460,3 +460,39 @@ Progress log (newest last):
   (c) tools/split/build_piece.sh now also runs *.test.js suites and, when app.json/app.config.js/eas.json/package.json change, every
   suite under scripts/__tests__ and src/config/__tests__ (source-scanning suites that read files by path are otherwise invisible to
   the import scan).
+
+### 12.9 Split program status at 2026-10-03 15:00 PDT (operator 115, final)
+
+Every wave PR over 3,000 lines that could be cut without new code is split. All pieces are drafts, at most 2,958 lines, tree-checked
+against the refreshed original, and the originals stay open (branches kept) until their pieces are green.
+
+| Original | Pieces (in merge order) | Notes |
+|---|---|---|
+| backend #651 Roman | #667 -> #665 -> #666 -> #668 -> #669 -> #670 | C1-C3 red until a builder writes the fix on #669 (recipe C3) |
+| backend #656 trials | #671 -> #672 -> #673 | green; pairs with mobile #338 |
+| backend #641 coach Money | #674 -> #676 -> #677, plus #675 | green |
+| backend #627 fees | #681 -> #682 -> #683 -> #684 -> #685 -> #686 | F2/F3 red by design; land as one |
+| backend #654 recurring | #678 -> #679 -> #680 (on #686) | #679 OOM flake rerun requested |
+| backend #628 dunning | #687 -> #688 -> #689 -> #690 -> #691 | green |
+| backend #648 push | #692 -> #693 | green |
+| mobile #334 package sheet | #342 -> #343 -> #344 | green; pairs with #680 |
+| mobile #329 coach wizard | #345 -> #346 -> #347 | green |
+| mobile #332 coach Money | #348 -> #349 -> #350 -> #351 (on #347) | N2/N3 red by design; land as one; #340 re-bases onto #351 |
+| mobile #322 lockout | #352 -> #353 -> #354 | green; pairs with #691 |
+| mobile #328 Programs | #355 -> #356 -> #357 -> #358 | green |
+| mobile #317 wearables | #359 -> #360 -> #361 -> #362 -> #363 -> #364 | H6 red (pre-existing #305 pin vs #317 clinic flag) |
+| mobile #325 S-SCHED | #365 -> #366 -> #367 | green; waits for backend #634 |
+
+Not split, with the reason and the next action:
+- backend #634 S-SCHED-2 (10.7k): logic conflicts with main after #647 (booking emitter, reminder job, lifecycle, schema). T4 builder
+  refresh first, then tools/split.
+- mobile #331 Roman chats (5.1k): round-3 fix pending (patches/331-round3-wip.patch). Finish the fix, then split.
+- backend annex #657, #659, #660 (3.0-3.9k): conflict with main in ci.yml, fly-env-desired-state.json, launch-flags.md. Builder
+  refresh first.
+- Superseded Roman originals (#598, #601, #602, #603, #605): close after the #651 pieces are green; never split.
+- Parked candidates outside the wave (#525, #587, #589, #591, #592, #593): split only if revived. #618 is a dependabot lockfile bump
+  (generated; exempt from the size rule).
+
+Next for 116, in order: (1) watch CI on the reruns (#679, #685); (2) dispatch audits piece by piece (two lenses at each exact head),
+money stacks first (#681-#686 + #678-#680, then #674-#677, #671-#673, #687-#691); (3) dispatch one builder for #669 (Roman fix) and one
+for #634 refresh, after the owner lifts stop-and-drain; (4) land per MERGE_DEPENDENCY_GUIDE rule 11; (5) close originals as superseded.
