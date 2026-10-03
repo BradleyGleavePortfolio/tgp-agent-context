@@ -116,6 +116,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - 12:14 PDT ENDED: AUD-SOL-MOB-PAY (last Sol verdicts: #338 APPROVE @48b5e6b5; #329 BLOCK 1/1/0 @fc7fe73f; #321 APPROVE @4f5b058d; #322
   APPROVE @23435ec2; #328 APPROVE @fb76721f; #340 RC; unaudited heads #332 @90701485, #334 @d466fd15, #340 @2e77dcb6). ALL LENSES ENDED.
   5 builders left: B-FEE-9, B-DUNNING-7, B-TRIALS-3, B-COACH-5, B-NOTIF-6.
+- 12:18 PDT ENDED: B-FEE-9. #627 @66162285 FIX ROUND 10 (B-627-10 fixed; main 0d33c4d4 merged), 11/11 green, READY FOR AUDIT, BEHIND ->
+  next wave: both lenses, then merge with #321 (dual APPROVE @4f5b058d, BEHIND). #661 @f4679fd8 Sol RC B-661-3 (late-delivered earlier
+  decline can mark a paid retried purchase failed and drop access) -> round 3 (fix plan in report). Operator rulings: C-627-10 -> follow-up
+  PR after #627 merges (needs a nullable column); C-661-2 credential backfill -> owner-free decision at #661 deploy (SQL in report, review
+  first); C-661-3 -> whichever of #661/#654 merges second keeps credential clearing on subscription end and activation. 4 builders left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
