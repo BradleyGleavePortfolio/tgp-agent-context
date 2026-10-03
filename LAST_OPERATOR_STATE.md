@@ -33,6 +33,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   anwser is to pay to go faster, lets just let everything run its course. Keep monitoring and executing!" -> STOP-AND-DRAIN in force
   (19 agents, count only goes down; no new lanes, no re-tasking finished ones). No paid speed-ups (GitHub Pro 40-job concurrency
   declined). Free levers in use: CI lane v2, ops/ci_janitor.sh (cancels superseded PR runs each operator cycle).
+- 10:55 PDT DEPLOY started: backend d27cd3ec (#640; migration 20270223000000_mwb_program_delivery, additive/idempotent; env manifest
+  unchanged) via fly-deploy run 37142275262; production environment approved by operator (standing approval); job waiting for a runner
+  (CI queue). Verify /health, /readyz, _prisma_migrations, #640 routes when it finishes; then update mobile #328.
+- OR-115-6 PR size: open PRs stay as they are (11 exceed 5k added lines, about half tests; splitting now restarts audits); new PRs in
+  this wave keep non-test source under ~800 lines or stack.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."

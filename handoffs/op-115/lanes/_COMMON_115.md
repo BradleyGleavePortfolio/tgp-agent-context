@@ -139,3 +139,7 @@ This sandbox is saturated (2 CPU, load ~11 with 16 agents). GitHub Actions is fr
   need tsc in CI.
 - Full `gh workflow run ci.yml --ref <branch>` ONLY for live-DB suites (rls-live, community-live, mwb-3) that need ci.yml's Postgres
   services. Cancel your own superseded runs (`gh run cancel <id>`). Never dispatch anything else.
+
+## PR size (operator ruling OR-115-6, 11:00 PDT)
+- Open PRs stay as they are (splitting them now would restart their audits). Any NEW PR in this wave keeps its non-test source diff
+  small (target under ~800 lines; tests and fixtures do not count); if a change is bigger, open stacked PRs, each auditable on its own.
