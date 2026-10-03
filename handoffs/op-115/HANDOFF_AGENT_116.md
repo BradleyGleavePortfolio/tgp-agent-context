@@ -461,7 +461,7 @@ Progress log (newest last):
   suite under scripts/__tests__ and src/config/__tests__ (source-scanning suites that read files by path are otherwise invisible to
   the import scan).
 
-### 12.9 Split program status at 2026-10-03 15:00 PDT (operator 115, final)
+### 12.1 Split program status at 2026-10-03 15:00 PDT (operator 115, final)
 
 Every wave PR over 3,000 lines that could be cut without new code is split. All pieces are drafts, at most 2,958 lines, tree-checked
 against the refreshed original, and the originals stay open (branches kept) until their pieces are green.
@@ -493,6 +493,6 @@ Not split, with the reason and the next action:
 - Parked candidates outside the wave (#525, #587, #589, #591, #592, #593): split only if revived. #618 is a dependabot lockfile bump
   (generated; exempt from the size rule).
 
-Next for 116, in order: (1) watch CI on the reruns (#679, #685); (2) dispatch audits piece by piece (two lenses at each exact head),
+Next for 116, in order (read this table first; the progress log above is the detail): (1) watch CI on the reruns (#679, #685); (2) dispatch audits piece by piece (two lenses at each exact head),
 money stacks first (#681-#686 + #678-#680, then #674-#677, #671-#673, #687-#691); (3) dispatch one builder for #669 (Roman fix) and one
 for #634 refresh, after the owner lifts stop-and-drain; (4) land per MERGE_DEPENDENCY_GUIDE rule 11; (5) close originals as superseded.
