@@ -133,6 +133,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   #609 is deployed + merge-only refresh (needs lenses: next wave). mobile #341 (stacked on #312) RC from both lenses: overlapping preference
   saves race; "did not save" copy on unknown outcome; minor C items. #634 and #648 both edit booking.emitter.ts: second to merge resolves.
   Owner action: FCM V1 key for Android push. 2 builders left.
+- 12:33 PDT ENDED: B-TRIALS-3. backend #656 @86223987 FIX ROUND 5, 11/11 green, CLEAN, READY: needs Sol re-audit + first full Opus audit.
+  mobile #338 dual APPROVE @48b5e6b5 (Sol APPROVE + Opus delta APPROVE 5972079998): merge with #656, after #656 deploys. C-656-1 combined
+  acceptance with #654 -> whichever of #654/#656 merges second. Owner action: add customer.subscription.trial_will_end to the Stripe webhook
+  (with setup_intent.succeeded). 1 builder left (B-DUNNING-7).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
