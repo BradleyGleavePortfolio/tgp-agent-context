@@ -129,3 +129,8 @@ Mobile:
   Handoff section 7 stands: never launch an agent on, push to, update-branch or comment fixes on any of them, even if one looks idle
   or a check is red. If any of your lanes already touched one, stop that lane and record it under NEEDS OPERATOR. The operator runs
   ops/recon/writer_guard.sh (commit identities "TGP Agent 114" vs "TGP Sub-Manager 114-S") every cycle; at 19:01 PDT: 0 collisions.
+- 19:05 PDT B-RECUR-MOB DONE: mobile #334 @3fc925d4 READY FOR AUDIT (all surfaces sell renewing plans via native PaymentSheet; plan
+  terms before paying; "Your plans" end/keep; per-code copy; wallets off until merchant ID). 3/3 required green. Lenses AUD-OPUS-114 +
+  AUD-SOL-114B audit it paired with #654. Merge rule: #334 merges only after backend #654 AND #628 are deployed (cancel uses #628).
+  Contract gaps 1 (error filter drops extra fields) and 2 (share link from a not-yet-connected coach) handed to B-RECUR-BE inside #654.
+  Known overlaps: #322 (Membership plans screen) and #321 (package detail props) — second to merge resolves.
