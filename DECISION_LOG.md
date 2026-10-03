@@ -1629,3 +1629,7 @@ docs are audit-exempt under R14; product-code slices are not.
 - Owner (verbatim): "also want to do this - any PR over 3k LOC is jsut an automatic fail - its a huge waste of credits and extends wasted rounds for future reference"
 - Decision: hard limit of 3,000 changed lines (additions + deletions; lockfiles, generated files and snapshots excluded; tests count). Over the limit: no audit, lens verdict REQUEST CHANGES "SIZE FAIL", builder splits into stacked PRs. The 1,500 line keep-or-split assessment stays for PRs between 1,500 and 3,000. PRs open on 2026-10-03 are grandfathered; substantial rework of one means splitting it.
 - Enforcement follow-up (next wave): a fail rule in the backend dangerfile (danger is already a required backend check) and an equivalent size check in the mobile repo; making a new mobile check required needs the owner's exact words (branch protection).
+
+## 2026-10-03 11:34 PDT — Merge dependency guide for operator 116+ (owner)
+- Owner (verbatim): "Note the dependency issues causing retroactive work on the completed work - make a simple guid for agent 116* for this!" and "YOU are 115, your successor is 116. Thats who we are prompting for".
+- Decision: MERGE_DEPENDENCY_GUIDE.md (causes seen on 2026-10-03 plus 10 rules), linked from OPERATOR_STANDING_ORDERS.md section 1a. Structural fix (merge queue via an organization-owned repo, or relaxing up-to-date) stays an owner decision after launch.

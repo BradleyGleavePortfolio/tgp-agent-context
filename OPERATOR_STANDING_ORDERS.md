@@ -20,6 +20,10 @@ MODEL_ROUTING.md is the method; this file lists standing owner orders that sit o
   agent keeps its report file current so a fresh agent can take over when one nears its context limit. Merged or approved PRs with
   no open work need no builder; finished agents end instead of waiting.
 
+## 1a. Merge dependencies (owner, 2026-10-03 11:34 PDT) — MERGE_DEPENDENCY_GUIDE.md
+- Before planning a wave, read MERGE_DEPENDENCY_GUIDE.md: draw the dependency graph, build in merge order, merge immediately and
+  refresh one PR at a time, avoid stacks, keep a small merge crew (one builder, one Opus, one Sol) alive until the train is empty.
+
 ## 2. Agent count and spend (owner, 2026-10-02 19:05 and 2026-10-03 10:52 PDT)
 - STOP-AND-DRAIN until the owner says exactly "SCALE 2" (or explicitly bumps the count): launch no agents, never re-task a finished
   one. A one-time bump does not end the drain. Never pay to go faster without the owner's word (no EAS builds, no paid CI or plans).
