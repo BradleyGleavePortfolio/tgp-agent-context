@@ -379,3 +379,20 @@ Progress log (newest last):
   = #628 head. `tsc` passes at all five; local jest: D2 41/41, D3 route-table 36/36, D4 199/199, D5 80/80. Lesson: a new controller and
   the lockout allow-list entries for it must sit in the same piece (the route-table spec scans controllers on disk). Mobile #322 pairs
   with #691.
+- 13:37 PDT. **CI review of the splits and fixes.** Several first cuts compiled but broke existing specs at runtime (a spec on main
+  whose subject changed in an earlier piece). Fixes: the split tool (tools/split/build_piece.sh) now also runs every existing spec that
+  imports a file changed in the piece. #627 re-cut (same final tree): #681 F1 5a19178d (2,503; now carries the checkout, guest-checkout
+  and LP-attribution spec updates; 165/165), #682 F2 007d3dcb (2,529), #683 F3 e2af8ca1 (2,895), #684 F4 42e9ca13 (2,606; + recon,
+  admin analytics, coach-connect, field-select specs; 209/209), #685 F5 858d3716 (2,958), #686 F6 7be7d396 (1,355). F2 and F3 stay red
+  by design (F2 swaps the transfer orchestrator under main's purchase-split handler; F4 carries the updated specs). Recurring stack
+  rebased again onto the new F6 (trees unchanged): #678 b89c199d, #679 517def8c, #680 7e55cfcb. #628 re-cut (same final tree): #687 D1
+  c2a901a8 (1,840; 18 importing suites pass), #688 D2 6627044c (2,875; cadence + dispatcher moved here; 10 suites pass), #689 D3
+  9e77159a (2,462), #690 D4 f72668c2 (2,415; 25 suites pass), #691 D5 70bcaa43 (2,742). Roman #668 C1 is red by design until #669 C2
+  (B already removed the exclamation allowance). Other red jobs were the known jest out-of-memory flake; reruns requested.
+- **Landing rule for split stacks (operator 115, binding until changed):** pieces are reviewed one by one (that is where the credits
+  go). A piece that is red by design (#682, #683, #668) or unsafe to deploy alone (#681 switches checkout to separate charges before
+  the transfer machinery exists) is landed as one with the rest of its stack: after every piece has dual APPROVE at its exact head,
+  merge top-down into the piece branches (they are not protected), confirm the bottom piece's tree equals the audited top head (git
+  diff empty; lenses post a merge-only delta), then merge the bottom piece into main with every required check green, then deploy.
+  Stacks whose pieces are each green and inert-until-wired (#667/#665/#666, #671-#673, #674-#677, #687-#691) can land piece by piece
+  but must still merge back to back and deploy only after the last piece.

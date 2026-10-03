@@ -54,3 +54,11 @@ GitHub's merge queue removes most of this: it tests the combined result once, so
 only available to organization-owned repos (moving the repos to a free organization needs the owner's exact words: secrets, the Fly
 deploy workflow and environments move with them). The other option, dropping the up-to-date requirement, trades safety for speed
 and also needs the owner's exact words.
+
+## Rule 11. Split stacks: review in slices, land as one when needed (operator 115, 2026-10-03)
+
+When an oversized PR is split into a stack, each piece is audited at its exact head. If a middle piece is red by design (it changes a
+dependency under code whose updated tests live in a later piece) or is unsafe to deploy alone, land the stack as one: merge the
+approved pieces top-down into their (unprotected) piece branches, check that the bottom branch's tree equals the audited top head,
+then merge the bottom piece into main with all required checks green. Otherwise merge the pieces back to back. Deploy only after the
+last piece either way. Tooling: handoffs/op-115/tools/split/ (import-order check and piece builder that runs every importing spec).

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # build_piece.sh <worktree> <refreshed-sha> <resolved.json> <piece> <new-branch> <from-ref>
-# Creates <new-branch> at <from-ref>, applies piece files from <refreshed-sha>, runs tsc and the piece's specs. Does NOT commit.
+# Creates <new-branch> at <from-ref>, applies piece files from <refreshed-sha>, runs tsc, the piece's specs, and every
+# existing spec that imports a source file changed in this piece. Does NOT commit.
 set -uo pipefail
 wt=$1; R=$2; plan=$3; k=$4; br=$5; from=$6
 cd "$wt" || exit 1
@@ -12,5 +13,12 @@ done
 git add -A
 echo "piece $k: $(git diff --cached --shortstat)"
 NODE_OPTIONS=--max-old-space-size=6144 timeout 900 npx tsc --noEmit -p tsconfig.json > /tmp/tsc_piece.log 2>&1; echo "tsc=$?"; head -8 /tmp/tsc_piece.log
-specs=$(echo "$files" | grep -E '\.spec\.ts$' | tr '\n' ' ')
-if [ -n "$specs" ]; then NODE_OPTIONS=--max-old-space-size=4096 timeout 1200 npx jest $specs --runInBand 2>&1 | grep -E "^Tests:|^Test Suites:|✕|FAIL" | head -12; fi
+specs=$(echo "$files" | grep -E '\.spec\.ts$')
+for f in $(echo "$files" | grep -E '^src/.*\.ts$' | grep -v '\.spec\.ts$'); do
+  m=$(basename "$f" .ts)
+  specs="$specs
+$(grep -rlE "/${m}'" test src --include='*.spec.ts' 2>/dev/null)"
+done
+specs=$(echo "$specs" | grep -E '\.spec\.ts$' | grep -vE '\.live\.spec\.ts$' | sort -u | head -40 | tr '\n' ' ')
+echo "specs: $(echo $specs | wc -w)"
+if [ -n "$specs" ]; then NODE_OPTIONS=--max-old-space-size=4096 timeout 420 npx jest $specs --runInBand > /tmp/jest_piece.log 2>&1; grep -E "^Tests:|^Test Suites:|✕|^FAIL" /tmp/jest_piece.log | sort -u | head -14; fi
