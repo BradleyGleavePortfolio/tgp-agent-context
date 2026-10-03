@@ -163,6 +163,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - 14:19 PDT SPLIT 12 DONE: mobile #328 -> #355 (G1) -> #356 (G2) -> #357 (G3) -> #358 (G4).
 - 14:29 PDT SPLIT 13 DONE: mobile #317 -> #359 (H1) -> #360 -> #361 -> #362 -> #363 -> #364 (H6).
 - 14:35 PDT SPLIT 14 DONE: mobile #325 -> #365 (K1) -> #366 (K2) -> #367 (K3). Unsplit (need a builder first): backend #634 (conflicts after #647), mobile #331 (round-3 fix), annex #657/#659/#660.
+- 14:59 PDT CI FIXES: #317 pieces re-cut (#359-#364 new heads; H6 carries a pre-existing red that needs an owner decision on Health Connect in the clinic binary). #349/#350 red by design until #351 (land as one).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."

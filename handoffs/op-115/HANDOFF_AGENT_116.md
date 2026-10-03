@@ -448,3 +448,15 @@ Progress log (newest last):
   Those are logic merges; a T4 builder refreshes #634 on main first, then it is cut with tools/split (expect 4-5 pieces).
   Still unsplit and why: #634 (above), mobile #331 (round-3 WIP patch pending; finish the fix first, then split), annex
   #657/#659/#660 (conflicts with main in CI/config files; builder refresh first).
+- 14:59 PDT. **Mobile CI sweep and fixes.** #342-#347, #348, #351-#358 green. Fixes:
+  (a) #317 pieces re-cut (same final tree) because main's and #317's config tests disagree at intermediate pieces: #359 H1 e0f3d2a7
+  (1,276) -> #360 H2 4a508d8b (2,647) -> #361 H3 85b2439b (1,793) -> #362 H4 61cb0fac (2,284) -> #363 H5 9ab951f6 (982) -> #364 H6
+  9acf37b4 (2,878; now also carries app.config.js, the permission delegate plugin, app.json, eas.json and their config/platform
+  tests). Known red at H6 and at #317 itself (pre-existing): scripts/__tests__/easUpdateGuard.test.js from #305 pins the clinic
+  channel TGP_ANDROID_HEALTH_CONNECT to '0'; #317 sets '1'. Owner decision first (ship Health Connect in the clinic binary?), then a
+  builder updates the pin or the flag.
+  (b) #349 N2 and #350 N3 are red by design: main's source-scanning suites paymentsConnectPackages and coachSaasBlockers expect the
+  Earnings routes that N2 removes; N4 (#351) deletes the files and carries both updated suites. Land N2-N4 as one (rule 11).
+  (c) tools/split/build_piece.sh now also runs *.test.js suites and, when app.json/app.config.js/eas.json/package.json change, every
+  suite under scripts/__tests__ and src/config/__tests__ (source-scanning suites that read files by path are otherwise invisible to
+  the import scan).

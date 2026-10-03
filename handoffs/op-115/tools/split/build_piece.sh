@@ -13,12 +13,14 @@ done
 git add -A
 echo "piece $k: $(git diff --cached --shortstat)"
 NODE_OPTIONS=--max-old-space-size=6144 timeout 900 npx tsc --noEmit -p tsconfig.json > /tmp/tsc_piece.log 2>&1; echo "tsc=$?"; head -8 /tmp/tsc_piece.log
-specs=$(echo "$files" | grep -E '\.(spec|test)\.tsx?$')
+specs=$(echo "$files" | grep -E '\.(spec|test)\.[tj]sx?$')
+if echo "$files" | grep -qE '^(app\.json|app\.config\.js|eas\.json|package\.json)$'; then specs="$specs
+$(ls scripts/__tests__/*.test.js src/config/__tests__/*.test.* 2>/dev/null)"; fi
 for f in $(echo "$files" | grep -E '^src/.*\.tsx?$' | grep -vE '\.(spec|test)\.tsx?$'); do
   m=$(basename "$f"); m=${m%.tsx}; m=${m%.ts}
   specs="$specs
-$(grep -rlE "/${m}[\"']" test src --include='*.spec.ts' --include='*.test.ts' --include='*.test.tsx' 2>/dev/null)"
+$(grep -rlE "/${m}[\"']" test src --include='*.spec.ts' --include='*.test.ts' --include='*.test.tsx' --include='*.test.js' 2>/dev/null)"
 done
-specs=$(echo "$specs" | grep -E '\.(spec|test)\.tsx?$' | grep -vE '\.live\.spec\.ts$' | sort -u | head -90 | tr '\n' ' ')
+specs=$(echo "$specs" | grep -E '\.(spec|test)\.[tj]sx?$' | grep -vE '\.live\.spec\.ts$' | sort -u | head -90 | tr '\n' ' ')
 echo "specs: $(echo $specs | wc -w)"
 if [ -n "$specs" ]; then NODE_OPTIONS=--max-old-space-size=4096 timeout 480 npx jest $specs --runInBand --forceExit > /tmp/jest_piece.log 2>&1; grep -E "^Tests:|^Test Suites:|✕|^FAIL" /tmp/jest_piece.log | sort -u | head -14; fi
