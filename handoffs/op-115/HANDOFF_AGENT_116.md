@@ -148,7 +148,7 @@ update-branch; "DIRTY" = conflict. Re-verify every head before acting.
 | mobile #312: feat(notifications): C05 item 7 workout reminders toggle in Settings > | `f8375ca66bf11b2cbb721619c90ab10ff885090e` | `main` | +1068/-36 | dual APPROVE @f8375ca6 | BEHIND (no conflict). #609 is now deployed, so: update-branch, merge-only deltas, merge. | handoffs/op-115/reports/B-NOTIF-6-115.md |
 | mobile #315: fix(trust-center): open the real privacy policy, link the consumer hea | `8fff3f8f3829aab4079973b38428e2d266bc3f3b` | `main` | +1485/-36 | dual APPROVE @8fff3f8f | BEHIND. Merge together with backend #611 once #611 is dual APPROVE. | handoffs/op-115/reports/B-MOB-A-115.md |
 | mobile #321: feat(packages): editor shows the $19.99 minimum or free rule inline (S | `4f5b058d2ec6d22c468eaef0d3db3238978d9465` | `main` | +1736/-111 | dual APPROVE @4f5b058d | BEHIND. Merges with backend #627. | handoffs/op-115/reports/B-FEE-9-115.md |
-| mobile #322: feat(dunning): payment lockout + Days 0-9 banner + native Update card  | `23435ec2c099aa5e25c8c0737d92662b73c83855` | `main` | +4573/-50 | dual APPROVE @23435ec2 | BEHIND. Merges with backend #628. C-334-2 interplay with #334. | handoffs/op-115/reports/B-DUNNING-7-115.md |
+| mobile #322 (SPLIT into #352 -> #354; see section 12): feat(dunning): payment lockout + Days 0-9 banner + native Update card  | `23435ec2c099aa5e25c8c0737d92662b73c83855` | `main` | +4573/-50 | dual APPROVE @23435ec2 | BEHIND. Merges with backend #628. C-334-2 interplay with #334. | handoffs/op-115/reports/B-DUNNING-7-115.md |
 | mobile #325 (draft): S-SCHED: native Calendar, coach controls, welcome call and lifecycle c | `7566d38f4eb15a5f6bd8c3491bf17dbc6a8931e8` | `main` | +5393/-606 | dual APPROVE @7566d38f (draft) | DIRTY: app.json conflict after #305 (keep both hunks, OR-115-5). Stays draft until backend #634 merges AND deploys. | handoffs/op-115/reports/B-MOB-B-115.md |
 | mobile #328: feat(programs): coach Programs tab - build once, assign to many, add t | `fb76721fa21476cf36595fcd861a6b5a07630516` | `main` | +6947/-14 | dual APPROVE @fb76721f | BEHIND after #305. Backend #640 is deployed. Update-branch, merge-only deltas, merge. | handoffs/op-115/reports/AUD-OPUS-MOB-PAY-115.md |
 | mobile #335: feat(reach): reachability map, wire working screens, coach consultatio | `641fe8914853cca6a2dab76ac90230bbcd525504` | `main` | +2243/-14 | dual APPROVE @641fe891 | BEHIND. Fold Opus C-335-4 (copy must be true when a coach lost access) into the refresh round, then merge-only deltas. | handoffs/op-115/reports/B-MOB-B-115.md |
@@ -416,3 +416,12 @@ Progress log (newest last):
   Money behaviour suite (1,722, 6fb21216; 73/73) -> #351 N4 retire Earnings and Business metrics (1,851, mostly deletions, 352d768e;
   13 suites). Tree at #351 = refreshed #332. #340 (700 lines, base = #332's branch) stays whole; re-base onto #351 when the stack is
   approved. The split tool flags imports of files that exist on the base but change later; tsc plus the importing specs decide.
+- 14:05 PDT. **CI sweep + annex note + #322 split.** CI on every split head: green except the by-design reds (#668/#669/#670 Roman C,
+  #682/#683 fee F2/F3). #670 also fails CI tsc at test/roman/roman-spend-admission.live.spec.ts(81,87) (expects the fix's signature).
+  Schema-parity failures on #682/#685/#690 were a stale base SHA from the simultaneous force-push ("base commit ... is not in the
+  checkout"); PRs closed and reopened to re-trigger. #679 and #685 build-and-test were the jest OOM flake; reruns requested.
+  Annex #657/#659/#660 are NOT split: they conflict with main in .github/workflows/ci.yml, .github/fly-env-desired-state.json and
+  docs/runbooks/launch-flags.md (content decisions, a builder refresh first), then cut with tools/split.
+  Mobile #322 @ 23435ec2 (4,623; BEHIND) merged with main (clean), cut: #352 L1 dunning API + update-card flow + error copy (base main,
+  1,774, head 58b80914; 40 suites) -> #353 L2 lockout screen + banner + Update card screen + navigation (1,730, e22acc84; 17 suites)
+  -> #354 L3 native card update suite (1,119, 37ed3d56; 41/41). Tree at #354 = refreshed #322. Pairs with backend #687 -> #691.
