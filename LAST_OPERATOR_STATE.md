@@ -29,6 +29,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   (handoffs/op-115/ci-lane/): a throwaway one-job targeted-jest workflow pushed only on ci/** and audit/** branches (never merged), via
   ops/ci-lane/ci_lane.sh. All 19 lanes told to use it for proofs/probes; full ci.yml dispatch only for live-DB suites. Self-test run
   37141862185 on ci/OP-115-cilane-selftest.
+- OWNER 10:52 PDT (verbatim): "to confirm we are still on stop-and-drain as of now, me adding more was a one time bump. Also - if the
+  anwser is to pay to go faster, lets just let everything run its course. Keep monitoring and executing!" -> STOP-AND-DRAIN in force
+  (19 agents, count only goes down; no new lanes, no re-tasking finished ones). No paid speed-ups (GitHub Pro 40-job concurrency
+  declined). Free levers in use: CI lane v2, ops/ci_janitor.sh (cancels superseded PR runs each operator cycle).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
