@@ -159,3 +159,10 @@ Mobile:
   merged). READY once its 6 pending required checks finish (CI backlog ~80 queued backend runs, all live heads). Lenses AUD-OPUS-114B /
   AUD-SOL-114B poll it. Merge note: #641 and #656 edit the same package files; second to merge resolves (B-TRIALS-2 is still running).
 - 19:20 PDT #608 @be6b5841 / #327 @9c8b2b06: CI pending (3 each), merge-only deltas owed by both lenses. Then merge pair + deploy.
+- 19:33 PDT B-JOURNEY-5 DONE: backend #609 @18b7e643 (11/11 green) + mobile #312 @2b54e151 (3/3) FIX ROUND 2 READY FOR AUDIT (#312 raised
+  to T4, pairs with #609). Merge #609 + deploy before #312. Seam: #609 adds CoachWelcomeMessageJob, CoachWelcomeMessageSetting,
+  WorkoutReminderDelivery -> #608 manifest entries needed once #608 is on main; assigned to running builder B-AUDIT-GATE (also #641 if it
+  adds user-id columns). Every running backend builder told to fold its own #608 manifest seam. Backlog: coach messages incl. welcome
+  never reach the lock screen (check #648 coverage); branch wip/B-JOURNEY-5-c6094 is contained in #609 and can be deleted.
+- 19:33 PDT mobile #327 @9c8b2b06 dual APPROVE (Opus + Sol merge-only delta), CLEAN. #608 @be6b5841: Sol APPROVE delta; Opus delta and
+  2 checks pending. Pair merges together when #608 is dual + green.
