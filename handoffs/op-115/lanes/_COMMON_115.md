@@ -128,3 +128,14 @@ This sandbox is saturated (2 CPU, load ~11 with 16 agents). GitHub Actions is fr
   (head8 = first 8 chars of the head sha; opus for Claude Opus 5.5 lenses, sol for GPT-6.1 Sol lenses). If mkdir fails, another lens
   of your model owns that head: skip it. wait_audit.sh already hides heads claimed by others.
 - Lenses (lens model must never sit idle) do NO heavy local work: probes run in GitHub CI (section "GitHub CI lanes").
+
+## CI lane v2 (operator 10:55 PDT): one-job targeted runs. BINDING; replaces full ci.yml dispatches for proofs/probes
+- GitHub caps this account at 20 concurrent jobs; a full ci.yml dispatch costs 5 jobs (~15 min) and queues behind every PR's required
+  checks (45 backend runs were queued at 10:50). Use the one-job lane instead:
+  `/home/user/workspace/ops/ci-lane/ci_lane.sh <backend|mobile> <your worktree> <ci/<LANE>-<pr>-<what> | audit/<LANE>/<pr>-<what>> <spec> [spec...]`
+  Commit what you want tested first (e.g. PR head + new test, without the fix). The script adds a throwaway one-job workflow +
+  .ci-lane-specs on that branch only (never merged), force-pushes the branch, and prints the run id/URL. Watch with
+  `gh run watch <id> -R BradleyGleavePortfolio/<repo> --exit-status`; cite the URL. Add an empty `.ci-lane-tsc` commit file only if you
+  need tsc in CI.
+- Full `gh workflow run ci.yml --ref <branch>` ONLY for live-DB suites (rls-live, community-live, mwb-3) that need ci.yml's Postgres
+  services. Cancel your own superseded runs (`gh run cancel <id>`). Never dispatch anything else.
