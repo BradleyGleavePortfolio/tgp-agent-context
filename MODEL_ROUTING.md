@@ -253,6 +253,19 @@ Promotion triggers: [what would force re-grade]</p></th>
 </tbody>
 </table>
 
+**8.2 PR size gate (owner directive 2026-10-03)**
+
+Owner (verbatim): "anything over 1500 lines becomes a liability one day and a slow-down. Splitting the PR into logical pieces can, in some cases, alleviate this problem."
+
+- Trigger: a PR whose diff exceeds 1,500 changed lines (additions + deletions; lockfiles, generated files and snapshots excluded; tests count and are reported separately).
+- When: the operator assesses it at the FIRST READY FOR AUDIT after the builder's first push, before the first full audit starts, and again whenever a fix round pushes a PR past the trigger.
+- How: the operator posts a SIZE ASSESSMENT comment on the PR: lines (source / tests / migrations / docs), the logical seams, the coupling between them, and a decision with its reason:
+  - SPLIT when seams exist that can each merge safely on their own: every piece compiles, passes CI, carries its own tests, and is inert or flag-gated until the last piece lands. Shape: stacked PRs (each based on the previous piece's branch), each targeting under ~800 lines of non-test source, merged in order.
+  - KEEP when the change is one atomic invariant (a partial merge would leave money, auth, privacy or data unsafe), or when its audits have already converged (dual APPROVE, or one narrow finding left). Verified audit state is value; do not destroy it to hit a number.
+- Prevention: slices are sized at grading time (section 8) to land under the trigger; every builder brief states the size budget.
+- Enforcement (least cost, per AGENT_RULES G22): the operator assessment above; a non-blocking Danger warning on PRs over 1,500 lines that links the assessment is a follow-up for the product repos after launch. No hard cap.
+- Why (leader lenses the owner asked for): Musk, "the best part is no part": question the requirement and delete before you optimize or audit it. Bezos, two-way doors: small changes are cheap to review, merge and revert; giant PRs turn every merge into a one-way door. Huang, speed of light: review throughput sets the floor on cycle time, and a 10,000-line PR cannot converge in one round, so the gap between the floor and reality is paid in extra rounds.
+
 **9. Mandatory Promotion Rules**
 
 A lower-tier worker does not get unlimited retries. Because TGP optimizes for wall-clock time, unexpected ambiguity is a routing signal.

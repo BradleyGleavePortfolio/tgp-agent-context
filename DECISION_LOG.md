@@ -1618,3 +1618,9 @@ docs are audit-exempt under R14; product-code slices are not.
 - 1A: card update during dunning auto-charges the open invoice (our code initiates the charge) and unlocks on success.
 - 2A: cancel during dunning voids the unpaid invoice and ends access immediately.
 - Context: voluntary cancel outside dunning keeps access through the paid period (13:43 ruling); free/code grants never enter dunning.
+
+## 2026-10-03 11:02 PDT — PR size gate: assess anything over 1,500 lines for a logical split (owner)
+- Owner (verbatim): "For future reference, I want to have orchestrators, in the first round after the builder finishes, asses the PR size and if it seems logical to keep it so massive - anything over 1500 lines becomes a liability one day and a slow-down. Splitting the PR into logical pieces can, in some cases, alleviate this problem. ... Can we add this ideology into github files and future agent 116 prompting?"
+- Decision: MODEL_ROUTING.md section 8.2 (PR size gate) and a pointer in AGENT_RULES.md G21. The operator posts a SIZE ASSESSMENT (KEEP or SPLIT, with reason) on every PR over 1,500 changed lines at its first READY FOR AUDIT; splits are stacked, each piece safe and inert on its own; converged audits and atomic invariants are kept. Standing order for every future operator in OPERATOR_STANDING_ORDERS.md.
+- Applied now (agent 115): open PRs that have converged or have one narrow finding left stay whole; backend #651 (8,119 added lines, 13 open B findings) is split into three stacked PRs (Roman context, guardrails, live turns + eval). New PRs in the current wave target under ~800 lines of non-test source.
+- Follow-up after launch: a non-blocking Danger warning on PRs over 1,500 lines in both product repos; consider an organization-owned repo so GitHub merge queue can absorb the extra merges small PRs create under strict branch protection.
