@@ -5,7 +5,7 @@ credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 
 ## OWNER 2026-10-03 10:15 PDT — "SCALE 2 + EXECUTE" (verbatim): "Do you know the to-do list and the owner decision from the last 72hrs? If so - SCALE 2 + EXECUTE - Scale up to 16 agents running if sandbox can handle it right away, then enter stop-and-drain!"
-- 10:3x PDT agent 115 launched exactly 16 lanes (lane files handoffs/op-115/lanes/LANES.md + _COMMON_115.md): builders (Claude Opus 5.5)
+- By 10:20 PDT agent 115 launched exactly 16 lanes (lane files handoffs/op-115/lanes/LANES.md + _COMMON_115.md): builders (Claude Opus 5.5)
   B-FEE-9 (#627 -> #321 -> #661), B-RECUR-3 (#654 + #334), B-DUNNING-7 (#628 -> #322 -> #642), B-TRIALS-3 (#656 + #338), B-COACH-5
   (#641 -> #332 -> #329 -> CSV PR), B-NOTIF-6 (#648/#647 -> #312 -> mobile notif PR), B-MOB-A (#326 -> #315 -> copy sweep -> #331),
   B-MOB-B (#305 -> #317 -> #325 -> #335), B-SCHED-ROMAN (#634 -> #651 -> #603 carry-over -> #653); lenses AUD-OPUS-MONEY,
@@ -13,7 +13,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - STOP-AND-DRAIN re-entered after the launch: no further agents, no re-tasking finished agents. Builders own their PRs to merge or dual
   APPROVE (they do their own follow-up rounds); lenses poll their queue files (ops/wait_audit.sh) and stay alive until the operator
   creates LENSES_MAY_END. Operator: update-branch (merge-only), merges, deploys, records.
-- 10:28 PDT operator update-branch: backend #664 -> 3e976861, mobile #338 -> 9cf66146 (merge-only; deltas owed).
+- By 10:20 PDT operator update-branch: backend #664 -> 3e976861, mobile #338 -> 9cf66146 (merge-only; deltas owed).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
