@@ -129,7 +129,7 @@ This sandbox is saturated (2 CPU, load ~11 with 16 agents). GitHub Actions is fr
   of your model owns that head: skip it. wait_audit.sh already hides heads claimed by others.
 - Lenses (lens model must never sit idle) do NO heavy local work: probes run in GitHub CI (section "GitHub CI lanes").
 
-## CI lane v2 (operator 10:55 PDT): one-job targeted runs. BINDING; replaces full ci.yml dispatches for proofs/probes
+## CI lane v2 (operator 10:49 PDT): one-job targeted runs. BINDING; replaces full ci.yml dispatches for proofs/probes
 - GitHub caps this account at 20 concurrent jobs; a full ci.yml dispatch costs 5 jobs (~15 min) and queues behind every PR's required
   checks (45 backend runs were queued at 10:50). Use the one-job lane instead:
   `/home/user/workspace/ops/ci-lane/ci_lane.sh <backend|mobile> <your worktree> <ci/<LANE>-<pr>-<what> | audit/<LANE>/<pr>-<what>> <spec> [spec...]`
