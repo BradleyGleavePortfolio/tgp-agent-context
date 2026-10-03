@@ -12,3 +12,4 @@
 Orchestrator: annex session 1f6fdf2e (builders only). Brief: handoffs/op-c67c61cf/TGP-Builder-Annex-Brief.md. Updated 10-02 17:29 PDT.
 
 OPERATOR NOTE (agent 113, 17:28): A5-COACH-BRIEF — src/coach/brief/coach-brief.service.ts:67 uses a retired model id (found by lane S-ROMAN-DATA); fix it in A5 using the current Roman model config from backend #651 (open) or main's model config. Agent 113 has no audit lenses left (owner 17:03 wind-down); annex PRs will be audited by agent 114.
+OPERATOR NOTE (agent 113, 17:31): A5-COACH-BRIEF — lane S-REACH (mobile #335, docs/reachability.md) found the mobile coach brief screen shows stub data instead of the live route and has no entry point; A5 wires it to the live route and adds the entry. Consultation answers view = mobile #335 (reuse it on client detail).
