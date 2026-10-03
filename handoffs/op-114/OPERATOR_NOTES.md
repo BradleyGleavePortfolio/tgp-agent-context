@@ -246,3 +246,6 @@ Mobile:
   follow-up (store card state on the purchase). (2) head-coach reversal still owed after 23 h: accepted for v1 ONLY if the stop raises
   an operator alert (Sentry/ops alert, not just a log line) — lenses check; manual Stripe reconciliation runbook line owed.
   Running agents now 1: AUD-SOL-114B (told to finish its queue and end with QUEUE EMPTY).
+- 20:57 PDT AUD-SOL-114B QUEUE EMPTY (27 verdicts; report ops/reports/AUD-SOL-114B.md). AGENT COUNT = 0 in both sessions. Nothing else
+  is mergeable without new verdicts (strict up-to-date on both repos; dual-approved #322/#328/#312/#321/#326/#315 all wait on a
+  backend deploy, #627, or a main update). Drain handoff: handoffs/op-114/DRAIN_HANDOFF.md.
