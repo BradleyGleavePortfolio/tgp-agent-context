@@ -15,7 +15,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - Supabase production (read-only): org plan still FREE; 0 unfinished migrations; production has 1 account (the system coach), so the
   owner coach sign-up (C04) has not happened yet.
 - Commit identity: handoff identity "TGP Agent 115" applies; DECISION_LOG 2026-09-28 (owner) removed identity as a delivery gate.
-- Restart plan on "SCALE 2": handoffs/op-115/AGENT-115-HANDOFF.md section 8 (lenses first, then builders; merge train unchanged).
+- Restart plan on "SCALE 2": handoffs/op-115/AGENT-115-HANDOFF.md section 5 (lenses first, then builders; merge train unchanged).
 
 ## AGENT 114 TAKEOVER 2026-10-02 18:13 PDT — operator agent 114, session d11c4bf8 (recorded 18:25 PDT)
 - Owner message to agent 114 (verbatim): "Read all documents closely - Treat the oeprator prompts as stale, but still important. Treat the autonymy document as your MENTALITY. Treat agent rules as THE LAWS YOU ABIDE BY ABOPVE ALL. Treat the model routing doctrine as HOW to execute PR's".
