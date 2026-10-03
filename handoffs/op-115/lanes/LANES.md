@@ -47,7 +47,7 @@ Lenses: AUD-*-MONEY (#656); AUD-OPUS-MOB-PAY + AUD-SOL-MOB (#338).
 3. mobile #329 @3a90f28a (BLOCK/BLOCK; A-329-1 waited for #332): after #332 lands in its branch, merge main, close every open finding,
    READY FOR AUDIT. Follow #641's current contract (idempotent package create with the same Idempotency-Key).
 4. OR-114-4: one follow-up mobile PR: #332 CSV export as a real .csv attachment (expo-file-system, SDK-matched version). Append it to
-   q/AUD-OPUS-MOB-PAY.txt and q/AUD-SOL-MOB.txt.
+   q/AUD-OPUS-MOB-PAY.txt and q/AUD-SOL-MOB-PAY.txt.
 Lenses: AUD-*-MONEY (#641); AUD-OPUS-MOB-PAY + AUD-SOL-MOB (#332, #329, CSV PR).
 
 ### B-NOTIF-6 — backend #648 (device push via Expo, PushOutbox, quiet hours) [+ #647 if Opus RC] -> mobile #312 -> mobile notif PR
@@ -104,3 +104,10 @@ Lenses: AUD-OPUS-CORE + AUD-SOL-CORE.
 - AUD-OPUS-MOB-PAY (Claude Opus 5.5): mobile #338 #332 #329 #321 #334 #322 #328 #312 (+ CSV PR). Starts now on #338 and #332.
 - AUD-OPUS-MOB-CORE (Claude Opus 5.5): mobile #325 #326 #315 #305 #317 #331 #335 (+ notif PR, copy-sweep PR). Starts now on #325 delta.
 - AUD-SOL-MOB (GPT-6.1 Sol): every mobile PR above. Starts now on #325 delta.
+
+## ADDED 10:47 PDT (owner: "lets add more audit lanes - 2 or 3"; queues split, claims required)
+- AUD-OPUS-MONEY-2 (Claude Opus 5.5) and AUD-SOL-MONEY-2 (GPT-6.1 Sol): backend #628 #641 #642 (moved from the MONEY lenses, which keep
+  #627 #654 #656 #661).
+- AUD-SOL-MOB-PAY (GPT-6.1 Sol): mobile #338 #332 #329 #321 #334 #322 #328 #312 + CSV PR (moved from AUD-SOL-MOB, which keeps the CORE set).
+- Builders: new mobile PRs in the payments/coach area go to q/AUD-OPUS-MOB-PAY.txt + q/AUD-SOL-MOB-PAY.txt; other mobile PRs to
+  q/AUD-OPUS-MOB-CORE.txt + q/AUD-SOL-MOB.txt; new backend PRs to the two queue files of the lens pair covering that area.

@@ -18,6 +18,13 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   and relayed to all 16 running lanes: failing-before proofs, full suites and lens probes run in GitHub Actions (ci.yml workflow_dispatch
   on ci/<LANE>-* and audit/<LANE>/* branches; both repos public, free); local runs limited to one spec via heavy.sh; never fly-*,
   release-please or h4-readiness.
+- 10:3x-10:45 PDT MERGED backend #640 -> d27cd3ec (dual APPROVE @176e4f0e; 11/11) and mobile #326 -> 47124a4d (dual APPROVE @7c5626ed; 3/3).
+  Operator update-branch (merge-only, deltas owed): backend #647 -> 3c3bdd12, #652 -> 1d43c9d9, #609 -> 41ea038a. #664 build-and-test
+  failure (provider-wiring symlink spec, unrelated to multer) rerun once.
+- OWNER 10:45 PDT (verbatim): "is sandbox is healthy/has space, lets add more audit lanes - 2 or 3". Sandbox at 10:46: disk 67%, 6.8 GB
+  available, load ~4.8, heavy procs 7 (lenses do no heavy local work). Launched 3 lenses: AUD-OPUS-MONEY-2 + AUD-SOL-MONEY-2 (backend
+  #628 #641 #642, split from the MONEY pair) and AUD-SOL-MOB-PAY (mobile payments/coach set, split from AUD-SOL-MOB). Audit claims
+  (mkdir ops/lanes115/claims/<repo>-<n>-<head8>-<opus|sol>) prevent duplicate audits. Agent count 19; drain rule unchanged otherwise.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."

@@ -122,3 +122,9 @@ This sandbox is saturated (2 CPU, load ~11 with 16 agents). GitHub Actions is fr
   ci.yml, cite the run URL (red = counterexample proven) in the verdict. Never push to a PR branch.
 - While CI runs (backend ~10-15 min), work the next item; never wait idle. Delete your ci/* and audit/* branches when your lane ends
   (`git push origin --delete <branch>`).
+
+## Audit claims (operator 10:47 PDT; more lenses were added): BINDING for every lens
+- Right before you start auditing a PR head, claim it atomically: `mkdir /home/user/workspace/ops/lanes115/claims/<backend|mobile>-<n>-<head8>-<opus|sol>`
+  (head8 = first 8 chars of the head sha; opus for Claude Opus 5.5 lenses, sol for GPT-6.1 Sol lenses). If mkdir fails, another lens
+  of your model owns that head: skip it. wait_audit.sh already hides heads claimed by others.
+- Lenses (lens model must never sit idle) do NO heavy local work: probes run in GitHub CI (section "GitHub CI lanes").
