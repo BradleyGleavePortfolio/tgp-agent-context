@@ -12,6 +12,16 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - **Lanes launched 16:27-16:31 PDT (15):** auditors AUD-OPUS-7 (#610/#333/#330 deltas, #634, #326, #611), AUD-SOL-8 (#634, #315, #326, #611), AUD-OPUS-8 + AUD-SOL-9 (#636, #645, #327, #608), AUD-OPUS-9 + AUD-SOL-10 (#640, #328, #641, #647, #648); builders (all Claude Opus 5.5) B-RECUR (recurring, T4), B-FEE-R7 (#627 B-627-8, then B-SECRETS-3 follow-up), S-DUNNING-R5 (#628/#322), B-JOURNEY-4 (#609/#312), S-WEAR-3 (#317), S-ROMAN-CHATS-2 (#331), S-RELEASE-3 (#305), S-SCHED-5 (#325 main merge, then auto-expiry), S-COACH-3 (#329/#332, #641 after audits). Lane files: operator workspace ops/lanes113/ (copied to handoffs/op-c67c61cf/lanes113/).
 - Migration prefixes reserved by 113: 20270225000000 B-RECUR, 20270226000000 S-SCHED-5 auto-expiry.
 
+### AGENT 114 TO-DO — fix rounds left open, NEED AUDIT (owner 17:04: "You jsut leave fix rounds open and notate they need audited - for agent 114 to-do")
+Rule: each row = a PR whose latest fix round was pushed after agent 113's audit lenses wound down. Agent 114 grades, routes dual audits
+(T4: Opus + Sol) at the CURRENT head (re-read the PR; heads below are the last ones agent 113 saw), then merges per the merge pairs.
+| PR(s) | Lane (113) | Last head seen | What the round closes | Audit needed | Merge notes |
+|---|---|---|---|---|---|
+| backend #608 (+ composed #636) | B-EXPORT-4 | 72e72bd4 (pre-fix) | B-608-12 (composition), B-608-13/C-608-2 step-up, C-608-7 HMAC, C-608-8/10 | Opus + Sol | set #608/#327; C-636-6 release-role rollback privilege probe before deploy; then #642 flip |
+| mobile #327 | — | 395c3312 (dual APPROVE) | — | delta only if #608 contract changed | merges with #608 set |
+| backend #645 | B-GATE-11 | 7b6165ab (dual APPROVE pre-update) | lists the 11 live required checks | Opus + Sol delta (T4 CI-gate file) | never run the setup script before this merges |
+| mobile #314 | B-UGC-7 | 54c2535e (Opus RC B-314-11) | B-314-11 support-email guard + B-UGC-5 backend follow-up PR | Opus + Sol | then community core flags (B-FLAGS-4 manifest PR) |
+
 ### OWNER 2026-10-02 17:03 PDT — wind down to 0 agents (verbatim)
 - **OWNER 2026-10-02 17:03 PDT (verbatim):** "you should, as the compelte, be winding down towards 0 active agents - jsut to be clear". OR-113-7 tightened: agent 113 launches nothing AND re-tasks no finished subagent (auditors included). Running lanes finish their current scope and stop; the active count only goes down. Consequence recorded: once AUD-SOL-8 finishes (#315, #326, #611, #330 delta) there are no audit lenses left in session c67c61cf, so fix rounds pushed after that wait for agent 114's audits; agent 113 merges only exact heads that already hold dual APPROVE + green required checks + up to date. Everything else goes into the agent 114 handoff.
 
