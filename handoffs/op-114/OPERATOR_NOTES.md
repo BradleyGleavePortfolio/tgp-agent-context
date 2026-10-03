@@ -76,3 +76,13 @@ Mobile:
 - 18:50 PDT VERIFIED (Supabase connector): production project rpyfdsgxxltzutgqeouk is on the Supabase FREE plan (org plan "free").
   Free projects get no accessible daily backups (Pro 7 days). Asked the owner: upgrade to Pro before launch (needs his word: money).
   #611 owner questions (5, with defaults) sent to the owner at the same time.
+- 18:55 PDT MERGED mobile #314 -> 1f8981dd (dual APPROVE @47398f73: Sol 5964132509, Opus; 3/3 green, CLEAN). Community core flags
+  (#650) HOLD until the next clinic build carrying #314 is ready (old builds must never see UGC without report/block, Apple 1.2).
+- 18:55 PDT MERGED backend #645 -> 12e1b03b (dual APPROVE @f50de1b0; 11/11 green at head, CLEAN). CI-script only; no deploy needed.
+  All backend PRs are now BEHIND main 12e1b03b.
+- 18:55 PDT Opus RC backend #627 @7c29d981 0/1/2: B-627-9 concurrent sweeper vs inline create -> stale markFailed on a paid transfer
+  (probe ops/aud-opus-114/627-probe.spec.ts). Sol APPROVE same head. -> lane B-FEE-R8 (fix round 8, both lenses delta after).
+- 18:53 PDT dual APPROVE (content): backend #608 @1cbecbdc, mobile #327 @06c0f175, backend #611 @1af96efa. #608/#327 wait for the
+  OR-114-2 gate fix (npm audit red) then merge main + delta; #611 also waits for owner answers (publication hold) + #315.
+  Pre-deploy #608: C-636-6 release-role probe (PR body) + Sol C-608-7 note: set a dedicated receipt HMAC key before first production
+  receipts (or keep the fallback unchanged until receipts drain).
