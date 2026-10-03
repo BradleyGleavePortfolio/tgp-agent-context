@@ -94,6 +94,9 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   marks a payable attempt expired). Next wave: one round on those three, then Sol. Retarget to main after #627 merges. #334 @d466fd15 3/3
   green (operator posted the FIX ROUND 4 note); needs Opus + Sol. Owner action before #654 deploys: add setup_intent.succeeded to the
   platform Stripe webhook. 11 agents left.
+- 11:57 PDT ENDED: AUD-OPUS-CORE (11 APPROVEs incl. merge-only #634 @e18e8055, #647 @ec1811b6; C-609-6 reminder zone fallback now lands
+  on #647 scope; C-664-1 provider-wiring flake). #634 is now DIRTY (conflict with main after #647) -> next wave: builder resolves, then
+  merge-only deltas from both lenses. #652 and #664 dual APPROVE but BEHIND -> next wave merge-only refresh. 10 agents left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
