@@ -23,6 +23,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   started work finishes as planned!" -> OR-114-3 (details in handoffs/op-114/OPERATOR_NOTES.md): no new agents in either session,
   no re-tasking finished agents; running lenses stay alive to audit every running builder's round; leftovers recorded for the next operator.
 
+### OWNER 2026-10-02 19:05 PDT — STOP-AND-DRAIN until "SCALE 2" (verbatim)
+- "stop-and-drain to zero agents rule - in effect until I say "SCALE 2" just to be sure all work gets DONE, not cutoff by credit shrotages!"
+  Binding on agent 114, sub-manager 114-S and any successor until the owner says exactly "SCALE 2". Agents are not launched or re-tasked;
+  running agents finish and the count drains to 0. Successor operator: read handoffs/op-114/OPERATOR_NOTES.md for what is left.
+
 ## AGENT 113 TAKEOVER 2026-10-02 16:17 PDT — operator agent 113, session c67c61cf (recorded 2026-10-02 16:25 PDT)
 - **Owner message to agent 113, 2026-10-02 16:17 PDT (verbatim):** "Read these documents closely. Treat The autonym document as the mentality for your operating mind. Treat the model routing document as HOW to grade PR's and do the work at hand effeciently and at high-quality. Treat agenmt rules document as THE LAW IN EFFECT! It is your rulebook. I want to use github CI lanes, max out parallization without sandbox overload, maxamize speed of PR's landing. I want every to-do and decisions built and processed and tested and audited by 10/7 - we need to move fast BUT; ANYTHING BELOW HYPERSCALER QUALITY IS A DAY 1 BLOCKER / I WANT MORE, NOT LESS, FUNCTIONALITY / I WANT A PRISTINE USER EXPERIENCE, AMAZING AHA MOMENTS, AND APPLE LEVEL UI SIMPLICITY AND SCREEN FLOWS"
 - Operator reading: EXECUTE in force for agent 113; AGENT_RULES G01-G22 are law (commit identity irrelevant); MODEL_ROUTING grades every PR before work; max safe lanes; land PRs fast; target 10/7 for everything built, tested, audited; the quality bar outranks the date (10-01 13:00 verdict unchanged). Standing deploy approval (12:11) treated as carried over to the operator role; owner may revoke with "hold deploys".

@@ -134,3 +134,8 @@ Mobile:
   AUD-SOL-114B audit it paired with #654. Merge rule: #334 merges only after backend #654 AND #628 are deployed (cancel uses #628).
   Contract gaps 1 (error filter drops extra fields) and 2 (share link from a not-yet-connected coach) handed to B-RECUR-BE inside #654.
   Known overlaps: #322 (Membership plans screen) and #321 (package detail props) — second to merge resolves.
+- 19:05 PDT OWNER (verbatim): "stop-and-drain to zero agents rule - in effect until I say "SCALE 2" just to be sure all work gets DONE,
+  not cutoff by credit shrotages!"  -> STOP-AND-DRAIN in force for BOTH sessions until the owner says exactly "SCALE 2":
+  no new agents, no re-tasking finished agents, running agents finish started scope, count drains to 0. Every running builder pushes
+  progress at least every 20 minutes (PR branch when green for what is done, otherwise wip/<lane>-<topic>) and keeps its report
+  current, so a credit cutoff loses nothing. 114-S: same rule; keep SUB_STATUS.md current every cycle.
