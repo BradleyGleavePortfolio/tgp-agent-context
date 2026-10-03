@@ -145,6 +145,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   /api/notifications and /api/admin/coaches/:id/welcome-message -> 401 unauthenticated.
 - PAUSE POINT REACHED. Full status and resume plan: handoffs/op-115/PAUSE_AND_PLAN_2026-10-03.md. Lane reports: handoffs/op-115/reports/.
   Operator 116 starts there, after OPERATOR_STANDING_ORDERS.md and MERGE_DEPENDENCY_GUIDE.md.
+- 12:12 PDT owner: "make a handoff prompt doc for agent 116 - be extremely thurough" then "Start splitting the monolithic PR's one by
+  one to sizeable chunks under 3k LOC ... do it sequentially ... always update github documentation". Handoff written:
+  handoffs/op-115/HANDOFF_AGENT_116.md (split progress log = its section 12).
+- 12:22 PDT SPLIT 1 DONE: #651 Roman stack -> #667 (A1) -> #665 (A2) -> #666 (B) -> #668 (C1) -> #669 (C2, fix pending) -> #670 (C3),
+  each under 3,000 lines. Details in HANDOFF_AGENT_116.md section 12.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
