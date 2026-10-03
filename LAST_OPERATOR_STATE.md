@@ -89,6 +89,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - 11:49 PDT MERGED backend #647 (dual APPROVE ec1811b6, 11/11 green) -> main d23fa317. Undeployed on main: #609 + #647; migrations
   20270213000000_clinic_engagement (additive, out-of-order OK) and 20270301000000_notification_zone_provenance_reminder_generation
   (backfill + SET NOT NULL; prod NotificationDeliveryLog has 0 rows, so safe). Deploy when main CI is green; then mobile #312 may merge.
+- 11:55 PDT ENDED: B-RECUR-3. #654 @02c48de7 12/12 running checks green, Opus APPROVE 0/0/3, Sol pending (Sol draft RC 0/3/0 exists:
+  resend after Stripe 24h key window -> second subscription (also Opus C-654-8); error label logs arbitrary name (C-654-10); failed cancel
+  marks a payable attempt expired). Next wave: one round on those three, then Sol. Retarget to main after #627 merges. #334 @d466fd15 3/3
+  green (operator posted the FIX ROUND 4 note); needs Opus + Sol. Owner action before #654 deploys: add setup_intent.succeeded to the
+  platform Stripe webhook. 11 agents left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
