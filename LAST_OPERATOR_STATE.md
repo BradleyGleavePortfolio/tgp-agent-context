@@ -42,6 +42,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   pointer, and new OPERATOR_STANDING_ORDERS.md (read by agent 116+). Applied: converged PRs kept; backend #651 split by B-SCHED-ROMAN
   into 3 stacked PRs (A Roman context, B guardrails, C live turns + eval) after #634 round 5; #651 to be closed as superseded.
 - 11:05 PDT #640 deploy run 37142275262 in progress (runner acquired).
+- 11:17 PDT DEPLOY VERIFIED: production = backend d27cd3ec (#640). /health ok (new machine), /readyz db up, 20270223000000_mwb_program_delivery
+  finished 18:04:49Z, 0 unfinished migrations, /api/v1/coach/programs -> 401 unauthenticated. Mobile #328 update-branched (merge-only) for delta audit.
+- 11:15 PDT MERGED backend #609 (dual APPROVE 41ea038a, 11/11 green) -> main 0d33c4d4. Deploy owed before mobile #312.
+  Update-branch (merge-only) backend #634 3d989702 -> e18e8055 and #647 3c3bdd12 -> ec1811b6.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
