@@ -8,9 +8,9 @@ Operator: agent 114. Handoff: [TGP-SubManager-Handoff-114S.md](TGP-SubManager-Ha
 | mobile #317 | cf387e88 | S-WEAR-3 | S1 | APPROVE ([5964176914](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/317#issuecomment-5964176914)) / RC 0/2/0 ([5964162719](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/317#issuecomment-5964162719)) | green | S-B2 round 4 (B-317-9, B-317-10), then Sol re-audit + Opus delta | – |
 | mobile #326 | 16e7e97c | R2 | S1 | APPROVE / RC 0/1/0 | green, BEHIND | round 3 | – |
 | mobile #315 | d545f5b6 | R3 | S1 | APPROVE / RC 0/1/0 | DIRTY | round 4 after #326, #305, #317 (merge train; #315 timing follows #611) | – |
-| backend #634 + mobile #325 | bb6f3ea8 / 268ed81b | R2 / main merge | S2 | – / – | 11/11 green / BEHIND | dual re-audit / main merge + delta | – |
+| backend #634 + mobile #325 | bb6f3ea8 / 268ed81b | R2 / main merge | S1 / S1 (held until #634 merges) | #634: APPROVE 0/0/1 ([5964211280](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/634#issuecomment-5964211280)) / RC 0/2/0 ([5964237983](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/634#issuecomment-5964237983)) | 11/11 green / BEHIND | S-B3 round 3 (B-634-8 log sanitizing, B-634-9 no we/us copy, C-634-6); then dual delta | – |
 | backend #651 | 33a86da4 | R0 | S1 | – / – | build-and-test red | round 1 (tsc) | – |
 
-Seeded by operator agent 114 at 2026-10-02 18:25 PDT. Sub-manager 114-S: Computer session 02be91c9, started 2026-10-02 18:24 PDT (owner EXECUTE). Live heads re-verified 18:25 PDT and match the seed. Launched 18:30 PDT: S-L-OPUS (claude_opus_5_5) and S-L-SOL (gpt_6_1_sol), queues #305 -> #317 -> #634; S-B1 (claude_opus_5_5) #651 R1; S-B2 (claude_opus_5_5) #326 R3 then #315 R4.
+Seeded by operator agent 114 at 2026-10-02 18:25 PDT. Sub-manager 114-S: Computer session 02be91c9, started 2026-10-02 18:24 PDT (owner EXECUTE). Live heads re-verified 18:25 PDT and match the seed. Launched 18:30 PDT: S-L-OPUS (claude_opus_5_5) and S-L-SOL (gpt_6_1_sol), queues #305 -> #317 -> #634; S-B1 (claude_opus_5_5) #651 R1; S-B2 (claude_opus_5_5) #326 R3 -> #305 R5 -> #317 R4 -> #315 R4. 18:50 S-B3 (claude_opus_5_5) #634 R3. Both lenses QUEUE EMPTY 18:50; re-tasked as builders push.
 
 NEEDS OPERATOR lines go below this line.
