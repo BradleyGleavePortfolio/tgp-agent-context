@@ -73,6 +73,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   @02cd3f88; #627 last RC 0/1/0 @3a5338d7, newer head 6c7706e1 unposted; #654 Sol draft RC 0/3/0 @02c48de7 unposted). 16 agents left.
   #634 e18e8055 build-and-test failed (lint annotations only visible) -> rerun --failed requested (run 37143570940).
   Mobile #328 and #335 dual APPROVE but BEHIND after #305: refresh needs new Opus verdicts (Opus MOB-CORE ended) -> next wave unless a lens is live.
+- 11:41 PDT ENDED: B-MOB-B (all 4 PRs dual APPROVE; #305 merged). Operator rulings for next wave: #325 stays draft until #634 merges AND
+  deploys; then a builder merges main resolving app.json keeping both hunks (OR-115-5) -> merge-only delta audits. #335: take C-335-4 (copy must
+  be true when a coach lost access) in the same refresh round, since #335 needs a new head anyway (BEHIND). CoachEarnings: OR-113-13 default
+  stands (hide the Settings row if #332 misses release). 15 agents left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
