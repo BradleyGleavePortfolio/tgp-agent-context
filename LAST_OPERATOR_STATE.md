@@ -68,6 +68,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   only the PR they are changing now, then report and END (#651 split NOT started; plan written into B-SCHED-ROMAN report); lenses post the
   verdict in hand plus waiting merge-only deltas, then END. LENSES_MAY_END created. Operator: bank merges that become possible, then write
   the pause-and-plan summary; minimal polling.
+- 11:38 PDT ENDED: AUD-OPUS-MOB-CORE (verdicts: #331 RC 0/1/0 B-331-9 @c621770f; #317 APPROVE @82137c31 and merge-only @d0407b62; #335 APPROVE
+  0/0/1 @641fe891; #341 RC 0/1/1 B-341-1 @7c791bb3; #339 not audited) and AUD-SOL-MONEY-2 (#628 RC 0/1/0 @33e0696a; #641 RC 0/4/1
+  @02cd3f88; #627 last RC 0/1/0 @3a5338d7, newer head 6c7706e1 unposted; #654 Sol draft RC 0/3/0 @02c48de7 unposted). 16 agents left.
+  #634 e18e8055 build-and-test failed (lint annotations only visible) -> rerun --failed requested (run 37143570940).
+  Mobile #328 and #335 dual APPROVE but BEHIND after #305: refresh needs new Opus verdicts (Opus MOB-CORE ended) -> next wave unless a lens is live.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
