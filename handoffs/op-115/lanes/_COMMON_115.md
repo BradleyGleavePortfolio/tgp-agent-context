@@ -152,3 +152,9 @@ This sandbox is saturated (2 CPU, load ~11 with 16 agents). GitHub Actions is fr
   merges, deploys, update-branch or merge-only deltas: the operator and lenses own those.
 - Lenses: merge-only deltas are short checks (confirm the delta from your prior verdict head is only main's merged commits plus any
   conflict resolution). Audit in queue order. Each lens ends when LENSES_MAY_END exists and its queue has nothing auditable.
+
+## PAUSE (owner 11:25 PDT: "i need the in flight agents to just finish the next pr in their chan and STOP ... we need to get to a safe spot to pause and plan") — binding, supersedes FINISH MODE
+- Builders: finish only the ONE PR you are actively changing now (push, CI result noted, FIX ROUND / READY FOR AUDIT comment posted).
+  Start nothing else. Then update your report with the exact state and next step of every PR in your chain, and END.
+- Lenses: post the verdict you are writing now, plus any short merge-only delta verdicts already waiting in your queue, update your
+  report with your queue state, and END. LENSES_MAY_END now exists.

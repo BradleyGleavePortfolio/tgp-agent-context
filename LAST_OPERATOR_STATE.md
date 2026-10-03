@@ -63,6 +63,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   (owner action: Apple Sign-in keys).
 - 11:35 PDT MERGED mobile #305 (OTA; dual APPROVE 178f6401; 3/3 green; carries OR-115-5 doc fix) -> mobile main 367e6c48.
   Update-branch (merge-only) mobile #317 82137c31 -> d0407b62. Holds: #315 (with #611), #338 (with #656).
+- 11:25 PDT OWNER PAUSE (verbatim): "yea i need the in flight agents to just finish the next pr in their chan and STOP we are at 32k/45k
+  credits used today - we need to get to a safe spot to pause and plan". All 18 messaged (PAUSE section of _COMMON_115.md): builders finish
+  only the PR they are changing now, then report and END (#651 split NOT started; plan written into B-SCHED-ROMAN report); lenses post the
+  verdict in hand plus waiting merge-only deltas, then END. LENSES_MAY_END created. Operator: bank merges that become possible, then write
+  the pause-and-plan summary; minimal polling.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
