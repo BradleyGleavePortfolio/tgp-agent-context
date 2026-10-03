@@ -54,6 +54,9 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   (listed as provider); backups plan-agnostic (prod is Supabase Free); vendor settings (Stripe redaction, Sentry 90d, Resend 30d,
   PostHog analytics on / replay off); de-identified aggregate retention clause per RCW 19.373.010. Prod has 0 exercise catalog items and
   0 coach media assets. fly-env-truth run 37143727833 (read-only) dispatched to confirm whether MUX_* secrets are set.
+- 11:29 PDT AUD-SOL-MONEY ENDED (context budget; 18 agents left). Posted: #642 APPROVE 0/0/0 @4fee3c02; #628 RC 0/1/0 @9b48d91e; #627 RC
+  0/1/0 @3a5338d7; #656 RC 0/4/1 @b9939d02; #661 RC 0/1/0 @f4679fd8. Unposted drafts: #654 0/3/0 @02c48de7 (build red, heap), #641 0/3/1
+  @4220acc7. Reassigned Sol lens: #627 #654 -> AUD-SOL-MONEY-2; #656 #661 -> AUD-SOL-CORE. Stale Sol claims released.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
