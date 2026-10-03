@@ -154,6 +154,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - 12:40 PDT SPLIT 3 DONE: #641 coach Money -> #674 (M1) -> #676 (M3) -> #677 (M4), plus #675 (M2, independent). Each under 3,000.
 - 12:48 PDT SPLIT 4 DONE: #654 recurring -> #678 (R1, base #627 branch) -> #679 (R2) -> #680 (R3). Mobile #334 pairs with #680.
 - 13:04 PDT SPLIT 5 DONE: #627 payouts -> #681..#686 (F1..F6). Recurring stack #678..#680 rebased onto #686. Mobile #321 pairs with #686.
+- 13:14 PDT SPLIT 6 DONE: #628 dunning -> #687..#691 (D1..D5). Mobile #322 pairs with #691.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
