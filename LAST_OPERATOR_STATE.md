@@ -18,7 +18,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   and relayed to all 16 running lanes: failing-before proofs, full suites and lens probes run in GitHub Actions (ci.yml workflow_dispatch
   on ci/<LANE>-* and audit/<LANE>/* branches; both repos public, free); local runs limited to one spec via heavy.sh; never fly-*,
   release-please or h4-readiness.
-- 10:3x-10:45 PDT MERGED backend #640 -> d27cd3ec (dual APPROVE @176e4f0e; 11/11) and mobile #326 -> 47124a4d (dual APPROVE @7c5626ed; 3/3).
+- By 10:45 PDT MERGED backend #640 -> d27cd3ec (dual APPROVE @176e4f0e; 11/11) and mobile #326 -> 47124a4d (dual APPROVE @7c5626ed; 3/3).
   Operator update-branch (merge-only, deltas owed): backend #647 -> 3c3bdd12, #652 -> 1d43c9d9, #609 -> 41ea038a. #664 build-and-test
   failure (provider-wiring symlink spec, unrelated to multer) rerun once.
 - OWNER 10:45 PDT (verbatim): "is sandbox is healthy/has space, lets add more audit lanes - 2 or 3". Sandbox at 10:46: disk 67%, 6.8 GB
