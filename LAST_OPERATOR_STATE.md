@@ -101,6 +101,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   expectations (required CI red) -> next wave: builder updates those expectations, then merge-only deltas. #331 @5b58a121 Sol BLOCK 1/0/0
   (legacy credential migration swaps/resurrects tokens; CI proof run 37144136085). #339 RC 0/1/0; #341 RC 0/2/2. Sol APPROVEs stand on #325,
   #338 @9cf66146, #315, #312, #335. 9 agents left.
+- 12:03 PDT ENDED: AUD-OPUS-MONEY-2. #642 APPROVE 0/0/1 @4fee3c02 (dual APPROVE; BEHIND -> next-wave merge-only refresh). #628 RC 0/1/2
+  @33e0696a (B-628-13: next declined renewal overwrites the dispute-cycle marker; probe run 37143152376). #641 RC 0/1/1 @02cd3f88 (B-641-12:
+  concurrent refunds on one transfer lose one locally; probe run 37142381900; prefer a live-DB test for the fix); newer head f60ed603 unaudited.
+  8 agents left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
