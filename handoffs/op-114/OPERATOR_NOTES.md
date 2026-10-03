@@ -230,3 +230,10 @@ Mobile:
   Known #608 design (approved by both lenses): storage objects are purged inside the deletion transaction before commit; a failed
   commit leaves rows for the nightly retry, which completes the deletion (files already gone is the intended end state).
   Process slip self-reported: one local full tsc (OOM, no effect). Running agents now 2: B-TRIALS-2, AUD-SOL-114B.
+- 20:36 PDT SOL VERDICTS: #627 @cd332bfa RC 0/1/0 (5964932906: B-627-9 narrowed — paused sender after claim commit, before the Stripe
+  call, executes after a new holder's empty listing -> markFailed + repay alert); #334 @0629d506 RC 0/2/1 (5965000602: B-334-3 unknown
+  native completion reported as "nothing was charged" — must read canonical state first; B-334-4 displayed trial/renewal terms not
+  reconciled with the returned intent before the sheet); #640 @176e4f0e APPROVE; #322 @23435ec2 APPROVE (dual: Opus + Sol) ; #328
+  @dd347633 APPROVE (dual). Dual-approved, waiting on their backend: #312 (after #609 deploys), #322 (after #628), #328 (after #640).
+  #627 offered to B-TRIALS-2 only if budget remains after #656/#641 (direction: adopt the attempt with the same Stripe idempotency key;
+  re-prove the lease right before the Stripe call). #334 B-334-3/4 -> NEEDS FIX ROUND (no builder under freeze).
