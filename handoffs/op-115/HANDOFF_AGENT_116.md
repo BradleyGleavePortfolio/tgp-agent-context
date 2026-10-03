@@ -437,3 +437,14 @@ Progress log (newest last):
   sheet + wearables screens + their updated tests (2,284, d29c0003; 28 suites) -> #363 H5 sheet race suites (982, 232bacc3; 46/46)
   -> #364 H6 retire Samsung Health + ingest contract test (2,468, c01d0288; 19 suites). Tree at #364 = #317 head.
   build_piece.sh now runs up to 90 importing specs (the 40 cap hid a failure once).
+- 14:35 PDT. **Mobile #325 S-SCHED split; #634 deferred.** #325 @ 7566d38f (5,999; conflicted with main only in app.json: kept main's
+  versionCode 5 and #325's blocked READ/WRITE_CALENDAR) refreshed to 6cc2c4fe, cut: #365 K1 scheduling API + errors + calendar time +
+  phone calendar + hooks + push tap routing (base main, 2,025, head cceeb33a; 58 suites) -> #366 K2 coach scheduling controls +
+  tutorial calendar steps (1,680, fa7744cc; 34 suites) -> #367 K3 client Calendar screens, legacy booking request removed (2,294,
+  6418e759; 12 suites). Tree at #367 = refreshed #325. Local checks needed expo-calendar (new #325 dependency) dropped into
+  deps/mobile/node_modules from npm pack (56.0.10; repo lock stays ~56.0.8).
+  Backend #634 (S-SCHED-2, 10.7k) is NOT split: it conflicts with main after #647 in src/notifications/emitters/booking.emitter.ts
+  (14 hunks), src/scheduling/jobs/reminder.job.ts, scheduling-session-lifecycle.service.ts, prisma/schema.prisma and three specs.
+  Those are logic merges; a T4 builder refreshes #634 on main first, then it is cut with tools/split (expect 4-5 pieces).
+  Still unsplit and why: #634 (above), mobile #331 (round-3 WIP patch pending; finish the fix first, then split), annex
+  #657/#659/#660 (conflicts with main in CI/config files; builder refresh first).
