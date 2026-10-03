@@ -160,6 +160,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - 13:49 PDT SPLIT 9 DONE: mobile #329 -> #345 (W1) -> #346 (W2) -> #347 (W3). Needs backend coach Money deployed.
 - 13:55 PDT SPLIT 10 DONE: mobile #332 -> #348 (N1) -> #349 (N2) -> #350 (N3) -> #351 (N4), on top of #347. #340 re-bases onto #351 later.
 - 14:05 PDT SPLIT 11 DONE: mobile #322 -> #352 (L1) -> #353 (L2) -> #354 (L3). Annex #657/#659/#660 need a builder refresh (conflicts) before splitting.
+- 14:19 PDT SPLIT 12 DONE: mobile #328 -> #355 (G1) -> #356 (G2) -> #357 (G3) -> #358 (G4).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."

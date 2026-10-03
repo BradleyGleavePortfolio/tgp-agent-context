@@ -21,4 +21,4 @@ $(grep -rlE "/${m}[\"']" test src --include='*.spec.ts' --include='*.test.ts' --
 done
 specs=$(echo "$specs" | grep -E '\.(spec|test)\.tsx?$' | grep -vE '\.live\.spec\.ts$' | sort -u | head -40 | tr '\n' ' ')
 echo "specs: $(echo $specs | wc -w)"
-if [ -n "$specs" ]; then NODE_OPTIONS=--max-old-space-size=4096 timeout 420 npx jest $specs --runInBand > /tmp/jest_piece.log 2>&1; grep -E "^Tests:|^Test Suites:|✕|^FAIL" /tmp/jest_piece.log | sort -u | head -14; fi
+if [ -n "$specs" ]; then NODE_OPTIONS=--max-old-space-size=4096 timeout 420 npx jest $specs --runInBand --forceExit > /tmp/jest_piece.log 2>&1; grep -E "^Tests:|^Test Suites:|✕|^FAIL" /tmp/jest_piece.log | sort -u | head -14; fi

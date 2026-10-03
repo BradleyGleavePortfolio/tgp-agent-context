@@ -150,7 +150,7 @@ update-branch; "DIRTY" = conflict. Re-verify every head before acting.
 | mobile #321: feat(packages): editor shows the $19.99 minimum or free rule inline (S | `4f5b058d2ec6d22c468eaef0d3db3238978d9465` | `main` | +1736/-111 | dual APPROVE @4f5b058d | BEHIND. Merges with backend #627. | handoffs/op-115/reports/B-FEE-9-115.md |
 | mobile #322 (SPLIT into #352 -> #354; see section 12): feat(dunning): payment lockout + Days 0-9 banner + native Update card  | `23435ec2c099aa5e25c8c0737d92662b73c83855` | `main` | +4573/-50 | dual APPROVE @23435ec2 | BEHIND. Merges with backend #628. C-334-2 interplay with #334. | handoffs/op-115/reports/B-DUNNING-7-115.md |
 | mobile #325 (draft): S-SCHED: native Calendar, coach controls, welcome call and lifecycle c | `7566d38f4eb15a5f6bd8c3491bf17dbc6a8931e8` | `main` | +5393/-606 | dual APPROVE @7566d38f (draft) | DIRTY: app.json conflict after #305 (keep both hunks, OR-115-5). Stays draft until backend #634 merges AND deploys. | handoffs/op-115/reports/B-MOB-B-115.md |
-| mobile #328: feat(programs): coach Programs tab - build once, assign to many, add t | `fb76721fa21476cf36595fcd861a6b5a07630516` | `main` | +6947/-14 | dual APPROVE @fb76721f | BEHIND after #305. Backend #640 is deployed. Update-branch, merge-only deltas, merge. | handoffs/op-115/reports/AUD-OPUS-MOB-PAY-115.md |
+| mobile #328 (SPLIT into #355 -> #358; see section 12): feat(programs): coach Programs tab - build once, assign to many, add t | `fb76721fa21476cf36595fcd861a6b5a07630516` | `main` | +6947/-14 | dual APPROVE @fb76721f | BEHIND after #305. Backend #640 is deployed. Update-branch, merge-only deltas, merge. | handoffs/op-115/reports/AUD-OPUS-MOB-PAY-115.md |
 | mobile #335: feat(reach): reachability map, wire working screens, coach consultatio | `641fe8914853cca6a2dab76ac90230bbcd525504` | `main` | +2243/-14 | dual APPROVE @641fe891 | BEHIND. Fold Opus C-335-4 (copy must be true when a coach lost access) into the refresh round, then merge-only deltas. | handoffs/op-115/reports/B-MOB-B-115.md |
 | mobile #338: feat(packages): coach sets a free trial of 0 to 30 days on renewing pa | `48b5e6b5434fc5db207dcb14d97e5208a3d4b16f` | `main` | +554/-27 | dual APPROVE @48b5e6b5 | BEHIND. Merge together with backend #656, after #656 deploys. | handoffs/op-115/reports/B-TRIALS-3-115.md |
 
@@ -425,3 +425,8 @@ Progress log (newest last):
   Mobile #322 @ 23435ec2 (4,623; BEHIND) merged with main (clean), cut: #352 L1 dunning API + update-card flow + error copy (base main,
   1,774, head 58b80914; 40 suites) -> #353 L2 lockout screen + banner + Update card screen + navigation (1,730, e22acc84; 17 suites)
   -> #354 L3 native card update suite (1,119, 37ed3d56; 41/41). Tree at #354 = refreshed #322. Pairs with backend #687 -> #691.
+- 14:19 PDT. **Mobile #328 Programs split.** #328 @ fb76721f (6,961; BEHIND) merged with main (clean), cut: #355 G1 programs API + error
+  mapping + autosave + builder access (base main, 1,716, head 902c64a6; 40 suites) -> #356 G2 workout builder undo + autosave wiring
+  (1,501, 40ee678a; 5 suites) -> #357 G3 library + form + editor + pickers (2,421, b364b9ea; 6/6) -> #358 G4 assign + history +
+  packages + Programs tab (1,323, 4dcf0aff; 10 suites). Tree at #358 = refreshed #328. Backend v1/coach/programs is on main.
+  build_piece.sh now passes --forceExit to jest (a mobile run hung after finishing).
