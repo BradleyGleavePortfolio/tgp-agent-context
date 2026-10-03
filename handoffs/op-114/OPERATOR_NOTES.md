@@ -208,3 +208,9 @@ Mobile:
   PRE-DEPLOY OWNER/OPERATOR ACTION for #654: add `setup_intent.succeeded` to the platform Stripe webhook endpoint's events (without it
   trials start only while the app polls). Order: #627 -> retarget #654 to main -> #654 (+ #656) -> deploy -> #628 deployed -> #334.
   Running agents now 5: B-AUDIT-GATE, B-TRIALS-2, S-DUNNING-R6, B-NOTIF-5, AUD-SOL-114B.
+- 20:18 PDT B-NOTIF-5 DONE: backend #647 @df4eb80b (round 3) + #648 @16294f44 (round 2, PushOutbox, quiet hours 21:00-08:00 recipient
+  zone, #608 manifest entry), 11/11 green each. Sol queued; both NEED OPUS. Ruling: #648 migration prefix 20270307000000 CONFIRMED
+  (sorts after annex 0301-0306; out-of-order apply per OR-113-4); #647 keeps 20270301000000 (distinct folder from #652/#657).
+  Owner action: upload FCM V1 key (Android push). Backlog (mobile, no lane under freeze): send device zone on sign-in/foreground
+  (PUT /notifications/timezone), session tap target (C-648-3; backend sends sessionId), Quiet hours screen payload fix.
+  Running agents now 4: B-AUDIT-GATE, B-TRIALS-2, S-DUNNING-R6, AUD-SOL-114B.
