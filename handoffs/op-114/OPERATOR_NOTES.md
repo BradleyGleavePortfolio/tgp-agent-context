@@ -222,3 +222,11 @@ Mobile:
   .csv attachment in a follow-up mobile PR adding expo-file-system (SDK-matched version; next native build carries it) — backlog,
   no lane under freeze. (4) Backlog: #628 residual — Stripe idempotency keys expire after 24 h; add reconciliation that never reads
   an unreconciled >24 h receipt as paid. Running agents now 3: B-AUDIT-GATE, B-TRIALS-2, AUD-SOL-114B.
+- 20:30 PDT B-AUDIT-GATE DONE: #663 body has owner + same-day removal action; NEW backend #664 @62f57edb multer 2.3.0 -> 2.4.0
+  (GHSA-3pph-fpjx-jg34, moderate) 11/11; #609 @9e2f9237 FIX ROUND 3 (Sol B-609-3 lease fence in one transaction, live DB test; #608
+  manifest already erases the three tables) 11/11; #652 @a22761b5 FIX ROUND 2 (#608 files taken, 17606f6c tests ported and passing, no
+  service change) 11/11. Sol queued for all three; all NEED OPUS (#664 at T3 depth needs Sol only unless reclassified).
+  Rulings: #609 migration 20270213000000 kept — out-of-order apply proven safe in production (OR-113-4, #610's 0211 after 0224).
+  Known #608 design (approved by both lenses): storage objects are purged inside the deletion transaction before commit; a failed
+  commit leaves rows for the nightly retry, which completes the deletion (files already gone is the intended end state).
+  Process slip self-reported: one local full tsc (OOM, no effect). Running agents now 2: B-TRIALS-2, AUD-SOL-114B.
