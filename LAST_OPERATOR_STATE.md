@@ -83,6 +83,12 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   agent115/roman-651-r2-wip-unsplit @675cf045). #651 still open at a8fa651c. Not queued for audit. Next-wave decision: #665 exceeds the
   3,000-line hard limit (opened during the rule change) -> bring it under 3,000 (e.g. move the 1,009-line personas fixture with the eval
   harness to C, or split the context service) before any audit. #603 carry-over and #653 not started. 14 agents left.
+- 11:50 PDT ENDED: AUD-SOL-CORE (#647 APPROVE 0/0/2 @ec1811b6; #634 merge-delta approval drafted, NOT posted, build rerun pending; #648 RC
+  0/1/0 @ab607b34; #653 no verdict, counterexamples saved) and AUD-OPUS-MONEY (#627 APPROVE 0/0/1 @3a5338d7; #654 APPROVE 0/0/3 @02c48de7;
+  #656/#661 drafts saved, not posted). 12 agents left.
+- 11:49 PDT MERGED backend #647 (dual APPROVE ec1811b6, 11/11 green) -> main d23fa317. Undeployed on main: #609 + #647; migrations
+  20270213000000_clinic_engagement (additive, out-of-order OK) and 20270301000000_notification_zone_provenance_reminder_generation
+  (backfill + SET NOT NULL; prod NotificationDeliveryLog has 0 rows, so safe). Deploy when main CI is green; then mobile #312 may merge.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
