@@ -57,6 +57,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - 11:29 PDT AUD-SOL-MONEY ENDED (context budget; 18 agents left). Posted: #642 APPROVE 0/0/0 @4fee3c02; #628 RC 0/1/0 @9b48d91e; #627 RC
   0/1/0 @3a5338d7; #656 RC 0/4/1 @b9939d02; #661 RC 0/1/0 @f4679fd8. Unposted drafts: #654 0/3/0 @02c48de7 (build red, heap), #641 0/3/1
   @4220acc7. Reassigned Sol lens: #627 #654 -> AUD-SOL-MONEY-2; #656 #661 -> AUD-SOL-CORE. Stale Sol claims released.
+- 11:33 PDT fly-env-truth 37143727833 (read-only): MUX_TOKEN_ID/SECRET/WEBHOOK_SECRET/SIGNING_KEY_* present and non-empty -> Mux is live
+  for coach video; #611 lists Mux (O-611-3). RESEND_API_KEY, SENTRY_DSN present. POSTHOG_KEY present but 8-15 chars (PostHog project keys
+  are much longer) -> server-side analytics key likely not a real project key; owner to confirm. APPLE_AUDIENCES shape check still fails
+  (owner action: Apple Sign-in keys).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
