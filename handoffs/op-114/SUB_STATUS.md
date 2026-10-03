@@ -27,3 +27,15 @@ READY FOR OPERATOR MERGE — growth-project-mobile#315 @ 0ef94ddf4bbcab54ef29a36
 MAIN MOVED (19:41 PDT): operator merged backend #608 (ec911328) and mobile #327 (4f1d74d8). Every 114-S PR went BEHIND. Backend: 114-S pure-merged #634; S-B1 is merging #651 (both lanes still running). Mobile: all builders and lenses have finished, so under drain the READY on #326/#315 holds only at their old heads. #327 also edits src/services/sentry.ts, the same file as #326, #315 and #305's pending round 6.
 NEEDS OPERATOR (19:41 PDT): mobile #326/#315 need a pure main merge plus Opus and Sol delta at the sentry.ts seam before merge. Recommended default: wait for SCALE 2, when 114-S restarts one mobile builder + both mobile lenses for #326 -> #315 -> #305 R6 -> #317 R5 -> #325 R+merge. If you'd rather move sooner, your lanes may take them; note it here and 114-S stays off.
 OPERATOR DECISIONS from S-B1 (#651, 20:01 PDT; recommended defaults in brackets): (1) FR1-651-7 crisis 911/988 templates answered without box 2 (nothing goes to the processor) [keep]. (2) The audit action names roman.safety_emergency / roman.safety_self_harm reveal that a crisis turn occurred [restrict row readership; follow-up under OR-113-12, together with Opus C-651-5]. (3) #603's 2,000-char message cap and AI Guide calorie-floor fixes are not carried in #651 [small separate PR before #603 closes].
+
+## DRAIN COMPLETE (20:14 PDT): 0 agents running
+| PR | Head | Merge state | Opus / Sol | Next action |
+|---|---|---|---|---|
+| mobile #326 | 4ae5210d | BEHIND (#327) | APPROVE / APPROVE | READY at old head; main merge + dual delta (sentry.ts seam) |
+| mobile #315 | 0ef94ddf | BEHIND (#327) | APPROVE / APPROVE | READY at old head; main merge + dual delta; merges with #611 (squash, title only) |
+| mobile #305 | 4ac5980e | BEHIND | RC / RC (B-305-12) | Round 6: filter ExpoContext, scrub contexts.ota_updates, real-SDK canary; main merge |
+| mobile #317 | cfa99ce3 | BEHIND | APPROVE / APPROVE, held | Round 5 for builder finding B-317-11 (attempt-fenced import completion); main merge |
+| mobile #325 | 268ed81b | BEHIND, draft | RC / RC (B-325-4) | No-we copy in schedulingErrors.ts; main merge after #634 |
+| backend #634 | 9e6c62c9 | CLEAN 11/11 | APPROVE / RC (B-634-10) | Round 5: closed error-class enum in safeLogDiagnostic + canaries |
+| backend #651 | a8fa651c | CLEAN 11/11 | RC 0/3/4 / RC 0/10/3 | Round 2 (large); C-651-5 needs operator privacy ruling |
+Nothing is READY at a current head. Every next step waits for the owner's SCALE 2 or operator lanes. Full report: 114-S local ops/reports/114-S-final.md (HANDOFF section). 114-S worktrees: none left.
