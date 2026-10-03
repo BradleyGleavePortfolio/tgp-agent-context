@@ -150,6 +150,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   handoffs/op-115/HANDOFF_AGENT_116.md (split progress log = its section 12).
 - 12:22 PDT SPLIT 1 DONE: #651 Roman stack -> #667 (A1) -> #665 (A2) -> #666 (B) -> #668 (C1) -> #669 (C2, fix pending) -> #670 (C3),
   each under 3,000 lines. Details in HANDOFF_AGENT_116.md section 12.
+- 12:31 PDT SPLIT 2 DONE: #656 trials -> #671 (T1) -> #672 (T2) -> #673 (T3); tree at #673 = #656 head. Mobile #338 pairs with #673.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
