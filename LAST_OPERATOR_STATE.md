@@ -105,6 +105,9 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   @33e0696a (B-628-13: next declined renewal overwrites the dispute-cycle marker; probe run 37143152376). #641 RC 0/1/1 @02cd3f88 (B-641-12:
   concurrent refunds on one transfer lose one locally; probe run 37142381900; prefer a live-DB test for the fix); newer head f60ed603 unaudited.
   8 agents left.
+- 12:05 PDT ENDED: AUD-OPUS-MOB-PAY. #338 APPROVE delta @48b5e6b5 (C-338-2 withdrawn); #312 merge-only APPROVE @f8375ca6; #328 merge-only
+  APPROVE @fb76721f (now BEHIND after #305 -> next-wave refresh); #332 RC 0/4/7 @6c193c80 (B-332-7..10). Owed next wave: #332 @90701485,
+  #329 @fc7fe73f, #334 @d466fd15, #340 full. 7 agents left (6 builders + AUD-SOL-MOB-PAY).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
