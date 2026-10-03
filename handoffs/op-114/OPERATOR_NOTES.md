@@ -69,3 +69,10 @@ Mobile:
   each backend PR merges main when it is next in the merge train. Auditors judge PRs on their own content meanwhile.
 - 18:44 PDT B-EXPORT-5: backend #608 FIX ROUND 8 @1cbecbdc (CodeQL 0 open alerts; 10/11 green, npm audit = OR-114-2); mobile #327 main
   merge @06c0f175 (3/3 green, CLEAN). Both lenses re-queued for deltas.
+- 18:47 PDT B-PRIV-6: backend #611 FIX ROUND 6 @1af96efa (B-611-5/6 closed by split to T4 issue #662 "restore without resurrection";
+  interim rule: no production restore until #662 is built; C-611-9 closed). 10/11 green (npm audit = OR-114-2). Both lenses queued.
+  RULING for 114-S: mobile #315 must not say "180 days" anywhere (AI chats are kept until the client deletes them or the account,
+  owner 10-01 20:32 + OR-110-1; #315 line per 111: "kept until you delete them or your account"). Fold into #315's round 4.
+- 18:50 PDT VERIFIED (Supabase connector): production project rpyfdsgxxltzutgqeouk is on the Supabase FREE plan (org plan "free").
+  Free projects get no accessible daily backups (Pro 7 days). Asked the owner: upgrade to Pro before launch (needs his word: money).
+  #611 owner questions (5, with defaults) sent to the owner at the same time.
