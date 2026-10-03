@@ -147,3 +147,11 @@ Mobile:
   two #654 codes + dead key resend), #663 APPROVE. #627 head moved to 05623107 (B-FEE-R8, no FIX ROUND yet). All Opus verdicts now ->
   AUD-OPUS-114B. B-RECUR-MOB finished, so B-RECUR-BE (running) is now the sole writer of #334 as well as #654 (no new agent).
   Backlog (no agent under freeze): shared fallback copy from #324 says "write to us" (first person; OR-112-21 SupportEmailFallback fix).
+- 19:16 PDT C-636-6 pre-deploy probe for #608 (operator, READ-ONLY via Supabase connector; role = postgres, the Supabase direct-
+  connection role DIRECT_URL uses by default): (a) postgres rolsuper=f, rolbypassrls=t, storage.buckets SELECT/INSERT/UPDATE=t ->
+  bucket RLS passed by bypass; (b) anon f/f, authenticated f/f, service_role bypassrls=t; (c) no data-exports bucket; (d) no views over
+  storage.objects; (e) 0 half-applied migrations, highest 2027022x applied = 20270224000000. CREATE POLICY on storage.objects without
+  ownership: supautils.policy_grants lists postgres -> storage.objects (and storage.buckets). Verdict: GO for 20270221000000.
+  Step 2 (rolled-back DO block) not run: write-capable; the supautils grant is the equivalent proof. Step 3 verify.sql runs in the
+  release itself (release step 4). Receipt key (Sol C-608-7): DELETION_RECEIPT_SECRET unset -> key derived from RECENT_AUTH_SECRET; keep
+  RECENT_AUTH_SECRET unchanged until receipts drain (30 days) or set a dedicated DELETION_RECEIPT_SECRET before first receipts (backlog).
