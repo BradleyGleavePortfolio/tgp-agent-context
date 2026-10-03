@@ -139,3 +139,11 @@ Mobile:
   no new agents, no re-tasking finished agents, running agents finish started scope, count drains to 0. Every running builder pushes
   progress at least every 20 minutes (PR branch when green for what is done, otherwise wip/<lane>-<topic>) and keeps its report
   current, so a credit cutoff loses nothing. 114-S: same rule; keep SUB_STATUS.md current every cycle.
+- 19:11 PDT MERGED backend #663 -> 2e3094b9 (npm-audit gate: time-boxed dev-only exception for GHSA-vfj7-8cjw-p6xm, expires
+  2026-10-31; dual APPROVE @e6a2e765: Opus 5964426264, Sol; all required green). npm audit is GREEN on main again.
+  114-S: merge backend main (2e3094b9) into #634 / #651 when each is next in the train; the npm audit blocker is closed.
+- 19:11 PDT operator update-branch: backend #608 -> be6b5841, mobile #327 -> 9c8b2b06 (merge-only; deltas by AUD-OPUS-114B + AUD-SOL-114B).
+- 19:10 PDT AUD-OPUS-114 FINISHED (step budget): #654 RC 0/1/3 (B-654-1 trial default card), #334 RC 0/1/0 (B-334-1 generic copy for
+  two #654 codes + dead key resend), #663 APPROVE. #627 head moved to 05623107 (B-FEE-R8, no FIX ROUND yet). All Opus verdicts now ->
+  AUD-OPUS-114B. B-RECUR-MOB finished, so B-RECUR-BE (running) is now the sole writer of #334 as well as #654 (no new agent).
+  Backlog (no agent under freeze): shared fallback copy from #324 says "write to us" (first person; OR-112-21 SupportEmailFallback fix).
