@@ -158,3 +158,6 @@ This sandbox is saturated (2 CPU, load ~11 with 16 agents). GitHub Actions is fr
   Start nothing else. Then update your report with the exact state and next step of every PR in your chain, and END.
 - Lenses: post the verdict you are writing now, plus any short merge-only delta verdicts already waiting in your queue, update your
   report with your queue state, and END. LENSES_MAY_END now exists.
+
+## HARD LIMIT (owner 11:26 PDT)
+- Any NEW PR over 3,000 changed lines fails automatically: lenses post REQUEST CHANGES "SIZE FAIL" without review. Open PRs as of today are grandfathered.
