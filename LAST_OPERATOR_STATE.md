@@ -124,6 +124,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - 12:20 PDT main d23fa317 build-and-test FAILED: "Jest worker ran out of memory and crashed" in community-message-shape.live.spec.ts (12,310
   tests passed). Same OOM class hit #654's first attempt. Rerun --failed requested (run 37144478819). Next-wave infra item: jest worker memory
   is now a recurring flake as the suite grows (12.5k tests): set workerIdleMemoryLimit or shard build-and-test (T2 CI PR, small).
+- 12:24 PDT ENDED: B-COACH-5. backend #641 @f60ed603 FIX ROUND 5, 11/11 green, READY (migration 20270314000000: 4 nullable columns + unique
+  index on ChargeRefund; two owner-only admin endpoints for held refund reversals). mobile #332 @90701485 round 3 and #340 @2e77dcb6 round 1
+  pushed green; operator posted the builder's saved FIX ROUND drafts. #329 @fc7fe73f FIX ROUND 5 READY (A-329-1 open until #332 merges into
+  #329's branch). Order: deploy #641 -> merge #332 into #329 -> ship #329 -> retarget #340. 3 builders left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
