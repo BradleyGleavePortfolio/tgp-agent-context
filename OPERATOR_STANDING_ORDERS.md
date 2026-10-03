@@ -12,6 +12,10 @@ MODEL_ROUTING.md is the method; this file lists standing owner orders that sit o
   converged. Be honest in the assessment: say what Musk (delete the part before optimizing it), Bezos (two-way doors) and Huang
   (speed of light: review throughput is the floor) would do, and do that unless a rule forbids it.
 - Prevention beats splitting: grade and size slices before building (MODEL_ROUTING section 8); every builder brief states the budget.
+- Lane sizing (owner question 2026-10-03 11:23 PDT on context and error risk): a builder works one PR at a time, in a chain of at most
+  3 tightly related PRs (same domain, ideally a backend PR and its mobile pair); a lens queue stays within one context budget; every
+  agent keeps its report file current so a fresh agent can take over when one nears its context limit. Merged or approved PRs with
+  no open work need no builder; finished agents end instead of waiting.
 
 ## 2. Agent count and spend (owner, 2026-10-02 19:05 and 2026-10-03 10:52 PDT)
 - STOP-AND-DRAIN until the owner says exactly "SCALE 2" (or explicitly bumps the count): launch no agents, never re-task a finished
