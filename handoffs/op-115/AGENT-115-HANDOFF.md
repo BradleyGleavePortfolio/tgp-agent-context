@@ -143,7 +143,7 @@ Both repos enforce strict up-to-date branches. Every merge pushes all other PRs 
 | mobile #315 (114-S) | 0ef94ddf | APPROVE | APPROVE | Update + dual delta; merges with #611 | With #611 |
 | mobile #305 (114-S) | 4ac5980e | RC | RC | Round 6: filter Sentry ExpoContext, scrub contexts.ota_updates, real-SDK canary; main merge | After #326 |
 | mobile #317 (114-S) | cfa99ce3 | APPROVE | APPROVE | Round 5 for B-317-11 (fence import completion by attempt epoch); main merge; dual delta | After #305 |
-| backend #634 + mobile #325 (114-S) | 9e6c62c9 / 268ed81b | APPROVE / RC | RC / RC | #634 round 5 (B-634-10 finite error-class enum in safeLogDiagnostic); #325 B-325-4 copy "we" | #634 first |
+| backend #634 + mobile #325 (114-S) | 9e6c62c9 / 7566d38f | APPROVE / – | RC / – | #634 round 5 (B-634-10 finite error-class enum in safeLogDiagnostic). #325 FIX ROUND 5 done by operator 114 at 21:53 (B-325-4 closed, main 4f1d74d8 merged, full jest 6244/6244): needs Opus + Sol delta only ([5965763539](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/325#issuecomment-5965763539)) | #634 first |
 | backend #651 Roman grounding (114-S) | a8fa651c | RC 0/3/4 | RC 0/10/3 | Large round 2; C-651-5 needs a privacy ruling | After #634 |
 | backend #661 | 91625c86 | RC | RC | Fix round | Any |
 | mobile #331 | ec2857ba | RC | BLOCK | Fix round + conflict | Any |
@@ -153,7 +153,7 @@ Both repos enforce strict up-to-date branches. Every merge pushes all other PRs 
 ## 5. Restart plan when the owner says "SCALE 2"
 
 1. Ask nothing; launch. Lenses first: one Claude Opus 5.5 lens and one GPT-6.1 Sol lens. Opus-only queue that needs no fix: #640, #647, #609, #652, #332, #338.
-2. Builders (Claude Opus 5.5), most critical first: #627 (B-627-9 narrowed); #654 + #334 as one lane; #628; #641; #656; #648. Then 114-S's mobile chain (#326 → #315 → #305 → #317 → #325) and #634 → #651, either in a revived sub-manager session or as your lanes.
+2. Builders (Claude Opus 5.5), most critical first: #627 (B-627-9 narrowed); #654 + #334 as one lane; #628; #641; #656; #648. Then 114-S's mobile chain (#326 → #315 → #305 → #317 → #325; #325 needs only lens deltas at 7566d38f) and #634 → #651, either in a revived sub-manager session or as your lanes.
 3. Merge train as verdicts land: #640 → deploy → update #328 → merge. #609 → deploy → fix #312 → merge. #647. #652. #627 + #321 → retarget #654 → #654 + #656 (+ #338) → deploy → #628 deploy → #322, #334. #641 → #332 into #329 → #329.
 4. Each backend deploy: main required CI green → gh workflow run fly-deploy.yml -R BradleyGleavePortfolio/growth-project-backend --ref main -f release_sha=<main head> -f confirm=deploy -f migrations=apply-migrations → approve the pending "production" environment via the API → verify /health, /readyz, _prisma_migrations (0 unfinished), the PR's own routes. Run fly-env-sync plan/apply only when fly-env-desired-state.json changed.
 5. Keep agent count within sandbox limits: pause launches at disk > 80%, available memory < 1.5 GB, heavy queue > 6 for 10 minutes.
@@ -190,6 +190,7 @@ Both repos enforce strict up-to-date branches. Every merge pushes all other PRs 
 - Shared fallback copy from #324 says "write to us".
 - Dedicated DELETION_RECEIPT_SECRET (today derived from RECENT_AUTH_SECRET; do not rotate that secret for 30 days without it).
 - Issue #662 restore-without-resurrection (no production restore until built).
+- Main-wide copy sweep: first-person error copy that predates the rule remains on mobile main (src/lib/inviteAttachOutcome.ts, src/lib/intendedRole.ts, src/utils/authFailure.ts, src/utils/authErrorMessage.ts, src/components/invite/PasteInviteCodeButton.tsx, src/components/community/ChallengeProgressSheet.tsx). One small mobile lane with a repo-wide voice guard test.
 - Carried from the 72-hour ledger (handoffs/op-114/LEDGER-72H.md section D): #642 Google sign-in flip after #608 (now deployed), #643 booking reminders flip after #647/#648, #653/#336 auto-expiry, #655/#337 approve-to-adjust, annex #657–#660, Connect return URLs via manifest after #641, release-evidence-gate T4 follow-up, native client billing screens, deletion follow-ups, S-ERRORS slices, C11 App Store package, native build after #305/#330/#317/#314/#325, two TestFlight passes.
 - Leftover branches safe to delete: wip/B-JOURNEY-5-c6094, wip/S-COACH-MOB-4-money.
 

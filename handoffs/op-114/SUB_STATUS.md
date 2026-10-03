@@ -35,7 +35,7 @@ OPERATOR DECISIONS from S-B1 (#651, 20:01 PDT; recommended defaults in brackets)
 | mobile #315 | 0ef94ddf | BEHIND (#327) | APPROVE / APPROVE | READY at old head; main merge + dual delta; merges with #611 (squash, title only) |
 | mobile #305 | 4ac5980e | BEHIND | RC / RC (B-305-12) | Round 6: filter ExpoContext, scrub contexts.ota_updates, real-SDK canary; main merge |
 | mobile #317 | cfa99ce3 | BEHIND | APPROVE / APPROVE, held | Round 5 for builder finding B-317-11 (attempt-fenced import completion); main merge |
-| mobile #325 | 268ed81b | BEHIND, draft | RC / RC (B-325-4) | No-we copy in schedulingErrors.ts; main merge after #634 |
+| mobile #325 | 7566d38f | draft, main 4f1d74d8 merged | needs Opus + Sol delta | FIX ROUND 5 by operator 114 (21:53, owner instruction): B-325-4 closed with table-driven voice guard; full jest 6244/6244. Final main merge again after #634 deploys |
 | backend #634 | 9e6c62c9 | CLEAN 11/11 | APPROVE / RC (B-634-10) | Round 5: closed error-class enum in safeLogDiagnostic + canaries |
 | backend #651 | a8fa651c | CLEAN 11/11 | RC 0/3/4 / RC 0/10/3 | Round 2 (large); C-651-5 needs operator privacy ruling |
 Nothing is READY at a current head. Every next step waits for the owner's SCALE 2 or operator lanes. Full report: 114-S local ops/reports/114-S-final.md (HANDOFF section). 114-S worktrees: none left.

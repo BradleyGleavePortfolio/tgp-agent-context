@@ -249,3 +249,9 @@ Mobile:
 - 20:57 PDT AUD-SOL-114B QUEUE EMPTY (27 verdicts; report ops/reports/AUD-SOL-114B.md). AGENT COUNT = 0 in both sessions. Nothing else
   is mergeable without new verdicts (strict up-to-date on both repos; dual-approved #322/#328/#312/#321/#326/#315 all wait on a
   backend deploy, #627, or a main update). Drain handoff: handoffs/op-114/DRAIN_HANDOFF.md.
+
+## 21:53 PDT 10-02 — mobile #325 FIX ROUND 5 by operator (owner instruction)
+- The owner asked for "the next round for one small PR". STOP-AND-DRAIN still holds, so no agent was launched. Operator 114 wrote the round directly, an owner-directed exception to orchestrator-only for this one PR.
+- B-325-4 is closed: five first-person scheduling fallbacks now use the product voice, guarded by a table-driven test (14 outcomes × 2 audiences + every coded message). Main 4f1d74d8 merged cleanly. Head 7566d38f. Full jest 6244/6244, eslint clean; tsc differs only by local missing modules (expo-audio, expo-calendar/legacy).
+- Record: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/325#issuecomment-5965763539
+- Next: Opus + Sol delta at 7566d38f after "SCALE 2". #325 remains draft until #634 merges and deploys.
