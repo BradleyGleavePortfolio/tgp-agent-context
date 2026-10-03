@@ -1,7 +1,7 @@
-# TGP operator ledger — owner decisions + to-dos, last 72 hours (agent 114, compiled 2026-10-02 18:50 PDT)
+# TGP operator ledger — owner decisions + to-dos, last 72 hours (agent 114, compiled 2026-10-02 18:28 PDT)
 
 Sources: v6 prompt sections 0.A, 4.12-4.14, 7, 12 (to 16:06); LAST_OPERATOR_STATE agent 110/111/112/113/114 sections; LIVE_STATE owner log;
-GitHub board 18:45 PDT. Newest wins. Verbatim owner quotes are in LAST_OPERATOR_STATE.md.
+GitHub board 18:25 PDT. Newest wins. Verbatim owner quotes are in LAST_OPERATOR_STATE.md.
 
 ## A. Standing owner rules (binding above everything except AGENT_RULES)
 - 10-01 20:38: hyperscaler quality or it is a day-1 blocker; wall clock is resource #1; do it right, do it smooth; more functionality, not less.
@@ -47,7 +47,7 @@ GitHub board 18:45 PDT. Newest wins. Verbatim owner quotes are in LAST_OPERATOR_
   T4 follow-up. OR-113-12 no owner transcript reads. OR-113-13 reachability rulings (#335).
 - OR-114-1: #611 splits the operational restore runbook into a follow-up; tier stays T4.
 
-## C. Where agent 113 left off (17:31 PDT, verified on GitHub 18:45)
+## C. Where agent 113 left off (17:31 PDT, verified on GitHub 18:25)
 - Production = backend main 53b6d472 (#610 deployed 16:55). Mobile main aae30ac0 (#330 merged 17:08). No repo activity since 17:45.
 - 113's lenses were all finished; every later fix round waits for 114's audits (owner 17:04). In-flight builder lanes died with the
   session; their last pushes are on GitHub: #628/#322 (R5, CI red), #640/#328 (fix round b9d00d56 green / #328 red), #641 green /
@@ -55,7 +55,7 @@ GitHub board 18:45 PDT. Newest wins. Verbatim owner quotes are in LAST_OPERATOR_
 - Annex session (1f6fdf2e): #657 red, #658 green, #659 green, #660 red; A5/A6 nothing mergeable. Reserved prefixes 20270301-20270306.
 
 ## D. To-do (operator view; owner = 114 unless marked 114-S or OWNER)
-Batch 1 running (18:40): #627 R7 dual, #314 R7 dual, #645 dual delta, #608 CodeQL round + dual, #327 main merge + delta, #654 + #334
+Batch 1 running (18:26): #627 R7 dual, #314 R7 dual, #645 dual delta, #608 CodeQL round + dual, #327 main merge + delta, #654 + #334
 recurring (build -> dual full), #611 round 6 -> dual. Merge train after: #627+#321 -> retarget #654 -> #654+#334; #608+#327 (C-636-6 probe)
 -> deploy -> #642 flip; #314 -> deploy -> #650 community flags; #645; #611 (+#315 from 114-S) after owner facts.
 114-S: #305, #317, #326, #315, #634+#325 (zero-row queries), #651 (then FEATURE_ROMAN_CHAT_ENABLED + close #602/#603/#605/#598 model part).

@@ -12,7 +12,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 
 ### OWNER 2026-10-02 18:22 PDT — EXECUTE (verbatim, abridged): "confirm that YOU are prepared and have a clear idea of; 1.) ALL TO-DOS AND OWNER DECISIONS FROM THE LAST 72 HOURS 2.) HOW TO EXECUTE PR'S TO COMPLETION 3.) THAT YOU WILL USE GITHUB CI TO MAXIMIZE PARALLIZATION AND SAVE WALL CLOCK TIME 4.) THAT YOU KNOW EXACTLY WHERE 113 LEFT OFF  If so, EXECUTE"
 - Read as EXECUTE for agent 114 with the 12-PR split (6 operator, 6 sub-manager 114-S). Standing push/merge/deploy approvals carried from 112/113 (audited heads, required checks green, plan -> apply -> deploy -> verify).
-- 18:40 PDT batch 1 launched (lane files handoffs/op-114/lanes/): AUD-SOL-114 (GPT-6.1 Sol lens), AUD-OPUS-114 (Claude Opus 5.5 lens),
+- 18:26 PDT batch 1 launched (lane files handoffs/op-114/lanes/): AUD-SOL-114 (GPT-6.1 Sol lens), AUD-OPUS-114 (Claude Opus 5.5 lens),
   B-RECUR-BE (#654), B-RECUR-MOB (#334), B-EXPORT-5 (#608 CodeQL round + #327 main merge), B-PRIV-6 (#611 round 6, OR-114-1 split the
   restore runbook out). 4 builders + 2 lenses = 5.0 weighted units. Lens queues: #627 R7, #314 R7, #645 delta, then #608/#327, #321, #654/#334, #611.
 - OR-114-1 (operator ruling): #611 resolves Sol B-611-5/B-611-6 by moving the operational restore runbook to a follow-up; tier stays T4.
