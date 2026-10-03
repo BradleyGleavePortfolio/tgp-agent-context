@@ -167,7 +167,7 @@ update-branch; "DIRTY" = conflict. Re-verify every head before acting.
 | backend #656 (SPLIT into #671 -> #672 -> #673; see section 12): feat(packages): real free trials on recurring packages, one per client | `86223987ec94511f2a146b62d99f87ed1b2758a8` | `main` | +5601/-10 | none at 86223987 (Sol RC 0/4/1 at b9939d02) | Sol re-audit + first full Opus audit of FIX ROUND 5. Merge with mobile #338, deploy before coaches set trials. Owner adds customer.subscription.trial_will_end webhook event. | handoffs/op-115/reports/B-TRIALS-3-115.md |
 | mobile #329: feat(coach): setup wizard with Stripe Express onboarding, first packag | `fc7fe73f81613b4d006b144fb5c4d9b80d5c1908` | `main` | +6108/-284 | Sol BLOCK 1/1/0 @fc7fe73f; Opus BLOCK earlier | FIX ROUND 5 READY (B-329-1, C-329-8). A-329-1 stays open until #332 merges into #329's branch. | handoffs/op-115/reports/B-COACH-5-115.md |
 | mobile #332: feat(money): coach Money page and Home Money card, retire Earnings and | `90701485330ef94863ee1220463261433989f1fe` | `agent/clinic/s-coach-wizard` | +5626/-1877 | none at 90701485 (Opus RC 0/4/7 at 6c193c80) | FIX ROUND 3 posted (operator posted the builder's draft). Opus + Sol audit. Stacked into #329's branch. | handoffs/op-115/reports/B-COACH-5-115.md |
-| mobile #334: feat(payments): renewing plans and one-time packages through one nativ | `d466fd1522182f040c9b341e51947e57b62cdca8` | `main` | +5688/-514 | Sol APPROVE @78ba9bc9 (before C-334-3); Opus not this round | FIX ROUND 4 note posted. Opus + Sol audit at d466fd15. Pairs with backend #654. | handoffs/op-115/reports/B-RECUR-3-115.md |
+| mobile #334 (SPLIT into #342 -> #344; see section 12): feat(payments): renewing plans and one-time packages through one nativ | `d466fd1522182f040c9b341e51947e57b62cdca8` | `main` | +5688/-514 | Sol APPROVE @78ba9bc9 (before C-334-3); Opus not this round | FIX ROUND 4 note posted. Opus + Sol audit at d466fd15. Pairs with backend #654. | handoffs/op-115/reports/B-RECUR-3-115.md |
 | mobile #340: feat(money): export the tax CSV as a real .csv file attachment (OR-114 | `2e77dcb6171478a8e4acf5e7937d96a346220549` | `agent/clinic/s-coach-money-mob` | +645/-55 | none at 2e77dcb6 (Sol RC at 858c40f2) | FIX ROUND 1 posted. Opus + Sol audit. Stacked on #332: retarget after #332 lands. | handoffs/op-115/reports/B-COACH-5-115.md |
 
 ### C. Builder work needed first
@@ -400,3 +400,8 @@ Progress log (newest last):
   + quiet hours + preferences + lock-screen copy + Expo client (base main, 815, head 27156167; new files, inert; 6 importing suites
   pass) -> #693 P2 delivery service + emitter wiring + specs (2,382, head 13417e7b; 35 suites pass locally). Tree at #693 = #648 head.
   Before deploy: confirm 20270307000000 is absent from production _prisma_migrations (it was edited in place).
+- 13:45 PDT. **Mobile #334 package sheet split.** #334 @ d466fd15 (6,202; BEHIND) merged with mobile main 367e6c48 (clean), cut: #342 S1
+  payment core + plan terms + wallet config (base main, 1,685, head 72821495; 15 importing suites pass) -> #343 S2 purchase hook +
+  selection sheet + feedback (2,438, af984441; 8 suites) -> #344 S3 package screens + your-plans + subscription/recur tests (2,079,
+  f629e0f9; 5 suites). Tree at #344 = refreshed #334. Pairs with backend #680. Split tools now handle mobile (.tsx, double quotes,
+  *.test.tsx).

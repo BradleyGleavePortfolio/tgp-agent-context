@@ -12,13 +12,13 @@ for l in num:
     a,d,p = l.split('\t'); size[p] = (0 if a=='-' else int(a)) + (0 if d=='-' else int(d))
 changed = set(size)
 def imports(p):
-    if not p.endswith('.ts'): return []
+    if not (p.endswith('.ts') or p.endswith('.tsx')): return []
     src = subprocess.run(['git','-C',wt,'show',f'{head}:{p}'],capture_output=True,text=True)
     if src.returncode: return []
     out=[]
-    for m in re.finditer(r"from\s+'(\.[^']+)'", src.stdout):
+    for m in re.finditer(r"from\s+['\"](\.[^'\"]+)['\"]", src.stdout):
         tgt = os.path.normpath(os.path.join(os.path.dirname(p), m.group(1)))
-        for cand in (tgt+'.ts', tgt+'/index.ts'):
+        for cand in (tgt+'.ts', tgt+'.tsx', tgt+'/index.ts', tgt+'/index.tsx'):
             if cand in changed: out.append(cand)
     return out
 piece = dict(plan)
