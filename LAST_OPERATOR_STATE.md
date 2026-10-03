@@ -46,6 +46,14 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   finished 18:04:49Z, 0 unfinished migrations, /api/v1/coach/programs -> 401 unauthenticated. Mobile #328 update-branched (merge-only) for delta audit.
 - 11:15 PDT MERGED backend #609 (dual APPROVE 41ea038a, 11/11 green) -> main 0d33c4d4. Deploy owed before mobile #312.
   Update-branch (merge-only) backend #634 3d989702 -> e18e8055 and #647 3c3bdd12 -> ec1811b6.
+- 11:17-11:18 PDT OWNER: "we need to start finishing those 19 agents asap, were over halfway into credit budget" then "dont cancel shit!"
+  -> FINISH MODE (end of _COMMON_115.md): nothing cancelled, deferred or descoped (incl. the #651 split); builders end the moment their
+  scope is dual APPROVE at green heads and do not idle on merges; lenses keep merge-only deltas short. All 19 messaged.
+- 11:14 PDT owner answered the #611 publication-hold questions. Operator translation sent to B-MOB-A as O-611-1..6 (#611 added to its
+  scope ahead of #331; backend#611 added to CORE lens queues): deletion paragraph approved; no Anthropic ZDR (30-day sentence); Mux on
+  (listed as provider); backups plan-agnostic (prod is Supabase Free); vendor settings (Stripe redaction, Sentry 90d, Resend 30d,
+  PostHog analytics on / replay off); de-identified aggregate retention clause per RCW 19.373.010. Prod has 0 exercise catalog items and
+  0 coach media assets. fly-env-truth run 37143727833 (read-only) dispatched to confirm whether MUX_* secrets are set.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."

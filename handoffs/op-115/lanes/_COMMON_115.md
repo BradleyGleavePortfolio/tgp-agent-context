@@ -144,3 +144,11 @@ This sandbox is saturated (2 CPU, load ~11 with 16 agents). GitHub Actions is fr
 - Any PR over 1,500 changed lines gets an operator SIZE ASSESSMENT (KEEP or SPLIT). Open PRs that converged stay whole; backend #651
   is being split into 3 stacked PRs. Any NEW PR you open stays under 1,500 changed lines and ~800 lines of non-test source; if bigger,
   open stacked PRs that are each safe, green and inert on their own.
+
+## FINISH MODE (owner 11:17 PDT: "we need to start finishing those 19 agents asap, were over halfway into credit budget"; 11:18 PDT: "dont cancel shit!") — binding
+- Nothing is cancelled, deferred or descoped. Every PR in your scope gets finished, including the #651 split.
+- Builders: keep fix rounds tight: fix exactly the open findings with failing-before tests; no extras, no refactors, no PRs beyond your
+  scope. The moment every PR in your scope is dual APPROVE at a green head, write your final report and END. Do not idle waiting for
+  merges, deploys, update-branch or merge-only deltas: the operator and lenses own those.
+- Lenses: merge-only deltas are short checks (confirm the delta from your prior verdict head is only main's merged commits plus any
+  conflict resolution). Audit in queue order. Each lens ends when LENSES_MAY_END exists and its queue has nothing auditable.
