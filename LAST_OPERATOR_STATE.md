@@ -121,6 +121,9 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   decline can mark a paid retried purchase failed and drop access) -> round 3 (fix plan in report). Operator rulings: C-627-10 -> follow-up
   PR after #627 merges (needs a nullable column); C-661-2 credential backfill -> owner-free decision at #661 deploy (SQL in report, review
   first); C-661-3 -> whichever of #661/#654 merges second keeps credential clearing on subscription end and activation. 4 builders left.
+- 12:20 PDT main d23fa317 build-and-test FAILED: "Jest worker ran out of memory and crashed" in community-message-shape.live.spec.ts (12,310
+  tests passed). Same OOM class hit #654's first attempt. Rerun --failed requested (run 37144478819). Next-wave infra item: jest worker memory
+  is now a recurring flake as the suite grows (12.5k tests): set workerIdleMemoryLimit or shard build-and-test (T2 CI PR, small).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
