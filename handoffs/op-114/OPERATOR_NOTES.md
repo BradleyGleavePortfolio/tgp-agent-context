@@ -214,3 +214,11 @@ Mobile:
   Owner action: upload FCM V1 key (Android push). Backlog (mobile, no lane under freeze): send device zone on sign-in/foreground
   (PUT /notifications/timezone), session tap target (C-648-3; backend sends sessionId), Quiet hours screen payload fix.
   Running agents now 4: B-AUDIT-GATE, B-TRIALS-2, S-DUNNING-R6, AUD-SOL-114B.
+- 20:24 PDT S-DUNNING-R6 DONE: backend #628 @bba11793 (FIX ROUND 6, 11/11, main ec911328 merged, no manifest entries) + mobile #322
+  @23435ec2 (FIX ROUND 6, Opus APPROVE at this head) + mobile #332 @6c193c80 (FIX ROUND 2: A-332-1 autocapture block, Sol B-332-2..5,
+  Opus B-332-4, C-332-4/6). Sol queued; #628 and #332 NEED OPUS. Process slip self-reported: one local full tsc (no harm).
+  Rulings: (1) #322/#334 ClientPackagesScreen.tsx: second to merge keeps the native card-update screen. (2) #654/#628 both define a
+  "never-entitled" check: second to merge unifies into one helper. (3) OR-114-4 (more functionality): #332 CSV export ships as a real
+  .csv attachment in a follow-up mobile PR adding expo-file-system (SDK-matched version; next native build carries it) — backlog,
+  no lane under freeze. (4) Backlog: #628 residual — Stripe idempotency keys expire after 24 h; add reconciliation that never reads
+  an unreconciled >24 h receipt as paid. Running agents now 3: B-AUDIT-GATE, B-TRIALS-2, AUD-SOL-114B.
