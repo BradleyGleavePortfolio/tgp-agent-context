@@ -176,3 +176,13 @@ Mobile:
 - 19:41 PDT B-UGC-8 DONE: backend #652 FIX ROUND 1 @fb33823f (five #610 findings closed). Conflicts with main after #608 in 3 deletion
   files -> B-AUDIT-GATE resolves as FIX ROUND 2 (take #608's files, port 17606f6c's two tests). Lenses wait for that head. Migration
   prefix 20270301000000 kept (operator default).
+- 19:58 PDT AUD-OPUS-114B FINISHED (step budget, ~175/200). NO OPUS LENS IS RUNNING in this session from now on; under STOP-AND-DRAIN no
+  new lens can start until the owner says "SCALE 2". Its verdicts: RC #661 (0/1/3), RC #331, RC annex #658 (0/1/4) and #659 (0/1/4,
+  editing a paused broadcast re-sends it), APPROVE #312 @2b54e151, #641 @fb29fb9e, #328 @dd347633, #322 @23435ec2, #334 @0629d506,
+  RC #332 @c89c5f7e, BLOCK #329 (A-329-1 waits for #332). Release order: #609 -> #312; #641 -> #329 (#332 merged into #329 first);
+  #640 -> #328; #628 -> #322; #654 + #628 -> #334. #322/#334 both edit ClientPackagesScreen.tsx (second keeps the native Update card).
+  Annex #658/#659 must add their user tables to #608's manifest before taking main (annex session to action).
+- 19:58 PDT Fix rounds whose builders finished, given to RUNNING builders (no new agent): #609 Sol B-609-3 remainder -> B-AUDIT-GATE
+  (with the manifest seam); #641 Sol RC 5964824477 -> B-TRIALS-2 (sole writer of #641 + #656); #332 Opus RC + Sol BLOCK -> S-DUNNING-R6.
+  Dual-approved now: mobile #312 @2b54e151 (merges after #609 deploys). Every other T4 head now needs an Opus verdict nobody can give
+  until SCALE 2 -> those become NEEDS OPUS rows for the next operator.
