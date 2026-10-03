@@ -36,6 +36,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - Every agent in both sessions has finished. STOP-AND-DRAIN holds until the owner says "SCALE 2".
 - Full PR-by-PR state, restart order, owner actions and backlog: handoffs/op-114/DRAIN_HANDOFF.md (start there).
 
+### 2026-10-02 21:50 PDT — AGENT 115 START HERE
+- Read handoffs/op-115/AGENT-115-HANDOFF.md first (state, rules, to-dos, restart plan, sub-orchestrator practices).
+- Agent 114 and 114-S results are in handoffs/op-114/ (reports/, kit/, lanes/, 114S-FINAL-STATE.md, DRAIN_HANDOFF.md).
+- STOP-AND-DRAIN in force until the owner says "SCALE 2". Agents running: 0.
+
 ## AGENT 113 TAKEOVER 2026-10-02 16:17 PDT — operator agent 113, session c67c61cf (recorded 2026-10-02 16:25 PDT)
 - **Owner message to agent 113, 2026-10-02 16:17 PDT (verbatim):** "Read these documents closely. Treat The autonym document as the mentality for your operating mind. Treat the model routing document as HOW to grade PR's and do the work at hand effeciently and at high-quality. Treat agenmt rules document as THE LAW IN EFFECT! It is your rulebook. I want to use github CI lanes, max out parallization without sandbox overload, maxamize speed of PR's landing. I want every to-do and decisions built and processed and tested and audited by 10/7 - we need to move fast BUT; ANYTHING BELOW HYPERSCALER QUALITY IS A DAY 1 BLOCKER / I WANT MORE, NOT LESS, FUNCTIONALITY / I WANT A PRISTINE USER EXPERIENCE, AMAZING AHA MOMENTS, AND APPLE LEVEL UI SIMPLICITY AND SCREEN FLOWS"
 - Operator reading: EXECUTE in force for agent 113; AGENT_RULES G01-G22 are law (commit identity irrelevant); MODEL_ROUTING grades every PR before work; max safe lanes; land PRs fast; target 10/7 for everything built, tested, audited; the quality bar outranks the date (10-01 13:00 verdict unchanged). Standing deploy approval (12:11) treated as carried over to the operator role; owner may revoke with "hold deploys".
