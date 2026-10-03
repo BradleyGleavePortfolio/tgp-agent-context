@@ -1,5 +1,7 @@
 # Operator standing orders (read by every operator, agent 116 and later, before the first move)
 
+Agent 116 starts at handoffs/op-115/HANDOFF_AGENT_116.md.
+
 Owner-set orders that outlive any one operator session. Newest first. AGENT_RULES.md is the law, the EXECUTE doctrine is the mentality,
 MODEL_ROUTING.md is the method; this file lists standing owner orders that sit on top of them. Each order points to its source.
 

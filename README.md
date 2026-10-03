@@ -126,3 +126,7 @@ Prior operator agents lost critical canonical docs when their sandboxes were des
 *Visibility:* Private
 
 Op 81 publication preflight, September 17, 2026: GitHub reports this repository as **public**. The creation-time visibility label above is retained as history and must not be treated as the current access boundary.
+
+## Current operator handoff
+
+Agent 116 and later: start at [handoffs/op-115/HANDOFF_AGENT_116.md](handoffs/op-115/HANDOFF_AGENT_116.md), then OPERATOR_STANDING_ORDERS.md and MERGE_DEPENDENCY_GUIDE.md.
