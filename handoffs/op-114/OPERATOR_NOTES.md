@@ -55,3 +55,10 @@ Mobile:
 ## Merged log
 
 - (none yet)
+
+## Train log (agent 114, newest last)
+- 18:26 PDT batch 1 launched: AUD-SOL-114, AUD-OPUS-114, B-RECUR-BE (#654), B-RECUR-MOB (#334), B-EXPORT-5 (#608/#327), B-PRIV-6 (#611).
+- 18:31 PDT AUD-SOL-114: APPROVE backend #627 @7c29d981 (0/0/1; B-627-8 closed), mobile #314 @47398f73 (0/0/0), backend #645 @f50de1b0 (0/0/0).
+  Sol lane finished (QUEUE EMPTY); re-queued by message when #608/#327/#654/#334/#611 are ready. C-627-2 seam: whichever of #627/#608 lands
+  second classifies ChargeSettlement.coach_user_id/head_coach_user_id, PayeeRecovery.payee_user_id, PayoutAdjustmentNotice.payee_user_id in
+  #608's finance-retention manifest -> assigned to B-EXPORT-5 (expected order: #627 first).
