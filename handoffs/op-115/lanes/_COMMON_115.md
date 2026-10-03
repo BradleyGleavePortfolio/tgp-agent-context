@@ -101,8 +101,24 @@ contract, report format), then THIS file, then your lane section in /home/user/w
 - AI chats are kept until the client deletes them or the account (never "180 days").
 
 ## Never
-- Merge; update-branch another lane's PR; dispatch workflows; touch production, Fly, Supabase, Stripe, Expo or EAS; start any build;
+- Merge; update-branch another lane's PR; dispatch any workflow other than the CI-lane list below (never fly-*, release-please, h4-readiness); touch production, Fly, Supabase, Stripe, Expo or EAS; start any build;
   change branch protection, required checks or flag manifests in production; spend money.
 - Name the clinic partner anywhere (say "the clinic partner"); commit the coach welcome text (runtime config only).
 - Edit lockfiles unless your lane scope says so. Touch importer/scout, Dependabot or annex PRs (#657-#660).
 - Use timestamps you did not get from `date`.
+
+## GitHub CI lanes (OWNER 2026-10-03 10:27 PDT, verbatim: "use github CI lanes for speed") — BINDING, wins over anything above
+This sandbox is saturated (2 CPU, load ~11 with 16 agents). GitHub Actions is free and parallel for these PUBLIC repos. Default to CI:
+- `ci.yml` in BOTH repos accepts workflow_dispatch on ANY branch: `gh workflow run ci.yml -R BradleyGleavePortfolio/<repo> --ref <branch>`,
+  then `gh run list -R ... --workflow ci.yml --branch <branch> -L 1` and `gh run watch <id> --exit-status` / `gh run view <id> --log-failed`.
+  Backend ci.yml runs build-and-test (full jest + tsc), rls-floor-guard, rls-live-tests, community-live-tests, mwb-3-live-tests (own
+  Postgres services). Also dispatchable and safe: schema-parity.yml, dependency-audit.yml, migration-dry-run.yml (throwaway Postgres),
+  sbom.yml, infra-lint.yml. NEVER dispatch fly-*.yml, release-please.yml, h4-readiness.yml or anything that deploys or sets secrets.
+- BUILDERS: failing-before proof runs in CI, not locally. Push the new test(s) alone to `ci/<LANE>-<pr>-before` (branched from your PR
+  head), dispatch ci.yml, and cite the red run URL + failing test name in the FIX ROUND table. Push the fix to the PR branch; the PR's own
+  CI is the "after" proof. Run several `ci/<LANE>-*` experiment branches in parallel when you are unsure between approaches. Local jest:
+  at most ONE spec file at a time through heavy.sh, only when it saves a CI round trip; never tsc or full suites locally.
+- LENSES: probes run in CI too. Branch from the exact PR head to `audit/<LANE>/<pr>-<probe>`, add the probe spec only, push, dispatch
+  ci.yml, cite the run URL (red = counterexample proven) in the verdict. Never push to a PR branch.
+- While CI runs (backend ~10-15 min), work the next item; never wait idle. Delete your ci/* and audit/* branches when your lane ends
+  (`git push origin --delete <branch>`).

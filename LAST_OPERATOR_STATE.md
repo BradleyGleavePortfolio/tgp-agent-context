@@ -14,6 +14,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   APPROVE (they do their own follow-up rounds); lenses poll their queue files (ops/wait_audit.sh) and stay alive until the operator
   creates LENSES_MAY_END. Operator: update-branch (merge-only), merges, deploys, records.
 - By 10:20 PDT operator update-branch: backend #664 -> 3e976861, mobile #338 -> 9cf66146 (merge-only; deltas owed).
+- OWNER 10:27 PDT (verbatim): "use github CI lanes for speed". -> Binding section "GitHub CI lanes" added to handoffs/op-115/lanes/_COMMON_115.md
+  and relayed to all 16 running lanes: failing-before proofs, full suites and lens probes run in GitHub Actions (ci.yml workflow_dispatch
+  on ci/<LANE>-* and audit/<LANE>/* branches; both repos public, free); local runs limited to one spec via heavy.sh; never fly-*,
+  release-please or h4-readiness.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
