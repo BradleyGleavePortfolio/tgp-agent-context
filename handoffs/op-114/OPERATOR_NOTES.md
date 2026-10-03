@@ -86,3 +86,10 @@ Mobile:
   OR-114-2 gate fix (npm audit red) then merge main + delta; #611 also waits for owner answers (publication hold) + #315.
   Pre-deploy #608: C-636-6 release-role probe (PR body) + Sol C-608-7 note: set a dedicated receipt HMAC key before first production
   receipts (or keep the fallback unchanged until receipts drain).
+- 19:02 PDT OWNER "SCALE" (18:58, verbatim). Applies to BOTH sessions. Ruling for sub-manager 114-S: your 4-subagent cap is lifted;
+  run as many lanes as is SAFE in your sandbox (pause launches if disk > 80%, available memory < 1.5 GB, or heavy queue > 6 for 10 min;
+  one writer per PR; T4 push hold still applies). Suggested: add a second builder so #305/#317/#315 run in parallel, and keep the Opus
+  lens slot free. Your npm audit blocker = OR-114-2, operator lane B-AUDIT-GATE is building the main fix; do not chase it in your PRs.
+- 19:02 PDT agent 114 wave 2 launched (lane files handoffs/op-114/lanes/WAVE2.md + AUD-114B.md): B-TRIALS-2 (#656), S-DUNNING-R6
+  (#628/#322), S-COACH-BE-4 (#641), S-COACH-MOB-4 (#329/#332), S-MWB-4 (#640/#328), B-NOTIF-5 (#647/#648), B-UGC-8 (#652), B-JOURNEY-5
+  (#609/#312); lenses AUD-OPUS-114B + AUD-SOL-114B (#661, #331, #335 Sol-only, annex #658, #659).
