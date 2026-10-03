@@ -38,6 +38,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   (CI queue). Verify /health, /readyz, _prisma_migrations, #640 routes when it finishes; then update mobile #328.
 - OR-115-6 PR size: open PRs stay as they are (11 exceed 5k added lines, about half tests; splitting now restarts audits); new PRs in
   this wave keep non-test source under ~800 lines or stack.
+- OWNER 11:02 PDT PR size doctrine (verbatim in DECISION_LOG.md 2026-10-03): written into MODEL_ROUTING.md section 8.2, AGENT_RULES.md G21
+  pointer, and new OPERATOR_STANDING_ORDERS.md (read by agent 116+). Applied: converged PRs kept; backend #651 split by B-SCHED-ROMAN
+  into 3 stacked PRs (A Roman context, B guardrails, C live turns + eval) after #634 round 5; #651 to be closed as superseded.
+- 11:05 PDT #640 deploy run 37142275262 in progress (runner acquired).
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."

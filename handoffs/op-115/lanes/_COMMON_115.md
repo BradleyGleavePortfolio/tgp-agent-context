@@ -140,6 +140,7 @@ This sandbox is saturated (2 CPU, load ~11 with 16 agents). GitHub Actions is fr
 - Full `gh workflow run ci.yml --ref <branch>` ONLY for live-DB suites (rls-live, community-live, mwb-3) that need ci.yml's Postgres
   services. Cancel your own superseded runs (`gh run cancel <id>`). Never dispatch anything else.
 
-## PR size (operator ruling OR-115-6, 11:00 PDT)
-- Open PRs stay as they are (splitting them now would restart their audits). Any NEW PR in this wave keeps its non-test source diff
-  small (target under ~800 lines; tests and fixtures do not count); if a change is bigger, open stacked PRs, each auditable on its own.
+## PR size (owner doctrine 2026-10-03 11:02 PDT; MODEL_ROUTING.md section 8.2; ruling OR-115-6)
+- Any PR over 1,500 changed lines gets an operator SIZE ASSESSMENT (KEEP or SPLIT). Open PRs that converged stay whole; backend #651
+  is being split into 3 stacked PRs. Any NEW PR you open stays under 1,500 changed lines and ~800 lines of non-test source; if bigger,
+  open stacked PRs that are each safe, green and inert on their own.
