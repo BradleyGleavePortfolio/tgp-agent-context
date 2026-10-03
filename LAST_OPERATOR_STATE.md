@@ -128,6 +128,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   index on ChargeRefund; two owner-only admin endpoints for held refund reversals). mobile #332 @90701485 round 3 and #340 @2e77dcb6 round 1
   pushed green; operator posted the builder's saved FIX ROUND drafts. #329 @fc7fe73f FIX ROUND 5 READY (A-329-1 open until #332 merges into
   #329's branch). Order: deploy #641 -> merge #332 into #329 -> ship #329 -> retarget #340. 3 builders left.
+- 12:28 PDT ENDED: B-NOTIF-6. backend #648 @22de1182 FIX ROUND 4, 11/11 green, CLEAN, READY (migration 20270307000000 edited in place; never
+  applied anywhere: confirm by _prisma_migrations read before deploy). mobile #312 dual APPROVE @f8375ca6, BEHIND (no conflict): merges after
+  #609 is deployed + merge-only refresh (needs lenses: next wave). mobile #341 (stacked on #312) RC from both lenses: overlapping preference
+  saves race; "did not save" copy on unknown outcome; minor C items. #634 and #648 both edit booking.emitter.ts: second to merge resolves.
+  Owner action: FCM V1 key for Android push. 2 builders left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
