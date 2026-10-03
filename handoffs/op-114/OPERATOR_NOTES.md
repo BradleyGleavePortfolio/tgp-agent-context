@@ -93,3 +93,19 @@ Mobile:
 - 19:02 PDT agent 114 wave 2 launched (lane files handoffs/op-114/lanes/WAVE2.md + AUD-114B.md): B-TRIALS-2 (#656), S-DUNNING-R6
   (#628/#322), S-COACH-BE-4 (#641), S-COACH-MOB-4 (#329/#332), S-MWB-4 (#640/#328), B-NOTIF-5 (#647/#648), B-UGC-8 (#652), B-JOURNEY-5
   (#609/#312); lenses AUD-OPUS-114B + AUD-SOL-114B (#661, #331, #335 Sol-only, annex #658, #659).
+- 19:05 PDT OPERATOR DIRECTIVE TO 114-S (binding; also relayed by the owner):
+  1. Scale: cap lifted (owner SCALE). Suggested roster: S-B1 #651; S-B2 #326 -> #315; S-B3 #634 -> #325; S-B4 #305; S-B5 #317;
+     lenses split by repo: Opus-BE + Sol-BE (#634, #651), Opus-MOB + Sol-MOB (#305, #317, #326, #315, #325). Telemetry pause rules apply.
+  2. Latency: orient every 5 minutes while any lane runs; queue both lenses the minute a FIX ROUND is pushed (they read while CI
+     finishes, post only at green). No long waits.
+  3. One round, both lenses: builders fold BOTH lenses' findings into one round. Pre-push checklist for every builder: (a) no
+     free-form text, emails, tokens or message bodies reach logs/Sentry/analytics (ids and codes only); (b) every await followed by a
+     state write re-checks account/session identity; (c) cancellation/unmount races covered by a test; (d) copy: no "we/us", no
+     exclamation marks, no generic errors, no emojis; (e) failing-before test per finding.
+  4. Merge facts: backend main 12e1b03b (#645 merged), mobile main 1f8981dd (#314 merged); bring current only when next in train.
+     #634 before #325 (I re-run the zero-row queries pre-deploy). #315 must not say "180 days" anywhere (AI chats: "kept until you
+     delete them or your account"); #315 merges with #611 (#611 is dual-approved content @1af96efa, held for owner facts + npm gate).
+     #326 merges as soon as it is dual-approved and green. #305 and #317/#325 app.json neighbours: second to merge keeps both.
+  5. npm audit = OR-114-2, my lane B-AUDIT-GATE; never touch lockfiles; backend PRs are judged on content until main is fixed.
+  6. Timestamps from `date` only. READY FOR OPERATOR MERGE comment + SUB_STATUS line the moment a PR is dual-approved + green; I merge
+     within minutes.
