@@ -109,3 +109,18 @@ Mobile:
   5. npm audit = OR-114-2, my lane B-AUDIT-GATE; never touch lockfiles; backend PRs are judged on content until main is fixed.
   6. Timestamps from `date` only. READY FOR OPERATOR MERGE comment + SUB_STATUS line the moment a PR is dual-approved + green; I merge
      within minutes.
+- 19:00 PDT OWNER (verbatim): "Ok, add no more agents and do not replace them with auditors, let the agent count run to 0 with
+  completions, guaranteeing all started work finishes as planned!"  -> RULING OR-114-3 (binding, both sessions):
+  * No new subagents, and no finished subagent is re-tasked. The active count only goes down.
+  * 114-S: the 19:05 scale-up suggestion (S-B4, S-B5, second lens pair) is WITHDRAWN. Launch nothing new. Your running lanes finish
+    their started scope; your running lenses stay alive (do not let them exit at QUEUE EMPTY) until every fix round your running
+    builders push has both verdicts at its final head. Then wind to 0 and record what is left in SUB_STATUS.md as "NEEDS AUDIT" /
+    "NEEDS FIX ROUND" rows for the next operator.
+  * Agent 114 (15 running at 19:00: AUD-OPUS-114, AUD-OPUS-114B, AUD-SOL-114B, B-RECUR-BE, B-RECUR-MOB, B-AUDIT-GATE, B-FEE-R8,
+    B-TRIALS-2, S-DUNNING-R6, S-COACH-BE-4, S-COACH-MOB-4, S-MWB-4, B-NOTIF-5, B-UGC-8, B-JOURNEY-5): the three running lenses were told
+    to keep polling and audit every READY round of the running builders (Sol coverage = AUD-SOL-114B for all; Opus = AUD-OPUS-114 wave 1,
+    AUD-OPUS-114B wave 2). Operator does mechanical update-branch, merges and deploys (no agent needed).
+  * Merge order change: B-AUDIT-GATE PR -> #608 + #327 (update-branch, deltas, merge, C-636-6 probe, deploy) -> #627 round 8 (B-FEE-R8
+    merges main and closes C-627-2 itself) -> #321 -> retarget #654 -> #654 + #334.
+  * Fix rounds that get REQUEST CHANGES after their builder has finished are recorded as "NEEDS FIX ROUND" for the next operator; no
+    new builder is launched.
