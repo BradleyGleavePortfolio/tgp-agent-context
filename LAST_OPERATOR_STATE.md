@@ -108,6 +108,11 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - 12:05 PDT ENDED: AUD-OPUS-MOB-PAY. #338 APPROVE delta @48b5e6b5 (C-338-2 withdrawn); #312 merge-only APPROVE @f8375ca6; #328 merge-only
   APPROVE @fb76721f (now BEHIND after #305 -> next-wave refresh); #332 RC 0/4/7 @6c193c80 (B-332-7..10). Owed next wave: #332 @90701485,
   #329 @fc7fe73f, #334 @d466fd15, #340 full. 7 agents left (6 builders + AUD-SOL-MOB-PAY).
+- 12:10 PDT ENDED: B-MOB-A. backend #611 @5eac8f21 FIX ROUND 7 (O-611-1..6 applied; failing-before run 37144067930), all green, READY FOR
+  AUDIT, BEHIND main -> next wave: both lenses, then update-branch #611 + #315 and merge together (publication). #339 @8165ca95 Sol RC B-339-1
+  (copy claims server outcomes the app cannot know) -> reword with failing-before tests. #331 @5b58a121 fix for the late-401 token race pushed;
+  one more commit cd37225 only as patch ops/aud-115/B-MOB-A/331-round3-wip.patch -> resume: push, failing-before check, FIX ROUND 3.
+  Consent strings: reword the three hashed P0 consent strings at the next consent version bump (mobile + backend #607). 6 agents left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."

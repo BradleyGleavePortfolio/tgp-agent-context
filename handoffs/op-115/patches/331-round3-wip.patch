@@ -1,0 +1,91 @@
+diff --git a/src/services/__tests__/sessionFence.refresh.test.ts b/src/services/__tests__/sessionFence.refresh.test.ts
+index 6e34616..f2be3d0 100644
+--- a/src/services/__tests__/sessionFence.refresh.test.ts
++++ b/src/services/__tests__/sessionFence.refresh.test.ts
+@@ -270,6 +270,59 @@ describe('late old-account 401 during a half-written sign-in (Sol A-331-7 round
+     await expectNextRequestIsB();
+   });
+ 
++  /** Hold A's 401 for /a-work until released. */
++  function holdA401(): { reached: Promise<void>; release: () => void } {
++    let release!: () => void;
++    let reached!: () => void;
++    const reachedP = new Promise<void>((r) => (reached = r));
++    const gate = new Promise<void>((r) => (release = r));
++    respond = async (config) => {
++      if (config.url === '/a-work' && config.headers?.Authorization === `Bearer ${A}`) {
++        reached();
++        await gate;
++        return http(config, 401);
++      }
++      return ok(config);
++    };
++    return { reached: reachedP, release };
++  }
++
++  it("A's held 401 lands while B's ACCESS-token write is landing (Opus B-331-9): nothing of A is published", async () => {
++    const held = holdA401();
++    const work = api.get('/a-work').catch((e: unknown) => e);
++    await held.reached;
++    const p = pauseNext('set', 'supabase_token');
++    const bSignIn = signIn(B, 'refresh-b');
++    await p.reached;
++    held.release();
++    const err = await work;
++    await settle();
++    p.release();
++    await bSignIn;
++    await settle();
++    expect(stored()).toEqual({ access: B, refresh: 'refresh-b' });
++    expect(refreshCalls).toEqual([]);
++    expect((err as AxiosError).response?.status).toBe(401);
++    await expectNextRequestIsB();
++  });
++
++  it("A's held 401 lands while sign-out's refresh-token removal is landing (Opus P2): A never comes back", async () => {
++    const held = holdA401();
++    const work = api.get('/a-work').catch((e: unknown) => e);
++    await held.reached;
++    const p = pauseNext('delete', 'supabase_refresh_token');
++    const out = signOutKeys();
++    await p.reached;
++    held.release();
++    await work;
++    await settle();
++    p.release();
++    await out;
++    await settle();
++    expect(stored()).toEqual({ access: undefined, refresh: undefined });
++    expect(refreshCalls).toEqual([]);
++  });
++
+   it('a request made while that write lands waits for the whole pair; its refresh uses B\'s refresh token', async () => {
+     let first = true;
+     respond = (config) => {
+diff --git a/src/services/secureStorage.ts b/src/services/secureStorage.ts
+index c790205..f371272 100644
+--- a/src/services/secureStorage.ts
++++ b/src/services/secureStorage.ts
+@@ -51,9 +51,20 @@ async function doMigration(key: SecureKey): Promise<string | null> {
+   try {
+     const legacy = await AsyncStorage.getItem(key);
+     if (legacy) {
+-      await SecureStore.setItemAsync(key, legacy);
++      if (!isSessionKey(key)) {
++        await SecureStore.setItemAsync(key, legacy);
++        await AsyncStorage.removeItem(key);
++        return legacy;
++      }
++      // #331 B-331-9: a session key is copied only under the session fence,
++      // and only if no sign-in wrote one meanwhile (never over a newer session).
++      const current = await runSessionWrite(undefined, async () => {
++        const now = await SecureStore.getItemAsync(key);
++        if (now == null) await SecureStore.setItemAsync(key, legacy);
++        return now ?? legacy;
++      });
+       await AsyncStorage.removeItem(key);
+-      return legacy;
++      return current;
+     }
+   } catch {
+     // Migration is best-effort — if it fails, user will just log in once more.
