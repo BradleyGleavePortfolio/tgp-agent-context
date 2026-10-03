@@ -1,4 +1,4 @@
-# Pause and plan — 2026-10-03, 12:40 PDT (operator agent 115)
+# Pause and plan — 2026-10-03, 11:58 PDT (operator agent 115)
 
 All 19 agents have stopped. Nothing is half-done: every PR is pushed, and its state and next step are written in its lane report
 (ops/reports/*-115.md, copied to handoffs/op-115/). Nothing was cancelled or descoped.
@@ -8,8 +8,8 @@ All 19 agents have stopped. Nothing is half-done: every PR is pushed, and its st
 | PR | What | State |
 |---|---|---|
 | backend #640 | Coach programs delivery | Merged, deployed, checked in production |
-| backend #609 | Coach welcome message, workout reminders | Merged; deploying with #647 |
-| backend #647 | Booking reminder times in the recipient's time zone | Merged; deploying with #609 |
+| backend #609 | Coach welcome message, workout reminders | Merged, deployed, checked in production (with #647) |
+| backend #647 | Booking reminder times in the recipient's time zone | Merged, deployed, checked in production |
 | mobile #326 | AI consent error handling | Merged |
 | mobile #305 | Over-the-air updates | Merged |
 

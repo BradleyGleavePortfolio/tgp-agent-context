@@ -68,76 +68,76 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   only the PR they are changing now, then report and END (#651 split NOT started; plan written into B-SCHED-ROMAN report); lenses post the
   verdict in hand plus waiting merge-only deltas, then END. LENSES_MAY_END created. Operator: bank merges that become possible, then write
   the pause-and-plan summary; minimal polling.
-- 11:38 PDT ENDED: AUD-OPUS-MOB-CORE (verdicts: #331 RC 0/1/0 B-331-9 @c621770f; #317 APPROVE @82137c31 and merge-only @d0407b62; #335 APPROVE
+- 11:3x PDT (unstamped) ENDED: AUD-OPUS-MOB-CORE (verdicts: #331 RC 0/1/0 B-331-9 @c621770f; #317 APPROVE @82137c31 and merge-only @d0407b62; #335 APPROVE
   0/0/1 @641fe891; #341 RC 0/1/1 B-341-1 @7c791bb3; #339 not audited) and AUD-SOL-MONEY-2 (#628 RC 0/1/0 @33e0696a; #641 RC 0/4/1
   @02cd3f88; #627 last RC 0/1/0 @3a5338d7, newer head 6c7706e1 unposted; #654 Sol draft RC 0/3/0 @02c48de7 unposted). 16 agents left.
   #634 e18e8055 build-and-test failed (lint annotations only visible) -> rerun --failed requested (run 37143570940).
   Mobile #328 and #335 dual APPROVE but BEHIND after #305: refresh needs new Opus verdicts (Opus MOB-CORE ended) -> next wave unless a lens is live.
-- 11:41 PDT ENDED: B-MOB-B (all 4 PRs dual APPROVE; #305 merged). Operator rulings for next wave: #325 stays draft until #634 merges AND
+- 11:4x PDT (unstamped) ENDED: B-MOB-B (all 4 PRs dual APPROVE; #305 merged). Operator rulings for next wave: #325 stays draft until #634 merges AND
   deploys; then a builder merges main resolving app.json keeping both hunks (OR-115-5) -> merge-only delta audits. #335: take C-335-4 (copy must
   be true when a coach lost access) in the same refresh round, since #335 needs a new head anyway (BEHIND). CoachEarnings: OR-113-13 default
   stands (hide the Settings row if #332 misses release). 15 agents left.
-- 11:45 PDT ENDED: B-SCHED-ROMAN. #634 finished (dual APPROVE 3d989702; operator head e18e8055 Opus merge-only APPROVE, Sol pending,
+- 11:4x PDT (unstamped) ENDED: B-SCHED-ROMAN. #634 finished (dual APPROVE 3d989702; operator head e18e8055 Opus merge-only APPROVE, Sol pending,
   build-and-test rerun requested). #651 split partly done before PAUSE: A = #665 (draft, base main, 9d54333a, 4,113 lines), B = #666 (draft,
   base A, 07429136, 1,735 lines), C = branch agent115/roman-split-c-live @b866db3a (failing-before tests only; fixes for B-651-1/-4/-5 on
   agent115/roman-651-r2-wip-unsplit @675cf045). #651 still open at a8fa651c. Not queued for audit. Next-wave decision: #665 exceeds the
   3,000-line hard limit (opened during the rule change) -> bring it under 3,000 (e.g. move the 1,009-line personas fixture with the eval
   harness to C, or split the context service) before any audit. #603 carry-over and #653 not started. 14 agents left.
-- 11:50 PDT ENDED: AUD-SOL-CORE (#647 APPROVE 0/0/2 @ec1811b6; #634 merge-delta approval drafted, NOT posted, build rerun pending; #648 RC
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: AUD-SOL-CORE (#647 APPROVE 0/0/2 @ec1811b6; #634 merge-delta approval drafted, NOT posted, build rerun pending; #648 RC
   0/1/0 @ab607b34; #653 no verdict, counterexamples saved) and AUD-OPUS-MONEY (#627 APPROVE 0/0/1 @3a5338d7; #654 APPROVE 0/0/3 @02c48de7;
   #656/#661 drafts saved, not posted). 12 agents left.
-- 11:49 PDT MERGED backend #647 (dual APPROVE ec1811b6, 11/11 green) -> main d23fa317. Undeployed on main: #609 + #647; migrations
+- 11:4x PDT (unstamped) MERGED backend #647 (dual APPROVE ec1811b6, 11/11 green) -> main d23fa317. Undeployed on main: #609 + #647; migrations
   20270213000000_clinic_engagement (additive, out-of-order OK) and 20270301000000_notification_zone_provenance_reminder_generation
   (backfill + SET NOT NULL; prod NotificationDeliveryLog has 0 rows, so safe). Deploy when main CI is green; then mobile #312 may merge.
-- 11:55 PDT ENDED: B-RECUR-3. #654 @02c48de7 12/12 running checks green, Opus APPROVE 0/0/3, Sol pending (Sol draft RC 0/3/0 exists:
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: B-RECUR-3. #654 @02c48de7 12/12 running checks green, Opus APPROVE 0/0/3, Sol pending (Sol draft RC 0/3/0 exists:
   resend after Stripe 24h key window -> second subscription (also Opus C-654-8); error label logs arbitrary name (C-654-10); failed cancel
   marks a payable attempt expired). Next wave: one round on those three, then Sol. Retarget to main after #627 merges. #334 @d466fd15 3/3
   green (operator posted the FIX ROUND 4 note); needs Opus + Sol. Owner action before #654 deploys: add setup_intent.succeeded to the
   platform Stripe webhook. 11 agents left.
-- 11:57 PDT ENDED: AUD-OPUS-CORE (11 APPROVEs incl. merge-only #634 @e18e8055, #647 @ec1811b6; C-609-6 reminder zone fallback now lands
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: AUD-OPUS-CORE (11 APPROVEs incl. merge-only #634 @e18e8055, #647 @ec1811b6; C-609-6 reminder zone fallback now lands
   on #647 scope; C-664-1 provider-wiring flake). #634 is now DIRTY (conflict with main after #647) -> next wave: builder resolves, then
   merge-only deltas from both lenses. #652 and #664 dual APPROVE but BEHIND -> next wave merge-only refresh. 10 agents left.
-- 12:01 PDT ENDED: AUD-SOL-MOB. #317 @d0407b62 Sol RC 0/1/0: the pure merge of main (after #305) fails two stale Health Connect test
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: AUD-SOL-MOB. #317 @d0407b62 Sol RC 0/1/0: the pure merge of main (after #305) fails two stale Health Connect test
   expectations (required CI red) -> next wave: builder updates those expectations, then merge-only deltas. #331 @5b58a121 Sol BLOCK 1/0/0
   (legacy credential migration swaps/resurrects tokens; CI proof run 37144136085). #339 RC 0/1/0; #341 RC 0/2/2. Sol APPROVEs stand on #325,
   #338 @9cf66146, #315, #312, #335. 9 agents left.
-- 12:03 PDT ENDED: AUD-OPUS-MONEY-2. #642 APPROVE 0/0/1 @4fee3c02 (dual APPROVE; BEHIND -> next-wave merge-only refresh). #628 RC 0/1/2
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: AUD-OPUS-MONEY-2. #642 APPROVE 0/0/1 @4fee3c02 (dual APPROVE; BEHIND -> next-wave merge-only refresh). #628 RC 0/1/2
   @33e0696a (B-628-13: next declined renewal overwrites the dispute-cycle marker; probe run 37143152376). #641 RC 0/1/1 @02cd3f88 (B-641-12:
   concurrent refunds on one transfer lose one locally; probe run 37142381900; prefer a live-DB test for the fix); newer head f60ed603 unaudited.
   8 agents left.
-- 12:05 PDT ENDED: AUD-OPUS-MOB-PAY. #338 APPROVE delta @48b5e6b5 (C-338-2 withdrawn); #312 merge-only APPROVE @f8375ca6; #328 merge-only
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: AUD-OPUS-MOB-PAY. #338 APPROVE delta @48b5e6b5 (C-338-2 withdrawn); #312 merge-only APPROVE @f8375ca6; #328 merge-only
   APPROVE @fb76721f (now BEHIND after #305 -> next-wave refresh); #332 RC 0/4/7 @6c193c80 (B-332-7..10). Owed next wave: #332 @90701485,
   #329 @fc7fe73f, #334 @d466fd15, #340 full. 7 agents left (6 builders + AUD-SOL-MOB-PAY).
-- 12:10 PDT ENDED: B-MOB-A. backend #611 @5eac8f21 FIX ROUND 7 (O-611-1..6 applied; failing-before run 37144067930), all green, READY FOR
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: B-MOB-A. backend #611 @5eac8f21 FIX ROUND 7 (O-611-1..6 applied; failing-before run 37144067930), all green, READY FOR
   AUDIT, BEHIND main -> next wave: both lenses, then update-branch #611 + #315 and merge together (publication). #339 @8165ca95 Sol RC B-339-1
   (copy claims server outcomes the app cannot know) -> reword with failing-before tests. #331 @5b58a121 fix for the late-401 token race pushed;
   one more commit cd37225 only as patch ops/aud-115/B-MOB-A/331-round3-wip.patch -> resume: push, failing-before check, FIX ROUND 3.
   Consent strings: reword the three hashed P0 consent strings at the next consent version bump (mobile + backend #607). 6 agents left.
-- 12:14 PDT ENDED: AUD-SOL-MOB-PAY (last Sol verdicts: #338 APPROVE @48b5e6b5; #329 BLOCK 1/1/0 @fc7fe73f; #321 APPROVE @4f5b058d; #322
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: AUD-SOL-MOB-PAY (last Sol verdicts: #338 APPROVE @48b5e6b5; #329 BLOCK 1/1/0 @fc7fe73f; #321 APPROVE @4f5b058d; #322
   APPROVE @23435ec2; #328 APPROVE @fb76721f; #340 RC; unaudited heads #332 @90701485, #334 @d466fd15, #340 @2e77dcb6). ALL LENSES ENDED.
   5 builders left: B-FEE-9, B-DUNNING-7, B-TRIALS-3, B-COACH-5, B-NOTIF-6.
-- 12:18 PDT ENDED: B-FEE-9. #627 @66162285 FIX ROUND 10 (B-627-10 fixed; main 0d33c4d4 merged), 11/11 green, READY FOR AUDIT, BEHIND ->
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: B-FEE-9. #627 @66162285 FIX ROUND 10 (B-627-10 fixed; main 0d33c4d4 merged), 11/11 green, READY FOR AUDIT, BEHIND ->
   next wave: both lenses, then merge with #321 (dual APPROVE @4f5b058d, BEHIND). #661 @f4679fd8 Sol RC B-661-3 (late-delivered earlier
   decline can mark a paid retried purchase failed and drop access) -> round 3 (fix plan in report). Operator rulings: C-627-10 -> follow-up
   PR after #627 merges (needs a nullable column); C-661-2 credential backfill -> owner-free decision at #661 deploy (SQL in report, review
   first); C-661-3 -> whichever of #661/#654 merges second keeps credential clearing on subscription end and activation. 4 builders left.
-- 12:20 PDT main d23fa317 build-and-test FAILED: "Jest worker ran out of memory and crashed" in community-message-shape.live.spec.ts (12,310
+- 11:4x-11:58 PDT (unstamped; order preserved) main d23fa317 build-and-test FAILED: "Jest worker ran out of memory and crashed" in community-message-shape.live.spec.ts (12,310
   tests passed). Same OOM class hit #654's first attempt. Rerun --failed requested (run 37144478819). Next-wave infra item: jest worker memory
   is now a recurring flake as the suite grows (12.5k tests): set workerIdleMemoryLimit or shard build-and-test (T2 CI PR, small).
-- 12:24 PDT ENDED: B-COACH-5. backend #641 @f60ed603 FIX ROUND 5, 11/11 green, READY (migration 20270314000000: 4 nullable columns + unique
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: B-COACH-5. backend #641 @f60ed603 FIX ROUND 5, 11/11 green, READY (migration 20270314000000: 4 nullable columns + unique
   index on ChargeRefund; two owner-only admin endpoints for held refund reversals). mobile #332 @90701485 round 3 and #340 @2e77dcb6 round 1
   pushed green; operator posted the builder's saved FIX ROUND drafts. #329 @fc7fe73f FIX ROUND 5 READY (A-329-1 open until #332 merges into
   #329's branch). Order: deploy #641 -> merge #332 into #329 -> ship #329 -> retarget #340. 3 builders left.
-- 12:28 PDT ENDED: B-NOTIF-6. backend #648 @22de1182 FIX ROUND 4, 11/11 green, CLEAN, READY (migration 20270307000000 edited in place; never
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: B-NOTIF-6. backend #648 @22de1182 FIX ROUND 4, 11/11 green, CLEAN, READY (migration 20270307000000 edited in place; never
   applied anywhere: confirm by _prisma_migrations read before deploy). mobile #312 dual APPROVE @f8375ca6, BEHIND (no conflict): merges after
   #609 is deployed + merge-only refresh (needs lenses: next wave). mobile #341 (stacked on #312) RC from both lenses: overlapping preference
   saves race; "did not save" copy on unknown outcome; minor C items. #634 and #648 both edit booking.emitter.ts: second to merge resolves.
   Owner action: FCM V1 key for Android push. 2 builders left.
-- 12:33 PDT ENDED: B-TRIALS-3. backend #656 @86223987 FIX ROUND 5, 11/11 green, CLEAN, READY: needs Sol re-audit + first full Opus audit.
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: B-TRIALS-3. backend #656 @86223987 FIX ROUND 5, 11/11 green, CLEAN, READY: needs Sol re-audit + first full Opus audit.
   mobile #338 dual APPROVE @48b5e6b5 (Sol APPROVE + Opus delta APPROVE 5972079998): merge with #656, after #656 deploys. C-656-1 combined
   acceptance with #654 -> whichever of #654/#656 merges second. Owner action: add customer.subscription.trial_will_end to the Stripe webhook
   (with setup_intent.succeeded). 1 builder left (B-DUNNING-7).
-- 12:38 PDT ENDED: B-DUNNING-7 (#628 @dc47e0ef FIX ROUND 8 READY, 11/11 green; #642 dual APPROVE @4fee3c02 BEHIND: after merge run the flag
+- 11:4x-11:58 PDT (unstamped; order preserved) ENDED: B-DUNNING-7 (#628 @dc47e0ef FIX ROUND 8 READY, 11/11 green; #642 dual APPROVE @4fee3c02 BEHIND: after merge run the flag
   sync, then the owner creates and deletes a Google-only account in the app; #322 dual APPROVE @23435ec2 BEHIND, merges with #628).
   ALL 19 AGENTS HAVE ENDED. 0 running.
 - 11:58 PDT DEPLOY VERIFIED: production = backend d23fa317 (#609 + #647; run 37145909812). /health ok (new machine), /readyz db up,
