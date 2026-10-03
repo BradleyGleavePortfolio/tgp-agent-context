@@ -16,7 +16,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   owner coach sign-up (C04) has not happened yet.
 - Commit identity: handoff identity "TGP Agent 115" applies; DECISION_LOG 2026-09-28 (owner) removed identity as a delivery gate.
 - Restart plan on "SCALE 2": handoffs/op-115/AGENT-115-HANDOFF.md section 5 (lenses first, then builders; merge train unchanged).
-- Operator rulings 10:12 PDT (decide-not-escalate; closes handoff section 6.2; binding for SCALE 2 lane briefs):
+- Operator rulings 10:10 PDT (decide-not-escalate; closes handoff section 6.2; binding for SCALE 2 lane briefs):
   * OR-115-1 #651 C-651-5: keep the safety audit row and ids (evidence that the crisis route fired), but no crisis or health words in
     audit action names, ledger metadata or info logs: one neutral action (roman.safety_route) plus a closed reason code in a single
     restricted-read field covered by the #608 manifest. Reason: closes the finding without new #611 policy text (no extra #611 round).
@@ -26,7 +26,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   * OR-115-4 copy on mobile main ("On our side" in RomanAiConsentScreen; retired-period comment in consentVersion.ts): one small copy PR,
     folded into the mobile-chain builder after #326 (no extra lane).
   * OR-115-5 docs/OTA_UPDATES.md clinic Health Connect line: whichever of #305/#317 merges second fixes it (confirmed).
-  * #634 gate check (read-only, 10:11 PDT): migration 20270222* is NOT applied in production (applied: 0220, 0221, 0224). OR-112-4
+  * #634 gate check (read-only, 10:10 PDT): migration 20270222* is NOT applied in production (applied: 0220, 0221, 0224). OR-112-4
     zero-row pre-deploy queries still run by the operator right before the #634 deploy. #317 / #315 device checks stay owed to the release pass.
 
 ## AGENT 114 TAKEOVER 2026-10-02 18:13 PDT — operator agent 114, session d11c4bf8 (recorded 18:25 PDT)
