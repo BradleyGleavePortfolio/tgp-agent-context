@@ -158,7 +158,7 @@ Separate findings from incomplete review and infrastructure failure. Preserve wo
 
 Question the need, delete unnecessary work, simplify, then accelerate and automate what remains. Favor clear ownership, existing suitable primitives, and cohesive code. Introduce abstractions, caching, dependencies, and process only for a demonstrated problem.
 
-Use measured limits and context, not universal line counts, comment ratios, mandatory library reuse, or aesthetic doctrine. Owner directive 2026-10-03: a PR over 1,500 changed lines is a liability; the operator must assess it for a logical split at its first READY FOR AUDIT (MODEL_ROUTING.md section 8.2). This is an assessment trigger, not a hard cap. Address a bug's relevant repeated causes without turning a bounded change into unlimited refactoring. Customer quality and maintainability still matter.
+Use measured limits and context, not universal line counts, comment ratios, mandatory library reuse, or aesthetic doctrine. Owner directive 2026-10-03: a PR over 1,500 changed lines is a liability; the operator must assess it for a logical split at its first READY FOR AUDIT (MODEL_ROUTING.md section 8.2). The 1,500 line mark is an assessment trigger; 3,000 changed lines is a hard limit and an automatic fail (owner directive 2026-10-03; open PRs as of that date are grandfathered). Address a bug's relevant repeated causes without turning a bounded change into unlimited refactoring. Customer quality and maintainability still matter.
 
 ### G22: Make governance earn its cost
 

@@ -4,6 +4,9 @@ Owner-set orders that outlive any one operator session. Newest first. AGENT_RULE
 MODEL_ROUTING.md is the method; this file lists standing owner orders that sit on top of them. Each order points to its source.
 
 ## 1. PR size gate (owner, 2026-10-03 11:02 PDT) — MODEL_ROUTING.md section 8.2, DECISION_LOG.md
+- HARD LIMIT (owner 11:26 PDT): any PR over 3,000 changed lines is an automatic fail ("a huge waste of credits and extends wasted
+  rounds"). Never route it to audit; lenses answer REQUEST CHANGES "SIZE FAIL" without reviewing; the builder splits it. Builders check
+  their own diff size before opening a PR and before every push. PRs open on 2026-10-03 are grandfathered.
 - Any PR over 1,500 changed lines is a liability and a slow-down. At its FIRST READY FOR AUDIT (before the first full audit), the
   operator posts a SIZE ASSESSMENT on the PR: source / tests / migrations / docs lines, the logical seams, the coupling, and KEEP or
   SPLIT with the reason. Re-assess if a fix round pushes a PR past 1,500.

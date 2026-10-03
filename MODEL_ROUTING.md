@@ -257,6 +257,7 @@ Promotion triggers: [what would force re-grade]</p></th>
 
 Owner (verbatim): "anything over 1500 lines becomes a liability one day and a slow-down. Splitting the PR into logical pieces can, in some cases, alleviate this problem."
 
+- HARD LIMIT (owner 2026-10-03 11:26 PDT, verbatim: "any PR over 3k LOC is jsut an automatic fail - its a huge waste of credits and extends wasted rounds"): a PR over 3,000 changed lines (same counting as below) FAILS automatically. The operator does not route it to audit; a lens that receives one posts REQUEST CHANGES "SIZE FAIL (over 3,000 lines)" with no further review; the builder splits it into stacked PRs under the limit. PRs already open on 2026-10-03 are grandfathered; any of them that gets reworked substantially is split instead.
 - Trigger: a PR whose diff exceeds 1,500 changed lines (additions + deletions; lockfiles, generated files and snapshots excluded; tests count and are reported separately).
 - When: the operator assesses it at the FIRST READY FOR AUDIT after the builder's first push, before the first full audit starts, and again whenever a fix round pushes a PR past the trigger.
 - How: the operator posts a SIZE ASSESSMENT comment on the PR: lines (source / tests / migrations / docs), the logical seams, the coupling between them, and a decision with its reason:
