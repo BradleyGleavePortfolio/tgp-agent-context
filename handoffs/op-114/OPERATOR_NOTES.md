@@ -237,3 +237,12 @@ Mobile:
   @dd347633 APPROVE (dual). Dual-approved, waiting on their backend: #312 (after #609 deploys), #322 (after #628), #328 (after #640).
   #627 offered to B-TRIALS-2 only if budget remains after #656/#641 (direction: adopt the attempt with the same Stripe idempotency key;
   re-prove the lease right before the Stripe call). #334 B-334-3/4 -> NEEDS FIX ROUND (no builder under freeze).
+- 20:44 PDT B-TRIALS-2 DONE (last builder): backend #656 @079e9e39 (FIX ROUND 2+3; composes with #654 in either order; #608 entries
+  for trial usage + notice rows), backend #641 @0d3d04de (FIX ROUND 4: Sol RC closed, B-641-7 double partial-refund reversal fixed,
+  15-minute reversal retry job), NEW mobile #338 @0db17866 (coach trial-days input; pairs with #656). All green. #627 NOT started
+  (budget) -> NEEDS FIX ROUND #627 B-627-9 narrowed. Stash check: no stashes left in either clone; #654/#334 heads match B-RECUR-BE's
+  report (795110b7 / 0629d506), nothing lost.
+  Rulings: (1) card removed mid-trial still shows "will charge" and no trial-ending notice (Stripe charges nothing) -> backlog
+  follow-up (store card state on the purchase). (2) head-coach reversal still owed after 23 h: accepted for v1 ONLY if the stop raises
+  an operator alert (Sentry/ops alert, not just a log line) — lenses check; manual Stripe reconciliation runbook line owed.
+  Running agents now 1: AUD-SOL-114B (told to finish its queue and end with QUEUE EMPTY).
