@@ -166,3 +166,13 @@ Mobile:
   never reach the lock screen (check #648 coverage); branch wip/B-JOURNEY-5-c6094 is contained in #609 and can be deleted.
 - 19:33 PDT mobile #327 @9c8b2b06 dual APPROVE (Opus + Sol merge-only delta), CLEAN. #608 @be6b5841: Sol APPROVE delta; Opus delta and
   2 checks pending. Pair merges together when #608 is dual + green.
+- 19:41 PDT MERGED backend #608 -> ec911328 (dual APPROVE @be6b5841: Sol 02:31Z, Opus 02:37Z; required green; current with main) and
+  mobile #327 -> 4f1d74d8 (dual APPROVE @9c8b2b06). Apple 5.1.1(v) deletion + data export now on main. Deploy: waits for main CI at
+  ec911328 (release-please red = pre-existing on main since 53b6d472, not required). Env manifest unchanged (no env-sync); migrations:
+  #608 deletion + 20270221000000 data-export bucket (C-636-6 GO, 19:16 note).
+- 19:41 PDT S-COACH-MOB-4 DONE: mobile #332 @c89c5f7e (FIX ROUND 1, stacked on #329) + #329 @3a90f28a (FIX ROUND 4) READY. Order: audit
+  #332, merge it into #329's branch, delta-audit #329, merge #329 with #641. Backlog: real .csv attachment needs expo-file-system in
+  mobile package.json (follow-up, recommended); branch wip/S-COACH-MOB-4-money superseded.
+- 19:41 PDT B-UGC-8 DONE: backend #652 FIX ROUND 1 @fb33823f (five #610 findings closed). Conflicts with main after #608 in 3 deletion
+  files -> B-AUDIT-GATE resolves as FIX ROUND 2 (take #608's files, port 17606f6c's two tests). Lenses wait for that head. Migration
+  prefix 20270301000000 kept (operator default).
