@@ -155,3 +155,7 @@ Mobile:
   Step 2 (rolled-back DO block) not run: write-capable; the supautils grant is the equivalent proof. Step 3 verify.sql runs in the
   release itself (release step 4). Receipt key (Sol C-608-7): DELETION_RECEIPT_SECRET unset -> key derived from RECENT_AUTH_SECRET; keep
   RECENT_AUTH_SECRET unchanged until receipts drain (30 days) or set a dedicated DELETION_RECEIPT_SECRET before first receipts (backlog).
+- 19:20 PDT S-COACH-BE-4 DONE: backend #641 FIX ROUND 3 @fb29fb9e (B-641-5/B-641-6 gaps closed with failing-before tests; main 2e3094b9
+  merged). READY once its 6 pending required checks finish (CI backlog ~80 queued backend runs, all live heads). Lenses AUD-OPUS-114B /
+  AUD-SOL-114B poll it. Merge note: #641 and #656 edit the same package files; second to merge resolves (B-TRIALS-2 is still running).
+- 19:20 PDT #608 @be6b5841 / #327 @9c8b2b06: CI pending (3 each), merge-only deltas owed by both lenses. Then merge pair + deploy.
