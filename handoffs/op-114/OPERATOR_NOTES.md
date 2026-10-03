@@ -186,3 +186,13 @@ Mobile:
   (with the manifest seam); #641 Sol RC 5964824477 -> B-TRIALS-2 (sole writer of #641 + #656); #332 Opus RC + Sol BLOCK -> S-DUNNING-R6.
   Dual-approved now: mobile #312 @2b54e151 (merges after #609 deploys). Every other T4 head now needs an Opus verdict nobody can give
   until SCALE 2 -> those become NEEDS OPUS rows for the next operator.
+- 20:06 PDT DEPLOYED backend ec911328 (#645 + #663 + #608 incl. #636) — fly-deploy run 37091836055 (release_sha ec911328,
+  migrations=apply-migrations; production environment approved by operator under the standing approval; main required CI green at
+  ec911328, release-please red pre-existing). Verified: /health 200 (uptime 28 s), /readyz db up; migrations
+  20270220000000_data_export_archive_cleanup + 20270221000000_data_export_storage_bucket finished 03:05:25Z, 0 unfinished; bucket
+  data-exports private, export policy present (release verify.sql passed); POST /api/me/delete-account 401 and
+  POST /api/account-deletion/receipt 401 without a token (routes live). Env manifest unchanged (no env-sync).
+  Still owed before Apple submission: device pass of deletion (disposable client + coach accounts) and one Apple revocation after
+  the owner sets APPLE_SIGNIN_KEY_ID / APPLE_SIGNIN_PRIVATE_KEY via fly-apple-signin-set.yml (owner action).
+- 20:06 PDT B-FEE-R8 DONE: #627 FIX ROUND 8 @cd332bfa (B-627-9 + C-627-2 + main ec911328), 11/11 green, CLEAN. Sol delta queued;
+  NEEDS OPUS (no Opus lens running). B-RECUR-BE told to merge cd332bfa into #654.
