@@ -1,8 +1,21 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-02 18:25 PDT (agent 114 takeover section below). Previous header: 2026-10-02 16:06 PDT, Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-03 10:08 PDT (agent 115 takeover section below; agent 114 section follows). Previous header: 2026-10-02 16:06 PDT, Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
+
+## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
+- Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
+- Single writer for operator state from 10:08 PDT 10-03. Agent 114 and sub-manager 114-S have 0 agents (drain complete 20:57 / 20:14 PDT 10-02).
+- STOP-AND-DRAIN (owner 10-02 19:05 PDT) still in force: no agents launched or re-tasked until the owner says exactly "SCALE 2".
+- Verified 10:06 PDT 10-03: production /health ok (uptime 50443 s = ec911328 deploy 20:06 PDT), /readyz db up; backend main ec911328, mobile
+  main 4f1d74d8, main required CI green on both (release-please red, pre-existing, not required). Every open PR head on both repos matches
+  the 115 handoff board; no PR updated since 05:00Z 10-03 (mobile #325 7566d38f, still draft). Backend npm audit gate PASSES on main today
+  (only the OR-114-2 braces exception applies, 28 days left; multer moderate is non-blocking, fix in #664).
+- Supabase production (read-only): org plan still FREE; 0 unfinished migrations; production has 1 account (the system coach), so the
+  owner coach sign-up (C04) has not happened yet.
+- Commit identity: handoff identity "TGP Agent 115" applies; DECISION_LOG 2026-09-28 (owner) removed identity as a delivery gate.
+- Restart plan on "SCALE 2": handoffs/op-115/AGENT-115-HANDOFF.md section 8 (lenses first, then builders; merge train unchanged).
 
 ## AGENT 114 TAKEOVER 2026-10-02 18:13 PDT — operator agent 114, session d11c4bf8 (recorded 18:25 PDT)
 - Owner message to agent 114 (verbatim): "Read all documents closely - Treat the oeprator prompts as stale, but still important. Treat the autonymy document as your MENTALITY. Treat agent rules as THE LAWS YOU ABIDE BY ABOPVE ALL. Treat the model routing doctrine as HOW to execute PR's".
