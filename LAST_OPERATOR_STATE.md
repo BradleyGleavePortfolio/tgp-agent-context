@@ -77,6 +77,12 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   deploys; then a builder merges main resolving app.json keeping both hunks (OR-115-5) -> merge-only delta audits. #335: take C-335-4 (copy must
   be true when a coach lost access) in the same refresh round, since #335 needs a new head anyway (BEHIND). CoachEarnings: OR-113-13 default
   stands (hide the Settings row if #332 misses release). 15 agents left.
+- 11:45 PDT ENDED: B-SCHED-ROMAN. #634 finished (dual APPROVE 3d989702; operator head e18e8055 Opus merge-only APPROVE, Sol pending,
+  build-and-test rerun requested). #651 split partly done before PAUSE: A = #665 (draft, base main, 9d54333a, 4,113 lines), B = #666 (draft,
+  base A, 07429136, 1,735 lines), C = branch agent115/roman-split-c-live @b866db3a (failing-before tests only; fixes for B-651-1/-4/-5 on
+  agent115/roman-651-r2-wip-unsplit @675cf045). #651 still open at a8fa651c. Not queued for audit. Next-wave decision: #665 exceeds the
+  3,000-line hard limit (opened during the rule change) -> bring it under 3,000 (e.g. move the 1,009-line personas fixture with the eval
+  harness to C, or split the context service) before any audit. #603 carry-over and #653 not started. 14 agents left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
