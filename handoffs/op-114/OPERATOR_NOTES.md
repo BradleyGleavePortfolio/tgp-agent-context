@@ -201,3 +201,10 @@ Mobile:
   program copies only) 11/11 green; mobile #328 @dd347633 (TS fix, "Not saved — no edit access" label) 3/3 green, Opus APPROVE at this
   head. Sol queued for both; #640 NEEDS OPUS. Order #640 deploy -> #328. Running agents now 6: B-RECUR-BE, B-AUDIT-GATE, B-TRIALS-2,
   S-DUNNING-R6, B-NOTIF-5, AUD-SOL-114B.
+- 20:14 PDT B-RECUR-BE DONE: backend #654 @795110b7 (B-654-1 fixed server-side on setup_intent.succeeded; trial cleanup never cancels a
+  saved-card trial; Opus Cs; extra error fields allowlisted per code; share link from unconnected coach -> PACKAGE_COACH_NOT_CONNECTED;
+  #627 cd332bfa merged; no manifest entries needed) + mobile #334 @0629d506 (expired-attempt fresh key, new codes copy, PACKAGE_IS_FREE
+  fallback; Opus APPROVE at this head). Sol queued for both; #654 NEEDS OPUS.
+  PRE-DEPLOY OWNER/OPERATOR ACTION for #654: add `setup_intent.succeeded` to the platform Stripe webhook endpoint's events (without it
+  trials start only while the app polls). Order: #627 -> retarget #654 to main -> #654 (+ #656) -> deploy -> #628 deployed -> #334.
+  Running agents now 5: B-AUDIT-GATE, B-TRIALS-2, S-DUNNING-R6, B-NOTIF-5, AUD-SOL-114B.
