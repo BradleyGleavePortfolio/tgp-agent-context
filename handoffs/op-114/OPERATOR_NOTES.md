@@ -62,3 +62,10 @@ Mobile:
   Sol lane finished (QUEUE EMPTY); re-queued by message when #608/#327/#654/#334/#611 are ready. C-627-2 seam: whichever of #627/#608 lands
   second classifies ChargeSettlement.coach_user_id/head_coach_user_id, PayeeRecovery.payee_user_id, PayoutAdjustmentNotice.payee_user_id in
   #608's finance-retention manifest -> assigned to B-EXPORT-5 (expected order: #627 first).
+- 18:45 PDT RULING OR-114-2 (all backend PRs, incl. 114-S): the required check "npm audit (high+critical, whole graph)" now fails on
+  every backend PR because of GHSA-vfj7-8cjw-p6xm (braces <= 3.0.3, dev-only via micromatch, NO patched version). Builders must NOT
+  chase it inside feature PRs and must not edit the lockfile for it. Lane B-AUDIT-GATE (operator) opens one T4 PR on main: time-boxed
+  (expires 2026-10-31), dev-only-verified, self-expiring exception; the gate stays fail-closed for everything else. After it merges,
+  each backend PR merges main when it is next in the merge train. Auditors judge PRs on their own content meanwhile.
+- 18:44 PDT B-EXPORT-5: backend #608 FIX ROUND 8 @1cbecbdc (CodeQL 0 open alerts; 10/11 green, npm audit = OR-114-2); mobile #327 main
+  merge @06c0f175 (3/3 green, CLEAN). Both lenses re-queued for deltas.
