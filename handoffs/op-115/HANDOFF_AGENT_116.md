@@ -159,7 +159,7 @@ update-branch; "DIRTY" = conflict. Re-verify every head before acting.
 | PR | Head (full) | Base | Size | Verdicts at head | Next step | Lane report |
 |---|---|---|---|---|---|---|
 | backend #611: feat(public-pages): accurate privacy policy, consumer health data priv | `5eac8f21bb70460da7dea7be5ce9f84f40870afb` | `main` | +2057/-240 | none at 5eac8f21 (prior dual APPROVE was at 1af96efa) | Opus + Sol audit FIX ROUND 7 (owner answers O-611-1..6). Then update-branch #611 and #315 and merge them together; that publishes the policy. App Store blocker. | handoffs/op-115/reports/B-MOB-A-115.md |
-| backend #627: fix(billing): coach payout = price - actual Stripe fee - 2% (S-FEE) | `66162285882d75d7619542c9aa581da5cc93145d` | `main` | +13626/-1220 | none at 66162285 (Opus APPROVE and Sol RC 0/1/0 were at 3a5338d7) | Opus + Sol audit FIX ROUND 10 (B-627-10 fixed, main 0d33c4d4 merged). Merge with mobile #321. Follow-up PR for C-627-10 after merge. | handoffs/op-115/reports/B-FEE-9-115.md |
+| backend #627 (SPLIT into #681 -> #686; see section 12): fix(billing): coach payout = price - actual Stripe fee - 2% (S-FEE) | `66162285882d75d7619542c9aa581da5cc93145d` | `main` | +13626/-1220 | none at 66162285 (Opus APPROVE and Sol RC 0/1/0 were at 3a5338d7) | Opus + Sol audit FIX ROUND 10 (B-627-10 fixed, main 0d33c4d4 merged). Merge with mobile #321. Follow-up PR for C-627-10 after merge. | handoffs/op-115/reports/B-FEE-9-115.md |
 | backend #628: fix(dunning-v2): live-ready 10-day lockout + native card update, 1A pa | `dc47e0efe2270e21a00ab8d038a9e7dbb415efe9` | `main` | +11352/-982 | none at dc47e0ef | Opus + Sol audit FIX ROUND 8 (B-628-11, B-628-13, C-628-14/15). Merge with mobile #322. | handoffs/op-115/reports/B-DUNNING-7-115.md |
 | backend #641 (SPLIT into #674 -> #676 -> #677 + #675; see section 12): feat(money): coach Money read model, truthful Connect status + refresh | `f60ed603c4d2e8bb97b6dbd12408a975a0d2590a` | `main` | +6671/-67 | none at f60ed603 (Sol RC 0/4/1 and Opus RC 0/1/1 were at 02cd3f88) | Opus + Sol audit FIX ROUND 5. Migration 20270314000000 (4 nullable columns + unique index on ChargeRefund). Then deploy, merge #332 into #329's branch, ship #329, retarget #340. | handoffs/op-115/reports/B-COACH-5-115.md |
 | backend #648: feat(notifications): deliver inbox notifications to devices via Expo p | `22de1182c3caef1f6e7da8550d74eaf66fb51344` | `main` | +3081/-116 | none at 22de1182 (Sol RC 0/1/0 was at ab607b34) | Opus + Sol audit FIX ROUND 4. Migration 20270307000000 was edited in place; confirm it is not in prod _prisma_migrations before deploy. | handoffs/op-115/reports/B-NOTIF-6-115.md |
@@ -364,3 +364,11 @@ Progress log (newest last):
   (2,863, head 17be43d5) -> #680 R3 webhooks + fix-round specs (2,480, head 8d556f88). Tree at #680 = refreshed #654. `tsc` passes at
   all three; local jest R2 98/98, R3 all seven b-recur suites 133/133. Unposted Sol draft 0/3/0 (AUD-SOL-MONEY reports) applies to
   R2/R3: builder round. Retarget #678 to main after #627 merges. Mobile #334 pairs with #680. Owner adds setup_intent.succeeded.
+- 13:04 PDT. **#627 coach net payouts split (6 pieces).** #627 @ 66162285 (14,846 lines, BEHIND) merged with main d23fa317 locally
+  (clean), cut with an import-order check (ops tool deps.py, copy in handoffs/op-115/tools/split/): #681 F1 schema + fee policy + ledger
+  + Stripe transfer API + checkout call sites (base main, 2,333, head 68a6fa17) -> #682 F2 transfer orchestrator (2,529, 72646af5) ->
+  #683 F3 charge settlement + reconciliation (2,895, fcbfe751) -> #684 F4 checkout/refund/sweep/notice wiring (2,464, dd674ca7; first
+  live money change) -> #685 F5 specs (2,958, 5c892c39) -> #686 F6 specs (1,667, 6d0d96c4). Tree at #686 = refreshed #627. `tsc`
+  passes at all six; local jest per piece: 83, 13, 26, 85, 67, 169, all passing. Recurring stack rebased onto #686 (no conflicts): #678
+  87981adb -> #679 f6cc1d8f -> #680 f957ab8b; #678 base is now agent115/fee-split-6-recovery-specs; tsc + 169/169 at #680. Mobile #321
+  pairs with #686. Merge order for the money chain: #681..#686 -> deploy -> #678..#680 -> deploy (with #334) -> trials #671..#673.

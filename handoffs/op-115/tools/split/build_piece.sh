@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# build_piece.sh <worktree> <refreshed-sha> <resolved.json> <piece> <new-branch> <from-ref>
+# Creates <new-branch> at <from-ref>, applies piece files from <refreshed-sha>, runs tsc and the piece's specs. Does NOT commit.
+set -uo pipefail
+wt=$1; R=$2; plan=$3; k=$4; br=$5; from=$6
+cd "$wt" || exit 1
+git reset -q --hard && git clean -fdq -e node_modules && git checkout -q -f -B "$br" "$from" || exit 1
+files=$(python3 -c "import json,sys; r=json.load(open('$plan')); print('\n'.join(p for p,v in r.items() if v==$k))")
+for f in $files; do
+  if git cat-file -e "$R:$f" 2>/dev/null; then git checkout "$R" -- "$f"; else git rm -q -f "$f" 2>/dev/null || true; fi
+done
+git add -A
+echo "piece $k: $(git diff --cached --shortstat)"
+NODE_OPTIONS=--max-old-space-size=6144 timeout 900 npx tsc --noEmit -p tsconfig.json > /tmp/tsc_piece.log 2>&1; echo "tsc=$?"; head -8 /tmp/tsc_piece.log
+specs=$(echo "$files" | grep -E '\.spec\.ts$' | tr '\n' ' ')
+if [ -n "$specs" ]; then NODE_OPTIONS=--max-old-space-size=4096 timeout 1200 npx jest $specs --runInBand 2>&1 | grep -E "^Tests:|^Test Suites:|✕|FAIL" | head -12; fi
