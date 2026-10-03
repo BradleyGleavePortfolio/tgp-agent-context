@@ -196,3 +196,8 @@ Mobile:
   the owner sets APPLE_SIGNIN_KEY_ID / APPLE_SIGNIN_PRIVATE_KEY via fly-apple-signin-set.yml (owner action).
 - 20:06 PDT B-FEE-R8 DONE: #627 FIX ROUND 8 @cd332bfa (B-627-9 + C-627-2 + main ec911328), 11/11 green, CLEAN. Sol delta queued;
   NEEDS OPUS (no Opus lens running). B-RECUR-BE told to merge cd332bfa into #654.
+- 20:10 PDT S-MWB-4 DONE: backend #640 @176e4f0e (S-MWB-3 claims verified; OR-112-18 autosave/undo owner + visibility rule built here
+  with 403 codes; live test moved; #608 seam: drip dispatcher keeps fair-share + deleted-account filter, manifest deletes client
+  program copies only) 11/11 green; mobile #328 @dd347633 (TS fix, "Not saved — no edit access" label) 3/3 green, Opus APPROVE at this
+  head. Sol queued for both; #640 NEEDS OPUS. Order #640 deploy -> #328. Running agents now 6: B-RECUR-BE, B-AUDIT-GATE, B-TRIALS-2,
+  S-DUNNING-R6, B-NOTIF-5, AUD-SOL-114B.
