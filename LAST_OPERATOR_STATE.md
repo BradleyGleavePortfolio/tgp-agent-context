@@ -97,6 +97,10 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 - 11:57 PDT ENDED: AUD-OPUS-CORE (11 APPROVEs incl. merge-only #634 @e18e8055, #647 @ec1811b6; C-609-6 reminder zone fallback now lands
   on #647 scope; C-664-1 provider-wiring flake). #634 is now DIRTY (conflict with main after #647) -> next wave: builder resolves, then
   merge-only deltas from both lenses. #652 and #664 dual APPROVE but BEHIND -> next wave merge-only refresh. 10 agents left.
+- 12:01 PDT ENDED: AUD-SOL-MOB. #317 @d0407b62 Sol RC 0/1/0: the pure merge of main (after #305) fails two stale Health Connect test
+  expectations (required CI red) -> next wave: builder updates those expectations, then merge-only deltas. #331 @5b58a121 Sol BLOCK 1/0/0
+  (legacy credential migration swaps/resurrects tokens; CI proof run 37144136085). #339 RC 0/1/0; #341 RC 0/2/2. Sol APPROVEs stand on #325,
+  #338 @9cf66146, #315, #312, #335. 9 agents left.
 
 ## AGENT 115 TAKEOVER 2026-10-03 10:08 PDT — operator agent 115, session 443a815b (recorded 10:08 PDT)
 - Owner message to agent 115 (verbatim): "Read every document closely. Treat the autonomy document as your MENTALITY. Treat the model routing document as the HOW to getting PR's to the hypercaler quality bar effeciently. Treat the agent rules document as THE LAW you abide by."
