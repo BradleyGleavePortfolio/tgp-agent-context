@@ -1,6 +1,6 @@
 # TGP Operator — current state (agent 119 -> agent 120)
 
-Updated: 13:23 PDT 10-04 (from `date`). CURRENT-STATE document: agent 119 overwrites sections 0, 3, 5 and 6 at every milestone;
+Updated: 14:02 PDT 10-04 (from `date`). CURRENT-STATE document: agent 119 overwrites sections 0, 3, 5 and 6 at every milestone;
 history goes to LAST_OPERATOR_STATE.md. Agent 120 copies it to handoffs/op-120/HANDOFF_AGENT_121.md on arrival.
 GitHub is the truth: verify every head and verdict there before acting on any line here (section 2 has a script that does it).
 
@@ -18,17 +18,15 @@ GitHub is the truth: verify every head and verdict there before acting on any li
 - Agent cap: 15 concurrent (owner 12:28 PDT 10-04) until 13:22 PDT; at 13:22 stop-and-drain to 5 active, then 5 concurrent (owner
   12:49). Credits: 9.4k/45k at 12:49 (owner).
 
-- Status 13:23 PDT (agent 119; FLEET.md has every verdict). DRAIN to 5 active started 13:22 (7 running: B-DUNSPLIT-119, B-FEES18-119,
-  B-RECUR7B-119, B-TR4-119, AUD-SOL-S12B-119, AUD-OPUS/SOL-R12D-119). No launches until 5 or fewer, then 5 concurrent.
-  Fees: all DUAL APPROVE except #684 (B-684-3/4/5/7/8) -> B-FEES18-119 (+ C-686-3 log renames vs main's #700 check, scratch top+main
-  full-suite proof). Then #684/#697 pair + #685/#686 restack check, land as one, delta lenses on #681 final head (main overlaps
-  email.service.ts, email.types.ts, notifications.service.ts), deploy WITH migrations, subscribe Stripe endpoint to refund.updated.
-  Recurring: #678 09e159d8 / #679 23d2c04c FR7 READY (R12D pair auditing); #680/#696/#701 with B-RECUR7B-119 (B-680-1/2 + C-680-12).
-  Trials: B-TR4-119 (B-672-3, B-673-1/2; new tests-only T4). Sheet: m#342/#343 Opus APPROVE, Sol S12B finishing; m#344 FR3 READY 8f53887a.
-  Coach: #674 8cc17809, #676 ecaf75fd, #677 6340993b, NEW #703 d60a6d58 (tests) all READY -> lens pair when a slot frees.
-  HC: m#364 dual APPROVE; m#362 Sol RC (B-362-2 partial, B-362-6) -> B-HC5-119 queued. Lockout: RC both (dispute copy vs
-  R-DISPUTE-PAUSE) -> B-LOCK2-119 after the D2c mobile contract. Wizard: Opus APPROVE, Sol RC (B-345-1, B-346-3) -> B-WIZ2-119 queued.
-  Priority when slots free: fees pair > R34 delta > trials delta > sheet #344 pair > coach pair > HC/lockout/wizard builders > dunning.
+- Status 14:02 PDT (agent 119; FLEET.md has every verdict). 119 merges 0, deploys 0 so far. Cap 5 concurrent since 13:25.
+  Running: B-HC5-119 (finishing; m#362-#364 READY), B-FEES19-119 (#684 B-684-12 refund-status race + Sol B-684-3 final send boundary;
+  tests #697; restack #685/#686; scratch top+main proof), AUD-SOL-R34D-119 (#680/#696/#701), AUD-OPUS-S123-119 + AUD-SOL-S123-119
+  (m#342-#344). Landing tooling: ops/op119/land_fees.sh (A = fast-forward piece branches + candidate on #681; B = merge). The old
+  candidate wip/op119/land-fees 0bc3696d is dead (contains #684 9fb9c48f); rebuild = merge origin/main into the new #686 top + apply
+  ops/reports/B-FEES18-119-no-pii-baseline.patch as its own commit; lenses then verdict #681 at that exact head.
+  Next on free slots: AUD-SOL-T23D-119 (entry in JOBS119), builder for #701 B-701-1 (5 `as any`) once Sol R34D posts, fees pair on
+  B-FEES19's heads, HC delta pair (m#362 FR3 73dbefbc, m#363 f62f1bbe, m#364 b261f218), coach pair (#674/#676/#677/#703), dunning
+  pairs (#687/#688/#704/#705), B-LOCK2, B-WIZ2, B-DUNB.
 
 ## Launch path (7 steps)
 
@@ -93,24 +91,21 @@ wip/op119/ops-snapshot; lanes are ops/lanes119 (JOBS119.md, _COMMON_119.md). Ste
 6. Readback to the owner (scoreboard, what you verified, anything MOVED, first wave, decisions), then launch wave 1 (section 6)
    without waiting.
 
-## 3. State by stack (rebuilt from GitHub 12:03 PDT 10-04; re-verified by agent 119 12:20-12:27: all heads and verdicts unchanged)
-
-Sizes are changed lines. "RC" = REQUEST_CHANGES. Verdict comment ids are on the PRs; findings and Cs in ops/reports/<JOB>.md and
-ops/op118/FOLLOWUPS.md.
+## 3. State by stack (from GitHub at 14:02 PDT 10-04, agent 119; `python3 ops/op118/state.py backend|mobile <n..>` rebuilds it)
 
 | stack | PRs (head, size) | verdicts / state | next action |
 |----|----|----|----|
-| Fees (job one) | #681 e9650dc4 2,956; #682 70f879a2 2,999; #683 cc183e0a 2,959; #684 6b13af56 2,435; #697 88c72200 1,831; #685 c5e282fb 2,958; #686 8cb7b2d4 1,355 (top) | #681, #682 dual APPROVE. #683 FIX ROUND 16 READY (closes Sol B-683-7/B-683-8; Opus APPROVE was at the prior head); red by design: 9 tests in 3 suites that #684 carries. #684/#697/#685/#686 merge-only restacks READY (FR16/FR17). SIZE ASSESSMENT KEEP on #682, #683, #685: any further change moves tests up first | lens pairs (section 6), merge top-down as one, deploy |
-| Recurring (most critical) | #678 77bce450 2,411; #679 8bbf4a41 2,932; #680 216489ff 2,766; #696 276610a3 1,910; #701 72eb096b 416 | All READY (B-RECUR6A #678/#679; B-RECUR6B #680 FR6, #696 FR6 with real test changes, #701 FR1). No lens at these heads | lens pairs can start now at these heads; after fees is final, operator restacks onto the fees top and both lenses run a short delta at the new heads; lands with sheet + #661 |
-| #661 PaymentSheet | #661 f80f0088 2,843; #702 20d2eb4f 513 | dual APPROVE both | after fees deploy: refresh, short lens deltas, merge #702 into agent/clinic/b-secrets-3 first, update PR descriptions (C-661-13); conflict map vs recurring (2 files, 6 hunks) in ops/reports/B-RECUR6B-118.md |
-| Payment sheet (mobile) | m#342 56f281ad 2,018; m#343 fd739d58 2,813; m#344 e7fcc5d2 2,086 | #342 Opus APPROVE, Sol RC (timeout claims no charge; zero-decimal amounts 100x too small); #343 RC both (Opus B-343-6 free-claim copy; Sol 3 B); #344 RC both (Sol B-344-1..4, Opus B-344-5/6) | B-SHEET2 (#342/#343), then B-SHEET3 (#344); entry text in JOBS118 "## B-SHEET2-118" |
-| Trials | #671 c75002c9 2,291; #672 2690c07c 2,961; #673 5fdb5f5c 2,887; mobile #338 48b5e6b5 | #671 dual APPROVE; #672/#673 FIX ROUND 9 READY (Opus APPROVE at old heads); m#338 dual APPROVE (BEHIND) | lens pair T23; land after recurring with the C-656-1 #680 list |
-| Coach | #674 f9e21a87 2,948; #676 ccd60bbc 2,981; #677 4799c6af 2,918 | #674, #676 RC both; #677 none | B-CM5 (JOBS118 QUEUED item 7), then lenses; mobile #345-#351 after deploy |
-| Dunning | #687 38d9b3ab 2,974; #688 2368d5fa 2,976; #689 bb992fed 2,913; #690 06307883 2,913; #691 e0afe678 2,742; #642 4fee3c02 75 | #687 FR2 / #688 FR3 READY (B-DUNA). #689 RC both (B-689-5); #690 Sol RC, Opus APPROVE; #642 dual APPROVE (BEHIND) | B-DUNSPLIT: split #688 and build R-DISPUTE-PAUSE (section 9); then B-DUNB (D3/D4; pass the dispute event time as closedAt in D4); then lenses; FEATURE_DUNNING_V2 stays off until the pinned lockout-copy fix lands |
-| Health Connect (mobile) | m#359 e0f3d2a7; m#360 fde1875e 2,812; m#361 574b32a8 1,793; m#362 b3bc0ce4 2,835; m#363 2858bac5 982; m#364 529ba345 2,937 | #359/#360/#361 dual APPROVE; #362 FR2, #363 restack, #364 FR2 READY (B-HC4) | lens pair #362+#364, then #363 delta; land as one; owner device pass; flag flip |
-| Mobile lockout | m#352 ac244d22 2,341; m#353 05d84f27 2,520; m#354 f084cc0f 1,119 | READY | lens pair #352+#353, then #354 |
-| Mobile coach setup / money | m#345 97c9005e 2,580; m#346 2baea5b8 2,609; m#347 3beab160 2,592; m#348 90501f84; m#349 35aa8163, m#350 6fb21216 (red by design); m#351 352d768e | #345/#346 READY; #347 needs a W3 fix round | lens pair #345+#346, then W3 builder |
-| Remainder | programs m#355-#358 (no verdicts); m#335 641fe891 (dual APPROVE, BEHIND); m#312 8016a79e; m#339 8165ca95 (DIRTY); m#340 2e77dcb6 | | after the stacks above |
+| Fees (job one) | #681 e9650dc4 2,956; #682 70f879a2 2,999; #683 cc183e0a 2,959; #684 9fb9c48f 2,679; #697 c2585c97 2,276; #685 a61d50f4 2,958; #686 30a118dd 1,355 (top) | DUAL APPROVE all except #684 (RC both: B-684-12 refund-status race; Sol B-684-3 final send boundary). #682/#683 red by design (tests #684 carries) | B-FEES19-119 running; then pair on #684/#697 (+#685/#686 restack check) + rebuilt landing candidate; land_fees.sh; deploy WITH migrations (20270210000000_s_fee_charge_settlement); Stripe endpoint we_1UMt9WDUoC5CCVhShvAELVmI add refund.updated |
+| Recurring (most critical) | #678 09e159d8 2,594; #679 23d2c04c 2,943; #680 f267417a 2,779; #696 13c9a6c8 2,197; #701 d624144c 615 | #678/#679 DUAL APPROVE; #680/#696 Opus APPROVE (FR7), Sol R34D auditing; #701 Opus RC B-701-1 (5 `as any` -> R75 +1 on fees top) | after Sol R34D: #701 builder (tests typing); after fees lands: retarget #678 to main, merge-only restack, short deltas; HARD obligations C-680-18/19 to dunning |
+| #661 PaymentSheet | #661 f80f0088 2,843; #702 20d2eb4f 513 | dual APPROVE both | after fees deploy: refresh, short deltas, lands with recurring |
+| Payment sheet (mobile) | m#342 e3226f3b 2,207; m#343 691e0cf0 2,935; m#344 7e17d142 2,866 | FR3/FR3/FR4 READY (B-SHEET4) | S123 pair running; lands with recurring |
+| Trials | #671 c75002c9; #672 62c2c066 2,968; #673 904b9642 2,947; #706 a3f01163 423 (tests); m#338 48b5e6b5 | #671 dual APPROVE; #672/#673/#706 Opus APPROVE (T23D); Sol T23D queued; m#338 dual APPROVE | Sol T23D; land after recurring as one |
+| Coach | #674 8cc17809 2,975; #676 ecaf75fd 2,984; #677 6340993b 2,918; #703 d60a6d58 460 | FR4 READY (B-CM5); no lens at these heads | coach pair |
+| Dunning | #687 c260a849 2,822; #688 f29fc201 2,440 (D2a); #704 276a9f60 694 (D2b); #705 279ec167 1,287 (D2c = R-DISPUTE-PAUSE); #689 bb992fed; #690 06307883; #691 e0afe678; #642 4fee3c02 | D1/D2a/D2b/D2c READY, no lens; #689 RC both; #690 Sol RC; #642 dual APPROVE | dunning pairs; B-DUNB (retarget #689 onto #705; carry C-680-18/19, end access + mark disputed before pausing) |
+| Health Connect (mobile) | m#359 e0f3d2a7; m#360 fde1875e; m#361 574b32a8; m#362 73dbefbc 2,913; m#363 f62f1bbe 1,385; m#364 b261f218 2,937 | #359-#361 dual APPROVE; #362 FR3 / #363 / #364 READY (B-HC5) | HC delta pair; land as one; owner device pass |
+| Mobile lockout | m#352 ac244d22; m#353 05d84f27; m#354 f084cc0f | RC both on #352/#353 (dispute copy vs R-DISPUTE-PAUSE + Sol Bs) | B-LOCK2 (D2c contract reason 'dispute_paused') |
+| Mobile coach setup | m#345 97c9005e; m#346 2baea5b8; m#347 3beab160 | #345/#346 Opus APPROVE, Sol RC (B-345-1, B-346-3) | B-WIZ2 |
+| Remainder | programs m#355-#358; m#335 641fe891 (dual APPROVE, BEHIND; touches navigators); m#312; m#339 (DIRTY); m#340 | | after the stacks above |
 
 Fast-follow (decision 1 default): push #692-#693 (FCM key), Roman (#667-#670, #331), S-SCHED-2 (#634, #653, mobile #365-#367, #336),
 annex (#655, #657-#660, mobile #337), #643/#650, mobile #341.
@@ -133,22 +128,19 @@ recreated, Health apps declaration, Data safety answers). Remaining, by his choi
 1. Day-1 scope: fast-follow as listed in section 3 (default).
 2. LAUNCH_ONE_PAGER.md: approve as drafted (default).
 3. #661 at 3,121 lines: enforced, tests moved to #702 (done on the default, reversible).
-4. Delete leftover ci/* branches from 116 jobs (B-T12-116 x4, B-W2-116 x2) and wip/op116/B-W2-116-360: yes (default). Only on his word.
-Closed 10-04: Stripe destination; credit cap 5A; R-DISPUTE-PAUSE (also closes the 118 FOLLOWUPS question on disputes on never-failed
-recurring plans); agent cap 15 concurrent (12:28). Operator defaults taken and logged in ops/op118/FOLLOWUPS.md:
-recurring narrower past_due exemption; deletion consumes only granted/own-card trials; HC Samsung row mirrors HC; privacy URL
-https://app.trygrowthproject.com/privacy; Connect-destination webhook is a fast-follow.
+4. Delete leftover ci/* branches from 116 jobs: yes (default). Only on his word.
+5. Failed refund after access ended: alert only, coach decides, no automatic restore (default).
+6. Dispute inquiries (Stripe early warnings) also pause the plan: yes (B-DUNSPLIT default).
+7. Full refund on a recurring plan: pause billing like R-DISPUTE-PAUSE, coach restarts (default; C-680-16).
+Operator defaults taken 10-04 (agent 119): recurring past_due exemption removed (any write after the decline read redelivers);
+#701 casts typed by a builder; C-680-18 hard obligation on whichever of recurring/dunning lands second, FEATURE_DUNNING_V2 off until
+then; C-680-19 into the R-DISPUTE-PAUSE build; C-673-6 with C-673-4 in the #680 integration round; one "no longer offered" wording.
 
-## 6. Fleet and queue (cap 15 concurrent, owner 12:28 PDT 10-04)
+## 6. Fleet and queue (cap 5 concurrent, owner 12:49 PDT 10-04)
 
-Running since 12:30 PDT (handoffs/op-119/FLEET.md has the subagent ids; entries in handoffs/op-119/JOBS119.md):
-fees lens pairs F3 (#683), F4 (#684 + #697), F56 (#685 + #686); recurring lens pairs R12 (#678 + #679), R34 (#680 + #696); trials
-lens pair T23 (#672 + #673); builders B-SHEET2-119 (m#342/#343 + restack m#344), B-DUNSPLIT-119 (split #688 into D2a/D2b/D2c with
-R-DISPUTE-PAUSE in D2c; #687 dispute copy), B-CM5-119 (#674/#676 + #677).
-Queue as slots free: R5 pair (#701); HC pair (m#362/#364, then #363 delta); lockout pair; wizard pair; B-SHEET3-119 (m#344);
-B-DUNB-119 (on the B-DUNSPLIT D2 top); coach M4 #677 pair; dunning D1-D4 + D5 (#691 + #642) pairs; programs; remainder.
-Operator: as soon as fees has dual APPROVE at every head, land fees as one (rule 11) + deploy; merge-only restack recurring onto the
-final fees top and ask the R12/R34 lenses (or fresh ones) for short deltas.
+Running (14:02): B-HC5-119, B-FEES19-119, AUD-SOL-R34D-119, AUD-OPUS-S123-119, AUD-SOL-S123-119 (ids in FLEET.md).
+Queue: AUD-SOL-T23D-119; B-RECUR8-119 (#701 typing) after Sol R34D; fees pair (FL2) on B-FEES19 heads + new landing candidate; HC delta
+pair; coach pair; dunning pairs; B-LOCK2-119; B-WIZ2-119; B-DUNB-119; programs; remainder.
 
 ## 7. Operating playbook (116-118 lessons, made rules)
 
