@@ -5,7 +5,14 @@ Agent 116 starts at handoffs/op-115/HANDOFF_AGENT_116.md.
 Owner-set orders that outlive any one operator session. Newest first. AGENT_RULES.md is the law, the EXECUTE doctrine is the mentality,
 MODEL_ROUTING.md is the method; this file lists standing owner orders that sit on top of them. Each order points to its source.
 
-## 1. PR size gate (owner, 2026-10-03 11:02 PDT) — MODEL_ROUTING.md section 8.2, DECISION_LOG.md
+## 0. PR size: 1,500 lines is the automatic fail (owner, 2026-10-04 12:33 PDT) — replaces the 3,000 limit in section 1
+- Verbatim: "I want to grandfather all active PR's - but I want any PR over 1500 lines to autofail, replacing the old 3k LOC rule".
+- Any PR opened after 12:33:16 PDT 2026-10-04 over 1,500 changed lines (same counting) fails automatically: never routed to audit;
+  lenses answer REQUEST CHANGES "SIZE FAIL (over 1,500 lines)"; the builder splits it. No SIZE ASSESSMENT step any more.
+- Grandfathered: every PR open at that moment (governance/PR_SIZE_GRANDFATHERED_2026-10-04.md). Operator default: they keep the
+  3,000 ceiling they were built under. Builders check their diff size before opening a PR and before every push.
+
+## 1. PR size gate (owner, 2026-10-03 11:02 PDT) — MODEL_ROUTING.md section 8.2, DECISION_LOG.md (SUPERSEDED by section 0 for new PRs)
 - HARD LIMIT (owner 11:26 PDT): any PR over 3,000 changed lines is an automatic fail ("a huge waste of credits and extends wasted
   rounds"). Never route it to audit; lenses answer REQUEST CHANGES "SIZE FAIL" without reviewing; the builder splits it. Builders check
   their own diff size before opening a PR and before every push. PRs open on 2026-10-03 are grandfathered.
@@ -42,3 +49,11 @@ MODEL_ROUTING.md is the method; this file lists standing owner orders that sit o
 
 ## Amendment 2026-10-03 21:15 PDT — merge-only refresh exception (owner)
 A pure main merge where every PR file stays byte-identical does not need new lens verdicts: the operator posts a MERGE-ONLY TREE CHECK and the prior dual verdicts carry over. Exact conditions and exclusions: MERGE_DEPENDENCY_GUIDE.md rule 12. Everything else that moves a head still needs new verdicts at the exact head.
+
+## Amendment 2026-10-04 12:33 PDT — PR size: 1,500 lines is the automatic fail (owner)
+Owner, verbatim: "I want to grandfather all active PR's - but I want any PR over 1500 lines to autofail, replacing the old 3k LOC rule".
+Any PR opened after 12:33:16 PDT 2026-10-04 that exceeds 1,500 changed lines (additions + deletions; lockfiles, generated files and
+snapshots excluded; tests count) fails automatically: no audit, lens verdict REQUEST CHANGES "SIZE FAIL (over 1,500 lines)", the builder
+splits it. This replaces the 3,000 line hard limit and the 1,500 line SIZE ASSESSMENT. Every PR open at that moment is grandfathered
+(list: governance/PR_SIZE_GRANDFATHERED_2026-10-04.md); operator default: grandfathered PRs keep the 3,000 ceiling they were built under.
+New pieces target under ~800 lines of non-test source.

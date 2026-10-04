@@ -42,7 +42,9 @@ GitHub is the truth: verify every head and verdict there before acting on any li
   IS FAST / I WANT MORE, NOT LESS FUNCTIONALITY IF THE CHOICE ARISES." Recurring packages: "LITERALLY MOST CRITICAL OF ALL"; never
   one-time-only. Don't cancel his scope.
 - No spending without his word. Supabase Pro: he upgrades on launch day 1. EAS stays on Free (10-04 12:10).
-- PR size: over 3,000 changed lines = automatic fail, no grandfathering. 1,500-3,000 = operator SIZE ASSESSMENT comment.
+- PR size (owner 12:33 PDT 10-04): any PR opened after 12:33:16 over 1,500 changed lines = automatic fail (replaces the 3,000 rule and
+  the SIZE ASSESSMENT). Every PR open then is grandfathered (governance/PR_SIZE_GRANDFATHERED_2026-10-04.md) and keeps its 3,000
+  ceiling (operator default). New split pieces (D2b/D2c, M5) must be under 1,500.
 - One job = one agent = one or two PRs, then it ends. Concurrency is his call: 5 concurrent since 10:32 PDT 10-04.
 - Never name the clinic partner anywhere (tgp-agent-context is PUBLIC). Copy: no first person. Branch protection changes need his
   exact words. Times only from `date` (America/Los_Angeles). Deleting leftover ci/* branches from old jobs: only on his word.

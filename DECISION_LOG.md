@@ -1701,3 +1701,13 @@ all 7 launch paths are done / exsposed key deleted / all to-dos have been handle
 Verbatim: "Agent cap is now 15 concurrent (my word, replaces the 10:32 cap of 5)." / "launch all 15 in parallel".
 - Agent 119 launched 15 at 12:30 PDT: fees F3/F4/F56, recurring R12/R34 and trials T23 lens pairs; builders B-SHEET2-119,
   B-DUNSPLIT-119 (R-DISPUTE-PAUSE), B-CM5-119 (handoffs/op-119/JOBS119.md, FLEET.md). Coach and dunning builders run in parallel.
+
+## 2026-10-04 12:33 PDT — PR size: over 1,500 lines fails automatically; open PRs grandfathered (owner, to agent 119)
+Verbatim: "I want to grandfather all active PR's - but I want any PR over 1500 lines to autofail, replacing the old 3k LOC rule".
+- New rule: any PR opened after 12:33:16 PDT 2026-10-04 over 1,500 changed lines (additions + deletions; lockfiles, generated files and
+  snapshots excluded; tests count) is an automatic fail. Replaces the 3,000 line hard limit and the 1,500 line SIZE ASSESSMENT.
+- Grandfathered: all 179 PRs open at that moment across the owner's repositories (governance/PR_SIZE_GRANDFATHERED_2026-10-04.md).
+  Operator default (reversible by the owner): grandfathered PRs keep the 3,000 ceiling they were built under.
+- Applied: AGENT_RULES.md G21 + amendment, MODEL_ROUTING.md 8.2 + amendment, OPERATOR_STANDING_ORDERS.md section 0,
+  MERGE_DEPENDENCY_GUIDE.md rule 10, operator lanes (_COMMON_119.md). Running builders told at 12:33 (B-DUNSPLIT-119 new pieces,
+  B-CM5-119 optional M5). Enforcement follow-up: a danger fail rule above 1,500 for PR numbers past the grandfather list.

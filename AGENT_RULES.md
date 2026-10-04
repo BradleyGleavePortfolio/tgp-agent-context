@@ -158,7 +158,7 @@ Separate findings from incomplete review and infrastructure failure. Preserve wo
 
 Question the need, delete unnecessary work, simplify, then accelerate and automate what remains. Favor clear ownership, existing suitable primitives, and cohesive code. Introduce abstractions, caching, dependencies, and process only for a demonstrated problem.
 
-Use measured limits and context, not universal line counts, comment ratios, mandatory library reuse, or aesthetic doctrine. Owner directive 2026-10-03: a PR over 1,500 changed lines is a liability; the operator must assess it for a logical split at its first READY FOR AUDIT (MODEL_ROUTING.md section 8.2). The 1,500 line mark is an assessment trigger; 3,000 changed lines is a hard limit and an automatic fail (owner directive 2026-10-03; open PRs as of that date are grandfathered). Address a bug's relevant repeated causes without turning a bounded change into unlimited refactoring. Customer quality and maintainability still matter.
+Use measured limits and context, not universal line counts, comment ratios, mandatory library reuse, or aesthetic doctrine. Owner directive 2026-10-04 12:33 PDT (replaces the 2026-10-03 3,000 line limit and 1,500 line assessment): a PR over 1,500 changed lines fails automatically; PRs open at that moment are grandfathered (MODEL_ROUTING.md section 8.2; amendment below). Address a bug's relevant repeated causes without turning a bounded change into unlimited refactoring. Customer quality and maintainability still matter.
 
 ### G22: Make governance earn its cost
 
@@ -168,3 +168,11 @@ Measure cycle time, review effort, rework, escaped defects, incidents, recovery,
 
 ## Amendment 2026-10-03 21:15 PDT — merge-only refresh exception (owner)
 A pure main merge where every PR file stays byte-identical does not need new lens verdicts: the operator posts a MERGE-ONLY TREE CHECK and the prior dual verdicts carry over. Exact conditions and exclusions: MERGE_DEPENDENCY_GUIDE.md rule 12. Everything else that moves a head still needs new verdicts at the exact head.
+
+## Amendment 2026-10-04 12:33 PDT — PR size: 1,500 lines is the automatic fail (owner)
+Owner, verbatim: "I want to grandfather all active PR's - but I want any PR over 1500 lines to autofail, replacing the old 3k LOC rule".
+Any PR opened after 12:33:16 PDT 2026-10-04 that exceeds 1,500 changed lines (additions + deletions; lockfiles, generated files and
+snapshots excluded; tests count) fails automatically: no audit, lens verdict REQUEST CHANGES "SIZE FAIL (over 1,500 lines)", the builder
+splits it. This replaces the 3,000 line hard limit and the 1,500 line SIZE ASSESSMENT. Every PR open at that moment is grandfathered
+(list: governance/PR_SIZE_GRANDFATHERED_2026-10-04.md); operator default: grandfathered PRs keep the 3,000 ceiling they were built under.
+New pieces target under ~800 lines of non-test source.

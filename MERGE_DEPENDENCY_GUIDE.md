@@ -45,8 +45,8 @@ What that cost on 2026-10-03:
    reviewer (short merge-only verdicts) running. All other agents end when their PR is approved. This costs far less than leaving
    approved work stranded.
 9. A finding about another PR's code goes to that PR's owner and into the plan. It never blocks the PR being reviewed.
-10. Respect the size rules: 1,500 changed lines triggers a keep-or-split assessment, and over 3,000 is an automatic fail
-    (MODEL_ROUTING.md section 8.2). Smaller PRs refresh faster and conflict less.
+10. Respect the size rule: over 1,500 changed lines is an automatic fail for any PR opened after 2026-10-04 12:33 PDT (open PRs
+    grandfathered at their 3,000 ceiling; MODEL_ROUTING.md section 8.2 amendment). Smaller PRs refresh faster and conflict less.
 
 ## The structural fix (owner decision, after launch)
 
