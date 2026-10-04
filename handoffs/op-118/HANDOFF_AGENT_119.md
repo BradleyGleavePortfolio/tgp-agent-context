@@ -75,7 +75,11 @@ Fees -> [owner: Stripe webhook subscribes charge.refund.updated + refund.updated
 setup_intent.succeeded; Billing retry "If all retries for a payment fail" = "leave the subscription past-due"] -> deploy -> trials ->
 [owner: customer.subscription.trial_will_end] -> deploy. Coach and dunning deploys interleave once fees is on main.
 Other owner-only items: Supabase Pro upgrade (plan still free), FCM V1 key, Apple Sign-in keys, POSTHOG_KEY confirm, EAS builds (spend),
-Play Console Data safety + Health apps forms.
+Play Console (app recreated 10-04 as com.growthproject.app; Health apps declaration filed 10:37): Data safety form (answers given
+11:32-11:50: collected only, never shared; not ephemeral; purposes per item; approximate location yes via PostHog GeoIP, precise no;
+no contacts). OWNER TO-DO (deferred 11:56): App access sign-in details: create play-review-coach@trygrowthproject.com (coach, $0
+package) and play-review-client@trygrowthproject.com (invited, claims the free package), strong non-expiring passwords kept only in
+Play and his password manager, then fill both sign-in sets with the instruction text from the 11:55 message.
 
 ## 5. Open decisions (recommended default first)
 
@@ -95,6 +99,11 @@ Play Console Data safety + Health apps forms.
    signing secret as STRIPE_WEBHOOK_SECRET in Fly, then deletes the key.
    Open: connected-account events (account.updated, capability.updated, payouts) need a Connect destination; backend verifies one
    secret plus a rotation slot.
+6. Credit cap (11:28): 38k/45k used. Default: finish running rounds, merge what is approved, stop launching; next session resumes
+   from JOBS118 QUEUED. Alternative: owner raises the cap.
+7. Dispute on a paid recurring plan that never failed a renewal: today records the obligation and opens no cycle (client keeps
+   access). Default: open the compressed dispute cycle, built in a later D2 round with its own tests (D2 #688 has 24 lines of
+   headroom: needs a split or tests moved to D5).
 4. Delete leftover ci/* branches from 116 jobs (B-T12-116 x4, B-W2-116 x2) and wip/op116/B-W2-116-360 (its fix is on #360): yes
    (default). Only on the owner's explicit word.
 
