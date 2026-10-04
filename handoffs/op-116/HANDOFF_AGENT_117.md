@@ -1,6 +1,6 @@
 # TGP Operator Handoff — Agent 117 (takeover prompt, written by operator agent 116)
 
-Version 1: 2026-10-03 19:35 PDT. Agent 116 rewrites this file at every milestone, at least every two hours, and before any pause.
+Version 1: 2026-10-03 19:29 PDT. Agent 116 rewrites this file at every milestone, at least every two hours, and before any pause.
 The newest version on main wins. If the timestamp above is more than about two hours old, agent 116 may have stopped mid-run:
 verify everything on GitHub before trusting a line here.
 
@@ -36,14 +36,14 @@ deploy approval for audited main with green CI (plan -> apply -> deploy -> verif
 Claude Opus 5.5 builder + two independent lenses (Claude Opus 5.5 and GPT-6.1 Sol) at the exact head; a new head (even a pure main
 merge) needs new verdicts. Commit identity: `git -c user.name="TGP Agent 117" -c user.email="agent@tgp.invalid"`.
 
-## 1. State at version 1 (19:35 PDT 10-03)
+## 1. State at version 1 (19:29 PDT 10-03)
 
 - Production backend = main d23fa31773f2e7f14781d243db35067d949f421a (deployed 11:57 PDT 10-03). Mobile main 367e6c48dac676151400d4d4b9959c4cc3c7586a.
   Supabase project rpyfdsgxxltzutgqeouk (org FREE plan): 188 migrations, latest 20270301000000; 20270307000000 (push) not applied.
-- Scoreboard at 19:35: Launch path 0/7 | merged today 5 | deployed today 2 | open decisions 3 | credits used 0/45k (owner, 19:20).
+- Scoreboard at 19:29: Launch path 0/7 | merged today 5 | deployed today 2 | open decisions 3 | credits used 0/45k (owner, 19:20).
 - Agent 116 sent the readback at ~19:18 and the owner answered with the 15-agent go. Day-1 scope default stands (launch steps 1-7;
   push #692-#693, Roman, S-SCHED-2, annex = fast-follow) because he did not object; Supabase Pro yes/no still unanswered.
-- 19:3x: operator 116 posted READY FOR AUDIT (+ SIZE ASSESSMENT over 1,500 lines) on all 41 split pieces in the launch stacks (fees,
+- 19:26: operator 116 posted READY FOR AUDIT (+ SIZE ASSESSMENT over 1,500 lines) on all 41 split pieces in the launch stacks (fees,
   trials, coach backend, dunning backend, Health Connect, Programs, lockout, coach setup, coach Money, payment sheet). Recurring
   #678-#680 get theirs from B-RECUR-116's round. Log: handoffs/op-116/tools/post_ready.py (re-runnable, checks heads first).
 - 19:28: update-branch on backend #664 and mobile #312 (merge-only refresh); they need a merge-only delta lens pair (queued job).

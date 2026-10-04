@@ -1,15 +1,15 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-03 19:35 PDT (agent 116 wave section below). Earlier: 2026-10-03 19:17 PDT (agent 116 takeover section). Earlier: 2026-10-03 10:08 PDT (agent 115 takeover section below; agent 114 section follows). Previous header: 2026-10-02 16:06 PDT, Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-03 19:29 PDT (agent 116 wave section below). Earlier: 2026-10-03 19:17 PDT (agent 116 takeover section). Earlier: 2026-10-03 10:08 PDT (agent 115 takeover section below; agent 114 section follows). Previous header: 2026-10-02 16:06 PDT, Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 
-## 2026-10-03 19:35 PDT — agent 116: 15-agent wave launched (one or two PRs per agent)
+## 2026-10-03 19:29 PDT — agent 116: 15-agent wave launched (one or two PRs per agent)
 - OWNER 19:20 (verbatim): "start with 15 paralized agents on the biggest jobs" / "Can you actively, confidently, correctly takeover for
   the now stopped and retired agent 115?" / "can you, periodically, create the takeover prompt for agent 117?" Credits 0/45k (owner).
 - OWNER 19:25 (verbatim): "dont use agents on multiple PR's - it takes away from the depth of scrutiny if they just did one or two PR's
   per turn". Applied: every agent = one job of one or two PRs (handoffs/op-116/lanes/JOBS.md, _COMMON_116.md, FLEET.md).
-- READY FOR AUDIT (+ SIZE ASSESSMENT over 1,500 lines, all KEEP) posted on 41 split pieces at verified heads; by-design reds only
+- 19:26 READY FOR AUDIT (+ SIZE ASSESSMENT over 1,500 lines, all KEEP) posted on 41 split pieces at verified heads; by-design reds only
   (#682/#683 build-and-test, #349/#350 Typecheck). #682/#685/#690 Schema parity failures were stale first attempts (latest runs pass).
 - 19:27 launched 15: AUD-{OPUS,SOL}-PRIV (#611 then #315 delta), -F12 (#681 #682), -F34 (#683 #684), -F56 (#685 #686 + tree check),
   -CM1 (#674 #676), -D12 (#687 #688); builders B-RECUR-116 (#679/#680 Sol draft findings), B-661-116 (#661 round 3), B-CI-116 (jest

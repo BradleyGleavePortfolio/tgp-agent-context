@@ -3,13 +3,13 @@
 Owner 2026-10-03 19:20 PDT: "start with 15 paralized agents on the biggest jobs". 19:25 PDT: "dont use agents on multiple PR's - it
 takes away from the depth of scrutiny if they just did one or two PR's per turn". Read _COMMON_116.md first, then only your entry.
 Heads verified 19:15-19:30 PDT 10-03; re-read the head before acting. The operator posted READY FOR AUDIT (and a SIZE ASSESSMENT where
-over 1,500 lines) on every split piece at these heads at 19:3x PDT. All jobs are T4 unless stated.
+over 1,500 lines) on every split piece at these heads at 19:26 PDT. All jobs are T4 unless stated.
 Builders: Claude Opus 5.5. Lenses: Claude Opus 5.5 (AUD-OPUS-*) or GPT-6.1 Sol (AUD-SOL-*). Each lens pair = same PRs, independent.
 
 Launch path (HANDOFF_AGENT_116.md 0.1): 1 privacy -> 2 money chain (fees -> deploy -> recurring -> deploy -> trials -> deploy) ->
 3 coach onboarding + Money -> 4 failed payments -> 5 Health Connect day 1 -> 6 approved remainder + Programs -> 7 builds and review.
 
-## WAVE 1 (launched 19:4x PDT)
+## WAVE 1 (launched 19:27 PDT)
 
 ### AUD-OPUS-PRIV-116 / AUD-SOL-PRIV-116 — backend #611, then mobile #315 (launch step 1, store blocker)
 1. backend #611 @ 5eac8f21bb70460da7dea7be5ce9f84f40870afb (accurate privacy policy, consumer health notice). Both lenses APPROVED
