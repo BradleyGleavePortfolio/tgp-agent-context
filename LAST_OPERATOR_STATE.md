@@ -1,8 +1,26 @@
 # LAST OPERATOR STATE
-Updated: 2026-10-03 10:08 PDT (agent 115 takeover section below; agent 114 section follows). Previous header: 2026-10-02 16:06 PDT, Operator: Computer, agent 112, session 6870f2ca
+Updated: 2026-10-03 19:17 PDT (agent 116 takeover section below). Earlier: 2026-10-03 10:08 PDT (agent 115 takeover section below; agent 114 section follows). Previous header: 2026-10-02 16:06 PDT, Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
+
+## AGENT 116 TAKEOVER 2026-10-03 19:15 PDT — operator agent 116, session 9dcf27cd (recorded 19:17 PDT)
+- Owner message to agent 116 (verbatim): "Treat the agent rules as the LAW / Treat the autonomy document as your MENTALITY / Treat the
+  model routing document as the PROCESS / Treat the agent 116 (your agent 116) prompt as MY FIRST PROMPT TO YOU".
+- Single writer for operator state from 19:15 PDT 10-03. Agent count 0. STOP-AND-DRAIN in force until the owner says exactly "SCALE 2".
+- Documents reconciled: the owner's TGP-Agent-Rules.docx carries the pre-adoption header "PROPOSED, NOT EFFECTIVE"; AGENT_RULES.md is the
+  adopted copy (EFFECTIVE 2026-09-18) with the same G01-G22 text plus the G21 size directive, so AGENT_RULES.md governs. G05 identity is
+  superseded by DECISION_LOG 2026-09-28 (identity is not a gate); commits use "TGP Agent 116". The routing docx equals MODEL_ROUTING.md
+  plus section 8.2. The attached handoff matched HANDOFF_AGENT_116.md except the later Play Console wording and section 15 (repo wins).
+- Verified 19:15-19:20 PDT (read-only): LIVE_QUEUE regenerated (80 PRs); every head, base, draft flag and size equals the 18:46 copy, so
+  nobody acted since agent 115. Only change: #364 CI finished (78ee52c0, CLEAN). #685/#690 schema-parity entries are stale (gh pr checks:
+  pass). Reds are the by-design set only: #682/#683, #349/#350, #668-#670 (plus annex #655/#657/#660, mobile #337, not launch path).
+  Mains: backend d23fa317, mobile 367e6c48; required checks green on both (release-please red, pre-existing, not required). No open
+  PR updated since 18:45 except 115's #317/#364 comments; no fly-deploy since run 37145909812; 0 queued or running workflow runs.
+- Production: /health ok, uptime 26295 s (= d23fa317 deploy 11:57 PDT); /readyz db up. Supabase (read-only): org plan FREE;
+  _prisma_migrations 188 rows, 0 unfinished, latest 20270301000000; 20270307000000 (push) absent; app User rows 1 (system coach);
+  ConnectAccount 0.
+- Readback sent to the owner; waiting for his go (SCALE 2 or a sized crew per HANDOFF section 5).
 
 ## 2026-10-03 18:47 PDT — agent 115: Health Connect decision applied; handoff passover
 - OWNER 18:42 (verbatim): "the clinic build ships Health Connect - absolutely need health connect on and running day 1". #364 -> 78ee52c0

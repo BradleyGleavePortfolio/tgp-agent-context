@@ -47,7 +47,7 @@
     "size": 2,
     "draft": false,
     "state": "OPEN",
-    "merge": "UNKNOWN",
+    "merge": "BEHIND",
     "fail": [],
     "pending": 0
   },
@@ -60,7 +60,7 @@
     "size": 10,
     "draft": false,
     "state": "OPEN",
-    "merge": "UNKNOWN",
+    "merge": "BEHIND",
     "fail": [],
     "pending": 0
   },
@@ -99,7 +99,7 @@
     "size": 2058,
     "draft": false,
     "state": "OPEN",
-    "merge": "UNKNOWN",
+    "merge": "BEHIND",
     "fail": [
       "build-and-test"
     ],
@@ -130,7 +130,7 @@
     "size": 2565,
     "draft": false,
     "state": "OPEN",
-    "merge": "UNKNOWN",
+    "merge": "BEHIND",
     "fail": [],
     "pending": 0
   },
@@ -667,7 +667,7 @@
     "size": 1052,
     "draft": false,
     "state": "OPEN",
-    "merge": "UNKNOWN",
+    "merge": "BEHIND",
     "fail": [
       "Typecheck, lint, test"
     ],
@@ -1024,9 +1024,9 @@
     "size": 2882,
     "draft": true,
     "state": "OPEN",
-    "merge": "UNSTABLE",
+    "merge": "CLEAN",
     "fail": [],
-    "pending": 1
+    "pending": 0
   },
   {
     "repo": "growth-project-mobile",
