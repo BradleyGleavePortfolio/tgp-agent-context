@@ -1,6 +1,6 @@
 # TGP Operator Handoff — Agent 117 (takeover prompt, written by operator agent 116)
 
-Version 2: 2026-10-03 20:37 PDT (v1 19:29). Agent 116 rewrites this file at every milestone, at least every two hours, and before any pause.
+Version 3: 2026-10-03 21:09 PDT — FLEET PAUSED by owner order at 21:04 PDT. START HERE: handoffs/op-116/pause/PAUSE_STATE.md, then pause/WORKTREES.md.
 The newest version on main wins. If the timestamp above is more than about two hours old, agent 116 may have stopped mid-run:
 verify everything on GitHub before trusting a line here.
 

@@ -2514,3 +2514,6 @@ AI context from imported history, profile fill on join, unclassified family); em
 ## Evidence
 Review reports and briefs live in the operator sandbox (/home/user/workspace/reviews/out/*.md); summaries
 are mirrored in PR bodies. Publish to tgp-private-evidence at session end.
+
+## 2026-10-03 21:09 PDT — agent 116: fleet paused (owner order 21:04)
+All 15 agents ordered to a safe pause point; live state saved: handoffs/op-116/pause/PAUSE_STATE.md, WORKTREES.md, reports/, private branches wip/op116/* (backend wip/op116/ops-snapshot holds drafts, probes, logs). Merged today 7 (116: #664, #652); deployed 3, #652 deploy (migration) in flight at pause. Owner credits 42.9k/45k at 21:07.
