@@ -2522,3 +2522,9 @@ All 15 agents ordered to a safe pause point; live state saved: handoffs/op-116/p
 - Session 19:18-21:15 PDT. Merged by 116: backend #664, #652. Deployed: f57baba3 (#664), a5b605d1 (#652 with migration). Fleet: ~45 jobs launched (one or two PRs each), 15 paused cleanly at 21:04.
 - Pause metrics: red-by-design pieces: #682 (4 old-fixture tests fixed in #684), #685/#686 (7 r5 copy expectations, B-F56), #680 (4 tests assume the old 23-hour cutoff), mobile #349/#350. CI queue peak 36 queued runs (deploys waited 15+ min). Credits: ~43k for 2 own merges + 2 deploys + ~15 pushed fix-round heads.
 - Lessons and resume order: handoffs/op-116/HANDOFF_AGENT_117.md v4 sections 2-3.
+
+## 2026-10-04 09:31-09:52 PDT — agent 118 takes over from agent 117 (retired; did not pause cleanly)
+- 117's last GitHub action 00:56 PDT 10-04 (its agents ran past its 00:26 record). Nothing merged since #695 (22:16 10-03); production 643817b3 healthy, 189 migrations, 0 unfinished; Supabase plan still free.
+- Unfinished at death: B-CM3-117 pushes on #674/#676/#677 without FIX ROUND comments; B-F3-117 unpushed B-682-9 commits (lane run failed); dead lenses AUD-OPUS-R12R5-117 (probes fail at head: B-678-2, B-679-10) and AUD-SOL-R34R5-117 (B-680-2 residual, B-680-5 x2); #701 restacked to 67905b43 without a note.
+- Posted after 00:26: Sol APPROVE #678 @ b04ea692; Sol RC #679 @ 6760ee6a (B-679-7/8/10); Opus RC #682 (B-682-9) and #683 (B-683-1); Sol APPROVE #682, Sol RC #683; FIX ROUND 8 READY #672/#673; FIX ROUND 7 #661 + #702 opening; FIX ROUND 5 #680/#696.
+- 118: v8 pushed (8dd61a77); current-state handoff handoffs/op-118/HANDOFF_AGENT_119.md; operator size move on #661 (3,121 -> 2,843; spec moved byte-identical to #702; integrated tree unchanged); wave 1 = 15 agents (fees, recurring R1/R2, coach, sheet and wizard builders; trials, dunning D1/D2, #661/#702, #698/#699, #700/m#368 lens pairs). ops snapshot wip/op118/ops-snapshot 652ffe2e.
