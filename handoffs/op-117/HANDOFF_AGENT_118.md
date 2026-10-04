@@ -1,6 +1,6 @@
 # TGP Operator — Takeover Prompt for Agent 118 (written and kept current by operator agent 117)
 
-Version 5: 2026-10-03 23:05 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
+Version 6: 2026-10-03 23:45 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
 GitHub is the truth: re-read every PR head and its latest AUDIT / FIX ROUND comment before acting on any line here.
 
 ## 0. Who you are and what the owner wants
@@ -113,6 +113,24 @@ gate, owner 2026-09-28). Subagent models: claude_opus_5_5 (builders, Opus lens),
   Restore with: git -C repos/growth-project-backend archive origin/wip/op117/ops-snapshot ops | tar -x -C /home/user/workspace
 - Supabase plan still "free" at 22:57 (owner upgrade pending in the dashboard).
 - Scoreboard 23:05: Launch path 1/7 | merged today 12 | deployed today 5 | open decisions 2 | credits used 0/45k (owner's last number).
+- 23:10-23:45: fees round 13 done (B-FEES-117): #681 e9650dc4, #682 be26e289 (red by design 4), #683 536de5c2 (red by design 9),
+  #684 d3e8ceb2, NEW #697 F4b tests 2ae0c3c9, #685 aaecdb8d, #686 a1747759 (main b644198b merged into #681). Owner action before the
+  fees deploy: Stripe webhook must subscribe to charge.refund.updated and refund.updated. Operator restacked recurring merge-only onto
+  #686 a1747759 via update-branch (identical patch-ids, restack comments + READY posted): #678 0c2191c0, #679 f48fa8f0, #680 8e05ad0e,
+  #696 34a41818.
+- Verdicts: #681 Sol APPROVE 0/0/0 (round 13); #682 Sol RC 0/1/0 (B-682-4 incomplete successful list responses falsely prove absence
+  -> duplicate transfers/reversals); Opus F12R13 running. #678 dual APPROVE (Sol 0/0/0, Opus 0/0/1). #679 Sol RC 0/3/0 + Opus RC 0/2/1
+  (abandoned trial checkout charged at trial end; failed-cancel retry says nothing charged while trial live). #680 Sol RC 0/3/1; Opus
+  APPROVE then WITHDRAWN by lens note (late decline vs just-paid plan; delayed invoice.paid over newer unpaid). #696 dual APPROVE.
+  #661 r5: Opus APPROVE 0/0/4, Sol RC 0/2/0 (B-661-3 subcase, new B-661-9) -> B-661-R6-117 running. #671 Sol APPROVE; #672 Sol RC 0/2/1
+  (B-672-3 superseded trial warnings, B-672-4 email requests across timeout/retry); Opus T12 running.
+- New PRs: backend #698 (data-export order + archive paging bug: >500 rows could repeat/miss), #699 (SBOM check fail-closed), #700
+  (no emails/names in logs; Apple steps iOS 18+), mobile #368 (DeleteAccountScreen Apple Account copy). All READY, no verdicts yet.
+- Running (5): B-661-R6-117 (b_661_r6_117_661_round_6_mutf65ga), AUD-OPUS-F12R13-117 (aud_opus_f12r13_117_fees_681_682_mutfbknb),
+  AUD-OPUS-T12-117 (aud_opus_t12_117_trials_671_672_mutfv37t), AUD-SOL-CM1R2-117 (aud_sol_cm1r2_117_coach_674_676_mutfxcky),
+  B-RECUR5A-117 (b_recur5a_117_recurring_678_679_round_5_mutg0lg6). Next: B-RECUR5B-117 (#680/#696), fees F2 builder after Opus
+  F12R13, trials T2 builder after Opus T12, then lens queue (JOBS117.md).
+- Scoreboard 23:45: Launch path 1/7 | merged today 12 | deployed today 5 | open decisions 2 | credits used 0/45k (owner's last number).
 
 ## 2. Agents in flight (23:05 PDT; job board handoffs/op-117/JOBS117.md, common rules _COMMON_117.md)
 Concurrency floor 5 (owner 22:17: drain back to 5 and keep 5). Running now (5):
@@ -215,4 +233,5 @@ apps forms.
 - v2 21:52 PDT: #611 + #315 merged; verdict results; queued builder rounds.
 - v3 22:07 PDT: launch step 1 deployed; #675 and #694 merged; four builders launched.
 - v4 22:24 PDT: #695 merged; wave 2 launched (15 running); current agent table.
+- v6 23:45 PDT: fees r13, recurring restack + verdicts, new follow-up PRs #697-#700/#368.
 - v5 23:05 PDT: builders done (recurring, #661, coach, dunning, trials, HC READY); mobile P/L/S verdicts; lens queue; ops snapshot.

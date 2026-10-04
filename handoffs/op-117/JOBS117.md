@@ -215,13 +215,12 @@ compare-and-set success path, Stripe 401/403 retryable) plus the composed PR. Yo
 ops/aud-117/AUD-SOL-661-117/.
 
 ## AUD-OPUS-R12-117 / AUD-SOL-R12-117 — recurring R1 #678 + R2 #679 (MOST CRITICAL)
-Heads: #678 2174eb7cd13c7560f0bb447b6fa560e9070de05b, #679 0e1cfde00f6293c0ddf4ee9e2c99f5321bbe2cb8 (FIX ROUND 4, READY; stacked on fees
-#686 e6893c97). Fees round 13 (B-FEES-117) will restack these merge-only later: audit the current heads now; a later merge-only
-delta is cheap. Read B-RECUR3-117 report and every prior verdict on #678/#679 (and the original #654 thread).
+Heads (23:20, operator merge-only restack onto fees #686 a1747759; identical patch-ids, see ops/post117/recur-restack.txt): #678
+0c2191c0767f7492125a5302a018a20232ab61e9, #679 f48fa8f0c41160338e20b9b9561a3d7f65dd8670 (code = FIX ROUND 4 heads 2174eb7c / 0e1cfde0). Read B-RECUR3-117 report and every prior verdict on #678/#679 (and the original #654 thread).
 
 ## AUD-OPUS-R34-117 / AUD-SOL-R34-117 — recurring R3 #680 + R4 #696 (tests)
-Heads: #680 d1c62ee100e4abd72c21295c32f8b32e450981da (FIX ROUND 4 READY, 2,927 lines: SIZE ASSESSMENT owed by operator), #696
-48e690cdd46e9f0d77f03322d6b7e2c969cb2828 (R4 tests moved unchanged from #680; READY pending green).
+Heads (23:20 restack): #680 8e05ad0ecf11b5ebf6c1002956bb99616702abe8 (code = FIX ROUND 4 d1c62ee1; operator SIZE ASSESSMENT KEEP
+issuecomment-5977034793), #696 34a41818ee8aa559660304a1513661ed95d04932 (R4 tests moved unchanged from #680).
 
 ## AUD-OPUS-T12-117 / AUD-SOL-T12-117 — trials T1 #671 + T2 #672; then AUD-*-T3-117 #673
 Heads: #671 c75002c9eef3ebc4dd7c41d537fc38028635e4dc, #672 6ce54002226a957fa612e5cdfced7c9cf12a71fc, #673
@@ -237,3 +236,53 @@ email that still promises "your access stays on" during dunning must match the D
 
 ## AUD-OPUS-W2-117 / AUD-SOL-W2-117 — HC H2 #360 + H3 #361; W45 #362 + #363; W6 #364
 Heads: #360 fde1875e, #361 574b32a8, #362 439937c9, #363 38ea0f81, #364 a3206441 (B-W2-117 report). #359 e0f3d2a7 dual APPROVE.
+
+## AUD-OPUS-CIQ-117 / AUD-SOL-CIQ-117 — backend #698 (data export ordering + archive paging) + #699 (SBOM check fail-closed)
+Heads: #698 ecf8da57e7d3a8636189e028e54e8dd23399c825 (467 lines; also fixes archive reads that paged 500 rows with no sort order, so
+users with >500 rows could get repeated or missing rows — a production data-export correctness bug), #699
+40ce17578ca8b70d80a5ff8d22237ca1239062bd (221 lines). Both base main, 11/11 green, READY (B-CIQ-117 report).
+
+## AUD-OPUS-F12R13-117 / AUD-SOL-F12R13-117 — fees F1 #681 + F2 #682 (round 13); then F34R13 (#683 + #684), F4b5 (#697 + #685), F6 (#686)
+Heads (B-FEES-117 FIX ROUND 13, 23:15): #681 e9650dc4e2551adfdfd25203b53d712a5b75e32b (main b644198b merged in as its own commit),
+#682 be26e2890d3feae2d168ef0f1638d3ea4b968c96 (red by design: 4 tests), #683 536de5c292acc8cbdc54d87eedbed5a5be72edd0 (red by design:
+9 tests), #684 d3e8ceb22dcc5fe604421845173b99c9066207b0, #697 F4b tests 2ae0c3c94d281e0282a88442f9132e729366758a, #685
+aaecdb8da8e4b82b819654536b6574d44bb32805, #686 a17477598e36a996d2a2e5f68a137883bbddd75b. Read B-FEES-117 report and every prior verdict.
+Each lens: verify its own prior findings closed with code + failing-before evidence; audit the round-13 delta and the composed piece.
+
+## B-661-R6-117 (builder, Claude Opus 5.5) — #661 round 6
+Head 957e367741e07152e36ceb3ae450249358a60277: Opus APPROVE 0/0/4 (issuecomment-5977175681), Sol RC 0/2/0 (issuecomment-5977114878):
+Sol B-661-3 (remaining subcase: an unactivated adopted row can hide successful recovery of the activated owning purchase) and Sol
+B-661-9 (new: recovery restores drops despite a committed coach unassignment — recovery must respect the current coach assignment;
+never restore drops/access for a coach relationship that was ended after the failure). Sol's probes:
+ops/aud-117/AUD-SOL-661R5-117/. Also take Opus C-661-11 (row locks -> FOR NO KEY UPDATE, with a test that a concurrent writer from
+another connection is not blocked) and C-661-12 (add Opus's real-Postgres probe from ops/aud-117/AUD-OPUS-661R5-117/ to the
+mwb-3-live-tests job) since both are small and in scope. Merge main b644198b+ first (merge-only, own commit). Failing-before
+evidence; FIX ROUND 6 + READY at 11/11 green. Report: ops/reports/B-661-R6-117.md.
+
+## B-RECUR5A-117 (builder, Claude Opus 5.5) — recurring R1 #678 + R2 #679 fix round 5 (MOST CRITICAL)
+Heads: #678 0c2191c0 (Sol APPROVE 0/0/0, Opus APPROVE 0/0/1), #679 f48fa8f0 (Sol RC 0/3/0 issuecomment-5977153647: Sol B-679-4 stale
+resume fallback, Sol B-679-7 late create after closure, Sol B-679-8 unguarded rejected-bind cancellation; Opus RC 0/2/1
+issuecomment-5977231156: Opus B-679-8 Stripe charges the client's default card at trial end even if the trial checkout was abandoned
+— the billing portal on main sets that card and "cancel without a payment method" does not stop it; Opus B-679-9 after a failed
+cancel a same-key retry ends the attempt and says "Nothing was charged" while its trial is still live, so a new checkout makes a
+second live subscription; Opus C-679-3 if Stripe no longer has an attempt's subscription the client can never buy the plan). IDs
+collide across lenses: always cite with the lens name. Ruling (lens default adopted): a trial converts to paid only with the
+attempt's OWN saved payment method (set default_payment_method on the subscription from the attempt's SetupIntent; otherwise Stripe
+ends the trial without charging) — implement in the piece that owns it (#678 inert code or #679 live path; if #678 changes, both
+lenses re-audit it). Fix C-679-3 too (recoverable purchase when the subscription is gone). Fix C-678-1 comment. Size: #679 has ~62
+lines of headroom: move tests up into #696 (R4) or a new tests-only piece above #680, never weaken. Take lock `recurring`, fix
+bottom-up, failing-before evidence per fix, CI, FIX ROUND 5 (+ READY at green heads), then write one line to
+ops/lanes117/notify/recurring.txt: "R2 top: #679 @ <sha>" and release the lock. Do NOT touch #680/#696 content (B-RECUR5B-117 owns
+them and restacks onto your #679). Report: ops/reports/B-RECUR5A-117.md.
+
+## B-RECUR5B-117 (builder, Claude Opus 5.5) — recurring R3 #680 + R4 #696 fix round 5 (MOST CRITICAL)
+Heads: #680 8e05ad0e (Sol RC 0/3/1 issuecomment-5977195657: B-680-1/2/3 narrowed — stale invoice authority, concurrent decline
+writes, trial-conversion money effects; Opus posted APPROVE 0/0/4 then WITHDREW it in lens note issuecomment-5977325672 after
+confirming with failing probes run 37182851913: a late renewal decline can mark a just-paid plan past_due and reopen dunning (which
+can cancel the paid plan at grace end); a delayed invoice.paid can re-grant access over a newer unpaid state). #696 34a41818 (dual
+APPROVE, tests-only). Fix with invoice/event ordering authority (compare Stripe invoice period/created and the subscription's
+latest_invoice/status from a fresh retrieve before any state downgrade or re-grant), row-locked compare-and-set writes, and verify
+#680 grants a trial plan only once the attempt's own card is saved (Opus R12 decision 2). Size: #680 has ~73 lines of headroom: move
+#680 tests into #696 first. Work on the current #680 head now; when ops/lanes117/notify/recurring.txt shows "R2 top: #679 @ <sha>"
+from B-RECUR5A-117, merge it into #680 (merge-only), then restack #696. Failing-before evidence per fix; FIX ROUND 5 (+ READY at green
+heads). Lock `recurring` only while pushing. Report: ops/reports/B-RECUR5B-117.md.
