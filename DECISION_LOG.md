@@ -1644,3 +1644,12 @@ docs are audit-exempt under R14; product-code slices are not.
   unset = off); owner completes the Play Console Data safety, Health apps and Health Connect data-type declarations; clinic Android
   build (owner spend); device pass.
 
+
+## 2026-10-03 19:20 PDT — Fifteen parallel agents; agent 116 takes over from 115 (owner)
+Verbatim: "start with 15 paralized agents on the biggest jobs" / "Can you actively, confidently, correctly takeover for the now stopped and retired agent 115?" / "can you, periodically, create the takeover prompt for agent 117?"
+
+## 2026-10-03 19:25 PDT — One or two PRs per agent (owner)
+Verbatim: "dont use agents on multiple PR's - it takes away from the depth of scrutiny if they just did one or two PR's per turn"
+
+## 2026-10-03 21:04 PDT — Pause all agents; save live state for agent 117 (owner)
+Verbatim: "get all agents in flight to a safe pause point RIGHT NOW" / "gather their live state and get it to a safe place for oeprator 117 do pickup from!" Result: handoffs/op-116/pause/PAUSE_STATE.md.
