@@ -2528,3 +2528,12 @@ All 15 agents ordered to a safe pause point; live state saved: handoffs/op-116/p
 - Unfinished at death: B-CM3-117 pushes on #674/#676/#677 without FIX ROUND comments; B-F3-117 unpushed B-682-9 commits (lane run failed); dead lenses AUD-OPUS-R12R5-117 (probes fail at head: B-678-2, B-679-10) and AUD-SOL-R34R5-117 (B-680-2 residual, B-680-5 x2); #701 restacked to 67905b43 without a note.
 - Posted after 00:26: Sol APPROVE #678 @ b04ea692; Sol RC #679 @ 6760ee6a (B-679-7/8/10); Opus RC #682 (B-682-9) and #683 (B-683-1); Sol APPROVE #682, Sol RC #683; FIX ROUND 8 READY #672/#673; FIX ROUND 7 #661 + #702 opening; FIX ROUND 5 #680/#696.
 - 118: v8 pushed (8dd61a77); current-state handoff handoffs/op-118/HANDOFF_AGENT_119.md; operator size move on #661 (3,121 -> 2,843; spec moved byte-identical to #702; integrated tree unchanged); wave 1 = 15 agents (fees, recurring R1/R2, coach, sheet and wizard builders; trials, dunning D1/D2, #661/#702, #698/#699, #700/m#368 lens pairs). ops snapshot wip/op118/ops-snapshot 652ffe2e.
+
+## Agent 118 session history (2026-10-04 09:31-12:03 PDT)
+- 09:31 took over from agent 117 (retired); pushed handoff v8; wave 1 of 15 agents 09:47-09:52.
+- 10:25 Stripe production webhook destination replaced (acacia, 21 events; two old destinations disabled); owner set the secret in Fly.
+- 10:32 owner: stop-and-drain to 5 concurrent. Play app recreated (com.growthproject.app), Health apps declaration filed 10:37.
+- Merged #698, #699 (deployed 2af682ca ~10:42), #700 and mobile #368 (11:40; #700 deployed 3e9a9a75 11:55). No migrations.
+- Builder rounds finished READY: fees F2-F6 (B-FEES15/16), recurring R1-R5 (B-RECUR6A/6B), trials T2/T3, dunning D1/D2 (B-DUNA),
+  HC H4-H6 (B-HC4), lockout, wizard W1/W2, coach (B-CM4: RC both after). Lens verdicts and Cs in ops/reports and ops/op118/FOLLOWUPS.md.
+- 11:27 owner: 38k/45k credits; 11:28 wind-down (B-SHEET2 cancelled before any push); 12:01 owner: 5A stop + R-DISPUTE-PAUSE.

@@ -1,25 +1,22 @@
 # TGP Operator — current state (agent 118; becomes the first prompt for agent 119)
 
-Updated: 09:48 PDT 10-04 (from `date`). CURRENT-STATE document: section 3 is overwritten at every milestone; history goes to
+Updated: 12:03 PDT 10-04 (from `date`). CURRENT-STATE document: section 3 is overwritten at every milestone; history goes to
 LAST_OPERATOR_STATE.md. GitHub is the truth: verify every head and verdict there before acting on any line here.
-
-## LIVE FLEET (11:58)
-Running: none (wind-down at 38k/45k, decision 6 pending). Merged today: #698, #699, #700, m#368. Deployed: 2af682ca, 3e9a9a75.
-READY for lenses (exact heads in ops JOBS118 "QUEUE HEADS"): fees F3 #683 cc183e0a then F4 #684/#697 and F56 #685/#686 deltas (top
-#686 8cb7b2d4); recurring #678/#679 + #680 216489ff/#696 276610a3/#701 72eb096b (restack onto 8cb7b2d4 after fees verdicts); HC m#362
-b3bc0ce4/m#363 2858bac5/m#364 529ba345; trials #672/#673; dunning #687 38d9b3ab/#688 2368d5fa; lockout m#352-#354; wizard m#345-#347.
-Builders queued: B-SHEET2 (cancelled 11:28 before any push), B-SHEET3 (#344), B-CM5, B-DUNB.
 
 ## 0. Summary
 
-WIND-DOWN since 11:28 PDT (credits 38k/45k): no new launches; B-SHEET2-118 cancelled before any push (relaunch from JOBS118); B-HC4,
-B-RECUR6B, B-FEES16, AUD-OPUS-PV3 allowed to finish. Next operator: relaunch in JOBS118 QUEUED order.
-AGENT COUNT: STOP-AND-DRAIN to 5 concurrent since 10:32 PDT 10-04 (owner). Launch nothing while more than 5 run; then hold 5.
-Play Console: Google deleted the app on 2026-09-30; owner recreating it (do not investigate).
-Scoreboard: Launch path 1/7 steps done | merged today 4 | deployed today 2 | open decisions 6 | credits used 38k/45k (owner, 11:27
-PDT 10-04).
-Agent 117 retired (last GitHub action 00:56 PDT 10-04; it did not pause cleanly; all its agents are dead). Agent 118 took over 09:31.
-Production unchanged since 22:03 10-03 (backend 643817b3). Nothing merged since #695 (22:16 10-03). Wave 1 (section 6): 15 agents launched 09:47-09:52.
+Agent 118 STOPPED at 12:03 PDT 10-04 on owner decision 5A (credits 38k/45k): no agents running, no CI of ours in flight, ops/
+snapshotted to backend branch wip/op118/ops-snapshot. Agent 119: rebuild the sandbox (section 8), verify heads (section 3), then
+resume with the critical path in section 4 under the agent cap below.
+Scoreboard at stop: Launch path 1/7 steps done | merged today 4 (#698, #699, #700, mobile #368) | deployed today 2 (2af682ca,
+3e9a9a75) | open decisions 4 | credits used 38k/45k (owner, 11:27 PDT 10-04).
+AGENT COUNT: owner order 10:32 PDT 10-04 "stop-and-drain to 5 concurrent agents": hold at most 5 concurrent until the owner says
+otherwise.
+NEW BINDING RULING 12:01 PDT 10-04 (dispute pause, section 9): agent 119 splits dunning D2 #688 and builds it in its own piece.
+Play Console: app recreated as com.growthproject.app; Health apps declaration filed; Data safety in progress; App access sign-in
+accounts are an owner to-do (section 4). Do not investigate Play further.
+Stripe: production webhook destination we_1UMt9WDUoC5CCVhShvAELVmI (2024-09-30.acacia, 21 events) live since 10:25 with the new
+secret in Fly; StripeProcessedEvent was still empty at 11:00 (no real event yet). Never run backend workflow fly-secrets-set.yml.
 
 ## 1. Owner rules
 
@@ -47,31 +44,33 @@ https://backend-spring-lake-3890.fly.dev: /health 200 ok, /readyz 200 db up. Rel
 20270301000000_notification_zone_provenance_reminder_generation. Backend main b644198b (CI-only since the deploy: #694, #695). Mobile
 main 7fdb629a. Supabase org plan: free (Pro approved; owner upgrades in the dashboard). CI queue empty at 09:45.
 
-## 3. State by stack (rebuilt from GitHub 09:40-09:55 PDT 10-04)
+## 3. State by stack (rebuilt from GitHub 12:03 PDT 10-04)
 
-Sizes are changed lines (additions + deletions). "old" = verdict at an earlier head (void for merging).
+Sizes are changed lines. "RC" = REQUEST_CHANGES. A verdict counts only at the exact head. Restacks and fix rounds need both lenses
+at the exact head (rule 12); a pure main merge needs only the operator MERGE-ONLY TREE CHECK.
 
-| stack | PRs (head, size) | verdicts at head | blocker | next action |
-|----|----|----|----|----|
-| Fees (job one) | #681 e9650dc4 2,956; #682 a2051568 2,997; #683 33a9d83b 2,526; #684 7872a533 2,435; #697 b8b63e63 1,837 (F4b tests); #685 8dc2c2ed 2,958; #686 13c814f7 1,355 | #681 dual APPROVE. #682 Sol APPROVE 0/0/0, Opus RC 0/1/3 (B-682-9 banned R75 tokens in the round-14 test). #683 Sol RC 0/2/2 (B-683-1 deferred-fee currency switch; B-683-5 retry flag cleared on same-instant notice failure), Opus RC 0/1/4 (concurs B-683-1; B-683-5 as C). #684/#697: none (round 13 unaudited). #685/#686: old dual APPROVE (restacked since) | B-682-9, B-683-1, B-683-5. Red by design: #682 4 tests, #683 3 suites/9 tests | B-FEES15-118 round, restack up, lens pairs, merge top-down as one (rule 11), owner Stripe refund events, deploy |
-| Recurring (most critical) | #678 b04ea692 1,650; #679 6760ee6a 2,945; #680 9621457e 2,529; #696 5225e078 1,654 (tests); #701 67905b43 416 (tests, base #696) | #678 Sol APPROVE (Opus old APPROVE). #679 Sol RC 0/3/1 (B-679-7 deletion fence, B-679-8 rejected-bind exclusion, B-679-10 null SetupIntent = saved-card trial gap). #680, #696, #701: none at head | #679 Bs; dead-lens probes fail at head: Opus B-678-2, B-679-10; Sol B-680-2 residual, B-680-5 x2 | B-RECUR6A-118 (#678/#679), then B-RECUR6B-118 (#680/#696/#701), restack on fees, lens pairs |
-| #661 PaymentSheet | #661 f80f0088 2,843; #702 20d2eb4f 513 (tests, base #661) | none at head (FIX ROUND 7 closes Sol B-661-3; operator FIX ROUND 8 moved one spec to #702 for size, integrated tree unchanged) | lenses | AUD-*-661-118 running; land as one (rule 11) with recurring |
-| Trials | #671 c75002c9 2,291; #672 c5e7ed8e 2,977; #673 df76889f 2,627 | #671 dual APPROVE; #672/#673 none (FIX ROUND 8 READY) | lenses | AUD-*-T23-118; land after recurring with the C-656-1 #680 list; mobile #338 (dual APPROVE, BEHIND) |
-| Coach | #674 39653f80 2,859; #676 fbd6402c 2,981; #677 ed1546b6 2,918 | none at head | B-CM3-117 pushed fixes, died before FIX ROUND comments (unfinished) | B-CM4-118 verifies and posts FIX ROUND 3, then lenses; mobile #345-#351 after deploy |
-| Dunning | #687 f8e47bf4 2,717 (BEHIND); #688 b17f514c 2,926; #689 bb992fed 2,913; #690 06307883 2,913; #691 e0afe678 2,742; #642 4fee3c02 75 (dual APPROVE, BEHIND) | none at heads (old RCs answered by FIX ROUND 1-3). All CI green (old red runs are superseded) | lenses | AUD-*-D12-118 now; D34 and D5 queued; mobile #352-#354 after |
-| Health Connect | mobile #359 e0f3d2a7 (dual APPROVE); #360 fde1875e 2,812; #361 574b32a8; #362 439937c9; #363 38ea0f81; #364 a3206441 2,882 | #360 old (Opus APPROVE, Sol RC); rest none; FIX ROUND 1 READY on all | lenses | pairs H2+H3, H4+H5, H6; land as one; flag flip |
-| Payment sheet (mobile) | #342 72821495 1,685 (BEHIND); #343 af984441 2,438; #344 f629e0f9 2,079 | #342/#343 RC by both lenses | copy before proof; #661 reply codes | B-SHEET-118; lands with recurring |
-| Mobile coach setup / money | #345 a4e49588; #346 4522eb8e; #347 ea2c72d1; #348 90501f84; #349 35aa8163, #350 6fb21216 (red by design); #351 352d768e | #345/#346 RC by both lenses; rest none | builder round | B-WIZ-118 (#345/#346) |
-| Mobile lockout | #352 58b80914 (Opus APPROVE, Sol RC 0/1/0); #353 e22acc84 (RC both); #354 37ed3d56 | | builder round | B-LOCK queued (after dunning) |
-| Follow-ups | #698 ecf8da57 467; #699 40ce1757 221; #700 66569a61 936; mobile #368 2216ad1d 112 | none; READY | lenses | AUD-*-FU1-118 (#698/#699), AUD-*-FU2-118 (#700/#368) |
-| Remainder | mobile programs #355-#358 (none); #335 641fe891 (dual APPROVE, BEHIND); #312 8016a79e (approvals old at f8375ca6); #339 8165ca95 (DIRTY, Sol RC); #340 2e77dcb6 (Sol RC old) | | | after the stacks above |
+| stack | PRs (head, size) | verdicts / state | next action |
+|----|----|----|----|
+| Fees (job one) | #681 e9650dc4 2,956; #682 70f879a2 2,999; #683 cc183e0a 2,959; #684 6b13af56 2,435; #697 88c72200 1,831; #685 c5e282fb 2,958; #686 8cb7b2d4 1,355 (top) | #681, #682 dual APPROVE. #683 FIX ROUND 16 READY (closes Sol B-683-7/B-683-8; Opus APPROVE was at the prior head); red by design: 9 tests in 3 suites carried by #684. #684/#697/#685/#686 merge-only restacks READY (FR16/FR17). SIZE ASSESSMENT KEEP on #682, #683, #685 | lens pair F3 (#683 delta), then F4 (#684/#697) and F56 (#685/#686) deltas; merge top-down as one (rule 11); deploy |
+| Recurring (most critical) | #678 77bce450 2,411; #679 8bbf4a41 2,932; #680 216489ff 2,766; #696 276610a3 1,910; #701 72eb096b 416 | All READY (B-RECUR6A: #678/#679; B-RECUR6B: #680 FR6, #696 FR6 with real test changes, #701 FR1). No lens at these heads | operator restacks onto fees top 8cb7b2d4 after fees verdicts, then lens pairs R1+R2, R3+R4, R5; land with sheet + #661 |
+| #661 PaymentSheet | #661 f80f0088 2,843; #702 20d2eb4f 513 | dual APPROVE both | after fees deploy: refresh, short lens deltas, merge #702 into agent/clinic/b-secrets-3 first, PR descriptions (C-661-13); conflict map vs recurring (2 files, 6 hunks) in ops/reports/B-RECUR6B-118.md |
+| Payment sheet (mobile) | m#342 56f281ad 2,018; m#343 fd739d58 2,813; m#344 e7fcc5d2 2,086 | #342 Opus APPROVE, Sol RC 2 B; #343 RC both (Opus B-343-6, Sol 3 B); #344 RC both (Sol B-344-1..4, Opus B-344-5/6) | B-SHEET2-118 (#342/#343; cancelled 11:28 before any push; relaunch), then B-SHEET3-118 (#344) |
+| Trials | #671 c75002c9 2,291; #672 2690c07c 2,961; #673 5fdb5f5c 2,887; mobile #338 48b5e6b5 | #671 dual APPROVE; #672/#673 FIX ROUND 9 READY (Opus APPROVE at old heads); m#338 dual APPROVE (BEHIND) | lens pair T23 after recurring lands |
+| Coach | #674 f9e21a87 2,948; #676 ccd60bbc 2,981; #677 4799c6af 2,918 | #674, #676 RC both (Sol 5982716289/5982716659, Opus 5982843273/5982843389); #677 none | B-CM5-118 (JOBS118 QUEUED item 7), then lenses; mobile #345-#351 after deploy |
+| Dunning | #687 38d9b3ab 2,974; #688 2368d5fa 2,976; #689 bb992fed 2,913; #690 06307883 2,913; #691 e0afe678 2,742; #642 4fee3c02 75 | #687 FR2 / #688 FR3 READY (B-DUNA). #689 RC both (B-689-5); #690 Sol RC, Opus APPROVE; #642 dual APPROVE (BEHIND) | split #688 per the dispute ruling (section 9) with one piece building it; then B-DUNB-118 (D3/D4, pass dispute event time as closedAt in D4); then lenses |
+| Health Connect (mobile) | m#359 e0f3d2a7; m#360 fde1875e 2,812; m#361 574b32a8 1,793; m#362 b3bc0ce4 2,835; m#363 2858bac5 982; m#364 529ba345 2,937 | #359/#360/#361 dual APPROVE; #362 FR2, #363 restack, #364 FR2 READY (B-HC4) | lens pair #362+#364, then #363 delta; land as one; owner device pass; flag flip |
+| Mobile lockout | m#352 ac244d22 2,341; m#353 05d84f27 2,520; m#354 f084cc0f 1,119 | READY (B-LOCK) | lens pair #352+#353, then #354 |
+| Mobile coach setup / money | m#345 97c9005e; m#346 2baea5b8; m#347 3beab160; m#348 90501f84; m#349 35aa8163, m#350 6fb21216 (red by design); m#351 352d768e | #345/#346 READY; #347 needs a W3 fix round | lens pair #345+#346, then #347 |
+| Remainder | programs m#355-#358 (no verdicts); m#335 641fe891 (dual APPROVE, BEHIND); m#312 8016a79e; m#339 8165ca95 (DIRTY); m#340 2e77dcb6 | | after the stacks above |
 
+Merged 10-04: #698, #699 (deployed 2af682ca), #700 (deployed 3e9a9a75), mobile #368. Deploy note: #700 is live, so the next mobile
+build carrying #368 may ship.
 Fast-follow (decision 1 default): push #692-#693 (FCM key), Roman (#667-#670, #331), S-SCHED-2 (#634, #653, mobile #365-#367, #336),
 annex (#655, #657-#660, mobile #337), #643/#650, mobile #341.
 
 ## 4. Critical path and owner-only actions
 
-Fees -> [owner: Stripe webhook subscribes charge.refund.updated + refund.updated] -> deploy -> recurring + sheet + #661 -> [owner:
+Fees -> deploy (Stripe events DONE 10:25 via the new destination) -> recurring + sheet + #661 -> [owner:
 setup_intent.succeeded; Billing retry "If all retries for a payment fail" = "leave the subscription past-due"] -> deploy -> trials ->
 [owner: customer.subscription.trial_will_end] -> deploy. Coach and dunning deploys interleave once fees is on main.
 Other owner-only items: Supabase Pro upgrade (plan still free), FCM V1 key, Apple Sign-in keys, POSTHOG_KEY confirm, EAS builds (spend),
@@ -85,45 +84,21 @@ Play and his password manager, then fill both sign-in sets with the instruction 
 
 1. Day-1 scope: fast-follow as listed in section 3 (default).
 2. LAUNCH_ONE_PAGER.md: approve as drafted (default).
-3. #661 at 3,121 lines: enforce and move tests to stacked tests-only PR #702 (default; proceeding on the default, reversible).
-5. Stripe webhook destination (found 10:12 from the owner's screenshot): the production destination "The Growth Project Backend
-   Production" (https://api.trygrowthproject.com/api/v1/webhooks/stripe, events from your account) is on API version 2026-02-25.clover
-   while the code and docs/stripe-setup.md pin 2024-09-30.acacia (clover moved invoice.subscription to
-   invoice.parent.subscription_details.subscription; handlers read inv.subscription), and it sends only 6 events (no
-   checkout.session.completed, payment_intent.*, charge.*, refunds, disputes, setup_intent.succeeded, trial_will_end).
-   StripeProcessedEvent is empty: production has never processed a Stripe event. Default: new destination pinned to
-   2024-09-30.acacia via the API with the full event list, signing secret into Fly as STRIPE_WEBHOOK_SECRET_NEXT, disable the old one.
-   DONE 10:25 (owner approved default): new destination we_1UMt9WDUoC5CCVhShvAELVmI (2024-09-30.acacia, 21 events + Stripe-added
-   transfer.canceled) created via API with an owner restricted key; old we_1TQkBDDUoC5CCVhSzAXOsWyr and a second dead one
-   we_1TRduSDUoC5CCVhSBigPeCdt (https://api.trygrowthproject.com/billing/webhook, a 404 route, clover) disabled. Owner sets the new
-   signing secret as STRIPE_WEBHOOK_SECRET in Fly, then deletes the key.
-   Open: connected-account events (account.updated, capability.updated, payouts) need a Connect destination; backend verifies one
-   secret plus a rotation slot.
-6. Credit cap (11:28): 38k/45k used. Default: finish running rounds, merge what is approved, stop launching; next session resumes
-   from JOBS118 QUEUED. Alternative: owner raises the cap.
-7. Dispute on a paid recurring plan that never failed a renewal: today records the obligation and opens no cycle (client keeps
-   access). Default: open the compressed dispute cycle, built in a later D2 round with its own tests (D2 #688 has 24 lines of
-   headroom: needs a split or tests moved to D5).
-4. Delete leftover ci/* branches from 116 jobs (B-T12-116 x4, B-W2-116 x2) and wip/op116/B-W2-116-360 (its fix is on #360): yes
-   (default). Only on the owner's explicit word.
+3. #661 at 3,121 lines: enforced, tests moved to #702 (done on the default, reversible).
+4. Delete leftover ci/* branches from 116 jobs (B-T12-116 x4, B-W2-116 x2) and wip/op116/B-W2-116-360: yes (default). Only on the
+   owner's explicit word.
+Closed 10-04: Stripe destination (default, done 10:25); credit cap = 5A, stop at 38k/45k (12:01); dispute rule = owner ruling
+(section 9). Agent 118 decisions taken on defaults and logged in ops/op118/FOLLOWUPS.md (recurring: narrower past_due exemption,
+deletion consumes only granted/own-card trials; HC: Samsung row mirrors HC, privacy URL https://app.trygrowthproject.com/privacy).
 
-## 6. Agents in flight (wave 1: 15 agents launched 09:47-09:52 PDT 10-04; ids in ops/op118/FLEET.md; jobs in ops/lanes118/JOBS118.md, snapshot wip/op118/ops-snapshot)
+## 6. Agents in flight
 
-| job | model | PRs |
-|----|----|----|
-| B-FEES15-118 | Claude Opus 5.5 | #682, #683 (+ merge-only restack #684 -> #697 -> #685 -> #686) |
-| B-RECUR6A-118 | Claude Opus 5.5 | #678, #679 |
-| AUD-OPUS-T23-118 / AUD-SOL-T23-118 | Claude Opus 5.5 / GPT-6.1 Sol | #672, #673 |
-| B-CM4-118 | Claude Opus 5.5 | #674, #676 (+ #677) |
-| AUD-OPUS-FU1-118 / AUD-SOL-FU1-118 | Claude Opus 5.5 / GPT-6.1 Sol | #698, #699 |
-| AUD-OPUS-FU2-118 / AUD-SOL-FU2-118 | Claude Opus 5.5 / GPT-6.1 Sol | #700, mobile #368 |
-| B-SHEET-118 | Claude Opus 5.5 | mobile #342, #343 (+ #344) |
-| AUD-OPUS-D12-118 / AUD-SOL-D12-118 | Claude Opus 5.5 / GPT-6.1 Sol | #687, #688 |
-| B-WIZ-118 | Claude Opus 5.5 | mobile #345, #346 (+ #347) |
-| AUD-OPUS-661-118 / AUD-SOL-661-118 | Claude Opus 5.5 / GPT-6.1 Sol | #661 f80f0088, #702 20d2eb4f |
-
-Queued: B-RECUR6B-118; fees/recurring/coach/sheet lens pairs after their builders; D34, D5 (+#642); HC pairs;
-B-LOCK; wizard pair; programs.
+None (agent 118 stopped 12:03 PDT 10-04). Job entries, claims and probes: ops/lanes118/JOBS118.md (see "QUEUED" and "QUEUE HEADS"),
+ops/reports/<JOB>.md, ops/aud-118/<JOB>/. Fleet log: ops/op118/FLEET.md. Follow-ups: ops/op118/FOLLOWUPS.md. Merges: ops/op118/MERGES.md.
+Next launches, in order, at most 5 concurrent: AUD-OPUS-F3 + AUD-SOL-F3 (#683 cc183e0a); B-DISPUTE-SPLIT (section 9); B-SHEET2-118;
+B-CM5-118; then F4/F56 lens deltas; operator restack of recurring onto 8cb7b2d4 and recurring lens pairs; HC, lockout, wizard,
+trials lens pairs; B-DUNB-118; B-SHEET3-118.
+Pace at stop: 4 merges in about 2.5 hours (1.6 per hour); about 9.5k credits per merged PR (most spend went into stacks now READY).
 
 ## 7. Backlog to ticket (no PR yet)
 
@@ -139,4 +114,16 @@ handoffs/op-118/{JOBS118.md,_COMMON_118.md}. Operator helpers: ops/op118/{state.
 
 ## 9. Binding rulings
 
-Unchanged from v8 section 9 (handoffs/op-117/HANDOFF_AGENT_118.md).
+Unchanged from v8 section 9 (handoffs/op-117/HANDOFF_AGENT_118.md), plus:
+
+R-DISPUTE-PAUSE (owner, 12:01 PDT 10-04), verbatim: "If someone disputes one charge in a reccuring setup, they should have all
+billing paused and acess terminated - coaches should handle restarting access seperately - we need to get agent 119 to split that
+3k PR into peices and get one of those to adress this directly".
+Meaning for the build: a dispute on any charge of a recurring plan (whether or not it ever failed a renewal) immediately pauses all
+billing for that plan and ends the client's access. No automatic restore when the dispute closes; the coach restarts access
+separately. This replaces the compressed dispute cycle (lock date) for recurring plans. One-time purchases are unchanged. OR-111-1
+(coach alert with exact amounts, transfer reversal, forward-only netting) still applies. Dispute copy in #687 (client and coach) must
+match: access has ended, billing is paused, the coach decides on restarting. Work: split D2 #688 (2,976 lines) into pieces under
+1,500 where possible, one piece building this rule with its own tests (webhook order and redelivery, concurrency, terminal states,
+won/lost disputes, coach restart path); both lenses at the exact heads. Implementation choice (Stripe pause_collection vs cancel,
+the coach restart action) is the builder's, recorded in the PR with the R138 gate.

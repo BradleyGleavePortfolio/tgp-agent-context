@@ -1679,3 +1679,13 @@ Verbatim: "stop-and-drain to 5 concurrent agents starting now".
   below 5, launch only to hold 5 concurrent. Priority for the 5 slots: fees -> recurring (+ sheet) -> trials -> coach -> dunning -> HC.
 - Same exchange: Stripe production webhook destination replaced (acacia, 21 events), new signing secret set in Fly by the owner; the
   Google Play app was deleted by Google on 2026-09-30 and the owner is recreating it (agent 118 does not investigate).
+
+## 2026-10-04 12:03 PDT — Owner rulings to agent 118: credit cap 5A; R-DISPUTE-PAUSE
+
+Verbatim: "1.) option A + update agent 119 handoff document 2.) If someone disputes one charge in a reccuring setup, they should have
+all billing paused and acess terminated - coaches should handle restarting access seperately - we need to get agent 119 to split
+that 3k PR into peices and get one of those to adress this directly".
+- 5A: agent 118 stops at 38k/45k credits; no new launches; state handed to agent 119 (handoffs/op-118/HANDOFF_AGENT_119.md).
+- R-DISPUTE-PAUSE (binding): a dispute on any charge of a recurring plan immediately pauses all billing for that plan and ends
+  access; no automatic restore; the coach restarts access separately. Replaces the compressed dispute cycle for recurring plans;
+  one-time purchases unchanged; OR-111-1 still applies. Built by agent 119 in its own piece of a split of dunning D2 #688.
