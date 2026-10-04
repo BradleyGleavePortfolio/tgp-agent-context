@@ -3,12 +3,12 @@
 Updated: 09:48 PDT 10-04 (from `date`). CURRENT-STATE document: section 3 is overwritten at every milestone; history goes to
 LAST_OPERATOR_STATE.md. GitHub is the truth: verify every head and verdict there before acting on any line here.
 
-## LIVE FLEET (11:20)
-Running (hold 5): B-HC4-118 (m#362 +#363/#364), B-RECUR6B-118 (#680 +#696/#701), B-FEES16-118 (#683 + restack F4-F6),
-AUD-SOL-PV3-118 + AUD-OPUS-PV3-118 (#700, m#368). Next in order: B-SHEET2, B-CM5, B-DUNB, fees F4/F56 lens deltas after B-FEES16,
-recurring lens pairs after B-RECUR6B (then restack recurring onto the new fees top), trials/HC/lockout/wizard lens pairs.
-READY and waiting for lenses: trials #672 2690c07c/#673 5fdb5f5c; dunning D1 #687 38d9b3ab/D2 #688 2368d5fa; lockout m#352-#354;
-wizard m#345-#347; coach M4 #677 (after B-CM5). Dual APPROVE: #682 (fees F2), #661/#702 (after fees), m#360/#361/#363 (HC).
+## LIVE FLEET (12:05)
+Running: none (wind-down at 38k/45k, decision 6 pending). Merged today: #698, #699, #700, m#368. Deployed: 2af682ca, 3e9a9a75.
+READY for lenses (exact heads in ops JOBS118 "QUEUE HEADS"): fees F3 #683 cc183e0a then F4 #684/#697 and F56 #685/#686 deltas (top
+#686 8cb7b2d4); recurring #678/#679 + #680 216489ff/#696 276610a3/#701 72eb096b (restack onto 8cb7b2d4 after fees verdicts); HC m#362
+b3bc0ce4/m#363 2858bac5/m#364 529ba345; trials #672/#673; dunning #687 38d9b3ab/#688 2368d5fa; lockout m#352-#354; wizard m#345-#347.
+Builders queued: B-SHEET2 (cancelled 11:28 before any push), B-SHEET3 (#344), B-CM5, B-DUNB.
 
 ## 0. Summary
 
