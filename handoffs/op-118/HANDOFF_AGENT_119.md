@@ -7,7 +7,7 @@ LAST_OPERATOR_STATE.md. GitHub is the truth: verify every head and verdict there
 
 AGENT COUNT: STOP-AND-DRAIN to 5 concurrent since 10:32 PDT 10-04 (owner). Launch nothing while more than 5 run; then hold 5.
 Play Console: Google deleted the app on 2026-09-30; owner recreating it (do not investigate).
-Scoreboard: Launch path 1/7 steps done | merged today 1 | deployed today 0 | open decisions 4 | credits used 15k/45k (owner, 10:13
+Scoreboard: Launch path 1/7 steps done | merged today 2 | deployed today 1 | open decisions 4 | credits used 15k/45k (owner, 10:13
 PDT 10-04).
 Agent 117 retired (last GitHub action 00:56 PDT 10-04; it did not pause cleanly; all its agents are dead). Agent 118 took over 09:31.
 Production unchanged since 22:03 10-03 (backend 643817b3). Nothing merged since #695 (22:16 10-03). Wave 1 (section 6): 15 agents launched 09:47-09:52.
