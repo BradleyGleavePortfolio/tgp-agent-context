@@ -63,3 +63,47 @@ The head moved while I was auditing: the operator merged main `a5b605d1` (#664 +
   - the content delta `acf9ff0f..b09f2061` is read;
   - failing-before [run 37175191095](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37175191095) is verified from the GitHub job log: 6 failed, 17 passed at `925bc5d2`. That commit is `6fd5b1d2` plus the lane files only, and `6fd5b1d2` is `acf9ff0f` plus the new spec only.
   - I am waiting for checks and the READY comment.
+
+## PAUSE STATE (owner order, 21:05 PDT)
+
+**Posted verdicts:**
+- **backend #611 @ `acf9ff0f`: REQUEST CHANGES, A/B/C = 0/1/1.**
+  - B-611-12: Apple iPhone path (= Sol B-611-17).
+  - C-611-17: recipient email in logs, outside this diff.
+  - Comment: https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/611#issuecomment-5976218847. This verdict also covers FIX ROUND 8 `357c40fe`; every prior Opus finding was closed.
+- **mobile #315 @ `0277ce10`: APPROVE, 0/0/0 (merge-only).**
+  - Comment: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/315#issuecomment-5976227875
+  - Sol also APPROVED, so #315 has dual APPROVE.
+
+**Drafted, not posted:**
+- **backend #611 @ `b09f2061` (FIX ROUND 9): APPROVE, 0/0/1.**
+  - Draft: `/home/user/workspace/ops/aud-116/AUD-OPUS-PRIV2-116/DRAFT_verdict_611_b09f2061.md`
+  - Why not posted: CI was not yet green (8 passed, 3 pending at 21:09), and the builder had not posted READY.
+  - In the draft, B-611-12 is closed and verified, with genuine failing-before run 37175191095.
+- **Claim held:** `claims/backend-611-b09f2061-opus`.
+
+**Probes and branches:**
+- No CI runs of mine are still running.
+- `audit/AUD-OPUS-PRIV2-116/611-retention` is deleted; its run 37174293546 finished and passed.
+- The probe spec is the saved one, reused from AUD-OPUS-PRIV-116.
+- Worktree `/home/user/workspace/wt/AUD-OPUS-PRIV2-116-1` is left in place (detached, no node_modules); remove it with `git worktree remove --force`.
+
+**Resume:**
+1. Confirm the #611 head is still `b09f2061`.
+2. Confirm 11/11 required checks are green and the FIX ROUND 9 READY comment is posted.
+3. Re-read the draft, then post it.
+4. If the head moved, audit the new delta instead.
+5. Then STAY for the operator's merge-only refreshes. If mobile main moves, #315 needs a new merge-only verdict. #611 and #315 merge together.
+6. Operator queue:
+   - a mobile copy PR for `APPLE_FALLBACK` in `DeleteAccountScreen.tsx:88`;
+   - a backend PR to stop logging recipient emails (C-611-17).
+
+## HANDOFF
+- **backend #611:**
+  - Head: `b09f2061` (FIX ROUND 9).
+  - Opus: RC at `acf9ff0f` posted. APPROVE at `b09f2061` drafted, not posted.
+  - Sol: RC at `acf9ff0f`.
+  - Next: post the drafted verdict once the head is green and READY is posted, then audit merge-only refreshes.
+- **mobile #315:**
+  - Head: `0277ce10`. Dual APPROVE.
+  - Waiting to merge together with #611.

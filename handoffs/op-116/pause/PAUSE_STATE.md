@@ -8,9 +8,8 @@ Where everything is:
 - Per-job reports with "## PAUSE STATE": handoffs/op-116/reports/<JOB>-116.md (this repo) and the private branch below.
 - Unpushed code / uncommitted probes: product-repo branches wip/op116/<worktree> (table: pause/WORKTREES.md). No CI fires on wip/*.
 - Draft comments, draft verdicts, probe specs, CI logs: private branch growth-project-backend wip/op116/ops-snapshot (folder ops/).
-- No stack locks held (dunning, recur, wear, fees, trials all released). Deploy run 37175413402 (main a5b605d1, #652 migration)
-  was approved before the pause and left running (interrupting a migration deploy is unsafe): verify it finished, then /health,
-  /readyz, _prisma_migrations, and that authenticated cannot execute app.community_win_author_coach.
+- No stack locks held (dunning, recur, wear, fees, trials all released). Deploy run 37175413402 (main a5b605d1, #652 migration) finished SUCCESS after the pause
+  (/health ok, /readyz 200). Still to verify: _prisma_migrations row finished and authenticated cannot execute app.community_win_author_coach.
 
 | job | PRs | state at pause | resume step |
 |---|---|---|---|
@@ -24,7 +23,10 @@ Where everything is:
 | B-W2-116 | mobile #360 (+ restack #361-#364) | fix done locally (b-w2-360 fde1875e) saved to wip/op116/B-W2-116-360; CI-lane after-run 37175851194 green | push to #360, FIX ROUND, restack #361-#364 |
 | AUD-OPUS-CM3-116 | backend #675, #676 | #675 APPROVE 0/0/1 posted @ e45b06f9. #676 no verdict; draft notes (possible B-676-3 tax CSV double-counts refund with head-coach split) | fresh Opus lens on #676 after B-CM1 posts |
 | AUD-OPUS-F12R-116 | backend #681, #682 | no verdicts; drafts APPROVE 0/0/1 and 0/0/2 pending probes (ops/aud-116/AUD-OPUS-F12R-116/draft-findings.md; probes saved to wip/op116/AUD-OPUS-F12R-116-*) | run probes, post verdicts |
-| B-F34-116, B-RECUR2-116, B-CI2-116, AUD-OPUS-PRIV2-116, AUD-SOL-CM3-116 | #683-#686; #678-#680; #694 + SBOM PR; #611/#315; #675/#676 | pause confirmations pending at this snapshot; read their reports' PAUSE STATE and each PR's latest comments | as their reports say |
+| B-F34-116 | backend #683-#686 | pushed (fast-forward): #683 35a18539, #684 e9ee033d, #685 7425bb93, #686 6f1b94a9 (merge-only restacks); failing-before run 37173415148; draft ops/b-f34-116/DRAFT-fix-round-683-684.md | post drafts when checks green |
+| B-RECUR2-116 | backend #678, #679 (+ restack #680) | pushed: #678 ebbd170e, #679 f83dbdd2, #680 929f3968 (merge-only); failing-before run 37175437392 (18 failed); 4 #680 tests rely on the old 23-hour cutoff (B-R3 owns); comments not written; ci/B-RECUR2-116-679-before branch remains | write FIX ROUND 4 on #678/#679 when green; B-R3 resumes #680 on top of 929f3968 |
+| B-CI2-116 | backend #694, new #695 (SBOM gate) | pushed: #694 61d42f09 (round 2), #695 3624ab5f; drafts ops/bci2116/DRAFT-fix-round-2-694.md | post when 11/11 green; launch lens pair for #694 + #695 |
+| AUD-OPUS-PRIV2-116, AUD-SOL-CM3-116 | #611/#315; #675/#676 | pause confirmation not received before the final snapshot; read their reports and the PRs' latest AUDIT comments | fresh lenses at current heads (#611 b09f2061 after FIX ROUND 9 posts; #675 e45b06f9 Sol owed; #676 after B-CM1 posts) |
 
 Verdict state worth knowing: dual APPROVE and not yet merged: mobile #315 (0277ce10, merges with #611), mobile #359 (stack), fees
 #685/#686 (stack), coach #677 (head moved to 1f746547 by restack: needs merge-only delta), recurring #678 (head will move). #675:
