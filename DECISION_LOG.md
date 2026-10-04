@@ -1656,3 +1656,14 @@ Verbatim: "get all agents in flight to a safe pause point RIGHT NOW" / "gather t
 
 ## 2026-10-03 21:15 PDT — Merge-only refresh exception (owner)
 Verbatim: "Merge-only re-reviews: a pure main merge where the PR's files stay byte-identical costs a full pair of reviewers - go change the rule/ make the exception everywhere its mentioned!" Implemented: MERGE_DEPENDENCY_GUIDE.md rule 12; amendments in AGENT_RULES.md, MODEL_ROUTING.md, OPERATOR_STANDING_ORDERS.md, lanes/_COMMON_116.md, HANDOFF_AGENT_117.md.
+
+## 2026-10-03 21:20 PDT — Agent 117 takes over; resume the fleet (owner)
+Verbatim (first prompt to agent 117): "Then RESUME without waiting for me: up to 15 agents in parallel, one job = one agent = one or two PRs, then it ends." / "Recurring packages are LITERALLY MOST CRITICAL OF ALL. Never one-time-only." / "Rule 12 (new, mine): a pure main merge where every PR file stays byte-identical needs only your MERGE-ONLY TREE CHECK (tools/tree_check.sh plus all required checks green). Anything else that moves a head needs both lenses at the exact head." / "Deploy with -f migrations=apply-migrations ONLY when the release adds migrations or schema changes." / "Refresh only the PR that is next to merge."
+
+## 2026-10-03 21:31 PDT — Supabase Pro approved; scale to 15 agents, then stop-and-drain (owner)
+Verbatim: "sup[abase pro - upgrade me. sure." / "SCALE - 15 AGENTS - Then starts stop-and-drain protocol".
+- Supabase Pro: approved (resolves 116's open decision 1). The plan change is made in the Supabase dashboard billing page (payment
+  method on file); the connector cannot change plans. Agent 117 verifies the plan and daily backups after the owner upgrades.
+- Agents: wave 1 of 15 launched 21:31 PDT (handoffs/op-117 job board). Operator reading: when these 15 end, stop-and-drain applies
+  (OPERATOR_STANDING_ORDERS.md section 2): no new agent launches until the owner says SCALE again; the operator keeps converting
+  in-flight work into merges and deploys.
