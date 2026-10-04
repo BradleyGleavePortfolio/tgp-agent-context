@@ -12,7 +12,7 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   adopted copy (EFFECTIVE 2026-09-18) with the same G01-G22 text plus the G21 size directive, so AGENT_RULES.md governs. G05 identity is
   superseded by DECISION_LOG 2026-09-28 (identity is not a gate); commits use "TGP Agent 116". The routing docx equals MODEL_ROUTING.md
   plus section 8.2. The attached handoff matched HANDOFF_AGENT_116.md except the later Play Console wording and section 15 (repo wins).
-- Verified 19:15-19:20 PDT (read-only): LIVE_QUEUE regenerated (80 PRs); every head, base, draft flag and size equals the 18:46 copy, so
+- Verified 19:15-19:17 PDT (read-only): LIVE_QUEUE regenerated (80 PRs); every head, base, draft flag and size equals the 18:46 copy, so
   nobody acted since agent 115. Only change: #364 CI finished (78ee52c0, CLEAN). #685/#690 schema-parity entries are stale (gh pr checks:
   pass). Reds are the by-design set only: #682/#683, #349/#350, #668-#670 (plus annex #655/#657/#660, mobile #337, not launch path).
   Mains: backend d23fa317, mobile 367e6c48; required checks green on both (release-please red, pre-existing, not required). No open
