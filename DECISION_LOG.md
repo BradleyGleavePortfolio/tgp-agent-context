@@ -1689,3 +1689,10 @@ that 3k PR into peices and get one of those to adress this directly".
 - R-DISPUTE-PAUSE (binding): a dispute on any charge of a recurring plan immediately pauses all billing for that plan and ends
   access; no automatic restore; the coach restarts access separately. Replaces the compressed dispute cycle for recurring plans;
   one-time purchases unchanged; OR-111-1 still applies. Built by agent 119 in its own piece of a split of dunning D2 #688.
+
+## 2026-10-04 12:14 PDT — Owner: launch-day spend and Play reviewer accounts
+
+Verbatim: "ill upgrade on day 1 launch for supa - eas stays free / Ill do the two google tester accounts on the next apk build - once
+all 7 launch paths are done / exsposed key deleted / all to-dos have been handled for now".
+- Supabase Pro: owner upgrades on launch day 1. EAS: stays on Free. Play reviewer accounts: next APK build after the launch steps.
+- Exposed Stripe restricted key deleted; the newest key (secure form only) kept.
