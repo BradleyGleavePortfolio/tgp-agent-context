@@ -1,6 +1,6 @@
 # TGP Operator — Takeover Prompt for Agent 118 (written and kept current by operator agent 117)
 
-Version 3: 2026-10-03 22:07 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
+Version 4: 2026-10-03 22:24 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
 GitHub is the truth: re-read every PR head and its latest AUDIT / FIX ROUND comment before acting on any line here.
 
 ## 0. Who you are and what the owner wants
@@ -81,27 +81,34 @@ gate, owner 2026-09-28). Subagent models: claude_opus_5_5 (builders, Opus lens),
 - 22:05 MERGED #694 at d5d22b22 (rule-12 comment issuecomment-5976795124) -> main 8aeed8e1f059fa96aaf1f6d3fa3f818d794e1aad.
   #695 refreshed -> 683df07e7fe73aa68456af8c90a3562f253997ab, tree check PASS 1-3; merge when 11/11 green.
 - Scoreboard 22:07: Launch path 1/7 | merged today 11 | deployed today 5 | open decisions 2 | credits used 0/45k (owner's last number).
+- 22:16 MERGED #695 at 683df07e (rule-12 comment issuecomment-5976862240) -> main b644198b90bb9ab1dc62a78794e12cf09f8ace7c.
+  CI-only change: no deploy needed (production stays 643817b3). CI fixes #694 + #695 both landed.
+- 22:17 owner: "scale to 15 again, then stop-and-drain back to 5". 22:22 launched wave 2 (10 jobs). Found while planning: trials #672
+  and #673 conflict with main since #675 merged (builder B-TR-117 resolves); mobile split stacks (#342-#358) have NO verdicts at their
+  current heads; mobile #335 and #338 have dual APPROVE (#338 lands with trials; #335 is remainder, BEHIND); backend #642 dual APPROVE
+  at 4fee3c02, lands with dunning (B-DUNNING-7 chain #628 -> #322 -> #642).
+- Scoreboard 22:24: Launch path 1/7 | merged today 12 | deployed today 5 | open decisions 2 | credits used 0/45k (owner's last number).
 
-## 2. Agents in flight (wave 1, launched 21:31 PDT; job board handoffs/op-117/JOBS117.md, common rules _COMMON_117.md)
+## 2. Agents in flight (22:24 PDT; job board handoffs/op-117/JOBS117.md, common rules _COMMON_117.md)
+Wave 1 (21:31) lenses all ended with verdicts posted (see progress log). Running now (15):
 | job | PRs | model | subagent id |
 |---|---|---|---|
-| AUD-OPUS-CI-117 | #694, #695 | Opus | aud_opus_ci_117_audit_694_695_mutbqgof |
-| AUD-SOL-CI-117 | #694, #695 | Sol | aud_sol_ci_117_audit_694_695_mutbqgoo |
-| AUD-OPUS-PRIV3-117 | #611 (+ #315 link) | Opus | aud_opus_priv3_117_audit_611_mutbqgov |
-| AUD-SOL-PRIV3-117 | #611 (+ #315 link) | Sol | aud_sol_priv3_117_audit_611_mutbqgp3 |
-| B-F56-117 | #685 round 5, #686 restack | Opus builder | b_f56_117_fix_685_restack_686_mutbqgpb |
-| AUD-OPUS-F12-117 | #681, #682 | Opus | aud_opus_f12_117_audit_681_682_mutbqgph |
-| AUD-SOL-F12-117 | #681, #682 | Sol | aud_sol_f12_117_audit_681_682_mutbqgpo |
-| AUD-OPUS-F34-117 | #683, #684 | Opus | aud_opus_f34_117_audit_683_684_mutbqgpu |
-| AUD-SOL-F34-117 | #683, #684 | Sol | aud_sol_f34_117_audit_683_684_mutbqgq1 |
-| B-RECUR3-117 | #680 + new R4 tests piece (restacks #678/#679) | Opus builder | b_recur3_117_recurring_680_r4_mutbqgq7 |
-| AUD-OPUS-661-117 | #661 | Opus | aud_opus_661_117_audit_661_mutbqgqd |
-| AUD-SOL-661-117 | #661 | Sol | aud_sol_661_117_audit_661_mutbqgqk |
-| AUD-OPUS-CM1-117 | #674, #676 | Opus | aud_opus_cm1_117_audit_674_676_mutbqgqq |
-| AUD-SOL-CM1-117 | #674, #676 | Sol | aud_sol_cm1_117_audit_674_676_mutbqgqx |
-| AUD-SOL-CM2-117 | #675, #677 | Sol | aud_sol_cm2_117_audit_675_677_mutbqgr3 |
-Reports: /home/user/workspace/ops/reports/<JOB>.md (sandbox). Next launches (when the count drops to 5, keep 5): AUD-OPUS-CM2-117
-(#677), F56 lens pair, recurring lens pairs, dunning builder.
+| B-RECUR3-117 | #680 + new R4 tests piece; restack #678/#679 | Opus builder | b_recur3_117_recurring_680_r4_mutbqgq7 |
+| B-661-R5-117 | #661 round 5 | Opus builder | b_661_r5_117_661_round_5_mutckhs2 |
+| B-DUN-117 | dunning restack #687-#691 | Opus builder | b_dun_117_dunning_restack_687_691_mutco4mh |
+| B-CM-117 | coach #674/#676/#677 | Opus builder | b_cm_117_coach_money_674_676_677_mutcosgu |
+| B-FEES-117 | fees round 13 #681-#686 (+ tests piece above F4) | Opus builder | b_fees_117_fees_stack_round_13_681_686_mutcpp71 |
+| B-W2-117 | mobile HC #360 fix + restack #361-#364 | Opus builder | b_w2_117_health_connect_360_restack_mutdfohp |
+| B-TR-117 | trials #671-#673 absorb main (#675 conflict) | Opus builder | b_tr_117_trials_stack_671_673_mutdfohz |
+| B-PRIV-FU-117 | new backend PR (no emails in logs; Apple steps) + new mobile PR (DeleteAccountScreen copy) | Opus builder | b_priv_fu_117_611_follow_ups_mutdfoif |
+| B-CIQ-117 | new backend PRs: data-export order tiebreak; SBOM check fail-closed | Opus builder | b_ciq_117_ci_quality_follow_ups_mutdfoir |
+| AUD-OPUS-P12-117 / AUD-SOL-P12-117 | mobile #342, #343 | Opus / Sol | aud_opus_p12_117_mobile_342_343_mutdfoj3 / aud_sol_p12_117_mobile_342_343_mutdfojf |
+| AUD-OPUS-L12-117 / AUD-SOL-L12-117 | mobile #352, #353 | Opus / Sol | aud_opus_l12_117_mobile_352_353_mutdfojp / aud_sol_l12_117_mobile_352_353_mutdfojw |
+| AUD-OPUS-S12-117 / AUD-SOL-S12-117 | mobile #345, #346 | Opus / Sol | aud_opus_s12_117_mobile_345_346_mutdfok4 / aud_sol_s12_117_mobile_345_346_mutdfokg |
+Reports: /home/user/workspace/ops/reports/<JOB>.md (sandbox; copied into handoffs/op-117/reports/ at milestones). Concurrency: drain to
+5, keep 5. Next launches in priority order: lens pairs on each stack its builder marks READY (fees F1-F4b, F5/F6 deltas; recurring
+R1-R4; #661; coach M1/M3/M4; dunning D1-D5; trials T1-T3; HC H2-H6), then mobile P3 #344, L3 #354, S3 #347, Money N1-N4 #348-#351,
+Programs #355-#358, mobile #340, #312 (+ backend push #692-#693 fast-follow).
 
 ## 3. Per-PR completeness (backend unless "mobile"; heads verified 21:23-21:38 PDT)
 | PR | piece | head | verdicts at head | CI at head | next step |
@@ -187,3 +194,4 @@ apps forms.
 - v1 2026-10-03 21:38 PDT: created by agent 117 after takeover and wave-1 launch.
 - v2 21:52 PDT: #611 + #315 merged; verdict results; queued builder rounds.
 - v3 22:07 PDT: launch step 1 deployed; #675 and #694 merged; four builders launched.
+- v4 22:24 PDT: #695 merged; wave 2 launched (15 running); current agent table.

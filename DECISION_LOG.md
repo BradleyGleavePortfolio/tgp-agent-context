@@ -1667,3 +1667,8 @@ Verbatim: "sup[abase pro - upgrade me. sure." / "SCALE - 15 AGENTS - Then starts
 - Agents: wave 1 of 15 launched 21:31 PDT (handoffs/op-117 job board). Corrected by the owner at 21:34 PDT as a ONE-TIME instruction
   for this wave (not a standing pattern): as the 15 end, drain down to 5 concurrent agents and never go under 5.
 - Owner requirement 21:34 PDT: agent 117 creates and maintains handoffs/op-117/HANDOFF_AGENT_118.md as it moves.
+
+## 2026-10-03 21:35 and 22:17 PDT — EXECUTE; scale to 15 again, then drain back to 5 (owner)
+Verbatim: "EXECUTE - IM SIGNING OFF" (21:35) / "scale to 15 again, then stop-and-drain back to 5" (22:17).
+- Agent 117 runs autonomously. Wave 2 launched 22:22 PDT (10 jobs) on top of the 5 builders running = 15; as they end, drain to 5
+  concurrent and keep 5 (handoffs/op-117/JOBS117.md "WAVE 2").

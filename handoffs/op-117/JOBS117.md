@@ -151,3 +151,57 @@ B-FEES-117 addendum (22:00): Opus F12 verdicts: #681 APPROVE 0/0/1 (Opus C-681-7
 account while the lookup uses the payee user) and #682 APPROVE 0/0/3. Ruling: fix it (cheap key fix in F1, key and lookup on the same
 identity, with a reconnection-snapshot test). Also in F4: purchase-split-handler.service.ts:66 and :197 log raw error messages (G12):
 log a code/class only.
+
+# WAVE 2 (owner 22:17 PDT: scale to 15 again, then drain back to 5)
+
+## B-W2-117 (builder, Claude Opus 5.5) — Health Connect stack: mobile #360 fix push, then restack #361-#364 bottom-up to READY
+#359 H1 e0f3d2a7 dual APPROVE. #360 H2 4a508d8b: Opus APPROVE, Sol RC 0/1/0 (B-360-1: healthConnectSyncService.ts:218-232 logs
+arbitrary native error text and checks only whether the rejection is a stop error, not whether the fence has stopped;
+issuecomment-5976328100). The fix is saved on mobile branch wip/op116/B-W2-116-360 = fde1875edc1bd5d14ac8fda4f2e68ee8b7c5ebf5
+(green CI-lane run; report ops/reports/B-W2-116.md). Verify it closes B-360-1 (and the same seam on HealthKit), verify its parent is
+4a508d8b, push it to #360's head branch (fast-forward), CI, then take lock `wear` and merge-only restack #361 85b2439b -> #362 61cb0fac
+-> #363 9ab951f6 -> #364 78ee52c0 (patch-id proof each piece's own files are byte-identical). FIX ROUND on #360 (failing-before
+evidence: run 37175348201) and restack FIX ROUND on #361-#364, READY FOR AUDIT at green heads. Release the lock.
+Report: ops/reports/B-W2-117.md.
+
+## B-TR-117 (builder, Claude Opus 5.5) — trials stack #671-#673: absorb main (#675 merged), bottom-up to READY
+#671 T1 1efac91e (base main, merges clean with main 8aeed8e1+), #672 T2 4fa2fe4a and #673 T3 9719cb88 CONFLICT with main (#675's
+packages files merged at 21:52). Take lock `trials`; merge main into #671 (merge-only), merge #671 into #672 and resolve the #675
+conflict preserving BOTH behaviours (idempotent create from #675 + trial fields from #672) with a test that pins the composed
+behaviour; merge #672 into #673 (resolve the same way). A conflict resolution is a content change: FIX ROUND with evidence on every
+piece whose own files changed; pure merges get restack FIX ROUNDs. Read the last verdicts on each piece and the original #656 thread;
+close any open B finding you find unanswered. #673 converges on one trial ledger with recurring #680 (116 ruling; C-656-1): do NOT
+change #680; note in your report what #673 needs once #680 lands. Do not touch mobile #338 (dual APPROVE, lands with trials).
+CI per piece; READY at green heads; release lock. Report: ops/reports/B-TR-117.md.
+
+## B-PRIV-FU-117 (builder, Claude Opus 5.5) — #611 follow-ups: one backend PR + one mobile PR (both base main)
+Backend PR: (a) C-611-17 (privacy, AGENT_RULES G12): email addresses written to logs in src/**/email.service.ts and digest.service.ts
+(and any other log line that writes an email address, user name or free text: grep the whole src/) -> log a stable id or hash
+only; add a test that fails before (log spy asserts no '@' address appears). (b) C-611-18: the policy's Sign in with Apple iPhone
+steps are right on iOS 18+ only; the app supports iOS 16.4+: say "On iOS 18 or later: ..." and keep the web steps + Apple link for
+earlier versions. Mobile PR: src/screens/settings/DeleteAccountScreen.tsx:88 still shows the old Apple path and says "Apple ID"
+(Apple's current name is "Apple Account"): align with #611's wording and the Apple support article (see AUD-OPUS-PRIV3-117 report).
+T3 each (G12 privacy). Usual builder contract: failing-before evidence, PR body with tier header, READY at green heads.
+Report: ops/reports/B-PRIV-FU-117.md.
+
+## B-CIQ-117 (builder, Claude Opus 5.5) — CI quality follow-ups: two backend PRs (base main)
+PR 1 (F-EXPORT-TIE): main CI run 37177734569 failed once in test/data-export-storage.spec.ts "a failed retirement write answers a
+retryable 503; the retry retires the row and a replacement works": data-export.service.ts orders by created_at desc (lines ~319, 399,
+464) with no tiebreaker and the fake DB stamps rows in the same millisecond. Make the order deterministic in production code (a
+tiebreaker that matches "latest request", e.g. created_at desc then a monotonic column; if none exists, decide and justify) AND make
+the fake clock advance; prove with a test that forces equal timestamps (fails before). PR 2 (C-695-1 / C-695-2 from #695's Opus
+verdict issuecomment-5976723698): the SBOM/prod-dependency check must fail closed when the lockfile is unreadable (today it prints
+"0 dev-only leaks") and when the here-string cannot be created. Failing-before evidence each. Report: ops/reports/B-CIQ-117.md.
+
+## AUD-OPUS-P12-117 / AUD-SOL-P12-117 — mobile payment sheet P1 #342 + P2 #343 (split of #334; pairs with recurring #680)
+Heads at 22:20: #342 72821495 (base main), #343 af984441. Read the original #334 thread verdicts + the split's FIX ROUND/READY.
+Audit at exact heads; the backend contract is recurring #678-#680 (in its builder round; read the current heads, do not wait).
+
+## AUD-OPUS-L12-117 / AUD-SOL-L12-117 — mobile dunning lockout L1 #352 + L2 #353 (split of #322)
+Heads at 22:20: #352 58b80914 (base main), #353 e22acc84. Original #322 had dual APPROVE before the split: verify the split pieces
+are faithful (diff of the stack top vs #322's approved tree) and audit each piece at its exact head. Backend contract = dunning
+#687-#691 (builder restack in progress; contracts unchanged by a merge-only restack).
+
+## AUD-OPUS-S12-117 / AUD-SOL-S12-117 — mobile coach setup S1 #345 + S2 #346 (split of #329)
+Heads at 22:20: #345 a4e49588 (base main), #346 4522eb8e. Read the original #329 thread (Sol BLOCK 1/1/0 @fc7fe73f earlier) and the
+split's FIX ROUND/READY; confirm every #329 finding is closed in the split; audit each piece at its exact head.
