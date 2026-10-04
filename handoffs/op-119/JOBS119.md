@@ -290,6 +290,42 @@ code fixes in #672/#673 must keep each under 3,000. Replay both lenses' prior pr
 Opus's red-by-design probes stay as ruled). FIX ROUND + READY on #672/#673 and OPENING + READY on T4 at green heads; write
 notify/trials.txt; release the lock. Report: ops/reports/B-TR4-119.md.
 
+## AUD-OPUS-S12-119 (Claude Opus 5.5) / AUD-SOL-S12-119 (GPT-6.1 Sol) — mobile payment sheet P1 #342 + P2 #343 (T4: money copy, payment flow)
+Heads: mobile #342 0b1985f46ae2d4baadfcc6a02f8257c2f504249d (base main, main merged in; 2,153 lines), #343
+19678ce780d497513764a7827447c106fb14205e (base #342 branch; 2,933 lines: 67 headroom; a 71-line contrast test moved byte-identical to
+#344). B-SHEET2-119 FIX ROUND 2 + READY (#342 mobile 5983790118, #343 5983790258); report ops/reports/B-SHEET2-119.md (verify every claim:
+19 failed-before / 81 of 82 after on #342; 16 / 101 of 102 on #343; the remaining reds are the held C-342-1 probe and an old "nothing was
+charged" assertion that B-342-1 removed on purpose). Prior at 56f281ad / fd739d58: #342 Opus APPROVE 0/0/5 (5982679049), Sol RC 0/2/1
+(5982676839: timeout claims no charge; zero-decimal amounts 100x too small); #343 Opus RC 0/1/5 (5982679186: B-343-6 free claim shows
+"Payment received"), Sol RC (thread: B-343-1, B-343-3, B-343-6). Decide your lens's prior findings first, then audit both heads deeply.
+Rules (AUD-*-SH-118 entry in ops/lanes118/JOBS118.md, binding): never claim charged/not charged/paid before proof; #661 reply codes
+(409 PAYMENT_ALREADY_COMPLETE, PAYMENT_REFUNDED_OR_IN_REVIEW, PAYMENT_CHECKOUT_CLOSED; 503 PAYMENT_IN_PROGRESS; PAYMENT_SUCCESS_RETRY /
+PAYMENT_FAILURE_RETRY) and recurring codes (PLAN_CHANGE_UNCONFIRMED, SETUP_UNAVAILABLE, trial setup) map to specific truthful copy with
+a working next action; trial starts never show payment-complete copy; must work against TODAY's production backend (capability check or
+truthful fallback); recurring never one-time-only; no first person. The currency fix uses each currency's minor-unit exponent (judge
+ISK/UGX special cases against Stripe's currency rules) and also changes coach screens (operator default: accept). Lands with recurring.
+P3 #344 is B-SHEET3-119's. Reports: ops/reports/AUD-OPUS-S12-119.md, AUD-SOL-S12-119.md.
+
+## B-SHEET3-119 (builder, Claude Opus 5.5, T4: payment sheet, plan management, money copy) — mobile payment sheet P3 #344
+Head: mobile #344 25af65691fbf60a3501a77624de8eafd0ccd81d3 (base #343 branch; 2,156 lines; restacked by B-SHEET2-119 with two test-only
+commits: the moved 71-line contrast test and B-SHEET-118's trial-fixture date commit). Take lock `sheet`. #342/#343 are under lens
+review now (AUD-*-S12-119): do not touch them; if their lenses force a change, the operator tells you to merge the new #343 (merge-only).
+Findings to close (report ops/reports/AUD-SOL-SH3-118.md and AUD-OPUS-SH3-118.md; Sol RC 5982674874, Opus RC 5982759668):
+- B-344-1 YourPlansPanel silently hides an initial list failure (404 absent production route or transient 503) while Membership promises
+  plan management there.
+- B-344-2 every cancellation dialog promises continued paid-period access, but the backend immediately ends an unpaid dunning plan
+  (binding: cancel during dunning ends access now; voluntary cancel keeps access to period end; R-DISPUTE-PAUSE: a disputed recurring
+  plan has access ended and billing paused; only the coach restarts).
+- B-344-3 a successful resume's returned active-plan view is discarded; if the reload fails the app keeps saying "Nothing more is
+  charged".
+- B-344-4 panel notices drop the shared mapper's support action; the error says "email support" with no way to do it.
+- B-344-5 YourPlansPanel.tsx:39-42,55-56,95,105-151 past-due plans: End my plan confirmation promises "stays active until" for a plan in
+  dunning (Opus); B-344-6 per AUD-OPUS-SH3-118.md (replay ops/aud-118/AUD-OPUS-SH3-118/audOpusSH3118.yourPlans.probe.test.tsx: all 9 must
+  pass).
+Must work against TODAY's production backend (the plan list route may be absent: truthful fallback, never a dead end). Replay both
+lenses' prior probes. Keep #344 under 3,000 (grandfathered). FIX ROUND + READY on #344 at a green head; write notify/sheet.txt; release
+the lock. Report: ops/reports/B-SHEET3-119.md.
+
 ## QUEUE (operator launches as slots free; cap 15 concurrent, owner 12:28 PDT 10-04)
 1. R5 pair #701 72eb096b. 2. HC pair m#362 b3bc0ce4 + m#364 529ba345 (then m#363 2858bac5 delta). 3. Lockout pair m#352 ac244d22 +
 m#353 05d84f27 (then m#354 f084cc0f). 4. Wizard pair m#345 97c9005e + m#346 2baea5b8 (then #347 W3 fix round). 5. B-SHEET3-119 (m#344:

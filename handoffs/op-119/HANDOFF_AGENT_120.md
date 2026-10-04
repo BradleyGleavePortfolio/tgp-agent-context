@@ -1,6 +1,6 @@
 # TGP Operator — current state (agent 119 -> agent 120)
 
-Updated: 12:32 PDT 10-04 (from `date`). CURRENT-STATE document: agent 119 overwrites sections 0, 3, 5 and 6 at every milestone;
+Updated: 12:55 PDT 10-04 (from `date`). CURRENT-STATE document: agent 119 overwrites sections 0, 3, 5 and 6 at every milestone;
 history goes to LAST_OPERATOR_STATE.md. Agent 120 copies it to handoffs/op-120/HANDOFF_AGENT_121.md on arrival.
 GitHub is the truth: verify every head and verdict there before acting on any line here (section 2 has a script that does it).
 
@@ -17,6 +17,17 @@ GitHub is the truth: verify every head and verdict there before acting on any li
 - ops/ snapshot: backend branch wip/op119/ops-snapshot (tools/snapshot.sh in handoffs/op-119/tools).
 - Agent cap: 15 concurrent (owner 12:28 PDT 10-04) until 13:22 PDT; at 13:22 stop-and-drain to 5 active, then 5 concurrent (owner
   12:49). Credits: 9.4k/45k at 12:49 (owner).
+
+- Status 12:55 PDT (agent 119; FLEET.md has every verdict): fees #681/#682/#683/#697/#685/#686 DUAL APPROVE at current heads; #684 RC
+  (B-684-3/4/5 Sol, B-684-7/8 Opus) -> B-FEES18-119 also fixes C-686-3 (main's #700 log-safety check fails on fees log lines once main is
+  merged: renames in #684, scratch top+main full-suite proof). Then: #684/#697 lens pair + #685/#686 restack deltas, land as one, delta
+  lenses on #681's final head (main overlaps 3 stack files: email.service.ts, email.types.ts, notifications.service.ts), deploy WITH
+  migrations (20270210000000_s_fee_charge_settlement), subscribe the Stripe endpoint to refund.updated.
+  Recurring: Opus APPROVE all four; Sol RC #678 (B-678-3/4), #679 (B-679-10/11), #680 (B-680-1/2 + C-680-12 hard); #696 dual APPROVE ->
+  B-RECUR7A-119 (#678/#679, #701 tests) then B-RECUR7B-119 (#680/#696/#701, pushes after 7A's notify). Trials: Opus APPROVE, Sol RC
+  (B-672-3, B-673-1/2) -> B-TR4-119 (new tests-only T4). Sheet: B-SHEET2-119 done (m#342 0b1985f4, m#343 19678ce7) -> S12 lens pair;
+  B-SHEET3-119 on m#344. HC: Sol RC m#362 (B-362-2 partial, B-362-6), APPROVE m#364; Opus H46 pending. Lockout: Sol RC m#352/#353
+  (dispute copy vs R-DISPUTE-PAUSE + 2 more); Opus L12 pending. Wizard: W12 pair running. Builders B-DUNSPLIT-119, B-CM5-119 running.
 
 ## Launch path (7 steps)
 
