@@ -1,6 +1,6 @@
 # TGP Operator — current state (agent 119 -> agent 120)
 
-Updated: 12:55 PDT 10-04 (from `date`). CURRENT-STATE document: agent 119 overwrites sections 0, 3, 5 and 6 at every milestone;
+Updated: 13:23 PDT 10-04 (from `date`). CURRENT-STATE document: agent 119 overwrites sections 0, 3, 5 and 6 at every milestone;
 history goes to LAST_OPERATOR_STATE.md. Agent 120 copies it to handoffs/op-120/HANDOFF_AGENT_121.md on arrival.
 GitHub is the truth: verify every head and verdict there before acting on any line here (section 2 has a script that does it).
 
@@ -18,16 +18,17 @@ GitHub is the truth: verify every head and verdict there before acting on any li
 - Agent cap: 15 concurrent (owner 12:28 PDT 10-04) until 13:22 PDT; at 13:22 stop-and-drain to 5 active, then 5 concurrent (owner
   12:49). Credits: 9.4k/45k at 12:49 (owner).
 
-- Status 12:55 PDT (agent 119; FLEET.md has every verdict): fees #681/#682/#683/#697/#685/#686 DUAL APPROVE at current heads; #684 RC
-  (B-684-3/4/5 Sol, B-684-7/8 Opus) -> B-FEES18-119 also fixes C-686-3 (main's #700 log-safety check fails on fees log lines once main is
-  merged: renames in #684, scratch top+main full-suite proof). Then: #684/#697 lens pair + #685/#686 restack deltas, land as one, delta
-  lenses on #681's final head (main overlaps 3 stack files: email.service.ts, email.types.ts, notifications.service.ts), deploy WITH
-  migrations (20270210000000_s_fee_charge_settlement), subscribe the Stripe endpoint to refund.updated.
-  Recurring: Opus APPROVE all four; Sol RC #678 (B-678-3/4), #679 (B-679-10/11), #680 (B-680-1/2 + C-680-12 hard); #696 dual APPROVE ->
-  B-RECUR7A-119 (#678/#679, #701 tests) then B-RECUR7B-119 (#680/#696/#701, pushes after 7A's notify). Trials: Opus APPROVE, Sol RC
-  (B-672-3, B-673-1/2) -> B-TR4-119 (new tests-only T4). Sheet: B-SHEET2-119 done (m#342 0b1985f4, m#343 19678ce7) -> S12 lens pair;
-  B-SHEET3-119 on m#344. HC: Sol RC m#362 (B-362-2 partial, B-362-6), APPROVE m#364; Opus H46 pending. Lockout: Sol RC m#352/#353
-  (dispute copy vs R-DISPUTE-PAUSE + 2 more); Opus L12 pending. Wizard: W12 pair running. Builders B-DUNSPLIT-119, B-CM5-119 running.
+- Status 13:23 PDT (agent 119; FLEET.md has every verdict). DRAIN to 5 active started 13:22 (7 running: B-DUNSPLIT-119, B-FEES18-119,
+  B-RECUR7B-119, B-TR4-119, AUD-SOL-S12B-119, AUD-OPUS/SOL-R12D-119). No launches until 5 or fewer, then 5 concurrent.
+  Fees: all DUAL APPROVE except #684 (B-684-3/4/5/7/8) -> B-FEES18-119 (+ C-686-3 log renames vs main's #700 check, scratch top+main
+  full-suite proof). Then #684/#697 pair + #685/#686 restack check, land as one, delta lenses on #681 final head (main overlaps
+  email.service.ts, email.types.ts, notifications.service.ts), deploy WITH migrations, subscribe Stripe endpoint to refund.updated.
+  Recurring: #678 09e159d8 / #679 23d2c04c FR7 READY (R12D pair auditing); #680/#696/#701 with B-RECUR7B-119 (B-680-1/2 + C-680-12).
+  Trials: B-TR4-119 (B-672-3, B-673-1/2; new tests-only T4). Sheet: m#342/#343 Opus APPROVE, Sol S12B finishing; m#344 FR3 READY 8f53887a.
+  Coach: #674 8cc17809, #676 ecaf75fd, #677 6340993b, NEW #703 d60a6d58 (tests) all READY -> lens pair when a slot frees.
+  HC: m#364 dual APPROVE; m#362 Sol RC (B-362-2 partial, B-362-6) -> B-HC5-119 queued. Lockout: RC both (dispute copy vs
+  R-DISPUTE-PAUSE) -> B-LOCK2-119 after the D2c mobile contract. Wizard: Opus APPROVE, Sol RC (B-345-1, B-346-3) -> B-WIZ2-119 queued.
+  Priority when slots free: fees pair > R34 delta > trials delta > sheet #344 pair > coach pair > HC/lockout/wizard builders > dunning.
 
 ## Launch path (7 steps)
 
