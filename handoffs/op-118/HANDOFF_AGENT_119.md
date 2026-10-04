@@ -5,8 +5,8 @@ LAST_OPERATOR_STATE.md. GitHub is the truth: verify every head and verdict there
 
 ## 0. Summary
 
-Scoreboard: Launch path 1/7 steps done | merged today 0 | deployed today 0 | open decisions 4 | credits used 0/45k (owner's last
-number, 10-03 21:20; ask for the current one).
+Scoreboard: Launch path 1/7 steps done | merged today 1 | deployed today 0 | open decisions 5 | credits used 15k/45k (owner, 10:13
+PDT 10-04).
 Agent 117 retired (last GitHub action 00:56 PDT 10-04; it did not pause cleanly; all its agents are dead). Agent 118 took over 09:31.
 Production unchanged since 22:03 10-03 (backend 643817b3). Nothing merged since #695 (22:16 10-03). Wave 1 (section 6): 15 agents launched 09:47-09:52.
 
@@ -71,6 +71,15 @@ Play Console Data safety + Health apps forms.
 1. Day-1 scope: fast-follow as listed in section 3 (default).
 2. LAUNCH_ONE_PAGER.md: approve as drafted (default).
 3. #661 at 3,121 lines: enforce and move tests to stacked tests-only PR #702 (default; proceeding on the default, reversible).
+5. Stripe webhook destination (found 10:12 from the owner's screenshot): the production destination "The Growth Project Backend
+   Production" (https://api.trygrowthproject.com/api/v1/webhooks/stripe, events from your account) is on API version 2026-02-25.clover
+   while the code and docs/stripe-setup.md pin 2024-09-30.acacia (clover moved invoice.subscription to
+   invoice.parent.subscription_details.subscription; handlers read inv.subscription), and it sends only 6 events (no
+   checkout.session.completed, payment_intent.*, charge.*, refunds, disputes, setup_intent.succeeded, trial_will_end).
+   StripeProcessedEvent is empty: production has never processed a Stripe event. Default: new destination pinned to
+   2024-09-30.acacia via the API with the full event list, signing secret into Fly as STRIPE_WEBHOOK_SECRET_NEXT, disable the old one.
+   Open: connected-account events (account.updated, capability.updated, payouts) need a Connect destination; backend verifies one
+   secret plus a rotation slot.
 4. Delete leftover ci/* branches from 116 jobs (B-T12-116 x4, B-W2-116 x2) and wip/op116/B-W2-116-360 (its fix is on #360): yes
    (default). Only on the owner's explicit word.
 
