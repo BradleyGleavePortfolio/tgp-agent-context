@@ -121,8 +121,19 @@ Opus RC 0/2/3 (5977036337). Must work against today's production backend (coach 
 check or truthful fallback). Bring #345 up to main (merge-only) first; restack #347 merge-only. FIX ROUND + READY at green heads.
 Report: ops/reports/B-WIZ-118.md.
 
+## AUD-OPUS-661-118 (Claude Opus 5.5) / AUD-SOL-661-118 (GPT-6.1 Sol) — #661 PaymentSheet + #702 (its tests-only piece)
+#661 @ f80f0088c98cd078cffa5dd217a8fdc84ad631b2 (base main; 2,843 lines) and #702 @ 20d2eb4f696f5e9b4966000f88bd1cdf76ba4ddb (base
+#661's branch agent/clinic/b-secrets-3; 513 lines). They land as one (rule 11). Operator FIX ROUND 8 moved one whole spec byte-identical
+from #661 to #702 for size (B 5982239187, 5982239336); integrated tree unchanged from 5c25122d. Content statement: FIX ROUND 7
+(5977850515) closing Sol B-661-3 (Sol RC 0/1/0 at c7ee15f0, 5977638148: ten never-activated rows hide the activated owner); #702
+OPENING (5977876193). Opus's last APPROVE is old (957e3677). Dead Sol lens AUD-SOL-661R6-117 left probes on
+audit/AUD-SOL-661R6-117/{661-selection,661-native-selection,661-native-verified}. Binding: hosted Checkout activates only via
+checkout.session.completed; #661 also edits .github/workflows/ci.yml (CI gate, T4). Required checks may still be running when you start:
+re-check them and the head right before posting. Recurring and the mobile sheet depend on #661's reply codes: name them in your report.
+Reports: ops/reports/AUD-OPUS-661-118.md, AUD-SOL-661-118.md.
+
 ## QUEUED (operator launches as slots free, in this order)
 B-RECUR6B-118 (#680 + #696/#701 after B-RECUR6A ends; dead Sol lens AUD-SOL-R34R5-117 probes on audit/AUD-SOL-R34R5-117/680-authority,
-run 37187197172: B-680-2 residual, B-680-5 x2); AUD pair #661 + #702 (after the operator's size move); fees lens pairs (F2+F3, F4+F4b,
+run 37187197172: B-680-2 residual, B-680-5 x2); fees lens pairs (F2+F3, F4+F4b,
 F5+F6 deltas) after B-FEES15; recurring lens pairs after B-RECUR6B; coach pair after B-CM4; sheet pair after B-SHEET; AUD pairs D34
 (#689/#690) and D5 (#691 + #642); HC pairs H2+H3, H4+H5, H6 (mobile #360-#364); B-LOCK (mobile #352/#353); wizard pair; N1-N4.

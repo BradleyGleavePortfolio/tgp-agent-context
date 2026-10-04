@@ -1,6 +1,6 @@
 # TGP Operator — current state (agent 118; becomes the first prompt for agent 119)
 
-Updated: 09:58 PDT 10-04 (from `date`). CURRENT-STATE document: section 3 is overwritten at every milestone; history goes to
+Updated: 09:48 PDT 10-04 (from `date`). CURRENT-STATE document: section 3 is overwritten at every milestone; history goes to
 LAST_OPERATOR_STATE.md. GitHub is the truth: verify every head and verdict there before acting on any line here.
 
 ## 0. Summary
@@ -8,7 +8,7 @@ LAST_OPERATOR_STATE.md. GitHub is the truth: verify every head and verdict there
 Scoreboard: Launch path 1/7 steps done | merged today 0 | deployed today 0 | open decisions 4 | credits used 0/45k (owner's last
 number, 10-03 21:20; ask for the current one).
 Agent 117 retired (last GitHub action 00:56 PDT 10-04; it did not pause cleanly; all its agents are dead). Agent 118 took over 09:31.
-Production unchanged since 22:03 10-03 (backend 643817b3). Nothing merged since #695 (22:16 10-03). Wave 1 (section 6) launched ~10:00.
+Production unchanged since 22:03 10-03 (backend 643817b3). Nothing merged since #695 (22:16 10-03). Wave 1 (section 6): 15 agents launched 09:47-09:52.
 
 ## 1. Owner rules
 
@@ -44,7 +44,7 @@ Sizes are changed lines (additions + deletions). "old" = verdict at an earlier h
 |----|----|----|----|----|
 | Fees (job one) | #681 e9650dc4 2,956; #682 a2051568 2,997; #683 33a9d83b 2,526; #684 7872a533 2,435; #697 b8b63e63 1,837 (F4b tests); #685 8dc2c2ed 2,958; #686 13c814f7 1,355 | #681 dual APPROVE. #682 Sol APPROVE 0/0/0, Opus RC 0/1/3 (B-682-9 banned R75 tokens in the round-14 test). #683 Sol RC 0/2/2 (B-683-1 deferred-fee currency switch; B-683-5 retry flag cleared on same-instant notice failure), Opus RC 0/1/4 (concurs B-683-1; B-683-5 as C). #684/#697: none (round 13 unaudited). #685/#686: old dual APPROVE (restacked since) | B-682-9, B-683-1, B-683-5. Red by design: #682 4 tests, #683 3 suites/9 tests | B-FEES15-118 round, restack up, lens pairs, merge top-down as one (rule 11), owner Stripe refund events, deploy |
 | Recurring (most critical) | #678 b04ea692 1,650; #679 6760ee6a 2,945; #680 9621457e 2,529; #696 5225e078 1,654 (tests); #701 67905b43 416 (tests, base #696) | #678 Sol APPROVE (Opus old APPROVE). #679 Sol RC 0/3/1 (B-679-7 deletion fence, B-679-8 rejected-bind exclusion, B-679-10 null SetupIntent = saved-card trial gap). #680, #696, #701: none at head | #679 Bs; dead-lens probes fail at head: Opus B-678-2, B-679-10; Sol B-680-2 residual, B-680-5 x2 | B-RECUR6A-118 (#678/#679), then B-RECUR6B-118 (#680/#696/#701), restack on fees, lens pairs |
-| #661 PaymentSheet | #661 c7649169 3,121 (OVER); #702 5c25122d 235 (tests, base #661) | none at head (FIX ROUND 7 closes Sol B-661-3) | size over 3,000 | operator moves a whole new test file to #702 (decision 3 default), then both lenses on #661 + #702 |
+| #661 PaymentSheet | #661 f80f0088 2,843; #702 20d2eb4f 513 (tests, base #661) | none at head (FIX ROUND 7 closes Sol B-661-3; operator FIX ROUND 8 moved one spec to #702 for size, integrated tree unchanged) | lenses | AUD-*-661-118 running; land as one (rule 11) with recurring |
 | Trials | #671 c75002c9 2,291; #672 c5e7ed8e 2,977; #673 df76889f 2,627 | #671 dual APPROVE; #672/#673 none (FIX ROUND 8 READY) | lenses | AUD-*-T23-118; land after recurring with the C-656-1 #680 list; mobile #338 (dual APPROVE, BEHIND) |
 | Coach | #674 39653f80 2,859; #676 fbd6402c 2,981; #677 ed1546b6 2,918 | none at head | B-CM3-117 pushed fixes, died before FIX ROUND comments (unfinished) | B-CM4-118 verifies and posts FIX ROUND 3, then lenses; mobile #345-#351 after deploy |
 | Dunning | #687 f8e47bf4 2,717 (BEHIND); #688 b17f514c 2,926; #689 bb992fed 2,913; #690 06307883 2,913; #691 e0afe678 2,742; #642 4fee3c02 75 (dual APPROVE, BEHIND) | none at heads (old RCs answered by FIX ROUND 1-3). All CI green (old red runs are superseded) | lenses | AUD-*-D12-118 now; D34 and D5 queued; mobile #352-#354 after |
@@ -74,7 +74,7 @@ Play Console Data safety + Health apps forms.
 4. Delete leftover ci/* branches from 116 jobs (B-T12-116 x4, B-W2-116 x2) and wip/op116/B-W2-116-360 (its fix is on #360): yes
    (default). Only on the owner's explicit word.
 
-## 6. Agents in flight (wave 1, launched ~10:00 PDT 10-04; jobs in ops/lanes118/JOBS118.md, snapshot wip/op118/ops-snapshot)
+## 6. Agents in flight (wave 1: 15 agents launched 09:47-09:52 PDT 10-04; ids in ops/op118/FLEET.md; jobs in ops/lanes118/JOBS118.md, snapshot wip/op118/ops-snapshot)
 
 | job | model | PRs |
 |----|----|----|
@@ -87,8 +87,9 @@ Play Console Data safety + Health apps forms.
 | B-SHEET-118 | Claude Opus 5.5 | mobile #342, #343 (+ #344) |
 | AUD-OPUS-D12-118 / AUD-SOL-D12-118 | Claude Opus 5.5 / GPT-6.1 Sol | #687, #688 |
 | B-WIZ-118 | Claude Opus 5.5 | mobile #345, #346 (+ #347) |
+| AUD-OPUS-661-118 / AUD-SOL-661-118 | Claude Opus 5.5 / GPT-6.1 Sol | #661 f80f0088, #702 20d2eb4f |
 
-Queued: B-RECUR6B-118; #661 + #702 lens pair; fees/recurring/coach/sheet lens pairs after their builders; D34, D5 (+#642); HC pairs;
+Queued: B-RECUR6B-118; fees/recurring/coach/sheet lens pairs after their builders; D34, D5 (+#642); HC pairs;
 B-LOCK; wizard pair; programs.
 
 ## 7. Backlog to ticket (no PR yet)
