@@ -1696,3 +1696,8 @@ Verbatim: "ill upgrade on day 1 launch for supa - eas stays free / Ill do the tw
 all 7 launch paths are done / exsposed key deleted / all to-dos have been handled for now".
 - Supabase Pro: owner upgrades on launch day 1. EAS: stays on Free. Play reviewer accounts: next APK build after the launch steps.
 - Exposed Stripe restricted key deleted; the newest key (secure form only) kept.
+
+## 2026-10-04 12:28 PDT — Agent cap 15 concurrent; agent 119 launches 15 (owner, to agent 119)
+Verbatim: "Agent cap is now 15 concurrent (my word, replaces the 10:32 cap of 5)." / "launch all 15 in parallel".
+- Agent 119 launched 15 at 12:30 PDT: fees F3/F4/F56, recurring R12/R34 and trials T23 lens pairs; builders B-SHEET2-119,
+  B-DUNSPLIT-119 (R-DISPUTE-PAUSE), B-CM5-119 (handoffs/op-119/JOBS119.md, FLEET.md). Coach and dunning builders run in parallel.
