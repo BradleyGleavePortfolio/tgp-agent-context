@@ -1672,3 +1672,10 @@ Verbatim: "sup[abase pro - upgrade me. sure." / "SCALE - 15 AGENTS - Then starts
 Verbatim: "EXECUTE - IM SIGNING OFF" (21:35) / "scale to 15 again, then stop-and-drain back to 5" (22:17).
 - Agent 117 runs autonomously. Wave 2 launched 22:22 PDT (10 jobs) on top of the 5 builders running = 15; as they end, drain to 5
   concurrent and keep 5 (handoffs/op-117/JOBS117.md "WAVE 2").
+
+## 2026-10-04 10:32 PDT — stop-and-drain to 5 concurrent agents (owner, to agent 118)
+Verbatim: "stop-and-drain to 5 concurrent agents starting now".
+- Agent 118 had 14 agents running. From 10:32: launch nothing while more than 5 run; running agents finish (no cancellations); once
+  below 5, launch only to hold 5 concurrent. Priority for the 5 slots: fees -> recurring (+ sheet) -> trials -> coach -> dunning -> HC.
+- Same exchange: Stripe production webhook destination replaced (acacia, 21 events), new signing secret set in Fly by the owner; the
+  Google Play app was deleted by Google on 2026-09-30 and the owner is recreating it (agent 118 does not investigate).
