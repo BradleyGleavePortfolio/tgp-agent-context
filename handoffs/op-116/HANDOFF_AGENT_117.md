@@ -1,6 +1,6 @@
 # TGP Operator Handoff — Agent 117 (takeover prompt, written by operator agent 116)
 
-Version 1: 2026-10-03 19:29 PDT. Agent 116 rewrites this file at every milestone, at least every two hours, and before any pause.
+Version 2: 2026-10-03 20:37 PDT (v1 19:29). Agent 116 rewrites this file at every milestone, at least every two hours, and before any pause.
 The newest version on main wins. If the timestamp above is more than about two hours old, agent 116 may have stopped mid-run:
 verify everything on GitHub before trusting a line here.
 
@@ -36,26 +36,34 @@ deploy approval for audited main with green CI (plan -> apply -> deploy -> verif
 Claude Opus 5.5 builder + two independent lenses (Claude Opus 5.5 and GPT-6.1 Sol) at the exact head; a new head (even a pure main
 merge) needs new verdicts. Commit identity: `git -c user.name="TGP Agent 117" -c user.email="agent@tgp.invalid"`.
 
-## 1. State at version 1 (19:29 PDT 10-03)
+## 1. State at version 2 (20:37 PDT 10-03)
 
-- Production backend = main d23fa31773f2e7f14781d243db35067d949f421a (deployed 11:57 PDT 10-03). Mobile main 367e6c48dac676151400d4d4b9959c4cc3c7586a.
-  Supabase project rpyfdsgxxltzutgqeouk (org FREE plan): 188 migrations, latest 20270301000000; 20270307000000 (push) not applied.
-- Scoreboard at 19:29: Launch path 0/7 | merged today 5 | deployed today 2 | open decisions 3 | credits used 0/45k (owner, 19:20).
-- Agent 116 sent the readback at ~19:18 and the owner answered with the 15-agent go. Day-1 scope default stands (launch steps 1-7;
-  push #692-#693, Roman, S-SCHED-2, annex = fast-follow) because he did not object; Supabase Pro yes/no still unanswered.
-- 19:26: operator 116 posted READY FOR AUDIT (+ SIZE ASSESSMENT over 1,500 lines) on all 41 split pieces in the launch stacks (fees,
-  trials, coach backend, dunning backend, Health Connect, Programs, lockout, coach setup, coach Money, payment sheet). Recurring
-  #678-#680 get theirs from B-RECUR-116's round. Log: handoffs/op-116/tools/post_ready.py (re-runnable, checks heads first).
-- 19:28: update-branch on backend #664 and mobile #312 (merge-only refresh); they need a merge-only delta lens pair (queued job).
+- Production backend = main d23fa31773f2e7f14781d243db35067d949f421a until the in-flight deploy run 37174286396 (release f57baba3, #664,
+  no migrations) finishes; then deploy main a5b605d1aa86f3afcece6061dc0502f20b83f27e (#652, HAS a migration: migrations=apply-migrations;
+  post-deploy check that `authenticated` can no longer execute app.community_win_author_coach, C-652-1). Mobile main 367e6c48.
+- Merged today by 116: backend #664 (20:01, f57baba3) and #652 (20:31, a5b605d1). Scoreboard: Launch path 0/7 | merged today 7 |
+  deployed today 2 (third in flight) | open decisions 3 | credits used: owner's last number.
+- Launch step 1 privacy: #611 FIX ROUND 8 at 357c40fe audited by AUD-OPUS-PRIV2 / AUD-SOL-PRIV2; 20:31 update-branch -> #611 acf9ff0f
+  and mobile #315 -> 0277ce10 (same lenses post merge-only deltas; #611 + #315 merge together).
+- Step 2 money: fees #685/#686 dual APPROVE; #681-#684 in fix rounds (B-F12, B-F34; restack by stack lock "fees"); recurring #678/#679
+  Opus APPROVE (Sol R12 auditing), #680 lenses auditing; #661 round 4 (B-661-R4). Trials #671/#672 round (B-T12).
+- Step 3 coach: #677 dual APPROVE; #675 FIX ROUND 1 e45b06f9 (Opus CM3 auditing; Sol owed); #674/#676 round (B-CM1; ruling MRR excludes
+  trialing subscriptions plus a separate trial count).
+- Step 4 dunning: #687/#688 round (B-D12), #689/#690 round (B-D34; ruling: cancel during a dispute cycle ends access now).
+- CI: #694 (jest OOM root cause: ts-jest type-checking against 24 MB Prisma typings) Opus APPROVE / Sol RC -> B-CI2 round 2 + new SBOM gate
+  PR (scripts/ci/assert-prod-sbom.sh pipe check lets a banned tool through intermittently). Land #694 early: it ends the OOM reruns.
+- Step 5 Health Connect: AUD-OPUS-W12 on mobile #359/#360; Sol W12 and W34/W56 pairs queued.
 
 ## 2. Fleet in flight (authoritative: handoffs/op-116/lanes/FLEET.md; jobs: handoffs/op-116/lanes/JOBS.md)
 
-Fifteen agents launched 19:27 PDT, each on one or two PRs: privacy pair (#611, then #315 delta), fees three pairs (#681+#682,
-#683+#684, #685+#686), coach Money pair (#674+#676), dunning pair (#687+#688), builders B-RECUR-116 (recurring #679/#680 round on the
-Sol draft findings), B-661-116 (#661 round 3), B-CI-116 (new PR: jest out-of-memory fix in build-and-test). Rules every agent follows:
-handoffs/op-116/lanes/_COMMON_116.md. Reports land in the operator sandbox at /home/user/workspace/ops/reports/<JOB>-116.md and on
-GitHub as AUDIT / FIX ROUND comments (GitHub is the truth if the sandbox is gone).
-If agent 116's session died, every subagent died with it: read each PR's latest AUDIT / FIX ROUND comment to see what finished.
+Fifteen agents in flight at all times, each on one or two PRs; FLEET.md lists every job id, model, PRs, subagent id, start time and
+result. Queued order (JOBS.md "QUEUED JOBS" plus FLEET.md notes): Sol lens for #675/#676; B-F56 (#685 round 5 copy expectations) after the
+fees restack; AUD T3 #673 and AUD D5 #691 after restacks; fresh lens pairs for every fix-round head; merge-only pair #642 + mobile #312;
+B-335 + B-FLAG; B-ADMIN-GUARD (pre-existing admin guard pair makes owner admin routes unreachable); HC W12 Sol, W34, W56; lockout L12/L3;
+Programs G12/G34; coach setup S12/S3; coach Money N12/N34; sheet P12/P3; B-339; B-T3 (#673 integrates with recurring #680's one-trial
+check); mobile push route ClientPackages for the trial notice; C-679-1/C-679-2 follow-up; B-APPLE-REVOKE after the owner sets the Apple key.
+Rules every agent follows: handoffs/op-116/lanes/_COMMON_116.md. Reports: /home/user/workspace/ops/reports/<JOB>-116.md and GitHub
+AUDIT / FIX ROUND comments (GitHub is the truth if the sandbox is gone). If agent 116's session died, every subagent died with it.
 
 ## 3. Operator loop (what 116 does every 10-15 minutes)
 1. `ci_janitor.sh` (cancel superseded runs); check the 20-job Actions cap.
@@ -63,8 +71,9 @@ If agent 116's session died, every subagent died with it: read each PR's latest 
 3. Merge every PR that has dual APPROVE at a green, current head (split stacks land as one: merge top piece down into the bottom piece,
    confirm the tree equals the audited top head, lenses post a merge-only delta on the bottom piece, merge the bottom into main).
 4. After backend merges: deploy (`gh workflow run fly-deploy.yml -R BradleyGleavePortfolio/growth-project-backend --ref main -f
-   release_sha=<full sha> -f confirm=deploy -f migrations=apply-migrations`, then `approve_deploy.sh <run id>`), verify /health,
-   /readyz and _prisma_migrations.
+   release_sha=<full sha> -f confirm=deploy [-f migrations=apply-migrations ONLY if the delta from the running commit touches
+   prisma/migrations or schema; the gate fails either way if wrong]`, then `approve_deploy.sh <run id>`), verify /health, /readyz and
+   _prisma_migrations.
 5. Refresh the next approved PR (one backend, one mobile at a time) with update-branch.
 6. Launch replacement jobs from JOBS.md "QUEUED JOBS" in order, keeping 15 in flight, one or two PRs each.
 7. Every ~2 hours or at a milestone: update LAST_OPERATOR_STATE.md and this file; push to tgp-agent-context main.
@@ -83,7 +92,9 @@ ops/lanes116/; copy package.json + package-lock.json of each product repo main i
 3. LAUNCH_ONE_PAGER.md approval (agent 116 drafts it during this run).
 Owner-only actions pending: Stripe webhook events `setup_intent.succeeded` (before recurring deploy) and
 `customer.subscription.trial_will_end` (before trials deploy); FCM V1 key (push); Apple Sign-in keys (APPLE_AUDIENCES); POSTHOG_KEY
-confirm; EAS build approval (spend); Play Console Data safety + Health apps forms (116 drafts answers).
+confirm; EAS build approval (spend); Play Console Data safety + Health apps forms (116 drafts answers); Stripe Billing retry setting
+"If all retries for a payment fail" must stay "leave the subscription past-due" (otherwise access ends Day 7, not at the Day-10 lockout);
+C-661-2 credential cleanup SQL on finished ClientPurchase rows (operator runs in a deploy window after #661 merges; check row count first).
 
 ## 6. Lessons so far (agent 116)
 - One or two PRs per agent (owner 19:25). Split stacks: lens pairs per two pieces in parallel; builders fix bottom-up with a stack lock.
@@ -91,3 +102,7 @@ confirm; EAS build approval (spend); Play Console Data safety + Health apps form
   deltas, seams and never-approved code get full depth.
 - Background processes started inside a bash call die when the call returns unless started with `setsid nohup ... & disown`.
 - check-runs include stale first attempts: always use the latest run per check name before calling anything red.
+- Deploy gate: migrations=apply-migrations only when the delta has migrations; run 37173413080 failed at the migration-delta gate for #664.
+- Rulings 116 made: MRR excludes trials (+trial count); cancel in a dispute cycle ends access now; #611 must not claim Apple revocation
+  until the owner sets the Apple key; hosted Checkout purchases activate only via checkout.session.completed (B-661-5).
+- Update-branch an approved PR only when it is next to merge; a stale-but-audited head costs one merge-only delta, a refresh mid-queue costs two.
