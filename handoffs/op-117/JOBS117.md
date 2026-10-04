@@ -286,3 +286,64 @@ latest_invoice/status from a fresh retrieve before any state downgrade or re-gra
 #680 tests into #696 first. Work on the current #680 head now; when ops/lanes117/notify/recurring.txt shows "R2 top: #679 @ <sha>"
 from B-RECUR5A-117, merge it into #680 (merge-only), then restack #696. Failing-before evidence per fix; FIX ROUND 5 (+ READY at green
 heads). Lock `recurring` only while pushing. Report: ops/reports/B-RECUR5B-117.md.
+
+## B-F2-117 (builder, Claude Opus 5.5) — fees F2 #682 round 14 (one PR); operator restacks F3-F6 + recurring afterwards
+#682 @ be26e2890d3feae2d168ef0f1638d3ea4b968c96 (red by design: 4 declared tests, fixed by #684). Sol RC 0/1/0 B-682-4
+(issuecomment-5977286034) = Opus RC 0/1/3 B-682-8 (issuecomment-5977415869): both Stripe lookups (transfers and reversals) treat a
+list response that is incomplete — has_more true, or has_more/data missing — as proof that nothing was sent; after Stripe's 24-hour
+idempotency window that causes a silent duplicate payment (Opus run 37183422231: 800 reversed vs 400 booked; 2,000 transferred vs
+1,000 booked). Fix: paginate to completion (starting_after) and treat any malformed/partial page as "unknown" -> fail closed (503 /
+retry later + alert), never as absence; prove with Sol's and Opus's probes (ops/aud-117/AUD-SOL-F12R13-117/,
+ops/aud-117/AUD-OPUS-F12R13-117/) failing before and passing after. Optional: Opus C-681-8 is in F1 — do NOT move F1 (dual APPROVE).
+#682 is 2,951 lines: move F2 tests up into #697 (F4b tests piece) if you need room; never weaken. Take lock `fees` while pushing.
+After pushing #682 and posting FIX ROUND 14 (+ READY with the exact red-by-design list), write "F2: #682 @ <sha>" to
+ops/lanes117/notify/fees.txt and END; the operator restacks #683 -> #684 -> #697 -> #685 -> #686 -> recurring merge-only.
+Report: ops/reports/B-F2-117.md.
+
+## B-TR2-117 (builder, Claude Opus 5.5) — trials T2 #672 round 8 + T3 #673 (two PRs); #671 stays put (dual APPROVE)
+#671 c75002c9: Sol APPROVE 0/0/0, Opus APPROVE 0/0/1 — do NOT move it. #672 6ce54002: Opus APPROVE 0/0/6 (issuecomment-5977435585),
+Sol RC 0/2/1 (issuecomment-5977306071): Sol B-672-3 superseded/already-ended trial warnings still send (= Opus C-672-8: a pending
+notice is still sent after the trial end moves or the trial converts early) and Sol B-672-4 email provider requests keep running
+across timeout/retry (= Opus C-672-9: a timeout frees the slot while the first send is still running, so a retry can send a second
+email). Also Opus C-672-7 (ruling: when the client's own time zone is unknown, show the end time with its time zone, never a bare
+date that can be off by a day). Fix all in #672 with failing-before evidence (probes in ops/aud-117/AUD-SOL-T12-117/ and
+AUD-OPUS-T12-117/). Then merge #672 into #673 and fix C-671-4 in #673 (a trial that never started must never show "The trial is
+over"). #672 is 2,371 lines: keep every piece under 3,000 (SIZE ASSESSMENT if over 1,500). Lock `trials`. FIX ROUND 8 on #672 and
+FIX ROUND on #673, READY at green heads. Report: ops/reports/B-TR2-117.md.
+
+## AUD-OPUS-661R6-117 / AUD-SOL-661R6-117 — #661 round 6
+Head c7ee15f00ee785b75c1dcb28d39ef81624bc952a (FIX ROUND 6 issuecomment-5977483572; 11/11 green). Operator SIZE ASSESSMENT: KEEP
+(grandfathered, 3,121 lines) — do not size-fail it. Prior at 957e3677: Opus APPROVE 0/0/4, Sol RC 0/2/0 (B-661-3 subcase, B-661-9).
+
+## FEES LENS PAIRS at round 14 (00:12 10-04). #681 F1 e9650dc4 is dual APPROVE (Sol 0/0/0, Opus 0/0/1) — not moving.
+Heads: #682 F2 a2051568172f6963f6fbfe4c5cd38c34a813632a (FIX ROUND 14 issuecomment-5977577298; red by design: exactly 4 tests — 2 in
+checkout-webhook-fee-split.spec.ts, 2 in purchase-split-handler.service.spec.ts — fixed by #684); #683 F3
+33a9d83b72afe964fcd2b5ed446bc1a4fb0a65a1 (= round-13 content 536de5c2 + merge-only restack; red by design 9 tests); #684 F4
+7872a533544a9260a41a123aee04fe951378a629 (round-13 d3e8ceb2 + restack); #697 F4b tests b8b63e637400177c2dc888c721f2484193b28e3d
+(2ae0c3c9 + restack); #685 F5 8dc2c2ed107a64b25d077c6d383edfb47d94e573 (aaecdb8d + restack); #686 F6
+13c814f74061371dd49b86bffa871c4738e5eb83 (a1747759 + restack). Restack patch-id proofs: ops/post117/fees-restack14.txt. Read
+B-FEES-117 and B-F2-117 reports and every prior verdict (cite findings with lens name; IDs collide).
+- AUD-OPUS-F23-117 / AUD-SOL-F23-117: #682 + #683.
+- AUD-OPUS-F44B-117 / AUD-SOL-F44B-117: #684 + #697.
+- AUD-OPUS-F56R14-117 / AUD-SOL-F56R14-117: #685 + #686.
+
+## B-661-R7-117 (builder, Claude Opus 5.5) — #661 round 7 + new tests-only PR stacked on #661 (two PRs)
+#661 @ c7ee15f00ee785b75c1dcb28d39ef81624bc952a: Sol RC 0/1/0 (issuecomment-5977638148): Sol B-661-3 still open at the list
+boundary — the owner lookup (checkout-webhook-handler.service.ts ~L1305-1320) caps failed matches at ten BEFORE checking activation,
+so ten never-activated failed associations exclude the activated owner and the success is consumed without restoring access (Sol
+probe run 37185110556: 10 fails, 9 passes; ops/aud-117/AUD-SOL-661R6B-117/). B-661-9 closed. Fix: select the authoritative
+activated owner first (filter on activation in SQL, then limit; or no cap for the owner query with a bounded, indexed predicate), so
+no count of unrelated rows can hide it; keep B-661-9 and all round-6 behaviour. Operator size ruling (issuecomment-5977489245): NO
+NET GROWTH in #661 — the code fix goes in #661 (net lines <= 0 if at all possible; remove dead lines you replace), and every new
+test goes in a NEW tests-only PR whose base is #661's branch (title "test(checkout): #661 round 7 boundary tests"). Failing-before
+evidence (the tests PR's tests fail against c7ee15f0). FIX ROUND 7 on #661, opening comment + READY on the tests PR, both at green
+heads. Report: ops/reports/B-661-R7-117.md.
+
+## B-CM3-117 (builder, Claude Opus 5.5) — coach M1 #674 + M3 #676 round 3 (then restack #677)
+Heads: #674 5bbcc92a, #676 54e61566, #677 cdb627db. Sol CM1R2 RC (read issuecomment-5977398163 and -5977398126; report
+ops/reports/AUD-SOL-CM1R2-117.md; probes ops/aud-117/AUD-SOL-CM1R2-117/): #674 0/2/2 — permanent dispute-queue starvation; concurrent
+first-close timestamp overwrite (B-674-10 closed). #676 0/1/1 — narrowed B-676-3: a successful one-cent refund disappears from the
+CSV when all ledger portions round to zero (every money movement must produce its row; allocate rounding remainder deterministically
+so the sum of portions equals the refund exactly). No Opus verdict at these heads yet (Opus lenses audit your new heads). Size:
+#674 has ~67 lines of headroom: move #674 tests into #677 FIRST; never weaken. Lock `coach`. Failing-before evidence per fix; FIX
+ROUND 3 on #674/#676 and restack FIX ROUND on #677, READY at green heads. Report: ops/reports/B-CM3-117.md.

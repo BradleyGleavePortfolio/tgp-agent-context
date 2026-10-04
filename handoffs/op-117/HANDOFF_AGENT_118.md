@@ -1,6 +1,6 @@
 # TGP Operator — Takeover Prompt for Agent 118 (written and kept current by operator agent 117)
 
-Version 6: 2026-10-03 23:31 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
+Version 7: 2026-10-04 00:26 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
 GitHub is the truth: re-read every PR head and its latest AUDIT / FIX ROUND comment before acting on any line here.
 
 ## 0. Who you are and what the owner wants
@@ -131,6 +131,23 @@ gate, owner 2026-09-28). Subagent models: claude_opus_5_5 (builders, Opus lens),
   B-RECUR5A-117 (b_recur5a_117_recurring_678_679_round_5_mutg0lg6). Next: B-RECUR5B-117 (#680/#696), fees F2 builder after Opus
   F12R13, trials T2 builder after Opus T12, then lens queue (JOBS117.md).
 - Scoreboard 23:31: Launch path 1/7 | merged today 12 | deployed today 5 | open decisions 2 | credits used 0/45k (owner's last number).
+- 23:35-00:26: #661 round 6 c7ee15f0 (3,121 lines; operator SIZE ASSESSMENT KEEP, grandfathered, NO NET GROWTH from now:
+  issuecomment-5977489245); Sol RC 0/1/0 at c7ee15f0 (B-661-3 list boundary: ten never-activated rows hide the activated owner) ->
+  B-661-R7-117 running (fix in #661 + new tests-only PR stacked on #661). Fees F2 round 14 a2051568 (fail closed on incomplete Stripe
+  lists) by B-F2-117; operator restacked F3-F6 merge-only (proofs ops/post117/fees-restack14.txt, restack READY notes posted): #683
+  33a9d83b (red by design 3 suites/9 tests, verified), #684 7872a533, #697 b8b63e63, #685 8dc2c2ed, #686 13c814f7. Verdicts: #682 Sol
+  APPROVE 0/0/0; #683 Sol RC 0/2/2 (B-683-1 cross-currency refund overstatement; B-683-5 notice-retry authority lost on timestamp
+  collision); Opus F23 running. #681 dual APPROVE (unchanged). Recurring round 5 A done (B-RECUR5A-117): #678 b04ea692, #679 6760ee6a
+  (on fees top 13c814f7), new tests-only PR #701 69afde25 (base #696); B-RECUR5B-117 running on #680/#696. Possible functionality gap
+  to check: clients who already have a saved card may be unable to start a trial (B-RECUR5A note, untested). Trials: #671 dual APPROVE;
+  B-TR2-117 running on #672/#673. Coach: Sol RC on #674 (0/2/2) and #676 (0/1/1) at FIX ROUND 2 heads -> B-CM3-117 running.
+- Production read-only check 23:5x: _prisma_migrations has no 20270210000000_s_fee_charge_settlement row (189 rows total; latest
+  20270301000000_notification_zone_provenance_reminder_generation). Supabase plan still free.
+- Day rolled over at 00:00: 10-03 totals merged 12, deployed 5. Scoreboard 00:26: Launch path 1/7 | merged today 0 | deployed today 0 |
+  open decisions 2 | credits used 0/45k (owner's last number).
+- Running (5): B-RECUR5B-117 (b_recur5b_117_recurring_680_696_round_5_mutggz81), B-TR2-117 (b_tr2_117_trials_672_673_mutgoetv),
+  B-661-R7-117 (b_661_r7_117_661_round_7_tests_pr_muthq005), AUD-OPUS-F23-117 (aud_opus_f23_117_fees_682_683_muths8b9), B-CM3-117
+  (b_cm3_117_coach_674_676_round_3_muthz7ib).
 
 ## 2. Agents in flight (23:05 PDT; job board handoffs/op-117/JOBS117.md, common rules _COMMON_117.md)
 Concurrency floor 5 (owner 22:17: drain back to 5 and keep 5). Running now (5):
@@ -233,5 +250,6 @@ apps forms.
 - v2 21:52 PDT: #611 + #315 merged; verdict results; queued builder rounds.
 - v3 22:07 PDT: launch step 1 deployed; #675 and #694 merged; four builders launched.
 - v4 22:24 PDT: #695 merged; wave 2 launched (15 running); current agent table.
+- v7 10-04 00:26 PDT: #661 r6/r7, fees r14 + restack, recurring r5A, coach r3, day rollover.
 - v6 23:31 PDT: fees r13, recurring restack + verdicts, new follow-up PRs #697-#700/#368.
 - v5 23:05 PDT: builders done (recurring, #661, coach, dunning, trials, HC READY); mobile P/L/S verdicts; lens queue; ops snapshot.
