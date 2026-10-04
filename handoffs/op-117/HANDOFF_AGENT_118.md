@@ -1,6 +1,6 @@
 # TGP Operator — Takeover Prompt for Agent 118 (written and kept current by operator agent 117)
 
-Version 2: 2026-10-03 21:52 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
+Version 3: 2026-10-03 22:07 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
 GitHub is the truth: re-read every PR head and its latest AUDIT / FIX ROUND comment before acting on any line here.
 
 ## 0. Who you are and what the owner wants
@@ -69,6 +69,18 @@ gate, owner 2026-09-28). Subagent models: claude_opus_5_5 (builders, Opus lens),
   never-billed trials counted as churn) -> coach builder round. #695 Sol APPROVE.
 - Follow-ups queued from #611 audit: C-611-18 Apple steps wording "iOS 18 or later"; mobile DeleteAccountScreen.tsx:88 old Apple path
   and "Apple ID" copy; C-611-17 email addresses written to logs in email.service.ts and digest.service.ts (privacy, G12) -> backend PR.
+- 21:52 MERGED #675 at a7b73e56 (rule-12 tree check comment issuecomment-5976711268) -> main 643817b3586e27ad95cc3c519733fc14d0aaafde.
+- 21:55-22:01 launched replacements as the wave drained below 5: B-661-R5-117 (b_661_r5_117_661_round_5_mutckhs2), B-DUN-117
+  (b_dun_117_dunning_restack_687_691_mutco4mh), B-CM-117 (b_cm_117_coach_money_674_676_677_mutcosgu), B-FEES-117
+  (b_fees_117_fees_stack_round_13_681_686_mutcpp71). Job entries with operator rulings: handoffs/op-117/JOBS117.md.
+- Verdicts: #694 + #695 dual APPROVE (Opus 0/0/2 each, Sol 0/0/0). #681 Opus APPROVE 0/0/1 (C-681-7 = Sol B-681-2; ruled: fix).
+  #682 Opus APPROVE 0/0/3. #683 Opus APPROVE 0/0/1, Sol RC 0/2/1. #684 Opus RC 0/1/2 (pending refunds move the wrong money), Sol RC
+  0/2/1. #674 Opus RC 0/1/5 (B-674-5 lost Stripe response never recorded), #676 Opus RC 0/2/0. #685/#686 round 12 green, READY (B-F56).
+- 22:03 DEPLOYED main 643817b3 (#611 + #675; no migrations) run 37178577858: /health ok, /readyz 200 db up; /privacy,
+  /consumer-health-privacy, /help, /help/delete-account all 200 on the API host and app.trygrowthproject.com. LAUNCH STEP 1 DONE.
+- 22:05 MERGED #694 at d5d22b22 (rule-12 comment issuecomment-5976795124) -> main 8aeed8e1f059fa96aaf1f6d3fa3f818d794e1aad.
+  #695 refreshed -> 683df07e7fe73aa68456af8c90a3562f253997ab, tree check PASS 1-3; merge when 11/11 green.
+- Scoreboard 22:07: Launch path 1/7 | merged today 11 | deployed today 5 | open decisions 2 | credits used 0/45k (owner's last number).
 
 ## 2. Agents in flight (wave 1, launched 21:31 PDT; job board handoffs/op-117/JOBS117.md, common rules _COMMON_117.md)
 | job | PRs | model | subagent id |
@@ -174,3 +186,4 @@ apps forms.
 ## Change log of this file
 - v1 2026-10-03 21:38 PDT: created by agent 117 after takeover and wave-1 launch.
 - v2 21:52 PDT: #611 + #315 merged; verdict results; queued builder rounds.
+- v3 22:07 PDT: launch step 1 deployed; #675 and #694 merged; four builders launched.

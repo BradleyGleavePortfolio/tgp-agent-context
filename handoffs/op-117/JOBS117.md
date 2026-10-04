@@ -78,3 +78,76 @@ for size; READY issuecomment-5976568923): full audit of the moved tests, merge-o
 AUD-OPUS-CM2-117 (#677); AUD pair F56 (#685/#686 after B-F56-117); AUD pairs R12/R34 (after B-RECUR3-117); dunning builder (restack
 D1 f8e47bf4 up D2-D5, #690 READY) then D pairs; trials pairs (after recurring lands); B-W2 (#360 from wip/op116/B-W2-116-360, restack
 #361-#364) then W pairs; remainder (#642, #312, #335, Programs #355-#358).
+
+## B-661-R5-117 (builder, Claude Opus 5.5) — #661 round 5 (PaymentSheet credentials)
+#661 @ 6fdc35de61a26a0c9e8b3741044a3ec223dc9ab4: Opus APPROVE 0/0/5 (issuecomment-5976687000), Sol REQUEST CHANGES 0/2/0
+(issuecomment-5976655927). Close Sol's B-661-3 (equal-timestamp settlement evidence permits a stale decline revocation; completed
+hosted purchases must recover after a successful retry) and B-661-8 (the successful retry's id-only write can overwrite an intervening
+terminal refund/cancel/dispute state: fence the write on state, compare-and-set). Sol's probes: ops/aud-117/AUD-SOL-661-117/ (spec +
+patch). Opus argues B-661-3's hosted sequence cannot occur through the product: if you agree, prove it with a test that pins the
+invariant (not prose), and close B-661-8 regardless. Also C-661-9 (write-side completion fence test) and C-661-8 (only Stripe 404/400
+are permanent; 401/403 retryable) since they are small and in the same file. Refresh the PR body to round 5 (C-661-3). First bring the
+branch up to main 0b0f5b82 (merge-only) and keep the fix commits separate. Failing-before evidence required. Post FIX ROUND 5 (+ READY
+when 11/11 green). Report: ops/reports/B-661-R5-117.md.
+
+## AUD-OPUS-CM2-117 (Claude Opus 5.5) — #677 (coach M4 tests)
+#677 @ 1f74654744536bbea6bb53ff489157f617fbee6e (or its current head). Sol APPROVE 0/0/1 (C-677-2 optional). Operator SIZE ASSESSMENT
+KEEP posted. Audit independently; note that #674/#676 are getting a builder round (Sol RC), so if #677's head moves while you work,
+audit the head current when you post. Report: ops/reports/AUD-OPUS-CM2-117.md.
+
+## B-DUN-117 (builder, Claude Opus 5.5) — dunning stack restack D1 -> D5 (#687-#691), bottom-up until every piece is READY
+Heads at 21:56: #687 D1 f8e47bf4 (base main, FIX ROUND 1 + READY posted by operator 117), #688 D2 6718d211 (FIX ROUND 1 READY),
+#689 D3 6cead7ec (FIX ROUND 1 READY), #690 D4 0681babd (FIX ROUND 1 READY posted 21:42), #691 D5 0f24a8fa (restack note, no READY).
+D1's fix commit f8e47bf4 is NOT yet merged into D2-D5. Take lock `dunning`; bring #687 up to main (merge-only, main is now
+643817b3 or later) only if it conflicts or the next merge needs it (otherwise leave D1 alone); merge D1 into D2, D2 into D3, D3 into
+D4, D4 into D5 (merge-only, no content edits unless a conflict forces one; if a conflict forces a content edit, that piece needs a
+FIX ROUND with failing-before evidence). Verify every piece's own files are byte-identical to its last FIX ROUND head (patch-id), run
+CI per piece, post a restack FIX ROUND (+ READY at green heads) on each moved piece, release the lock. Open B findings from 116's
+lenses (B-687-1, B-689-1/2, Sol D3 0/4/0, D4 0/5/1) were answered in FIX ROUND 1 by B-D12-116 / B-D34-116: read
+ops/reports/B-D12-116.md and B-D34-116.md and confirm each B has a closing commit + test; if any B is unanswered, fix it with
+failing-before evidence. Report: ops/reports/B-DUN-117.md.
+
+## B-FEES-117 (builder, Claude Opus 5.5) — fees stack round 13, bottom-up F1 -> F6 (#681-#686), then notify recurring
+Verdicts at 21:58 (read every verdict comment at the current heads first; GitHub wins):
+- #681 F1 9de3135c: Sol RC 0/1/0 (B-681-2: account-dependent keys permit duplicate legacy rows across reconnection snapshots;
+  probe ops/aud-117/AUD-SOL-F12-117/). Opus F12 verdict: read it on the PR (AUD-OPUS-F12-117 report).
+- #682 F2 a5d6a434: Sol APPROVE 0/0/0; Opus: read it on the PR.
+- #683 F3 35a18539: Opus APPROVE 0/0/1; Sol RC 0/2/1 (settlement-debit currency misrepresented in customer-refund notices; incomplete
+  refund pages accepted as complete).
+- #684 F4 e9ee033d: Sol RC 0/2/1 (missing canonical refund identities/reporting; notice delivery ignores sweep deadlines); Opus RC
+  0/1/2 (Opus B-684-3: pending refunds — a pending refund reverses the coach transfer and a later failure leaves the coach debited;
+  before round 11 a pending refund that later succeeded never moved money). Sol and Opus reuse IDs for different findings: always
+  cite with the lens name.
+- #685 F5 b8c26b7f and #686 F6 e6893c97: FIX ROUND 12 READY (B-F56-117), no verdicts at these heads yet.
+Operator rulings (defaults from the lenses, adopted): (1) fix Opus B-684-3 and Sol B-684-1 in one design: rebuild the full refund
+list from Stripe (paginate to completion; an incomplete page set is never "complete"), count only succeeded refunds, apply money
+(transfer reversal) only when a refund reports succeeded; a refund that fails after money was applied raises an alert and a flag
+(no automatic re-credit this round; C-684-4 closes with the alert). (2) Size: F4 has ~5 lines of headroom under 3,000 and F3 ~16:
+move tests out into a new tests-only piece stacked directly above F4 (title "fees F4b tests"), keep every piece under 3,000 and post a
+SIZE ASSESSMENT for any piece over 1,500. (3) Every amount assertion stays exact; never weaken a test to pass.
+Order: take lock `fees`; fix F1 -> merge-only restack F2 -> fix F3 -> fix F4 (+ new F4b) -> merge-only restack F5, F6. Failing-before
+evidence for every fix. CI per piece; FIX ROUND (+ READY at green heads; red-by-design pieces state the exact expected failures) on
+each moved piece. Release the lock, then write one line to ops/lanes117/notify/fees.txt: "fees top: #686 @ <sha>" (B-RECUR3-117 or
+the next recurring builder restacks #678 onto it). Do not touch #678-#680. Report: ops/reports/B-FEES-117.md.
+
+## B-CM-117 (builder, Claude Opus 5.5) — coach Money round, bottom-up M1 #674 -> M3 #676 -> M4 #677 (#675 is MERGED)
+Heads: #674 d9327546 (base main), #676 cf5ef18b, #677 1f746547. Verdicts to close (read the comments; cite with lens name):
+- #674: Sol RC 0/1/2 (Sol B-674-10: lost-dispute recovery reverses the Stripe charge/transfer twice while posting the head-coach ledger
+  once; issuecomment-5976672242). Opus RC 0/1/5 (Opus B-674-5: a lost-chargeback head-coach reversal is never recorded if Stripe's
+  response is lost — Stripe shows 245 cents back, local 0, only a warning; main's old webhook mirror recorded it; probe run
+  37178103384; issuecomment-5976743131).
+- #676: Sol RC 0/2/1 and Opus RC 0/2/0: B-676-3 one refund/chargeback on a head-coach-split sale gives two seller tax CSV rows
+  (client_refunded doubles: 19.60 for a 9.80 refund); B-676-4 churned_30d still counts trials cancelled before they ever billed
+  (116 ruling: MRR/churned_30d exclude never-billed trials). Probes 37178111398 and Sol's in ops/aud-117/AUD-SOL-CM1-117/.
+Operator rulings (lens defaults adopted): (1) fix B-676-3 where the record is written (in #674), keyed and dated by the refund or
+dispute event time, one row per money movement; (2) fix Opus B-674-5 / Sol B-674-10 with a dispute-scoped idempotency key that is
+safely retryable (reverse exactly once, record exactly once, a lost Stripe response retries to the same key and records), plus a
+Sentry alert on any mismatch; (3) a client still on a trial, or a trial cancelled before first bill, is never churned; (4) size: #674
+has ~17 lines of headroom under 3,000: move tests into #677 (tests-only) and post SIZE ASSESSMENTs where over 1,500. Also bring #674
+up to main 643817b3+ (merge-only) first since #675 merged. Failing-before evidence per fix; never weaken an amount assertion.
+Take lock `coach`, fix M1 -> restack/fix M3 -> M4, CI per piece, FIX ROUND (+ READY at green heads) on each, release lock.
+Report: ops/reports/B-CM-117.md.
+B-FEES-117 addendum (22:00): Opus F12 verdicts: #681 APPROVE 0/0/1 (Opus C-681-7 = Sol B-681-2: legacy ledger key uses the payee's
+account while the lookup uses the payee user) and #682 APPROVE 0/0/3. Ruling: fix it (cheap key fix in F1, key and lookup on the same
+identity, with a reconnection-snapshot test). Also in F4: purchase-split-handler.service.ts:66 and :197 log raw error messages (G12):
+log a code/class only.
