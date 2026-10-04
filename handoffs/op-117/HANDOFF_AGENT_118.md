@@ -1,6 +1,6 @@
 # TGP Operator — Takeover Prompt for Agent 118 (written and kept current by operator agent 117)
 
-Version 1: 2026-10-03 21:38 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
+Version 2: 2026-10-03 21:52 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
 GitHub is the truth: re-read every PR head and its latest AUDIT / FIX ROUND comment before acting on any line here.
 
 ## 0. Who you are and what the owner wants
@@ -50,6 +50,25 @@ gate, owner 2026-09-28). Subagent models: claude_opus_5_5 (builders, Opus lens),
   fixed #695's new CodeQL alert 123 (head e80cefad, test-only); reran known infra failures once (#690 SBOM race, #661/#679/#695 jest
   OOM); saved mobile #360 fix fde1875e to wip/op116/B-W2-116-360. Blocked by the safety classifier (do not retry without the owner's
   explicit word): deleting 116's leftover ci/* branches; publishing a 116 lens's drafted verdict (#611 Opus) — fresh lenses instead.
+
+## 1a. Progress log (newest last; GitHub wins)
+- 21:41 MERGED backend #611 (b09f2061 -> merge 0b0f5b820ab00bcff2ba4dda1d787d39598908a4) and mobile #315 (0277ce10 -> merge
+  7fdb629a798d44e76475dbece1b14e68f360ab91) together after Opus APPROVE 0/0/2 and Sol APPROVE 0/0/0 at b09f2061, 11/11 and 3/3 green.
+  Deploy of 0b0f5b82 waits for main CI: first CI run 37177734569 failed one test (data-export-storage.spec.ts "a failed retirement
+  write answers a retryable 503 ...") = flake: rows ordered by created_at desc with no tiebreaker and the fake DB stamps two rows in the
+  same millisecond. Same tree passed on the PR. Rerun once at 21:51. Follow-up F-EXPORT-TIE: deterministic order (tiebreaker or fake clock).
+  #611 must be deployed before any mobile build containing #315 ships (/consumer-health-privacy and /help/delete-account 404 until then).
+- 21:42 posted #661 FIX ROUND 4 (saved draft) and #690 FIX ROUND 1 (saved draft) at green heads.
+- 21:44 #675 dual APPROVE (Opus e45b06f9 earlier, Sol 0/0/0). Refreshed (update-branch) -> a7b73e566c6ffc883743aa9c3a066120e0978291;
+  rule-12 tree check PASS 1-3; merge when 11/11 green. #672 refreshes packages files second.
+- 21:45 #677 Sol APPROVE 0/0/1 (C-677-2 test-strength, optional); operator SIZE ASSESSMENT KEEP posted. Opus #677 still owed.
+- Verdicts in: #661 Opus APPROVE 0/0/5, Sol REQUEST CHANGES 0/2/0 (B-661-3 equal-timestamp settlement, B-661-8 id-only retry write can
+  overwrite a terminal refund/cancel/dispute) -> builder round B-661-R5 then both lenses. #681 Sol RC 0/1/0 (B-681-2 duplicate legacy
+  rows across reconnection snapshots) -> F1 builder, restack fees, affected-head reviews. #682 Sol APPROVE 0/0/0. #674 Sol RC 0/1/2
+  (B-674-10 lost-dispute recovery reverses Stripe/transfer twice) and #676 Sol RC 0/2/1 (B-676-3 CSV refund duplication, B-676-4
+  never-billed trials counted as churn) -> coach builder round. #695 Sol APPROVE.
+- Follow-ups queued from #611 audit: C-611-18 Apple steps wording "iOS 18 or later"; mobile DeleteAccountScreen.tsx:88 old Apple path
+  and "Apple ID" copy; C-611-17 email addresses written to logs in email.service.ts and digest.service.ts (privacy, G12) -> backend PR.
 
 ## 2. Agents in flight (wave 1, launched 21:31 PDT; job board handoffs/op-117/JOBS117.md, common rules _COMMON_117.md)
 | job | PRs | model | subagent id |
@@ -154,3 +173,4 @@ apps forms.
 
 ## Change log of this file
 - v1 2026-10-03 21:38 PDT: created by agent 117 after takeover and wave-1 launch.
+- v2 21:52 PDT: #611 + #315 merged; verdict results; queued builder rounds.
