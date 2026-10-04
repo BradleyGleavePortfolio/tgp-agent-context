@@ -387,3 +387,6 @@ Therefore: the critical path always receives its canonical model or a stronger e
 </table>
 
 **CLASSIFY BY CONSEQUENCE. ROUTE BY RULE. PROMOTE ON AMBIGUITY. OPTIMIZE FOR TIME.**
+
+## Amendment 2026-10-03 21:15 PDT — merge-only refresh exception (owner)
+A pure main merge where every PR file stays byte-identical does not need new lens verdicts: the operator posts a MERGE-ONLY TREE CHECK and the prior dual verdicts carry over. Exact conditions and exclusions: MERGE_DEPENDENCY_GUIDE.md rule 12. Everything else that moves a head still needs new verdicts at the exact head.

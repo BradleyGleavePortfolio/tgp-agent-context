@@ -165,3 +165,6 @@ Use measured limits and context, not universal line counts, comment ratios, mand
 A new permanent rule needs a concrete hazard, an owner, and the least costly effective enforcement. Prefer a short invariant plus a tested control; do not require prose, CI, and an auditor to duplicate every rule.
 
 Measure cycle time, review effort, rework, escaped defects, incidents, recovery, and customer acceptance. Remove or revise controls that do not improve outcomes. Retain manual protection only where the replacement is absent or unproven, scoped to that gap. Simplification succeeds when delivery improves without worsening real safety, not when word count alone falls.
+
+## Amendment 2026-10-03 21:15 PDT — merge-only refresh exception (owner)
+A pure main merge where every PR file stays byte-identical does not need new lens verdicts: the operator posts a MERGE-ONLY TREE CHECK and the prior dual verdicts carry over. Exact conditions and exclusions: MERGE_DEPENDENCY_GUIDE.md rule 12. Everything else that moves a head still needs new verdicts at the exact head.

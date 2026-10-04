@@ -39,3 +39,6 @@ MODEL_ROUTING.md is the method; this file lists standing owner orders that sit o
 ## 4. Communication
 - Every message to the owner ends with "Your next step: ..." or "Nothing needed from you." Escalate decisions, not chores.
   No emojis, no exclamation marks, no first person in product copy, no generic errors. Never name the clinic partner in any repo.
+
+## Amendment 2026-10-03 21:15 PDT — merge-only refresh exception (owner)
+A pure main merge where every PR file stays byte-identical does not need new lens verdicts: the operator posts a MERGE-ONLY TREE CHECK and the prior dual verdicts carry over. Exact conditions and exclusions: MERGE_DEPENDENCY_GUIDE.md rule 12. Everything else that moves a head still needs new verdicts at the exact head.

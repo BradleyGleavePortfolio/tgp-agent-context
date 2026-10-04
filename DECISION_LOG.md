@@ -1653,3 +1653,6 @@ Verbatim: "dont use agents on multiple PR's - it takes away from the depth of sc
 
 ## 2026-10-03 21:04 PDT — Pause all agents; save live state for agent 117 (owner)
 Verbatim: "get all agents in flight to a safe pause point RIGHT NOW" / "gather their live state and get it to a safe place for oeprator 117 do pickup from!" Result: handoffs/op-116/pause/PAUSE_STATE.md.
+
+## 2026-10-03 21:15 PDT — Merge-only refresh exception (owner)
+Verbatim: "Merge-only re-reviews: a pure main merge where the PR's files stay byte-identical costs a full pair of reviewers - go change the rule/ make the exception everywhere its mentioned!" Implemented: MERGE_DEPENDENCY_GUIDE.md rule 12; amendments in AGENT_RULES.md, MODEL_ROUTING.md, OPERATOR_STANDING_ORDERS.md, lanes/_COMMON_116.md, HANDOFF_AGENT_117.md.

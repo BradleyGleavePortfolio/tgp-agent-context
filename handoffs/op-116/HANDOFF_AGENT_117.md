@@ -26,7 +26,8 @@ Owner rules from message one:
 
 Authority: merge audited exact heads with all required checks green (`gh pr merge N --merge --match-head-commit <full sha>`);
 standing deploy approval for audited main with green CI; mechanical update-branch; T4 = Claude Opus 5.5 builder + two independent
-lenses (Claude Opus 5.5, GPT-6.1 Sol) at the exact head; any new head needs new verdicts. Identity:
+lenses (Claude Opus 5.5, GPT-6.1 Sol) at the exact head; any new head needs new verdicts, except a pure main merge with byte-identical PR files (operator
+MERGE-ONLY TREE CHECK, MERGE_DEPENDENCY_GUIDE rule 12, owner 21:15). Identity:
 `git -c user.name="TGP Agent 117" -c user.email="agent@tgp.invalid"`. Subagent models: claude_opus_5_5, gpt_6_1_sol.
 
 ## 1. State at pause (21:15 PDT 10-03)
@@ -34,7 +35,7 @@ lenses (Claude Opus 5.5, GPT-6.1 Sol) at the exact head; any new head needs new 
   _prisma_migrations has #652's migration finished, and role `authenticated` cannot EXECUTE app.community_win_author_coach.
 - Scoreboard: Launch path 0/7 | merged today 7 | deployed today 4 | open decisions 3 | credits used 42.9k/45k (owner 21:07).
 - Dual APPROVE not merged: mobile #315 (0277ce10; lands with #611), mobile #359 (bottom of HC stack), fees #685/#686 (stack; heads
-  moved by restack -> merge-only delta), coach #677 (head moved to 1f746547 -> merge-only delta), #675 (Opus APPROVE e45b06f9 posted,
+  moved by restack -> merge-only delta by lenses: restacks are not covered by rule 12), coach #677 (head moved to 1f746547 by a restack -> lens merge-only delta, not rule 12), #675 (Opus APPROVE e45b06f9 posted,
   Sol provisional APPROVE draft). Drafted lens approvals waiting for green + READY: #611 @ b09f2061 (Opus), #681/#682 (Opus, probes
   not run yet). Every other launch-stack PR has a pushed fix-round head with its FIX ROUND comment saved as a draft (PAUSE_STATE.md).
 - Private saves: product-repo branches wip/op116/<worktree> (unpushed code: #680 WIP 09e139b1 untested; #360 fix fde1875e with a
@@ -67,8 +68,8 @@ lenses (Claude Opus 5.5, GPT-6.1 Sol) at the exact head; any new head needs new 
 - Deploy flag: pass `-f migrations=apply-migrations` ONLY when the delta from the running commit touches prisma/migrations or schema;
   the gate fails either way if wrong (116 lost one deploy cycle to this).
 - Verify before you write: 116 named the wrong main commit in a #652 comment (corrected). Read the merge commit's parents first.
-- Refresh (update-branch) only the PR that is next to merge. A stale-but-audited head costs one merge-only delta; refreshing early
-  costs two when something else lands first.
+- Refresh (update-branch) only the PR that is next to merge. Under rule 12 a clean main refresh with byte-identical PR
+  files costs only an operator tree check; refreshing early still risks conflicts and CI reruns.
 - Keep a launch one-pager. 116 never drafted LAUNCH_ONE_PAGER.md; draft it in your first hour (owner decision 3).
 - Credits: 116 spent ~43k for 2 merges and 2 deploys of its own plus a large in-flight pipeline. Measure credits per merged PR at every
   pause (LAST_OPERATOR_STATE.md) and prefer actions that convert in-flight work into merges.
@@ -77,7 +78,8 @@ lenses (Claude Opus 5.5, GPT-6.1 Sol) at the exact head; any new head needs new 
 
 ## 4. Operator loop (every 10-15 minutes)
 ci_janitor.sh and queue check -> read mails/reports, update lanes FLEET.md -> merge dual-APPROVE green current heads (stacks land as
-one: merge top piece down, confirm tree equals the audited top head, lenses post merge-only delta on the bottom piece, merge bottom)
+one: merge top piece down, confirm tree equals the audited top head, lenses post merge-only delta on the bottom piece, merge bottom;
+clean main refreshes with byte-identical PR files: operator MERGE-ONLY TREE CHECK per rule 12)
 -> deploy audited main (plan -> apply -> deploy -> verify /health, /readyz, _prisma_migrations) -> refresh the next approved PR ->
 launch replacement jobs (one or two PRs each) -> every ~2 hours or milestone: LAST_OPERATOR_STATE.md, LIVE_STATE.md, DECISION_LOG.md
 (owner decisions verbatim), this file; push.

@@ -62,3 +62,22 @@ dependency under code whose updated tests live in a later piece) or is unsafe to
 approved pieces top-down into their (unprotected) piece branches, check that the bottom branch's tree equals the audited top head,
 then merge the bottom piece into main with all required checks green. Otherwise merge the pieces back to back. Deploy only after the
 last piece either way. Tooling: handoffs/op-115/tools/split/ (import-order check and piece builder that runs every importing spec).
+
+## Rule 12 — Merge-only refresh exception (owner 2026-10-03 21:15 PDT)
+
+Owner, verbatim: "Merge-only re-reviews: a pure main merge where the PR's files stay byte-identical costs a full pair of reviewers -
+go change the rule/ make the exception everywhere its mentioned!"
+
+When a PR's new head differs from its dual-approved head only by a merge of main (GitHub update-branch or a clean
+`git merge origin/main`), both prior verdicts carry over with no lens pair, if the operator proves all four:
+1. Parents: the new head is a merge commit whose parents are exactly the approved head and a commit on main.
+2. Byte-identical PR files: for every file in the PR's diff, the blob at the new head equals the blob at the approved head
+   (`git rev-parse <approved>:<path>` == `git rev-parse <new>:<path>`, or absent in both). This also proves no conflict hunks and
+   that main touched none of the PR's files.
+3. Nothing else: no commit other than main's arrived (`git rev-list <approved>..<new> --no-merges` lists only commits on main).
+4. Every required check is green at the new head (CI is what catches main changes elsewhere that interact with the PR).
+The operator posts `MERGE-ONLY TREE CHECK (operator <n>) — <repo>#<n> @ <new full sha>` with the evidence for each item and links to
+the two carried verdicts, then merges with `--match-head-commit <new full sha>`. tools/tree_check.sh in handoffs/op-116/tools does it.
+Not covered (the normal merge-only delta by both lenses still applies): any conflict resolution, any PR file whose blob changed,
+restacks of split pieces onto another PR branch, fix rounds, any non-main commit. Split stacks: this applies to the bottom piece's
+main refresh when its files stay byte-identical; the top-down stack merge keeps rule 11.

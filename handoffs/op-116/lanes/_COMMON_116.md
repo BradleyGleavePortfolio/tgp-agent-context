@@ -169,3 +169,6 @@ Report: /home/user/workspace/ops/reports/<JOB>-116.md (your job id, e.g. AUD-OPU
 URLs, open items). End with "## HANDOFF" (exact state + next step of each PR in your job). Nothing private in reports.
 Final answer (under 300 words): your PR(s), exact head, verdict/round, A/B/C counts, comment URL, CI state, and anything the operator
 must decide (with your recommended default).
+
+## Amendment 2026-10-03 21:15 PDT — merge-only refresh exception (owner)
+A pure main merge where every PR file stays byte-identical does not need new lens verdicts: the operator posts a MERGE-ONLY TREE CHECK and the prior dual verdicts carry over. Exact conditions and exclusions: MERGE_DEPENDENCY_GUIDE.md rule 12. Everything else that moves a head still needs new verdicts at the exact head.

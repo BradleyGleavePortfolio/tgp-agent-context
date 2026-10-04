@@ -95,6 +95,8 @@ key), Roman (#667-#670, #331), scheduling S-SCHED-2 (#634, #653, #365-#367), ann
 - Branch-protection changes need his exact words.
 - T4 work: Claude Opus 5.5 builders; then two lenses (Claude Opus 5.5 and GPT-6.1 Sol) at the exact head. A new head needs new
   verdicts, including a pure merge of main ("merge-only delta": short check that the delta is only main's commits).
+  [Superseded 2026-10-03 21:15 PDT by owner: a pure main merge with byte-identical PR files needs only the operator's MERGE-ONLY TREE
+  CHECK, MERGE_DEPENDENCY_GUIDE.md rule 12.]
 - Commit identity: `git -c user.name="TGP Agent 116" -c user.email="agent@tgp.invalid"` (identity is not a gate; DECISION_LOG 09-28).
 
 ### 1.3 Authority carried to you
