@@ -82,9 +82,10 @@ Play and his password manager, then fill both sign-in sets with the instruction 
 
 OWNER TO-DO, in order (12:03 PDT 10-04):
 1. Stripe API keys page (https://dashboard.stripe.com/apikeys): delete both restricted keys used on 10-04 (one was pasted in chat).
-   The key saved through the secure form still answered 200 at 12:02. Agent 119 asks for a fresh key through the form if needed.
+   The key saved through the secure form still answered 200 at 12:02. Delete only keys created 10-04 for the webhook work; never an
+   older key or the standard secret key (production may use it). The newest key may stay if it was only ever entered in the secure form.
 2. Stripe Billing > Revenue recovery > Retries (https://dashboard.stripe.com/revenue_recovery/retries): "If all retries for a payment
-   fail" = leave the subscription past-due. Blocks the recurring deploy.
+   fail" = leave the subscription past-due. DONE by owner 12:08 PDT 10-04 (recurring deploy no longer waits on it).
 3. Play Console: finish Data safety; App access sign-in details (two reviewer accounts, see above).
 4. Before the clinic build: HC device pass (privacy-link taps on Android 13 and 14+, Samsung flow).
 5. When ready to spend (needs his word): Supabase Pro, EAS builds. Keys: FCM V1, Apple Sign-in, POSTHOG_KEY confirm.
