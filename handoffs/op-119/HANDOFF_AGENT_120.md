@@ -1,6 +1,6 @@
 # TGP Operator — current state (agent 119 -> agent 120)
 
-Updated: 14:02 PDT 10-04 (from `date`). CURRENT-STATE document: agent 119 overwrites sections 0, 3, 5 and 6 at every milestone;
+Updated: 15:43 PDT 10-04 (from `date`). CURRENT-STATE document: agent 119 overwrites sections 0, 3, 5 and 6 at every milestone;
 history goes to LAST_OPERATOR_STATE.md. Agent 120 copies it to handoffs/op-120/HANDOFF_AGENT_121.md on arrival.
 GitHub is the truth: verify every head and verdict there before acting on any line here (section 2 has a script that does it).
 
@@ -18,15 +18,17 @@ GitHub is the truth: verify every head and verdict there before acting on any li
 - Agent cap: 15 concurrent (owner 12:28 PDT 10-04) until 13:22 PDT; at 13:22 stop-and-drain to 5 active, then 5 concurrent (owner
   12:49). Credits: 9.4k/45k at 12:49 (owner).
 
-- Status 14:02 PDT (agent 119; FLEET.md has every verdict). 119 merges 0, deploys 0 so far. Cap 5 concurrent since 13:25.
-  Running: B-HC5-119 (finishing; m#362-#364 READY), B-FEES19-119 (#684 B-684-12 refund-status race + Sol B-684-3 final send boundary;
-  tests #697; restack #685/#686; scratch top+main proof), AUD-SOL-R34D-119 (#680/#696/#701), AUD-OPUS-S123-119 + AUD-SOL-S123-119
-  (m#342-#344). Landing tooling: ops/op119/land_fees.sh (A = fast-forward piece branches + candidate on #681; B = merge). The old
-  candidate wip/op119/land-fees 0bc3696d is dead (contains #684 9fb9c48f); rebuild = merge origin/main into the new #686 top + apply
-  ops/reports/B-FEES18-119-no-pii-baseline.patch as its own commit; lenses then verdict #681 at that exact head.
-  Next on free slots: AUD-SOL-T23D-119 (entry in JOBS119), builder for #701 B-701-1 (5 `as any`) once Sol R34D posts, fees pair on
-  B-FEES19's heads, HC delta pair (m#362 FR3 73dbefbc, m#363 f62f1bbe, m#364 b261f218), coach pair (#674/#676/#677/#703), dunning
-  pairs (#687/#688/#704/#705), B-LOCK2, B-WIZ2, B-DUNB.
+- Status 15:43 PDT (agent 119). MILESTONE: fees landed: #681 @ d8d062ff merged 15:23 -> main f48267f9 (#682-#686, #697 merged into
+  piece branches by fast-forward 15:08). Deployed f48267f9 WITH migrations 15:43 (run 37240806383; first attempt 37239857438 stopped at the
+  release-evidence gate because main's ci.yml run was still in progress: always wait for main CI before dispatching). /health ok, /readyz db
+  up; 20270210000000_s_fee_charge_settlement applied; 0 pending. Merged today 11, deployed today 3.
+  Owner asked 15:28: credits number; Stripe endpoint we_1UMt9WDUoC5CCVhShvAELVmI add refund.updated (no Stripe credential in session 119).
+  Running (cap 5): B-RECUR8-119 (restack R1-R5 onto main + #701 casts), B-TR6-119 (new trials piece T5: payable invoice domain),
+  B-WIZ2-119 (#345/#346), B-CM6-119 (#674 main refresh: 5 conflict files vs fees + restack), B-HC8-119 (new HC piece H7: sign-out
+  durability B-362-8/9). #678 base retargeted to main.
+  Ready to land when gates allow: sheet m#342-#344 DUAL APPROVE (e3226f3b/691e0cf0/88659e21; lands with recurring + D4 #690 + native
+  card update; C-344-12 gates #705 deploy). HC #359-#361, #363, #364 DUAL APPROVE; #362 Sol RC (B-362-8/9 -> H7).
+  Trials: #671/#672 DUAL APPROVE; #673 dcf095b8 Opus APPROVE / Sol RC (uncollectible domain -> T5); #706 3d95f96e DUAL APPROVE.
 
 ## Launch path (7 steps)
 
@@ -95,7 +97,7 @@ wip/op119/ops-snapshot; lanes are ops/lanes119 (JOBS119.md, _COMMON_119.md). Ste
 
 | stack | PRs (head, size) | verdicts / state | next action |
 |----|----|----|----|
-| Fees (job one) | #681 e9650dc4 2,956; #682 70f879a2 2,999; #683 cc183e0a 2,959; #684 9fb9c48f 2,679; #697 c2585c97 2,276; #685 a61d50f4 2,958; #686 30a118dd 1,355 (top) | DUAL APPROVE all except #684 (RC both: B-684-12 refund-status race; Sol B-684-3 final send boundary). #682/#683 red by design (tests #684 carries) | B-FEES19-119 running; then pair on #684/#697 (+#685/#686 restack check) + rebuilt landing candidate; land_fees.sh; deploy WITH migrations (20270210000000_s_fee_charge_settlement); Stripe endpoint we_1UMt9WDUoC5CCVhShvAELVmI add refund.updated |
+| Fees (job one) | LANDED 15:23 (main f48267f9), DEPLOYED 15:43 with migrations. Was: #681 e9650dc4 2,956; #682 70f879a2 2,999; #683 cc183e0a 2,959; #684 9fb9c48f 2,679; #697 c2585c97 2,276; #685 a61d50f4 2,958; #686 30a118dd 1,355 (top) | DUAL APPROVE all except #684 (RC both: B-684-12 refund-status race; Sol B-684-3 final send boundary). #682/#683 red by design (tests #684 carries) | B-FEES19-119 running; then pair on #684/#697 (+#685/#686 restack check) + rebuilt landing candidate; land_fees.sh; deploy WITH migrations (20270210000000_s_fee_charge_settlement); Stripe endpoint we_1UMt9WDUoC5CCVhShvAELVmI add refund.updated |
 | Recurring (most critical) | #678 09e159d8 2,594; #679 23d2c04c 2,943; #680 f267417a 2,779; #696 13c9a6c8 2,197; #701 d624144c 615 | #678/#679 DUAL APPROVE; #680/#696 Opus APPROVE (FR7), Sol R34D auditing; #701 Opus RC B-701-1 (5 `as any` -> R75 +1 on fees top) | after Sol R34D: #701 builder (tests typing); after fees lands: retarget #678 to main, merge-only restack, short deltas; HARD obligations C-680-18/19 to dunning |
 | #661 PaymentSheet | #661 f80f0088 2,843; #702 20d2eb4f 513 | dual APPROVE both | after fees deploy: refresh, short deltas, lands with recurring |
 | Payment sheet (mobile) | m#342 e3226f3b 2,207; m#343 691e0cf0 2,935; m#344 7e17d142 2,866 | FR3/FR3/FR4 READY (B-SHEET4) | S123 pair running; lands with recurring |
