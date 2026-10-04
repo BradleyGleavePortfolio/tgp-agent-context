@@ -1664,6 +1664,6 @@ Verbatim (first prompt to agent 117): "Then RESUME without waiting for me: up to
 Verbatim: "sup[abase pro - upgrade me. sure." / "SCALE - 15 AGENTS - Then starts stop-and-drain protocol".
 - Supabase Pro: approved (resolves 116's open decision 1). The plan change is made in the Supabase dashboard billing page (payment
   method on file); the connector cannot change plans. Agent 117 verifies the plan and daily backups after the owner upgrades.
-- Agents: wave 1 of 15 launched 21:31 PDT (handoffs/op-117 job board). Operator reading: when these 15 end, stop-and-drain applies
-  (OPERATOR_STANDING_ORDERS.md section 2): no new agent launches until the owner says SCALE again; the operator keeps converting
-  in-flight work into merges and deploys.
+- Agents: wave 1 of 15 launched 21:31 PDT (handoffs/op-117 job board). Corrected by the owner at 21:34 PDT as a ONE-TIME instruction
+  for this wave (not a standing pattern): as the 15 end, drain down to 5 concurrent agents and never go under 5.
+- Owner requirement 21:34 PDT: agent 117 creates and maintains handoffs/op-117/HANDOFF_AGENT_118.md as it moves.

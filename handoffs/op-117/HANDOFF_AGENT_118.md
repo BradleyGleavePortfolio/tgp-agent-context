@@ -1,0 +1,156 @@
+# TGP Operator — Takeover Prompt for Agent 118 (written and kept current by operator agent 117)
+
+Version 1: 2026-10-03 21:38 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
+GitHub is the truth: re-read every PR head and its latest AUDIT / FIX ROUND comment before acting on any line here.
+
+## 0. Who you are and what the owner wants
+The owner (Bradley) gives you four documents: agent rules = the LAW, autonomy doctrine = your MENTALITY, model routing = the PROCESS,
+this file = his FIRST PROMPT TO YOU. Repo copies on tgp-agent-context main win over attachments: AGENT_RULES.md (G01-G22 + 21:15
+amendment), MODEL_ROUTING.md (8.2 size gate), OPERATOR_STANDING_ORDERS.md, MERGE_DEPENDENCY_GUIDE.md (rules 1-12), DECISION_LOG.md
+(verbatim owner decisions, newest at the bottom). Deeper history only when needed: handoffs/op-116/HANDOFF_AGENT_117.md,
+handoffs/op-115/HANDOFF_AGENT_116.md (sections 0.1, 1.2, 3.2, 12, 13), handoffs/op-114/LEDGER-72H.md.
+
+Owner rules (binding, from his first prompts):
+- Every message to him starts with `Launch path: <n>/7 steps done | merged today <n> | deployed today <n> | open decisions <n> | credits
+  used <n>/45k` (credits = his last number) and ends with "Your next step: ..." or "Nothing needed from you." No emojis, no exclamation
+  marks. Short sections, numbered decisions with a recommended default. Escalate decisions, not chores.
+- "ANYTHING LESS THAN HYPERSCALER QUALITY IS A DAY 1 BLOCKER / WALL CLOCK TIME IS KEY #1 RESOURCE / DO IT RIGHT, DO IT SMOOTH - SMOOTH IS
+  FAST / I WANT MORE, NOT LESS FUNCTIONALITY IF THE CHOICE ARISES." Recurring packages are "LITERALLY MOST CRITICAL OF ALL"; never
+  one-time-only. Don't cancel his scope.
+- Spend no money without his word (no EAS builds, paid plans, paid CI). Exception granted 21:31: Supabase Pro ("upgrade me. sure.").
+- PRs over 3,000 changed lines fail automatically; 1,500-3,000 need an operator SIZE ASSESSMENT. Never name the clinic partner anywhere
+  (tgp-agent-context is PUBLIC). Branch protection changes need his exact words. Times only from `date` (America/Los_Angeles).
+- One job = one agent = one or two PRs, then it ends (owner 10-03 19:25).
+- Merge only audited exact heads with every required check green: `gh pr merge N --merge --match-head-commit <full sha>`. Deploy audited
+  main with green CI under the standing approval; `-f migrations=apply-migrations` ONLY when the release adds migrations/schema.
+- Rule 12 (owner 21:15): a pure main merge where every PR file stays byte-identical needs only the operator MERGE-ONLY TREE CHECK
+  (ops/tree_check.sh + all required checks green). Anything else that moves a head needs both lenses at the exact head.
+- Refresh (update-branch) only the PR that is next to merge.
+- When the owner says pause: stop launching, let in-flight CI finish so drafts can be posted, then snapshot exactly as 116 did
+  (handoffs/op-116/pause/PAUSE_STATE.md + WORKTREES.md + private wip/op116/* branches).
+- Agent concurrency (ONE-TIME owner instruction 21:34 for agent 117's wave, not a standing pattern): 15 agents launched 21:31; as they
+  end, drain down to 5 concurrent and never go under 5. If you take over mid-wave, keep 5 concurrent unless the owner says otherwise.
+- Owner requirement 21:34: the operator maintains THIS file as it moves (here and in GitHub).
+
+Identity for commits: `git -c user.name="TGP Agent 117" -c user.email="agent@tgp.invalid"` (use your own number; identity is not a
+gate, owner 2026-09-28). Subagent models: claude_opus_5_5 (builders, Opus lens), gpt_6_1_sol (Sol lens).
+
+## 1. State now (2026-10-03 21:38 PDT)
+- Production = backend main a5b605d1aa86f3afcece6061dc0502f20b83f27e (deploy 37175413402). Verified by 117 at 21:22 PDT: /health ok,
+  /readyz 200 db up; _prisma_migrations 189 rows, latest 20270301000000_community_win_coach_matcher finished 04:06:23 UTC (the only
+  rows with null finished_at are two rolled-back April baseline attempts, not pending); app.community_win_author_coach(text) is
+  SECURITY DEFINER with EXECUTE only for postgres and service_role (authenticated and anon cannot execute). Mobile main = 367e6c48.
+- Supabase org "The Growth Project" (lpwroedsshsuxlhhhqil): plan free at 21:33. Owner approved Pro 21:31; the plan change is done in the
+  dashboard billing page (https://supabase.com/dashboard/org/lpwroedsshsuxlhhhqil/billing); the connector cannot change plans.
+  Production project = "FITNESS TGP" (rpyfdsgxxltzutgqeouk). Do not touch "tgp-finance" (another app). After upgrade: verify plan=pro.
+- Scoreboard: Launch path 0/7 | merged today 7 | deployed today 4 | open decisions 2 (day-1 scope; LAUNCH_ONE_PAGER approval) |
+  credits used 0/45k (owner's number at 21:20 for 117's session).
+- Agent 117 actions so far: rebuilt sandbox; restored ops/ from backend wip/op116/ops-snapshot; posted READY FOR AUDIT drafts on
+  #694, #611, #687, #674, #676, #677, #671, #672, #673, #683 (red by design, verified exact), #684; restack note on #691 (no READY);
+  fixed #695's new CodeQL alert 123 (head e80cefad, test-only); reran known infra failures once (#690 SBOM race, #661/#679/#695 jest
+  OOM); saved mobile #360 fix fde1875e to wip/op116/B-W2-116-360. Blocked by the safety classifier (do not retry without the owner's
+  explicit word): deleting 116's leftover ci/* branches; publishing a 116 lens's drafted verdict (#611 Opus) — fresh lenses instead.
+
+## 2. Agents in flight (wave 1, launched 21:31 PDT; job board handoffs/op-117/JOBS117.md, common rules _COMMON_117.md)
+| job | PRs | model | subagent id |
+|---|---|---|---|
+| AUD-OPUS-CI-117 | #694, #695 | Opus | aud_opus_ci_117_audit_694_695_mutbqgof |
+| AUD-SOL-CI-117 | #694, #695 | Sol | aud_sol_ci_117_audit_694_695_mutbqgoo |
+| AUD-OPUS-PRIV3-117 | #611 (+ #315 link) | Opus | aud_opus_priv3_117_audit_611_mutbqgov |
+| AUD-SOL-PRIV3-117 | #611 (+ #315 link) | Sol | aud_sol_priv3_117_audit_611_mutbqgp3 |
+| B-F56-117 | #685 round 5, #686 restack | Opus builder | b_f56_117_fix_685_restack_686_mutbqgpb |
+| AUD-OPUS-F12-117 | #681, #682 | Opus | aud_opus_f12_117_audit_681_682_mutbqgph |
+| AUD-SOL-F12-117 | #681, #682 | Sol | aud_sol_f12_117_audit_681_682_mutbqgpo |
+| AUD-OPUS-F34-117 | #683, #684 | Opus | aud_opus_f34_117_audit_683_684_mutbqgpu |
+| AUD-SOL-F34-117 | #683, #684 | Sol | aud_sol_f34_117_audit_683_684_mutbqgq1 |
+| B-RECUR3-117 | #680 + new R4 tests piece (restacks #678/#679) | Opus builder | b_recur3_117_recurring_680_r4_mutbqgq7 |
+| AUD-OPUS-661-117 | #661 | Opus | aud_opus_661_117_audit_661_mutbqgqd |
+| AUD-SOL-661-117 | #661 | Sol | aud_sol_661_117_audit_661_mutbqgqk |
+| AUD-OPUS-CM1-117 | #674, #676 | Opus | aud_opus_cm1_117_audit_674_676_mutbqgqq |
+| AUD-SOL-CM1-117 | #674, #676 | Sol | aud_sol_cm1_117_audit_674_676_mutbqgqx |
+| AUD-SOL-CM2-117 | #675, #677 | Sol | aud_sol_cm2_117_audit_675_677_mutbqgr3 |
+Reports: /home/user/workspace/ops/reports/<JOB>.md (sandbox). Next launches (when the count drops to 5, keep 5): AUD-OPUS-CM2-117
+(#677), F56 lens pair, recurring lens pairs, dunning builder.
+
+## 3. Per-PR completeness (backend unless "mobile"; heads verified 21:23-21:38 PDT)
+| PR | piece | head | verdicts at head | CI at head | next step |
+|---|---|---|---|---|---|
+| #694 | CI: jest worker memory + typecheck guard | 61d42f09 | in audit (CI pair) | 11/11 green, READY posted | lenses -> merge first |
+| #695 | CI: SBOM gate determinism | e80cefad | in audit (CI pair) | OOM rerun pending | operator posts READY when green -> merge |
+| #611 | privacy policy (step 1) | b09f2061 | in audit (PRIV3 pair); prior Opus RC at acf9ff0f closed by round 9 | 11/11, READY posted | dual APPROVE -> merge with mobile #315 -> deploy |
+| mobile #315 | trust-center links | 0277ce10 | Opus+Sol APPROVE | 3/3 green, CLEAN | merges with #611 |
+| #681 | fees F1 (base main) | 9de3135c | in audit (F12 pair) | green | stack lands as one (rule 11) |
+| #682 | fees F2 | a5d6a434 | in audit (F12 pair) | red by design (4 tests, F4 fixes) | |
+| #683 | fees F3 | 35a18539 | in audit (F34 pair) | red by design (3 suites/9 tests), READY posted | |
+| #684 | fees F4 | e9ee033d | in audit (F34 pair) | green, READY posted | |
+| #685 | fees F5 (tests) | 7425bb93 | was dual APPROVE pre-restack | red: 7 s-fee-r5 copy tests | B-F56-117 round 5 -> F56 lens pair |
+| #686 | fees F6 (tests) | 6f1b94a9 | was dual APPROVE pre-restack | red (inherited + OOM) | B-F56-117 restack -> F56 pair |
+| #678 | recurring R1 (base #686) | ebbd170e | none at head | red (inherited s-fee-r5) | B-RECUR3 restack; FIX ROUND 4 comment |
+| #679 | recurring R2 | f83dbdd2 | none at head | OOM rerun pending | B-RECUR3 restack; FIX ROUND 4 comment |
+| #680 | recurring R3 | 929f3968 | none at head | red: 4 tests on old 23-h cutoff | B-RECUR3 finishes B-680-2 + R4 split |
+| #661 | PaymentSheet credentials | 6fdc35de | in audit (661 pair) | OOM rerun pending | operator posts FIX ROUND 4 draft (ops/b661-116/r4-comment-draft.md) when green |
+| #674 | coach M1 (base main) | d9327546 | in audit (CM1 pair) | 11/11, READY posted, BEHIND | |
+| #676 | coach M3 | cf5ef18b | in audit (CM1 pair) | green, READY posted | Opus pause note: possible tax CSV double refund |
+| #677 | coach M4 (tests) | 1f746547 | Sol in audit (CM2); Opus owed | green, READY posted | launch AUD-OPUS-CM2-117 |
+| #675 | coach M2 idempotent create (base main) | e45b06f9 | Opus APPROVE; Sol in audit (CM2) | 11/11, BEHIND | dual APPROVE -> refresh (rule 12 if byte-identical) -> merge; #672 refreshes second |
+| #687 | dunning D1 (base main) | f8e47bf4 | none | 11/11, READY posted | dunning builder restacks f8e47bf4 up D2-D5 |
+| #688 | dunning D2 | 6718d211 | none | green, READY (pre-restack) | restack |
+| #689 | dunning D3 | 6cead7ec | none | green, READY (pre-restack) | restack |
+| #690 | dunning D4 | 0681babd | none | SBOM-race rerun pending | post ops/reports/drafts/B-D34-116-690-fix-round-1.md when green; restack |
+| #691 | dunning D5 (tests) | 0f24a8fa | none | green; restack note posted | restack, then READY |
+| #671 | trials T1 (base main) | 1efac91e | none | 11/11, READY posted, BEHIND | lenses after recurring lands |
+| #672 | trials T2 | 4fa2fe4a | none | green, READY posted | second of #672/#675 refreshes packages files |
+| #673 | trials T3 | 9719cb88 | none | green, READY posted | composes with #680 one-trial check (C-656-1) |
+| mobile #359 | HC H1 (base main) | e0f3d2a7 | Opus+Sol APPROVE | green | lands with the HC stack |
+| mobile #360 | HC H2 | 4a508d8b | Opus APPROVE, Sol RC (B-360-1) | green | push fix fde1875e (wip/op116/B-W2-116-360), restack #361-#364 |
+| mobile #361-#364 | HC H3-H6 | 85b2439b, 61cb0fac, 9ab951f6, 78ee52c0 | none | green | after restack: W34/W56 lens pairs; then backend flag flip |
+| mobile #342-#344 | payment sheet P1-P3 | 72821495, af984441, f629e0f9 | see threads | | pairs with recurring #680 |
+| mobile #345-#351 | coach setup S1-S3 + Money N1-N4 | see GitHub | see threads | #349/#350 red by design | after coach backend deploy |
+| mobile #352-#354 | dunning lockout L1-L3 | 58b80914, e22acc84, 37ed3d56 | dual APPROVE on original #322 | | after dunning backend deploy |
+| mobile #355-#358 | Programs G1-G4 | 902c64a6, 40ee678a, b364b9ea, 4dcf0aff | dual APPROVE on original #328 | | remainder |
+| #642 / mobile #312, mobile #335, mobile #338/#339/#340 | remainder | see GitHub | | | after the stacks above |
+Not now (owner day-1 scope default = fast-follow): push #692-#693 (needs FCM key), Roman (#667-#670, #331), S-SCHED-2 (#634, #653,
+mobile #365-#367, #336), annex (#655, #657-#660, mobile #337), flag PRs #643/#650, mobile #341, Dependabot and importer PRs.
+
+## 4. Resume order (owner, 21:20 PDT; do in order, smallest wall-clock first)
+CI fixes #694 + #695 first -> launch step 1 (#611 round 9 + mobile #315 together, deploy) -> money (fees stack as one -> deploy ->
+recurring #678-#680 + R4 -> deploy -> trials) and #661 -> coach -> dunning -> Health Connect -> remainder. Launch steps (LAUNCH_ONE_PAGER.md):
+1 privacy, 2 money, 3 coach, 4 failed payments, 5 Health Connect, 6 remainder, 7 builds and store review.
+
+## 5. How to be better (116's lessons + 117's)
+- One builder per stack runs bottom-up until every piece is READY; only then launch that stack's lens pair. A restack after approval
+  costs a merge-only delta on every piece above it.
+- CI capacity is the bottleneck (20 shared Actions jobs). Past ~20 queued runs, lean toward lenses over builders; run ops/ci_janitor.sh
+  every loop. Land #694 (jest OOM) and #695 (SBOM race) first: both cause most reruns.
+- Turn in-flight work into merges before starting new work. Track merges per hour and credits per merged PR.
+- Verify before you write (read merge parents first). Refresh only the PR next to merge.
+- A lens's saved draft verdict is evidence for a fresh lens of the same model, not something the operator publishes.
+
+## 6. Operator loop (every 10-15 minutes)
+ci_janitor.sh + queue check -> read reports/mail -> post READY drafts at green heads -> merge dual-APPROVE green current heads (stacks
+land as one: rule 11) -> deploy audited main (plan -> apply -> deploy -> verify /health, /readyz, _prisma_migrations) -> refresh the next
+approved PR -> launch replacements (keep the concurrency rule) -> update THIS file at every milestone; every ~2 hours also
+LAST_OPERATOR_STATE.md, LIVE_STATE.md, DECISION_LOG.md, LAUNCH_ONE_PAGER.md; push to tgp-agent-context main.
+
+## 7. Sandbox rebuild
+Clone backend, mobile, tgp-agent-context into /home/user/workspace/repos/; restore /home/user/workspace/ops/ with
+`git -C repos/growth-project-backend archive origin/wip/op116/ops-snapshot ops | tar -x -C /home/user/workspace` (fetch
+refs/heads/wip/op116/* first), then copy handoffs/op-116/tools/* into ops/ (cp -n); lanes: ops/lanes117/ (copy handoffs/op-117/*.md);
+copy each product repo's package.json + lockfile to /home/user/workspace/deps/<backend|mobile>/ and run
+`setsid nohup bash ops/install_deps.sh > ops/install_deps.log 2>&1 < /dev/null & disown`. Production URL:
+https://backend-spring-lake-3890.fly.dev (/health, /readyz). Supabase via the connector (execute_sql read-only checks).
+gh/git need bash api_credentials=["github"]; `gh run view --job <id> --log-failed` reads failing logs.
+
+## 8. Open owner decisions and owner-only actions
+1. Day-1 scope: push #692-#693, Roman, S-SCHED-2, annex = fast-follow (default).
+2. LAUNCH_ONE_PAGER.md approval (default: approve as drafted).
+Owner-only: Supabase Pro upgrade in the dashboard (approved 21:31); Stripe events setup_intent.succeeded (before the recurring deploy)
+and customer.subscription.trial_will_end (before the trials deploy); Stripe Billing retry "If all retries for a payment fail" = "leave
+the subscription past-due"; FCM V1 key; Apple Sign-in keys; POSTHOG_KEY confirm; EAS builds (spend); Play Console Data safety + Health
+apps forms.
+
+## 9. Binding rulings
+116's rulings (handoffs/op-116/HANDOFF_AGENT_117.md section 7) and _COMMON_116.md section 10 remain binding.
+
+## Change log of this file
+- v1 2026-10-03 21:38 PDT: created by agent 117 after takeover and wave-1 launch.
