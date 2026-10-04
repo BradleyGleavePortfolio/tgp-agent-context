@@ -1,6 +1,6 @@
 # TGP Operator — current state (agent 118 -> agent 119)
 
-Updated: 12:13 PDT 10-04 (from `date`). This is a CURRENT-STATE document: agent 119 copies it to
+Updated: 12:16 PDT 10-04 (from `date`). This is a CURRENT-STATE document: agent 119 copies it to
 handoffs/op-119/HANDOFF_AGENT_120.md on arrival and overwrites section 3 at every milestone; history goes to LAST_OPERATOR_STATE.md.
 GitHub is the truth: verify every head and verdict there before acting on any line here (section 2 has a script that does it).
 
@@ -8,7 +8,7 @@ GitHub is the truth: verify every head and verdict there before acting on any li
 
 - Agent 118 STOPPED CLEANLY at 12:03 PDT 10-04 on owner decision 5A (credits 38k/45k). Nothing is running: no agents, no CI of
   ours, no half-pushed branches. B-SHEET2-118 was cancelled at 11:28 before any push. ops/ snapshot: backend branch
-  wip/op118/ops-snapshot (newest, 12:03).
+  wip/op118/ops-snapshot (newest, 12:14, commit 9cc0ee35).
 - verify_heads.sh at 12:13: 54/54 open stack PRs MATCH section 3. Backend main 3e9a9a75, mobile main cc4ceeed, production /health ok.
 - Merged 10-04: #698, #699, #700, mobile #368. Deployed 10-04: 2af682ca (#698 + #699), 3e9a9a75 (#700). No migrations.
 - READY for lenses now: fees F3-F6, recurring R1-R5 (restack onto the fees top after fees verdicts), Health Connect H4-H6, trials
@@ -123,14 +123,16 @@ https://app.trygrowthproject.com/privacy; Connect-destination webhook is a fast-
 
 ## 6. First wave and queue (5 concurrent)
 
-Reusable entry text: ops/lanes118/JOBS118.md ("## B-SHEET2-118", "## AUD-OPUS-F4-118 ...", "## AUD-OPUS-F56-118 ...", "## QUEUED",
-"## QUEUE HEADS"). Rename to 119, rewrite heads from section 3. Lenses: Claude Opus 5.5 + GPT-6.1 Sol, one verdict per PR.
-Wave 1:
-1-2. AUD-OPUS-F34-119 + AUD-SOL-F34-119: #683 cc183e0a + #684 6b13af56 (#683 is a fix round; #684 carries #683's red tests).
-3-4. AUD-OPUS-F56-119 + AUD-SOL-F56-119: #697 88c72200 + #685 c5e282fb (merge-only restacks; byte-identical own diffs, short deltas).
+Reusable entry text in ops/lanes118/JOBS118.md: "## AUD-OPUS-F23-118 ..." (F3), "## AUD-OPUS-F4-118 ...", "## AUD-OPUS-F56-118 ...",
+"## B-SHEET2-118", "## QUEUED" (items 7-8: B-CM5, B-DUNB), "## QUEUE HEADS". Rename to 119 and rewrite heads from section 3. Lenses are
+Claude Opus 5.5 + GPT-6.1 Sol, one verdict per PR; builders are Claude Opus 5.5.
+Wave 1 (5):
+1-2. AUD-OPUS-F3-119 + AUD-SOL-F3-119: #683 cc183e0a (FIX ROUND 16 closes Sol B-683-7/B-683-8; #682 is already dual APPROVE).
+3-4. AUD-OPUS-F4-119 + AUD-SOL-F4-119: #684 6b13af56 + #697 88c72200 (merge-only restacks; #684 carries #683's red-by-design tests).
 5.   B-SHEET2-119 (builder): mobile #342/#343, then merge-only restack #344.
-Then, in order as slots free: #686 lens pair; recurring lens pairs R1+R2 (#678/#679), R3+R4 (#680/#696), R5 (#701) at current heads;
-B-DUNSPLIT-119; B-CM5-119; HC pair (#362/#364); trials pair (#672/#673); B-SHEET3-119 (#344); lockout pair; wizard pair; B-DUNB-119.
+Then, in order as slots free: F56 pair (#685 c5e282fb + #686 8cb7b2d4); recurring pairs R1+R2 (#678/#679), R3+R4 (#680/#696), R5
+(#701) at current heads; B-DUNSPLIT-119 (R-DISPUTE-PAUSE); B-CM5-119; HC pair (#362/#364, then #363); trials pair (#672/#673);
+B-SHEET3-119 (#344); lockout pair; wizard pair; B-DUNB-119.
 After every fees merge set: operator merge-only restack of recurring onto the new fees top, then both lenses on the delta.
 Pace at 118's stop: 4 merges in 2.5 hours (1.6/hour); about 9.5k credits per merged PR (most spend sits in stacks now READY, so the
 next merges are cheap).
