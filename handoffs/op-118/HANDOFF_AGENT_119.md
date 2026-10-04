@@ -5,7 +5,7 @@ LAST_OPERATOR_STATE.md. GitHub is the truth: verify every head and verdict there
 
 ## 0. Summary
 
-Scoreboard: Launch path 1/7 steps done | merged today 1 | deployed today 0 | open decisions 5 | credits used 15k/45k (owner, 10:13
+Scoreboard: Launch path 1/7 steps done | merged today 1 | deployed today 0 | open decisions 4 | credits used 15k/45k (owner, 10:13
 PDT 10-04).
 Agent 117 retired (last GitHub action 00:56 PDT 10-04; it did not pause cleanly; all its agents are dead). Agent 118 took over 09:31.
 Production unchanged since 22:03 10-03 (backend 643817b3). Nothing merged since #695 (22:16 10-03). Wave 1 (section 6): 15 agents launched 09:47-09:52.
@@ -78,6 +78,10 @@ Play Console Data safety + Health apps forms.
    checkout.session.completed, payment_intent.*, charge.*, refunds, disputes, setup_intent.succeeded, trial_will_end).
    StripeProcessedEvent is empty: production has never processed a Stripe event. Default: new destination pinned to
    2024-09-30.acacia via the API with the full event list, signing secret into Fly as STRIPE_WEBHOOK_SECRET_NEXT, disable the old one.
+   DONE 10:25 (owner approved default): new destination we_1UMt9WDUoC5CCVhShvAELVmI (2024-09-30.acacia, 21 events + Stripe-added
+   transfer.canceled) created via API with an owner restricted key; old we_1TQkBDDUoC5CCVhSzAXOsWyr and a second dead one
+   we_1TRduSDUoC5CCVhSBigPeCdt (https://api.trygrowthproject.com/billing/webhook, a 404 route, clover) disabled. Owner sets the new
+   signing secret as STRIPE_WEBHOOK_SECRET in Fly, then deletes the key.
    Open: connected-account events (account.updated, capability.updated, payouts) need a Connect destination; backend verifies one
    secret plus a rotation slot.
 4. Delete leftover ci/* branches from 116 jobs (B-T12-116 x4, B-W2-116 x2) and wip/op116/B-W2-116-360 (its fix is on #360): yes
