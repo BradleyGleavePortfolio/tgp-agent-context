@@ -41,8 +41,8 @@ Each step names its owner-only dependency. Steps 1-5 are documented launch requi
 4. **Failed payments handled.** Backend #687-#691 -> deploy -> mobile #352-#354.
 5. **Health Connect running day 1.** Mobile #359-#364 -> flag-flip PR setting `FEATURE_WEARABLES_INGEST_POST` to "true" in
    `.github/fly-env-desired-state.json` and `docs/runbooks/launch-flags.md` (production is unset = off today; its prerequisites #623
-   and #604 are merged) -> flag sync -> owner: Play Console Data safety + Health apps declaration + Health Connect data-type access
-   declaration (Google requires these before any Play release that reads Health Connect) -> clinic Android build (owner spend) ->
+   and #604 are merged) -> flag sync -> owner: Play Console Data safety + App content > Health apps (where each Health Connect data type is
+   declared; Google requires these before any Play release that reads Health Connect; 116 drafts the answers) -> clinic Android build (owner spend) ->
    device pass (connect, 30-day backfill, disconnect).
 6. **Approved remainder.** #642 (+ flag sync), #652, #664, #312, #335; Programs #355-#358.
 7. **Ship.** One EAS production build per platform (owner spend) -> device pass -> Apple review and Play review.
@@ -264,8 +264,10 @@ unauthenticated. Before deploying a migration with a backfill or SET NOT NULL, c
 5. The server POSTHOG_KEY is 8–15 characters; real PostHog project keys are much longer. Confirm it.
 6. Later: approve one EAS production build (spend); sign up as a coach on it; device pass of account deletion, including a
    Google-only account after #642 merges and the flag sync runs.
-7. Google Play Console (owner account): Data safety form, Health apps declaration, Health Connect data-type access declaration, privacy
-   policy URL (after #611 publishes). Needed for Health Connect on day 1.
+7. Google Play Console (owner account), two forms under the app: Data safety, and App content > Health apps (tick the health
+   features, then give the reason for each Health Connect data type read). Privacy policy URL after #611 publishes. The owner did not
+   know these forms (10-03 18:54): when it is time, send him the click path and draft answers from the #317 data types, not a request.
+   Source: https://developer.android.com/health-and-fitness/health-connect/publish
 8. Approve the launch one-pager (section 13.3): which features are day 1 and which are fast-follow.
 9. DONE 10-03 18:42: Health Connect ships in the clinic binary ("absolutely need health connect on and running day 1").
 
@@ -611,3 +613,7 @@ The value of an offer rises with dream outcome and perceived likelihood and fall
 6. Ready tooling and dependencies: tools/ in this folder; node_modules are not in git (recreate with install_deps.sh + link_deps.sh;
    expo-calendar 56.0.10 had to be added by hand for #325's pieces).
 7. A batched owner decision queue (6.1) so no decision is asked twice and none is forgotten.
+
+## 15. Agent 115 retired (2026-10-03 18:54 PDT)
+
+Owner 18:54: agent 115 is out of credits and retired. Everything above is the final state; LIVE_QUEUE.md was generated at 18:46.

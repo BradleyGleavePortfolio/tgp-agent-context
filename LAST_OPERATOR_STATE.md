@@ -12,6 +12,8 @@ Companion file: [LIVE_STATE.md](LIVE_STATE.md).
   truth, launch critical path, scoreboard), section 5 rewritten for the split queue, sections 13 (four lenses, ADOPT vs PROPOSE) and
   14 (what 115 lacked at prompt 1). New handoffs/op-115/LIVE_QUEUE.md/.json + tools/live_queue.sh + live_queue_md.py.
 
+## 2026-10-03 18:54 PDT — agent 115 retired (owner: out of credits). Final handoff: handoffs/op-115/HANDOFF_AGENT_116.md
+
 ## OWNER 2026-10-03 10:15 PDT — "SCALE 2 + EXECUTE" (verbatim): "Do you know the to-do list and the owner decision from the last 72hrs? If so - SCALE 2 + EXECUTE - Scale up to 16 agents running if sandbox can handle it right away, then enter stop-and-drain!"
 - By 10:20 PDT agent 115 launched exactly 16 lanes (lane files handoffs/op-115/lanes/LANES.md + _COMMON_115.md): builders (Claude Opus 5.5)
   B-FEE-9 (#627 -> #321 -> #661), B-RECUR-3 (#654 + #334), B-DUNNING-7 (#628 -> #322 -> #642), B-TRIALS-3 (#656 + #338), B-COACH-5
