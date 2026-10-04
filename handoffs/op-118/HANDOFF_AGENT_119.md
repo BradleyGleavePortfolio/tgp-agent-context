@@ -12,9 +12,11 @@ wizard m#345-#347; coach M4 #677 (after B-CM5). Dual APPROVE: #682 (fees F2), #6
 
 ## 0. Summary
 
+WIND-DOWN since 11:28 PDT (credits 38k/45k): no new launches; B-SHEET2-118 cancelled before any push (relaunch from JOBS118); B-HC4,
+B-RECUR6B, B-FEES16, AUD-OPUS-PV3 allowed to finish. Next operator: relaunch in JOBS118 QUEUED order.
 AGENT COUNT: STOP-AND-DRAIN to 5 concurrent since 10:32 PDT 10-04 (owner). Launch nothing while more than 5 run; then hold 5.
 Play Console: Google deleted the app on 2026-09-30; owner recreating it (do not investigate).
-Scoreboard: Launch path 1/7 steps done | merged today 2 | deployed today 1 | open decisions 4 | credits used 15k/45k (owner, 10:13
+Scoreboard: Launch path 1/7 steps done | merged today 2 | deployed today 1 | open decisions 4 | credits used 38k/45k (owner, 11:27
 PDT 10-04).
 Agent 117 retired (last GitHub action 00:56 PDT 10-04; it did not pause cleanly; all its agents are dead). Agent 118 took over 09:31.
 Production unchanged since 22:03 10-03 (backend 643817b3). Nothing merged since #695 (22:16 10-03). Wave 1 (section 6): 15 agents launched 09:47-09:52.
