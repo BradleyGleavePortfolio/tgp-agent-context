@@ -1,6 +1,6 @@
 # TGP Operator — Takeover Prompt for Agent 118 (written and kept current by operator agent 117)
 
-Version 4: 2026-10-03 22:24 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
+Version 5: 2026-10-03 23:05 PDT. Agent 117 is ACTIVE (Perplexity Computer session d3ebac7a). Read this whole file before your first move.
 GitHub is the truth: re-read every PR head and its latest AUDIT / FIX ROUND comment before acting on any line here.
 
 ## 0. Who you are and what the owner wants
@@ -88,23 +88,43 @@ gate, owner 2026-09-28). Subagent models: claude_opus_5_5 (builders, Opus lens),
   current heads; mobile #335 and #338 have dual APPROVE (#338 lands with trials; #335 is remainder, BEHIND); backend #642 dual APPROVE
   at 4fee3c02, lands with dunning (B-DUNNING-7 chain #628 -> #322 -> #642).
 - Scoreboard 22:24: Launch path 1/7 | merged today 12 | deployed today 5 | open decisions 2 | credits used 0/45k (owner's last number).
+- 22:30-23:00 builders finished, every piece READY FOR AUDIT at green heads:
+  recurring #678 2174eb7c, #679 0e1cfde0, #680 d1c62ee1 (operator SIZE ASSESSMENT KEEP issuecomment-5977034793), new R4 tests piece
+  #696 48e690cd (operator READY note issuecomment-5977035583); all stacked on fees #686 e6893c97 (fees round 13 will restack them
+  merge-only). #661 round 5 957e3677 (11/11). Coach #674 5bbcc92a, #676 54e61566, #677 cdb627db (FIX ROUND 2, all B closed).
+  Dunning #687 f8e47bf4, #688 b17f514c, #689 bb992fed, #690 06307883, #691 e0afe678 (merge-only restack). Trials #671 c75002c9, #672
+  6ce54002 (#675 conflict resolved + 10-test composed spec), #673 4ebf2a43. HC mobile #360 fde1875e (B-360-1 closed), #361 574b32a8,
+  #362 439937c9, #363 38ea0f81, #364 a3206441.
+- Mobile lens results (all need a builder round, one builder per stack):
+  P (sheet): #342 Sol RC 0/2/1, Opus RC 0/1/3 (B-342-1 "nothing was charged" copy on unconfirmed codes); #343 Sol RC 0/5/0, Opus RC
+  0/1/2 (B-343-1 "Payment received" before proof). Map #661's reply codes in the same round.
+  L (dunning lockout): #352 Opus APPROVE 0/0/6, Sol RC 0/1/0 (cross-account lockout survives logout); #353 Opus RC 0/4/5, Sol RC
+  0/3/3 (B-353-1 next account sees lockout; B-353-2 dispute copy vs backend 67096788 ending disputed plans now; first person; screen
+  reader). Land #352-#354 together after backend dunning deploys, flag off.
+  S (coach setup): #345 Opus RC 0/2/3, Sol RC 0/3/0 (B-345-1 cadence change dropped; B-329-5 create after unmount/account change);
+  #346 Opus RC 0/2/3, Sol RC 0/2/1. Land #345-#351 together.
+- Builder follow-ups noted (not yet ticketed): C-680-7 SetupIntent lookup index (migration); first-payment notice duplicate key can
+  abort the outer transaction; C-661-2 credential backfill (deploy window); C-661-10 index; HC useWearableConnections.ts:120 logs a raw
+  error object (G12); D1 email "your access stays on" vs Day-10 lockout (flagged to dunning lenses); leftover ci/ branches from 116
+  jobs (B-T12-116 x4, B-W2-116 x2, wip/op116/B-W2-116-360) — deletion was safety-blocked for 117: ask the owner before deleting.
+- 22:55 lens queue started at the 5-agent floor: AUD-SOL-661R5-117 (aud_sol_661r5_117_661_round_5_mutec7ji), AUD-OPUS-661R5-117
+  (aud_opus_661r5_117_661_round_5_mutef226). Full ordered queue: JOBS117.md "LENS QUEUE".
+- 23:03 ops snapshot pushed to backend branch wip/op117/ops-snapshot = d3642a8c (all reports, verdict drafts, probes; files < 2 MB).
+  Restore with: git -C repos/growth-project-backend archive origin/wip/op117/ops-snapshot ops | tar -x -C /home/user/workspace
+- Supabase plan still "free" at 22:57 (owner upgrade pending in the dashboard).
+- Scoreboard 23:05: Launch path 1/7 | merged today 12 | deployed today 5 | open decisions 2 | credits used 0/45k (owner's last number).
 
-## 2. Agents in flight (22:24 PDT; job board handoffs/op-117/JOBS117.md, common rules _COMMON_117.md)
-Wave 1 (21:31) lenses all ended with verdicts posted (see progress log). Running now (15):
+## 2. Agents in flight (23:05 PDT; job board handoffs/op-117/JOBS117.md, common rules _COMMON_117.md)
+Concurrency floor 5 (owner 22:17: drain back to 5 and keep 5). Running now (5):
 | job | PRs | model | subagent id |
 |---|---|---|---|
-| B-RECUR3-117 | #680 + new R4 tests piece; restack #678/#679 | Opus builder | b_recur3_117_recurring_680_r4_mutbqgq7 |
-| B-661-R5-117 | #661 round 5 | Opus builder | b_661_r5_117_661_round_5_mutckhs2 |
-| B-DUN-117 | dunning restack #687-#691 | Opus builder | b_dun_117_dunning_restack_687_691_mutco4mh |
-| B-CM-117 | coach #674/#676/#677 | Opus builder | b_cm_117_coach_money_674_676_677_mutcosgu |
-| B-FEES-117 | fees round 13 #681-#686 (+ tests piece above F4) | Opus builder | b_fees_117_fees_stack_round_13_681_686_mutcpp71 |
-| B-W2-117 | mobile HC #360 fix + restack #361-#364 | Opus builder | b_w2_117_health_connect_360_restack_mutdfohp |
-| B-TR-117 | trials #671-#673 absorb main (#675 conflict) | Opus builder | b_tr_117_trials_stack_671_673_mutdfohz |
+| B-FEES-117 | fees round 13 #681-#686 (+ main merged into #681 first, + tests piece above F4) | Opus builder | b_fees_117_fees_stack_round_13_681_686_mutcpp71 |
 | B-PRIV-FU-117 | new backend PR (no emails in logs; Apple steps) + new mobile PR (DeleteAccountScreen copy) | Opus builder | b_priv_fu_117_611_follow_ups_mutdfoif |
 | B-CIQ-117 | new backend PRs: data-export order tiebreak; SBOM check fail-closed | Opus builder | b_ciq_117_ci_quality_follow_ups_mutdfoir |
-| AUD-OPUS-P12-117 / AUD-SOL-P12-117 | mobile #342, #343 | Opus / Sol | aud_opus_p12_117_mobile_342_343_mutdfoj3 / aud_sol_p12_117_mobile_342_343_mutdfojf |
-| AUD-OPUS-L12-117 / AUD-SOL-L12-117 | mobile #352, #353 | Opus / Sol | aud_opus_l12_117_mobile_352_353_mutdfojp / aud_sol_l12_117_mobile_352_353_mutdfojw |
-| AUD-OPUS-S12-117 / AUD-SOL-S12-117 | mobile #345, #346 | Opus / Sol | aud_opus_s12_117_mobile_345_346_mutdfok4 / aud_sol_s12_117_mobile_345_346_mutdfokg |
+| AUD-SOL-661R5-117 | #661 @ 957e3677 | Sol | aud_sol_661r5_117_661_round_5_mutec7ji |
+| AUD-OPUS-661R5-117 | #661 @ 957e3677 | Opus | aud_opus_661r5_117_661_round_5_mutef226 |
+Ended this session (reports in ops/reports/): wave 1 lenses (CI, PRIV3, F12, F34, 661, CM1, CM2), B-F56, B-RECUR3, B-661-R5, B-DUN,
+B-CM, B-W2, B-TR, P12/L12/S12 lens pairs.
 Reports: /home/user/workspace/ops/reports/<JOB>.md (sandbox; copied into handoffs/op-117/reports/ at milestones). Concurrency: drain to
 5, keep 5. Next launches in priority order: lens pairs on each stack its builder marks READY (fees F1-F4b, F5/F6 deltas; recurring
 R1-R4; #661; coach M1/M3/M4; dunning D1-D5; trials T1-T3; HC H2-H6), then mobile P3 #344, L3 #354, S3 #347, Money N1-N4 #348-#351,
@@ -195,3 +215,4 @@ apps forms.
 - v2 21:52 PDT: #611 + #315 merged; verdict results; queued builder rounds.
 - v3 22:07 PDT: launch step 1 deployed; #675 and #694 merged; four builders launched.
 - v4 22:24 PDT: #695 merged; wave 2 launched (15 running); current agent table.
+- v5 23:05 PDT: builders done (recurring, #661, coach, dunning, trials, HC READY); mobile P/L/S verdicts; lens queue; ops snapshot.

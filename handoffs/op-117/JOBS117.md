@@ -205,3 +205,35 @@ are faithful (diff of the stack top vs #322's approved tree) and audit each piec
 ## AUD-OPUS-S12-117 / AUD-SOL-S12-117 — mobile coach setup S1 #345 + S2 #346 (split of #329)
 Heads at 22:20: #345 a4e49588 (base main), #346 4522eb8e. Read the original #329 thread (Sol BLOCK 1/1/0 @fc7fe73f earlier) and the
 split's FIX ROUND/READY; confirm every #329 finding is closed in the split; audit each piece at its exact head.
+
+# LENS QUEUE (launch in this order as the 5-agent floor frees slots)
+
+## AUD-OPUS-661R5-117 / AUD-SOL-661R5-117 — #661 round 5 (PaymentSheet credentials, base main)
+Head 957e367741e07152e36ceb3ae450249358a60277 (FIX ROUND 5 issuecomment-5976995344; 11/11 green). Prior: Opus APPROVE 0/0/5 and Sol
+RC 0/2/0 at 6fdc35de. Re-audit the round-5 delta fully (row-version decline fence, recovery of activated-then-failed purchases,
+compare-and-set success path, Stripe 401/403 retryable) plus the composed PR. Your own probes; Sol's prior probes are in
+ops/aud-117/AUD-SOL-661-117/.
+
+## AUD-OPUS-R12-117 / AUD-SOL-R12-117 — recurring R1 #678 + R2 #679 (MOST CRITICAL)
+Heads: #678 2174eb7cd13c7560f0bb447b6fa560e9070de05b, #679 0e1cfde00f6293c0ddf4ee9e2c99f5321bbe2cb8 (FIX ROUND 4, READY; stacked on fees
+#686 e6893c97). Fees round 13 (B-FEES-117) will restack these merge-only later: audit the current heads now; a later merge-only
+delta is cheap. Read B-RECUR3-117 report and every prior verdict on #678/#679 (and the original #654 thread).
+
+## AUD-OPUS-R34-117 / AUD-SOL-R34-117 — recurring R3 #680 + R4 #696 (tests)
+Heads: #680 d1c62ee100e4abd72c21295c32f8b32e450981da (FIX ROUND 4 READY, 2,927 lines: SIZE ASSESSMENT owed by operator), #696
+48e690cdd46e9f0d77f03322d6b7e2c969cb2828 (R4 tests moved unchanged from #680; READY pending green).
+
+## AUD-OPUS-T12-117 / AUD-SOL-T12-117 — trials T1 #671 + T2 #672; then AUD-*-T3-117 #673
+Heads: #671 c75002c9eef3ebc4dd7c41d537fc38028635e4dc, #672 6ce54002226a957fa612e5cdfced7c9cf12a71fc, #673
+4ebf2a435c8c7f50ee5baa69836b0aac116e7a29 (FIX ROUND 7, READY; B-TR-117 report lists what #673 needs once #680 lands).
+
+## AUD-OPUS-CM1R2-117 / AUD-SOL-CM1R2-117 — coach M1 #674 + M3 #676; then AUD-*-CM4-117 #677
+Heads: #674 5bbcc92a5c47417c81d2c660654a738937332fec, #676 54e615666aad4c3713355d483616cd917fef7143, #677
+cdb627db896bd5e2663ca5d63a0f1ff0a129412b (FIX ROUND 2, READY; B-CM-117 report, SIZE ASSESSMENTs in the comments).
+
+## AUD-OPUS-D12-117 / AUD-SOL-D12-117 — dunning D1 #687 + D2 #688; D34 #689 + #690; D5 #691 (+ #642 merge-only check)
+Heads: #687 f8e47bf4, #688 b17f514c, #689 bb992fed, #690 06307883, #691 e0afe678 (B-DUN-117 report). Operator note for lenses: the D1
+email that still promises "your access stays on" during dunning must match the Day-10 lockout behaviour; rate it on its merits.
+
+## AUD-OPUS-W2-117 / AUD-SOL-W2-117 — HC H2 #360 + H3 #361; W45 #362 + #363; W6 #364
+Heads: #360 fde1875e, #361 574b32a8, #362 439937c9, #363 38ea0f81, #364 a3206441 (B-W2-117 report). #359 e0f3d2a7 dual APPROVE.
