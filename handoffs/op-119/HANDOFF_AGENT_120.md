@@ -15,7 +15,8 @@ GitHub is the truth: verify every head and verdict there before acting on any li
   _COMMON_119.md.
 - R-DISPUTE-PAUSE (section 9) is binding; B-DUNSPLIT-119 builds it after the coach builder (owner order to 119: coach first).
 - ops/ snapshot: backend branch wip/op119/ops-snapshot (tools/snapshot.sh in handoffs/op-119/tools).
-- Agent cap: 15 concurrent (owner 12:28 PDT 10-04, replaces the 10:32 cap of 5). 15 running since 12:30.
+- Agent cap: 15 concurrent (owner 12:28 PDT 10-04) until 13:22 PDT; at 13:22 stop-and-drain to 5 active, then 5 concurrent (owner
+  12:49). Credits: 9.4k/45k at 12:49 (owner).
 
 ## Launch path (7 steps)
 

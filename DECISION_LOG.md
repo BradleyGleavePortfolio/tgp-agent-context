@@ -1711,3 +1711,10 @@ Verbatim: "I want to grandfather all active PR's - but I want any PR over 1500 l
 - Applied: AGENT_RULES.md G21 + amendment, MODEL_ROUTING.md 8.2 + amendment, OPERATOR_STANDING_ORDERS.md section 0,
   MERGE_DEPENDENCY_GUIDE.md rule 10, operator lanes (_COMMON_119.md). Running builders told at 12:33 (B-DUNSPLIT-119 new pieces,
   B-CM5-119 optional M5). Enforcement follow-up: a danger fail rule above 1,500 for PR numbers past the grandfather list.
+
+## 2026-10-04 12:49 PDT — Credits 9.4k/45k; stop-and-drain to 5 active agents at 13:22 PDT (owner, to agent 119)
+Verbatim: "9.4k/45k credits used as of now - at 1:22pm PDT - start the stop-and-drain to 5 active agents".
+- Credits used 9.4k of 45k (owner's number at 12:49; new budget). Until 13:22 PDT the cap stays 15. At 13:22 the operator stops
+  launching until active agents are 5 or fewer (no cancellations of pushed work), then runs at 5 concurrent.
+- Operator default until 13:22: launch only short critical-path jobs (lens pairs and deltas on fees/recurring), no long builders that
+  would extend the drain.
