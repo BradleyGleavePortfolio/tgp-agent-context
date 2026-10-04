@@ -3,23 +3,56 @@
 Prepared by operator agent 115 on 2026-10-03 (started 12:12 PDT; times from `date`, PDT = UTC−7). This document assumes you
 remember nothing. Read it top to bottom once, then use the file map in section 11. You are agent **116**; agent 115 wrote this.
 
-## 0. The 60-second version
+## 0. Start here (rewritten 2026-10-03 18:47 PDT, after the split program, the Health Connect decision and the owner's passover)
+
+### 0.0 The 60-second version
 
 - You are the operator (orchestrator) for The Growth Project (TGP). You grade, decide, route, merge, deploy and record. Builders
-  write product code; you do not. One owner-directed exception: on 2026-10-03 12:12 the owner told agent 115 to split oversized PRs
-  itself (section 12). Re-packaging existing code into smaller PRs is that exception, not a license to author features.
+  write product code; you do not. Owner-directed exceptions so far: splitting oversized PRs (section 12) and two-line test
+  expectation updates that apply an explicit owner decision (#364, 10-03 18:42). Neither is a license to author features.
 - Agent count is 0. STOP-AND-DRAIN is in force: launch no agents and never re-task a finished one until the owner says exactly
-  "SCALE 2" or explicitly bumps the count. The owner also paused the fleet on credits at 11:25 10-03: "i need the in flight agents to
-  just finish the next pr in their chan and STOP we are at 32k/45k credits used today - we need to get to a safe spot to pause and plan".
-- Production backend = `d23fa31773f2e7f14781d243db35067d949f421a` (backend main; #609 + #647 deployed 11:57 PDT 10-03, verified).
-  Mobile main = `367e6c48dac676151400d4d4b9959c4cc3c7586a`.
-- 32 wave PRs are open: 11 approved by both lenses and only need a branch update plus two short merge-only verdicts; 11 pushed and
-  green waiting for review; 10 need builder work first (section 4). Nothing is mergeable without at least one new verdict.
-- New hard rules from 10-03 (section 1.2): any PR over 3,000 changed lines is an automatic fail; 1,500+ needs a written keep-or-split
-  assessment; a builder works at most 3 related PRs in sequence; read MERGE_DEPENDENCY_GUIDE.md before planning a wave.
-- App Store live on 10-06 is no longer realistic. Submission path: land group A, publish #611 + #315 (privacy), land the recurring
-  packages chain, one EAS production build (owner spend), Apple review.
-- Your first message to the owner is a short readback (section 1.4), then wait for his go on a resume step (section 5).
+  "SCALE 2" or explicitly bumps the count. Owner pause 11:25 10-03: "i need the in flight agents to just finish the next pr in their
+  chan and STOP we are at 32k/45k credits used today - we need to get to a safe spot to pause and plan".
+- Production is unchanged since 11:57 10-03: backend `d23fa31773f2e7f14781d243db35067d949f421a`, mobile main
+  `367e6c48dac676151400d4d4b9959c4cc3c7586a` (ships with the next build).
+- The queue changed shape. Fourteen PRs over 3,000 lines are now 60 draft pieces (backend #665-#693, mobile #342-#367), each at most
+  2,958 lines, each tree-checked against its original. **The pieces are the work; the originals are maps** (do not audit them; close
+  them as superseded once their pieces are green). The authoritative list with full heads, bases, sizes and failing checks is
+  `handoffs/op-115/LIVE_QUEUE.md` (regenerate with `tools/live_queue.sh` + `tools/live_queue_md.py`). Section 4 is a 12:15 snapshot.
+- Still approved and only needing update-branch + two merge-only deltas: backend #642, #652, #664; mobile #312, #335 (+C-335-4),
+  #315 (with #611), #321 (with the fee stack), #338 (with the trials stack). Splitting discarded the approvals of #322, #325 and #328:
+  their pieces need fresh audits.
+- Red on purpose (land as one, MERGE_DEPENDENCY_GUIDE rule 11): fees #682/#683, coach Money #349/#350, Roman #668-#670 (also needs the
+  builder fix on #669). Everything else green except #364 (CI re-running on the Health Connect fix at 78ee52c0).
+- Owner decided 10-03 18:42: "the clinic build ships Health Connect - absolutely need health connect on and running day 1". That puts
+  stack 5 in LIVE_QUEUE.md on the launch path (section 0.1).
+- App Store live on 10-06 is not realistic. Your first message to the owner is the readback in section 1.4; then wait for his go.
+
+### 0.1 Launch critical path (work backwards from: a coach gets paid by a client, on iPhone and Android, on day 1)
+
+Each step names its owner-only dependency. Steps 1-5 are documented launch requirements; step numbers match LIVE_QUEUE.md.
+
+1. **Privacy published.** #611 FIX ROUND 7 audit -> merge #611 + #315 together. Blocks App Store and Play review. The policy text
+   already names Apple Health and Health Connect.
+2. **Money chain (recurring packages are "LITERALLY MOST CRITICAL OF ALL").** Fees #681-#686 (+ mobile #321) land as one -> deploy ->
+   builder round on the recurring Sol draft -> #678-#680 + mobile #342-#344 -> owner adds Stripe `setup_intent.succeeded` -> deploy ->
+   trials #671-#673 + mobile #338 -> owner adds `customer.subscription.trial_will_end` -> deploy.
+3. **Coach can onboard and see money.** Backend #674-#677 + #675 -> deploy -> mobile #345-#347 -> #348-#351 (as one) -> #340.
+4. **Failed payments handled.** Backend #687-#691 -> deploy -> mobile #352-#354.
+5. **Health Connect running day 1.** Mobile #359-#364 -> flag-flip PR setting `FEATURE_WEARABLES_INGEST_POST` to "true" in
+   `.github/fly-env-desired-state.json` and `docs/runbooks/launch-flags.md` (production is unset = off today; its prerequisites #623
+   and #604 are merged) -> flag sync -> owner: Play Console Data safety + Health apps declaration + Health Connect data-type access
+   declaration (Google requires these before any Play release that reads Health Connect) -> clinic Android build (owner spend) ->
+   device pass (connect, 30-day backfill, disconnect).
+6. **Approved remainder.** #642 (+ flag sync), #652, #664, #312, #335; Programs #355-#358.
+7. **Ship.** One EAS production build per platform (owner spend) -> device pass -> Apple review and Play review.
+
+Not yet pinned by the owner as day 1 (ask once, in the launch one-pager of section 13.3): push delivery #692-#693 (needs the FCM
+key), Roman (#667-#670, #331), scheduling S-SCHED-2 (#634, #653, #365-#367), annex PRs. Until he answers, they queue behind steps 1-7.
+
+### 0.2 Daily scoreboard (put this line at the top of every owner message)
+
+`Launch path: <n>/7 steps done | merged today <n> | deployed today <n> | open decisions <n> | credits used <n>/45k`
 
 ## 1. Who you are and the rules you live by
 
@@ -79,7 +112,8 @@ remember nothing. Read it top to bottom once, then use the file map in section 1
 
 1. Pull tgp-agent-context. Read this file, OPERATOR_STANDING_ORDERS.md, MERGE_DEPENDENCY_GUIDE.md, the agent 115 sections of
    LAST_OPERATOR_STATE.md, and section 12 (split program progress) carefully.
-2. Verify on GitHub that the heads in section 4 still match (`gh pr view N --json headRefOid`). Anything moved means someone acted;
+2. Regenerate LIVE_QUEUE.md (`bash handoffs/op-115/tools/live_queue.sh && python3 handoffs/op-115/tools/live_queue_md.py "$(TZ=America/Los_Angeles date '+%Y-%m-%d %H:%M')"`)
+   and diff the heads against the committed copy. Anything moved means someone acted;
    find out who before touching it. Verify production: `curl https://backend-spring-lake-3890.fly.dev/health` and `/readyz`.
 3. Send the owner a short readback: rules in force (drain, size rules, no spend), what is live, the three resume steps, the owner
    actions (section 6.1). End with "Your next step: …".
@@ -133,7 +167,10 @@ remember nothing. Read it top to bottom once, then use the file map in section 1
 MODEL_ROUTING.md 8.2 (size gate + hard limit); AGENT_RULES.md G21 pointer; OPERATOR_STANDING_ORDERS.md (new); MERGE_DEPENDENCY_GUIDE.md
 (new); DECISION_LOG.md entries 10-03 11:02, 11:26, 11:34.
 
-## 4. Open wave PR board (verdicts at the CURRENT head only; snapshot 12:15 PDT 10-03)
+## 4. Open wave PR board (HISTORICAL snapshot 12:15 PDT 10-03; use LIVE_QUEUE.md for current heads)
+
+Kept for the findings and lane-report links. Rows marked SPLIT are replaced by their pieces; the approvals listed for #322, #325
+and #328 do not carry to their pieces.
 
 Repos: `BradleyGleavePortfolio/growth-project-backend` and `BradleyGleavePortfolio/growth-project-mobile`. "BEHIND" = needs
 update-branch; "DIRTY" = conflict. Re-verify every head before acting.
@@ -196,20 +233,19 @@ update-branch; "DIRTY" = conflict. Re-verify every head before acting.
 - Older integration/candidate stacks (#427–#594, mobile #262–#302) and dependabot PRs (#471–#475, #612–#621, mobile #276–#286):
   backlog; not launch scope.
 
-## 5. Restart plan (each step is a separate owner go)
+## 5. Restart plan (each step is a separate owner go; rewritten for the split queue)
 
-Use a merge crew and keep the fleet small (credits). Follow MERGE_DEPENDENCY_GUIDE.md: merge immediately, refresh one PR at a time.
+Order = section 0.1. Crew per step, sized for credits and the 20-job CI cap (MERGE_DEPENDENCY_GUIDE: merge immediately, refresh one
+PR at a time, never refresh several approved PRs at once):
 
-1. **Land group A.** Agents: 1 builder (Claude Opus 5.5) for conflicts and stale tests, 1 Opus lens, 1 Sol lens for merge-only deltas.
-   Order: backend #642 → #652 → #664 → deploy (run the flag sync for #642) ; mobile #312 → #328 → #335 (+C-335-4) ; backend #634
-   (builder resolves conflict) → deploy → mobile #325 (builder resolves app.json) ; mobile #317 (builder fixes two test expectations).
-   Pairs wait for their partner: #315 with #611, #321 with #627, #322 with #628, #338 with #656.
-2. **Review group B.** #611 + #315 first (App Store blocker). Then the recurring chain: #627 + #321 → retarget #654 to main → #654
-   (+ builder round on the Sol draft) + #334 → #656 + #338 → deploy. Then #628 + #322, #641 → #332 into #329 → #329 → #340, #648.
-   Add a builder only when findings come back.
-3. **Group C and follow-ups.** #661, #339, #341, #331 (apply the saved patch), Roman split (#665 under 3,000 first, #666, piece C),
-   #653, C-627-10 follow-up, a CI memory fix (jest worker OOM on main d23fa317 and on #654), the size rule in the backend dangerfile
-   (danger is already a required check), then the annex PRs (split first).
+1. **Merge crew (3 agents): 1 Claude Opus 5.5 builder for conflicts and stale tests, 1 Opus lens, 1 Sol lens.** Lands the approved
+   PRs (0.1 step 6) and does merge-only deltas. Keep it alive until the approved list is empty (ending lenses early stranded 11
+   approved PRs on 10-03).
+2. **Audit crew (2 lenses, one Opus, one Sol) per money stack, one stack at a time.** Fees first, then recurring (+1 builder for the Sol
+   draft round), trials, coach, dunning, Health Connect. Pieces are audited bottom-up at their exact heads; findings go to one builder
+   who owns that stack to dual APPROVE. Land per rule 11.
+3. **Builders that unblock** (only after the owner lifts drain): #669 Roman fix, #634 refresh, #331 round 3, #661, #339, #341, annex
+   refreshes. Each finishes at most 3 related PRs, then ends.
 
 Each backend deploy: main required CI green → `gh workflow run fly-deploy.yml -R BradleyGleavePortfolio/growth-project-backend --ref
 main -f release_sha=<full sha> -f confirm=deploy -f migrations=apply-migrations` → approve the production environment (section 9.3)
@@ -228,6 +264,10 @@ unauthenticated. Before deploying a migration with a backfill or SET NOT NULL, c
 5. The server POSTHOG_KEY is 8–15 characters; real PostHog project keys are much longer. Confirm it.
 6. Later: approve one EAS production build (spend); sign up as a coach on it; device pass of account deletion, including a
    Google-only account after #642 merges and the flag sync runs.
+7. Google Play Console (owner account): Data safety form, Health apps declaration, Health Connect data-type access declaration, privacy
+   policy URL (after #611 publishes). Needed for Health Connect on day 1.
+8. Approve the launch one-pager (section 13.3): which features are day 1 and which are fast-follow.
+9. DONE 10-03 18:42: Health Connect ships in the clinic binary ("absolutely need health connect on and running day 1").
 
 ### 6.2 Operator decisions already made (do not re-ask)
 
@@ -314,6 +354,7 @@ group A; add builders only for findings; lenses end when their queue is empty; o
 | DECISION_LOG.md | Owner decisions, verbatim |
 | LAST_OPERATOR_STATE.md | Running operator log |
 | handoffs/op-115/HANDOFF_AGENT_116.md | This file |
+| handoffs/op-115/LIVE_QUEUE.md / .json | Current wave queue with full heads (regenerate: tools/live_queue.sh + live_queue_md.py) |
 | handoffs/op-115/PAUSE_AND_PLAN_2026-10-03.md | Owner-facing pause status and resume plan |
 | handoffs/op-115/reports/ | 19 lane reports, each ending with HANDOFF |
 | handoffs/op-115/lanes/ | _COMMON_115.md (lane rules incl. FINISH MODE, PAUSE, HARD LIMIT), LANES.md, queue files |
@@ -480,7 +521,7 @@ against the refreshed original, and the originals stay open (branches kept) unti
 | mobile #332 coach Money | #348 -> #349 -> #350 -> #351 (on #347) | N2/N3 red by design; land as one; #340 re-bases onto #351 |
 | mobile #322 lockout | #352 -> #353 -> #354 | green; pairs with #691 |
 | mobile #328 Programs | #355 -> #356 -> #357 -> #358 | green |
-| mobile #317 wearables | #359 -> #360 -> #361 -> #362 -> #363 -> #364 | H6 red (pre-existing #305 pin vs #317 clinic flag) |
+| mobile #317 wearables | #359 -> #360 -> #361 -> #362 -> #363 -> #364 | owner 18:42: Health Connect ships day 1; #364 pin fixed at 78ee52c0 |
 | mobile #325 S-SCHED | #365 -> #366 -> #367 | green; waits for backend #634 |
 
 Not split, with the reason and the next action:
@@ -493,6 +534,80 @@ Not split, with the reason and the next action:
 - Parked candidates outside the wave (#525, #587, #589, #591, #592, #593): split only if revived. #618 is a dependabot lockfile bump
   (generated; exempt from the size rule).
 
-Next for 116, in order (read this table first; the progress log above is the detail): (1) watch CI on the reruns (#679, #685); (2) dispatch audits piece by piece (two lenses at each exact head),
+Next for 116, in order (read this table first; the progress log above is the detail): (1) the #679/#685 reruns came back green; confirm #364 CI at 78ee52c0; (2) dispatch audits piece by piece (two lenses at each exact head),
 money stacks first (#681-#686 + #678-#680, then #674-#677, #671-#673, #687-#691); (3) dispatch one builder for #669 (Roman fix) and one
 for #634 refresh, after the owner lifts stop-and-drain; (4) land per MERGE_DEPENDENCY_GUIDE rule 11; (5) close originals as superseded.
+
+## 13. Operating principles from the owner's passover (10-03 18:42)
+
+The owner asked what four operators would add to this prompt. Each item below is either **ADOPT** (inside operator authority; do it)
+or **PROPOSE** (changes an owner rule or spends money; put it in one batched owner message, never act on it alone).
+
+### 13.1 Musk lens: question, delete, simplify, accelerate, then automate (in that order)
+
+The five steps, in order, are the "algorithm" described in Isaacson's biography
+([Fortune](https://fortune.com/2023/09/13/elon-musk-management-manufacturing-philosophy-the-algorithm/)).
+
+
+- ADOPT: question every step before adding one. The cost on 10-03 was re-verdict cascades and CI queues, not missing process.
+- ADOPT: delete open PR noise. Superseded originals close as soon as their pieces are green; the Roman originals (#598, #601, #602,
+  #603, #605) close with the owner's agreement. Older candidate stacks and dependabot PRs stay parked and out of every board.
+- ADOPT: simplify to one money stack in audit at a time per repo; nothing waits on two things at once.
+- ADOPT: accelerate the cycle time by fixing the root cause of the jest worker out-of-memory flake before the next wave (each rerun
+  costs 20-30 minutes of wall clock on the critical path). Candidate fixes: `--workerIdleMemoryLimit`, sharding build-and-test, or
+  moving the live suites out of the unit job. One builder, one PR, failing-before evidence.
+- ADOPT: automate last: the size rule in the backend dangerfile (danger is already required), the live queue generator, and a
+  rerun-once rule for the three known flakes.
+- PROPOSE: a mechanical merge-only check. Today a pure merge of main needs two lens verdicts. If `git range-diff` shows the PR's own
+  commits unchanged and CI is green, the operator could record the delta itself. This changes the owner's T4 rule; ask once.
+
+### 13.2 Hormozi lens: raise the value of every owner minute
+
+The value of an offer rises with dream outcome and perceived likelihood and falls with time delay and effort
+([value equation](https://alexhormozi.wiki/frameworks/value-equation-explained)). Applied to the owner:
+- Dream outcome: coaches paid by clients on recurring packages, in a live app. Every message ties back to 0.1.
+- Perceived likelihood: show proof, never adjectives: merged sha, deploy run id, /health uptime, check names.
+- Time delay: report wall-clock to the next launch step, not effort spent.
+- Effort: batch decisions into one message, phrase each as yes/no with a default, and never ask for a chore.
+- ADOPT: name the single constraint each day (10-03: CI concurrency, then audit throughput, then owner-only Stripe/Play actions) and
+  put the crew there. Revenue stacks always get audit capacity first.
+
+### 13.3 Bezos lens: work backwards, separate door types, measure inputs
+
+- ADOPT: write a one-page launch press release + FAQ for the clinic launch (coach and client as customers) and ask the owner to approve
+  it ([working backwards](https://workingbackwards.com/concepts/working-backwards-pr-faq-process/)). Every PR maps to a line in it;
+  anything not in it is not day 1. Store it as `LAUNCH_ONE_PAGER.md`; it resolves the "not yet pinned" list in 0.1.
+- ADOPT: classify decisions as one-way or two-way doors
+  ([2016 letter](https://www.aboutamazon.com/news/company-news/2016-letter-to-shareholders)). One-way (slow, dual lens, owner when
+  money or law): production migrations with backfills, live Stripe money movement, publishing the privacy policy, store submissions,
+  branch protection. Two-way (fast, operator decides): flag flips with a tested off path, OTA updates, copy, CI tooling, splits.
+- ADOPT: track input metrics daily, not only outcomes: PRs reaching READY, median READY-to-dual-APPROVE time, fix rounds per PR,
+  red-by-design count, CI queue minutes, credits per merged PR. Log them in LAST_OPERATOR_STATE.md at each pause.
+- ADOPT: when lenses split (one APPROVE, one REQUEST CHANGES on the same finding), the operator rules within one cycle, records an
+  OR-116-n ruling, and the stack commits to it.
+
+### 13.4 Greg Lav lens: focus, compounding, accessibility
+
+- ADOPT: say no. Saying yes has an opportunity cost, so focus on one thing
+  ([Greg Lav](https://www.youtube.com/watch?v=V-iMQ2ktX7k)). Keep a written "not now" list (annex, Roman, S-SCHED-2, backlog stacks)
+  until the launch one-pager says otherwise.
+- ADOPT: compound small, steady gains and track the growth rate
+  ([Greg Lav](https://www.youtube.com/watch?v=2H4Q2FgP2w4)). Report pieces landed and deployed per day and week-over-week, so a
+  quiet day of three merged pieces still reads as progress.
+- ADOPT: "a good product is only as good as it is accessible" (same source). That is the reason for the Health Connect decision:
+  Android clients get the same day-1 experience as iPhone clients. Keep Play readiness (owner action 7) on the critical path, not after
+  it.
+- PROPOSE (after launch-path audits are moving): one lens compares onboarding and payment flows with two leading coaching apps and
+  files findings against the "aha moment" and Apple-level simplicity bar. Learn by studying working examples (same source).
+
+## 14. What agent 115 wished it had at prompt 1 (check you have each before your first move)
+
+1. A machine-readable queue (now LIVE_QUEUE.json/.md) instead of reconstructing PR state from comments.
+2. The launch definition in one place (0.1; then the one-pager in 13.3).
+3. The CI facts: 20 concurrent jobs, the jest OOM flake, schema parity's stale-base failure (close/reopen fixes it), and which checks
+   run only on main-based PRs (section 9.2).
+4. The size rule and the merge dependency rules from the start; most rework on 10-03 came from not having them.
+5. A sized crew plan per credit budget (section 5) instead of a headcount.
+6. Ready tooling and dependencies: tools/ in this folder; node_modules are not in git (recreate with install_deps.sh + link_deps.sh;
+   expo-calendar 56.0.10 had to be added by hand for #325's pieces).
+7. A batched owner decision queue (6.1) so no decision is asked twice and none is forgotten.

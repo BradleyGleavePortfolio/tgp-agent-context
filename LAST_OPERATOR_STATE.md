@@ -4,6 +4,14 @@ Updated: 2026-10-03 10:08 PDT (agent 115 takeover section below; agent 114 secti
 credits and retired ~11:10 PDT 2026-10-02; all of its subagents are dead. Single writer for Bucket A from 2026-10-02 12:10 PDT.
 Companion file: [LIVE_STATE.md](LIVE_STATE.md).
 
+## 2026-10-03 18:47 PDT — agent 115: Health Connect decision applied; handoff passover
+- OWNER 18:42 (verbatim): "the clinic build ships Health Connect - absolutely need health connect on and running day 1". #364 -> 78ee52c0
+  (easUpdateGuard clinic pin "0" -> "1"; local scripts + config suites 17/17, 407 tests). Commented on #364 and #317. DECISION_LOG entry.
+- CI: #679 and #685 build-and-test reruns green. Remaining reds are by design (#668-#670, #682/#683, #349/#350) plus #364 pending.
+- Handoff passover (owner asked for Musk / Hormozi / Bezos / Greg Lav additions): HANDOFF_AGENT_116.md section 0 rewritten (current
+  truth, launch critical path, scoreboard), section 5 rewritten for the split queue, sections 13 (four lenses, ADOPT vs PROPOSE) and
+  14 (what 115 lacked at prompt 1). New handoffs/op-115/LIVE_QUEUE.md/.json + tools/live_queue.sh + live_queue_md.py.
+
 ## OWNER 2026-10-03 10:15 PDT — "SCALE 2 + EXECUTE" (verbatim): "Do you know the to-do list and the owner decision from the last 72hrs? If so - SCALE 2 + EXECUTE - Scale up to 16 agents running if sandbox can handle it right away, then enter stop-and-drain!"
 - By 10:20 PDT agent 115 launched exactly 16 lanes (lane files handoffs/op-115/lanes/LANES.md + _COMMON_115.md): builders (Claude Opus 5.5)
   B-FEE-9 (#627 -> #321 -> #661), B-RECUR-3 (#654 + #334), B-DUNNING-7 (#628 -> #322 -> #642), B-TRIALS-3 (#656 + #338), B-COACH-5

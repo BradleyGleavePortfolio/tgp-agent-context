@@ -1633,3 +1633,14 @@ docs are audit-exempt under R14; product-code slices are not.
 ## 2026-10-03 11:34 PDT — Merge dependency guide for operator 116+ (owner)
 - Owner (verbatim): "Note the dependency issues causing retroactive work on the completed work - make a simple guid for agent 116* for this!" and "YOU are 115, your successor is 116. Thats who we are prompting for".
 - Decision: MERGE_DEPENDENCY_GUIDE.md (causes seen on 2026-10-03 plus 10 rules), linked from OPERATOR_STANDING_ORDERS.md section 1a. Structural fix (merge queue via an organization-owned repo, or relaxing up-to-date) stays an owner decision after launch.
+
+## 2026-10-03 18:42 PDT — The clinic binary ships Health Connect on day 1 (owner)
+- Owner (verbatim): "the clinic build ships Health Connect - absolutely need health connect on and running day 1".
+- Context: mobile #317 (split into #359-#364) sets the eas.json clinic profile `TGP_ANDROID_HEALTH_CONNECT` to "1"; the
+  easUpdateGuard suite merged with #305 pinned it to "0", so #317 and its last piece were red.
+- Applied (agent 115, 2026-10-03 18:47 PDT): #364 head 78ee52c0 updates the two clinic expectations to "1" (test-only, no product code). Production
+  and preview profiles stay "0".
+- Day-1 path (HANDOFF_AGENT_116.md 0.1 step 5): land #359-#364; flag-flip PR for backend `FEATURE_WEARABLES_INGEST_POST` (production is
+  unset = off); owner completes the Play Console Data safety, Health apps and Health Connect data-type declarations; clinic Android
+  build (owner spend); device pass.
+

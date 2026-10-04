@@ -67,3 +67,9 @@ Each step is a separate go/no-go for the owner, so credit spend stays visible.
 ## Timeline, honestly
 App Store live on 10-06 is no longer realistic. The submission path is: group A merges, then #611 + #315 published, the recurring
 packages chain approved and deployed, an EAS build (owner spend), and Apple review.
+
+## Update 2026-10-03 18:47 PDT
+- Owner decided 18:42: the clinic binary ships Health Connect on day 1. #364 updated (78ee52c0). Remaining owner actions for it: Google
+  Play Console Data safety, Health apps declaration and Health Connect data-type declaration; the clinic Android build (spend).
+- Current queue with full heads: handoffs/op-115/LIVE_QUEUE.md. Launch critical path: HANDOFF_AGENT_116.md section 0.1.
+
