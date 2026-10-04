@@ -23,7 +23,7 @@ remember nothing. Read it top to bottom once, then use the file map in section 1
   #315 (with #611), #321 (with the fee stack), #338 (with the trials stack). Splitting discarded the approvals of #322, #325 and #328:
   their pieces need fresh audits.
 - Red on purpose (land as one, MERGE_DEPENDENCY_GUIDE rule 11): fees #682/#683, coach Money #349/#350, Roman #668-#670 (also needs the
-  builder fix on #669). Everything else green except #364 (CI re-running on the Health Connect fix at 78ee52c0).
+  builder fix on #669). Everything else is green, including #364 at 78ee52c0 (Health Connect fix, 18:5x).
 - Owner decided 10-03 18:42: "the clinic build ships Health Connect - absolutely need health connect on and running day 1". That puts
   stack 5 in LIVE_QUEUE.md on the launch path (section 0.1).
 - App Store live on 10-06 is not realistic. Your first message to the owner is the readback in section 1.4; then wait for his go.
@@ -534,7 +534,7 @@ Not split, with the reason and the next action:
 - Parked candidates outside the wave (#525, #587, #589, #591, #592, #593): split only if revived. #618 is a dependabot lockfile bump
   (generated; exempt from the size rule).
 
-Next for 116, in order (read this table first; the progress log above is the detail): (1) the #679/#685 reruns came back green; confirm #364 CI at 78ee52c0; (2) dispatch audits piece by piece (two lenses at each exact head),
+Next for 116, in order (read this table first; the progress log above is the detail): (1) the #679/#685 reruns came back green; #364 is green at 78ee52c0; (2) dispatch audits piece by piece (two lenses at each exact head),
 money stacks first (#681-#686 + #678-#680, then #674-#677, #671-#673, #687-#691); (3) dispatch one builder for #669 (Roman fix) and one
 for #634 refresh, after the owner lifts stop-and-drain; (4) land per MERGE_DEPENDENCY_GUIDE rule 11; (5) close originals as superseded.
 
