@@ -29,7 +29,7 @@ past text is in git history and, for the logs, in Parts B and C below.
   - A1 Owner standing rules (latest decision per rule)
   - A2 Agent rules (the LAW)
   - A3 Model routing T0-T4 (the PROCESS)
-  - A4 EXECUTE doctrine (the MENTALITY)
+  - A4 EXECUTE doctrine (the MENTALITY); A4.1 operator continuity system (owner 13:32 10-05)
   - A5 Merge dependency guide
   - A6 Decisions in force (product and operations register)
   - A7 Launch plan (one-pager), Roman v1.1 plan, importer north star, feature flags
@@ -106,11 +106,33 @@ These sit on top of the agent rules (A2) and model routing (A3). Each rule shows
   light!'").
 
 ### A1.8 Quality, speed and scope (owner 10-01 / 10-02 / 10-03)
+- EDGE-CASE FREEZE (owner 2026-10-05 13:29 PDT): weird edge cases do not block until 10,000+ clients; full rule at the top of A2.
+  Owner 13:30: "any PR's open right now that are sat clean besides an edge case - MERGE NOW".
 - Hyperscaler quality or it is a day-1 blocker; wall clock is resource number one; more functionality, not less; pristine Apple-level UX.
 - GitHub CI lanes are the parallel engine: proofs and probes run in CI lanes, never as full local suites.
 - Before planning a wave, read the merge dependency guide (A5): draw the graph, build in merge order, land trains as one.
 
 ## A2. Agent rules (the LAW)
+
+> OWNER OVERRIDE: EDGE-CASE FREEZE (owner 2026-10-05 13:29 PDT, verbatim: "Edit the agent rules document to note that we should NOT
+> care about weird edge cases for now - forget that shit - at 5 fig clients ill swing abck around to what comes up - we need to move
+> FASTER"). Binding on every lens, builder and operator until TGP has a five-figure client count (10,000+ clients); then the owner
+> revisits the deferred list. It narrows what counts as "material" in G10/G11 for that period:
+> 1. A finding blocks (B) only if it can happen in normal use (ordinary taps, ordinary network, one person acting at a time, launch-size
+>    traffic) AND the result is one of: money wrong, lost or given away; private, health or payment data shown to the wrong person; a
+>    safety or crisis routing miss; data loss or corruption; a security hole a user or outsider can reach on purpose; an App Store, Play or
+>    legal failure; a false customer-facing claim; a dead end that blocks a core flow.
+> 2. Weird edge cases are C (ticket, no fix now): races that need two actions in the same instant, multi-replica or clock/lease timing
+>    windows, provider events arriving out of order or retried unusually, crash-at-exactly-this-line recovery, inputs nobody types,
+>    limits far above launch volume, extra defence on paths that are already guarded. Label: "C (edge, deferred to 10k clients)".
+> 3. Re-reviews check only that the previous Bs are fixed and that the changed lines broke nothing. No new Bs in unchanged code unless
+>    they meet item 1.
+> 4. One fix round is the target. From round 3 on, only regressions and item-1 findings block.
+> 5. When the two lenses disagree on whether a finding is an edge case, the operator decides from the two verdicts; no extra round.
+> 6. The operator reclassifies open Bs that are edge cases under item 2 with a one-line PR comment ("Reclassified to C under the owner
+>    edge-case freeze, 2026-10-05 13:29 PDT") and adds them to A8.9 (edge-case deferred list) for the 10k-client review.
+> Everything else in A2 stands: dual T4 attestations at exact heads, size caps, identity, secrets, merge-only tree checks.
+
 Source: AGENT_RULES.md (EFFECTIVE 2026-09-18) as of 2026-10-05, with the latest owner decisions on PR size and identity applied inline. Where this text points to DECISION_LOG.md, read Part C1; to MODEL_ROUTING.md, read A3.
 
 > Importer work: the importer north star (A7.3) is the only importer north star. It supersedes every earlier importer plan.
@@ -1003,6 +1025,52 @@ This document preserves the attached mentality doctrine's core operating ideas �
 
 **BRADLEY OWNS DIRECTION. THE ORCHESTRATOR OWNS EXECUTION.**
 
+### A4.1 Operator continuity system (owner 2026-10-05 13:32 PDT; appended by agent 121)
+Owner, verbatim (quoting agent 121's 13:27 recommendations): "A short rules document of a few hundred lines. / A script that builds the
+live state table from GitHub (head, verdicts per head, CI, what it's blocked on), instead of agents writing it by hand. / An append-only
+decision log. / A handoff covering only what changed since the last operator." and "append TGP source of truth doctrine to include these
+appendages with explanation".
+
+Why. On 2026-10-05 this document was 838 KB and 7,084 lines. Agent 121 needed about 40 minutes and a real share of its credits to read
+it and re-verify state before it could launch anything, and the handoff still missed work: m#321 approved but never merged, m#340 and
+m#336 sitting on dead branches, B-MSG2-120's fix-round comments never posted. Hand-written state goes stale within the hour, and job
+entries that say "read entry X word for word" make every agent pay again for the same background. Speed is the goal (owner 13:29: "we
+need to move FASTER"); takeovers and briefings are the largest fixed cost per operator.
+
+The four pieces. They are additions: this document stays the archive and stays the truth until each piece exists on main.
+
+1. Short rules document: RULES.md (at most 300 lines).
+   - What: only what binds behaviour today: owner standing rules (A1), the law including the edge-case freeze (A2), merge and deploy
+     procedure (A5 rules 11 and 12), the tier summary (A3), how to talk to the owner (A1.7). One line per rule, latest decision wins,
+     each line cites its decision id in DECISIONS.md.
+   - Why: every operator, builder and lens can read it in full at the start of a job for little cost; the long text in A2-A5 stays as
+     reference for edge questions.
+   - Rules for the file: a rule not in RULES.md does not bind subagents; adding a rule needs an owner decision id; the 300-line limit
+     holds, so adding means compressing something else.
+2. Live state script: tools/live_state.sh, output LIVE_STATE.md (generated, never hand-edited).
+   - What: reads GitHub and production directly. Per open PR in both repos: number, title, head sha, base and stack position, size
+     against its cap, behind/conflict state, required checks at the head, the latest verdict of each lens at that exact head (parsed from
+     the first line "AUDIT <model> — <repo>#<n> @ <sha> — VERDICT: <X>"), the latest FIX ROUND / RESTACK / READY comment, and a computed
+     "blocked on" (needs lens, needs fix, needs CI, needs refresh, ready to merge). Plus production sha (/health), main shas, pending
+     migrations, and the flag manifest against live Fly values.
+   - Why: state read from GitHub cannot go stale or drift from the truth (R15: GitHub is the only truth); it replaces the hand-written
+     tables in A8.
+   - Use: the operator runs it at takeover and every loop and commits the output with its generation time. Lenses keep the parseable
+     verdict first line exactly, or the script cannot see the verdict.
+3. Append-only decision log: DECISIONS.md.
+   - What: one entry per owner decision: id D-YYYYMMDD-HHMM, time from `date`, the owner's words verbatim, a one-line interpretation,
+     the id it supersedes, the recording agent. Entries are never edited or deleted; a correction is a new entry that supersedes.
+   - Why: ends the rewriting of the same decision in several places; RULES.md and A6 cite ids, so the latest decision is unambiguous.
+     Part C1 stays as the historical record before the log starts.
+4. Delta handoff: handoffs/op-1XX/HANDOFF.md (about 150 lines at most).
+   - What: only what changed since the previous operator's handoff: merges and deploys with shas, new decision ids, PRs whose state
+     changed and why, jobs in flight (subagent ids, last report path), owner to-dos still open, and the next operator's first three moves.
+   - Why: the next operator reads RULES.md, runs the live state script and reads one short delta (about 10 minutes) instead of the whole
+     history; anything older is in this archive and in LIVE_STATE.md.
+
+Takeover order once the pieces exist: RULES.md, then tools/live_state.sh, then the latest delta handoff, then only the sections of this
+document a specific job needs. Build job: OPS-STATE (tgp-agent-context only, no product code, T2), queued in A9 by agent 121.
+
 ## A5. Merge dependency guide
 Source: MERGE_DEPENDENCY_GUIDE.md (agent 115, 2026-10-03; rule 12 added 10-03 21:15).
 
@@ -1159,6 +1227,10 @@ Older entries not listed here still stand unless a later decision changed them; 
   builders when the sandbox is open); every probe and test runs in GitHub CI lanes; stop launching at about 8k credits left.
 - 13:11 "18k/45k credits used" / "start stop and drain down to 13 agents" -> no launches above 13 active; the six newest agents and one
   idle lens cancelled at 13:12; finishing lenses are not replaced until the fleet is under 13.
+- 13:29 edge-case freeze (verbatim in A2 override and C1) -> A2 override, A8.9 deferred list, every running agent told at 13:33.
+- 13:30 "any PR's open right now that are sat clean besides an edge case - MERGE NOW" -> operator merges every dual-approved PR whose only
+  open findings are edge cases (A8.9), with required checks green.
+- 13:32 operator continuity system (four pieces) -> A4.1.
 
 ## A7. Plans
 
@@ -1608,6 +1680,12 @@ booking options); M-INV mobile codes screen; M-ROMANCAP pop-up + coach-pool debi
 m#339 copy fix round; m#340 lens pair; MWB AI live-create lane; scheduling mobile pairs (m#365-#367, #336, #341); flag manifest PRs.
 Operator work (not slots): rule 12 lands of m#321, m#312, m#335, b#642; retargets of m#340 and m#336; #711 rerun; merges, deploys and
 flag syncs; close superseded oversize PRs with comments; credits check with the owner every 30 minutes; keep this file current.
+
+### A8.9 Edge-case deferred list (owner edge-case freeze 2026-10-05 13:29; revisit at 10,000+ clients)
+| Finding | PR | Lens | What | Reclassified |
+|---|---|---|---|---|
+| B-648-8 | b#693 | Sol 6002058009 | final compare-and-set wait can outlast the lease; predicate uses the pre-wait clock | operator 121, 13:31 (6002378872) |
+| B-648-9 | b#693 | Sol 6002058009 | mute / per-kind disable committed during that same wait is ignored (= Opus C-693-12) | operator 121, 13:31 (6002378872) |
 
 ## A9. Job book (open to add to)
 Every job entry agent 120 wrote, with exact heads, verdict ids and owner rulings. Done jobs are marked in A8 and Part B. Workers read A9.1 (the common brief) and their own entry.
@@ -6884,6 +6962,15 @@ is max parallization without sandbox crashes". 12:41: "3.8k/45k credits as of no
 
 #### 2026-10-05 13:11 PDT — Credits and fleet size (owner, to agent 121)
 Verbatim: "18k/45k credits used" / "start stop and drain down to 13 agents". Recorded in A6.8.
+
+#### 2026-10-05 13:27-13:32 PDT — Edge-case freeze, merge now, continuity system (owner, to agent 121)
+13:27 owner asked agents 121-125 for opinions (audit scrutiny, handoff efficiency, orchestration difficulty), "not to change anything".
+13:29: "Edit the agent rules document to note that we should NOT care about weird edge cases for now - forget that shit - at 5 fig
+clients ill swing abck around to what comes up - we need to move FASTER". 13:30: "any PR's open right now that are sat clean besides an
+edge case - MERGE NOW". 13:32: "A short rules document of a few hundred lines. / A script that builds the live state table from GitHub
+(head, verdicts per head, CI, what it's blocked on), instead of agents writing it by hand. / An append-only decision log. / A handoff
+covering only what changed since the last operator." / "append TGP source of truth doctrine to include these appendages with
+explanation". Recorded in A2 (override), A1.8, A4.1, A6.8, A8.9.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
