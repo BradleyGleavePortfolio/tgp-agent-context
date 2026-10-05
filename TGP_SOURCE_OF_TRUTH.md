@@ -1157,6 +1157,8 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 12:39 "if sandbox isnt stressed, add more lanes (audits if tight, builders if very open) - goal is max parallization without sandbox
   crashes". 12:41 credits "3.8k/45k credits as of now"; "use github ci lanes". Agent 121: lanes added in waves (audits while CPU is loaded,
   builders when the sandbox is open); every probe and test runs in GitHub CI lanes; stop launching at about 8k credits left.
+- 13:11 "18k/45k credits used" / "start stop and drain down to 13 agents" -> no launches above 13 active; the six newest agents and one
+  idle lens cancelled at 13:12; finishing lenses are not replaced until the fleet is under 13.
 
 ## A7. Plans
 
@@ -2201,6 +2203,9 @@ Contribution log (PDT, newest last)
   worktrees.
 - b#642 (Google sign-in manifest line) rule-12 tree check failed only because main shifted the manifest file around the identical hunk:
   needs a short dual delta verdict, batched with the next flag PRs.
+- 13:11-13:12 owner: 18k/45k credits used (14.2k in the last 30 minutes); drain to 13 agents. Cancelled wave 3 (B-PROG2, B-PROG4,
+  B-MWB409, B-SCHED-FIX, mobile scheduling lens pair; all 6 minutes old, nothing pushed) and the idle Sol INV3 lens (#658 APPROVE 0/0/4
+  already posted). 18 running, draining to 13 as the Opus lenses post.
 - 12:37 rule 12 lands started: m#321 (fee rule in the package editor) and b#642 (Google sign-in manifest line) brought up to date with
   main; merge after the tree check + green checks. m#340 and m#336 need a builder restack (a plain base change shows 11k lines).
 
@@ -6871,6 +6876,9 @@ Verbatim 12:30: "TWO THINGS YOU NEED TO DO NOW; 1.) Place the attached document 
 documents into JUST TGP_SOURCE_OF_TRUTH.md 2.) You will start 15 parallized agents once I say execute. Plan what those 15 slots will be
 for now, then simply respond with 'Ready, sir' - thats it". 12:32: "heres the document, my mistake" (attached this file).
 Recorded in A6.8 and A8.8.
+
+#### 2026-10-05 13:11 PDT — Credits and fleet size (owner, to agent 121)
+Verbatim: "18k/45k credits used" / "start stop and drain down to 13 agents". Recorded in A6.8.
 
 #### 2026-10-05 12:37-12:41 PDT — Banner, more lanes, credits, CI lanes (owner, to agent 121)
 Verbatim 12:37: "just fyi you are agent 121st in the chain - update the source of truth periodically with AGENT 121 banner and under that

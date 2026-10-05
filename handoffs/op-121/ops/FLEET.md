@@ -6,11 +6,11 @@ Wave 1 launched 12:39-12:40 (15 agents; owner EXECUTE 12:35; routing: T4 builder
 | AUD-OPUS-CM10-121 | claude_opus_5_5 | aud_opus_cm10_121_coach_lens_muvnjjoz | b#674 3a07a0de, #676 fadb2960, #677 e3940bd0, #703 ebde8b3b | running |
 | AUD-SOL-CM10-121 | gpt_6_1_sol | aud_sol_cm10_121_coach_lens_muvnjjp6 | same | DONE 12:5x: APPROVE #674 0/0/2, #676 0/0/1, #677 0/0/1, #703 0/0/0; main refresh touches PR-owned test -> short dual delta |
 | AUD-OPUS-PUSH4-121 | claude_opus_5_5 | aud_opus_push4_121_push_lens_muvnjjpc | b#692 346cf4a8, #693 cc0a167f | running |
-| AUD-SOL-PUSH4-121 | gpt_6_1_sol | aud_sol_push4_121_push_lens_muvnjjpi | #693 delta | running |
+| AUD-SOL-PUSH4-121 | gpt_6_1_sol | aud_sol_push4_121_push_lens_muvnjjpi | #693 delta | DONE 13:1x: #693 RC 0/2/2 (B-648-8 retained, B-648-9 reopened); #692 APPROVE stands |
 | AUD-OPUS-SCHA-121 | claude_opus_5_5 | aud_opus_scha_121_scheduling_lens_muvnjjpn | b#712-#716, then #717-#720 + #653 | running |
 | AUD-SOL-SCHA-121 | gpt_6_1_sol | aud_sol_scha_121_scheduling_lens_muvnjjpu | same | DONE 13:01: APPROVE #712-#720 (0 A/B); #653 RC 0/2/1 |
 | AUD-OPUS-INV3-121 | claude_opus_5_5 | aud_opus_inv3_121_invite_msg_lens_muvnjjq1 | b#658 4de7a6dc, then MSG3 #708-#711 | running |
-| AUD-SOL-INV3-121 | gpt_6_1_sol | aud_sol_inv3_121_invite_msg_lens_muvnjjq8 | same | running |
+| AUD-SOL-INV3-121 | gpt_6_1_sol | aud_sol_inv3_121_invite_msg_lens_muvnjjq8 | same | #658 APPROVE 0/0/4 (12:44); CANCELLED 13:12 while waiting for MSG READY (owner drain) |
 | B-SPLIT-ROMANCHATS-121 | claude_opus_5_5 | b_split_romanchats_121_split_m_331_muvnjjqd | m#331 5b58a121 -> pieces | running |
 | B-MSG-FIN-121 | claude_opus_5_5 | b_msg_fin_121_messaging_close_out_muvnjjqk | b#708-#711, then mobile inbox | running |
 | B-TR9-121 | claude_opus_5_5 | b_tr9_121_trials_train_muvnjjqq | b#671-#673, #706, #707 | running |
@@ -41,10 +41,12 @@ Active: 23 at 12:55. CI 12:53: backend 83 queued / 1 running (GitHub incident).
 12:56 (date): sandbox IO-bound (90% iowait: per-worktree @prisma/client copies 74 MB each + mobile deps npm ci); memory 6.4 GB free; launches held until iowait drops.
 
 Wave 3 launched 13:06 (iowait 25%, disk 5.8 GB free after npm cache clean + removal of finished Sol worktrees)
-| B-PROG2-121 | claude_opus_5_5 | b_prog2_121_programs_p1_p2_muvojbh1 | m#355/#356 | running |
-| B-PROG4-121 | claude_opus_5_5 | b_prog4_121_programs_p3_p4_muvojbh9 | m#357/#358 | running |
-| B-MWB409-121 | claude_opus_5_5 | b_mwb409_121_mwb_409_details_muvojbhg | new backend PR | running |
-| B-SCHED-FIX-121 | claude_opus_5_5 | b_sched_fix_121_643_m_341_muvojbhn | b#643, m#341 | running |
-| AUD-OPUS-SCHM1-121 | claude_opus_5_5 | aud_opus_schm1_121_sched_mobile_lens_muvojbht | m#365, m#366 | running |
-| AUD-SOL-SCHM1-121 | gpt_6_1_sol | aud_sol_schm1_121_sched_mobile_lens_muvojbhz | same | running |
+| B-PROG2-121 | claude_opus_5_5 | b_prog2_121_programs_p1_p2_muvojbh1 | m#355/#356 | CANCELLED 13:12 (owner drain to 13; requeue later) |
+| B-PROG4-121 | claude_opus_5_5 | b_prog4_121_programs_p3_p4_muvojbh9 | m#357/#358 | CANCELLED 13:12 (owner drain to 13; requeue later) |
+| B-MWB409-121 | claude_opus_5_5 | b_mwb409_121_mwb_409_details_muvojbhg | new backend PR | CANCELLED 13:12 (owner drain to 13; requeue later) |
+| B-SCHED-FIX-121 | claude_opus_5_5 | b_sched_fix_121_643_m_341_muvojbhn | b#643, m#341 | CANCELLED 13:12 (owner drain to 13; requeue later) |
+| AUD-OPUS-SCHM1-121 | claude_opus_5_5 | aud_opus_schm1_121_sched_mobile_lens_muvojbht | m#365, m#366 | CANCELLED 13:12 (owner drain to 13; requeue later) |
+| AUD-SOL-SCHM1-121 | gpt_6_1_sol | aud_sol_schm1_121_sched_mobile_lens_muvojbhz | same | CANCELLED 13:12 (owner drain to 13; requeue later) |
 Active: 24 at 13:06.
+
+13:11 owner: "18k/45k credits used" / "start stop and drain down to 13 agents". 13:12: cancelled the 6 wave-3 agents (6 minutes old) and Sol INV3 (idle, waiting); Opus INV3 told to stop after #658 (skip MSG3). 18 running; the 8 Opus lenses drain as they post; no launches until under 13, then hold at 13 or fewer. Burn 12:41-13:11: 14.2k in 30 min.
