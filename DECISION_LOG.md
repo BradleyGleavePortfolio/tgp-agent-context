@@ -1766,3 +1766,14 @@ tendencies, watches everything, speaks directly to clients as a true butler and 
   FEATURE_ROMAN_ADJUST_ENABLED flip after the stacks land and pass (operator flag PR).
 - Roman v1.1 plan: planning/ROMAN_V1_1_PLAN.md (agent 120), with numbered owner decisions.
 - Earlier the same morning: scheduling day-1 status still open.
+
+## 2026-10-05 10:31 PDT — Scheduling day 1, coach calendar required, shared trial rule, cap 7 (owner, to agent 120)
+Verbatim: "all required day 1 - make sure that coaches set their times and availability! We need to move fast, noitate the free trial
+collide and keep pushing forward" and "cap at 7 for agent 120".
+- Scheduling is day 1 in full: backend #634 (split under 1,500), #653, #643; mobile #365, #366, #367, #336, #341. New requirement
+  S-AVAIL-120: coaches must set appointment types, a welcome call type and weekly open hours (setup checklist + wizard link; clients see
+  "Your coach is setting up their calendar", never an empty picker).
+- Trials: the collision between recurring native trials (#678, live) and package trials (#673) is noted; ONE SHARED TRIAL RULE applies:
+  at most one free trial per client per coach, whichever kind (B-TR8-120).
+- Agent 120 runs at most 7 agents at once (replaces the pace question). With the expanded day 1 the Wed 10-07 target slips; the operator
+  reports the forecast.
