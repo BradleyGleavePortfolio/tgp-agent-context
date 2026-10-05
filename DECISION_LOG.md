@@ -1718,3 +1718,23 @@ Verbatim: "9.4k/45k credits used as of now - at 1:22pm PDT - start the stop-and-
   launching until active agents are 5 or fewer (no cancellations of pushed work), then runs at 5 concurrent.
 - Operator default until 13:22: launch only short critical-path jobs (lens pairs and deltas on fees/recurring), no long builders that
   would extend the drain.
+
+## 2026-10-05 09:2x PDT — Agent 120 takes over; cap 15 again (owner, to agent 120)
+Verbatim: "we can start with 15 concurrent agents as soon as your done with recon" / "use github ci lanes for faster parallization -
+monitor CPU sandbox usage and memory".
+- Agent 120 launched 15 at 09:28 PDT (ops/op120/FLEET.md on wip/op120/ops-snapshot). Lenses run probes only in GitHub CI lanes.
+- 09:29 operator deployed backend main ee55f814 (recurring R1-R5) with migrations under the standing deploy approval: healthy 09:33.
+
+## 2026-10-05 09:43 PDT — Credits; open decisions 4-7 answered (owner, to agent 120)
+Verbatim: "7.5k/45k credits used for agent 120 so far" / "Delete leftover ci/* branches from old agents' jobs: yes" / "A refund that
+fails after access has ended: alert only -> if a client gets a refund but it fails, but access has been cancelled already, yes, jsut
+alert the coach" / "Dispute inquiries also pause the plan: yes" / "A full refund on a recurring plan pauses billing, and the coach
+restarts it - yes".
+- Credits: 7.5k of 45k used by agent 120 at 09:43 PDT.
+- Decision 4: delete leftover ci/* branches from agents up to 119 (never a branch that is a PR head; current 120 lanes untouched).
+- Decision 5: a refund that fails after access has already ended: alert the coach only (no access change, no retry by the client).
+- Decision 6: dispute inquiries (warning_needs_response / inquiry disputes) also pause the recurring plan, same as R-DISPUTE-PAUSE.
+- Decision 7: a full refund on a recurring plan pauses billing and ends access like R-DISPUTE-PAUSE; the coach restarts (C-680-16).
+- Decision 1 (day-1 scope): owner wants "hyperscaler quality and more, not less, functionality" and asked for the fast-follow list to be
+  explained. Operator default from 09:45 (reversible): the fast-follow items run in a parallel lane at lower priority than launch steps
+  2-6; anything that clears both lenses and its gates before the build cut ships in the day-1 build, the rest in the first update.
