@@ -33,7 +33,7 @@ Backend = b, mobile = m. "DA" = dual APPROVE (Claude Opus 5.5 + GPT-6.1 Sol) at 
 | Fees, recurring, #661 secrets | b#681-#686 #697; b#678-#680 #696 #701; b#661 + #702 | DEPLOYED | done |
 | Health Connect | m#359-#364, #369, #370 | MERGED 11:29 | flag flip PR; B-HC12-120; device pass |
 | Push (day 1) | b#692 346cf4a8 (Sol APPROVE 6000373524), b#693 cc0a167f FIX ROUND 6 READY (6000796965, 2,965 lines) | READY | Opus PUSH3 on #692 + #693 and a Sol #693 delta -> merge #692 then #693 back to back -> deploy WITH migrations (20270307000000) -> Android device check |
-| Coach | b#674 (RC both: Sol 5999606262, Opus 6000051266 B-674-15); #676 0ee4933d, #677 b17888ab, #703 88940c3f DA before the round | B-CM9-120 (FIX ROUND 6) was still running at 11:47: read ops/reports/B-CM9-120.md and the PR comments for its final heads | delta lens pair -> land -> deploy -> wizard + money mobile |
+| Coach | b#674 3a07a0de FIX ROUND 6 READY (6000796805; 2,995/3,000), #676 fadb2960 + #677 e3940bd0 merge-only READY, #703 ebde8b3b READY (11-case regression spec); B-674-1, B-674-15, B-674-16 fixed | READY (ops/reports/B-CM9-120.md) | delta lens pair at these heads -> main merge as its own merge-only round (main is 29 commits ahead) -> land -> deploy -> wizard + money mobile. #674 has 5 lines of room: move test/comment lines out for any further fix |
 | Dunning | b#687 d86b31a6 FIX ROUND 4 READY (6000627026); #688 2662d01a + #704 764af2e1 RESTACK READY; #705 2a03d7dd IN PROGRESS (Sol B-705-2..5, Opus B-705-1..3 open) | partial | new D2d PR on #705 with the remaining fixes (rulings in JOBS120 wrap-up notes; plan in ops/reports/B-DUNR2-120.md) -> lens pair over #687/#688/#704 + #705/D2d -> B-DUNB-120 -> D5 #691 + #642 |
 | Trials | b#671 ea7a9740, #672 b0654c80 READY; #673 14b7a7a2 FIX ROUND 12 (2,996), #706 9567f8bd, #707 81ec2756 pushed with ONE SHARED TRIAL RULE | NOT READY: PR bodies, T5 probe replay on #707, READY comments once CI is green (ops/reports/B-TR8-120.md) | finish -> lens pair over the whole train -> read-only count of native trials in production -> land -> deploy -> m#338 |
 | Messaging (day 1) | b#708 5c9c6a0e, #709 87f0bfff, #710 47b528ce, #711 5a7c41e8 | B-MSG2-120 running since 11:45 | MSG3 lens pair -> M-MSG-120 mobile |
@@ -49,9 +49,9 @@ Backend = b, mobile = m. "DA" = dual APPROVE (Claude Opus 5.5 + GPT-6.1 Sol) at 
 Every job entry with exact heads, verdict ids and rulings: ops/lanes120/JOBS120.md (backend branch wip/op120/ops-snapshot).
 
 ## 3a. First moves for agent 121 (in order)
-1. Verify heads on GitHub; read the B-CM9-120 and B-MSG2-120 reports (both were running when agent 120 stopped).
-2. Push: Opus PUSH3 + Sol #693 delta -> land -> deploy with migrations (closest to production after coach).
-3. Coach delta lens pair -> land -> deploy. 4. Trials: finish READY, lens pair, land. 5. Dunning: D2d builder, lens pair.
+1. Verify heads on GitHub; read the B-MSG2-120 report (running when agent 120 stopped).
+2. Coach delta lens pair (B-CM9 READY) and push: Opus PUSH3 + Sol #693 delta -> land -> deploy with migrations (closest to production after coach).
+3. Land coach, deploy; land push, deploy with migrations. 4. Trials: finish READY, lens pair, land. 5. Dunning: D2d builder, lens pair.
 6. Lockout L3 pair; messaging MSG3 pair; INV3 pair; scheduling SCHA/SCHB pairs; Roman RA/RB pairs. 7. Remaining builders per JOBS120.
 Size the fleet to your own credits (agent 120 burned about 17k credits an hour at 7-15 agents; check credits every 30 minutes).
 
@@ -79,3 +79,4 @@ only. Coach AI pool + client daily cap layered (11:40-11:41). Credits: 37.7k/45k
   running builders to finish fast.
 - 11:40 #661 deploy dispatched; 11:44 DEPLOYED (production 5da537d6). B-PUSH3 done (#693 cc0a167f READY). B-DUNR2 partial (#705 open).
   B-TR8 pushed, not READY. 11:44 owner: restart the smallest stopped job -> B-MSG2-120 relaunched 11:45. Merged today 10, deployed today 2.
+- 11:48 B-CM9 done: #674 3a07a0de, #676 fadb2960, #677 e3940bd0, #703 ebde8b3b, all READY with green checks.
