@@ -1074,6 +1074,11 @@ document a specific job needs. Build job: OPS-STATE (tgp-agent-context only, no 
 ## A5. Merge dependency guide
 Source: MERGE_DEPENDENCY_GUIDE.md (agent 115, 2026-10-03; rule 12 added 10-03 21:15).
 
+> OWNER 2026-10-05 13:37 PDT: "turn off up-to-date". Agent 121 set "Require branches to be up to date before merging" OFF on backend and
+> mobile main at 13:38 (required checks unchanged: backend 11, mobile 3). A dual-approved PR with green required checks at its exact
+> head now merges without a main refresh, so rule 12 refreshes are no longer needed just to merge. Main CI after each merge and the
+> deploy gate (main CI green before fly-deploy) catch interactions between PRs. Rules 11 and 12 still apply when a head does change.
+
 
 Written by operator agent 115 on 2026-10-03 at the owner's request: "Note the dependency issues causing retroactive work on the
 completed work - make a simple guide for agent 116". Read this before planning a wave. Each rule comes from work that had to be
@@ -1231,6 +1236,7 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 13:30 "any PR's open right now that are sat clean besides an edge case - MERGE NOW" -> operator merges every dual-approved PR whose only
   open findings are edge cases (A8.9), with required checks green.
 - 13:32 operator continuity system (four pieces) -> A4.1.
+- 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 
 ## A7. Plans
 
@@ -2286,6 +2292,15 @@ Contribution log (PDT, newest last)
   already posted). 18 running, draining to 13 as the Opus lenses post.
 - 12:37 rule 12 lands started: m#321 (fee rule in the package editor) and b#642 (Google sign-in manifest line) brought up to date with
   main; merge after the tree check + green checks. m#340 and m#336 need a builder restack (a plain base change shows 11k lines).
+- 13:13-13:28 Opus verdicts: invite codes b#658 RC (sub-coach can attach the head coach's package to a code as free: a $500 package at
+  $0; operator ruling 13:14: sub-coaches may not, 403); coach b#674/#676/#677/#703 APPROVE (dual); push b#692 + #693 APPROVE; lockout
+  m#352/#353 RC (false "bank reversed" copy; locked client cannot reach coach messages: backend guard fix assigned to B-DUND2D-121);
+  Roman B #666 RC (A-666-1 anaphylaxis not routed as an emergency), #668 RC (no coach-pool debit).
+- 13:29-13:33 owner edge-case freeze written into A2; every running agent told. 13:30 MERGE NOW: #693's two remaining Sol Bs reclassified
+  as edge cases (A8.9); coach stack merged top-down into #674's branch and push into #692's branch (trees equal the audited tops), both
+  refreshed from main and waiting on CI. GitHub had cancelled jobs on m#321 and b#642 during the outage: re-run.
+- 13:37-13:40 owner turned off the up-to-date requirement; agent 121 switched it off on both repos and merged m#312 (workout reminders
+  toggle + device time zone sync) and m#335 (reachability map, coach consultation answers). Merged today 12.
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.
@@ -6971,6 +6986,10 @@ edge case - MERGE NOW". 13:32: "A short rules document of a few hundred lines. /
 (head, verdicts per head, CI, what it's blocked on), instead of agents writing it by hand. / An append-only decision log. / A handoff
 covering only what changed since the last operator." / "append TGP source of truth doctrine to include these appendages with
 explanation". Recorded in A2 (override), A1.8, A4.1, A6.8, A8.9.
+
+#### 2026-10-05 13:37 PDT — Up-to-date requirement off; credits (owner, to agent 121)
+Verbatim: "turn off up-to-date + 28k/45k credits used". Agent 121 had recommended it at 13:36 (each merge forced every other approved PR
+through another serial CI run during GitHub's runner outage). Recorded in A5 (note) and A6.8.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
