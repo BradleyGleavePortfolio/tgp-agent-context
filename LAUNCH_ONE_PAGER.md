@@ -1,4 +1,4 @@
-# TGP Launch — One Page (for owner approval)
+# TGP Launch — One Page (APPROVED by the owner 10:40 PDT 10-05)
 
 Version 2.1, operator agent 120, 2026-10-05 10:40 PDT (v1 by agents 116/117, 10-03). Fleet size is dynamic: each operator sizes it to its own credits (agent 120: up to 7 at once).
 Goal: App Store and Play submission plus clinic go-live, at hyperscaler quality, with recurring packages on day 1. Original target Wed
@@ -30,4 +30,4 @@ Goal: App Store and Play submission plus clinic go-live, at hyperscaler quality,
 - Supabase Pro on launch day 1 (database backups). Apple Sign-in key. Confirm POSTHOG_KEY. Play reviewer accounts on the next APK.
   Health Connect device pass. Play Console Data safety + Health apps forms.
 
-Decision: approve this page (scope and order above). Recommended: approve.
+APPROVED by the owner 2026-10-05 10:40 PDT ("approved").

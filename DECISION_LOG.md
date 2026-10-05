@@ -1791,3 +1791,6 @@ credits per operator. Also, drop the biggest risk section - dont think how this 
 - The 7-agent cap applies to agent 120 only. Every operator sizes its fleet to its own available credits (up to the rules' maximum of 15),
   and scales up when credits allow. Operator 121+: do not inherit 7 as a cap.
 - Owner-facing plans and one-pagers carry no "biggest risks" section: state the plan, the order and the fastest path.
+
+## 2026-10-05 10:40 PDT — LAUNCH_ONE_PAGER.md v2.1 approved (owner, to agent 120)
+Verbatim: "approved". Closes open decision 2 (one-pager). Scope and order on the page are binding for agent 120 and successors.
