@@ -2414,6 +2414,12 @@ Contribution log (PDT, newest last)
 - 15:15 owner: GitHub stays connected to only one Perplexity account at a time, so agents 122 and 123 run SEQUENTIALLY: 122 alone over
   BOTH repos first, 123 after it from 122's handoff (handoffs/op-121/PROMPT_AGENT_122_UPDATE.md; A8.10 lane split replaced).
   Merged today (all operators, GitHub search): 36 (backend 24, mobile 12). Deployed today: 4. Agent 121 has no running subagents.
+- 15:48-15:57 owner: use the last credits on a PR fix that does not overlap agent 122. Fixed the messaging inbox stack: the deployed
+  backend sends `thread-updated` with an empty payload on the public channel, and m#371 dropped every such ping (and m#377 filtered on
+  a thread id that never arrives), so v2 edits, deletes, pins and read receipts only showed on the poll floor. m#371 @ d4244f2c (every
+  thread-updated event is a refresh signal; tests updated), m#377 @ 316f0a13 (merges that head; the open thread refreshes on every
+  ping). Both READY FOR AUDIT (comments 6004786539, 6004786751), CI green (m#371 all 4 checks). Next: one lens pair, then land
+  top-down behind messaging_core_v2.
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.
