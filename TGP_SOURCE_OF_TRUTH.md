@@ -1697,6 +1697,7 @@ flag syncs; close superseded oversize PRs with comments; credits check with the 
 | B-648-8 | b#693 | Sol 6002058009 | final compare-and-set wait can outlast the lease; predicate uses the pre-wait clock | operator 121, 13:31 (6002378872) |
 | B-648-9 | b#693 | Sol 6002058009 | mute / per-kind disable committed during that same wait is ignored (= Opus C-693-12) | operator 121, 13:31 (6002378872) |
 | B-653-2 | b#653 | Opus 6002182391 | no live-Postgres test for the expiry path | operator 121, 13:43 (fix round B-SCHED2-121) |
+| B-352-3 | m#352 | Sol 6001848621 | shared native payment sheet race between two overlapping card-update sessions (tested fix parked: ops/aud-121/B-LOCK3-121/B-352-3-native-ui-lease-deferred.patch on backend wip/op121/ops-snapshot) | operator 121, 13:55 |
 
 ## A9. Job book (open to add to)
 Every job entry agent 120 wrote, with exact heads, verdict ids and owner rulings. Done jobs are marked in A8 and Part B. Workers read A9.1 (the common brief) and their own entry.
