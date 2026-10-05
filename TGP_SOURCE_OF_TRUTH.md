@@ -2162,13 +2162,24 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
 
-## AGENT 121 — 2026-10-05 11:5x PDT onward (session 8a21c288)
+## AGENT 121 — 2026-10-05 11:5x PDT onward (session 8a21c288; 121st operator in the chain)
 Why: agent 120 stopped launching at 11:28 (37.7k/45k credits) and handed off; the owner started agent 121 with the four documents and
-ordered a full reconstruction (state, decisions, to-dos, day-1 blockers, pre-launch functionality).
-Got done (before EXECUTE): read every attachment and the repo rules; verified heads, production, Supabase and flags (A8.0); ran the
-scheduling preflight read-only (0/0); placed this file on main and turned the 11 old files into pointers (owner 12:30-12:32); planned the
-15-slot wave (A8.8). Waiting for the owner's EXECUTE.
+ordered a full reconstruction (state, decisions, to-dos, day-1 blockers, pre-launch functionality). Owner EXECUTE 12:35 PDT 10-05 with
+15 agents in parallel. Owner 12:37: keep this banner current with agent 121's contribution to the mission.
+Files: handoffs/op-121/ops/ (_COMMON_121.md common brief, JOBS121.md job book, FLEET.md fleet log). Raw evidence: backend branch
+wip/op121/ops-snapshot.
 
+Contribution log (PDT, newest last)
+- 12:04-12:10 Reconstruction: verified every head, production (5da537d6 healthy), Supabase (190 applied, 0 pending) and the flag
+  manifest; found the gaps agent 120's handoff missed (A8.0): m#321 fee-rule editor never landed, m#340/m#336 on dead bases, new conflicts
+  on b#671 and m#342, B-MSG2-120 comments never posted, MWB AI live-create without a lane. Ran the scheduling migration preflight
+  read-only: 0 overlapping pairs, 0 inverted ranges.
+- 12:30-12:34 Placed this document on main on owner order; the 11 old rules/state files became one-line pointers; agent 120's job book,
+  fleet log and reports copied into handoffs/op-120/ from its last snapshot.
+- 12:35 EXECUTE. 12:36-12:40 sandbox rebuilt (ops/, shared deps installing, lanes121), 15 agents launched (A8.8 table; ids in
+  handoffs/op-121/ops/FLEET.md): lens pairs CM10 (coach), PUSH4 (push), SCHA (scheduling), INV3 then MSG3 (invite codes, messaging);
+  builders ROMANCHATS split (m#331), MSG-FIN (b#708-#711 + mobile inbox), TR9 (trials), DUND2D (dunning D2d), HC12 (Health Connect +
+  ingest flag PR), COACHLESS split (b#657), BCAST split + fixes (b#659).
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.
