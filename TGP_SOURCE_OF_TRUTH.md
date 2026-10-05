@@ -2313,6 +2313,12 @@ Contribution log (PDT, newest last)
 - 15:42 mobile wave (owner 15:15 order, half mobile): B-WIZ3-122 (m#346 B-346-3 + C-346-7 minimal fix, m#347 W3 item-list fixes,
   restack the money train m#348-#351), lens pair AUD-*-MON1-122 (money screens m#348-#351, first full review). Queued:
   AUD-*-WL4-122 (lockout m#352-#354 delta, then wizard #346/#347). Env sync 37381404217 (121) verified success.
+- 15:43 owner: scale to 10-12 agents. 15:45 wave 2 launched (12 running): B-TR11-122 (trials B-673-3 + main refresh: trial_ending into
+  push/push-preferences.ts, Opus C-672-L1), B-DUNFIX-122 (standby for dunning Bs), lens pairs AUD-*-WL4-122 (lockout m#352-#354, then wizard
+  #346/#347) and AUD-*-RCH1-122 (Roman chats m#372-#376). Opus TR10 APPROVE all five trials pieces (15:42). Re-ran outage-cancelled mobile CI
+  on m#352-#354 and m#372-#376. Ops snapshot branch wip/op122/ops-snapshot created.
+- 15:54 owner: the Expo build goes Wed 10-07 with as much fixed as possible; agents 122-130 all run before day 1. Step 5's device pass moves
+  to that build (no build tonight).
 
 ## AGENT 121 — 2026-10-05 11:5x PDT onward (session 8a21c288; 121st operator in the chain)
 Why: agent 120 stopped launching at 11:28 (37.7k/45k credits) and handed off; the owner started agent 121 with the four documents and
@@ -7111,6 +7117,18 @@ and 123's 45k budget today as well - make a plan!". Recorded as A8.10.
 Verbatim: "yea no I tried conencting the two perplexity accounts to the same github - as i conenct one the others drops ... fine. Ill
 have agent 122 run its course first - give it a quick update prompt on wtf was just going on and that they WONT be co existing".
 Agent 122 runs alone over both repos; agent 123 starts after it (handoffs/op-121/PROMPT_AGENT_122_UPDATE.md).
+
+#### 2026-10-05 15:43 PDT — Scale up to 10-12 agents (owner, to agent 122)
+Verbatim: "Scale up now to 10-12 agents. The mobile lane has no work running yet; start it immediately. Add: (1) builder: B-WIZ3 fix round
+on m#346; (2-3) Opus + Sol lens pair over the money train m#348-#351; (4-5) Opus + Sol delta pair on lockout m#352-#354; (6) builder: fix
+round for Sol's request-changes on b#673; (7) builder standing by for the dunning fix round the moment its Bs land. If agents are still free
+after that, add Opus + Sol pairs on Roman chats m#372-#376 and coachless b#721-#723. Space out builder pushes (GitHub runs only 20 test
+jobs at once), cancel superseded test runs right away, and stop launching at 37k." Done 15:45 (12 agents; agent 122 Part B).
+
+#### 2026-10-05 15:54 PDT — Expo build on 10-07; agents 122-130 before day 1 (owner, to agent 122)
+Verbatim: "the expo build goes 10/7 with as much fixed as possible before then - I want agents 122 -> 130 done and exhausted before day 1
+launch!". Meaning: no EAS build tonight; one build on Wed 10-07 carrying every mobile fix merged by then (the Health Connect device pass
+uses that build); operators 122 through 130 all run before day 1.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
