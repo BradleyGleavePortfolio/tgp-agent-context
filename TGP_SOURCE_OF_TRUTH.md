@@ -108,6 +108,8 @@ These sit on top of the agent rules (A2) and model routing (A3). Each rule shows
 ### A1.8 Quality, speed and scope (owner 10-01 / 10-02 / 10-03)
 - EDGE-CASE FREEZE (owner 2026-10-05 13:29 PDT): weird edge cases do not block until 10,000+ clients; full rule at the top of A2.
   Owner 13:30: "any PR's open right now that are sat clean besides an edge case - MERGE NOW".
+- RUTHLESS SCOPE (owner 2026-10-05 14:29 PDT): auditors hunt only real, huge issues; zero time on time zone / race / 1-in-a-million
+  cases; one-sentence normal-user story for every B; time boxes 20/30/45 minutes. Full rule: A2 override items 7-11.
 - Hyperscaler quality or it is a day-1 blocker; wall clock is resource number one; more functionality, not less; pristine Apple-level UX.
 - GitHub CI lanes are the parallel engine: proofs and probes run in CI lanes, never as full local suites.
 - Before planning a wave, read the merge dependency guide (A5): draw the graph, build in merge order, land trains as one.
@@ -131,6 +133,24 @@ These sit on top of the agent rules (A2) and model routing (A3). Each rule shows
 > 5. When the two lenses disagree on whether a finding is an edge case, the operator decides from the two verdicts; no extra round.
 > 6. The operator reclassifies open Bs that are edge cases under item 2 with a one-line PR comment ("Reclassified to C under the owner
 >    edge-case freeze, 2026-10-05 13:29 PDT") and adds them to A8.9 (edge-case deferred list) for the 10k-client review.
+>
+> OWNER OVERRIDE: RUTHLESS SCOPE (owner 2026-10-05 14:29 PDT, verbatim: "we need to expand on the edge case ruling - we need all
+> audtiors to be ruthless at finding REAL HUGE ISSUES - it shouldnt even waste time or thought on strange edge case time zone 1 in a
+> million shit - we need to move faster than light"). Expands the freeze above; binding on every lens, builder and operator:
+> 7. Hunt only for real, large problems. An auditor's whole job is the item-1 list: money wrong, lost or given away; private, health or
+>    payment data reaching the wrong person; safety or crisis routing missed; data lost or corrupted; a security hole an ordinary user or
+>    outsider can reach; App Store, Play or legal rejection; a false claim to customers; a core flow (sign up, sign in, pay, book, message,
+>    train, coach payouts) that breaks or dead-ends for a normal user.
+> 8. Do not spend time or thought on: time zones, daylight saving, midnight or date boundaries, clock skew, same-instant or
+>    two-device races, retries or webhooks arriving twice or out of order, lease or timer windows, crash-mid-write recovery, cache sizes,
+>    extreme volumes, unusual input combinations, old app builds, extra defence on already-guarded paths, missing tests for code that
+>    works. Do not search for them, do not write probes for them, do not analyse them. If one is noticed in passing: one line, labelled
+>    "C (edge, deferred to 10k clients)", nothing more.
+> 9. Every B states, in one plain sentence, how an ordinary user hits it on a normal day and what goes wrong for them. A finding that
+>    cannot be told that way is not a B.
+> 10. Time boxes: delta re-review 20 minutes, full review of one PR 30 minutes, a whole train 45 minutes. Read the code paths that move
+>    money, data, access and safety first; skim the rest. Verdicts stay short: Bs first, Cs as a one-line list.
+> 11. Builders apply the same filter: fix item-1 problems only; never add edge-case hardening, probes or tests unless a lens B asks.
 > Everything else in A2 stands: dual T4 attestations at exact heads, size caps, identity, secrets, merge-only tree checks.
 
 Source: AGENT_RULES.md (EFFECTIVE 2026-09-18) as of 2026-10-05, with the latest owner decisions on PR size and identity applied inline. Where this text points to DECISION_LOG.md, read Part C1; to MODEL_ROUTING.md, read A3.
@@ -1241,6 +1261,8 @@ Older entries not listed here still stand unless a later decision changed them; 
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
   b#708-#711 (4). Builders off that path wrapped up at 13:50 (work pushed, HANDOFF in each report).
 - 13:50 credits "31.2k/45k credits used".
+- 14:06 credits "33.5k/45k credits used".
+- 14:29 RUTHLESS SCOPE -> A2 override items 7-11 (auditors hunt only real, huge issues; no time on edge cases; time boxes).
 
 ## A7. Plans
 
@@ -7006,6 +7028,11 @@ explanation". Recorded in A2 (override), A1.8, A4.1, A6.8, A8.9.
 #### 2026-10-05 13:37 PDT — Up-to-date requirement off; credits (owner, to agent 121)
 Verbatim: "turn off up-to-date + 28k/45k credits used". Agent 121 had recommended it at 13:36 (each merge forced every other approved PR
 through another serial CI run during GitHub's runner outage). Recorded in A5 (note) and A6.8.
+
+#### 2026-10-05 14:29 PDT — Ruthless audit scope (owner, to agent 121)
+Verbatim: "we need to expand on the edge case ruling - we need all audtiors to be ruthless at finding REAL HUGE ISSUES - it shouldnt
+even waste time or thought on strange edge case time zone 1 in a million shit - we need to move faster than light". Recorded as A2
+override items 7-11 (with the 13:29 freeze), A1.8 and A6.8; every running lens told at 14:30.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
