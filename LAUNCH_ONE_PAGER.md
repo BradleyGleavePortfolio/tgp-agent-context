@@ -1,20 +1,39 @@
-# TGP Launch — One Page (draft for owner approval)
+# TGP Launch — One Page (for owner approval)
 
-Drafted by operator agent 116, 2026-10-03 21:16 PDT; kept current by operator agent 117 (updated 2026-10-03 22:07 PDT). Fleet resumed 21:31 PDT.
-Goal: App Store and Play submission plus clinic go-live (target Wed 10-07), at hyperscaler quality, with recurring packages on day 1.
+Version 2, operator agent 120, 2026-10-05 10:36 PDT (v1 by agents 116/117, 10-03). Pace: at most 7 agents at once (owner, 10:31).
+Goal: App Store and Play submission plus clinic go-live, at hyperscaler quality, with recurring packages on day 1. Original target Wed
+10-07; with the expanded day 1 the estimate is: launch-path steps 2-6 done Wed-Thu, the full day-1 list about Mon 10-12.
 
-| # | Launch step | What lands | State at 2026-10-03 22:07 | Owner action |
-|---|---|---|---|---|
-| 1 | Privacy | backend #611 public privacy policy + mobile #315 trust-center links | DONE: #611 + #315 merged 21:41; deployed 22:03 (main 643817b3); /privacy, /consumer-health-privacy, /help, /help/delete-account live | none |
-| 2 | Money | fees #681-#686 as one stack -> deploy -> recurring #678-#680 (+ R4 tests piece) and mobile sheet #342-#344 -> deploy -> trials #671-#673 + mobile #338 -> deploy; #661 PaymentSheet credentials | fees round 13 in progress (B-FEES-117; Sol/Opus findings on #681/#683/#684); #685/#686 round 12 green; recurring #680 + R4 builder running; #661 round 5 builder running | Stripe events setup_intent.succeeded (before recurring deploy) and customer.subscription.trial_will_end (before trials deploy); Stripe Billing retry: "leave the subscription past-due" |
-| 3 | Coach | backend #674-#677 -> deploy -> mobile #345-#351 -> #340 | #675 MERGED + deployed 22:03; #674/#676 round in progress (B-CM-117); #677 Sol APPROVE | none |
-| 4 | Failed payments | backend #687-#691 -> deploy -> mobile #352-#354 | restack D1 -> D5 in progress (B-DUN-117), then lens pairs | none |
-| 5 | Health Connect | mobile #359-#364 -> flag flip -> flag sync -> late-data follow-up -> clinic Android build -> device pass | #359 approved; #360 fix saved on a WIP branch | Play Console Data safety + Health apps forms; build spend approval |
-| 6 | Remainder | #642, #312, #335, Programs #355-#358; CI #694 + #695 first | #694 MERGED 22:05; #695 dual APPROVE, refreshed, merging when green | none |
-| 7 | Builds and review | EAS builds -> device pass -> store review | not started | EAS spend approval; Apple Sign-in keys; FCM V1 key; POSTHOG_KEY confirm |
+## Launch path (7 steps)
+| # | Step | What lands | State 10:36 10-05 |
+|---|---|---|---|
+| 1 | Privacy | policy, trust center, delete-account | DONE (deployed 10-03) |
+| 2 | Money | fees; recurring; card-secrets fix #661/#702; payment sheet m#342-#344; trials #671-#673, #706, #707 + m#338 | fees + recurring DEPLOYED (recurring 09:33 today); #661 fix building; sheet approved, held for D4; trials: one shared trial rule, builder next |
+| 3 | Coach | backend #674 #676 #677 #703 -> deploy -> wizard and money screens m#345-#351 | Sol approved 3 of 4 (#674 has 3 fixes); Opus reviewing |
+| 4 | Failed payments | dunning #687-#691, #642 -> deploy -> lockout m#352-#354 | D1-D2c and lockout fixed and ready; reviews running/queued |
+| 5 | Health Connect | m#359-#364, #369 -> flag on -> late-data follow-up -> device pass | all approved except one #369 fix (building) |
+| 6 | Remainder | programs m#355-#358 (+ small backend fix), m#312, #335, #339, #340 | programs fixes queued |
+| 7 | Builds and review | EAS builds (Free plan) -> device pass -> store review | not started |
 
-Fast-follow after day 1 (default unless the owner objects): push #692-#693, Roman, S-SCHED-2, annex.
-Biggest risks: (1) money stacks keep producing new must-fix findings each round (real defects caught pre-production, but slow);
-(2) GitHub Actions capacity (36 queued runs at peak) sets the pace more than agent count; (3) owner-only store and Stripe actions
-gate steps 2, 5 and 7; (4) no database backups until the Supabase Pro upgrade (owner approved 21:31; dashboard billing step).
-Decisions: Supabase Pro APPROVED 21:31 (owner upgrades in the dashboard). Still open: day-1 scope (default above); approve this page.
+## Added to day 1 today (owner rulings 09:46-10:33)
+- Push notifications b#692/#693: fixes building (lock screens show generic text, no email or health details; Android channels).
+- Community: coachless and featured coach #657, invite codes #658 (fixed, ready for review) + mobile codes screen, broadcasts #659,
+  messaging inbox #660 (split into #708-#711 at 10:3x; production message privacy checked: on).
+- Roman: client-data answers, safety checks, live chat, 30-case quality test, "your conversations", approve-to-adjust. v1.1 plan written.
+- Scheduling, all of it: no double booking, appointment types, coach approval or instant confirm, request expiry, reminders, coach and
+  client calendar screens, phone time zone. Coaches decide their times (open hours, time off, notice, booking window, buffers, daily max);
+  onboarding unchanged.
+
+## Owner actions
+- Done today: FCM V1 key in Expo; old ci branches deleted (iOS push key already in Expo since May).
+- Stripe: add refund.updated to webhook we_1UMt9WDUoC5CCVhShvAELVmI; confirm customer.subscription.trial_will_end before the trials deploy.
+- Supabase Pro on launch day 1 (database backups). Apple Sign-in key. Confirm POSTHOG_KEY. Play reviewer accounts on the next APK.
+  Health Connect device pass. Play Console Data safety + Health apps forms.
+
+## Biggest risks
+1. Day 1 roughly doubled today (about 40 more PRs, mostly never reviewed) while the cap is 7 agents.
+2. Money and access code keeps producing real must-fix findings each round: slower, but caught before production.
+3. Owner-only Stripe, store and device steps gate steps 2, 5 and 7.
+4. No database backups until Supabase Pro.
+
+Decision: approve this page (scope and order above). Recommended: approve.
