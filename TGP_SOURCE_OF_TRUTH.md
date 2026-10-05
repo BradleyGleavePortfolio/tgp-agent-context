@@ -1715,7 +1715,8 @@ flag syncs; close superseded oversize PRs with comments; credits check with the 
 
 ### A8.10 Plan to 4/7 by end of day 10-05 (owner 14:50: "I need these to, truly, without cutting corners, hit 4/7 by EOD"; "Ill be using agent 122 and 123's 45k budget today as well - make a plan")
 Full plan: handoffs/op-121/HANDOFF_122_123.md. Target: steps 1 (done), 3 Coach, 4 Failed payments, 5 Health Connect; stretch 2 Money.
-Agents 122 and 123 run in parallel, split by repo: 122 = backend (dunning train, trials, every backend deploy after 121), 123 = mobile
+UPDATE 15:15 (owner): agents run SEQUENTIALLY, 122 alone over both repos first, then 123 (PROMPT_AGENT_122_UPDATE.md). Original split, now
+replaced: agents 122 and 123 run in parallel, split by repo: 122 = backend (dunning train, trials, every backend deploy after 121), 123 = mobile
 (coach wizard + money screens, lockout, payment sheet + m#338, then programs). 121 finishes deploy 3 (push, coach payouts, messaging),
 #712 scheduling into main + deploy 4, #642, Health Connect m#378 + flag b#731. Owner: Health Connect device pass, Stripe webhook events,
 Android push check.
@@ -2369,6 +2370,19 @@ Contribution log (PDT, newest last)
   37378685156, migrations applied), production approved. 14:5x #712 dual APPROVE of the main merge (Opus D7 6003771792, Sol D7
   6003779987); danger failed only on the PR title (not Conventional Commits): title fixed, danger re-run. HC13 lens pair started
   (m#378 + b#731).
+- 14:56 deploy 3 DONE (release 4bddf24a; /health and /readyz 200). Merged b#712 (scheduling train #712-#720 + #653; main 846b91f8)
+  and b#642 (Google sign-in flag; refresh proven as main's change applied verbatim; main cb986a4c). HC13 dual APPROVE m#378 + b#731
+  (Sol 6003831008 / 6003830962, Opus 6003887740 / 6003888250; 0 A / 0 B); CI re-run after the outage cancel.
+- 15:03 merged m#378 (mobile main 203e80e3); deploy 4 dispatched (release cb986a4c, migrations applied, run 37379973924), production
+  approved; 15:05 owner 38.1k/45k: agent 121 stopped launching agents. Prompts for 122 and 123 written and made self-contained for
+  zero-context agents (handoffs/op-121/PROMPT_AGENT_122.md, PROMPT_AGENT_123.md).
+- 15:11 deploy 4 DONE (/health and /readyz 200). Merged b#731 (Health Connect ingest flag; main 5cde6253). Fly Env Sync plan
+  37380888203 (2 to set, 0 unset) then apply 37381404217 with deploy_staged: FEATURE_WEARABLES_INGEST_POST=true and GOOGLE_CLIENT_IDS
+  Fly Deployed after one rolling restart; /health and /readyz 200. Step 5 now waits only on the owner's device pass with a build that
+  includes m#378.
+- 15:15 owner: GitHub stays connected to only one Perplexity account at a time, so agents 122 and 123 run SEQUENTIALLY: 122 alone over
+  BOTH repos first, 123 after it from 122's handoff (handoffs/op-121/PROMPT_AGENT_122_UPDATE.md; A8.10 lane split replaced).
+  Merged today (all operators, GitHub search): 36 (backend 24, mobile 12). Deployed today: 4. Agent 121 has no running subagents.
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.
@@ -7063,6 +7077,15 @@ through another serial CI run during GitHub's runner outage). Recorded in A5 (no
 Verbatim: "we need to expand on the edge case ruling - we need all audtiors to be ruthless at finding REAL HUGE ISSUES - it shouldnt
 even waste time or thought on strange edge case time zone 1 in a million shit - we need to move faster than light". Recorded as A2
 override items 7-11 (with the 13:29 freeze), A1.8 and A6.8; every running lens told at 14:30.
+
+#### 2026-10-05 14:50 PDT — 4/7 by end of day; agents 122 and 123 (owner, to agent 121)
+Verbatim: "Launch path: 1/7 steps done -> I need these to, truly, without cutting corners, hit 4/7 by EOD" and "Ill be using agent 122
+and 123's 45k budget today as well - make a plan!". Recorded as A8.10.
+
+#### 2026-10-05 15:15 PDT — Agents run sequentially, not in parallel (owner, to agent 121)
+Verbatim: "yea no I tried conencting the two perplexity accounts to the same github - as i conenct one the others drops ... fine. Ill
+have agent 122 run its course first - give it a quick update prompt on wtf was just going on and that they WONT be co existing".
+Agent 122 runs alone over both repos; agent 123 starts after it (handoffs/op-121/PROMPT_AGENT_122_UPDATE.md).
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
