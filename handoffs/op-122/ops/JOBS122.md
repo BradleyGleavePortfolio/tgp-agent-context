@@ -126,3 +126,64 @@ B-352-3 (native payment sheet race) is C (edge, deferred to 10k clients) (SoT A8
 is fixed on the backend by b#725 (under review in DUN1). One verdict per PR at the exact head.
 Part 2 wizard (after B-WIZ3-122 posts READY; poll ops/lanes122/notify/wizard.txt): #346 delta (B-346-3 / C-346-7 fix only) and #347
 (Opus: first full review of W3's own diff, 30 minutes; Sol: delta since your APPROVE at 8437fb94). One verdict per PR at the new heads.
+
+## Wave 2 (owner 15:43 PDT: "Scale up now to 10-12 agents"; space out builder pushes: GitHub runs 20 jobs at once; cancel superseded runs)
+
+### B-TR11-122 — trials train: Sol B-673-3 fix + main refresh with the push-preferences move (T4 money/access; stack lock: trials)
+Builder: Claude Opus 5.5. Time box 60 minutes (READY by about 16:50 PDT). Lock ops/lanes122/locks/trials.
+Heads: b#671 565893b5c969fdc937d03f3a5b947bcb8d100b11 (base main) -> #672 193c6f9ac3f57a10b8ff87fa3874ee0f190dd9b7 (2,959/3,000) -> #673
+91d0adcbb3b1c5eef10266006a6a6a8c6b33f6a5 (2,996/3,000: no room) -> #706 87aaf126036bc7604dceb3ab55f0ddf255519950 (tests) -> #707
+2bb4b368f39d8a380a48086c6c79d21cb4cc34b9 (1,249/1,500). Verdicts at these heads: Opus APPROVE all five (6004664932, 6004665581, 6004666466,
+6004667126, 6004667898); Sol APPROVE #671/#672/#706/#707, REQUEST CHANGES #673 (6004661734, B-673-3). Read both reports:
+ops/reports/AUD-SOL-TR10-122.md and AUD-OPUS-TR10-122.md (lens rounds are posted; you may read both).
+Work, in order (one push per PR; space your pushes at least 2 minutes apart):
+1. Main refresh (Opus C-672-L1, binding): main 5cde6253 merges clean into #671 but the train conflicts in
+   src/notifications/notifications.service.ts because main's push train (b#692) moved the notification preference mapping to
+   src/notifications/push/push-preferences.ts. Merge origin/main into #671 (clean), then merge the new #671 into #672 and resolve:
+   `trial_ending` must be mapped in push/push-preferences.ts exactly like main's other kinds, so the notice three days before the first
+   charge is sent (a test that proves the trial_ending notice is delivered with main's push sender). List every hunk. Restack #673, #706,
+   #707 merge-only (resolve and list any hunk if one conflicts).
+2. B-673-3 (Sol, operator ruling: B, false customer-facing claim in an ordinary sequence): a client opens package A's free-trial checkout,
+   dismisses it without saving a card, then opens package B from the same coach: the offer for B must match what B's checkout actually
+   does. Preferred behaviour: dismissing A without a card does not use up the one trial: B's checkout retires A's unstarted open trial
+   attempt (Opus C-673-11 says an abandoned attempt is retired before the next checkout: verify whether that happens for a DIFFERENT
+   package of the same coach) and B gets the trial the offer showed. If that cannot be done safely and small, the offer must instead say
+   the trial is unavailable/in progress with a working next action. Same-package resume and already-started trials unchanged. Code goes in
+   #707 (top slice; #673 has no room); Sol's proposed 12-line test is in ops/aud-122/AUD-SOL-TR10-122/B-673-3-normal-offer-mismatch.diff.
+3. Evidence: one backend CI lane at the new #707 head (tsc + trials specs + the new tests). #671's PR CI (all required checks) green.
+4. Comments ending READY FOR AUDIT stating exactly what changed: MAIN REFRESH on #671 (merge-only proof), FIX ROUND (B-TR11-122, agent 122)
+   on #672 (conflict hunks + push-preferences line), RESTACK on #673/#706, FIX ROUND on #707 (B-673-3). Write
+   ops/lanes122/notify/trials.txt with the five new full heads. Cancel superseded runs of your own branches after each push.
+
+### B-DUNFIX-122 — dunning fix round, standing by (T4; stack lock: dunning, taken only when B-DUNR3-122 has released it)
+Builder: Claude Opus 5.5. Time box: until 18:15 PDT. Standing by costs nothing: poll every 5 minutes (sleep between polls), do not read
+code in depth until there is work.
+Trigger: the AUD-OPUS-DUN1-122 / AUD-SOL-DUN1-122 lenses post verdicts on the dunning train (b#687, #688, #704, #705, #724, #689, #690,
+#691) and b#725 after B-DUNR3-122's restack (watch PR comments and ops/lanes122/notify/dunning.txt; the lenses' reports
+ops/reports/AUD-*-DUN1-122.md). While waiting, read only ops/reports/B-DUNR3-122.md, B-DUND2D-121.md and the notify file.
+When any verdict is REQUEST CHANGES with item-list Bs: wait until ops/lanes122/locks/dunning is released by B-DUNR3-122 (or the operator
+tells you it is yours), take the lock, and fix every B in the piece that owns the code (b#725 is base main and separate). Then restack
+upward merge-only, one push per PR, pushes at least 2 minutes apart, cancel superseded runs. Failing-before test per B. One CI lane at
+the top head (tsc + dunning specs). Comments: FIX ROUND n (B-DUNFIX-122, agent 122) on fixed pieces, RESTACK on the others, each ending
+READY FOR AUDIT. Write ops/lanes122/notify/dunning-fix.txt with all new full heads. A B that is an edge case under _COMMON_122 item 6:
+list it for the operator instead of fixing. If both lenses APPROVE everything, end with "no fix round needed".
+
+### AUD-OPUS-RCH1-122 / AUD-SOL-RCH1-122 — Roman chats mobile m#372-#376, first full review (T4: AI chat history, account binding, deletion)
+Lens: Claude Opus 5.5 and GPT-6.1 Sol, independent. Time box 45 minutes.
+Heads: m#372 61141c05c6fe5281a7a4c61370e3240163409f9e (base main; session fence + account binding for the shared API client, 1,456),
+#373 70c24e710b9c5dddc49d87e0ea3e9e84298c9a26 (history + delete API), #374 0ae9013fe06cbd1d5f1dbaf6ad6072f72f92358a (state, copy, erase
+tracker), #375 a10123f222013416edff450b15bd1bd34952dd90 (list screen), #376 6fabb1f989a985bf187552c2c8ad0f93d5486d4a (transcript screen,
+entry points). Split of m#331 by B-SPLIT-ROMANCHATS-121 (report ops/reports/B-SPLIT-ROMANCHATS-121.md; prior #331 verdicts: Sol BLOCK at
+c621770f and 5b58a121, Opus RC at c621770f: verify only your own lens's prior Bs). Binding: Roman chats are kept until the client deletes
+them or the account; coaches never see client chat text; notes survive chat deletion; flag EXPO_PUBLIC_FF_ROMAN_CHAT unchanged. Item-list
+problems only: one user's chats shown to another account (sign-out/sign-in on the same phone is NORMAL use), delete that does not delete,
+false copy, a dead end. CI was cancelled in the outage and re-run by the operator: do not block on queued checks. Lands as one train.
+One verdict per PR at the exact head (5 comments).
+
+### AUD-OPUS-CL1-122 / AUD-SOL-CL1-122 — coachless backend b#721-#723, first full review (T4: auth, coach-code redemption, RLS) (queued)
+Lens: Claude Opus 5.5 and GPT-6.1 Sol, independent. Time box 45 minutes.
+Heads: b#721 d90b4842 (schema, migration, RLS live suite, erasure; base main, DIRTY vs main), #722 c219d2f3 (flag, errors, featured coach,
+coachless Home + Roman card services), #723 e3368cc3 (idempotent coach-code redemption, routes, module) — full shas via gh. Split of b#657
+by B-SPLIT-COACHLESS-121 (report ops/reports/B-SPLIT-COACHLESS-121.md). Item-list problems only (a client attached to the wrong coach,
+a code that grants access it should not, private data across tenants, RLS gap reachable by a user, a signup dead end). #721 conflicts with
+main: judge content; the operator schedules the conflict refresh. One verdict per PR at the exact head.
