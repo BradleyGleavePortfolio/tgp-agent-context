@@ -2307,6 +2307,16 @@ Contribution log (PDT, newest last)
   refreshed from main and waiting on CI. GitHub had cancelled jobs on m#321 and b#642 during the outage: re-run.
 - 13:37-13:40 owner turned off the up-to-date requirement; agent 121 switched it off on both repos and merged m#312 (workout reminders
   toggle + device time zone sync) and m#335 (reachability map, coach consultation answers). Merged today 12.
+- 13:41-13:56 Opus scheduling verdicts: APPROVE #712 #713 #715-#720, RC #714 (B-714-1) and #653 (B-653-1: client name and coach-written
+  session-type name on lock screens). Fix round B-SCHED2-121 puts both fixes in #653 (train lands as one) and routes booking pushes
+  through the push sender (push lands first). MSG3 lens pair started on messaging b#708-#711. Wrap-up order 13:50 to builders off the
+  landing path; all finished with work pushed and a HANDOFF in each report (ops/reports/B-*-121.md on wip/op121/ops-snapshot):
+  ROMANCHATS m#372-#376, LOCK3 m#352 da686cea / #353 78ed4e07 / #354 be5c74b1 (dispute copy fixed), BCAST b#726-#730, Roman A b#667
+  c5102cae / #665 4dde3ffe, D2d b#724 + b#725 (locked client reaches own coach thread), HC m#378 + flag b#731 (ticket b#732), Roman B
+  b#666 a3eb3206 / #668 dabed738 (not ready; #669 wip branch ci/B-ROMAN-BFIX-121-669-wip), coachless b#721-#723, trials restacked
+  b#671/#672/#673/#706/#707. All are READY FOR AUDIT except Roman B; none has CI yet. Every builder decision accepted at its
+  recommended default (listed in each report). 164 queued CI runs on those branches cancelled so the landing PRs run first;
+  re-run list: handoffs/op-121/ops/cancelled_for_priority.txt.
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.

@@ -11,13 +11,13 @@ Wave 1 launched 12:39-12:40 (15 agents; owner EXECUTE 12:35; routing: T4 builder
 | AUD-SOL-SCHA-121 | gpt_6_1_sol | aud_sol_scha_121_scheduling_lens_muvnjjpu | same | DONE 13:01: APPROVE #712-#720 (0 A/B); #653 RC 0/2/1 |
 | AUD-OPUS-INV3-121 | claude_opus_5_5 | aud_opus_inv3_121_invite_msg_lens_muvnjjq1 | b#658 4de7a6dc, then MSG3 #708-#711 | DONE 13:13: #658 RC 0/1/0 (B-658-9 sub-coach can attach head package free/prepaid -> $0); MSG3 skipped |
 | AUD-SOL-INV3-121 | gpt_6_1_sol | aud_sol_inv3_121_invite_msg_lens_muvnjjq8 | same | #658 APPROVE 0/0/4 (12:44); CANCELLED 13:12 while waiting for MSG READY (owner drain) |
-| B-SPLIT-ROMANCHATS-121 | claude_opus_5_5 | b_split_romanchats_121_split_m_331_muvnjjqd | m#331 5b58a121 -> pieces | running |
+| B-SPLIT-ROMANCHATS-121 | claude_opus_5_5 | b_split_romanchats_121_split_m_331_muvnjjqd | m#331 5b58a121 -> pieces | DONE 13:5x: m#372 61141c05, #373 70c24e71, #374 0ae9013f, #375 a10123f2, #376 6fabb1f9 READY (all <1,500); land as one; #374 tests live in #375 (accepted) |
 | B-MSG-FIN-121 | claude_opus_5_5 | b_msg_fin_121_messaging_close_out_muvnjjqk | b#708-#711, then mobile inbox | running |
-| B-TR9-121 | claude_opus_5_5 | b_tr9_121_trials_train_muvnjjqq | b#671-#673, #706, #707 | running |
-| B-DUND2D-121 | claude_opus_5_5 | b_dund2d_121_dunning_d2d_muvnjjqw | new D2d on b#705 | running |
-| B-HC12-121 | claude_opus_5_5 | b_hc12_121_health_connect_follow_up_muvnjjr3 | new m PR + backend flag PR | running |
-| B-SPLIT-COACHLESS-121 | claude_opus_5_5 | b_split_coachless_121_split_b_657_muvnjjr9 | b#657 -> pieces | running |
-| B-SPLIT-BCAST-121 | claude_opus_5_5 | b_split_bcast_121_split_b_659_muvnjjre | b#659 -> pieces + A/B fixes | running |
+| B-TR9-121 | claude_opus_5_5 | b_tr9_121_trials_train_muvnjjqq | b#671-#673, #706, #707 | DONE 13:5x: restacked READY b#671 565893b5, #672 193c6f9a, #673 91d0adcb, #706 87aaf126, #707 2bb4b368; CI needs re-run (cancelled); losing-trial purchase card-sheet erase accepted |
+| B-DUND2D-121 | claude_opus_5_5 | b_dund2d_121_dunning_d2d_muvnjjqw | new D2d on b#705 | DONE 13:5x: b#724 e77a8d36 (D2d, 1,133) + b#725 1dbc59b6 (main, 117: locked client reaches own coach thread) READY; defaults accepted |
+| B-HC12-121 | claude_opus_5_5 | b_hc12_121_health_connect_follow_up_muvnjjr3 | new m PR + backend flag PR | DONE 13:5x: m#378 2ea649a1 (1,055) READY; b#731 958d340d flag PR draft READY; ticket b#732; defaults accepted (Retry-After cap 60 s, first sleep session wins, 50 req/60 s, apply #731 after #378 + device pass) |
+| B-SPLIT-COACHLESS-121 | claude_opus_5_5 | b_split_coachless_121_split_b_657_muvnjjr9 | b#657 -> pieces | DONE 13:5x: b#721 d90b4842 (808), #722 c219d2f3 (1,290), #723 e3368cc3 (1,117) READY; migration name kept; coach erasure deletes redemption rows |
+| B-SPLIT-BCAST-121 | claude_opus_5_5 | b_split_bcast_121_split_b_659_muvnjjre | b#659 -> pieces + A/B fixes | DONE 13:5x: b#726 b5501a89, #727 15cf8e5c, #728 1dd798ab, #729 82a28bf2, #730 e97c472f READY; defaults accepted (erasure deletes broadcasts; migration 20270304000000 name kept; B-659-8/9 fixes kept) |
 
 Wave 1b launched 12:41 (owner 12:39: add lanes while the sandbox allows; audits first because CPU load was high from worktree checkouts)
 | AUD-OPUS-L3-121 | claude_opus_5_5 | aud_opus_l3_121_lockout_lens_muvnn5t7 | m#352 c89f719c, #353 9d47045b, #354 68c7f080 | DONE 13:2x: #352 RC 0/1/8, #353 RC 0/2/8, #354 APPROVE |
@@ -33,10 +33,10 @@ Wave 1c launched 12:43 (owner 12:41: 3.8k/45k credits; "use github ci lanes"). G
 Active: 23 agents at 12:43. Operator: m#321 and b#642 update-branch 12:37 (rule 12 lands, waiting on CI).
 
 Wave 2 launched 12:55
-| B-LOCK3-121 | claude_opus_5_5 | b_lock3_121_lockout_fixes_muvo4kq3 | m#352/#353 fixes, #354 restack | running |
-| B-ROMAN-AFIX-121 | claude_opus_5_5 | b_roman_afix_121_roman_a_fixes_muvo4kqe | b#667/#665 fixes, #666-#670 restack | running |
+| B-LOCK3-121 | claude_opus_5_5 | b_lock3_121_lockout_fixes_muvo4kq3 | m#352/#353 fixes, #354 restack | DONE 13:5x: FR3 READY m#352 da686cea, #353 78ed4e07, #354 be5c74b1; B-352-3 -> C (edge, operator confirmed); B-353-10 -> backend D2d |
+| B-ROMAN-AFIX-121 | claude_opus_5_5 | b_roman_afix_121_roman_a_fixes_muvo4kqe | b#667/#665 fixes, #666-#670 restack | DONE 13:5x: FR1 READY b#667 c5102cae (2,387), #665 4dde3ffe (2,992); ROMAN_CONTEXT_MAX_QUERIES 16->17 accepted |
 Active: 23 at 12:55. CI 12:53: backend 83 queued / 1 running (GitHub incident).
-| B-ROMAN-BFIX-121 | claude_opus_5_5 | b_roman_bfix_121_roman_b_fixes_muvo6o93 | b#666/#668/#669 fixes + #670, restack #666-#670 | running (12:58) |
+| B-ROMAN-BFIX-121 | claude_opus_5_5 | b_roman_bfix_121_roman_b_fixes_muvo6o93 | b#666/#668/#669 fixes + #670, restack #666-#670 | DONE 13:5x (wrap-up): b#666 a3eb3206 + #668 dabed738 pushed, NOT READY (CI); #669 wip on ci/B-ROMAN-BFIX-121-669-wip @62f89792 (untested); #670 unchanged; 100 USD/day ceiling + no-pool for owner/coachless accepted |
 12:58: AFIX narrowed to #667/#665; BFIX owns #666-#670. b#642 rule-12 tree check FAIL 2 (manifest file shifted by main; hunk identical) -> short dual delta later, batched with flag PRs.
 12:56 (date): sandbox IO-bound (90% iowait: per-worktree @prisma/client copies 74 MB each + mobile deps npm ci); memory 6.4 GB free; launches held until iowait drops.
 
@@ -63,3 +63,5 @@ QUEUE (launch only when under 13 active, highest first): B-INV4-121 (#658 B-658-
 | AUD-OPUS-MSG3-121 | claude_opus_5_5 | aud_opus_msg3_121_messaging_lens_muvq3yey | b#708-#711 | running |
 | AUD-SOL-MSG3-121 | gpt_6_1_sol | aud_sol_msg3_121_messaging_lens_muvq3yfa | same | running |
 13:50 owner: 31.2k/45k credits used (3.2k in 13 min since 13:37).
+13:5x operator: cancelled 164 queued CI runs on branches that cannot merge today (list + re-run command: ops/op121/cancelled_for_priority.txt) so the landing PRs (b#674, #692, #642, m#321, scheduling train, messaging) run first when runners return. All builder decisions in the 13:5x reports accepted at their recommended defaults. Running: B-TR9 (wrapping), B-MSG-FIN (finishing), B-SCHED2, MSG3 pair.
+13:55 #642: GitHub cancelled 5 more jobs (community-live, mwb-3-live, rls-live, Schema parity, test-deploy-readiness) after 30-60 min unassigned; re-ran failed. Running: B-MSG-FIN, B-SCHED2, MSG3 pair, Opus RADJ.
