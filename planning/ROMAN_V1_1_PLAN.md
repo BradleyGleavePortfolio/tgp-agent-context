@@ -89,8 +89,8 @@ Design:
   - the coach's programs, templates, meal plans and edits in the builders;
   - the coach's guidelines and the content of their messages to clients (methods, not tone);
   - the coach's private session notes (all coaches; never quoted or shown to the client).
-- The coach does not see the playbook (owner 11:20: the coach sees nothing of Roman); it is learned from the sources above and
-  applied behind the scenes.
+- The coach never sees the playbook or Roman's memory (owner 11:22: no way to look into how or why); it is learned from the sources
+  above and applied behind the scenes. Coaches see only what Roman proposes.
 - Every Roman answer is conditioned on the playbook; the reply post-check (#666) adds a red-line and "matches this coach's method" check.
 - Learning metric: share of Roman suggestions the coach approves without edits; target over 80 percent within 30 days of use.
 
@@ -129,7 +129,8 @@ says plainly when he does not know or when data is missing (data_quality already
 - Consent: wearable and training reads stay behind AI consent box 2; proactive outreach needs its own on/off switch for the client.
 - Medical boundary: the safety router and crisis templates (OR-115-1, OR-115-2) sit in front of every new path, including outreach and
   actions. No diagnoses, no medication advice, no naming conditions.
-- Control: clients do not remove single items from Roman's view (owner, 10:44); coaches see nothing of Roman (owner, 11:20).
+- Control: clients do not remove single items from Roman's view (owner, 10:44); coaches see Roman's proposals only, never his memory,
+  playbook or reasoning (owner, 11:22).
 - Retention: chats kept until the client deletes them (owner ruling); Roman's notes and summaries are erased with the account (deletion
   manifest); the privacy policy's AI-provider retention sentence stays accurate.
 - Cost: per-client daily spend cap stays (#669); a monthly cap per client and per coach; summaries run in batches; caching of the
@@ -160,9 +161,11 @@ inside the cap; client retention for clients who use Roman versus those who do n
 1. Coach private session notes: Roman reads them for ALL coaches (no opt-in) to learn each coach's approach; he never quotes or reveals
    them to the client. ANSWERED: "yes, for all".
 2. Proactive messages: at most one morning brief plus two moment messages a day, inside quiet hours, client can turn off. ACCEPTED.
-3. What the coach sees of Roman: nothing ("the coach shouldnt see anything of roman honestly, just for simplicity"). No insights feed,
-   no playbook screen, no view of client chats. The playbook is learned and applied behind the scenes. (Approve-to-adjust on day 1:
-   confirmation asked 11:2x.)
+3. What the coach sees of Roman: what Roman wants to do, never how or why he got there (owner 11:20 + 11:22: "the coach can see what
+   roman wants to do and such, but he shouldnt be digging into the internal memory of roman and the logistics behind it - hes jsut smart
+   and capable, no way to look into how or why"). Coaches see Roman's proposals (approve-to-adjust #655 + m#337 stays on day 1, with
+   Roman's one sentence and the client's own metrics the coach can already see) and approve, edit or dismiss them. Coaches never see
+   Roman's notes, memory, playbook, insights pipeline, prompts or reasoning, and no client chat text.
 4. Actions without coach approval: logging, swaps from the coach's substitution list, moving a session inside the coach's
    availability. ACCEPTED.
 5. Photo food logging in v1.1. ACCEPTED.

@@ -1813,3 +1813,6 @@ gracious fail mdoe like a pop-up when trying to use AI that says \"you've used y
   7 bloodwork discussed on client ask/upload with an "Ask your coach" button to the coach-client DM; 8 daily per-client cap, rare, graceful
   pop-up "You've used your maximum AI allotment today." (DAY 1: M-ROMANCAP-120); 9 notes survive chat deletion, policy says so.
 - Open: does day-1 approve-to-adjust (#655 + m#337, coach approves Roman's workout suggestions) stay, given decision 3? Asked 11:2x.
+- 11:22 owner (verbatim): "no no the coach can see what roman wants to do and such, but he shouldnt be digging into the internal memory of
+  roman and the logistics behind it - hes jsut smart and capable, no way to look into how or why". Approve-to-adjust (#655 + m#337) STAYS on
+  day 1. Coaches see Roman's proposals only; never his notes, memory, playbook, insights pipeline, prompts or reasoning, nor client chats.
