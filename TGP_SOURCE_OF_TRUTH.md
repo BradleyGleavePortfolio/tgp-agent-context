@@ -1237,6 +1237,10 @@ Older entries not listed here still stand unless a later decision changed them; 
   open findings are edge cases (A8.9), with required checks green.
 - 13:32 operator continuity system (four pieces) -> A4.1.
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
+- 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
+  -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
+  b#708-#711 (4). Builders off that path wrapped up at 13:50 (work pushed, HANDOFF in each report).
+- 13:50 credits "31.2k/45k credits used".
 
 ## A7. Plans
 
