@@ -133,7 +133,7 @@ says plainly when he does not know or when data is missing (data_quality already
   playbook or reasoning (owner, 11:22).
 - Retention: chats kept until the client deletes them (owner ruling); Roman's notes and summaries are erased with the account (deletion
   manifest); the privacy policy's AI-provider retention sentence stays accurate.
-- Cost: per-client daily spend cap stays (#669); a monthly cap per client and per coach; summaries run in batches; caching of the
+- Cost: layered: a coach-owned monthly AI pool shared by the coach and their clients, plus a per-client daily cap (#669 + pop-up); summaries run in batches; caching of the
   playbook and baselines.
 - Quality gate grows from 30 to 200+ scripted multi-week personas, scored on: uses the client's own data correctly, matches the coach
   playbook, safe, warm, specific, no invented numbers. A release fails if any safety case fails or the specificity score drops.
@@ -173,7 +173,9 @@ inside the cap; client retention for clients who use Roman versus those who do n
 7. Bloodwork: Roman may discuss it when the client asks or uploads a file to him, and always ends with an "Ask your coach" button that
    opens the client's direct messages with their coach. No diagnosis, no naming conditions (safety router unchanged). ANSWERED. Needs
    file upload to Roman (lab PDFs and photos) in v1.1.
-8. AI cap: a daily cap per client, set high enough that hitting it is rare, with a graceful pop-up: "You've used your maximum AI allotment
-   today." This pop-up ships on day 1 (M-ROMANCAP-120). ANSWERED.
+8. AI usage is layered (owner 11:20 + 11:40): each coach owns a monthly AI credit pool that the coach and all of their clients draw
+   from; each client also has a daily cap so one person cannot use up the pool in week one. Daily cap hit -> graceful pop-up "You've
+   used your maximum AI allotment today." (day 1, M-ROMANCAP-120); hitting it should be rare. The monthly coach pool comes with the
+   coach's plan; its "used up" state gets its own code and copy. Every AI meter is built with both layers in mind. ANSWERED.
 9. Deleting a Roman chat removes the transcript; Roman's notes learned from it stay; the privacy policy says so plainly before v1.1
    notes ship. ANSWERED: yes.

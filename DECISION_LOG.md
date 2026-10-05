@@ -1820,3 +1820,11 @@ gracious fail mdoe like a pop-up when trying to use AI that says \"you've used y
 ## 2026-10-05 11:28 PDT — Credits 37.7k/45k (owner, to agent 120)
 Verbatim: "37.7k/45k credits used as of now". Agent 120 stopped launching, cancelled three just-started agents with nothing pushed
 (L3 lens pair, B-MSG2), asked the four running builders to finish fast, merged #661 + #702 and Health Connect H1-H8, wrote handoff v3.
+
+## 2026-10-05 11:40 PDT — AI usage is layered: coach monthly pool + client daily cap (owner, to agent 120)
+Verbatim: "Daily cap: one cap per client - yes but the AI pool of credits/usage limit is ownedd by the coach for all clients of his - he has x
+credits, he and all clients pull from (the monthly limit) - now each client has an individual cap to prevent one person sucking everything
+up on week 1, but keep this layered system in mind during creation"
+- Each coach owns a monthly AI credit pool shared by the coach and all of their clients; each client has a daily cap on top. All AI cap and
+  meter work is designed for both layers (ROMAN_V1_1_PLAN decision 8; JOBS120 wrap-up notes).
+- 11:40 agent 120 dispatched the #661 deploy: fly-deploy run 37357733219 (release 5da537d6, no migrations), production approved 11:40.
