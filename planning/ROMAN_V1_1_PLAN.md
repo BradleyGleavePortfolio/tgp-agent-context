@@ -1,7 +1,7 @@
 # Roman v1.1 — from "a quick glance" to a coach-trained butler who watches everything
 
-Written by operator agent 120, 2026-10-05, at the owner's request (DECISION_LOG.md, 09:57 PDT 10-05). Status: PLAN, awaiting the owner
-decisions in section 9. Nothing here changes day 1. Day 1 ships the upgrades already built (section 1).
+Written by operator agent 120, 2026-10-05, at the owner's request (DECISION_LOG.md, 09:57 PDT 10-05). Status: PLAN, revision 2 (owner
+feedback 10:44 PDT 10-05: watching, butler and hyper-specific scopes approved; memory and coach twin revised below). Open decisions in section 9. Nothing here changes day 1. Day 1 ships the upgrades already built (section 1).
 
 ## 0. The goal in one paragraph
 
@@ -30,22 +30,30 @@ link to the coach's own approach, and nothing generic that would fit any other c
 Limits that v1.1 removes: a fixed snapshot with no memory between turns; no knowledge of the coach beyond pasted guidelines; silent
 until asked; one model call per turn with no way to look further; 7-day wearable window; no pattern detection; no actions.
 
-## 2. Pillar A — Memory: Roman remembers every client
+## 2. Pillar A — Memory: Roman sees everything about his client, directly
 
 What the client feels: "He remembered my knee from three weeks ago, that I travel on Thursdays, and that I hate oats."
 
+Owner direction (10:44): Roman reads the database and logs for each client directly; clients do not delete specific items from Roman's
+view.
+
 Design:
-- Client timeline: every relevant event (log, check-in, workout done or missed, weight, wearable day, message, booking, adjustment)
-  is written once to an append-only `RomanEvent` stream through the existing outbox pattern (the same one push uses, #692/#693).
-- Rolling summaries: a background worker turns events into daily, weekly and monthly summaries per client (`RomanEpisode`), each with
-  links back to the source rows (provenance). Old detail compresses; facts stay.
-- Facts about the person: things the client tells Roman ("night shifts", "two kids", "hates oats", "left knee surgery 2019") become
-  `RomanMemory` rows with source message, confidence, and an expiry for things that change. The client can see, correct and delete
-  every one of them in the app ("What Roman knows about me"). Deleting a chat deletes the memories that came only from it.
-- Retrieval: Postgres with pgvector (a Supabase extension) for meaning search over summaries and memories, plus exact queries for
-  numbers. Every turn pulls the relevant memories, not all of them.
-- Data rules unchanged: one client's rows only; never coach private session notes, bloodwork, purchases or other users (until the
-  owner rules otherwise, section 9); everything with a user id joins the account deletion manifest.
+- Live reads, not a copy: Roman reads the client's own records straight from the production database through read tools scoped to
+  that client (section 6): logs, check-ins, workouts, weight, wearables, meal plans, messages with the coach, bookings, adjustments,
+  app activity. No separate fact store to drift out of date.
+- Timeline: one ordered view of every event for the client, built from the existing tables and the app activity logs (no new copy of
+  the data), so Roman can walk back through months in order.
+- Rolling summaries (a cache, not a second source of truth): a background job writes daily, weekly and monthly summaries per client
+  with links back to the source rows, so long histories fit in a turn. They are rebuilt from the database whenever needed.
+- Things the client tells Roman ("night shifts", "two kids", "hates oats", "left knee surgery 2019") are saved as Roman's notes on the
+  client, with the source message and date, and an expiry for things that change. Roman updates them when the client says something
+  new; there is no client control to remove single items from Roman's view.
+- Transparency stays read-only: GET /roman/context/me (already built) shows what Roman used; nothing on that screen deletes anything.
+- Deleting the account still erases everything, Roman's notes and summaries included (existing delete-account path and deletion
+  manifest), as the privacy policy promises.
+- Retrieval: Postgres with pgvector (a Supabase extension) for meaning search over summaries and notes, exact queries for numbers.
+- Unchanged unless the owner rules otherwise (section 9): never other users' rows; coach private session notes, bloodwork and purchases
+  stay out.
 
 ## 3. Pillar B — Watching: Roman notices patterns before anyone asks
 
@@ -61,25 +69,29 @@ Design:
   claims): "Your squat sessions after under six hours of sleep averaged 8 percent less volume (n=9)."
 - The model explains and ranks insights; it never invents them. Every number Roman says must come from an insight or a tool read.
 
-## 4. Pillar C — The coach's twin: Roman learns how this coach coaches
+## 4. Pillar C — The coach's twin: Roman thinks like this coach, speaks as Roman
 
-What the coach feels: "He answers like I would. He knows I never push through knee pain, I deload every fourth week, and I like
-short, direct messages."
+What the coach feels: "He answers the way I coach. He knows my exercises, my diet rules, how I think about training and sleep."
+What the client feels: still Roman, the same warm butler voice, now carrying their coach's methods.
 
 Design:
-- Coach playbook (`CoachPlaybook`): a structured, versioned profile per coach with sections: programming rules (splits, progression,
-  deload rhythm, substitutions), nutrition approach (macro method, flexibility), recovery rules, red lines, tone and voice (length,
-  warmth, emoji use, sign-off), and favourite cues. Sources:
-  - the coach's programs, templates and edits in the workout builder;
-  - every approve, edit or dismiss of a Roman suggestion (#655) — the strongest signal;
-  - the coach's own messages to clients (style only, and only with the coach's consent);
-  - a 5-minute onboarding interview Roman runs with the coach.
-- The coach sees and edits the playbook in plain words ("Roman's notes on how you coach") and can lock any line. Nothing is learned
-  silently that the coach cannot see.
-- Every Roman answer to a client is conditioned on the coach's playbook; the reply post-check (#666) gains a "would this coach say
-  this" check against red lines.
-- Learning loop: the share of Roman suggestions the coach approves without edits is the main coach-twin metric. Target: from the day-1
-  baseline to over 80 percent approved unedited within 30 days of a coach's use.
+- Coach playbook (`CoachPlaybook`): a structured, versioned profile per coach covering the coach's methods and beliefs:
+  - Exercises: go-to movements, exercises they avoid, substitutions by injury and equipment, technique cues, warm-up habits.
+  - Training ideology: split and frequency, progression model, volume and intensity, training to failure or not, deload rhythm, cardio
+    stance, how they handle missed sessions and plateaus.
+  - Dieting guidelines: macro method, protein targets, flexible vs strict, meal timing, cutting and bulking approach, refeeds and diet
+    breaks, supplements they endorse or reject, how they handle a bad day of eating.
+  - Sleep and recovery ideology: sleep targets, wind-down habits, what to change after poor sleep or low HRV, rest-day rules.
+  - Red lines: things this coach never wants said or done (for example "never push through joint pain").
+- Voice: Roman keeps his own butler voice for every client. The playbook shapes what he advises, never who he sounds like.
+- Sources, in order of strength:
+  - every approve, edit or dismiss of a Roman suggestion (#655);
+  - the coach's programs, templates, meal plans and edits in the builders;
+  - the coach's guidelines and the content of their messages to clients (methods, not tone);
+  - a 5-minute onboarding interview Roman runs with the coach, plus a short "teach Roman" prompt after any edit.
+- The coach sees and edits the playbook in plain words ("Roman's notes on how you coach") and can lock any line.
+- Every Roman answer is conditioned on the playbook; the reply post-check (#666) adds a red-line and "matches this coach's method" check.
+- Learning metric: share of Roman suggestions the coach approves without edits; target over 80 percent within 30 days of use.
 
 ## 5. Pillar D — The butler: Roman speaks first and does small jobs
 
@@ -117,10 +129,10 @@ says plainly when he does not know or when data is missing (data_quality already
 - Consent: wearable and training reads stay behind AI consent box 2; proactive outreach needs its own on/off switch for the client.
 - Medical boundary: the safety router and crisis templates (OR-115-1, OR-115-2) sit in front of every new path, including outreach and
   actions. No diagnoses, no medication advice, no naming conditions.
-- Control: the client can see, correct and delete memories; the coach can see insights and the playbook, not the client's private
-  chat text (section 9 decision 3).
-- Retention: chats kept until the client deletes them (owner ruling); memories and summaries follow the same rule and the deletion
-  manifest; the privacy policy's AI-provider retention sentence stays accurate.
+- Control: clients do not remove single items from Roman's view (owner, 10:44); the coach sees insights and the playbook, not the
+  client's private chat text (section 9 decision 3).
+- Retention: chats kept until the client deletes them (owner ruling); Roman's notes and summaries are erased with the account (deletion
+  manifest); the privacy policy's AI-provider retention sentence stays accurate.
 - Cost: per-client daily spend cap stays (#669); a monthly cap per client and per coach; summaries run in batches; caching of the
   playbook and baselines.
 - Quality gate grows from 30 to 200+ scripted multi-week personas, scored on: uses the client's own data correctly, matches the coach
@@ -130,9 +142,9 @@ says plainly when he does not know or when data is missing (data_quality already
 
 | Phase | Weeks after launch | Slices |
 |---|---|---|
-| 1. Memory and timeline | 1-2 | RomanEvent outbox + emitters; episode summariser worker; RomanMemory extraction + client "What Roman knows" API; pgvector retrieval; mobile memory screen (T4, PII); deletion manifest entries |
+| 1. Memory and timeline | 1-2 | client timeline view over existing tables + activity logs; summary cache job; Roman's notes from chats; pgvector retrieval; deletion manifest entries |
 | 2. Baselines and insights | 2-3 | baselines job; 10 detectors with tests; weekly pattern finder with sample-size guards; insight API; coach insight feed |
-| 3. Coach twin | 2-4 | CoachPlaybook schema + builder from programs and #655 feedback; coach interview flow; playbook editor (mobile); post-check "coach red lines" |
+| 3. Coach twin | 2-4 | CoachPlaybook schema (exercises, training, diet, sleep, red lines) + builder from programs, meal plans and #655 feedback; coach interview + teach-Roman prompt; playbook editor (mobile); post-check red lines + method match |
 | 4. Tool-using turns | 3-4 | read tools scoped to caller; budgeted tool loop; answer contract + citations; "what Roman saw" v2 |
 | 5. Butler | 4-6 | outreach engine (rules, caps, quiet hours, coach controls); morning brief; moments; action tools with confirmation (log food text/photo, water, workout, substitution, draft-to-coach, reschedule) |
 | 6. Eval and rollout | continuous | golden set to 200+ personas; LLM-judge rubric + weekly human review; staged rollout by coach cohort behind flags (FEATURE_ROMAN_MEMORY, FEATURE_ROMAN_INSIGHTS, FEATURE_ROMAN_PLAYBOOK, FEATURE_ROMAN_TOOLS, FEATURE_ROMAN_OUTREACH, FEATURE_ROMAN_ACTIONS), each a kill switch |
@@ -146,14 +158,19 @@ inside the cap; client retention for clients who use Roman versus those who do n
 
 ## 9. Owner decisions (recommended default first)
 
+Answered 10:44 PDT 10-05: watching, butler and hyper-specific scopes approved; Roman reads each client's data and logs directly; no client
+removal of single items; the playbook covers exercises, diet, training and sleep ideology, with Roman's own butler voice. The butler
+approval is taken as accepting defaults 2, 4 and 5 below.
+
 1. Coach private session notes: Roman may read them to learn the coach's approach, only if the coach turns it on, and never quotes
-   them to the client. Default: yes, coach opt-in.
-2. Proactive messages: at most one morning brief plus two moment messages a day, inside quiet hours, client can turn off. Default: yes.
-3. What the coach sees: Roman's insights and the playbook, not the client's private chat text. Default: yes.
-4. Actions without coach approval: logging (food, water, workout), swapping from the coach's approved substitution list, and moving a
-   session inside the coach's availability. Everything that changes load goes through approve-to-adjust. Default: yes.
-5. Photo food logging in v1.1. Default: yes.
-6. Talking to Roman by voice: v1.2, not v1.1. Default: v1.2.
-7. Bloodwork stays out of Roman in v1.1 (medical risk). Default: stays out.
-8. A monthly AI spend cap per client and per coach, set by the owner. Default: keep the day-1 daily cap and add a monthly cap at launch
-   review once real usage is known.
+   them to the client. Default: yes, coach opt-in. OPEN.
+2. Proactive messages: at most one morning brief plus two moment messages a day, inside quiet hours, client can turn off. ACCEPTED.
+3. What the coach sees: Roman's insights and the playbook, not the client's private chat text. Default: yes. OPEN.
+4. Actions without coach approval: logging, swaps from the coach's substitution list, moving a session inside the coach's
+   availability; load changes go through approve-to-adjust. ACCEPTED.
+5. Photo food logging in v1.1. ACCEPTED.
+6. Voice conversations: v1.2. Default: v1.2. OPEN.
+7. Bloodwork stays out of Roman in v1.1. Default: stays out. OPEN.
+8. Monthly AI spend cap per client and per coach. Default: keep the daily cap, add a monthly cap at launch review. OPEN.
+9. When a client deletes a Roman chat (day-1 feature), Roman's notes learned from it stay, and the privacy policy says so plainly.
+   Default: yes. OPEN.

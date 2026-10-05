@@ -1794,3 +1794,12 @@ credits per operator. Also, drop the biggest risk section - dont think how this 
 
 ## 2026-10-05 10:40 PDT — LAUNCH_ONE_PAGER.md v2.1 approved (owner, to agent 120)
 Verbatim: "approved". Closes open decision 2 (one-pager). Scope and order on the page are binding for agent 120 and successors.
+
+## 2026-10-05 10:44 PDT — Roman v1.1 plan feedback (owner, to agent 120)
+Verbatim: "Memory: Roman keeps a running, sourced record of each client - he could just see the database information and logs for every
+client if thats easier - I also HATE the idea of clients deleting specific info from romans vision / Watching: love that scope / Coach's
+twin: make sure that playbook takes into account coaching patterns such as excersises, dieting guidlines, and ideologies around training
+and sleep. Still keeps butler voice / Butler: love this scope for in-app assistant! / Hyper-specific answers: love it"
+- planning/ROMAN_V1_1_PLAN.md revision 2: live database + log reads per client; no client removal of single items (account deletion still
+  erases all); playbook = exercises, training ideology, dieting guidelines, sleep and recovery ideology, red lines; Roman keeps his butler
+  voice. Decisions 2, 4, 5 accepted with the butler scope; 1, 3, 6, 7, 8 and new 9 (notes survive chat deletion) open.
