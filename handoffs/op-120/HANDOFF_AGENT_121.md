@@ -49,7 +49,11 @@ Backend = b, mobile = m. "DA" = dual APPROVE (Claude Opus 5.5 + GPT-6.1 Sol) at 
 Every job entry with exact heads, verdict ids and rulings: ops/lanes120/JOBS120.md (backend branch wip/op120/ops-snapshot).
 
 ## 3a. First moves for agent 121 (in order)
-1. Verify heads on GitHub; read the B-MSG2-120 report (running when agent 120 stopped).
+1. Verify heads on GitHub; read the B-MSG2-120 report (running when agent 120 stopped). Launch B-SPLIT-ROMANCHATS-120 (m#331, 5,067
+   lines, day 1) first (owner 11:52). Owner rule 11:48: any NOT-READY PR over 3,000 lines is split into pieces of 1,500 or less even if
+   grandfathered (clean ones may stay); no open PR over 5k: b#605, #591, #592, #589 get split before anyone reviews them; b#659 and b#657
+   splits are already queued. The 16 superseded originals (b#627 #654 #628 #634 #641 #648 #651 #656 #660; m#317 #322 #325 #328 #329
+   #332 #334) were closed 11:52 with comments; branches kept.
 2. Coach delta lens pair (B-CM9 READY) and push: Opus PUSH3 + Sol #693 delta -> land -> deploy with migrations (closest to production after coach).
 3. Land coach, deploy; land push, deploy with migrations. 4. Trials: finish READY, lens pair, land. 5. Dunning: D2d builder, lens pair.
 6. Lockout L3 pair; messaging MSG3 pair; INV3 pair; scheduling SCHA/SCHB pairs; Roman RA/RB pairs. 7. Remaining builders per JOBS120.
@@ -80,3 +84,4 @@ only. Coach AI pool + client daily cap layered (11:40-11:41). Credits: 37.7k/45k
 - 11:40 #661 deploy dispatched; 11:44 DEPLOYED (production 5da537d6). B-PUSH3 done (#693 cc0a167f READY). B-DUNR2 partial (#705 open).
   B-TR8 pushed, not READY. 11:44 owner: restart the smallest stopped job -> B-MSG2-120 relaunched 11:45. Merged today 10, deployed today 2.
 - 11:48 B-CM9 done: #674 3a07a0de, #676 fadb2960, #677 e3940bd0, #703 ebde8b3b, all READY with green checks.
+- 11:52 closed the 16 superseded originals (owner approved); m#331 split left for agent 121; oversize rule recorded (DECISION_LOG 11:48-11:52).

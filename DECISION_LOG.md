@@ -1831,3 +1831,14 @@ up on week 1, but keep this layered system in mind during creation"
 - 11:41 owner (verbatim): "Day-1 already has a per-client daily cap (#669), but the coach pool is a v1.1/billing concern that should layer
   on top -> no it already exists!" Confirmed on backend main: src/ai-credits (CoachAIBudgetService, CoachAIBudget, CoachCreditPackPurchase,
   monthly period). Day-1 Roman work must debit the coach pool on every turn and honour the client daily cap (JOBS120 wrap-up notes).
+
+## 2026-10-05 11:48-11:52 PDT — Oversized PRs get split; superseded originals closed (owner, to agent 120)
+Verbatim 11:48: "I want all NOT-READY PR's over 3k lines to be cut down to sizeable chunks of 1500 or less - even if grandfathered - ones
+that are clean right now sure can stay to save time but broken awful ones - split that shit". 11:49: "Im talking about the PR's over 5k loc
+right now, some over 10k LOC!" 11:52 (form): close all 16 already-split originals: yes; split m#331 now: leave for agent 121.
+- 11:52 closed with a superseded comment (branches kept): backend #627, #654, #628, #634, #641, #648, #651, #656, #660; mobile #317, #322,
+  #325, #328, #329, #332, #334.
+- Still over 5k and not split: m#331 (Roman chats, day 1) = FIRST job for agent 121 (B-SPLIT-ROMANCHATS-120); backend #605, #591, #592,
+  #589 (Roman eval harness, importer; not launch work) = split into pieces of 1,500 or less before anyone reviews them.
+- Rule going forward: a NOT-READY PR (broken or changes requested) over 3,000 lines is split into pieces of 1,500 or less even if it was
+  grandfathered; clean/approved ones may stay as they are.
