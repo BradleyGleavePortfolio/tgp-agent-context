@@ -1781,3 +1781,6 @@ collide and keep pushing forward" and "cap at 7 for agent 120".
   Operator reading: cap 7 confirmed; every scheduling PR is mandatory for day 1; coaches control all booking times: open hours, time off,
   appointment types, instant vs approval, plus coach-set minimum notice, booking window, buffers and an optional daily maximum (defaults
   equal today's fixed 5-minute / 120-day rules). Folded into S-AVAIL-120.
+- 10:33 owner (verbatim): "No, lets drop that - I want the optionaility but not reworking the whole onboarding right now!" The required
+  calendar setup step (checklist, wizard links, setup block, push on a booking attempt) is DROPPED. Kept: coaches decide their times
+  (open hours, time off, types, instant vs approval, minimum notice, booking window, buffers, optional daily maximum; defaults = today's rules).
