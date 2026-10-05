@@ -2345,6 +2345,13 @@ Contribution log (PDT, newest last)
   deploy with migration next. Coach b#674: R75 gate caught one `as any` in a test; operator one-line test fix 2e06942a, delta
   attestations pending. Scheduling #653: Opus D5 B-653-4 (a move request told the coach "Session moved"), small fix in progress.
   Owner goal 13:49 (5 more merged by 45k): met at 14:3x (m#321, b#709, #710, #711, #692). 14:29 RUTHLESS SCOPE added to A2.
+- 14:37 owner: "I need another 5 merged PR's -> we need MORE done Faster at even BETTER quality so cut the waste, question constraints".
+  Scoreboard corrected from GitHub: 21 PRs merged today (backend 10, mobile 11; split pieces each count), not 17. "Deployed" counts
+  deploy runs; live from today: #661 (+ #702 inside it); mobile merges ship with the next store build. Waste cuts: pieces merging into a
+  stack branch no longer wait for their own CI (the bottom PR's run covers the whole tree: one CI cycle per train, not two); superseded
+  runs cancelled on landing; no lens launches after D6. Constraint tested and kept: top-down stack landing (bottom-up would need CodeQL,
+  R75, SBOM and danger runs on every piece, since piece PRs not based on main do not run them).
+- 14:38 D6 Opus APPROVE b#653 @ 40050cde (B-653-4 fixed) and b#674 @ 2e06942a (test-only cast fix); Sol D6 pending.
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.
