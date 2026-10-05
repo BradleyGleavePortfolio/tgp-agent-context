@@ -1755,3 +1755,14 @@ Verbatim: "start stop-and-drain down to 7 agents".
 - From 09:47 PDT the operator launches nothing new until 7 or fewer agents are active (no cancellation of running or pushed work),
   then runs at 7 concurrent. 15 were active at the order. Next launches in priority order: B-661R2-120, B-HC11-120, coach and dunning
   lens pairs (after their builders post READY), trials and lockout lens pairs, B-WIZ3-120, annex splits (coachless, broadcasts), programs.
+
+## 2026-10-05 09:57 PDT — Roman upgrades are day 1; plan Roman v1.1 (owner, to agent 120)
+Verbatim: "Yes - roman needs all of that on day 1 - but he needs MORE - he stil lwont feel hyper intelligent as that stage - make a plan
+to improve him further for v1.1 that takes him from \"quick glance over client for somewhat relevant anwser\" to \"learns the coaches
+tendencies, watches everything, speaks directly to clients as a true butler and friend, hyper-specific advice and insights\"".
+- Day-1 scope adds live Roman: backend #667 (A1) -> #665 (A2) -> #666 (B) -> #668 (C1) -> #669 (C2, builder fix) -> #670 (C3 eval),
+  approve-to-adjust backend #655 + mobile #337, and "your conversations with Roman" mobile #331 (5,067 lines: split under 1,500).
+  Replaces the FLAGS_LAUNCH_LEDGER line "D1: scripted Roman only in 1.0": FEATURE_ROMAN_CHAT_ENABLED / EXPO_PUBLIC_FF_ROMAN_CHAT and
+  FEATURE_ROMAN_ADJUST_ENABLED flip after the stacks land and pass (operator flag PR).
+- Roman v1.1 plan: planning/ROMAN_V1_1_PLAN.md (agent 120), with numbered owner decisions.
+- Earlier the same morning: scheduling day-1 status still open.
