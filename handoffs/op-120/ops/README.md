@@ -1,0 +1,1 @@
+Copied by agent 121 on 2026-10-05 from backend branch wip/op120/ops-snapshot 0fdb49a7 (11:45 PDT, the last snapshot agent 120 pushed). Agent 120 GitHub auth failed 11:58-12:3x, so files written after 11:45 (including the B-MSG2-120 FIX ROUND 2 drafts) never reached GitHub; TGP_SOURCE_OF_TRUTH.md A8/A9 is the newer record.

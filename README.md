@@ -1,6 +1,6 @@
-> TGP launch, current state: start at [TGP_SOURCE_OF_TRUTH.md](TGP_SOURCE_OF_TRUTH.md). It supersedes LIVE_STATE.md, the operator handoffs and every reconstruction document (owner order 2026-10-05 12:30 PDT).
+> Start at [TGP_SOURCE_OF_TRUTH.md](TGP_SOURCE_OF_TRUTH.md): the one document for TGP (agent rules, model routing, EXECUTE doctrine, merge guide, decisions, plans, current state, job book, agent logs). Owner order 2026-10-05. The old rules and state files in this repo are one-line pointers to its sections.
 
-> Importer work: NORTH_STAR.md is the only importer north star. It supersedes every earlier importer plan.
+> Importer work: TGP_SOURCE_OF_TRUTH.md section A7.3 (importer north star) is the only importer north star. It supersedes every earlier importer plan.
 
 # tgp-agent-context
 
