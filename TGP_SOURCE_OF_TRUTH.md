@@ -1152,6 +1152,11 @@ Older entries not listed here still stand unless a later decision changed them; 
   LAUNCH_ONE_PAGER.md, FLAGS_LAUNCH_LEDGER.md and handoffs/op-120/HANDOFF_AGENT_121.md are one-line pointers here.
 - 12:30 fleet: "You will start 15 parallized agents once I say execute. Plan what those 15 slots will be for now". Agent 121 runs 15
   concurrent agents from EXECUTE (plan in A8.8) until the owner changes the number.
+- 12:37 "just fyi you are agent 121st in the chain - update the source of truth periodically with AGENT 121 banner and under that your
+  contribution to the mission at hand!" -> agent 121 keeps its Part B banner current.
+- 12:39 "if sandbox isnt stressed, add more lanes (audits if tight, builders if very open) - goal is max parallization without sandbox
+  crashes". 12:41 credits "3.8k/45k credits as of now"; "use github ci lanes". Agent 121: lanes added in waves (audits while CPU is loaded,
+  builders when the sandbox is open); every probe and test runs in GitHub CI lanes; stop launching at about 8k credits left.
 
 ## A7. Plans
 
@@ -2180,6 +2185,11 @@ Contribution log (PDT, newest last)
   handoffs/op-121/ops/FLEET.md): lens pairs CM10 (coach), PUSH4 (push), SCHA (scheduling), INV3 then MSG3 (invite codes, messaging);
   builders ROMANCHATS split (m#331), MSG-FIN (b#708-#711 + mobile inbox), TR9 (trials), DUND2D (dunning D2d), HC12 (Health Connect +
   ingest flag PR), COACHLESS split (b#657), BCAST split + fixes (b#659).
+- 12:41-12:43 owner: add lanes while the sandbox allows; credits 3.8k/45k; use GitHub CI lanes. Added 8 lenses (CPU busy with worktree
+  checkouts, memory 7.2 GB free): L3 lockout pair (m#352-#354), Roman RA pair (b#667 + #665), Roman RB pair (b#666 + #668), Roman
+  approve-to-adjust pair (b#655 + m#337). 23 agents active. GitHub Actions was "degraded performance" at 12:42 (runs queued).
+- 12:37 rule 12 lands started: m#321 (fee rule in the package editor) and b#642 (Google sign-in manifest line) brought up to date with
+  main; merge after the tree check + green checks. m#340 and m#336 need a builder restack (a plain base change shows 11k lines).
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.
@@ -6848,6 +6858,11 @@ Verbatim 12:30: "TWO THINGS YOU NEED TO DO NOW; 1.) Place the attached document 
 documents into JUST TGP_SOURCE_OF_TRUTH.md 2.) You will start 15 parallized agents once I say execute. Plan what those 15 slots will be
 for now, then simply respond with 'Ready, sir' - thats it". 12:32: "heres the document, my mistake" (attached this file).
 Recorded in A6.8 and A8.8.
+
+#### 2026-10-05 12:37-12:41 PDT — Banner, more lanes, credits, CI lanes (owner, to agent 121)
+Verbatim 12:37: "just fyi you are agent 121st in the chain - update the source of truth periodically with AGENT 121 banner and under that
+your contribution to the mission at hand!" 12:39: "if sandbox isnt stressed, add more lanes (audits if tight, builders if very open) - goal
+is max parallization without sandbox crashes". 12:41: "3.8k/45k credits as of now". 12:41: "use github ci lanes". Recorded in A6.8.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 

@@ -18,3 +18,16 @@ Wave 1 launched 12:39-12:40 (15 agents; owner EXECUTE 12:35; routing: T4 builder
 | B-HC12-121 | claude_opus_5_5 | b_hc12_121_health_connect_follow_up_muvnjjr3 | new m PR + backend flag PR | running |
 | B-SPLIT-COACHLESS-121 | claude_opus_5_5 | b_split_coachless_121_split_b_657_muvnjjr9 | b#657 -> pieces | running |
 | B-SPLIT-BCAST-121 | claude_opus_5_5 | b_split_bcast_121_split_b_659_muvnjjre | b#659 -> pieces + A/B fixes | running |
+
+Wave 1b launched 12:41 (owner 12:39: add lanes while the sandbox allows; audits first because CPU load was high from worktree checkouts)
+| AUD-OPUS-L3-121 | claude_opus_5_5 | aud_opus_l3_121_lockout_lens_muvnn5t7 | m#352 c89f719c, #353 9d47045b, #354 68c7f080 | running |
+| AUD-SOL-L3-121 | gpt_6_1_sol | aud_sol_l3_121_lockout_lens_muvnn5tg | same | running |
+| AUD-OPUS-RA-121 | claude_opus_5_5 | aud_opus_ra_121_roman_a_lens_muvnn5tn | b#667 bacd83e1, #665 eb7cb7a8 | running |
+| AUD-SOL-RA-121 | gpt_6_1_sol | aud_sol_ra_121_roman_a_lens_muvnn5tw | same | running |
+
+Wave 1c launched 12:43 (owner 12:41: 3.8k/45k credits; "use github ci lanes"). GitHub Actions status: degraded_performance at 12:42 (runs queued, none starting).
+| AUD-OPUS-RB-121 | claude_opus_5_5 | aud_opus_rb_121_roman_b_lens_muvnoyti | b#666 0ec835ca, #668 fabc2268 | running |
+| AUD-SOL-RB-121 | gpt_6_1_sol | aud_sol_rb_121_roman_b_lens_muvnoytp | same | running |
+| AUD-OPUS-RADJ-121 | claude_opus_5_5 | aud_opus_radj_121_roman_adjust_lens_muvnoytv | b#655 bf9120c1, m#337 63be1013 | running |
+| AUD-SOL-RADJ-121 | gpt_6_1_sol | aud_sol_radj_121_roman_adjust_lens_muvnoyu1 | same | running |
+Active: 23 agents at 12:43. Operator: m#321 and b#642 update-branch 12:37 (rule 12 lands, waiting on CI).

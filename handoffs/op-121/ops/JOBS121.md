@@ -114,3 +114,40 @@ BLOCK (5964574829) at this head: read both in full. Background: A9.2 "Annex day-
 pieces under 1,500 (branches agent121/bcast-split-<k>-<name>, title "BCAST split <k>/<N>"), fix every A/B in the piece that owns the code
 (per piece: which lines differ from the original and why), failing-before probes for each B, FIX ROUND 1 (OPENING ...) + READY FOR AUDIT
 per piece, superseded comment on #659 (do not close). Report mobile day-1 gaps (file paths) without building them. Flags unchanged.
+
+## Wave 1b (owner 12:39: "if sandbox isnt stressed, add more lanes (audits if tight, builders if very open)")
+
+### AUD-OPUS-L3-121 / AUD-SOL-L3-121 — mobile lockout m#352/#353/#354 at FIX ROUND 2 heads (billing lockout, dispute copy; T4)
+Heads: m#352 c89f719cd8f5863c4150af1da5b96e273df319d6 (base main, behind; 2,586), #353 9d47045b63a4680d852591ae3b4b2d3bfb1e0d85 (2,723),
+#354 68c7f080c1e7e7708e7c3b213ae9278b57ba3649 (1,119, merge-only restack: tree check of own content). Background: A9.2 "AUD-*-L3-120" and
+"B-LOCK2-120"; ops/reports/B-LOCK2-120.md and the prior L-round lens reports. B fixed: B-352-2/3/7, B-353-2/3/6/7. Binding: dispute
+(including inquiries) pauses billing and ends access, the coach decides on restarting; a failed refund after access ended alerts the coach
+only; Opus B-352-7 forbids "settle" in copy (Sol updates its old 119 probe 1 to the new wording instead of failing for it). Mobile: lenses
+run probes only in mobile CI lanes. One verdict per PR at the exact head.
+
+### AUD-OPUS-RA-121 / AUD-SOL-RA-121 — Roman A1 b#667 + A2 b#665, first full review (AI, PII, consent, health data; T4)
+Heads: b#667 bacd83e10ff0e00dc5165dd223da8b4745e3c82a (A1 context core, base main, behind, draft; 1,832), #665
+eb7cb7a81e86d2a9113b3b65b7f9d011950c3ba5 (A2 context, base #667, draft; 2,282). Never reviewed at these heads (parent #651 had RC from both;
+read those verdicts for history). Background: A9.2 "Roman day-1 jobs" and agent 120 wrap-up notes; docs/roman-client-context.md in #667;
+handoffs/op-115/reports/B-SCHED-ROMAN-115.md (tgp-agent-context). Binding: OR-115-1 neutral roman.safety_route action + restricted reason
+code; OR-115-2 crisis templates without box-2 consent; Roman never reads CoachingSession private notes, bloodwork, purchases/invoices or
+other users' rows; coaches never see client chat text, Roman memory, prompts or reasoning (owner 11:22); AI chats kept until the client
+deletes them or the account. Day-1 requirement (owner 11:40-11:41): every Roman turn debits the coach's CoachAIBudget (src/ai-credits,
+recordUsage) AND passes the client daily cap: report where in #667-#670 this happens or that it is missing (a missing debit is a B on
+the PR that owns the turn path). Drafts: post verdicts anyway (the operator marks them ready when approved).
+
+### AUD-OPUS-RB-121 / AUD-SOL-RB-121 — Roman B b#666 (safety router + reply post-check) + C1 b#668 (live-turn wiring), first full review (T4)
+Heads: b#666 0ec835ca1cc9697bde71e6c67ed627ea3a000691 (base #665, draft; 1,735), #668 fabc2268ffde1e6dca3ea1a18d6bff49c69f7b6f (base #666,
+draft; 2,159; CI unstable: report which checks fail and whether they are the by-design reds that #669 carries). Same background, bindings and
+day-1 AI-budget requirement as the RA entry above (read it). #668 is where live turns are wired: the CoachAIBudget debit + client daily cap
+must be on every live turn (crisis turns exempt from the cap); a missing debit is a B here. Owner wording for the daily cap pop-up (mobile,
+later job): "You've used your maximum AI allotment today."; backend must return distinct codes for daily cap (ROMAN_CAPACITY_REACHED /
+AI_DAILY_QUOTA_EXCEEDED) and coach pool empty.
+
+### AUD-OPUS-RADJ-121 / AUD-SOL-RADJ-121 — Roman approve-to-adjust b#655 + mobile m#337, first full review (T4)
+Heads: b#655 bf9120c1178c28b54256d41afed05a25578353f3 (base main, behind; 2,058), m#337 63be101394d996bd4475a8ad86c400925997092c (base main,
+behind; 1,051). Never reviewed. Background: A9.2 "Roman day-1 jobs"; TGP_SOURCE_OF_TRUTH A6.4 and A7.2 (Roman v1.1 plan, decisions 1-9).
+Binding (owner 11:22): coaches see what Roman wants to do (his proposals) and approve to adjust; never his memory, playbook, prompts or
+reasoning, and never client chat text. FEATURE_ROMAN_ADJUST_ENABLED stays off until landed (operator flag PR later). Check consent (box 2)
+gating, tenancy (a coach acts only on own clients, sub-coach rules), idempotency of approve/reject, audit trail without health labels in
+action names, and truthful mobile copy (no first person, no generic errors).
