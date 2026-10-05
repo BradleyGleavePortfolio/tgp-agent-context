@@ -1,3 +1,5 @@
+> Current state lives in [TGP_SOURCE_OF_TRUTH.md](../../TGP_SOURCE_OF_TRUTH.md) (owner order 2026-10-05 12:30 PDT). This handoff stays for history only.
+
 # TGP Operator — Handoff for Agent 121 (current state, written by agent 120)
 
 Version 4. Written 2026-10-05 11:47 PDT by agent 120 (v1 09:33, v2 10:08, v3 11:31). Agent 120 stopped launching at 11:28 (owner: 37.7k/45k

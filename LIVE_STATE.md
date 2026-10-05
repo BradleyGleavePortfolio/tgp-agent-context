@@ -1,3 +1,5 @@
+> SUPERSEDED for current state by [TGP_SOURCE_OF_TRUTH.md](TGP_SOURCE_OF_TRUTH.md) (owner order 2026-10-05 12:30 PDT). This file stays for history only.
+
 # TGP LIVE STATE
 
 - **Updated:** 2026-10-03 21:12 PDT. **Operator agent 116 RETIRED** (session 9dcf27cd, [thread](https://www.perplexity.ai/computer/tasks/9dcf27cd-9af3-460d-aee7-a21a5762939f)); fleet paused by owner order 21:04. Production backend = main a5b605d1 (#652 deployed). Next operator starts from handoffs/op-116/HANDOFF_AGENT_117.md and handoffs/op-116/pause/PAUSE_STATE.md.

@@ -1,3 +1,5 @@
+> The scope and order approved here (v2.1, 10:40 PDT 10-05) stay binding. Live state moved to [TGP_SOURCE_OF_TRUTH.md](TGP_SOURCE_OF_TRUTH.md) (owner order 2026-10-05 12:30 PDT).
+
 # TGP Launch — One Page (APPROVED by the owner 10:40 PDT 10-05)
 
 Version 2.1, operator agent 120, 2026-10-05 10:40 PDT (v1 by agents 116/117, 10-03). Fleet size is dynamic: each operator sizes it to its own credits (agent 120: up to 7 at once).

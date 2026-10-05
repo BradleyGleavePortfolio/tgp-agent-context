@@ -1,6 +1,14 @@
-# TGP Operator — Agent 121 Reconstruction
+# TGP Source of Truth
 
-Written 2026-10-05 12:10 PDT by agent 121 (times from `date`). Sources: the four owner documents (handoff v4, agent rules, EXECUTE
+The one current-state document for the TGP launch. It supersedes every scattered state and reconstruction document: LIVE_STATE.md,
+the current-state parts of LAST_OPERATOR_STATE.md, handoffs/op-*/HANDOFF_AGENT_*.md, the state columns of LAUNCH_ONE_PAGER.md and
+FLAGS_LAUNCH_LEDGER.md, and handoffs/op-121/RECON_AGENT_121.md (moved here). Those files stay for history only.
+Still binding beside this file (laws and logs, not state): AGENT_RULES.md, MODEL_ROUTING.md, MERGE_DEPENDENCY_GUIDE.md,
+OPERATOR_STANDING_ORDERS.md, DECISION_LOG.md (verbatim owner decisions), and the scope approved in LAUNCH_ONE_PAGER.md v2.1.
+Maintenance: the active operator overwrites this file at every milestone (heads, stages, decisions, to-dos, fleet). History goes to
+LAST_OPERATOR_STATE.md. The next operator starts here.
+
+Placed 2026-10-05 12:30 PDT by agent 121 on the owner's order. Content written 12:10 PDT (times from `date`). Sources: the four owner documents (handoff v4, agent rules, EXECUTE
 doctrine, T0-T4 routing), tgp-agent-context main e2581c8 (AGENT_RULES.md, MODEL_ROUTING.md, MERGE_DEPENDENCY_GUIDE.md,
 OPERATOR_STANDING_ORDERS.md, DECISION_LOG.md, LAUNCH_ONE_PAGER.md v2.1, FLAGS_LAUNCH_LEDGER.md, LIVE_STATE.md, LAST_OPERATOR_STATE.md,
 handoffs op-115 through op-120), the agent 120 ops snapshot (backend branch wip/op120/ops-snapshot 0fdb49a7: _COMMON_120.md, JOBS120.md,
@@ -223,8 +231,9 @@ and MWB flags in the clinic EAS profile.
 
 ## 9. First moves for agent 121 (after EXECUTE, in order)
 
-1. Credits number from the owner; size the fleet to it. Copy this state into handoffs/op-121 and ops/lanes121; snapshot ops/.
-2. Launch B-SPLIT-ROMANCHATS-120 (m#331) first. Finish messaging (B-MSG2 close-out + #711 rerun). Coach delta lens pair. Opus PUSH3 + Sol
+1. Launch the 15 slots in section 10. Create ops/lanes121 (JOBS121.md entries first, _COMMON_121.md); snapshot ops/ to
+   wip/op121/ops-snapshot.
+2. B-SPLIT-ROMANCHATS-121 (m#331) goes first. Finish messaging (B-MSG2 close-out + #711 rerun). Coach delta lens pair. Opus PUSH3 + Sol
    #693 delta.
 3. Rule 12 lands at once: m#321, m#312, m#335, b#642 (tree check + green checks). Retarget m#340 onto m#351 and m#336 onto m#367.
 4. Land + deploy coach; land push, deploy with migrations.
@@ -233,3 +242,37 @@ and MWB flags in the clinic EAS profile.
 7. Lens pairs: lockout L3, MSG3, INV3, SCHA/SCHB, Roman RA/RB. Builders: B-HC12, B-WIZ3, programs (MWB409, PROG2, PROG4), coachless and
    broadcast splits, M-MSG, M-INV, M-ROMANCAP, B-SCHED-FIX, S-AVAIL, MWB AI live-create lane.
 8. Flag PRs as each piece deploys; then EAS builds and the device pass.
+
+## 10. Fleet plan: 15 slots, launched on the owner's EXECUTE
+
+Owner order 12:30 PDT 10-05: 15 parallel agents on EXECUTE. Mix: 4 lens pairs (8 agents) on work that is READY now, 7 builders on the
+long poles. Lenses use little CI; 7 builders stay under the 20-job Actions cap. One job = one agent = one or two PRs, then it ends and its
+slot goes to the wave 2 queue. Builder model per MODEL_ROUTING.md: T3/T4 work is built by Claude Opus 5.5 and audited by both lenses.
+
+| Slot | Job | Model | Scope | Step |
+|---|---|---|---|---|
+| 1 | AUD-OPUS-CM10-121 | Claude Opus 5.5 | coach delta at b#674 3a07a0de, #676 fadb2960, #677 e3940bd0, #703 ebde8b3b | 3 Coach |
+| 2 | AUD-SOL-CM10-121 | GPT-6.1 Sol | same heads | 3 Coach |
+| 3 | AUD-OPUS-PUSH4-121 | Claude Opus 5.5 | full PUSH3 lens on b#692 346cf4a8 + #693 cc0a167f | day 1 push |
+| 4 | AUD-SOL-PUSH4-121 | GPT-6.1 Sol | #693 delta (already APPROVE on #692) | day 1 push |
+| 5 | AUD-OPUS-SCHA-121 | Claude Opus 5.5 | scheduling split b#712-#716; then SCHB b#717-#720 + #653 | day 1 scheduling |
+| 6 | AUD-SOL-SCHA-121 | GPT-6.1 Sol | same queue | day 1 scheduling |
+| 7 | AUD-OPUS-INV3-121 | Claude Opus 5.5 | invite codes b#658 4de7a6dc; then MSG3 on b#708-#711 once slot 10 posts READY | day 1 annex |
+| 8 | AUD-SOL-INV3-121 | GPT-6.1 Sol | same queue | day 1 annex |
+| 9 | B-SPLIT-ROMANCHATS-121 | Claude Opus 5.5 | split m#331 (5,067) into pieces of 1,500 or less, resolve the authActions.ts conflict (owner: first job) | day 1 Roman |
+| 10 | B-MSG-FIN-121 | Claude Opus 5.5 | finish B-MSG2 on b#708-#711 (verify the 11:47 CoachMessage RLS fix + restacks, FIX ROUND comments, Schema parity rerun); then M-MSG-121 mobile inbox | day 1 messaging |
+| 11 | B-TR9-121 | Claude Opus 5.5 | trials: #671 ci.yml conflict refresh, PR bodies, T5 probe replay on #707, READY over #671-#673/#706/#707 | 2 Money |
+| 12 | B-DUND2D-121 | Claude Opus 5.5 | D2d PR on #705 per ops/reports/B-DUNR2-120.md (migration 20270318000000, ClientBillingLease, billing_busy; B-705-1..5) | 4 Failed payments |
+| 13 | B-HC12-121 | Claude Opus 5.5 | Health Connect C-370-2 (per-type/day batching, 429 Retry-After) + C-370-3 (sleep double count); then the FEATURE_WEARABLES_INGEST_POST manifest PR | 5 Health Connect |
+| 14 | B-SPLIT-COACHLESS-121 | Claude Opus 5.5 | split b#657 under 1,500 per piece, resolve its main conflicts | day 1 annex |
+| 15 | B-SPLIT-BCAST-121 | Claude Opus 5.5 | split b#659 under 1,500 per piece with the Opus RC / Sol BLOCK fixes (A/B) | day 1 annex |
+
+Wave 2 queue (fills slots as they free, in this order): lockout L3 pair (m#352-#354); Roman RA/RB pairs (b#665-#670, #667, #655, m#337,
+m#331 pieces); B-WIZ3 (after the coach deploy) then the coach money pair (m#348-#351); dunning lens pair over #687/#688/#704/#705 + D2d,
+then B-DUNB (#689/#690, C-680-16) and D5 #691; trials lens pair; programs builders B-MWB409, B-PROG2, B-PROG4; B-SCHED-FIX; S-AVAIL
+(coach booking options); M-INV mobile codes screen; M-ROMANCAP pop-up + coach-pool debit check; sheet conflict refresh + deltas (after
+D4); m#339 copy fix round; m#340 lens pair; MWB AI live-create lane; scheduling mobile pairs (m#365-#367, #336, #341); flag manifest PRs.
+
+Operator work (not slots): rule 12 lands of m#321, m#312, m#335, b#642; retarget m#340 onto m#351 and m#336 onto m#367; rerun the #711
+Schema parity check; merges, deploys, flag syncs; close superseded oversize PRs with comments; credits check every 30 minutes; keep this
+file current.

@@ -1,3 +1,5 @@
+> SUPERSEDED for current state by [TGP_SOURCE_OF_TRUTH.md](TGP_SOURCE_OF_TRUTH.md) (owner order 2026-10-05 12:30 PDT). This file stays for history only.
+
 # LAST OPERATOR STATE
 Updated: 2026-10-03 19:29 PDT (agent 116 wave section below). Earlier: 2026-10-03 19:17 PDT (agent 116 takeover section). Earlier: 2026-10-03 10:08 PDT (agent 115 takeover section below; agent 114 section follows). Previous header: 2026-10-02 16:06 PDT, Operator: Computer, agent 112, session 6870f2ca
 ([thread](https://www.perplexity.ai/computer/tasks/6870f2ca-44ec-4e04-bd4d-cc3588cd0547)). Agent 111 (26029069) ran out of

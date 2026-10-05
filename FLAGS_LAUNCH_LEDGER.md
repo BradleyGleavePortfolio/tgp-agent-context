@@ -1,3 +1,5 @@
+> SUPERSEDED for current state by [TGP_SOURCE_OF_TRUTH.md](TGP_SOURCE_OF_TRUTH.md) (owner order 2026-10-05 12:30 PDT). This file stays for history only.
+
 # Launch flag ledger (operator, 2026-10-01 11:55 PDT; owner day-1 list 11:32)
 
 Owner asked 11:31: "Lets start flipping flags ON — pre-user but close to launch, its time?" Operator answer: yes, in waves.

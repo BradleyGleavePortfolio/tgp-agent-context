@@ -1,3 +1,5 @@
+> TGP launch, current state: start at [TGP_SOURCE_OF_TRUTH.md](TGP_SOURCE_OF_TRUTH.md). It supersedes LIVE_STATE.md, the operator handoffs and every reconstruction document (owner order 2026-10-05 12:30 PDT).
+
 > Importer work: NORTH_STAR.md is the only importer north star. It supersedes every earlier importer plan.
 
 # tgp-agent-context
