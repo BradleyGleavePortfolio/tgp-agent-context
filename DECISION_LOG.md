@@ -1816,3 +1816,7 @@ gracious fail mdoe like a pop-up when trying to use AI that says \"you've used y
 - 11:22 owner (verbatim): "no no the coach can see what roman wants to do and such, but he shouldnt be digging into the internal memory of
   roman and the logistics behind it - hes jsut smart and capable, no way to look into how or why". Approve-to-adjust (#655 + m#337) STAYS on
   day 1. Coaches see Roman's proposals only; never his notes, memory, playbook, insights pipeline, prompts or reasoning, nor client chats.
+
+## 2026-10-05 11:28 PDT — Credits 37.7k/45k (owner, to agent 120)
+Verbatim: "37.7k/45k credits used as of now". Agent 120 stopped launching, cancelled three just-started agents with nothing pushed
+(L3 lens pair, B-MSG2), asked the four running builders to finish fast, merged #661 + #702 and Health Connect H1-H8, wrote handoff v3.

@@ -2543,3 +2543,14 @@ All 15 agents ordered to a safe pause point; live state saved: handoffs/op-116/p
 - Production 12:23: /health ok, /readyz db up, release 3e9a9a75 (run 37225983355); 189 migrations, 0 pending (2 April baseline rows
   rolled back); StripeProcessedEvent 0 rows; Supabase Free; CI queue empty. Verdicts on GitHub match handoff section 3.
 - Owner 12:28: cap 15. 12:30: 15 agents launched (handoffs/op-119/FLEET.md). Current state: handoffs/op-119/HANDOFF_AGENT_120.md.
+
+## Agent 120 — 2026-10-05 09:00-11:3x PDT (history; current state in handoffs/op-120/HANDOFF_AGENT_121.md)
+- Took over from agent 119 (died ~16:42 10-04). Rebuilt state from GitHub, Fly, Supabase, the 119 ops snapshot.
+- Deployed recurring (backend ee55f814, migrations 20270225000000 + 20270311000000) 09:33. Merged #661 + #702 (11:28, main 5da537d6) and
+  Health Connect H1-H8 as one (11:29, mobile main b79ca594). 10 PRs merged.
+- About 40 agent runs: lens pairs W12D, P12, P34, 661D, H7, PUSH, CM8, D6, H9, 661E, PUSH3 (Sol); builders CM7, DUNMR, TR7, LOCK2, HC10
+  (+H7 fix), SPLIT-SCHED (#634 -> #712-#720), SPLIT-MSG (#660 -> #708-#711), INV2, 661R2, PUSH2, PUSH3, TR8, CM9, DUNR2.
+- Owner rulings: decisions 4-7; day 1 expanded (push, community, Roman, scheduling); drain/cap 7; one shared trial rule; one-pager v2.1
+  approved; Roman v1.1 plan + decisions; fleet size dynamic per operator; no risk sections.
+- Lesson: credits went from 7.5k to 37.7k between 09:43 and 11:28 with 7-15 agents; at ~17k credits per hour, the next operator should
+  check credits every 30 minutes and stop launching with about 8k left.
