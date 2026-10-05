@@ -1,6 +1,6 @@
 # TGP Launch — One Page (for owner approval)
 
-Version 2, operator agent 120, 2026-10-05 10:36 PDT (v1 by agents 116/117, 10-03). Pace: at most 7 agents at once (owner, 10:31).
+Version 2.1, operator agent 120, 2026-10-05 10:40 PDT (v1 by agents 116/117, 10-03). Fleet size is dynamic: each operator sizes it to its own credits (agent 120: up to 7 at once).
 Goal: App Store and Play submission plus clinic go-live, at hyperscaler quality, with recurring packages on day 1. Original target Wed
 10-07; with the expanded day 1 the estimate is: launch-path steps 2-6 done Wed-Thu, the full day-1 list about Mon 10-12.
 
@@ -29,11 +29,5 @@ Goal: App Store and Play submission plus clinic go-live, at hyperscaler quality,
 - Stripe: add refund.updated to webhook we_1UMt9WDUoC5CCVhShvAELVmI; confirm customer.subscription.trial_will_end before the trials deploy.
 - Supabase Pro on launch day 1 (database backups). Apple Sign-in key. Confirm POSTHOG_KEY. Play reviewer accounts on the next APK.
   Health Connect device pass. Play Console Data safety + Health apps forms.
-
-## Biggest risks
-1. Day 1 roughly doubled today (about 40 more PRs, mostly never reviewed) while the cap is 7 agents.
-2. Money and access code keeps producing real must-fix findings each round: slower, but caught before production.
-3. Owner-only Stripe, store and device steps gate steps 2, 5 and 7.
-4. No database backups until Supabase Pro.
 
 Decision: approve this page (scope and order above). Recommended: approve.

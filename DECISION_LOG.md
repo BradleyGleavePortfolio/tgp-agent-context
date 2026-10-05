@@ -1784,3 +1784,10 @@ collide and keep pushing forward" and "cap at 7 for agent 120".
 - 10:33 owner (verbatim): "No, lets drop that - I want the optionaility but not reworking the whole onboarding right now!" The required
   calendar setup step (checklist, wizard links, setup block, push on a booking attempt) is DROPPED. Kept: coaches decide their times
   (open hours, time off, types, instant vs approval, minimum notice, booking window, buffers, optional daily maximum; defaults = today's rules).
+
+## 2026-10-05 10:39 PDT — Fleet size is dynamic per operator; no risk sections (owner, to agent 120)
+Verbatim: "the cap isnt 7 agents, oeprator 121 and beyond will all use more than 7 agents at some point - its dynamic to your available
+credits per operator. Also, drop the biggest risk section - dont think how this wont work, think like jensen huang \"Faster than light!\""
+- The 7-agent cap applies to agent 120 only. Every operator sizes its fleet to its own available credits (up to the rules' maximum of 15),
+  and scales up when credits allow. Operator 121+: do not inherit 7 as a cap.
+- Owner-facing plans and one-pagers carry no "biggest risks" section: state the plan, the order and the fastest path.

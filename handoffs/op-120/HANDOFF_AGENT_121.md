@@ -6,6 +6,10 @@ GitHub is the truth: verify every head and verdict before acting on any line. A 
 work. A verdict at a head that has since moved is void (rule 12 merge-only tree check excepted).
 History goes to LAST_OPERATOR_STATE.md; this file is current state only. Operator ops files: backend branch wip/op120/ops-snapshot.
 
+## 0. Fleet size
+Dynamic per operator, sized to your own available credits (up to 15). Agent 120 ran at 7 by owner order; that is NOT your cap
+(DECISION_LOG 10:39 10-05). No risk sections in owner-facing documents.
+
 ## 1. Read first
 LAW: AGENT_RULES.md (repo copy on main wins over attachments). MENTALITY: the EXECUTE doctrine. PROCESS: MODEL_ROUTING.md (T0-T4).
 MERGE_DEPENDENCY_GUIDE.md (rules 1-12), DECISION_LOG.md, ops/lanes120/_COMMON_120.md + JOBS120.md, ops/op120/FLEET.md.
