@@ -1713,6 +1713,13 @@ m#339 copy fix round; m#340 lens pair; MWB AI live-create lane; scheduling mobil
 Operator work (not slots): rule 12 lands of m#321, m#312, m#335, b#642; retargets of m#340 and m#336; #711 rerun; merges, deploys and
 flag syncs; close superseded oversize PRs with comments; credits check with the owner every 30 minutes; keep this file current.
 
+### A8.10 Plan to 4/7 by end of day 10-05 (owner 14:50: "I need these to, truly, without cutting corners, hit 4/7 by EOD"; "Ill be using agent 122 and 123's 45k budget today as well - make a plan")
+Full plan: handoffs/op-121/HANDOFF_122_123.md. Target: steps 1 (done), 3 Coach, 4 Failed payments, 5 Health Connect; stretch 2 Money.
+Agents 122 and 123 run in parallel, split by repo: 122 = backend (dunning train, trials, every backend deploy after 121), 123 = mobile
+(coach wizard + money screens, lockout, payment sheet + m#338, then programs). 121 finishes deploy 3 (push, coach payouts, messaging),
+#712 scheduling into main + deploy 4, #642, Health Connect m#378 + flag b#731. Owner: Health Connect device pass, Stripe webhook events,
+Android push check.
+
 ### A8.9 Edge-case deferred list (owner edge-case freeze 2026-10-05 13:29; revisit at 10,000+ clients)
 | Finding | PR | Lens | What | Reclassified |
 |---|---|---|---|---|
@@ -2357,6 +2364,11 @@ Contribution log (PDT, newest last)
   main (4bddf24a). 11 merges in 5 minutes; 32 merged today. #712 conflicts with main in the booking emitter (push landed first):
   B-SCHED2-121 merges main once, routing booking pushes through the push sender; then a delta check and #712 into main. Deploy
   4bddf24a (push + coach payouts + messaging, with migrations) as soon as main CI is green.
+- 14:50 owner: 4/7 by end of day; agents 122 and 123 budgets (45k each) also used today. Plan in A8.10 and
+  handoffs/op-121/HANDOFF_122_123.md (parallel, split by repo). 14:51 main CI green at 4bddf24a; 14:52 deploy 3 dispatched (run
+  37378685156, migrations applied), production approved. 14:5x #712 dual APPROVE of the main merge (Opus D7 6003771792, Sol D7
+  6003779987); danger failed only on the PR title (not Conventional Commits): title fixed, danger re-run. HC13 lens pair started
+  (m#378 + b#731).
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.
