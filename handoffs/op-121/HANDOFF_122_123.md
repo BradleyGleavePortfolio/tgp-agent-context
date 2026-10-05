@@ -1,4 +1,4 @@
-# Handoff — agent 121 to agents 122 and 123 (2026-10-05, written 14:55 PDT)
+# Handoff — agent 121 to agents 122 and 123 (2026-10-05, written 14:55 PDT, updated 15:08 PDT)
 
 Owner goal (14:50 PDT): launch path 4/7 by end of day, "truly, without cutting corners". Owner budget today: agent 121's 45k,
 plus agent 122's 45k and agent 123's 45k. Agents 122 and 123 run IN PARALLEL, split by repo, so they never touch the same branch.
@@ -6,6 +6,14 @@ plus agent 122's 45k and agent 123's 45k. Agents 122 and 123 run IN PARALLEL, sp
 Read first, in order: TGP_SOURCE_OF_TRUTH.md A1 (owner rules), A2 (the law, including the EDGE-CASE FREEZE and RUTHLESS SCOPE overrides
 at the top of A2), A5 (merge rules 11 and 12, plus the 13:37 note: "up to date" is OFF), A7.1 (launch path), then this file. GitHub is the
 only truth: re-check every head below before acting.
+
+## Since 14:55
+- Deploy 3 DONE 14:56 (release 4bddf24a: push b#692+#693, coach payouts b#674+#676+#677+#703, messaging b#708-#711; 4 migrations;
+  /health and /readyz 200).
+- Merged b#712 (scheduling train #712-#720 + #653) and b#642 (Google sign-in flag) into main (cb986a4c). Deploy 4 dispatched 15:03
+  (run 37379973924, migrations applied, production approved).
+- Merged m#378 (Health Connect follow-up). b#731 (Health Connect ingest flag) dual APPROVE (Sol 6003830962, Opus 6003888250); danger
+  re-run after the title fix; agent 121 merges it and runs the env sync.
 
 ## Launch path now (14:55)
 | # | Step | State | Owner of the remaining work |
