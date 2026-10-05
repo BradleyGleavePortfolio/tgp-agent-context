@@ -175,7 +175,7 @@ inside the cap; client retention for clients who use Roman versus those who do n
    file upload to Roman (lab PDFs and photos) in v1.1.
 8. AI usage is layered (owner 11:20 + 11:40): each coach owns a monthly AI credit pool that the coach and all of their clients draw
    from; each client also has a daily cap so one person cannot use up the pool in week one. Daily cap hit -> graceful pop-up "You've
-   used your maximum AI allotment today." (day 1, M-ROMANCAP-120); hitting it should be rare. The monthly coach pool comes with the
-   coach's plan; its "used up" state gets its own code and copy. Every AI meter is built with both layers in mind. ANSWERED.
+   used your maximum AI allotment today." (day 1, M-ROMANCAP-120); hitting it should be rare. The monthly coach pool already exists (backend
+   src/ai-credits, CoachAIBudget + credit packs); Roman must debit it on every turn; its "used up" state gets its own code and copy. Every AI meter is built with both layers in mind. ANSWERED.
 9. Deleting a Roman chat removes the transcript; Roman's notes learned from it stay; the privacy policy says so plainly before v1.1
    notes ship. ANSWERED: yes.

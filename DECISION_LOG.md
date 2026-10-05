@@ -1828,3 +1828,6 @@ up on week 1, but keep this layered system in mind during creation"
 - Each coach owns a monthly AI credit pool shared by the coach and all of their clients; each client has a daily cap on top. All AI cap and
   meter work is designed for both layers (ROMAN_V1_1_PLAN decision 8; JOBS120 wrap-up notes).
 - 11:40 agent 120 dispatched the #661 deploy: fly-deploy run 37357733219 (release 5da537d6, no migrations), production approved 11:40.
+- 11:41 owner (verbatim): "Day-1 already has a per-client daily cap (#669), but the coach pool is a v1.1/billing concern that should layer
+  on top -> no it already exists!" Confirmed on backend main: src/ai-credits (CoachAIBudgetService, CoachAIBudget, CoachCreditPackPurchase,
+  monthly period). Day-1 Roman work must debit the coach pool on every turn and honour the client daily cap (JOBS120 wrap-up notes).
