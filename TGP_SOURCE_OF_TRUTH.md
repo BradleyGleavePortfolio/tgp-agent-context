@@ -1728,6 +1728,8 @@ Android push check.
 | B-648-9 | b#693 | Sol 6002058009 | mute / per-kind disable committed during that same wait is ignored (= Opus C-693-12) | operator 121, 13:31 (6002378872) |
 | B-653-2 | b#653 | Opus 6002182391 | no live-Postgres test for the expiry path | operator 121, 13:43 (fix round B-SCHED2-121) |
 | B-352-3 | m#352 | Sol 6001848621 | shared native payment sheet race between two overlapping card-update sessions (tested fix parked: ops/aud-121/B-LOCK3-121/B-352-3-native-ui-lease-deferred.patch on backend wip/op121/ops-snapshot) | operator 121, 13:55 |
+| B-689-1, B-689-4, B-689-5 (Sol), B-689-6 | b#689 | Sol 5982476834 | dispute recorded mid-request; dispute during cancel; out-of-band 2A reconciler backstop; lock order | operator 122, 15:41 (6004657594) |
+| B-690-1, B-690-2, B-690-5, B-690-6, B-690-7 | b#690 | Sol 5982476848 | prefetched/delayed provider events, mid-request interleavings, transient write failure | operator 122, 15:41 (6004657872) |
 
 ## A9. Job book (open to add to)
 Every job entry agent 120 wrote, with exact heads, verdict ids and owner rulings. Done jobs are marked in A8 and Part B. Workers read A9.1 (the common brief) and their own entry.
@@ -2288,6 +2290,29 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
+
+## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
+Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
+account at a time, so agent 122 runs ALONE over both repos; agent 123 starts after 122 (PROMPT_AGENT_122_UPDATE.md).
+Files: handoffs/op-122/ops/ (_COMMON_122.md, JOBS122.md, FLEET.md). Raw evidence: backend branch wip/op122/ops-snapshot.
+
+Contribution log (PDT, newest last)
+- 15:06-15:12 Verified on GitHub: production cb986a4c (deploy 4 run 37379973924 success; /health, /readyz 200); every dunning, trials and
+  mobile head in the 121 handoff unchanged; b#687 now DIRTY vs main (one conflict: src/notifications/emitters/coach-alert.emitter.ts),
+  so the whole dunning train restacks; b#689-#691 still sit on an old #688 head and move onto b#724. Merged today 35 (backend 23,
+  mobile 12) at 15:06; deployed today 4. Re-ran the outage-cancelled CI on trials b#671/#672/#673/#706/#707 and b#725.
+- 15:12 wave 1 (5 agents): B-DUNR3-122 (main merge into #687, restack #688/#704/#705/#724, move #689-#691 onto #724, fix Opus B-689-5:
+  the disputed amount shown to the client came from the last failed renewal); lens pairs AUD-*-DUN1-122 (dunning train + b#725) and
+  AUD-*-TR10-122 (trials delta since the last verdicts).
+- 15:06-15:41 GitHub token for this session invalid (401) at 15:06 and again 15:12-15:41 (cause: the second Perplexity account
+  connecting; owner 15:15). Agents kept working locally; owner reconnected 15:41.
+- 15:41 Operator reclassified to C (edge, deferred to 10k clients) under the owner freeze: Sol B-689-1/4/5/6 (comment 6004657594) and Sol
+  B-690-1/2/5/6/7 (6004657872); added to A8.9. Posted Sol TR10 verdicts (written during the outage, heads re-verified): APPROVE #671
+  6004660256, #672 6004660960, #706 6004662272, #707 6004662915; REQUEST CHANGES #673 6004661734 (B-673-3: a client who opens package A's
+  trial checkout and dismisses it, then picks package B from the same coach, is offered a free trial on B that checkout then removes).
+- 15:42 mobile wave (owner 15:15 order, half mobile): B-WIZ3-122 (m#346 B-346-3 + C-346-7 minimal fix, m#347 W3 item-list fixes,
+  restack the money train m#348-#351), lens pair AUD-*-MON1-122 (money screens m#348-#351, first full review). Queued:
+  AUD-*-WL4-122 (lockout m#352-#354 delta, then wizard #346/#347). Env sync 37381404217 (121) verified success.
 
 ## AGENT 121 — 2026-10-05 11:5x PDT onward (session 8a21c288; 121st operator in the chain)
 Why: agent 120 stopped launching at 11:28 (37.7k/45k credits) and handed off; the owner started agent 121 with the four documents and
