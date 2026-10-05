@@ -2351,7 +2351,12 @@ Contribution log (PDT, newest last)
   stack branch no longer wait for their own CI (the bottom PR's run covers the whole tree: one CI cycle per train, not two); superseded
   runs cancelled on landing; no lens launches after D6. Constraint tested and kept: top-down stack landing (bottom-up would need CodeQL,
   R75, SBOM and danger runs on every piece, since piece PRs not based on main do not run them).
-- 14:38 D6 Opus APPROVE b#653 @ 40050cde (B-653-4 fixed) and b#674 @ 2e06942a (test-only cast fix); Sol D6 pending.
+- 14:38-14:39 D6: Opus and Sol APPROVE b#653 @ 40050cde (B-653-4 fixed) and b#674 @ 2e06942a (test-only cast fix).
+- 14:39 owner: "get the 10 next merges done AS FAST AS POSSIBLE". 14:40-14:44: scheduling #653, #720, #719, #718, #717, #716, #715, #714,
+  #713 merged top-down into #712's branch (tree = audited #653); coach b#674 merged into main (9edf58ce); messaging b#708 merged into
+  main (4bddf24a). 11 merges in 5 minutes; 32 merged today. #712 conflicts with main in the booking emitter (push landed first):
+  B-SCHED2-121 merges main once, routing booking pushes through the push sender; then a delta check and #712 into main. Deploy
+  4bddf24a (push + coach payouts + messaging, with migrations) as soon as main CI is green.
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.
