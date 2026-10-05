@@ -2188,6 +2188,19 @@ Contribution log (PDT, newest last)
 - 12:41-12:43 owner: add lanes while the sandbox allows; credits 3.8k/45k; use GitHub CI lanes. Added 8 lenses (CPU busy with worktree
   checkouts, memory 7.2 GB free): L3 lockout pair (m#352-#354), Roman RA pair (b#667 + #665), Roman RB pair (b#666 + #668), Roman
   approve-to-adjust pair (b#655 + m#337). 23 agents active. GitHub Actions was "degraded performance" at 12:42 (runs queued).
+- 12:44-12:47 GitHub Actions incident (runner assignment delays, opened 12:11 PDT): 43 -> 87 backend runs queued, 1 running. Both repos
+  are public (no minutes cap); no superseded runs to cancel. Queue discipline sent to every agent (one lane run in flight per agent, no
+  re-triggers, one push per PR per round); agents keep working without CI.
+- 12:51-13:01 first verdicts (Sol): lockout m#352 RC 0/2/2, #353 RC 0/1/3, #354 APPROVE; Roman A b#667 RC 0/3/1, #665 RC 0/4/1; Roman B
+  #666 RC 0/3/1, #668 RC 0/3/1 (no coach-pool debit and a shared, not per-client, daily cap on live turns); coach b#674/#676/#677/#703
+  APPROVE (no rule-12 carryover for #674's main refresh: main changed a PR-owned test); Roman adjust b#655 RC 1/10/2, m#337 RC 1/4/2;
+  scheduling b#712-#720 APPROVE all nine, #653 RC 0/2/1. Opus verdicts pending.
+- 12:55-13:06 builders started on the verdicts (B-LOCK3, B-ROMAN-AFIX for #667/#665, B-ROMAN-BFIX for #666-#670 incl. the coach-pool
+  debit + per-client cap) and wave 3 (B-PROG2, B-PROG4, B-MWB409, B-SCHED-FIX for b#643 + m#341, lens pair on mobile scheduling m#365 +
+  #366). 24 agents active at 13:06. Sandbox: disk I/O was the limit (per-worktree Prisma client copies); cleared npm cache and finished
+  worktrees.
+- b#642 (Google sign-in manifest line) rule-12 tree check failed only because main shifted the manifest file around the identical hunk:
+  needs a short dual delta verdict, batched with the next flag PRs.
 - 12:37 rule 12 lands started: m#321 (fee rule in the package editor) and b#642 (Google sign-in manifest line) brought up to date with
   main; merge after the tree check + green checks. m#340 and m#336 need a builder restack (a plain base change shows 11k lines).
 
