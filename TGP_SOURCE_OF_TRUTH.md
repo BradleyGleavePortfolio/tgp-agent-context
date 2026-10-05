@@ -6877,13 +6877,13 @@ documents into JUST TGP_SOURCE_OF_TRUTH.md 2.) You will start 15 parallized agen
 for now, then simply respond with 'Ready, sir' - thats it". 12:32: "heres the document, my mistake" (attached this file).
 Recorded in A6.8 and A8.8.
 
-#### 2026-10-05 13:11 PDT — Credits and fleet size (owner, to agent 121)
-Verbatim: "18k/45k credits used" / "start stop and drain down to 13 agents". Recorded in A6.8.
-
 #### 2026-10-05 12:37-12:41 PDT — Banner, more lanes, credits, CI lanes (owner, to agent 121)
 Verbatim 12:37: "just fyi you are agent 121st in the chain - update the source of truth periodically with AGENT 121 banner and under that
 your contribution to the mission at hand!" 12:39: "if sandbox isnt stressed, add more lanes (audits if tight, builders if very open) - goal
 is max parallization without sandbox crashes". 12:41: "3.8k/45k credits as of now". 12:41: "use github ci lanes". Recorded in A6.8.
+
+#### 2026-10-05 13:11 PDT — Credits and fleet size (owner, to agent 121)
+Verbatim: "18k/45k credits used" / "start stop and drain down to 13 agents". Recorded in A6.8.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
