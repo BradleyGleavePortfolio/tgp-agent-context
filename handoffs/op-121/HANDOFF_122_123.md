@@ -7,6 +7,10 @@ Read first, in order: TGP_SOURCE_OF_TRUTH.md A1 (owner rules), A2 (the law, incl
 at the top of A2), A5 (merge rules 11 and 12, plus the 13:37 note: "up to date" is OFF), A7.1 (launch path), then this file. GitHub is the
 only truth: re-check every head below before acting.
 
+## 15:15 owner change: SEQUENTIAL, not parallel
+GitHub holds one Perplexity account at a time, so agent 122 runs alone over BOTH repos first; agent 123 starts after 122 finishes,
+from 122's handoff. Read PROMPT_AGENT_122_UPDATE.md.
+
 ## Since 14:55
 - Deploy 3 DONE 14:56 (release 4bddf24a: push b#692+#693, coach payouts b#674+#676+#677+#703, messaging b#708-#711; 4 migrations;
   /health and /readyz 200).
