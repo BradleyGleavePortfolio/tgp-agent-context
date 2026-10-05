@@ -1749,3 +1749,9 @@ Verbatim: "we need app notifs - send me a link to create the key required right 
   Operator: #657/#659/#660 are over the 3,000 grandfathered ceiling, so they are split into pieces under 1,500 (B-SPLIT-*-120); #658 gets
   a fix round in place. Community core flag flip (#650) follows once the features land.
 - Still open: Roman upgrades (owner asked for an explanation), scheduling day-1 status, LAUNCH_ONE_PAGER approval, #661 tests in #702.
+
+## 2026-10-05 09:47 PDT — Stop-and-drain to 7 active agents (owner, to agent 120)
+Verbatim: "start stop-and-drain down to 7 agents".
+- From 09:47 PDT the operator launches nothing new until 7 or fewer agents are active (no cancellation of running or pushed work),
+  then runs at 7 concurrent. 15 were active at the order. Next launches in priority order: B-661R2-120, B-HC11-120, coach and dunning
+  lens pairs (after their builders post READY), trials and lockout lens pairs, B-WIZ3-120, annex splits (coachless, broadcasts), programs.
