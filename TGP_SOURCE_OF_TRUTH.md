@@ -1730,6 +1730,11 @@ Android push check.
 | B-352-3 | m#352 | Sol 6001848621 | shared native payment sheet race between two overlapping card-update sessions (tested fix parked: ops/aud-121/B-LOCK3-121/B-352-3-native-ui-lease-deferred.patch on backend wip/op121/ops-snapshot) | operator 121, 13:55 |
 | B-689-1, B-689-4, B-689-5 (Sol), B-689-6 | b#689 | Sol 5982476834 | dispute recorded mid-request; dispute during cancel; out-of-band 2A reconciler backstop; lock order | operator 122, 15:41 (6004657594) |
 | B-690-1, B-690-2, B-690-5, B-690-6, B-690-7 | b#690 | Sol 5982476848 | prefetched/delayed provider events, mid-request interleavings, transient write failure | operator 122, 15:41 (6004657872) |
+| Sol #356 Undo-vs-Save race, Sol #356 408 retry | m#356 | Sol (PRG1) | undo racing an in-flight save; 408 timeout retry | operator 122, 16:20 (PD1 job book) |
+| B-355-2 (Opus), B-357-1 (Opus) | m#355, m#357 | Opus (PRG1) | rare roster/editor interleavings | operator 122, 16:20 (PD1 job book) |
+| B-357-1..4 (Sol), B-358-1, B-358-2 (Sol) | m#357, m#358 | Sol (PRG1) | proposed Cs from B-PRG4-122: editor edge interleavings | operator 122, 16:35 (PD1 job book) |
+| autosave pill copy when a 409 lacks head/token; DB serialization 409 without fields | m#356, b#733 | B-MWB409-122 | rare server paths | operator 122, 16:35 (PD1 job book) |
+| DUNR3 v1 skip | b#687-#691 | B-DUNR3-122 | v1 path skip | operator 122, 15:50 |
 
 ## A9. Job book (open to add to)
 Every job entry agent 120 wrote, with exact heads, verdict ids and owner rulings. Done jobs are marked in A8 and Part B. Workers read A9.1 (the common brief) and their own entry.
@@ -2319,6 +2324,20 @@ Contribution log (PDT, newest last)
   on m#352-#354 and m#372-#376. Ops snapshot branch wip/op122/ops-snapshot created.
 - 15:54 owner: the Expo build goes Wed 10-07 with as much fixed as possible; agents 122-130 all run before day 1. Step 5's device pass moves
   to that build (no build tonight).
+- 16:01-16:12 owner: 9.5k/45k credits (3.6k before agents started); "More agents - scale up". Wave 3 (up to 17 running): Roman chats fix
+  (B-376-1), coachless delta pair CL3, broadcasts pair BC1, Roman backend pair RMN1, trials delta TD1, programs builders PRG2/PRG4 + B-MWB409.
+- 16:15-16:30 Results: lockout m#352-#354 dual APPROVE (da686cea/78ed4e07/be5c74b1, wait for the dunning deploy); wizard #345/#346 dual
+  APPROVE, #347 Sol RC (3 Bs) -> B-WIZ4; money m#348/#349 RC -> B-MON2 fixed; dunning 8 of 9 dual APPROVE, #690 RC B-690-8 (coach restart
+  route) -> B-DUNFIX; #725 dual APPROVE; Roman chats m#372-#376 landed and merged to mobile main 2c88eae5 (16:30); trials b#707/#706/#673/#672
+  landed into #671 (4315136a, tree = audited top); trials main merge waits for the owner's Stripe webhook change.
+- 16:38-16:44 coachless b#723/#722 landed into #721, #721 merged to main (dual APPROVE CL3; tree EQUAL); invite codes b#658 delta
+  (B-INV4 fixed B-658-9) dual APPROVE 4bb177c7 and merged to main. Backend main 95b0a05d.
+- 16:50 programs: dual APPROVE m#355-#358 + b#733 (PD1). b#733 merged to main (6aff479c); m#358/#357/#356 landed into #355 (957406ef, tree
+  EQUAL), #355 main merge after required checks. A8.9 rows added for the programs Cs. Trials #671 R75 gate red at the composed tree (test-only
+  casts in two B-TR11 specs): fixed in the post-dunning trials refresh.
+- 16:52 wave 4 (12 running): B-SCH2 (scheduling mobile #367: Opus B-367-1 expired label, Sol B-367-1 welcome fallback heading), S-AVAIL-122
+  (backend coach booking options: notice, window, buffers, daily max; day-1 scope gap both SCH1 lenses flagged), M-ROMANCAP-122 (AI cap pop-up),
+  B-ADJB/B-ADJM (Roman approve-to-adjust b#655 / m#337), B-MSG2 (messaging mobile #377 B-377-1; #371 dual APPROVE), wizard+money delta pair WM1.
 
 ## AGENT 121 — 2026-10-05 11:5x PDT onward (session 8a21c288; 121st operator in the chain)
 Why: agent 120 stopped launching at 11:28 (37.7k/45k credits) and handed off; the owner started agent 121 with the four documents and
