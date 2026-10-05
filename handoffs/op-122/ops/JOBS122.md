@@ -187,3 +187,100 @@ coachless Home + Roman card services), #723 e3368cc3 (idempotent coach-code rede
 by B-SPLIT-COACHLESS-121 (report ops/reports/B-SPLIT-COACHLESS-121.md). Item-list problems only (a client attached to the wrong coach,
 a code that grants access it should not, private data across tenants, RLS gap reachable by a user, a signup dead end). #721 conflicts with
 main: judge content; the operator schedules the conflict refresh. One verdict per PR at the exact head.
+
+### B-RCH2-122 — Roman chats fix round (T4; stack lock: romanchats) (queued: launches when AUD-OPUS-RCH1-122 has posted)
+Builder: Claude Opus 5.5. Time box 45 minutes.
+Heads: m#372 61141c05c6fe5281a7a4c61370e3240163409f9e (base main) -> #373 70c24e710b9c5dddc49d87e0ea3e9e84298c9a26 -> #374
+0ae9013fe06cbd1d5f1dbaf6ad6072f72f92358a -> #375 a10123f222013416edff450b15bd1bd34952dd90 -> #376 6fabb1f989a985bf187552c2c8ad0f93d5486d4a.
+Verdicts: Sol APPROVE #372-#375, REQUEST CHANGES #376 (6004856689) B-376-1: a client deletes the chat that is open in the live Roman
+screen from the history list, goes back, still sees the erased text, and the next message goes to the erased session id and fails. Fix:
+when a confirmed delete erases the session the live screen holds, the live screen drops that session (clears the transcript, starts a
+fresh session on the next send). Sol's three sequential counterexamples: probe run 37384807869 (evidence ops/aud-122/AUD-SOL-RCH1-122/).
+Plus every item-list B in the Opus RCH1 verdicts (ops/reports/AUD-OPUS-RCH1-122.md once posted). Fix each B in the piece that owns the code,
+failing-before test per B, restack upward merge-only, one push per PR, at least 2 minutes apart, cancel superseded runs. Mobile CI lane at
+the top head (tsc + the Roman chats tests). Comments: FIX ROUND (B-RCH2-122, agent 122) on fixed pieces, RESTACK on the others, each ending
+READY FOR AUDIT. Write ops/lanes122/notify/romanchats.txt with all five new full heads.
+
+### B-MON2-122 — money screens fix round m#349 (+ any Sol MON1 Bs) (T4 money copy; stack lock: wizard) (queued until Sol MON1 posts)
+Builder: Claude Opus 5.5. Time box 40 minutes.
+Heads: wizard/money train m#345 ed29833cb2d5c597f0be3a557877bd3cf29d85a3 (base main) -> #346 5f8378ff26ab15bb007d33f14218f46d6c508cf3 ->
+#347 08c7416ee102e457fdad3b98ca9b60e4268fa48d -> #348 d55e6f56d0d7328e12042413005cf40d40fa98c9 -> #349
+53e36aaf4d9f7f708baea7fb6a3d76ecbb7359a4 -> #350 040a6a4efd8c9ea635861df718d32d6e5e418d46 -> #351 f30c5dbb4cb4e6211111291c2f6ca2f1598dffe3.
+#345-#348, #350, #351 are approved by both lenses or Opus; do not change them except merge-only restack.
+B-349-1 (Opus 6004992019): a coach taps one charge of a $100 monthly plan the client has paid three times; the page shows "$100.00" but
+"Clients paid $300" and a $6 "TGP fee (2%)", and if the latest renewal failed it says the client was never charged and nothing reached
+payouts (the backend breakdown sums every renewal of the plan). OPERATOR RULING: option 1, mobile only in #349: label the breakdown
+truthfully as the plan's totals so far (e.g. "This plan so far: clients paid $300 ...") distinct from the single charge amount, and keep
+the breakdown (no "never charged" claim) when only the latest renewal failed. No backend change. Plus every item-list B in Sol's MON1
+verdicts (ops/reports/AUD-SOL-MON1-122.md once posted). If moneyCopy.ts changes, say which strings (it touches #348's review).
+Failing-before test per B. Restack #350, #351 merge-only. One push per PR, at least 2 minutes apart; cancel superseded runs. Mobile CI lane
+at #351 (tsc + money/Earnings tests). Comments: FIX ROUND (B-MON2-122, agent 122) on #349, RESTACK on #350/#351, each ending READY FOR
+AUDIT. Write ops/lanes122/notify/money.txt with the new full heads.
+
+## Wave 3 (owner 16:04 PDT: "More agents - scale up")
+
+### Programs (step 6) — operator 122 rulings for all three programs jobs
+The A9 entries B-PROG2-120, B-PROG4-120 and B-MWB409-120 in TGP_SOURCE_OF_TRUTH.md (tgp-agent-context, Part A9) are the job text; read
+them in full. Heads unchanged since: m#355 902c64a64156255ce9ce54147db896ac2142a954 (base main), #356 40ee678adf7a70bdfa18c49cafdbd64a2dc589a5,
+#357 b364b9eaaedfb6d297f55a40e4b6a15ac4d2a381, #358 4dcf0aff2644ff54fc5fe4de2c97751d7ac7cf94. Reports: ops/reports/AUD-{OPUS,SOL}-{P12,P34}-120.md;
+probes ops/aud-120/AUD-*-P12-120/ and AUD-*-P34-120/. OPERATOR RULINGS under the owner freeze (C (edge, deferred to 10k clients), do NOT
+fix): Sol #356 "Undo races an explicit Save"; Sol #356 "HTTP 408 reopens editing"; Opus B-355-2 (in-progress retry treated as refusal);
+Opus B-357-1 (lost response reuses the request key). Every other Sol #357/#358 B: apply _COMMON_122 item 6 yourself; fix only those with
+an ordinary-use story; list the rest in your report as proposed C (edge) with one line each for the operator. Remove the clinic-build
+flag flips from #355's eas.json (A9 ruling). Time box 60 minutes each.
+
+### B-PRG2-122 — programs #355 + #356 fix round (mobile; lock programs) = B-PROG2-120 under the rulings above
+Builder Opus. Fix in #355/#356 only: Sol/Opus roster capped at 20 (B-355-3 + Opus B-358-1 same root cause: paginate to completion or say
+the list is partial), B-355-1/B-356-1 mobile side (read headIndex + lock token the backend PR from B-MWB409-122 returns; fail truthfully
+until it ships), B-356-2. Merge main into #355. Write ops/lanes122/notify/programs.txt "programs P2: #356 @ <full sha>" when #356 is pushed.
+
+### B-PRG4-122 — programs #357 + #358 fix round (mobile; lock programs-p34; parallel) = B-PROG4-120 under the rulings above
+Builder Opus. Fix Opus B-358-2 (Remove dialog must show the true total and scope across runs/package copies) and the ordinary-use Sol
+#357/#358 Bs. When ops/lanes122/notify/programs.txt shows the #356 head, merge it into #357 (merge-only), then #357 into #358.
+
+### B-MWB409-122 — backend: keep head index + lock token in MWB autosave/undo 409 replies (new PR on main, under 1,500) = B-MWB409-120
+Builder Opus. Exactly the A9 entry. Tell B-PRG2-122 the field names through ops/lanes122/notify/mwb409.txt as soon as they are fixed
+(before the push). One CI lane; PR CI green; FIX ROUND 1 (OPENING, B-MWB409-122, agent 122) + READY FOR AUDIT.
+
+### AUD-OPUS-BC1-122 / AUD-SOL-BC1-122 — broadcasts backend b#726-#730, first full review (T4: messaging to clients, consent, migration)
+Lens: Opus and Sol, independent. Time box 45 minutes. Heads: b#726 b5501a89611844fc43717084d887e604af33037a (base main; schema, migration,
+flag, errors; 642), #727 15cf8e5c0f2e3e6de19a0a8f58c0c1ff6a4f76a5 (segments, recurrence, send-time scope; 1,221), #728
+1dd798ab36e90dbb6b3719b7a4ae13883797167f (broadcasts, saved replies, client tags service; 1,162), #729 82a28bf2dbbe52b516e30fda1d22959ea0f87b42
+(dispatcher; 1,114), #730 e97c472f00cdecbce2e5f1a680e05b1744c14715 (routes, module wiring, live checks; 865). Split of b#659 by
+B-SPLIT-BCAST-121 (ops/reports/B-SPLIT-BCAST-121.md; verify only your own lens's prior #659 Bs). Item-list problems only: a broadcast
+reaching clients of another coach or a client who left, a client who turned messages off still receiving them, private data in a message,
+a scheduled broadcast that never sends or sends twice in normal use, a migration that breaks production. One verdict per PR at the exact head.
+
+### B-CL2-122 — coachless b#721-#723 main refresh (T4; stack lock: coachless)
+Builder Opus. Time box 40 minutes. Heads (dual APPROVE at these exact heads: Sol 6004991224/6004991568/6004991999, Opus
+6005035666/6005036089/6005036513): b#721 d90b484278f432e6e73e41326dc31cadc8892999 (base main) -> #722 c219d2f391c37edd700d5204f31b50286f280d82
+-> #723 e3368cc3cbb0961326ddf147728f7fc32d884188. #721 conflicts with main (prisma/schema.prisma; main moved through dunning-free
+merges #712-#720, #731). Merge origin/main into #721 and resolve: keep both sides, no content change beyond the conflict hunks; list every
+hunk in the comment. Prisma: `prisma validate` + `prisma format` check; migration name unchanged (Opus D1: keep) and still the newest-safe
+additive migration (check main's migration list; say if its timestamp sorts before any main migration and whether that matters for
+`migrate deploy` — it applies regardless of order). Then merge new #721 into #722, #722 into #723 (resolve and list any hunk). Run
+/home/user/workspace/ops/tree_check.sh for each (approved sha vs new sha) and paste the result. One push per PR, at least 2 minutes apart.
+PR CI on all three new heads incl. #721's rls-live-tests job (re-run any cancelled job). Comments: MAIN REFRESH (B-CL2-122, agent 122)
+on #721, RESTACK on #722/#723, each ending READY FOR AUDIT (delta: conflict hunks only). Write ops/lanes122/notify/coachless.txt with the
+three new full heads and the tree_check output. Do NOT fix the Cs (C-721-1 export rows, C-723-1..3) in this round.
+
+### AUD-SOL-W3F-122 — Sol first FULL review of wizard W3 m#347 (T4: coach package creation/publish)
+Lens: GPT-6.1 Sol. Time box 30 minutes. Head m#347 08c7416ee102e457fdad3b98ca9b60e4268fa48d (base = #346 branch at 5f8378ff26ab15bb007d33f14218f46d6c508cf3,
+dual APPROVE). Sol's earlier #347 verdicts were restack-only (5998774888) and delta-only (6005093397); Opus did the first full W3 review
+(6004996279, APPROVE 0/0/5; do not read it before posting). Review W3's whole diff vs #346 (CoachWizardNavigator.tsx,
+CoachPackageEditScreen.tsx, tests). Item-list problems only: a coach publishes a price or offer different from what the screen shows,
+a dead end in creating or editing a package, false copy, a client charged wrongly. Coach backend (b#674/#676/#677/#703) is in production.
+One verdict at the exact head: "AUDIT GPT-6.1 Sol — growth-project-mobile#347 @ <sha> — VERDICT: ..." stating "full W3 review".
+
+### AUD-OPUS-RMN1-122 / AUD-SOL-RMN1-122 — Roman backend b#667, #665, #666, #668 after FIX ROUND 1 (T4: AI, health data, safety)
+Lens: Opus and Sol, independent. Time box 50 minutes. Stack (all draft, grandfathered 3,000): b#667 c5102cae659f87a4487a5756c52e8ab303664968
+(A1 client context core, base main) -> #665 4dde3ffed2f21937bc036203eb90afc0d84ecd5e (A2 client context service + coach context
+controller) -> #666 a3eb3206d3805dc765962528b6a1a3ab6e085b09 (B safety router + reply post-check, inert) -> #668
+dabed7388157c64a50ff32bc8e7e003c001af339 (C1 live-turn wiring). FIX ROUND 1 comments: #667 6002677425, #665 6002677821 (B-ROMAN-AFIX-121),
+#666 6002680008, #668 6002680261 (B-ROMAN-BFIX-121); builder reports ops/reports/B-ROMAN-*FIX-121.md. Prior verdicts: Sol RC on all four
+(19:51-19:52); Opus RC on #666/#668 (20:28); Opus never reviewed #667/#665 (first full review for Opus there; delta + own prior Bs for
+the rest). #669/#670 are NOT in scope. Binding (A9 "Roman day-1 jobs"): OR-115-1 neutral roman.safety_route action + restricted reason
+code; OR-115-2 crisis templates without box-2 consent; Roman never reads CoachingSession private notes, bloodwork, purchases/invoices
+or other users' rows (docs/roman-client-context.md in #667). Item-list problems only: Roman sees or reveals another user's data or a
+forbidden source, a crisis message that does not get the safety reply, a client's health data sent without consent, a coach seeing a
+client's private AI text, a migration that breaks production. Everything is inert until the Roman flags turn on. One verdict per PR.
