@@ -1,7 +1,7 @@
 # Roman v1.1 — from "a quick glance" to a coach-trained butler who watches everything
 
 Written by operator agent 120, 2026-10-05, at the owner's request (DECISION_LOG.md, 09:57 PDT 10-05). Status: PLAN, revision 2 (owner
-feedback 10:44 PDT 10-05: watching, butler and hyper-specific scopes approved; memory and coach twin revised below). Open decisions in section 9. Nothing here changes day 1. Day 1 ships the upgrades already built (section 1).
+feedback 10:44 PDT 10-05: watching, butler and hyper-specific scopes approved; memory and coach twin revised below). All decisions answered (section 9). Nothing here changes day 1. Day 1 ships the upgrades already built (section 1).
 
 ## 0. The goal in one paragraph
 
@@ -52,8 +52,8 @@ Design:
 - Deleting the account still erases everything, Roman's notes and summaries included (existing delete-account path and deletion
   manifest), as the privacy policy promises.
 - Retrieval: Postgres with pgvector (a Supabase extension) for meaning search over summaries and notes, exact queries for numbers.
-- Unchanged unless the owner rules otherwise (section 9): never other users' rows; coach private session notes, bloodwork and purchases
-  stay out.
+- Never other users' rows. Coach private session notes: read for learning, never shown to the client. Bloodwork: discussed only when
+  the client asks or uploads, always with the "Ask your coach" button. Purchases stay out.
 
 ## 3. Pillar B — Watching: Roman notices patterns before anyone asks
 
@@ -88,8 +88,9 @@ Design:
   - every approve, edit or dismiss of a Roman suggestion (#655);
   - the coach's programs, templates, meal plans and edits in the builders;
   - the coach's guidelines and the content of their messages to clients (methods, not tone);
-  - a 5-minute onboarding interview Roman runs with the coach, plus a short "teach Roman" prompt after any edit.
-- The coach sees and edits the playbook in plain words ("Roman's notes on how you coach") and can lock any line.
+  - the coach's private session notes (all coaches; never quoted or shown to the client).
+- The coach does not see the playbook (owner 11:20: the coach sees nothing of Roman); it is learned from the sources above and
+  applied behind the scenes.
 - Every Roman answer is conditioned on the playbook; the reply post-check (#666) adds a red-line and "matches this coach's method" check.
 - Learning metric: share of Roman suggestions the coach approves without edits; target over 80 percent within 30 days of use.
 
@@ -101,8 +102,7 @@ Proactive messages (`RomanOutreach`):
 - Morning brief (optional): today's session, the one thing to focus on, and one personal note ("travel day: here is the 25-minute
   hotel version your coach approved").
 - Moments: a personal best, a streak, a missed-session run, a bad-sleep run, a check-in that sounds low, the day before a booking.
-- Rules: quiet hours and push preferences from #692/#693; a daily cap (section 9); the coach chooses which moment types Roman may
-  use for their clients; crisis-adjacent signals never get a cheerful message, they go to the safety router and the coach.
+- Rules: quiet hours and push preferences from #692/#693; a daily cap (section 9); crisis-adjacent signals never get a cheerful message, they go to the safety router and the coach.
 
 Actions with confirmation (tools Roman can call, each idempotent and logged):
 - Log food from text or a photo, log water, log a workout the client describes.
@@ -129,8 +129,7 @@ says plainly when he does not know or when data is missing (data_quality already
 - Consent: wearable and training reads stay behind AI consent box 2; proactive outreach needs its own on/off switch for the client.
 - Medical boundary: the safety router and crisis templates (OR-115-1, OR-115-2) sit in front of every new path, including outreach and
   actions. No diagnoses, no medication advice, no naming conditions.
-- Control: clients do not remove single items from Roman's view (owner, 10:44); the coach sees insights and the playbook, not the
-  client's private chat text (section 9 decision 3).
+- Control: clients do not remove single items from Roman's view (owner, 10:44); coaches see nothing of Roman (owner, 11:20).
 - Retention: chats kept until the client deletes them (owner ruling); Roman's notes and summaries are erased with the account (deletion
   manifest); the privacy policy's AI-provider retention sentence stays accurate.
 - Cost: per-client daily spend cap stays (#669); a monthly cap per client and per coach; summaries run in batches; caching of the
@@ -143,10 +142,10 @@ says plainly when he does not know or when data is missing (data_quality already
 | Phase | Weeks after launch | Slices |
 |---|---|---|
 | 1. Memory and timeline | 1-2 | client timeline view over existing tables + activity logs; summary cache job; Roman's notes from chats; pgvector retrieval; deletion manifest entries |
-| 2. Baselines and insights | 2-3 | baselines job; 10 detectors with tests; weekly pattern finder with sample-size guards; insight API; coach insight feed |
-| 3. Coach twin | 2-4 | CoachPlaybook schema (exercises, training, diet, sleep, red lines) + builder from programs, meal plans and #655 feedback; coach interview + teach-Roman prompt; playbook editor (mobile); post-check red lines + method match |
+| 2. Baselines and insights | 2-3 | baselines job; 10 detectors with tests; weekly pattern finder with sample-size guards; insight API (client-facing only) |
+| 3. Coach twin | 2-4 | CoachPlaybook schema (exercises, training, diet, sleep, red lines) + builder from programs, meal plans, guidelines, private session notes and #655 feedback; post-check red lines + method match (no coach-facing screen) |
 | 4. Tool-using turns | 3-4 | read tools scoped to caller; budgeted tool loop; answer contract + citations; "what Roman saw" v2 |
-| 5. Butler | 4-6 | outreach engine (rules, caps, quiet hours, coach controls); morning brief; moments; action tools with confirmation (log food text/photo, water, workout, substitution, draft-to-coach, reschedule) |
+| 5. Butler | 4-6 | outreach engine (rules, caps, quiet hours, coach controls); morning brief; moments; action tools with confirmation (log food text/photo, water, workout, substitution, draft-to-coach, reschedule); file upload to Roman (lab PDFs, photos) with the "Ask your coach" button |
 | 6. Eval and rollout | continuous | golden set to 200+ personas; LLM-judge rubric + weekly human review; staged rollout by coach cohort behind flags (FEATURE_ROMAN_MEMORY, FEATURE_ROMAN_INSIGHTS, FEATURE_ROMAN_PLAYBOOK, FEATURE_ROMAN_TOOLS, FEATURE_ROMAN_OUTREACH, FEATURE_ROMAN_ACTIONS), each a kill switch |
 
 Rough size: 30-40 PRs. With 7-15 agents in parallel this fits in about 4-6 weeks after launch, with the coach twin and memory first
@@ -156,21 +155,22 @@ Success measures: coach approves Roman suggestions unedited over 80 percent; cli
 answers that cite the client's own data (target 95 percent of data questions); zero safety-case failures; AI cost per active client
 inside the cap; client retention for clients who use Roman versus those who do not.
 
-## 9. Owner decisions (recommended default first)
+## 9. Owner decisions (all answered 10:44 and 11:20 PDT 10-05)
 
-Answered 10:44 PDT 10-05: watching, butler and hyper-specific scopes approved; Roman reads each client's data and logs directly; no client
-removal of single items; the playbook covers exercises, diet, training and sleep ideology, with Roman's own butler voice. The butler
-approval is taken as accepting defaults 2, 4 and 5 below.
-
-1. Coach private session notes: Roman may read them to learn the coach's approach, only if the coach turns it on, and never quotes
-   them to the client. Default: yes, coach opt-in. OPEN.
+1. Coach private session notes: Roman reads them for ALL coaches (no opt-in) to learn each coach's approach; he never quotes or reveals
+   them to the client. ANSWERED: "yes, for all".
 2. Proactive messages: at most one morning brief plus two moment messages a day, inside quiet hours, client can turn off. ACCEPTED.
-3. What the coach sees: Roman's insights and the playbook, not the client's private chat text. Default: yes. OPEN.
+3. What the coach sees of Roman: nothing ("the coach shouldnt see anything of roman honestly, just for simplicity"). No insights feed,
+   no playbook screen, no view of client chats. The playbook is learned and applied behind the scenes. (Approve-to-adjust on day 1:
+   confirmation asked 11:2x.)
 4. Actions without coach approval: logging, swaps from the coach's substitution list, moving a session inside the coach's
-   availability; load changes go through approve-to-adjust. ACCEPTED.
+   availability. ACCEPTED.
 5. Photo food logging in v1.1. ACCEPTED.
-6. Voice conversations: v1.2. Default: v1.2. OPEN.
-7. Bloodwork stays out of Roman in v1.1. Default: stays out. OPEN.
-8. Monthly AI spend cap per client and per coach. Default: keep the daily cap, add a monthly cap at launch review. OPEN.
-9. When a client deletes a Roman chat (day-1 feature), Roman's notes learned from it stay, and the privacy policy says so plainly.
-   Default: yes. OPEN.
+6. Voice conversations: v1.2. ANSWERED.
+7. Bloodwork: Roman may discuss it when the client asks or uploads a file to him, and always ends with an "Ask your coach" button that
+   opens the client's direct messages with their coach. No diagnosis, no naming conditions (safety router unchanged). ANSWERED. Needs
+   file upload to Roman (lab PDFs and photos) in v1.1.
+8. AI cap: a daily cap per client, set high enough that hitting it is rare, with a graceful pop-up: "You've used your maximum AI allotment
+   today." This pop-up ships on day 1 (M-ROMANCAP-120). ANSWERED.
+9. Deleting a Roman chat removes the transcript; Roman's notes learned from it stay; the privacy policy says so plainly before v1.1
+   notes ship. ANSWERED: yes.

@@ -1803,3 +1803,13 @@ and sleep. Still keeps butler voice / Butler: love this scope for in-app assista
 - planning/ROMAN_V1_1_PLAN.md revision 2: live database + log reads per client; no client removal of single items (account deletion still
   erases all); playbook = exercises, training ideology, dieting guidelines, sleep and recovery ideology, red lines; Roman keeps his butler
   voice. Decisions 2, 4, 5 accepted with the butler scope; 1, 3, 6, 7, 8 and new 9 (notes survive chat deletion) open.
+
+## 2026-10-05 11:20 PDT — Roman v1.1 decisions answered (owner, to agent 120)
+Verbatim (numbered against the operator's list 1, 3, 6, 7, 8, 9): "1 - yes, for all / 2 - the coach shouldnt see anything of roman hoenstly,
+just for simplicity of our product (elon style cut) / 3 - v1.2 / 4 - He can if a client asks him about it or uplaods a file to him - but he
+always routes it towards \"ask your coach ->\" as a button to the coach client DM page / 5 - yes, a daily cap per client - but it needs
+gracious fail mdoe like a pop-up when trying to use AI that says \"you've used your maximum AI allotment today\". should be rare / 6 - yes"
+- Plan decisions: 1 coach private notes read for all coaches (never shown to clients); 3 coaches see nothing of Roman; 6 voice in v1.2;
+  7 bloodwork discussed on client ask/upload with an "Ask your coach" button to the coach-client DM; 8 daily per-client cap, rare, graceful
+  pop-up "You've used your maximum AI allotment today." (DAY 1: M-ROMANCAP-120); 9 notes survive chat deletion, policy says so.
+- Open: does day-1 approve-to-adjust (#655 + m#337, coach approves Roman's workout suggestions) stay, given decision 3? Asked 11:2x.
