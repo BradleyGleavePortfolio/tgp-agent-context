@@ -1738,3 +1738,14 @@ restarts it - yes".
 - Decision 1 (day-1 scope): owner wants "hyperscaler quality and more, not less, functionality" and asked for the fast-follow list to be
   explained. Operator default from 09:45 (reversible): the fast-follow items run in a parallel lane at lower priority than launch steps
   2-6; anything that clears both lenses and its gates before the build cut ships in the day-1 build, the rest in the first update.
+
+## 2026-10-05 09:43-09:46 PDT — Day-1 scope grows: push, annex; split the 10k scheduling PR (owner, to agent 120)
+Verbatim: "we need app notifs - send me a link to create the key required right away" / "the 10k LOC PR- SPLIT IT DOWN TO
+1500>LOC/CHUNK! (less than 1500)" / "coachless/featured coach, invite codes, broadcasts, and messaging inbox -> ALL DAY 1 NECESSARY!"
+- Push notifications (backend #692/#693) are day-1 scope. Owner creates the FCM V1 service account key (Firebase) and uploads it to
+  Expo credentials directly (never through chat); APNs key for iOS likewise.
+- Backend #634 (S-SCHED-2, 10,664 lines) is split into stacked pieces each under 1,500 lines (B-SPLIT-SCHED-120).
+- Day-1 scope adds the annex: coachless / featured coach (#657), invite-code tools (#658), broadcasts (#659), messaging inbox (#660).
+  Operator: #657/#659/#660 are over the 3,000 grandfathered ceiling, so they are split into pieces under 1,500 (B-SPLIT-*-120); #658 gets
+  a fix round in place. Community core flag flip (#650) follows once the features land.
+- Still open: Roman upgrades (owner asked for an explanation), scheduling day-1 status, LAUNCH_ONE_PAGER approval, #661 tests in #702.
