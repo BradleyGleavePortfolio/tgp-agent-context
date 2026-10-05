@@ -1777,3 +1777,7 @@ collide and keep pushing forward" and "cap at 7 for agent 120".
   at most one free trial per client per coach, whichever kind (B-TR8-120).
 - Agent 120 runs at most 7 agents at once (replaces the pace question). With the expanded day 1 the Wed 10-07 target slips; the operator
   reports the forecast.
+- 10:32 owner (verbatim): "cap at 7 agents / ALL THE SCHEDULING CHANGES ARE MANDATORY PLUS COACHES DECIDE THEIR TIMES AND AVAILABILITY!"
+  Operator reading: cap 7 confirmed; every scheduling PR is mandatory for day 1; coaches control all booking times: open hours, time off,
+  appointment types, instant vs approval, plus coach-set minimum notice, booking window, buffers and an optional daily maximum (defaults
+  equal today's fixed 5-minute / 120-day rules). Folded into S-AVAIL-120.
