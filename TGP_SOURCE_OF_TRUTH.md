@@ -2339,6 +2339,12 @@ Contribution log (PDT, newest last)
   b#671/#672/#673/#706/#707. All are READY FOR AUDIT except Roman B; none has CI yet. Every builder decision accepted at its
   recommended default (listed in each report). 164 queued CI runs on those branches cancelled so the landing PRs run first;
   re-run list: handoffs/op-121/ops/cancelled_for_priority.txt.
+- 14:06-14:3x CI recovering. Merged m#321 ($19.99 minimum or free rule; 14:24). Messaging b#708-#711: Sol RC 3 Bs (public realtime ping
+  carried ids; blocked sub-coach could edit/pin; blocked content in previews), fixed by B-MSG-FIN, dual APPROVE at D5; #711/#710/#709
+  merged top-down into #708 (tree = audited top); #708 into main on green. Push train b#692 (+#693) merged into main 14:3x (b082fb21),
+  deploy with migration next. Coach b#674: R75 gate caught one `as any` in a test; operator one-line test fix 2e06942a, delta
+  attestations pending. Scheduling #653: Opus D5 B-653-4 (a move request told the coach "Session moved"), small fix in progress.
+  Owner goal 13:49 (5 more merged by 45k): met at 14:3x (m#321, b#709, #710, #711, #692). 14:29 RUTHLESS SCOPE added to A2.
 
 ## AGENT 120 — 2026-10-05 09:00-12:3x PDT (session 644cbc17)
 Why: took over after agent 119 died (about 16:42 PDT 10-04, no final handoff); rebuilt state from GitHub, Fly, Supabase and the 119 snapshot.
