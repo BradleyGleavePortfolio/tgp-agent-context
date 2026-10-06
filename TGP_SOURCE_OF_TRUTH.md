@@ -1260,6 +1260,10 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 13:32 operator continuity system (four pieces) -> A4.1.
 - 10-06 11:08 (agent 124) "scale up to 20 agents but ONLY let them do major jobs that reall make a diff" -> up to 20 concurrent agents,
   major launch-changing jobs only; credit check every 15 minutes while more than 8 run (C1 entry 2026-10-06 11:08-11:09).
+- 10-06 12:01 (agent 124) "yes to all recommended" + "TOP PRIOTY for the food and workout logging to be kick ass, and for the flow of
+  money to be BULLETPROOF" + "Launch as many agents as you can GO GO GO!" -> Roman consent v5 text approved; reviewer sample data approved;
+  eight superseded PRs closed; clinic programs + $49 package go into bradleyapple1031@ once the owner says it exists; WAVE 4 (money x4,
+  food x2, workout x2) launched (C1 entry 2026-10-06 12:01-12:02).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -7508,6 +7512,15 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 12:01-12:02 PDT — Yes to all recommended; food, workout and money top priority; launch as many agents as possible (owner, to agent 124)
+> "yes to all recommended, il ltell you when the bradleyapple1031@gmail.com account is created and you can propogate the packages into it!"
+> "Also jesus we need TOP PRIOTY for the food and workout logging to be kick ass, and for the flow of money to be BULLETPROOF"
+> "Launch as many agents as you can GO GO GO!"
+> 11:37 (SMTP screenshot) "wtf to put?"; 12:02 "resend fixed - email can be something idk the domain o0n resend is growthprojectapp.com but how do I make a free email with that domain for resend to use?"
+Recorded by agent 124. Applies to: decisions 1-4 of the 11:53 owner message (Roman consent v5 paragraph in A-ROMAN11-124 D1; reviewer
+sample data via public API; close b#598, #601, #602, #603, b#522, b#584, m#262, m#283; load clinic programs into the clinic coach account,
+which the owner names as bradleyapple1031@ when created). Resend verified domain: growthprojectapp.com.
 
 #### 2026-10-06 11:08-11:09 PDT — Scale to 20 agents, major jobs only; feature status questions (owner, to agent 124)
 Verbatim 11:08: "scale up to 20 agents but ONLY let them do major jobs that reall make a diff". 11:09: "I sromans superior intelligence
