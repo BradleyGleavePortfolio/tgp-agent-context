@@ -1268,6 +1268,8 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 10-06 12:33 (agent 124) "make his FIRST to do to launch 20 auditors" -> AGENT 125 FIRST JOB; reviewer accounts "yes - do it" (C1 entry 2026-10-06 12:33).
 - 10-06 12:36 (agent 124) "let those 11 agents finish and then create the agent 125 handoff" -> no new launches; handoff after; Stripe receipts on 12:37 (C1 entry 2026-10-06 12:36-12:37).
 - 10-06 12:48 (agent 124) "scale abck up to 10 agents ... weird cases ... that break day 1 flows" -> HUNT-01..10-124 (C1 entry 2026-10-06 12:45-12:48).
+- 10-06 13:50-13:51 (agent 125) AUDIT20 list + "start one agent to audit every single one of these areas" + "EXECUTE" + "755/45000
+  credits used" -> AUDIT-01..20-125 + lens pair L1 (C1 entry 2026-10-06 13:50-13:51).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -2307,6 +2309,25 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
+
+## AGENT 125 — 2026-10-06 13:47 PDT onward (session d712a008; 125th operator in the chain)
+Why: owner 10-06 13:4x: "Read TGP source of truth in github ... who you are (agent 125) ... Then read all the supporting documents
+mentioned inside!"; 13:50 gave agent 124's AUDIT20 list + "start one agent to audit every single one of these areas, seperately, in
+depth"; 13:51 "755/45000 credits used" + "EXECUTE". Agent 125 runs alone over both repos. Agent 124 left no handoffs/op-124/ and no
+wip/op124/ops-snapshot (last agent 124 GitHub write 13:24). Files: handoffs/op-125/ops/ (_COMMON_125.md, JOBS125.md, FLEET125.md).
+Credits: 755/45k at 13:51 (owner's number for agent 125).
+
+Closing line: (written at wrap-up)
+
+Contribution log (PDT, newest last)
+- 13:47-13:52 Takeover. GitHub auth OK. Backend main 1ce430b9 = production ec12a4b3 (deploy 14, run 37524272377) + b#771 (flag-off
+  playbook schema, migration 20270402000000, not deployed). Mobile main a1904f2f. /health ok, /readyz 200. Merged into main today
+  (10-06 PDT, GitHub count): backend 20 + mobile 10 = 30; deployed today 4 (deploys 11-14). Open from agent 124's last wave: backend
+  b#762 (dual APPROVE, held for owner Stripe portal + retries), b#776-b#785 (no verdicts; b#785 CI red); mobile m#402, m#404-m#415
+  (m#404 Sol APPROVE / Opus REQUEST CHANGES; m#406 Sol APPROVE; m#411 draft, red). Ops tools restored from wip/op123/ops-snapshot.
+- 13:58 WAVE 1 (owner 13:50): AUDIT-01..20-125, one find-and-fix auditor per AUDIT20 area (16 Claude Opus 5.5, 4 GPT-6.1 Sol on T2
+  areas 15, 18, 19, 20), 80-minute time boxes, at most one backend + one mobile PR each under 800 lines. Lens pair L1 (Opus + Sol) on
+  agent 124's open PRs, money first, then food/workout, auth, coach. 22 agents running.
 
 ## AGENT 124 — 2026-10-06 11:00 PDT onward (session b6cbb3b7; 124th operator in the chain)
 Why: agent 123 handed off 10-06 (prompt: handoffs/op-123/AGENT_124_PROMPT.md); owner 10-06: "Read tgp source of truth, launch one
@@ -7540,6 +7561,14 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 13:50-13:51 PDT — AUDIT20 list to agent 125; one auditor per area; EXECUTE (owner, to agent 125)
+> 13:50 "20 areas not yet audited like food and workouts / These are ordered by how much they matter on launch day." (list: client first run; coach first run; messaging; booking and calendar; Roman chat; progress; coach program builder; meal plans; notifications; community; wearables and Health Connect; settings and account; coach Home and risk board; coach AI drafts; habits and fasting; coach team; invites and bulk invite; exercise library and education; help and failure states; app-wide polish. "Smaller areas (bloodwork, leaderboard, widgets and sharing, owner admin tools) can follow after these.")
+> "thats agent 124's audit 20 list for you. start one agent to audit every single one of these areas, seperately, in depth."
+> "Are you confident you can make decisions to further the progression towards the launch to IOS tomorrow correctly, follow all agent rules, and grade/ execute PR's accordingly, al lwithout becoming "robotic" and still making intelligent suggestions? Its a large management task and I want you to be prepared before EXECUTE"
+> 13:51 "755/45000 credits used" / "EXECUTE"
+Recorded by agent 125. AUDIT-01..20-125 launched 13:58 (handoffs/op-125/ops/JOBS125.md), plus lens pair L1 on agent 124's open PRs.
+Credits line for agent 125: 755/45k.
 
 #### 2026-10-06 12:45-12:48 PDT — Confirm link landed on the web page; redirect URLs added; 10 day-1 edge hunters (owner, to agent 124)
 > 12:45 "confirmed the emails and got this in browser" (screenshot: web "COACH LANDING PAGE — This page isn't available")
