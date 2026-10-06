@@ -1274,6 +1274,8 @@ Older entries not listed here still stand unless a later decision changed them; 
   (C1 entry 2026-10-06 14:02-14:04).
 - 10-06 14:21 (agent 125) "the post AI fitness platform ... What weight-watchers was for the TV era, we are for the AI era" -> A7.5
   company north star (creator -> team -> gym growth ladder) (C1 entry 2026-10-06 14:21).
+- 10-06 14:25 (agent 125) sub-coach teams free ("our take-rate grows with them"); EXPO_PUBLIC_API_URL = custom domain + /api (C1 entry
+  2026-10-06 14:25).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -1583,8 +1585,8 @@ Principles that follow from it:
 
 **Sub-coach teams to "working correctly" (agent 125 estimate, 10-06 14:30; from AUDIT-16-125):** about 5 PRs, one focused operator
 session after launch:
-1. Owner decision: is Team a paid coach tier (sold on the web, never in the iOS app) or free while TGP grows? Default: free until 10k
-   clients, then a web-billed Scale tier.
+1. DECIDED (owner 10-06 14:25): sub-coach teams are FREE. "When they scale, our take-rate grows with them. Incentivized together = beat
+   legacy companies." TGP earns through the take rate on client payments, not a team seat fee.
 2. Backend (T4, ~300 lines): real team entitlement (plan field actually set), invitee consent required on direct sub-coach assignment
    (src/team-mode/team-mode.service.ts:80), retire the duplicate SubCoach controller.
 3. Mobile (~500 lines): accept-invite screen + sub-coach/<token> app link and web fallback; Team tab shown to entitled head coaches.
@@ -7628,6 +7630,12 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 14:25 PDT — Sub-coach teams free; expo.dev API URL switched to the custom domain (owner, to agent 125)
+> "Team - you mean sub-coaches? I'd say make it free for today. When they scale, our take-rate grows with them. Incentivized together = beat legacy companies."
+> "change EXPO_PUBLIC_API_URL to https://api.trygrowthproject.com/api is done"
+Recorded by agent 125. A7.5 item 1 decided: teams free, revenue through the take rate. expo.dev EXPO_PUBLIC_API_URL now
+https://api.trygrowthproject.com/api (owner, 14:25).
 
 #### 2026-10-06 14:21 PDT — Company north star: the post-AI fitness platform; how much work for sub-coaches (owner, to agent 125)
 > "Sub-coach teams: hide them for launch - well how much work/PR's would it take to get sub-coaches correctly working? I mean, the idea of TGP is to be the fitness platform for the new Post-AI world"
