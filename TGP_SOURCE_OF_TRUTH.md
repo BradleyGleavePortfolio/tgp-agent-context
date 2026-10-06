@@ -2323,6 +2323,33 @@ Contribution log (PDT, newest last)
 - 18:36 m#381: operator merged mobile main into the branch (clean) and added the booking-options stub to main's Settings money-row test
   (test only, 6 lines): head 5c13f144; PR CI pending. 18:37 merged b#643 (BOOKING_REMINDERS_ENABLED on; dual APPROVE RM1) -> backend main
   74706577; Fly Env Sync plan run 37399838882 (apply batched with b#737 programs flags).
+- 18:37-18:41 Verdicts: W1A dual APPROVE b#737 f743dc73, m#382 695460e7, b#725 b3caa5b1, m#381 5c13f144 (AV3); W1B dual APPROVE m#342
+  5acdf5ca (merge resolution) and m#340 62794564; W1C dual APPROVE b#669 31573c83 + b#670 30f09747 (both: "#666 Bs closed via #669");
+  b#736 58a31e6f dual REQUEST CHANGES (Opus B-736-3 "I want to overdose tonight" at the daily limit gets the limit reply, not 988; Opus
+  B-736-4 = Sol B-736-3 "I cannot breathe after my workout. I need help now." gets the limit reply, not 911) -> builder B-AIG3-123 18:42.
+- 18:39-18:43 MERGED mobile m#342 (payment sheet train, 8,141 lines, rule 11), m#340 (tax CSV), m#382 (programs flags in eas.json),
+  m#381 (coach booking options) -> mobile main a160fdb8, CI green. MERGED backend b#737 (programs flags manifest), b#725 (lockout
+  allow-list) -> backend main 76a59216. Mobile main 7083b7a1's red Health Connect test passed on re-run (flaky; C-123-1 ticket).
+- 18:47 ROMAN TRAIN landed top-down (land_stack): #670 -> #669 -> #668 -> #666 -> #665 -> #667's branch, bottom 9b525546 tree = audited
+  #670 tree (EQUAL); operator note on #666 (its Bs closed in #669 per both lenses). 18:48 operator merged main 76a59216 into #667's branch:
+  one conflict, ci.yml (both sides added a live-spec step; union) -> #667 af32412c, MAIN REFRESH 6007638575; delta RD1 to the W1C lenses.
+- 18:48-18:52 FLY ENV SYNC: plan 37400579222 (exactly 5 sets), apply 37400979472 (confirm=SET, deploy_staged=true) success:
+  BOOKING_REMINDERS_ENABLED=on, FEATURE_MWB_TEMPLATES=true, FEATURE_MWB_AUTOSAVE_UNDO=true, FEATURE_NAMED_REGIMES=true,
+  MWB_AUTOSAVE_LOCK_TOKEN_SECRET (from the GitHub secret). /health ok, /readyz db up after the restart.
+- 18:50 REQUIRED CHECK RED ON BACKEND MAIN: "npm audit (high+critical, whole graph)" fails since 74706577 on critical
+  GHSA-jqcg-44mw-7w3h (proxy-addr < 2.0.8, IP spoofing via IPv4-mapped IPv6 trust subnet; published 16:30 PDT). Blocks every backend
+  merge. Operator PR b#738 9c234312 (lockfile only, proxy-addr 2.0.7 -> 2.0.8); lens LS1 to the W1A lenses. Mobile has no proxy-addr.
+- 18:51 B-339R-123 done: m#339 bab905f2 and m#338 2d0288ca main refreshes (conflicts resolved), CI green -> deltas MR1/MR2 to the W1B
+  lenses.
+- 18:56-19:00 m#339 dual APPROVE at bab905f2 (MR1) -> MERGED (mobile main 0f5d626e). Launch step 6 (Remainder) DONE: programs m#355-#358,
+  m#312, m#335 merged earlier; programs flags on (b#737 env sync, m#382 eas.json); m#339 + m#340 merged. Launch path 4/7.
+  m#338 MR2: Opus APPROVE 6007738310; Sol B-338-MR2-1 (changed trial lost after a retried create) -> OPERATOR RULING: C-338-MR2-1 (edge,
+  A2 RUTHLESS SCOPE "zero time on ... retries"). m#338 merges only after the trials deploy.
+- 18:58 RD1 on #667 af32412c: merge clean (Sol APPROVE scoped, Opus RC on checks only); 3 red required checks: npm audit (proxy-addr), R75
+  (4 train test casts vs main), build-and-test (stale Roman PII-log exception). Operator FIX ROUND 1: ec12f3a9 (test only; local R75 OK,
+  4 specs 56/56, tsc clean) + c5c86cb4 (clean main merge after b#738) -> #667 c5c86cb4; delta RD2 to the W1C lenses.
+- 19:01 b#738 dual APPROVE (LS1) -> MERGED, backend main d5177b31 (audit gate clear). b#736 FIX ROUND 2 by B-AIG3-123 at 78ce5db8, then
+  operator clean main merge 384314a8 (MERGE-ONLY TREE CHECK) -> delta AIG3 to the W1C lenses. B-TR12-123 told to merge main into b#671.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
