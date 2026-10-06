@@ -7169,6 +7169,11 @@ Verbatim: "the expo build goes 10/7 with as much fixed as possible before then -
 launch!". Meaning: no EAS build tonight; one build on Wed 10-07 carrying every mobile fix merged by then (the Health Connect device pass
 uses that build); operators 122 through 130 all run before day 1.
 
+#### 2026-10-05 17:18 PDT — Stripe webhook link; 15 parallel workers outside free trials (owner, to agent 122)
+Verbatim: "10.3k/45k credits used - give me the exact link to update the stripe webhook - launch parallized workers outside of free trials
+(15)". Meaning: run 15 workers at once; no trials work (b#671 train, m#338) until the owner finishes the webhook change (add refund.updated,
+keep customer.subscription.trial_will_end on endpoint we_1UMt9WDUoC5CCVhShvAELVmI). Done 17:31 (15 workers; agent 122 Part B).
+
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
 
