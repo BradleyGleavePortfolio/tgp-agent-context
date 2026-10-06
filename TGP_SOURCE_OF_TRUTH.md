@@ -2347,6 +2347,17 @@ Contribution log (PDT, newest last)
   mismatches, Hermes memory warning) -> M-NATIVE-124 (Sol) 11:27: native compile proof on hosted Linux + macOS runners (free, public repo).
 - 11:25 S-AUTHMAIL-124 DONE: m#394 9281d391 (reset screen no longer promises delivery; T2); owner SMTP/redirect checklist in
   ops/reports/S-AUTHMAIL-124.md. Lens pair W2 (Opus + Sol) 11:26 for wave 2 PRs, starting m#394. Fleet 12.
+- 11:33 MERGED b#761 (dual APPROVE f4128c3d) -> backend main 302c4522 (main CI green; release-please red as before). Env-sync plan run
+  37511842055: 1 to set (GDPR_SCRUB_DRY_RUN false), 5 to unset (FEATURE_GOOGLE_CALENDAR_SYNC, GOOGLE_CALENDAR_ENABLED, GOOGLE_MEET_ENABLED,
+  FEATURE_SCOUT_INGEST, FEATURE_EXTENSION_PAIRING). APPLY run 37512565655 (confirm=SET, deploy_staged=true) success 11:37; /health ok,
+  /readyz db up. Owner first-jobs item 3 done except BOOTSTRAP_SECRET (after the owner account) and Play Data safety (owner).
+  Opus C on b#761: GDPR_SCRUB_DRY_RUN's generated kill row says unset, but pausing deletion needs 'true' (doc follow-up).
+- 11:34 MERGED m#394 (dual APPROVE 9281d391; mobile main moves past 7812405d). b#763 dual REQUEST CHANGES (B-763-1: script must refuse
+  any account but the two reviewer identities) -> fix round sent to the builder.
+- 11:38 WAVE 3 launched: Roman v1.1 Wave A builders B-R11-00, M1, M2, P1, P2, P3a (Opus; plan ops/reports/A-ROMAN11-124.md; C1 consent
+  v5 waits for owner D1). b#764 D8 tenancy policy (bc1974f5, migration) -> BR1 lenses. UX-FOOD-124 done: b#765 e0a13faa + m#396
+  e86eedf1 -> W2 lenses. Owner 11:37 sent the Supabase SMTP form screenshot ("wtf to put?"): answered field by field (Resend host,
+  port 465, user resend, API key, sender on the Resend-verified domain, not Gmail).
 
 ## AGENT 123 — 2026-10-05 18:27 PDT onward (session 56d37990; 123rd operator in the chain)
 Why: agent 122 retired 18:30 (41k/45k) after the owner's 17:55 stop; owner 18:27: "Time for your takeover!" (prompt:
