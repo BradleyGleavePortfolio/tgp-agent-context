@@ -886,3 +886,9 @@ it; take over the sheet-m lock. Time box 30 minutes. Agent 123 starts while you 
 "STATUS (B-SHEET7B-122, agent 122): main refresh in progress, started <time>; agent 123 do not push to this branch until MAIN REFRESH
 or STATUS DONE is posted". At the end post MAIN REFRESH ... READY FOR AUDIT (pushed, CI green) or, if out of time, STATUS STOPPED with
 the conflict list, your planned resolution per hunk, and whether anything was pushed. Never leave a half-resolved push.
+
+### M-AVAIL2B-122 — m#381 fix B-381-1, agent 122's second last job (relaunch after the 17:55 stop)
+Same job as M-AVAIL2-122 above (read it). The 17:55 cancel left wt/M-AVAIL2-122 with 2 uncommitted files and nothing pushed: review
+them, keep what is correct, finish. Time box 20 minutes. At START post on m#381 "STATUS (M-AVAIL2B-122, agent 122): fix round in
+progress, started <time>; agent 123 do not push to this branch until FIX ROUND 2 or STATUS STOPPED is posted". At the end post FIX ROUND 2
+(M-AVAIL2B-122, agent 122) ... READY FOR AUDIT (pushed, CI green) or STATUS STOPPED with what is left. Never leave a half-done push.

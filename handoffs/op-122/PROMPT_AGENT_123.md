@@ -43,6 +43,8 @@ deployed, its mobile PRs are merged to main, and any owner device pass it names 
 ## Still running when you start
 Agent 122's last builder, B-SHEET7B-122, is refreshing payment sheet m#342 onto main (18:07 to about 18:40). Do not push to m#342's
 branch until its PR comment says MAIN REFRESH ... READY FOR AUDIT or STATUS STOPPED; its report: handoffs/op-122/ops/B-SHEET7B-122.md.
+A second builder, M-AVAIL2B-122, is fixing B-381-1 on m#381 (18:10 to about 18:30). Same rule: wait for its FIX ROUND 2 or STATUS
+STOPPED comment on m#381; report: handoffs/op-122/ops/M-AVAIL2B-122.md.
 
 ## State at handoff (verify)
 - Backend main 0521b3930e34bf20d8594dc5d043174c1d49d784, main CI green. Production = eb2e9e03 (deploy 5, 17:42). Main is ahead by b#735
@@ -64,7 +66,7 @@ branch until its PR comment says MAIN REFRESH ... READY FOR AUDIT or STATUS STOP
 4. Unaudited heads pushed by cancelled builders: b#736 58a31e6f (AI guide crisis Bs), b#669 31573c83 + b#670 30f09747 (Roman B-669-1),
    m#340 62794564 (tax CSV onto main). Check each push is complete and green, lens pair, then land (Roman: #670 -> #669 -> #668 -> #666
    -> #665 -> #667, #667 to main).
-5. b#725 LA1 delta pair at b3caa5b1, merge, deploy. m#381 fix B-381-1 (M-AVAIL2 entry), delta, merge. m#339 refresh (B-339R entry),
+5. b#725 LA1 delta pair at b3caa5b1, merge, deploy. m#381 (being fixed by M-AVAIL2B-122: check its comment), delta, merge. m#339 refresh (B-339R entry),
    delta, merge.
 6. Before the build: tell the owner exactly which merged mobile PRs the 10-07 build carries (Health Connect m#378 is already in main).
 
