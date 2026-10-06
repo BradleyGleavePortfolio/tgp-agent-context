@@ -2358,6 +2358,15 @@ Contribution log (PDT, newest last)
   v5 waits for owner D1). b#764 D8 tenancy policy (bc1974f5, migration) -> BR1 lenses. UX-FOOD-124 done: b#765 e0a13faa + m#396
   e86eedf1 -> W2 lenses. Owner 11:37 sent the Supabase SMTP form screenshot ("wtf to put?"): answered field by field (Resend host,
   port 465, user resend, API key, sender on the Resend-verified domain, not Gmail).
+- 11:41 BR1 Sol lens FAILED (model timeout) -> fresh Sol lens for b#764. 11:4x MERGED b#764 D8 (dual APPROVE bc1974f5; migration
+  20270319000000) -> main fbaf31ca. S-REVENUE-124 found B-REV-1 (10-07 clinic build: coachless / GP-BRADLEY client stuck at "still setting
+  things up", never reaches Home or the $49 plan) -> b#767 + m#395; lens pair W3 launched; MERGED b#767 (dual APPROVE 73e71cd5) and m#395
+  (dual APPROVE c39d1fe1). MERGED b#763 reviewer-account script (dual APPROVE fec1d4e9 after B-763-1 fix). Backend main f2d2750c; deploy 13
+  (migrations=apply-migrations for D8) after main CI (runners congested).
+- S-BRIEF-124: five Bs -> b#766 + m#398 -> lens pair BR2 (BR1 Opus + new Sol). UX-WORKOUT-124: 8 B / 16 U -> b#768, m#397, m#399 -> W3.
+  UX-FOOD-124: b#765 Opus B-765-1 (USDA detail foodCategory object crashes import; + Atwater energy fallback) and m#396 Sol B-396-1
+  (blank macros stored as 0; operator decision: require P/C/F, 0 allowed) -> fix rounds; Opus C-396-3 promoted to B by operator (custom
+  food names shared with every user once saving works) -> UX-FOOD-PRIV-124 PR (FoodItem.created_by_user_id), deploy with/before b#765.
 
 ## AGENT 123 — 2026-10-05 18:27 PDT onward (session 56d37990; 123rd operator in the chain)
 Why: agent 122 retired 18:30 (41k/45k) after the owner's 17:55 stop; owner 18:27: "Time for your takeover!" (prompt:
