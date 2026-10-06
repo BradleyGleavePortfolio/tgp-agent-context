@@ -2337,6 +2337,16 @@ Contribution log (PDT, newest last)
   SMTP unknown (built-in mailer only reaches the team, ~2/hour) -> owner check + S-AUTHMAIL-124.
 - 11:12 MERGED b#760 (dual APPROVE BR1 at 5c01322f, checks green) -> backend main 16319560. Deploy after main CI. b#761 build-and-test red
   at 9b5683f9 (fly-env-sync behaviour fixture still listed FEATURE_SCOUT_INGEST) -> FIX ROUND 2 a0d82ce3 (test only).
+- 11:20 DEPLOY 12: fly-deploy run 37510611881, release 16319560718218bebefd43c7d8f4c73ae55aa032 (b#760 coach brief model = claude-sonnet-4-6),
+  no migrations; production approved 11:21; success 11:25; /health ok, /readyz db up. Real-brief check waits for a coach with a consenting
+  client (production has none yet; "CoachBrief" empty).
+- 11:2x b#761 Sol REQUEST CHANGES at a0d82ce3 (A-761-1: runbook kill rows missing; fly-feature-flags-set.yml still names the importer pair)
+  -> FIX ROUND 3 f4128c3d (six kill rows; legacy workflow retired and dropped from delivery-artifact.spec.ts). b#762 Sol APPROVE d79497f6
+  (C-762-1 portal prose). b#760 Sol + Opus APPROVE (merged 11:12).
+- 11:25 M-PREFLIGHT-124 DONE A0/B0/C6, no PR (configs, plugins, prebuild and Metro exports pass on 7812405d; doctor 16/22, 19 SDK
+  mismatches, Hermes memory warning) -> M-NATIVE-124 (Sol) 11:27: native compile proof on hosted Linux + macOS runners (free, public repo).
+- 11:25 S-AUTHMAIL-124 DONE: m#394 9281d391 (reset screen no longer promises delivery; T2); owner SMTP/redirect checklist in
+  ops/reports/S-AUTHMAIL-124.md. Lens pair W2 (Opus + Sol) 11:26 for wave 2 PRs, starting m#394. Fleet 12.
 
 ## AGENT 123 — 2026-10-05 18:27 PDT onward (session 56d37990; 123rd operator in the chain)
 Why: agent 122 retired 18:30 (41k/45k) after the owner's 17:55 stop; owner 18:27: "Time for your takeover!" (prompt:
