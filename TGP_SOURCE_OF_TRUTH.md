@@ -1281,6 +1281,8 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 10-06 14:49 (agent 125) Roman v1.1 = agent 126's first project; sleep/recovery data is a differentiator; Oura direct connector blocked by
   Oura API terms (no AI input, no charging, no storage) unless Oura consents; check every provider's API terms before switching it on (C1
   entry 2026-10-06 14:49).
+- 10-06 14:51 (agent 125) OWNER: proceed with Oura regardless of Oura API terms; no Oura exclusions in Roman v1.1 (C1 entry
+  2026-10-06 14:51).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -7670,6 +7672,13 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 14:51 PDT — Oura: proceed regardless of Oura's API terms (owner decision, to agent 125)
+> "nope, we fly with disregard for oura TOS - under the guse that we are such a small operation and have client permission AND are already requestiing/ recieving direct Oura ring data permission for our usage. No need to worry about it."
+Recorded by agent 125. OWNER DECISION: the Oura connector may be switched on with Roman / AI use and stored samples; no Oura-specific
+exclusions in Roman v1.1 (memory, summaries, embeddings). Risk the owner accepted, stated once: Oura can revoke the API app at any time
+(every client's Oura connection stops), and lifting the 10-user limit requires Oura's review of the app. Supersedes the 14:49 "must NOT be
+switched on" line for Oura only; the check-the-terms rule still applies to other providers (Strava coach-display ban stands).
 
 #### 2026-10-06 14:49 PDT — Roman v1.1 is agent 126's first project; Oura ring purchase if it gives instant access; ring commission (owner, to agent 125)
 > "The foundation was merged today but is switched off. Turning it on safely takes several more reviewed PRs, so it's agent 126's first project - perfect!"
