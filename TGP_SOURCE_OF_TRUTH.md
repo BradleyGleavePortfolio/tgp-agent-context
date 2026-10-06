@@ -1276,6 +1276,8 @@ Older entries not listed here still stand unless a later decision changed them; 
   company north star (creator -> team -> gym growth ladder) (C1 entry 2026-10-06 14:21).
 - 10-06 14:25 (agent 125) sub-coach teams free ("our take-rate grows with them"); EXPO_PUBLIC_API_URL = custom domain + /api (C1 entry
   2026-10-06 14:25).
+- 10-06 14:29 (agent 125) 2030 vision goals (posts-to-packages, agnostic selling, sub-coach suite, boutique gym/kiosk software, coach
+  discovery + trust, PT job board; "10 fig company"; today "a perfect everfit competitor") -> A7.5 G1-G9 (C1 entry 2026-10-06 14:29).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -1582,6 +1584,21 @@ Principles that follow from it:
   leverage of a team, then a team the leverage of a gym.
 - Zero-friction conversion from a social post: link, landing page, checkout, training, with no dead step in between.
 - Every stage upgrade happens inside the same account and data (a creator becomes a team becomes a gym without migrating).
+
+**2030 goals (owner 10-06 14:29): "the defacto #1 best in the space and a 10 fig company - thats the 2030 vision. Today, its a perfect
+everfit competitor for small PT oeprations!"** Full message: C1 entry 2026-10-06 14:29.
+
+| # | Goal | State 10-06 (what exists in code) |
+|---|---|---|
+| G1 | The bridge between posts and sold packages: a social post becomes a paying client with no dead step | Coach landing pages (custom domains, lead capture, CRM: src/landing-pages), guest checkout storefront (src/storefront); web sign-up / web app conversion not built |
+| G2 | Roman and AI simplify the coach's and client's day-to-day | Roman chat + approve-to-adjust, coach daily briefs, AI workout and meal drafts (live day 1); Roman v1.1 memory/playbooks (A7.2) next |
+| G3 | Payments automated, package creation simple | Packages, Stripe Connect payouts, recurring billing, failed-payment recovery (dunning v2 on 10-06) |
+| G4 | Product-agnostic selling: PDFs, videos and training sold equally | Deliverables via coach media exist; buyer access to purchased PDFs/videos was broken (AUDIT-18-125 B3, fix B-DELIV-125 10-06) |
+| G5 | Sub-coach and team growth levers; a full management suite for sub-coaches | Backend invites/scope/reassign/analytics exist; hidden for day 1 (m#420); plan above; teams FREE (owner 14:25) |
+| G6 | The #1 easiest kiosk and gym management software, first for small boutique locations, then a multi-location data and infrastructure role | Not built (src/gym scaffold only) |
+| G7 | Public coach pages and discovery: a client browses TGP coaches by niche and need; TGP becomes the de facto trust symbol of online coaching (no unified system exists today) | Per-coach public landing pages exist; no directory, search, ranking or trust/verification system |
+| G8 | PT job board: trainers looking for work list themselves; coaches browse applicants, interview and hire them as sub-coaches from TGP posting boards | Backend talent marketplace exists (src/talent-marketplace: job listings, apply, applicant tracking, public listings, specialty alerts); no mobile surface; state behind flags unverified |
+| G9 | 2030: #1 in the space, a 10-figure company. Today: the perfect Everfit competitor for small PT operations | Day-1 launch 10-07 (A7.1) |
 
 **Sub-coach teams to "working correctly" (agent 125 estimate, 10-06 14:30; from AUDIT-16-125):** about 5 PRs, one focused operator
 session after launch:
@@ -7630,6 +7647,15 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 14:29 PDT — 2030 vision: posts-to-packages bridge, agnostic selling, gym software, coach discovery, PT job board (owner, to agent 125)
+> "More to my vision of TGP - we can become the bridge between psots and sold packages for coaches. Roman and AI simplifies day to day tasks. We automate payments and simplify package creation. We are agnostic - you can sell PDF's, videos, and training equally."
+> "We have subcopach and team growth levers. Full suite of management tools for sub coaches."
+> "We should eventually become the #1 easiest to use kiosk and gym management software, especially for small botique locations, eventually branching into multi-locational data and infrastructure role."
+> "We should have public coach pages - a client can go online and scroll around to find the best TGP coaches to get training from in their niche/ need - we become the defacto "trust" symbol in online coaching, which doesnt exists today (no unified system that i know of)."
+> "I also want PT's looking for work to be able to list themselves on TGP to be hired as sub-coaches - a coach can miander our applied sub-coaches and interview/hire from TGP posting baords."
+> "All of this would makes us the defacto #1 best in the space and a 10 fig company - thats the 2030 vision. Today, its a perfect everfit competitor for small PT oeprations! Notate the goals."
+Recorded by agent 125 as A7.5 goals G1-G9 with the current state of each in code.
 
 #### 2026-10-06 14:25 PDT — Sub-coach teams free; expo.dev API URL switched to the custom domain (owner, to agent 125)
 > "Team - you mean sub-coaches? I'd say make it free for today. When they scale, our take-rate grows with them. Incentivized together = beat legacy companies."
