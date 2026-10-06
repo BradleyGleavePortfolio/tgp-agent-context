@@ -2350,6 +2350,16 @@ Contribution log (PDT, newest last)
   4 specs 56/56, tsc clean) + c5c86cb4 (clean main merge after b#738) -> #667 c5c86cb4; delta RD2 to the W1C lenses.
 - 19:01 b#738 dual APPROVE (LS1) -> MERGED, backend main d5177b31 (audit gate clear). b#736 FIX ROUND 2 by B-AIG3-123 at 78ce5db8, then
   operator clean main merge 384314a8 (MERGE-ONLY TREE CHECK) -> delta AIG3 to the W1C lenses. B-TR12-123 told to merge main into b#671.
+- 19:12-19:21 RD2 dual APPROVE b#667 c5c86cb4 -> MERGED (Roman train in main). AIG3 dual APPROVE b#736 384314a8 (B-736-3/4 closed) ->
+  MERGED. B-TR12-123 done: b#671 fca4018b (main merges 0521b393 + d5177b31, 3 hunks, trials listOpenInvoices renamed listOpenInvoicePage,
+  R75 test helpers; trials migrations older than main's newest, order proven in a lane). TR13 dual APPROVE -> MERGED. Backend main
+  e6f9a5ec, main CI green (build-and-test, live suites, CodeQL, audit).
+- 19:33 DEPLOY 7: fly-deploy run 37404686957, release e6f9a5ec0c5bac40f33ac7513ad2653880f265d3, migrations=apply-migrations (Roman
+  train, AI guide crisis routing, lockout allow-list, trials train, proxy-addr); production approved; success 19:40; /health ok, /readyz up.
+- 19:41 m#338 (coach trial setting) MERGED at 2d0288ca after the trials deploy (Opus APPROVE + operator ruling on Sol's retry B).
+  LAUNCH STEP 2 (Money) DONE: fees, recurring, card secrets, payment sheet m#342, trials (deployed) + m#338 (in the 10-07 build).
+  Launch path 5/7 (1, 2, 3, 4, 6). Left: 5 (owner device pass on the 10-07 build), 7 (build + store review).
+- 19:26 Scout FLAGS-D1-123 (read-only): day-1 flag matrix (community, coachless, invite codes, broadcasts, inbox, Roman) before the build.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
