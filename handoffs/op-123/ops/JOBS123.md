@@ -595,3 +595,15 @@ sender, although COMMUNITY_MESSAGE_RECEIVED is a default-on kind. Send it throug
 all" since b#751 and the member's notify level) to the other active, unbanned cohort members, never the sender, never blocked pairs
 (either direction), no message text in the push body beyond what existing community pushes carry. No new retry/queue machinery.
 Backend PR.
+
+## Lens queue R4A (09:40 10-06; both W2A lenses). Time box 60 minutes. Wave-4 PRs, each only once its READY FOR AUDIT comment exists
+(use the head in that comment; verify it is still the PR head; skip and come back if not ready). Mobile first (Wed build).
+0. FIRST (09:56): b#759 88260073df8eed8ec5996b59074d87c66d689e7c (operator B-CIFIX-123: unblocks main CI; booking push spec Date pin +
+   shell-quote override 1.12.0; comment 6021158037). Backend #756/#757/#758 will be updated with main after #759 merges, so audit
+   those only at the NEW head the operator posts (do not audit their current heads).
+1. m#393 59ec57770771b4f98f61e5ffc3180cef37b129c4 (M-COACHPUSH-123: coach notification ask + "Send your coach a message" opens 1:1
+   Messages / hidden without a coach; report M-COACHPUSH-123)
+2. F9 B-CRISIS2-123 backend PR ("not breathing" + OD spellings -> 911; T4 AI safety; report B-CRISIS2-123)
+3. F11 B-COHORTPUSH-123 backend PR (group chat push via sendCommunityPush; mute/block/ban respected; report B-COHORTPUSH-123)
+4. F10 B-COPY2-123 backend PR (public pages copy; report B-COPY2-123)
+Same rules as before. Wrap-up: final answer lists every PR, head, verdict and comment URL; stop at the time box.

@@ -2466,6 +2466,20 @@ Contribution log (PDT, newest last)
   re-run. Supabase org "The Growth Project" is on the free plan (projects pause after inactivity); the owner upgrades it to Pro himself
   (agents spend no money); the org also holds project tgp-finance, billed under Pro too. fly.toml already keeps 1 machine always running
   (min_machines_running=1). the81stworker@ has no account yet (checked 09:39): promote to owner after he signs up.
+- 10-06 10:01: owner made a NEW Sign in with Apple key and re-saved APPLE_SIGNIN_PRIVATE_KEY + APPLE_SIGNIN_KEY_ID; fly-apple-signin-set
+  run 37500165590 success (both Deployed on 860311cee0d008, rolling restart, /health ok). Apple deletion-time revocation now configured.
+- 10-06 10:03 OWNER: "lets just finish the ci lanes and 4 fixer agents going right now and get a list of what PR's are still left to-do
+  pre v1 launch - and exactly what stage each PR is in. Then I need an agent 124 handoff document - just a promopt saying read tgp source
+  of truth and all other necessary files!"
+- 10-06 09:45-10:30: main CI was red on two required checks (booking-lock-screen-push date-bound spec; critical shell-quote
+  GHSA-pqg4-j6r4-53mv). Operator PR b#759 (Date-only fake clock in the spec; overrides.shell-quote 1.12.0) dual APPROVE, merged 10:03.
+  m#393 (F8 coach notification ask + "Send your coach a message" -> 1:1 Messages / hidden without a coach) merged 10:03. b#756/#757/#758
+  updated with main; b#758 FIX ROUND 2 after Opus B-758-1 (operator ruling: removed the during/while exclusion, every "can't breathe"
+  -> 911 as before; not breathing / won't wake up / OD spellings -> 911). All dual APPROVE at final heads; merged b#757, b#758, b#756.
+- 10-06 10:35 DEPLOY 11 (first of 10-06): main 1dbada71420f2b92a8349c3480f17030e4e8a257, run 37504168125, no migrations, /health +
+  /readyz ok. Mobile main 7812405dc529755b604fa484cab796e6f84d764f (CI green) is what the 10-07 build carries.
+- Totals 10-06 (merged into main): 6 (backend 5, mobile 1). Deployed 1. Every PR v1 needs is merged; open PRs are parked older work
+  (HANDOFF.md list). Agent 124 start prompt: handoffs/op-123/AGENT_124_PROMPT.md.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
@@ -7393,6 +7407,17 @@ Verbatim: "18.5k/45k credits used" / "what's his pitch line exactly and I'M the 
 requests that newer work has replaced: backend 657 and 659, mobile 331 and 336. Recommended: yes" / "I want you to pick the next 20 agent
 runs that make the biggest difference for the v1 launch, plan them out, and launch them all parallel right now. Then after all 20 are
 launched, stop-and-drain down to 8". Recorded in agent 123 Part B (21:28, 21:35).
+
+#### 2026-10-06 09:13-10:03 PDT — Featured coach account, flags, build, hosting, owner account, Apple key, handoff (owner, to agent 123)
+Verbatim 09:13: "Recommended: your coaching account, with GP-BRADLEY and the 21:35 pitch line -> absolutely this one, under
+bradleyapple1031@gmail.com" / "Codes, Broadcasts and the no-coach Home screen: turn them on for your device test. Recommended: yes" /
+"Wednesday build: build the clinic version once for iPhone and once for Android. Recommended: yes" / "Launch-day hosting: about $109 a
+month - FOR WHAT??" / "37k/45k credits - spin u[ the next 4 fixer agents and lets those run without starting new work".
+09:38: "ill do 30/mo for one database - I need no cooldowns or any of that shit either, app up 24/7!" / owner account: "make it
+the81stworker@thegrowthproject.site" / "Copy the Apple key to the server: Recommended: yes, but do it yourself".
+10:03: "lets just finish the ci lanes and 4 fixer agents going right now and get a list of what PR's are still left to-do pre v1 launch
+- and exactly what stage each PR is in. Then I need an agent 124 handoff document - just a promopt saying read tgp source of truth and
+all other necessary files!" Recorded in agent 123 Part B (10-06 entries).
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
