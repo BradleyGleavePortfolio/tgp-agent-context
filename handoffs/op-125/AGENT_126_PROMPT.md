@@ -36,7 +36,7 @@ repos (growth-project-backend and growth-project-mobile): every push, merge and 
 ## Your first jobs (detail and order in HANDOFF.md "Agent 126 job list")
 Budget: you have your own 45k credits (owner 15:33: agents 126 and 127 tonight, 128-131 tomorrow). Stop new work at 41k and hand off
 to the next agent the same way agent 125 did.
-1. Finish agent 125's leftovers (HANDOFF FINAL and job 1): b#795 fix round, the backend deploy if not done, the APK link to the owner.
+1. Finish agent 125's leftovers (HANDOFF FINAL and job 1): the backend deploy if not done, the APK link to the owner. (b#795 merged 15:38 on owner override.)
 2. AI MASTER WORKOUT BUILDER (HANDOFF section of that name, AIB-1..6), the owner's top new ask, launched as soon as job 1 is moving.
    The mobile PRs must merge before the 10-07 build; the server switch stays off until a fresh safety pass and the owner's device check.
 3. 10-07 build day with the owner: which mobile PRs the build carries, the device pass, store text.

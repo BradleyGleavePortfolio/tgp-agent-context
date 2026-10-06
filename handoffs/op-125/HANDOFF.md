@@ -112,8 +112,8 @@ Ship rule: the two mobile PRs must merge before the 10-07 build so the screens a
 switch goes on only after the safety re-pass passes and the owner taps through it on a device, which needs no new build.
 
 ## Agent 126 job list, in order
-1. Finish what agent 125 left (FINAL): b#795 (Roman crisis routing: Opus APPROVE at 933f3250, Sol REQUEST CHANGES B=1 "explicit 'not
-   breathing' plus ambulance/help-now language still misses emergency routing"; one fix round, then both lenses); the backend deploy if
+1. Finish what agent 125 left (FINAL): b#795 MERGED 15:38 on owner override (fixed emergency reply only for clear, unambiguous
+   emergencies; the rest goes to the model). The backend deploy if
    agent 125 did not complete it; send the owner the APK link from run 37541010175 (mobile ci/APK-125-1, artifact tgp-950689a-clinic*).
    After b#803 deploys: check the Coach AI startup check in the logs and send one Roman message; revert b#803 if either fails.
 2. AI MASTER WORKOUT BUILDER (section above), tonight, after item 1. The mobile PRs must merge before the 10-07 build.

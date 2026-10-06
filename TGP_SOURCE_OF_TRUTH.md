@@ -7673,6 +7673,15 @@ turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to 
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
 
+#### 2026-10-06 15:33-15:38 PDT — per-agent budgets; Roman fixed reply loose (b#795 merged on owner override); PDFs/videos launch as is (owner, to agent 125)
+> 15:33 "to clarify, every agent starts with 0/45k credits. We have agents 126 and 127 for tonight and 128-131 tomorrow!"
+> 15:38 "I thin kthe whole fixed reply thing can be very loose - only clearly, non ambigious talk should get an instant response. I also think that leaving the API model to handle it is fine for now. That leaves Anthropic on the hook for any bad responses mainly, and isnt a problem at a 100 user scale. Lets just get it done and merged!"
+> 15:38 "im assuming the pdf and video question is relating to apple store wanting to take 30% of revenue - well, ALL pckages have the substrate of offering 1:1 coaching. Its entirely unfair to say because someone says buy a PDF of mine, that youd ignore that they also are now a defacto client and training recipetent regardless of their actual commitment to it in-app - so fuck ios, we launch PDF and videos as is and ignore their BS."
+Recorded by agent 125. Budget: each agent has its own 45k (stop at 41k). Roman crisis policy: the deterministic fixed emergency reply is
+for clear, unambiguous emergencies only; everything else goes to the model with its crisis instructions. b#795 merged 15:38 at 933f3250
+on owner override (Opus APPROVE, Sol REQUEST CHANGES B=1 recorded as accepted risk; override comment on the PR). PDFs/videos: every
+package is coaching; launch as is on iOS too (risk noted to owner: App Review can reject the build, not only take a cut).
+
 #### 2026-10-06 15:23-15:27 PDT — Play forms paused on reviewer logins; community AI triage deferred; AI master builder asked (owner, to agent 125)
 > 15:23 "the health form done, the data form done BUT they need the tester account sign in details to finish the data form, thats all - its paused rn. Remind me once i confirm tester account creation under agent 126"
 > 15:27 "yea save Community AI triage for v1.1 or beyond, requires scale to be of use"
