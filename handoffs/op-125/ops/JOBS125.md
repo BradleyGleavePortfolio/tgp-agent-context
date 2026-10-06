@@ -369,3 +369,19 @@ ops/reports/B-DELIV-125.md and AUDIT-18-125.md first. Do, in order:
    say so plainly and still open the flag PR but mark it DO NOT MERGE in its title, so the operator decides.
 3. Report /home/user/workspace/ops/reports/B-DROPS-125.md with the step table, B/U/C, PRs and heads. READY comments per _COMMON_125
    item 5 with job B-DROPS-125. Never merge or deploy.
+
+## B-LEADER-125 (Claude Opus 5.5, auditor-builder, T3 privacy) — leaderboard inside Community. Time box 25 min (hard stop 15:30).
+Owner 15:06: "Leaderboard: seems like a simple addition to flip on if it has great usability and good mobile screen path placement -
+shopuld be near/inside the community space?" Facts (operator 15:08): backend src/leaderboard/ (opt-in, coach-roster scoped, recompute
+scheduler) is ALREADY ON in production by default (LEADERBOARD_ENABLED unset = 'on'; leaderboard.service.ts:100, scheduler.ts:36).
+Mobile LeaderboardScreen + LeaderboardSettingsScreen are registered in MoreStack (src/navigation/ClientNavigator.tsx ~506) but NOTHING
+navigates to them (read src/screens/client/LEADERBOARD.md). The Community tab is ON in the clinic build (EXPO_PUBLIC_FF_COMMUNITY_TAB,
+_HALL, _COHORTS). Do:
+1. Quick audit (10 min): what the score is made of and whether it is truthful; opt-in default OFF and display name only (no health
+   numbers, no full names, no other coach's clients); works for a coachless client (empty/hidden, never an error); loading/error/empty
+   states; contrast and screen-reader labels. B/U/C per _COMMON_125.
+2. ONE mobile PR (under 300 lines): a clear entry point inside the Community tab (e.g. a "Leaderboard" header action or a top row on the
+   Hall that opens Leaderboard; opt-in settings reachable from that screen), registered on the navigator the Community tab uses (do
+   not rely on cross-stack navigation that breaks back behaviour), plus any small fix from step 1. Tests for the entry point and the
+   coachless case. If the audit finds a privacy B you cannot fix in the box, open no entry-point PR and report NO-GO.
+Report /home/user/workspace/ops/reports/B-LEADER-125.md. READY comment per _COMMON_125 item 5 with job B-LEADER-125. Never merge/deploy.
