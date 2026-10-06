@@ -228,3 +228,31 @@ REPORTS_ALERT_EMAIL with a safe fallback to the existing support address constan
 note that it is a "self-harm or suicide" report when that is the reason (put that first in the subject). Never include message text,
 health data or names of the reported content's author in the email body beyond the ids (PII minimal). Failure to send must never fail
 the report itself (log + metric). Tests. Under 400 lines. Read b#789 (AUDIT-03, adds report reasons) and m#428 so you do not collide.
+
+## B-ROMANADJ-125 (Claude Opus 5.5, builder, T3; core flow) — the client trains the sets the coach approved. Time box 60 min (hard stop 15:45).
+AUDIT-07-125 + AUDIT-14-125 B2 (read both reports' B2 / item 4 sections first): a coach approves Roman's set change in the Action Queue,
+the card says applied, but the client's workout screen still shows and starts the OLD sets. roman-adjust writes only
+ClientWorkoutAssignmentSnapshot.exercises_json (backend src/workout-builder/workout-builder.service.ts replaceAssignmentSets, called from
+src/roman-adjust/roman-adjust.service.ts ~393/467); mobile src/screens/client/WorkoutAssignmentDetailScreen.tsx renders and starts
+data.workout_plan.exercises (lines ~63, ~79 buildActiveWorkoutExercises, ~138). m#422 (merged) changed this screen's loading; rebase on
+current mobile main. Smallest safe fix (do exactly this):
+- Backend PR: the client assignment reads (GET /me/assignments list item if it carries exercises, and the single assignment read the
+  detail screen uses) add `roman_adjusted_sets: Array<{ order: number; sets: number }>` from the assignment's WorkoutAdjustmentProposal
+  rows with status approved|edited (applied change sets_after), latest decision per order wins; empty array otherwise. Client-scoped
+  (only the client's own assignment). Tests.
+- Mobile PR: WorkoutAssignmentDetailScreen overlays those set counts by `order` onto workout_plan.exercises for display and for Start;
+  field missing or empty (older server) = exactly today's behaviour. Coach live edits stay visible because only Roman's set counts are
+  overlaid. Show a small "Updated by your coach" note on an adjusted exercise. Tests for overlay, missing field, mismatched order.
+Each PR under 400 lines. READY comments per _COMMON_125 item 5 with job B-ROMANADJ-125.
+
+## AUD-OPUS-L3-125 (Claude Opus 5.5) and AUD-SOL-L3-125 (GPT-6.1 Sol) — second lens pair, BACKEND queue only (from 14:45, stop 16:15)
+Same rules as the AUD-*-L1-125 entry above (read it fully: verdict format, exact head, independence, no local test runs, notify line,
+verdict file under /home/user/workspace/ops/aud-125/<JOB>/). The L1 pair now owns the MOBILE queue; you own BACKEND PRs. Skip any PR
+where a lens of your model already posted a verdict at the CURRENT head (L1 lenses may have reached a few). Queue order (money and
+safety first): b#791 (free package later priced: invite link stops granting free; T4 money, 20 min), b#795 (Roman: gym talk not sent
+to 911, crisis section; safety, 20 min), b#792 (coach/purchase/content pushes: lock-screen PII, mute/quiet hours; T4), b#797 (coach
+search and client profile reach), b#798 (Learn shows only own coach's lessons), b#793 (AI draft Save edits), b#794 (invite codes Who
+joined), b#796 (coach edits of approved meal plan reach client; check CI green first), then FIX-Q1 deltas on b#776 / b#778 / b#785, then
+any new agent125/* backend PRs (B-DELIV, B-ROMANADJ, B-WEARLIST, B-REPORTALERT builders) — list with:
+for n in $(gh pr list --repo BradleyGleavePortfolio/growth-project-backend --state open --limit 100 --json number,headRefName --jq '.[]|select(.headRefName|startswith("agent125/"))|.number'); do echo $n; done
+Time box 15 minutes per PR (T4 money/safety 20). Re-check the head sha right before posting.

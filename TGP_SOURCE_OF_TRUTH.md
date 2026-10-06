@@ -2414,6 +2414,26 @@ Contribution log (PDT, newest last)
 - 14:20 CORRECTION: _COMMON_125 said iOS builds from eas.json "production"; the plan (owner checklist, B-BUILDCFG-123) is the "clinic"
   profile for BOTH platforms. Fixed in the brief and broadcast to running auditors and both lenses (m#421 B-1 premise does not hold under
   clinic; its Connections fix stands).
+- 14:21-14:30 Owner vision -> A7.5 company north star (post-AI fitness platform; creator -> team -> gym ladder; 2030 goals G1-G9;
+  "a 10 fig company"; today "a perfect everfit competitor for small PT oeprations") + sub-coach estimate (about 5 PRs post-launch).
+  Owner 14:25: sub-coach teams FREE (take-rate model); EXPO_PUBLIC_API_URL now https://api.trygrowthproject.com/api. Owner credits
+  18.8k at 14:26.
+- 14:23-14:42 MERGED (dual APPROVE at exact head, checks green): backend b#781, b#784, b#786 (timeline tie-break), b#787 (help support
+  channel), b#788 (exercise catalog queries), b#789 (thread read clears notifications), b#790 (welcome call done); mobile m#420 (Team
+  hidden), m#422 (assigned workouts load), m#421, m#426, m#428, m#429 (DM reports file; live unread), m#419 (habits/fasting), m#417
+  (actionable failures), m#418 (library), m#423 (invite resend truth), m#425 (AI meal plans generate; truthful program approval copy),
+  m#430 (weights show, check-ins save, coach weight sign), m#431 (Day One skip holds), m#432 (push taps route). Merged today 69.
+- 14:33 Lens queue command fixed (gh "in:head" search returned nothing); lenses given explicit queues.
+- 14:36 B-WEARLIST-125 (server-driven cloud tracker list; owner 14:30 "TURN THEM ON AND SHOW THEM PROUDLY") and B-REPORTALERT-125
+  (email a human on every message/community report; Apple 1.2). Provider facts for owner: Oura/Polar/Withings self-serve (Oura needs a
+  ring + membership), WHOOP needs a membership (10 members before approval; ~17 days reported), Garmin new access PAUSED since spring 2026
+  (owner sent the developer contact form 14:40), Fitbit moving to the Google Health API, Strava forbids showing data to coaches.
+- 14:39 B-ROMANADJ-125 (AUDIT-07/14 B2: coach-approved Roman set change never reaches the client screen; backend roman_adjusted_sets +
+  mobile overlay). Fallback if it misses the 10-07 build: unset FEATURE_ROMAN_ADJUST_ENABLED (server-side, reversible).
+- 14:41 Owner credits 23.8k/45k (~330/min). 14:43 Lens pair L3 (Opus + Sol) launched for the BACKEND queue (money/safety first: b#791
+  free package later priced, b#795 Roman crisis routing); L1 pair moved to MOBILE only. Auditor decisions taken at recommended defaults
+  (AUDIT-05: keep 988 on "I want to die after these burpees"; AUDIT-14: AI program approval saves to library for day 1, coach AI
+  metering after launch, Ask AI pill hidden).
 
 ## AGENT 124 — 2026-10-06 11:00 PDT onward (session b6cbb3b7; 124th operator in the chain)
 Why: agent 123 handed off 10-06 (prompt: handoffs/op-123/AGENT_124_PROMPT.md); owner 10-06: "Read tgp source of truth, launch one
