@@ -2378,6 +2378,14 @@ Contribution log (PDT, newest last)
   true after m#384) -> FL4 to the W2A lenses. Then deploy 8 (b#739/#740/#741) and ONE env sync apply for all day-1 flags.
 - 20:05 M-COACHLESS-123 opened m#386 0a1bc0bd (coachless Home, featured coach, code sheet, Roman card; server flag coachless_home; 1,189
   lines) -> W2B lens pair (also queued: M-INV-123 and M-BCAST-123 PRs when posted).
+- 20:16 M-INV-123: m#385 (truthful day-one code errors: turned off / expired / used up) + m#387 (coach Codes screen: create, rotate with
+  grace, turn off, QR via toqr; server flag FEATURE_COACH_CODE_TOOLS). 20:21 b#741 dual APPROVE (FL4) -> MERGED; backend main 5230306c.
+- 20:25 W2B: m#385 and m#387 dual APPROVE -> MERGED 20:27. m#386 REQUEST CHANGES from both: Sol B-386-1 (redeeming a code that includes a
+  plan does not refresh the entitlement gate; Workout stays blocked until reopen), Opus B-386-1 (on iOS "Choose a plan" opens the Stripe
+  sheet that iOS hides everywhere else; App Store risk). FIX ROUND 2 to the same builder (30 min).
+- 20:23 M-BCAST-123: m#388 (coach broadcasts list + composer; server flag FEATURE_COACH_BROADCASTS) -> W2C lens pair dual APPROVE ->
+  MERGED 20:30. Mobile main a0e225df. Opus C: while the flag is off every coach visit to Messages logs a 503 to Sentry (C-388-sentry).
+- 20:31 deploy 8 run 37409368179: release 5230306c (b#739, b#740, b#741), no migrations. Next: env sync plan + apply (8 flags).
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity

@@ -271,3 +271,22 @@ b#741 00f9b8b693f409c73104dd17cde043db1b9781fc (operator PR): FEATURE_ROMAN_ADJU
 code deployed (production e6f9a5ec), m#337 + m#384 (C-337 fix) merged on mobile main ad05c23c; closed value set from b#740 present;
 kill = unset hides the card (404); runbook table unchanged and the manifest spec passes. Required checks green at the exact head (poll up
 to 15 minutes). One verdict.
+
+## Lens pair W2C (Claude Opus 5.5 + GPT-6.1 Sol) — takes BC1 from W2B. Time box 45 minutes. (20:25)
+BC1 m#388 6ad27c87592fcfca38c7d145643c8deed1fb163f (M-BCAST-123; report ops/reports/M-BCAST-123.md; opening comment 6008675359):
+coach broadcasts list + composer behind server flag FEATURE_COACH_BROADCASTS (button hidden while off). Spec: entry "M-BCAST-123" above;
+backend src/broadcasts/* on backend main (deployed). Builder pushed twice before the opening comment (accepted: no audit had started).
+Story: a coach sends "Gym closed Monday, do the home plan" to all clients now and schedules a weekly Sunday check-in; clients see each in
+their coach thread; with the flag off nothing shows; opening Broadcasts never strands the coach without a way back to the client list.
+Required checks green at the exact head. One verdict. (W2B lenses: skip BC1.)
+
+## FIX ROUND 2 on m#386 (M-COACHLESS-123, same builder) — two Bs. Time box 30 minutes. (20:29)
+m#386 0a1bc0bd. Both lenses REQUEST CHANGES (Sol 6008549315, Opus 6008571221; reports ops/reports/AUD-SOL-W2B-123.md and AUD-OPUS-W2B-123.md):
+- Sol B-386-1: after redeeming a code that includes a free/prepaid plan, the screen shows active access but the shared entitlement gate is
+  never refreshed, so Workout stays blocked until the app is backgrounded/reopened. Fix: refresh entitlement (the same refresh the app
+  uses after checkout) on a successful redeem; integrated regression test (redeem -> Workout unlocked without a restart).
+- Opus B-386-1: on iOS "Choose a plan" opens the Stripe plan sheet, which iOS builds hide everywhere else (only the labelled
+  "1:1 coaching with <coach>" purchase screen is allowed; EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES). Fix: on iOS route to that labelled
+  screen; Android keeps the sheet. Test both platforms.
+One push. PR CI green. Comment `FIX ROUND 2 (M-COACHLESS-123, agent 123) — growth-project-mobile#386 @ <sha>` ending READY FOR AUDIT.
+Cs stay. Then notify file update.
