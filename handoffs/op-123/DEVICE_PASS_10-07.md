@@ -38,7 +38,7 @@ them for you before Part C:
   slots. Enter code GP-BRADLEY and join for $X. Interested?"
 - Accepting new clients: yes. Roman card: on.
 
-A4. **Sign in with Apple is expected to fail** until the Apple sign-in key is set on the server (the server's Apple check was still
+A4. **Sign in with Apple should now work** (server Apple settings fixed 10-05 22:36). If it fails, send the exact message. Old note: (the server's Apple check was still
 failing at 19:55 tonight). Test it anyway in C2; if it fails, use email to create that test account and carry on.
 
 A5. **What you need:**

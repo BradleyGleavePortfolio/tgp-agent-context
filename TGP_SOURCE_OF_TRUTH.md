@@ -2433,6 +2433,14 @@ Contribution log (PDT, newest last)
   without a workspace). Backend main 9b78afd5 (no migrations since production 5230306c). b#744 FIX ROUND 1 running (both lenses:
   bare "possible overdose" and "I cut myself again" stopped routing; operator ruling: they must route). b#743 approved by Opus,
   merge held for the owner. Open: m#390 (store-review fixes, Opus APPROVE, Sol pending), F2 guide pool, F4 public copy, W3-06.
+- 22:16-22:37: merged b#744 (Roman/AI guide shared crisis lists after FIX ROUND 1: bare "possible overdose" -> 911, "I cut myself
+  again" -> 988, gym talk stays normal), m#390 (iOS camera/photo purpose strings, community terms sheet + signup terms line, Trust
+  Center security copy, Android mic permission removed), m#392 (operator: Trust Center names community members + opt-in leaderboard),
+  b#755 (public pages: open signup, coach FAQ, community/leaderboard privacy text, terms zero-tolerance line). DEPLOY 9: de6036cc,
+  run 37418841767, no migrations, 22:33, /health + /readyz ok. ENV SYNC: plan 37419150533 (1 set, 1 unset) -> apply 37419274006:
+  APPLE_AUDIENCES=com.growthproject.app, APPLE_NONCE_REQUIRED unset, verified on 860311cee0d008; /api/auth/signup-policy now lists
+  apple. Still needs owner go: fly-apple-signin-set.yml (Apple token revocation on account deletion). Open: b#749 + b#754 (Opus
+  APPROVE, Sol pending), m#391 FIX ROUND 1 (owner account loops at sign-in, B-391-1), b#743 (held for the owner). Merged today 132.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity

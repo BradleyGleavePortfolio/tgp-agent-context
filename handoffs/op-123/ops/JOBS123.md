@@ -535,6 +535,28 @@ Same rules as R3B (only once READY FOR AUDIT; verify head; post each verdict whe
 1. b#752 69ad43d08f874f5a4d0122785493fd2c4d28187b (B-AUTHZ-123: cohort member assignment authz + block list first names; security;
    reports S-AUTHZ-123 and B-AUTHZ-123). Operator ruling: no cross-roster cohort invites for v1.
 2. b#751 6a0261331490412ad1ba3549efa12f67cc4d7d98 (B-PUSHMUTE-123: community push honours Mute all; report B-PUSHMUTE-123)
-3. b#749 (M-FEATURED backend part: featured coach candidates; report M-FEATURED-123 once it lands)
-4. Any of F2 B-GUIDEPOOL / F4 B-COPY PRs that become READY FOR AUDIT inside the box (reports B-GUIDEPOOL-123 / B-COPY-123).
+3. b#749 ef3bdb4abe994ed46b5416a14249a7fbe71736ff (owner-only GET /admin/featured-coach/coaches; report M-FEATURED-123; READY)
+3b. m#391 914b3ed37b98f0755f19069e6b80c488036af23a (owner-only Featured coach editor in Settings, 898 lines; report M-FEATURED-123;
+   READY). Box for this queue extended by 20 minutes for m#391. Operator ruling: the featured coach stays coach-role only.
+4. F2 B-GUIDEPOOL PR once READY FOR AUDIT inside the box (report B-GUIDEPOOL-123). (b#755 / F4 moved to R3E.)
 Wrap-up: final answer lists every PR, head, verdict and comment URL.
+
+## Lens delta R3D (22:13; both W2A lenses, who reviewed b#744 at cda23212). Time box 20 minutes.
+b#744 d6442512d1ac39be5287a5d59389f2ceab33bde7 — FIX ROUND 1 (B-ROMAN911-123) comment on the PR. Review the delta cda23212..d6442512:
+your B-744-1/B-744-2 phrases (and the other lens's, now in the spec) route to 911/988 on Roman and the AI guide, the gym controls stay
+normal, nothing else regressed. One verdict at d6442512 (T4 AI safety). Wrap-up: final answer with verdict + comment URL.
+
+## Lens queue R3E (22:29; re-uses both W2C lenses: lens_opus_w2c_broadcasts + lens_sol_w2c_broadcasts). Time box 30 minutes.
+1. m#392 f8627da276243ca86860fd85e38717b0a0036fb5 (operator 123: one Trust Center "Who can see your data" line; report S-PRIVACY-123)
+2. b#755 3076cab9871f8d76bce703f0bd59431d8858b849 (B-COPY-123 public pages: open signup, coach FAQ, community + leaderboard privacy
+   text, terms zero-tolerance sentence; reports B-COPY-123, S-STORECOPY-123, S-PRIVACY-123). Never name the clinic partner.
+Same rules (verify head, independent, one verdict per head). Wrap-up: final answer with verdicts + comment URLs.
+
+## FIX ROUND 1 on m#391 (M-FEATURED-123, same builder w3_06) — 22:36. Time box 30 minutes.
+Opus R3C REQUEST CHANGES at 914b3ed37b98f0755f19069e6b80c488036af23a (B-391-1): app start routing sends only coach and client roles
+past sign-in, so the owner account loops to sign-in and can never reach Settings > Featured coach. Read the Opus verdict (and the Sol
+verdict if it is posted when you start). Fix: an owner account lands in the app with no dead end. Preferred: owner -> the coach app,
+skipping new-coach setup, IF the backend coach routes behind coach Home/Settings already accept role owner (check RolesGuard / owner
+override); otherwise a minimal owner stack (Settings with Featured coach + account + sign out). Pick the smaller one that has no dead
+end and say why. Tests: owner routing + the editor reachable. One push; "FIX ROUND 1 (M-FEATURED-123, agent 123) —
+growth-project-mobile#391 @ <sha>" ending READY FOR AUDIT. Featured coach stays coach-role only (operator ruling).
