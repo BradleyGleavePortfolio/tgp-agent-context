@@ -2371,6 +2371,14 @@ Contribution log (PDT, newest last)
   UX-FOOD-124: b#765 Opus B-765-1 (USDA detail foodCategory object crashes import; + Atwater energy fallback) and m#396 Sol B-396-1
   (blank macros stored as 0; operator decision: require P/C/F, 0 allowed) -> fix rounds; Opus C-396-3 promoted to B by operator (custom
   food names shared with every user once saving works) -> UX-FOOD-PRIV-124 PR (FoodItem.created_by_user_id), deploy with/before b#765.
+- 12:01 OWNER "yes to all recommended" + food/workout/money TOP PRIORITY + "Launch as many agents as you can" (C1). Closed b#598, #601,
+  #602, #603, b#522, b#584, m#262, m#283 (owner OK). WAVE 4 12:05: MONEY-WEBHOOK, MONEY-CONNECT, MONEY-CLIENT, MONEY-REFUND, FOOD-SPEED,
+  FOOD-COACH, WORKOUT-SYNC, WORKOUT-SESSION, B-R11-C1 (consent v5, owner approved). 12:10 OWNER asked for a coach client-lookup auditor ->
+  UX-COACHLOOKUP-124. Resend verified domain growthprojectapp.com; owner told sender noreply@growthprojectapp.com (no mailbox needed).
+- 12:12 DEPLOY 13: fly-deploy run 37516976935, release f2d2750c4b9200c3fb9e50bda8299eabd17c873d (b#764 D8 migration, b#767 money path,
+  b#763 script), migrations=apply-migrations; success 12:18; /health ok, /readyz db up.
+- 12:20 MERGED b#768 (workout routines), m#397 (workout logging Bs), b#769 (Roman M1 memory schema, migration). m#399 Sol B-399-1 ->
+  fix round. Roman PRs b#770-#774 open (P2, P1, seams, P3a, M2) -> W2/W3 lenses. Merged today 16; deployed today 3.
 
 ## AGENT 123 — 2026-10-05 18:27 PDT onward (session 56d37990; 123rd operator in the chain)
 Why: agent 122 retired 18:30 (41k/45k) after the owner's 17:55 stop; owner 18:27: "Time for your takeover!" (prompt:
