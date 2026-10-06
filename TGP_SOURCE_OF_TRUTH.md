@@ -1267,6 +1267,7 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 10-06 12:24 (agent 124) "27k/45k used" -> credits line 27k/45k; APK requested -> APK-124 (C1 entry 2026-10-06 12:24).
 - 10-06 12:33 (agent 124) "make his FIRST to do to launch 20 auditors" -> AGENT 125 FIRST JOB; reviewer accounts "yes - do it" (C1 entry 2026-10-06 12:33).
 - 10-06 12:36 (agent 124) "let those 11 agents finish and then create the agent 125 handoff" -> no new launches; handoff after; Stripe receipts on 12:37 (C1 entry 2026-10-06 12:36-12:37).
+- 10-06 12:48 (agent 124) "scale abck up to 10 agents ... weird cases ... that break day 1 flows" -> HUNT-01..10-124 (C1 entry 2026-10-06 12:45-12:48).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -7523,6 +7524,12 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 12:45-12:48 PDT — Confirm link landed on the web page; redirect URLs added; 10 day-1 edge hunters (owner, to agent 124)
+> 12:45 "confirmed the emails and got this in browser" (screenshot: web "COACH LANDING PAGE — This page isn't available")
+> 12:48 "supabase redirect URL's done - now, please scale abck up to 10 agents primarily trying to find weird cases like we jsut found that break day 1 flows and user experience!"
+Recorded by agent 124. Both reviewer emails confirmed 12:45. Cause: tgp://verified was not in Supabase Redirect URLs, so Supabase fell
+back to Site URL (web). Owner added tgp://verified and tgp://reset-password at 12:48. HUNT-01..10-124 launched (JOBS124 "DAY-1 EDGE HUNT").
 
 #### 2026-10-06 12:36-12:37 PDT — Let the 11 agents finish, then hand off; Stripe receipt emails on (owner, to agent 124)
 > "let those 11 agents finish and then create the agent 125 handoff document with detailed report of what you got done. Also update tgp source of truth with your, agent 124's, contribution to the mission!"
