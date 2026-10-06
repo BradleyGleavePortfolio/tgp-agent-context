@@ -2325,9 +2325,12 @@ Contribution log (PDT, newest last)
   (10-06 PDT, GitHub count): backend 20 + mobile 10 = 30; deployed today 4 (deploys 11-14). Open from agent 124's last wave: backend
   b#762 (dual APPROVE, held for owner Stripe portal + retries), b#776-b#785 (no verdicts; b#785 CI red); mobile m#402, m#404-m#415
   (m#404 Sol APPROVE / Opus REQUEST CHANGES; m#406 Sol APPROVE; m#411 draft, red). Ops tools restored from wip/op123/ops-snapshot.
-- 13:58 WAVE 1 (owner 13:50): AUDIT-01..20-125, one find-and-fix auditor per AUDIT20 area (16 Claude Opus 5.5, 4 GPT-6.1 Sol on T2
+- 13:54 WAVE 1 (owner 13:50): AUDIT-01..20-125, one find-and-fix auditor per AUDIT20 area (16 Claude Opus 5.5, 4 GPT-6.1 Sol on T2
   areas 15, 18, 19, 20), 80-minute time boxes, at most one backend + one mobile PR each under 800 lines. Lens pair L1 (Opus + Sol) on
   agent 124's open PRs, money first, then food/workout, auth, coach. 22 agents running.
+- 13:56 FIX-Q1-125 (Opus builder): fix rounds on orphaned agent 124 PRs: m#404 FIX ROUND 3 (B-404-O1 30-day food review counts
+  entries twice at page boundaries) + tiny backend tie-break PR; b#785 red CI (R75 banned cast, build-and-test); then lens L1 REQUEST
+  CHANGES as they land. Shared deps install restarted (first nohup died with the shell). 23 agents running.
 
 ## AGENT 124 — 2026-10-06 11:00 PDT onward (session b6cbb3b7; 124th operator in the chain)
 Why: agent 123 handed off 10-06 (prompt: handoffs/op-123/AGENT_124_PROMPT.md); owner 10-06: "Read tgp source of truth, launch one
@@ -7567,7 +7570,7 @@ turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to 
 > "thats agent 124's audit 20 list for you. start one agent to audit every single one of these areas, seperately, in depth."
 > "Are you confident you can make decisions to further the progression towards the launch to IOS tomorrow correctly, follow all agent rules, and grade/ execute PR's accordingly, al lwithout becoming "robotic" and still making intelligent suggestions? Its a large management task and I want you to be prepared before EXECUTE"
 > 13:51 "755/45000 credits used" / "EXECUTE"
-Recorded by agent 125. AUDIT-01..20-125 launched 13:58 (handoffs/op-125/ops/JOBS125.md), plus lens pair L1 on agent 124's open PRs.
+Recorded by agent 125. AUDIT-01..20-125 launched 13:54 (handoffs/op-125/ops/JOBS125.md), plus lens pair L1 on agent 124's open PRs.
 Credits line for agent 125: 755/45k.
 
 #### 2026-10-06 12:45-12:48 PDT — Confirm link landed on the web page; redirect URLs added; 10 day-1 edge hunters (owner, to agent 124)

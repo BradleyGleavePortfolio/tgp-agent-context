@@ -157,3 +157,25 @@ one-line list and never block. Lenses run NO local npm/jest/tsc/eslint except on
 answer the question; probes through ci_lane.sh. Write each verdict in /home/user/workspace/ops/aud-125/<JOB>/<pr>.md before posting.
 After each verdict append one line to /home/user/workspace/ops/lanes125/notify/<JOB>.txt: `<repo>#<n> @ <sha8> <VERDICT> B=<n>`.
 Lenses never push code, merge or deploy.
+
+# FIXER QUEUE (14:05) — fix rounds on agent 124's open PRs (agent 124's builders are gone; operator owns these PRs now)
+
+## FIX-Q1-125 (Claude Opus 5.5, builder) — work this queue top to bottom; time box 25 minutes per item, 120 minutes total
+You may push to the PR branches named here (they belong to the operator). Make your own worktree per PR from the PR head (absolute path,
+`git -C /home/user/workspace/growth-project-<repo> fetch -q origin pull/<n>/head && git -C ... worktree add /home/user/workspace/wt/FIXQ1-<repo>-<n> FETCH_HEAD`,
+then `git switch -c` the PR's head branch name and push to it). Fix only the Bs named (plus anything CI needs), nothing else. After each
+push and green CI, post one comment whose first line is exactly
+`FIX ROUND <k> (FIX-Q1-125, agent 125) — growth-project-<repo>#<n> @ <full head sha> — READY FOR DELTA AUDIT` listing each B fixed with
+the test that proves it. Then write one line to /home/user/workspace/ops/lanes125/notify/FIX-Q1-125.txt and take the next item.
+1. m#404 (coach food review, owner TOP PRIORITY) FIX ROUND 3: B-404-O1 from the Opus verdict at ab6d426b (read it on the PR): de-duplicate
+   entries by id across timeline pages and keep paging from the last raw row; add a two-page test with shared boundary-day ids proving each
+   entry counts once and day totals match. ALSO open one tiny backend PR (D1, T2): `orderBy: [{ date: 'desc' }, { id: 'desc' }]` on the
+   coach timeline meals slice (src/coach/coach.service.ts ~284) + one spec; title `fix(coach): stable timeline meal paging`; READY comment
+   with the normal FIX ROUND 1 (OPENING) first line from _COMMON_125 item 5.
+2. b#785 (auth confirmation recovery, client first run) — CI red: "Banned cast tokens (R75 / R100.A2)" and "build-and-test". Read the
+   failing job logs via `gh api repos/BradleyGleavePortfolio/growth-project-backend/actions/jobs/<job id>/logs` (job ids from
+   `gh pr view 785 --json statusCheckRollup`), fix the banned cast(s) without weakening types, fix the test failure if it is the PR's own.
+3. Then poll /home/user/workspace/ops/lanes125/notify/AUD-OPUS-L1-125.txt and AUD-SOL-L1-125.txt every 5 minutes: for each REQUEST
+   CHANGES on an agent 124 PR (b#776-b#785, m#402-m#415), read that verdict on the PR and do the fix round the same way, money PRs first.
+   If two lenses disagree on whether something is a B, fix it if the fix is small and safe; otherwise write it in your report for the operator.
+Report /home/user/workspace/ops/reports/FIX-Q1-125.md (per item: PR, old head -> new head, Bs fixed, tests, CI).
