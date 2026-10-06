@@ -32,7 +32,7 @@ past text is in git history and, for the logs, in Parts B and C below.
   - A4 EXECUTE doctrine (the MENTALITY); A4.1 operator continuity system (owner 13:32 10-05)
   - A5 Merge dependency guide
   - A6 Decisions in force (product and operations register)
-  - A7 Launch plan (one-pager), Roman v1.1 plan, importer north star, feature flags
+  - A7 Launch plan (one-pager), Roman v1.1 plan, importer north star, company north star (A7.5), feature flags
   - A8 Current state and to-dos (production, PR state, owner to-dos, first moves)
   - A9 Job book (open jobs, exact heads, rulings)
 - Part B — Agent logs (AGENT 121 down to AGENT 109)
@@ -1272,6 +1272,8 @@ Older entries not listed here still stand unless a later decision changed them; 
   credits used" -> AUDIT-01..20-125 + lens pair L1 (C1 entry 2026-10-06 13:50-13:51).
 - 10-06 14:02-14:04 (agent 125) accounts tonight (owner); Stripe + expo.dev steps sent; "9.1k/45k credits used" -> auditor hard stop 14:45
   (C1 entry 2026-10-06 14:02-14:04).
+- 10-06 14:21 (agent 125) "the post AI fitness platform ... What weight-watchers was for the TV era, we are for the AI era" -> A7.5
+  company north star (creator -> team -> gym growth ladder) (C1 entry 2026-10-06 14:21).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -1557,6 +1559,40 @@ Every importer UX change follows the Roman journey.
   Allowed: tests and fixtures, the quarantined legacy directories (a ratchet that only shrinks), mobile's source-picker shortcuts (data), historical records.
 - Every slice grant cites this page. Any slice that adds vendor-specific behaviour is rejected at review as a class-A finding.
 
+
+### A7.5 Company north star: the fitness platform for the post-AI world (owner 2026-10-06 14:21)
+Owner, verbatim: "the idea of TGP is to be the fitness platform for the new Post-AI world" ... "What weight-watchers was for the TV era,
+we are for the AI era." "We have so much more past v1 to think forward for!" Full message: C1 entry 2026-10-06 14:21.
+This is the product north star for every post-launch plan. It does not change day-1 scope (A6.1) or the launch path (A7.1).
+
+**TGP is the growth ladder for independent fitness operators.** A coach brings the brand and the coaching; TGP runs everything else, at
+every stage of the business, so the coach never outgrows the platform.
+
+| Stage | The coach | What TGP must do | State 10-06 |
+|---|---|---|---|
+| 1. Creator | Builds a brand, posts on Instagram, links one URL | TGP-made landing page per coach; guest checkout; payment; instant access: download the app, or sign up on the web right then (web UI conversion), and the training is there immediately (workout assignment, plan, Roman) | Landing pages, guest checkout, packages, Stripe Connect payouts, assignments and Roman exist; web sign-up / web app conversion not built |
+| 2. Scale | 100+ clients, hires sub-coaches | Team view of every sub-coach's performance; client routing rules: round-robin, set allotment (weighted share), schedule-based sign-up (client picks a coach by availability); head coach moves clients between coaches; permissions so a sub-coach sees only assigned clients | Backend sub-coach invites, scope, reassign, revoke and analytics exist; no in-app invite accept; team entitlement never set; routing only a stub (src/gym/gym-distribution.service.ts: ROUND_ROBIN, WEIGHTED); hidden for day 1 (m#420) |
+| 3. Gym | Opens a physical gym | Class management and scheduling, kiosk check-in setups, staff (PTs) under one roof, member routing to PTs | Gym profile and distribution are scaffolds only |
+
+Principles that follow from it:
+- The coach's brand is the product the client sees; TGP is the engine underneath (landing page, checkout, delivery, payments, AI).
+- AI-native, not AI-added: Roman is the butler and friend between sessions for every client of every coach; AI drafts give one coach the
+  leverage of a team, then a team the leverage of a gym.
+- Zero-friction conversion from a social post: link, landing page, checkout, training, with no dead step in between.
+- Every stage upgrade happens inside the same account and data (a creator becomes a team becomes a gym without migrating).
+
+**Sub-coach teams to "working correctly" (agent 125 estimate, 10-06 14:30; from AUDIT-16-125):** about 5 PRs, one focused operator
+session after launch:
+1. Owner decision: is Team a paid coach tier (sold on the web, never in the iOS app) or free while TGP grows? Default: free until 10k
+   clients, then a web-billed Scale tier.
+2. Backend (T4, ~300 lines): real team entitlement (plan field actually set), invitee consent required on direct sub-coach assignment
+   (src/team-mode/team-mode.service.ts:80), retire the duplicate SubCoach controller.
+3. Mobile (~500 lines): accept-invite screen + sub-coach/<token> app link and web fallback; Team tab shown to entitled head coaches.
+4. T4 scope audit + fixes (1-2 PRs): a sub-coach sees and acts on only assigned clients across messages, plans, food, workouts,
+   bookings, payments; RLS helper app.is_subcoach_on_coach_team uses the membership rule.
+5. Team performance view check (screens and analytics services exist) and reassign/revoke tested end to end.
+Client routing (round-robin, set allotment, schedule-based) is a new feature on top: schema + service + head-coach settings screen +
+the join link choosing the coach, about 3-4 more PRs.
 
 ### A7.4 Feature flags launch ledger
 
@@ -7592,6 +7628,15 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 14:21 PDT — Company north star: the post-AI fitness platform; how much work for sub-coaches (owner, to agent 125)
+> "Sub-coach teams: hide them for launch - well how much work/PR's would it take to get sub-coaches correctly working? I mean, the idea of TGP is to be the fitness platform for the new Post-AI world"
+> "Coach builds a brand - we handle landing page, gues checkouts, workout assignments, payments, ect. - he can simply post on IG and people click hsi link, go to a TGP made landing page, checkout, download (or once the webUI conversion is made sign up right then), and get his training instantly -"
+> "He then scales up to 100+ clients, and hires sub coaches - he can now see his teams performance, handle how to route clients to coaches (round-table, set allotment, schedule based sign-up) - we can become the growth ladder for independent operations."
+> "Even if he launches a GYM we will eventually expand into kiosk setups, class management, ect."
+> "The idea is to become the post AI fitness platform. What weight-watchers was for the TV era, we are for the AI era. Notate this grander vision in github as well."
+> "We have so much more past v1 to think forward for!"
+Recorded by agent 125 as A7.5 (company north star) with the sub-coach estimate. Day-1: teams stay hidden (m#420) pending the owner's answer.
 
 #### 2026-10-06 14:07 PDT — Stripe portal + retries set; expo.dev environment shown (owner, to agent 125)
 > "stripe settings set correctly."

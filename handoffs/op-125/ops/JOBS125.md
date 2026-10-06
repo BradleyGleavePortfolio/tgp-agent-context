@@ -188,3 +188,19 @@ FIX-Q1-125 job and that has no verdict of your model at its CURRENT head. Find t
 rest. Mobile PRs before backend PRs at equal weight (the 10-07 build only carries mobile main). 15 minutes per PR (T4 money 20).
 Delta reviews (FIX ROUND k READY FOR DELTA AUDIT on a PR you already reviewed): review only the delta, 10 minutes.
 Keep polling every 5 minutes until the operator sends WRAP UP or 16:30 PDT, whichever comes first.
+
+# T4 FIX BUILDERS (14:24)
+
+## B-DELIV-125 (Claude Opus 5.5, builder, T4 private data + money) — three escalated Bs from AUDIT-18-125. Time box 60 minutes (hard stop 15:25).
+Read /home/user/workspace/ops/reports/AUDIT-18-125.md section "Not fixed (needs operator)" (B2, B3, B4) and the AUDIT-18 PRs (b#788,
+m#418) so you do not collide with them (build on main; if you must touch the same file, keep it minimal and name the overlap).
+- B2 (private data): coachless or unassigned clients reading Learn get every coach's lessons (src/lessons/lessons.service.ts:17-20,
+  108-109; also completeLesson). Fix: no coach scope -> empty result (or the featured coach's lessons only if that is what the coachless
+  product promises: check src/coachless), explicit coach scope on every read/write. Tests that fail on main.
+- B3 (money): a client who bought a PDF/video deliverable cannot open it (mobile src/screens/client/deliverables/dropRow.tsx:176-187;
+  backend src/coach-media/coach-media.service.ts:368 getBuyerSignedUrl has no route). Fix: an authenticated buyer route that calls the
+  existing grant-scoped getBuyerSignedUrl (only the buyer with a live grant gets a short-lived URL), and the mobile row opens it.
+- B4 (money/core): delivered meal-plan assignment ids are routed as dates (src/checkout/checkout.service.ts:965-968,
+  dropRow.tsx:221-232). Smallest compatible fix per the report.
+One backend PR + one mobile PR, each under 800 lines; the mobile change must degrade gracefully against today's production backend (the
+new buyer route ships with tonight's deploy). READY comments per _COMMON_125 item 5 with job B-DELIV-125.
