@@ -48,3 +48,9 @@
 | 21:48 | F3 M-STORE-123 | Claude Opus 5.5 | f3_store_review_mobile_fixes_muw75oct | iOS purpose strings, community terms, Trust Center copy, mic off | done |
 | 21:48 | R3A lenses | Opus + Sol (W2A lenses reused) | lens_opus_w2a_flags_muw3b8cz / lens_sol_w2a_flags_muw3b8d6 | b#747, 744, 745, 742, 743, 746 | done |
 | 21:48 | F5 B-AUTHZ-123 | Claude Opus 5.5 | f5_cohort_access_block_list_fix_muw77ztq | cohort member assignment + block list names | done |
+| 10-06 09:28 | F8 M-COACHPUSH-123 | Claude Opus 5.5 | f8_coach_push_ask_message_button_muww70qy | m#393 coach notification ask + message button | done, merged |
+| 10-06 09:28 | F9 B-CRISIS2-123 | Claude Opus 5.5 | f9_crisis_routing_not_breathing_muww70ra | b#758 not breathing / OD spellings -> 911 (2 rounds) | done, merged |
+| 10-06 09:28 | F10 B-COPY2-123 | Claude Opus 5.5 | f10_public_pages_copy_round_2_muww70rm | b#756 public pages copy | done, merged |
+| 10-06 09:28 | F11 B-COHORTPUSH-123 | Claude Opus 5.5 | f11_group_chat_push_muww70rx | b#757 group chat push | done, merged |
+| 10-06 09:40 | R4A lenses | Opus + Sol (W2A lenses reused) | lens_opus_w2a_flags_muw3b8cz / lens_sol_w2a_flags_muw3b8d6 | b#759, m#393, b#757, b#758, b#756 | done (all APPROVE) |
+| 10-06 09:45 | B-CIFIX-123 | operator (no subagent) | - | b#759 main CI unblock | merged |
