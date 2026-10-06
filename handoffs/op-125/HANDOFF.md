@@ -84,12 +84,42 @@ Subagent reports (ops/reports/<JOB>.md) and ops tools are in the snapshot on bac
 5. Optional: register Polar and Withings developer apps; Garmin contact form sent (Garmin paused new access since spring 2026);
    WHOOP needs a membership and about 17 days' approval; the Oura ring purchase is the owner's call.
 
+## Budget model (owner 15:33)
+"every agent starts with 0/45k credits. We have agents 126 and 127 for tonight and 128-131 tomorrow!" Each agent has its own 45k; stop new
+work at 41k and hand off. Agent 127 continues whatever 126 does not finish tonight.
+
+## AI MASTER WORKOUT BUILDER (owner 15:27/15:32: "Thats a high leverage tool our competitors have and we dont!" / "we can get 7 PR's
+done tonight and a new apk build done? Lets do it after we finish all the in-flight work!")
+Goal: inside the master workout builder a coach types "build me a 12-week hypertrophy block", "swap squats for knee pain", "progress
+week 4", "add a deload"; the AI proposes changes, the coach previews every change and accepts or rejects. Today only the per-client
+"Generate workout program" (src/ai/coach, AUDIT-14) exists. The engine for in-builder AI (MWB-5 live-create: src/ai/gateway, structured
+diff ops add/update/remove/reorder, plan revisions author_kind 'ai', template forking, optimistic revision token) exists but is NO-GO
+(ops/reports/SAFE-MWBAI-125.md). Plan (each PR dual-lens, T4 for backend):
+- AIB-1 backend: meter 'draft.create_workout_plan' and 'draft.edit_workout_plan' (ai-credits.constants.ts:39-70) and let the tenant
+  coach approve an AI-authored draft (ai-approval.service.ts:92: requester is the AI/system actor when the server generates the payload).
+- AIB-2 backend: the generator. The model returns the structured diff, validated by the existing zod schemas; only exercise-library ids
+  (no invented exercises); hard bounds (sets, reps, RPE, weekly volume per muscle); refuse medical claims.
+- AIB-3 backend: injury and contraindication handling: coach-entered limitations plus the client's consultation injury answers feed the
+  prompt; substitution rules; apply the same to the existing per-client generator (same gap there).
+- AIB-4 backend: capability status route for the app (server-driven visibility, like the wearables provider list in b#799) and the
+  manifest entries: FEATURE_MWB_AI_LIVE_CREATE, AI_GATEWAY_ENABLED, AI_GATEWAY_PROVIDER=anthropic, AI_GATEWAY_CAPABILITIES (list only
+  the two workout capabilities; community_ai_triage stays out until v1.1+).
+- AIB-5 mobile: "Ask AI" in the master builder: prompt box, preview of proposed changes (added/changed/removed), accept all, accept per
+  change, reject; label "AI-suggested, coach-approved". Hidden unless the server says enabled.
+- AIB-6 mobile: create-from-scratch entry ("New program with AI") plus quick actions (swap for injury, progress a week, deload).
+- Then a fresh 12-point safety pass (same checklist as SAFE-MWBAI-125) and a device test before the server switch goes on.
+Ship rule: the two mobile PRs must merge before the 10-07 build so the screens are in it, hidden behind the server switch. The server
+switch goes on only after the safety re-pass passes and the owner taps through it on a device, which needs no new build.
+
 ## Agent 126 job list, in order
-1. Finish what agent 125 left: every PR in "Open PRs at handoff" (FINAL) to dual APPROVE and merge; then ONE backend deploy if anything
-   merged after agent 125's deploy (migrations=apply-migrations only if prisma changed), /health and /readyz.
-2. 10-07 build day: tell the owner which merged mobile PRs the build carries; support the device pass
+1. Finish what agent 125 left (FINAL): b#795 (Roman crisis routing: Opus APPROVE at 933f3250, Sol REQUEST CHANGES B=1 "explicit 'not
+   breathing' plus ambulance/help-now language still misses emergency routing"; one fix round, then both lenses); the backend deploy if
+   agent 125 did not complete it; send the owner the APK link from run 37541010175 (mobile ci/APK-125-1, artifact tgp-950689a-clinic*).
+   After b#803 deploys: check the Coach AI startup check in the logs and send one Roman message; revert b#803 if either fails.
+2. AI MASTER WORKOUT BUILDER (section above), tonight, after item 1. The mobile PRs must merge before the 10-07 build.
+3. 10-07 build day: tell the owner which merged mobile PRs the build carries; support the device pass
    (handoffs/op-123/DEVICE_PASS_10-07.md) and store text (handoffs/op-123/STORE_TEXT_10-07.md).
-3. Roman v1.1 (owner's first project for 126): flip PRs R11-F1 (FEATURE_ROMAN_MEMORY) and R11-F2 (FEATURE_ROMAN_PLAYBOOK) per
+3b. Roman v1.1 (owner's first project for 126): flip PRs R11-F1 (FEATURE_ROMAN_MEMORY) and R11-F2 (FEATURE_ROMAN_PLAYBOOK) per
    backend docs/runbooks/launch-flags.md line ~190 and the AGENT 124 banner (SoT ~2474-2500). Migrations 20270401000000_roman_memory
    and 20270402000000_coach_playbook must be deployed first. Consent v5 paragraph (SoT C1 11:53 owner decisions) applies.
 4. Safety follow-ups: SAFE-TRIAGE result (FINAL); SAFE-MWBAI four post-launch fixes; refresh stale R2b manifest notes.
