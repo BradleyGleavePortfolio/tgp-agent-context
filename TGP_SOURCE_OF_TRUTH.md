@@ -1270,6 +1270,8 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 10-06 12:48 (agent 124) "scale abck up to 10 agents ... weird cases ... that break day 1 flows" -> HUNT-01..10-124 (C1 entry 2026-10-06 12:45-12:48).
 - 10-06 13:50-13:51 (agent 125) AUDIT20 list + "start one agent to audit every single one of these areas" + "EXECUTE" + "755/45000
   credits used" -> AUDIT-01..20-125 + lens pair L1 (C1 entry 2026-10-06 13:50-13:51).
+- 10-06 14:02-14:04 (agent 125) accounts tonight (owner); Stripe + expo.dev steps sent; "9.1k/45k credits used" -> auditor hard stop 14:45
+  (C1 entry 2026-10-06 14:02-14:04).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -2331,6 +2333,8 @@ Contribution log (PDT, newest last)
 - 13:56 FIX-Q1-125 (Opus builder): fix rounds on orphaned agent 124 PRs: m#404 FIX ROUND 3 (B-404-O1 30-day food review counts
   entries twice at page boundaries) + tiny backend tie-break PR; b#785 red CI (R75 banned cast, build-and-test); then lens L1 REQUEST
   CHANGES as they land. Shared deps install restarted (first nohup died with the shell). 23 agents running.
+- 14:04 Owner credits 9.1k/45k (burn ~800/min at launch). 14:05 every auditor: hard stop 14:45 (Sol T2 auditors 14:40), audit to
+  14:20, READY by 14:45, report by 14:50. Lens pair L1 and FIX-Q1 keep their boxes (owner top priority PRs).
 
 ## AGENT 124 — 2026-10-06 11:00 PDT onward (session b6cbb3b7; 124th operator in the chain)
 Why: agent 123 handed off 10-06 (prompt: handoffs/op-123/AGENT_124_PROMPT.md); owner 10-06: "Read tgp source of truth, launch one
@@ -7564,6 +7568,15 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 14:02-14:04 PDT — Stripe dunning steps requested; accounts tonight; expo.dev settings explained; credits 9.1k (owner, to agent 125)
+> 14:02 "Automatic payment-retry emails - give me a link to the exact stripe page and easy bullet pointed instructions"
+> "signing up the owner account the81stworker@ / the bradleyapple1031@ coach account / neither has been made nor the google tester accounts since apk hasnt been downlaoded - will do later tonight."
+> "the three expo.dev build settings - well, uh, what are those? How to do them?"
+> 14:04 "9.1k/45k credits used - update"
+Recorded by agent 125. Accounts (owner, featured coach, Google testers) not yet created; owner does them tonight from APK-124 (run
+37519719511). Credits 9.1k/45k at 14:04 (8.3k in ~10 minutes with 23 agents): auditor time boxes cut to hard stop 14:45 (T2 Sol
+auditors 14:40) to keep about 10k for reviewing their fixes, merges, the deploy and the handoff.
 
 #### 2026-10-06 13:50-13:51 PDT — AUDIT20 list to agent 125; one auditor per area; EXECUTE (owner, to agent 125)
 > 13:50 "20 areas not yet audited like food and workouts / These are ordered by how much they matter on launch day." (list: client first run; coach first run; messaging; booking and calendar; Roman chat; progress; coach program builder; meal plans; notifications; community; wearables and Health Connect; settings and account; coach Home and risk board; coach AI drafts; habits and fasting; coach team; invites and bulk invite; exercise library and education; help and failure states; app-wide polish. "Smaller areas (bloodwork, leaderboard, widgets and sharing, owner admin tools) can follow after these.")
