@@ -5,8 +5,9 @@ Paste-ready prompt for agent 123: handoffs/op-122/PROMPT_AGENT_123.md.
 > FINISHED 18:12: B-SHEET7B-122 refreshed payment sheet m#342 onto main 7083b7a1: head 5acdf5ca204689dfca604339be9fd1b347f3b5d8, ONE merge
 > commit, PR CI + lane green, MAIN REFRESH comment 6007311469 (READY FOR AUDIT; resolutions incl. weekly billing maps to weekly).
 > Its report lands in handoffs/op-122/ops/B-SHEET7B-122.md. Then run a delta lens pair on the merge resolution and merge m#342.
-> ALSO RUNNING from 18:10 (about 20 minutes): M-AVAIL2B-122 fixing B-381-1 on m#381 (booking notice capped under 14 days). Same rule: wait
-> for its FIX ROUND 2 or STATUS STOPPED comment on m#381; report handoffs/op-122/ops/M-AVAIL2B-122.md; then a delta lens pair, merge.
+> STOPPED 18:29: M-AVAIL2B-122 pushed the B-381-1 fix to m#381 (head eab75ece, test fails on feab0c3b, passes now; lane green). PR CI fails 2
+> tests in coachSettingsMoneyRow.test.tsx (from main: Settings opened without the mock the new Booking Options row needs). Operator 122
+> ruling: allow a second, test-only push adding that mock; then delta lens pair, merge. STATUS STOPPED comment 6007436723.
 
 Owner stopped the fleet at 17:55 ("stop all agents asap", 41k/45k). No agents are running. GitHub is the truth: re-check every head
 before acting. Lane files: handoffs/op-122/ops/ (JOBS122.md has every job entry; _COMMON_122.md has the shared rules incl. the 17:38
@@ -36,7 +37,7 @@ note: use `gh api .../actions/runs/<id>/jobs`, not `gh run view`, which hits the
 | PR | Head | Verdicts | Next |
 |---|---|---|---|
 | m#339 voice sweep | 0b0de03d | dual APPROVE (VC1) | conflicts with main (CoachEarningsScreen deleted in main; CoachPackageEditScreen): refresh (B-339R entry), voice check, delta pair, merge |
-| m#381 coach booking options editor | feab0c3b | both RC: B-381-1 (14+ days notice hides all times; ruling: editor refuses 14+ days) | M-AVAIL2 entry, then delta pair, merge (needs b#735 deployed) |
+| m#381 coach booking options editor | eab75ece | both RC at feab0c3b (B-381-1); fix pushed 18:29, PR CI red only on a missing mock in coachSettingsMoneyRow.test.tsx | test-only mock push, delta pair, merge (needs b#735 deployed) |
 | m#382 programs flags in production/clinic profiles | 695460e7 | none (MF2 cancelled) | MF2 pair; merge before the 10-07 build, with b#737 |
 | m#342 payment sheet (collapsed #344/#343) | 5acdf5ca | dual APPROVE train (10-04) at 4c79b67c; main refresh 5acdf5ca READY (B-SHEET7B, 18:12) | delta lens pair on the merge resolution, merge |
 | m#340 tax CSV | 62794564 (rebased onto main by cancelled B-340, unaudited) | Sol RC 10-03; FR1 never audited | confirm diff is CSV-only, lens pair, merge |
