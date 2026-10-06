@@ -2398,6 +2398,15 @@ Contribution log (PDT, newest last)
   m#331, m#336.
 - 20:45 STANDBY: day-1 code complete; all six takeover priorities done. Waiting on the owner: decisions 1-2, device passes on the 10-07
   build, Apple sign-in key, Stripe portal check. Handoff: handoffs/op-123/HANDOFF.md. No agents running.
+- 21:28 OWNER: "18.5k/45k credits used"; decision 1 YES (close b#657, b#659, m#331, m#336 -> closed 21:31 with a superseded note);
+  "I'M the featured coach"; "pick the next 20 agent runs that make the biggest difference for the v1 launch, plan them out, and launch
+  them all parallel right now. Then after all 20 are launched, stop-and-drain down to 8". Asked to see the iPhone "1:1 coaching" screen
+  and the flow, and Roman's exact pitch line.
+- 21:35 WAVE 3: 20 runs launched in parallel (JOBS123.md "# WAVE 3", FLEET.md): store review iOS + Play, build config, Sign in with Apple,
+  invite/universal links, owner Featured coach editor (mobile, for the 10-07 build), flags PR for codes/broadcasts/coachless, Sentry
+  noise, Roman false-911 on gym talk, AI spend, authz, RLS, deletion/export of day-1 data, privacy policy, client + coach journey
+  traces, push, owner device-pass script, store text, launch-day capacity. No new launches until the fleet drains to 8; then hold at 8.
+  Builder PRs go to the six finished W2 lenses. Credits asked every 15 minutes while more than 8 run.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
@@ -7319,6 +7328,12 @@ Verbatim: "Wait for futher instrctions, 122 will go sequentially first". Agent 1
 #### 2026-10-05 18:27-18:28 PDT — Agent 123 takeover (owner, to agent 123)
 Verbatim 18:27: "Time for your takeover!" (with handoffs/op-122/PROMPT_AGENT_123.md attached). 18:28: "Read tgp source of truth especially".
 Recorded in agent 123 Part B.
+
+#### 2026-10-05 21:28 PDT — Featured coach, close superseded PRs, 20 parallel runs (owner, to agent 123)
+Verbatim: "18.5k/45k credits used" / "what's his pitch line exactly and I'M the featured coach, to be clear." / "Close four old pull
+requests that newer work has replaced: backend 657 and 659, mobile 331 and 336. Recommended: yes" / "I want you to pick the next 20 agent
+runs that make the biggest difference for the v1 launch, plan them out, and launch them all parallel right now. Then after all 20 are
+launched, stop-and-drain down to 8". Recorded in agent 123 Part B (21:28, 21:35).
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
