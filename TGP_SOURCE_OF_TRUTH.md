@@ -7648,6 +7648,16 @@ turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to 
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
 
+#### 2026-10-06 14:30 PDT — Was messaging audited; turn the cloud trackers on and show them proudly; "one what?" (owner, to agent 125)
+> "Messaging: message reports now always reach the coach, and the unread count on Home is live - got audited right?"
+> "Wearables: the Connections screen no longer lists 12 services that are switched off - why were they switched off, then hid? TURN THEM ON AND SHOW THEM PROUDLY!"
+> "Community: coaches can open the report queue, and members can write a post once the Hall has one - one what?"
+Recorded by agent 125. m#429 merged only on dual APPROVE at exact head. Cloud trackers: 8 connectors built, no provider keys exist
+(all *_CLIENT_ID/SECRET unset; FEATURE_WEARABLES_CLOUD_CONNECTORS off). Self-serve keys: Oura, Polar, Withings; approval-gated: Garmin
+(~2 business days), WHOOP (10 members before approval), Wahoo; Fitbit moving to the Google Health API (code migration); Strava's API
+agreement forbids showing a user's data to anyone else (coaches), so not useful for TGP. B-WEARLIST-125 launched 14:36 (server-driven
+list so providers light up without a new build); B-REPORTALERT-125 (report emails to a human, Apple 1.2).
+
 #### 2026-10-06 14:29 PDT — 2030 vision: posts-to-packages bridge, agnostic selling, gym software, coach discovery, PT job board (owner, to agent 125)
 > "More to my vision of TGP - we can become the bridge between psots and sold packages for coaches. Roman and AI simplifies day to day tasks. We automate payments and simplify package creation. We are agnostic - you can sell PDF's, videos, and training equally."
 > "We have subcopach and team growth levers. Full suite of management tools for sub coaches."

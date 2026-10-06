@@ -183,7 +183,7 @@ Report /home/user/workspace/ops/reports/FIX-Q1-125.md (per item: PR, old head ->
 # LENS QUEUE L2 (14:16) — auditor PRs (AUDIT-01..20-125), both L1 lenses after their L1 queue
 Same verdict rules as LENS PAIR L1. The live queue is every open PR whose comments contain "READY FOR AUDIT" from an AUDIT-xx-125 or
 FIX-Q1-125 job and that has no verdict of your model at its CURRENT head. Find them with:
-`for r in backend mobile; do gh pr list --repo BradleyGleavePortfolio/growth-project-$r --state open --search "agent125 in:head" --json number,headRefOid,title; done`
+`for r in backend mobile; do gh pr list --repo BradleyGleavePortfolio/growth-project-$r --state open --limit 100 --json number,headRefName,headRefOid,title --jq ".[]|select(.headRefName|startswith(\"agent125/\"))|\"$r#\\(.number) \\(.headRefOid) \\(.title)\""; done`
 (branches are agent125/...). Order: money and private data first, then core flows (sign up, train, log food, book, message), then the
 rest. Mobile PRs before backend PRs at equal weight (the 10-07 build only carries mobile main). 15 minutes per PR (T4 money 20).
 Delta reviews (FIX ROUND k READY FOR DELTA AUDIT on a PR you already reviewed): review only the delta, 10 minutes.
@@ -204,3 +204,27 @@ m#418) so you do not collide with them (build on main; if you must touch the sam
   dropRow.tsx:221-232). Smallest compatible fix per the report.
 One backend PR + one mobile PR, each under 800 lines; the mobile change must degrade gracefully against today's production backend (the
 new buyer route ships with tonight's deploy). READY comments per _COMMON_125 item 5 with job B-DELIV-125.
+
+## B-WEARLIST-125 (Claude Opus 5.5, builder, T3) — cloud trackers light up from the server, no app update needed. Time box 50 min (hard stop 15:30).
+Owner 14:30: "TURN THEM ON AND SHOW THEM PROUDLY!" The eight cloud connectors (Fitbit, Garmin, Oura, Polar, Strava, Wahoo, WHOOP,
+Withings) are built (backend src/wearables/connectors, master switch FEATURE_WEARABLES_CLOUD_CONNECTORS in
+src/wearables/cloud-connectors.feature.ts) but TGP has no provider keys yet (all *_CLIENT_ID/SECRET "unset"). m#421 (merged) hides every
+cloud provider on the Connections screen (src/screens/client/wearables/ConnectionsScreen.tsx, connectableHere). Make the list server-driven
+so each provider appears the moment it is really connectable, with no new app build:
+- Backend PR: authenticated GET /wearables/providers (or the closest existing route family) returning the cloud providers that are
+  connectable now = master switch on AND that provider's required credentials present (names only; never return values). Tests.
+- Mobile PR: ConnectionsScreen shows a cloud provider row (with its Connect action using the existing OAuth start flow) only when the
+  server lists it; on 404 / error / older server it behaves exactly as m#421 does now (hidden, no false claims). Proud presentation when
+  listed: provider name, logo if the app already has one, one-line benefit ("Sleep, readiness and heart rate from your Oura ring").
+  Tests for both states.
+Read the m#421 diff first. Each PR under 500 lines. READY comments per _COMMON_125 item 5 with job B-WEARLIST-125.
+
+## B-REPORTALERT-125 (Claude Opus 5.5, builder, T3 store/safety) — every user report reaches a human. Time box 45 min (hard stop 15:25).
+AUDIT-03-125 N1 and AUDIT-10-125: message reports and community reports are saved, the report sheet promises review within 24 hours,
+but nobody is alerted (Apple 1.2 requires timely action on reports). Backend PR only: when a message report or a community report is
+created, send one email through the existing email service (Resend; sender already configured) to the support inbox the app already
+uses (find the configured support/help address in code or env names; do not invent an address; if none exists, use an env var name
+REPORTS_ALERT_EMAIL with a safe fallback to the existing support address constant) with: report id, kind, reason label, time, and a
+note that it is a "self-harm or suicide" report when that is the reason (put that first in the subject). Never include message text,
+health data or names of the reported content's author in the email body beyond the ids (PII minimal). Failure to send must never fail
+the report itself (log + metric). Tests. Under 400 lines. Read b#789 (AUDIT-03, adds report reasons) and m#428 so you do not collide.
