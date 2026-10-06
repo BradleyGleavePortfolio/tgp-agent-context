@@ -2328,6 +2328,15 @@ Contribution log (PDT, newest last)
   with the gap (other auth.uid() write policies are self-owned; DailyMealPlanAssignment keys on a GUC PostgREST cannot set; the rest are
   `false`). Mobile never uses PostgREST for data. Builder B-D8-124 (Claude Opus 5.5) 11:07: one migration adding a caller-bound tenancy
   helper to the policy (b#593 reference, not ported wholesale).
+- 11:08-11:13 OWNER: "scale up to 20 agents but ONLY let them do major jobs that reall make a diff" (C1, A6.8); status questions (Roman
+  intelligence, MWB, Money merge, client lookup, referral codes) answered in the 11:13 owner message; 11:12 "send one agent to see whats
+  un-intuitive or less than hyperscaler quality in the client side wokrout logging. Send another to do the same auditing of the client
+  side food logging". Wave 2 launched 11:12 (JOBS124 WAVE 2/2b): S-BRIEF-124, S-REVENUE-124, A-ROMAN11-124, UX-WORKOUT-124 (Opus);
+  M-PREFLIGHT-124, S-AUTHMAIL-124, B-REVIEWDATA-124, UX-FOOD-124 (Sol). Fleet 11.
+- 11:10 Supabase /auth/v1/settings: email signup on, mailer_autoconfirm false (every email signup needs the confirmation email); custom
+  SMTP unknown (built-in mailer only reaches the team, ~2/hour) -> owner check + S-AUTHMAIL-124.
+- 11:12 MERGED b#760 (dual APPROVE BR1 at 5c01322f, checks green) -> backend main 16319560. Deploy after main CI. b#761 build-and-test red
+  at 9b5683f9 (fly-env-sync behaviour fixture still listed FEATURE_SCOUT_INGEST) -> FIX ROUND 2 a0d82ce3 (test only).
 
 ## AGENT 123 — 2026-10-05 18:27 PDT onward (session 56d37990; 123rd operator in the chain)
 Why: agent 122 retired 18:30 (41k/45k) after the owner's 17:55 stop; owner 18:27: "Time for your takeover!" (prompt:
