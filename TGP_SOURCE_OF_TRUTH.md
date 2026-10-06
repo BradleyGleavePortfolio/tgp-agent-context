@@ -1278,6 +1278,9 @@ Older entries not listed here still stand unless a later decision changed them; 
   2026-10-06 14:25).
 - 10-06 14:29 (agent 125) 2030 vision goals (posts-to-packages, agnostic selling, sub-coach suite, boutique gym/kiosk software, coach
   discovery + trust, PT job board; "10 fig company"; today "a perfect everfit competitor") -> A7.5 G1-G9 (C1 entry 2026-10-06 14:29).
+- 10-06 14:49 (agent 125) Roman v1.1 = agent 126's first project; sleep/recovery data is a differentiator; Oura direct connector blocked by
+  Oura API terms (no AI input, no charging, no storage) unless Oura consents; check every provider's API terms before switching it on (C1
+  entry 2026-10-06 14:49).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -7667,6 +7670,22 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 14:49 PDT — Roman v1.1 is agent 126's first project; Oura ring purchase if it gives instant access; ring commission (owner, to agent 125)
+> "The foundation was merged today but is switched off. Turning it on safely takes several more reviewed PRs, so it's agent 126's first project - perfect!"
+> "notate that ill buy an Oura ring and membership IF that gives me instant access to the Oura connection system - I want sleep and recovery data to be a diffrentiating system in TGP for my clients as a coach, so i would like it. Im also curious how to get commision on selling my clients oura rings? If thats a thing"
+Recorded by agent 125. Roman v1.1 (memory, watching, coach twin; A7.2) = agent 126's FIRST project (owner-confirmed). Sleep and recovery
+data is a product differentiator for TGP (owner). Oura facts found 14:55 (Oura API Agreement, effective 2026-06-08,
+https://cloud.ouraring.com/legal/api-agreement): a ring + membership gives a developer app limited to 10 users until Oura review
+(https://cloud.ouraring.com/docs/); BUT 4(d) forbids using the Oura API to "prompt, or otherwise provide input or data to any AI Model or AI
+Platform" (LLM use only through Oura's MCP Server), 4(a)(xiii) forbids "charging Users in any manner" for functionality related to the Oura
+API, 4(a)(xx) forbids caching or storing User Data from the API, and 4(c) says user consent does not override these. TGP's connector stores
+samples and Roman/briefs read wearable data, so the direct Oura connector must NOT be switched on without Oura's written consent or a
+partnership. Oura data a client syncs into Apple Health / Health Connect is read under Apple/Google rules (day-1 path). Owner told: do not
+buy for API access. Commission: Oura runs an affiliate partner program and a reseller program (organizations.ouraring.com/solutions/
+partners-resellers); rates are not published by Oura (third-party directories report about $40-50 per ring).
+RULE (agent 125): before ANY cloud wearable connector is switched on, check that provider's current API terms for AI use, charging users,
+data storage and showing data to a coach (Strava forbids coach display; Oura forbids AI input, charging and storage).
 
 #### 2026-10-06 14:30 PDT — Was messaging audited; turn the cloud trackers on and show them proudly; "one what?" (owner, to agent 125)
 > "Messaging: message reports now always reach the coach, and the unread count on Home is live - got audited right?"

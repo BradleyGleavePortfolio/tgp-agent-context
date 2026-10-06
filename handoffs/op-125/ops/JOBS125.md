@@ -256,3 +256,49 @@ joined), b#796 (coach edits of approved meal plan reach client; check CI green f
 any new agent125/* backend PRs (B-DELIV, B-ROMANADJ, B-WEARLIST, B-REPORTALERT builders) — list with:
 for n in $(gh pr list --repo BradleyGleavePortfolio/growth-project-backend --state open --limit 100 --json number,headRefName --jq '.[]|select(.headRefName|startswith("agent125/"))|.number'); do echo $n; done
 Time box 15 minutes per PR (T4 money/safety 20). Re-check the head sha right before posting.
+
+## VERIFY-EXT-125 (GPT-6.1 Sol, verifier; owner 14:42 "I WANT A SOL SUBAGENT ON THIS") — check another model's findings list. Hard stop 15:30.
+Input: /home/user/workspace/ops/lanes125/VERIFY-EXT-125-input.md (owner-pasted list). READ-ONLY job: no code, no PRs, no issue edits.
+For EVERY item (issues via `gh issue view <n> --repo BradleyGleavePortfolio/growth-project-<repo>`; code via the read-only worktrees
+/home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile after `git fetch -q origin main`, read with `git show origin/main:<path>`
+/ `git grep ... origin/main`), decide one verdict with file:line evidence on current main:
+- CONFIRMED-DAY1: the defect is real on main AND a normal user can hit it on day 1 (feature on in production: check
+  .github/fly-env-desired-state.json for backend FEATURE_* flags; mobile EXPO_PUBLIC_FF_* flags in eas.json profile "clinic" (extends
+  production) — absent = default in src/config/featureFlags.ts). Give the one-sentence normal-user story and grade B/U/C per
+  _COMMON_125 "What you hunt" (RUTHLESS SCOPE: B only for normal-user money/private data/safety/data loss/reachable security/store-legal/
+  false claim/core-flow dead end).
+- CONFIRMED-NOT-DAY1: real, but behind an OFF flag, ops-only (e.g. restore procedure), dev-only, or not reachable by a normal user.
+- FIXED-ON-MAIN: already fixed (name the PR/commit). - IN-FLIGHT: an open PR fixes it (name it; do not re-review the PR).
+- WRONG: the claim is false (show why).
+For CONFIRMED-DAY1 B items give the smallest safe fix (files, ~lines, tier) so the operator can route a builder.
+Spend most time on the 10 highest-priority items; backlog items get a quick reachability check (flag on/off, still present) only.
+Operator preliminary notes, verify independently, do not trust: mobile #260 undo looks behind EXPO_PUBLIC_FF_MWB_UNDO (not in eas.json);
+backend #407 looks behind FEATURE_ROMAN_FIRST_PAYMENT (absent from desired state); backend #732 dedup key still uses start/end
+(src/wearables/ingestion/dedup.util.ts) — check whether on-device ingest from Health Connect AND HealthKit is live and whether rewritten
+records really reach ingest twice; mobile #275 RootNavigator.bootstrapAuth (src/navigation/RootNavigator.tsx ~435, ~670) has no in-flight
+guard — check whether TokenManager/refresh already single-flights refresh, which would make the race harmless.
+Output: /home/user/workspace/ops/reports/VERIFY-EXT-125.md with a table (item | verdict | grade | evidence file:line | one-line note),
+then a short "Route now" list (only CONFIRMED-DAY1 B) and "Post-launch" list. Append one line to
+/home/user/workspace/ops/lanes125/notify/VERIFY-EXT-125.txt when done. No local npm/jest/tsc.
+
+## B-ROMANIQ-125 (Claude Opus 5.5, builder, T4 AI) — Roman's intelligence bump: current-generation models. Time box 55 min (hard stop 15:40).
+Owner 14:44: "Has roman recieved his intelligence bump? Lets work on that too!" Today every product AI path calls claude-sonnet-4-6
+(Feb 2026, two generations old, $3/$15 per MTok): Roman turns (src/roman/anthropic-client.provider.ts ROMAN_MODEL_PHASE_1), coach AI
+drafts (src/ai/coach/coach-ai.constants.ts COACH_AI_MODEL), coach daily brief (src/coach/brief/coach-brief.service.ts:73
+BRIEF_CLAUDE_MODEL = COACH_AI_MODEL; uses temperature at ~:1560). Current Anthropic lineup (docs.anthropic.com models overview, fetched
+14:50): claude-sonnet-5-5 ($2/$10, fast, adaptive thinking default effort high), claude-opus-5-5 ($4/$20, moderate), claude-haiku-4-5-20251001
+(background, unchanged). One backend PR, under 300 lines:
+1. Roman turns + coach AI drafts -> 'claude-sonnet-5-5'. Coach daily brief -> its own constant 'claude-opus-5-5' (runs once per coach per
+   day; latency does not matter; best reasoning). Update every price table the spend caps use (ROMAN_PRICE_PER_MTOK in
+   src/roman/roman.constants.ts, the per-model list in anthropic-client.provider.ts, coach AI budget pricing, brief pricing if any) so caps
+   never under-count; unknown-model fallback stays at the highest rate.
+2. API compatibility FIRST: read the current Anthropic docs (pplx_sdk.content.fetch on docs.anthropic.com / platform.claude.com pages for
+   Sonnet 5.5 / Opus 5.5 and the "migrating" / "what's new" page) for breaking changes: temperature/top_p with adaptive thinking,
+   assistant prefill, thinking defaults and how to set effort or disable thinking for low-latency chat, stop reasons, max_tokens, and
+   whether @anthropic-ai/sdk 0.104.1 accepts these ids/params. Roman chat must stay fast and streaming: set thinking/effort explicitly so
+   first-token latency does not regress (state your choice and the doc line in the PR body). Keep Roman's safety router model
+   (ROMAN_SAFETY_ROUTER_MODEL_ID) unchanged unless it is the retired id.
+3. Update tests that pin model ids or prices; r11-seams prompt hash must not change (prompts untouched). If the R100 / quality-gate (G1-G30)
+   workflow can run live in CI, make sure it runs on this PR and report its result; if it cannot, say so.
+4. PR body: before/after table (path, old model, new model, old price, new price), the API-compat notes with doc URLs, and the kill/rollback
+   (revert the constants). READY comment per _COMMON_125 item 5 with job B-ROMANIQ-125.
