@@ -2352,6 +2352,23 @@ Contribution log (PDT, newest last)
   (coach Restart plan, RST1 dual APPROVE) -> #354 -> #353 landed into #352; payment sheet #344 -> #343 landed into #342; both need main
   refreshes (B-LOCK5 now; sheet after lockout). b#735 coach booking options dual APPROVE (AV1), main merged in (tree_check PASS), merge
   after the dunning deploy dispatch. Owner 17:18: 10.3k/45k; 15 parallel workers outside free trials; webhook link sent.
+- 17:37 DEPLOY 5: fly-deploy run 37394969358, release_sha eb2e9e038a4cc6e2b8b20fb0d37d251a91162350, migrations=apply-migrations (4 new:
+  20270215000000_dunning_billing_actions, 20270301000000_coachless_featured_coach, 20270302000000_coach_code_tools,
+  20270318000000_dunning_dispute_pause_effects). Production approved; success 17:42; /health ok, /readyz 200. Carries dunning D1-D4
+  (FEATURE_DUNNING_V2 OFF), coachless b#721-#723, invite codes b#658, programs b#733, fix b#734.
+- 17:43-17:53 merged to mobile main: m#345 coach setup + money screens (WZ7 dual APPROVE at 90e113bb) -> STEP 3 DONE; m#352 lockout + coach
+  Restart plan (#380/#354/#353 landed; LK6 dual APPROVE at fa2c14fb) -> STEP 4 DONE (backend live, flag off); m#337 approve-to-adjust (ADJ2
+  dual APPROVE, flag off); m#341 notifications device zone + settings saves (RM1 dual APPROVE). Mobile main 7083b7a1 (CI green at fb904a75).
+- 17:48-17:50 merged to backend main: b#735 coach booking options (AV1 + MO1 merge-only dual APPROVE at 082d4653), b#655 approve-to-adjust
+  (ADJ2 + MO1 at a0ccfcdd; operator resolved .env.example, patch-id evidence), b#726 broadcasts split 1 (BC5 dual APPROVE at ff2594db).
+  Backend main 0521b393, main CI GREEN 17:55. NOT deployed (3 PRs with migrations: next deploy = 0521b393, migrations=apply-migrations).
+- 17:55 OWNER: "stop all agents asap" at 41k/45k. All 10 running agents cancelled 17:55 (AIG2, B-340, RMNC3, M-AVAIL2, SHEET7, LA1 pair,
+  MF2 pair, B-339R). Some had pushed unaudited heads: b#736 58a31e6f (AIG2 fix), b#669 31573c83 + b#670 30f09747 (RMNC3 fix B-669-1),
+  m#340 62794564 (B-340 rebase onto main). These need a lens pair before anything lands.
+- AGENT 122 CLOSING 17:58 PDT. Launch path 3/7 (1 Privacy, 3 Coach, 4 Failed payments). Merged today 91, deployed today 5. Full open-PR
+  state, verdicts and next actions: handoffs/op-122/HANDOFF.md. Owner to-dos: Stripe webhook (refund.updated + trial_will_end on
+  we_1UMt9WDUoC5CCVhShvAELVmI) gates trials; MWB_AUTOSAVE_LOCK_TOKEN_SECRET GitHub secret gates programs b#737; Health Connect device pass on
+  the 10-07 build; Supabase Pro day 1.
 
 ## AGENT 121 — 2026-10-05 11:5x PDT onward (session 8a21c288; 121st operator in the chain)
 Why: agent 120 stopped launching at 11:28 (37.7k/45k credits) and handed off; the owner started agent 121 with the four documents and
@@ -7168,6 +7185,10 @@ jobs at once), cancel superseded test runs right away, and stop launching at 37k
 Verbatim: "the expo build goes 10/7 with as much fixed as possible before then - I want agents 122 -> 130 done and exhausted before day 1
 launch!". Meaning: no EAS build tonight; one build on Wed 10-07 carrying every mobile fix merged by then (the Health Connect device pass
 uses that build); operators 122 through 130 all run before day 1.
+
+#### 2026-10-05 17:55 PDT — Stop all agents (owner, to agent 122)
+Verbatim: "stop all agents asap - update in TGP SOURCE OF TRUTH and all relevant files your state and acomplishments - 41k/45k credits used".
+Done 17:55 (10 agents cancelled; state in agent 122 Part B and handoffs/op-122/HANDOFF.md).
 
 #### 2026-10-05 17:18 PDT — Stripe webhook link; 15 parallel workers outside free trials (owner, to agent 122)
 Verbatim: "10.3k/45k credits used - give me the exact link to update the stripe webhook - launch parallized workers outside of free trials
