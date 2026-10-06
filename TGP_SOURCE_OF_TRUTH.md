@@ -2298,6 +2298,35 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
 
+## AGENT 124 — 2026-10-06 11:00 PDT onward (session b6cbb3b7; 124th operator in the chain)
+Why: agent 123 handed off 10-06 (prompt: handoffs/op-123/AGENT_124_PROMPT.md); owner 10-06: "Read tgp source of truth, launch one
+pager, and follow the attached doument as my first prompt (read word for word)". Agent 124 runs alone over both repos. Files:
+handoffs/op-124/ops/ (_COMMON_124.md, JOBS124.md, FLEET.md; copied at wrap-up). Raw evidence: backend branch wip/op124/ops-snapshot.
+Credits: the owner has not yet given agent 124 a number (last number in this file 37k/45k was agent 123's budget).
+
+Closing line: (written at wrap-up)
+
+Contribution log (PDT, newest last)
+- 11:00-11:02 Takeover. GitHub auth OK. Verified agent 123's handoff: backend main 1dbada71 = production (deploy 11, run 37504168125),
+  mobile main 7812405d, open PRs backend 43 / mobile 12; /health ok, /readyz 200. Production read-only: "User" 1 row, auth.users 3, no row
+  yet for the81stworker@ or bradleyapple1031@, owners 0, "CoachBrief" empty. Ops tools restored from wip/op123/ops-snapshot into ops/.
+- 11:02 Job 1 (coach briefs): applied handoffs/op-123/coach-brief-model.patch -> b#760 @ 5c01322f (54 lines, T4): BRIEF_CLAUDE_MODEL =
+  COACH_AI_MODEL (claude-sonnet-4-6, the model Coach AI and Roman already call in production) + test/coach-brief-model.spec.ts. Lens pair
+  BR1 (Opus + Sol) 11:03.
+- 11:05 b#761 @ 9b5683f9 (33 lines, T4, items 3 and 7): GDPR_SCRUB_DRY_RUN pinned "false"; FEATURE_GOOGLE_CALENDAR_SYNC,
+  GOOGLE_CALENDAR_ENABLED, GOOGLE_MEET_ENABLED, FEATURE_SCOUT_INGEST, FEATURE_EXTENSION_PAIRING adopted into the manifest as "unset" (all
+  read only 'true' as on; Fly holds 'true'). Validator OK.
+- 11:05 b#762 @ d79497f6 (4 lines, T4, item 2): FEATURE_DUNNING_V2 "true". MERGE HELD until the owner turns on, in Stripe live mode,
+  the customer portal and Revenue recovery > Retries custom schedule 1 / 2 / 4 days (Days 1/3/7), "if all retries fail" = past due or
+  unpaid, not cancel (subscriptions live on the platform with on_behalf_of, so the platform schedule performs every charge; v2 never
+  charges). Lens queue FL1 (b#761, b#762) to the BR1 lenses after their b#760 verdicts.
+- 11:06 D8 check (HANDOFF "first check"): REACHABLE. PostgREST exposes public (GET /rest/v1/ClientWorkoutAssignment with the publishable
+  key -> 200 []), anon/authenticated hold INSERT/UPDATE/DELETE on "ClientWorkoutAssignment", and production "assignment_coach_manage"
+  never checks the client is the caller's client: a self-signed-up coach can assign a workout to any client through the API. Only table
+  with the gap (other auth.uid() write policies are self-owned; DailyMealPlanAssignment keys on a GUC PostgREST cannot set; the rest are
+  `false`). Mobile never uses PostgREST for data. Builder B-D8-124 (Claude Opus 5.5) 11:07: one migration adding a caller-bound tenancy
+  helper to the policy (b#593 reference, not ported wholesale).
+
 ## AGENT 123 — 2026-10-05 18:27 PDT onward (session 56d37990; 123rd operator in the chain)
 Why: agent 122 retired 18:30 (41k/45k) after the owner's 17:55 stop; owner 18:27: "Time for your takeover!" (prompt:
 handoffs/op-122/PROMPT_AGENT_123.md). Agent 123 runs alone over both repos. Files: handoffs/op-123/ops/ (_COMMON_123.md, JOBS123.md,
