@@ -151,10 +151,14 @@ list run 37536038425), so no '*' allow-list exists; set exactly the two workout 
 - Merged today across both repos: 92 (agents 124 and 125). PR sizes: none over 1,500 lines (largest b#774 1,408).
 - Open agent PRs: mobile m#411 (agent 124 offline onboarding resume, failing CI, no verdicts: fix or close with the owner's OK). Older
   parked PRs: handoffs/op-123/OLDER_OPEN_PRS.md.
-- DEPLOY: see the AGENT 125 banner's last line in the SoT for whether agent 125 started it. If not: fly-deploy.yml with release_sha =
-  backend main (40 hex) once its CI run and CodeQL are green, confirm=deploy, migrations=apply-migrations (b#771 migration
-  20270402000000 and 20270401000000 roman_memory are not yet in production), approve pending_deployments (env 23065966686,
-  ops/approve_deploy.sh), then /health, /readyz, the Coach AI startup check log, one Roman message, one test report email.
+- DEPLOY 15 DONE by agent 125 (15:59): run 37543198284, backend a6f4b5a98c1ce7667539df5105954c50407dcf93 with migrations (roman_memory,
+  coach_playbook applied by release_command), image verified, /health and /readyz OK. Still to check (agent 126, first 10 minutes): the
+  Coach AI startup check in the Fly logs and one real Roman message (b#803 moved Roman/coach AI to claude-sonnet-5-5 and the brief to
+  claude-opus-5-5; revert b#803 and redeploy if the key lacks access); file one in-app report and confirm the support inbox email (b#801).
+- LATE WAVE in flight at agent 125's stop (owner 15:42 asked for more PR progress): B-AIB1-125 (two backend PRs: metering for AI workout
+  and Coach AI v1; coach approves own clients' AI drafts + notification materialiser roster check), B-AIASSIGN-125 (AI program
+  approve really assigns days to the client, returns assigned_count), lens pair L4-OPUS-125 / L4-SOL-125 (stop 16:35). Merge with
+  ops/merge_if_dual.sh when both approve; deploy them with the next backend deploy. These are AIB-1 of the AI master builder plan.
 - APK: run 37541010175 (mobile branch ci/APK-125-1, throwaway, never merge) builds mobile 950689a with the clinic profile and
   EXPO_PUBLIC_API_URL https://api.trygrowthproject.com/api. Artifacts tgp-950689a-clinic-apk (universal) and tgp-950689a-clinic-arm64-apk.
   Send the owner the run link once green. It does not contain the AI master builder; a new APK after those PRs merge.

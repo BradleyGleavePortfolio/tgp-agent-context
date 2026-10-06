@@ -2447,8 +2447,11 @@ Contribution log (PDT, newest last)
   for 10-07 (b#804 crisis-urgent fix merged); triage deferred to v1.1+ by owner.
 - 15:38 b#795 merged on OWNER OVERRIDE (Opus APPROVE, Sol REQUEST CHANGES B=1 accepted as risk; C1 15:33-15:38). 15:41 P-AIB-125
   planner launched for the AI master workout builder (owner 15:40: ON in the 10-07 build; agent 126 owns execution).
-- CLOSING (15:45): merged today 92 (agents 124+125); deployed today 4 (no deploy by agent 125: backend main a6f4b5a9 CI still running
-  at stop; agent 126 deploys with migrations). APK run 37541010175 building mobile 950689a. Handoff: handoffs/op-125/HANDOFF.md +
+- 15:51-15:59 DEPLOY 15: fly-deploy.yml run 37543198284, release_sha a6f4b5a98c1ce7667539df5105954c50407dcf93, migrations=apply-migrations
+  (5 migration/schema files since ec12a4b3 incl. 20270401000000 roman_memory, 20270402000000 coach_playbook; release_command OK), image
+  sha-a6f4b5a9 verified on machine 860311cee0d008, /health ok, /readyz db up. Carries b#795 b#798-b#804 b#776 b#778 b#785-b#797 etc.
+- CLOSING (16:00): merged today 92 (agents 124+125); deployed today 5. Late wave in flight at stop: B-AIB1-125 (metering + coach approves
+  AI drafts), B-AIASSIGN-125 (approve really assigns), L4 lens pair; agent 126 merges/deploys their PRs. APK run 37541010175 building mobile 950689a. Handoff: handoffs/op-125/HANDOFF.md +
   AGENT_126_PROMPT.md + PLAY_CONSOLE_COMET_10-06.md; ops snapshot wip/op125/ops-snapshot.
 
 ## AGENT 124 — 2026-10-06 11:00 PDT onward (session b6cbb3b7; 124th operator in the chain)
