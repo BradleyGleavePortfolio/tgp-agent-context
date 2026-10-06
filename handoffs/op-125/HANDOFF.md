@@ -159,7 +159,12 @@ list run 37536038425), so no '*' allow-list exists; set exactly the two workout 
   and Coach AI v1; coach approves own clients' AI drafts + notification materialiser roster check), B-AIASSIGN-125 (AI program
   approve really assigns days to the client, returns assigned_count), lens pair L4-OPUS-125 / L4-SOL-125 (stop 16:35). Merge with
   ops/merge_if_dual.sh when both approve; deploy them with the next backend deploy. These are AIB-1 of the AI master builder plan.
-- APK: run 37541010175 (mobile branch ci/APK-125-1, throwaway, never merge) builds mobile 950689a with the clinic profile and
+  PRs: b#805 metering (agent125/b-aib1-meter @ 41493e41, 272 lines), b#806 approve assigns (agent125/b-aiassign-approve-assigns @
+  3c224d8e, 390 lines; m#425 already merged reads assigned_count), b#807 coach approves AI drafts (agent125/b-aib1-approve @ 0cdafb37,
+  332 lines). All CI green; L4 lenses re-pointed 16:32 (stop 16:55). Default taken: a coach with no sub-coaches may approve drafts they
+  typed themselves (B-AIB1 decision, recommended keep).
+- APK: run 37541010175 FAILED only at "Prove the APK" (the proof still expected the old fly.dev URL); fixed and re-run as 37547000616
+  (16:31, about 45 minutes). Mobile branch ci/APK-125-1, throwaway, never merge; builds mobile 950689a with the clinic profile and
   EXPO_PUBLIC_API_URL https://api.trygrowthproject.com/api. Artifacts tgp-950689a-clinic-apk (universal) and tgp-950689a-clinic-arm64-apk.
   Send the owner the run link once green. It does not contain the AI master builder; a new APK after those PRs merge.
 - CI note: backend ran 1,228 workflow runs today; the queue drains in about 20-40 minutes after a merge burst. The safety classifier blocks
