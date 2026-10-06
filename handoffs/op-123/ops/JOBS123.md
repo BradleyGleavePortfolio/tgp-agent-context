@@ -437,3 +437,54 @@ community, rate limits. Report: what fails first under a launch-day spike and th
 
 ## Reviews for wave 3
 Builder PRs go to the six finished lenses (W2A/W2B/W2C Opus + Sol) by operator message, two lenses per PR, one verdict each.
+
+# WAVE 3 FIX QUEUE (start only when fewer than 8 agents run; owner 21:28 "stop-and-drain down to 8")
+## F1 B-PUSHMUTE-123 (Claude Opus 5.5, builder, 30 min) — community push must honour "Mute all notifications" (B-S-PUSH-1)
+Report ops/reports/S-PUSH-123.md section B-S-PUSH-1 (exact lines and the smallest fix). In CommunityNotificationsService.sendCommunityPush
+read the recipient's preferences and return before inbox/send when muted === true, keeping the community default table (do NOT stop
+on createNotification() returning null: community kinds fall to digest whose push default is false). Tests: muted reply -> no
+pushToUser; unmuted reply -> sends with community defaults. Backend only (server-side; no build dependency).
+## F2 B-GUIDEPOOL-123 (Claude Opus 5.5, builder, 40 min) — AI Guide must draw from the coach's monthly pool (B-S-AICOST-123-1)
+Report ops/reports/S-AICOST-123.md (exact lines + smallest fix): inject CoachAIBudgetService into AiService; resolve the client's coach /
+head coach like Roman; pre-check the bounded cost before the paid Anthropic call; debit actual cost (same $3/$15 rates, ceil cents)
+after usage; exhausted pool -> existing COACH_AI_BUDGET_EXHAUSTED with client-safe copy (mobile already maps it? check; no generic
+error). Crisis/deterministic replies never spend. Owner / unassigned clients: same as Roman (no pool; per-person cap still applies).
+## F3 M-STORE-123 (Claude Opus 5.5, builder, 50 min, one mobile PR, up to 700 lines) — store-review fixes for the 10-07 build (SECOND IN QUEUE)
+(a) B-IOSREV-1 (ops/reports/S-IOSREV-123.md): app.json iOS NSCameraUsageDescription + NSPhotoLibraryUsageDescription (+ add-only
+photo library if Save Image needs it) with specific purpose text; Share > Save Image and the support-chat camera must not crash.
+(b) B-IOSREV-2: Guideline 1.2: a one-time "Agree and continue" community terms sheet before first Community use (stored per user;
+links to the existing terms/community guidelines page) plus a terms line on Create account. (c)-(e) below (old F3 scope):
+## (was F3 M-COPY-123) Trust Center truthful security copy (B-STORECOPY-1) + stale Play worksheet (B-STORECOPY-4)
+Report ops/reports/S-STORECOPY-123.md + packet tgp-agent-context/handoffs/op-123/STORE_TEXT_10-07.md (exact copy). Mobile
+src/screens/TrustCenterScreen.tsx:459,544-546: replace universal TLS 1.3 / AES-256 / secure-enclave guarantees with accurate wording
+(encrypted transport, Keychain/Keystore token storage, device cache disclosure). PLAY_STORE_READINESS.md:44-64 and
+docs/PLAY_INTERNAL_TESTING_PACKAGE.md:118-152: mark the old data-safety rows superseded and point to the packet. Must be in the 10-07 build.
+Also B-PLAYREV-1 (ops/reports/S-PLAYREV-123.md): the voice-off build still declares Android microphone access; set the expo-audio
+plugin recordAudioAndroid:false (or the matching config) after proving no reachable production UI records audio. Up to 3 small commits, one push.
+## F4 B-COPY-123 (Claude Opus 5.5, builder, 30 min) — public pages: open signup, coach app FAQ, community + leaderboard disclosure
+Backend public pages (exact copy in ops/reports/S-STORECOPY-123.md and ops/reports/S-PRIVACY-123.md): B-STORECOPY-2 /signup no-code
+copy says invite-only (public-pages.html.ts:135-142, trust-pages.html.ts:665) -> open signup wording; B-STORECOPY-3 FAQ says coach is
+web-only (help-pages.html.ts:466-468 + docs/help/faq.md:105-108) -> mobile coach tools; B-PRIVACY-1 policy part: /privacy "Who can see
+your data" and /consumer-health-privacy "Categories we share" -> community spaces + opt-in leaderboard text (after b#747). Never name the
+clinic partner. Snapshot/spec updates for the pages.
+
+## F5 B-AUTHZ-123 (Claude Opus 5.5, builder, 40 min) — cohort member assignment + legacy block list (B-AUTHZ-1, B-AUTHZ-2)
+Report ops/reports/S-AUTHZ-123.md (exact lines, stories, test sketches). B-AUTHZ-1: POST /api/community/cohorts/:cohortId/members
+resolves body user_id/email globally, returns full name + email and upserts an ACTIVE membership for any user: authorize the target
+first (the owning coach's live roster, or an existing active member of that workspace; platform owner may override); foreign target ->
+coded non-disclosing refusal, no lookup data returned, no membership/ban change. B-AUTHZ-2: GET /api/users/blocks returns blocked.name
+verbatim: return memberFirstName for client targets (block/unblock stay available, no new gate). Failing tests first.
+
+## F6 B-COMMWS-123 (Claude Opus 5.5, builder, 45 min, TWO PRs) — FIRST IN QUEUE — community posting dead-end (B-E2E-1)
+Report ops/reports/S-E2E-CLIENT-123.md B-E2E-1 (trace, failing-test sketches, smallest fix). Operator decision D1 = (a).
+PR 1 backend: in CommunityService.getMe, for a coach with no workspace and for a student whose coach has none, idempotently create the
+workspace (slug coach-<coachId>, name "Community") and its first cohort ("All members", sort_order 0) exactly like
+scripts/seed-clinic-programs.ts, then run the existing bootstrap; spec: student of a coach with no workspace gets workspace_id +
+membership and can post (201). Upserts only (concurrent first opens must not fail: unique keys + upsert; no retry machinery).
+PR 2 mobile (must be in the 10-07 build): CommunitySpaceScreen with workspaceId null after a successful /community/me shows the
+Today-style "No cohort yet / Send your coach a message" state and hides the composer CTA; the composer never posts to
+workspaces//posts. Tests for both.
+
+# WAVE 3 REVIEW QUEUE (two lenses each; W2 lenses by message once the fleet is under 8)
+- b#747 operator fix: legacy leaderboard opt-in (B-PRIVACY-1) + removed/banned viewer own-only (B-AUTHZ-3) @ ae1c103333361b3442c102b7bde1af4f3c950762
+- b#742..b#746 from wave 3 builders (heads in their reports when they finish)

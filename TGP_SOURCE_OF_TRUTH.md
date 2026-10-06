@@ -2407,6 +2407,19 @@ Contribution log (PDT, newest last)
   noise, Roman false-911 on gym talk, AI spend, authz, RLS, deletion/export of day-1 data, privacy policy, client + coach journey
   traces, push, owner device-pass script, store text, launch-day capacity. No new launches until the fleet drains to 8; then hold at 8.
   Builder PRs go to the six finished W2 lenses. Credits asked every 15 minutes while more than 8 run.
+- 21:38-21:46 wave-3 results (reports in the session workspace ops/reports/; summaries here). Bs found:
+  B-S-PUSH-1 community push ignores "Mute all" (F1); B-S-AICOST-1 AI Guide spends outside the coach monthly pool (F2; Roman's unset
+  daily cap = $100/day platform-wide, 50 turns/client/day); B-PRIVACY-1 legacy GET /api/community/leaderboard ignored the opt-in
+  (show_on_leaderboard) and B-AUTHZ-3 removed members still read it -> operator PR b#747 ae1c1033; B-AUTHZ-1 coach can add ANY user (by id
+  or email) to their cohort and read full name + email, B-AUTHZ-2 legacy block list shows full names (F5); B-E2E-1 community posting
+  dead-ends: no code path creates a CommunityWorkspace (only the clinic seed), so "Be the first to post" -> 404 (F6, launched 21:46);
+  B-IOSREV-1 no camera/photo purpose strings (crash + upload rejection), B-IOSREV-2 no community terms agreement (Guideline 1.2),
+  B-PLAYREV-1 mic permission declared with voice off, B-STORECOPY-1..4 (Trust Center overclaims, /signup says invite-only, FAQ says
+  coach is web-only, stale Play worksheet) (F3 mobile, F4 backend). No B: RLS (42 new tables all forced RLS), build config (owner
+  checklist: build the clinic profile once per platform; EAS env: API URL ends /api, add SENTRY_AUTH_TOKEN and the iOS purchase-hide
+  flag; iOS build 6 / Android 5), capacity (one Fly machine; owner cost options $62-109/month). PRs open: b#742 (Sentry noise from
+  flag-off 503s), b#743-b#746 (wave-3 builders), b#747. Owner docs: handoffs/op-123/DEVICE_PASS_10-07.md, STORE_TEXT_10-07.md.
+- 21:46 fleet drained to 7 -> F6 launched (8). Fix queue order: F6, F3 M-STORE, lens pair for the open PRs, F5, F1, F2, F4.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
