@@ -1266,6 +1266,7 @@ Older entries not listed here still stand unless a later decision changed them; 
   food x2, workout x2) launched (C1 entry 2026-10-06 12:01-12:02).
 - 10-06 12:24 (agent 124) "27k/45k used" -> credits line 27k/45k; APK requested -> APK-124 (C1 entry 2026-10-06 12:24).
 - 10-06 12:33 (agent 124) "make his FIRST to do to launch 20 auditors" -> AGENT 125 FIRST JOB; reviewer accounts "yes - do it" (C1 entry 2026-10-06 12:33).
+- 10-06 12:36 (agent 124) "let those 11 agents finish and then create the agent 125 handoff" -> no new launches; handoff after; Stripe receipts on 12:37 (C1 entry 2026-10-06 12:36-12:37).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -7522,6 +7523,13 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 12:36-12:37 PDT — Let the 11 agents finish, then hand off; Stripe receipt emails on (owner, to agent 124)
+> "let those 11 agents finish and then create the agent 125 handoff document with detailed report of what you got done. Also update tgp source of truth with your, agent 124's, contribution to the mission!"
+> (on Stripe receipts, recommended yes) "you do it! If you need a key to do it, give me a secure form for credential vault"
+> "stripe update done"
+Recorded by agent 124. No new launches; the 11 relaunched agents finish, then snapshot + handoff. Stripe customer emails are
+dashboard-only (no API); the owner switched on live "Successful payments" and "Refunds" receipts himself at 12:37.
 
 #### 2026-10-06 12:33 PDT — Agent 125's first job: 20 QA auditors; reviewer accounts approved (owner, to agent 124)
 > "When you make agent 125's handoff - make his FIRST to do to launch 20 auditors on each of those sections. We are nearing IOS launch and need final QA passes and fixes!"
