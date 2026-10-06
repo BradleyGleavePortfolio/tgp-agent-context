@@ -2338,6 +2338,20 @@ Contribution log (PDT, newest last)
 - 16:52 wave 4 (12 running): B-SCH2 (scheduling mobile #367: Opus B-367-1 expired label, Sol B-367-1 welcome fallback heading), S-AVAIL-122
   (backend coach booking options: notice, window, buffers, daily max; day-1 scope gap both SCH1 lenses flagged), M-ROMANCAP-122 (AI cap pop-up),
   B-ADJB/B-ADJM (Roman approve-to-adjust b#655 / m#337), B-MSG2 (messaging mobile #377 B-377-1; #371 dual APPROVE), wizard+money delta pair WM1.
+- 16:55-17:05 m#355 merged to mobile main (programs, flag off). Money train m#351-#348 landed into #347; Sol B-347-4 ("Make live" published
+  the old price after an unsaved edit; Opus C-347-6) ruled B -> B-WIZ5 fix, WZ6 dual APPROVE. Broadcasts b#730-#727 landed into #726 (BC3 dual
+  APPROVE). Messaging mobile m#377 -> #371 landed, #371 merged to mobile main. Backend main went red after b#658 + b#721 both landed (b#658
+  made attachUserToCoachByCode throw code_revoked/expired/exhausted; the coachless map lacked them -> 500): operator fix b#734, MF1 dual
+  APPROVE, merged (a70533d5). Lesson: up-to-date OFF lets two green PRs break main together; main CI is the check, fix forward fast.
+- 17:04 B-DUNFIX had been READY since 16:33 (standby builder, no mail): DUN2 pair launched late. DUN2 dual APPROVE #689/#690/#691; whole
+  dunning train landed into #687; main merged into #687 (tree_check flagged schema.prisma + env-validation.ts -> DUN3 merge-only dual
+  APPROVE); R75 red on the composed tree (empty-catch-undefined +2) -> operator commit 2f11f14b (two requeue writes log instead of
+  swallowing), DUN4 dual APPROVE; b#687 merged to main 17:28 (eb2e9e03). Deploy with migrations follows main CI.
+- 17:12-17:32 wizard train #347 -> #346 landed into #345 (conflicts with main's m#321 S-FEE editor -> B-WIZ6 refresh). m#379 AI cap pop-up
+  dual APPROVE, merged. Scheduling mobile SCH3 dual APPROVE, #367 -> #366 landed, m#365 merged to mobile main (300f898f). Lockout m#380
+  (coach Restart plan, RST1 dual APPROVE) -> #354 -> #353 landed into #352; payment sheet #344 -> #343 landed into #342; both need main
+  refreshes (B-LOCK5 now; sheet after lockout). b#735 coach booking options dual APPROVE (AV1), main merged in (tree_check PASS), merge
+  after the dunning deploy dispatch. Owner 17:18: 10.3k/45k; 15 parallel workers outside free trials; webhook link sent.
 
 ## AGENT 121 — 2026-10-05 11:5x PDT onward (session 8a21c288; 121st operator in the chain)
 Why: agent 120 stopped launching at 11:28 (37.7k/45k credits) and handed off; the owner started agent 121 with the four documents and

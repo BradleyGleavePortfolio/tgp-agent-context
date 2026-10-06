@@ -475,3 +475,245 @@ changes or does not change as shown; no client sees a change the coach did not a
 in your report as proposed C (edge) with one line each for the operator. Merge origin/main first. Flag FEATURE_ROMAN_ADJUST_ENABLED stays
 off. Failing-before test per fixed B. One push. CI lane + PR CI green. Comment FIX ROUND (B-ADJB-122 / B-ADJM-122, agent 122) ending
 READY FOR AUDIT.
+
+### B-WIZ5-122 — wizard m#347 B-347-4: "Make live" must not publish stale terms (T4 money; stack lock: wizard)
+Builder Opus. Time box 30 minutes. State: money train #351->#350->#349->#348 LANDED into #347's branch at 16:58 (dual APPROVE at
+7bf7d696/3dbd4b1d/8603080a/dca7e527); #347 head is now 77e60a83ca541e8f480bb7729acbc0702cea9b71 (tree 757a2b37 = audited #351 top).
+#346 5f8378ff and #345 ed29833c dual APPROVE. Operator ruling: Sol B-347-4 (6005829500; probe run 37390679683) is a B (= Opus C-347-6):
+a coach edits a draft from $99 to $199 and taps "Make <name> live" and the old $99 offer goes live. Fix in the wizard screen on #347's
+branch: while the form has unsaved changes, "Make live" saves the changed terms first (and only publishes after the save succeeds) or is
+disabled with the plain line "Save your changes before making this live." Pick the smaller safe one. Failing-before test (Sol's probe
+should pass). ONE fix commit on agent115/wizard-split-3-wizard-navigator, no merges. Mobile CI lane (tsc + wizard tests). Comment FIX
+ROUND 5 (B-WIZ5-122, agent 122) on #347 ending READY FOR AUDIT (note: #347 now carries the landed money train; delta = your commit only).
+Write ops/lanes122/notify/wizard3.txt.
+
+### AUD-OPUS-BC3-122 / AUD-SOL-BC3-122 — broadcasts b#726-#730 delta (T4: messages to many clients)
+Lens: Opus and Sol, independent. Time box 25 minutes. Heads: #726 b5501a89611844fc43717084d887e604af33037a (unchanged; base main) -> #727
+63348b0771e39996cf75f8451802430f9f497229 -> #728 06b322e8471929933cbe0e635b1cc2f9dcdbc4cb -> #729 ec53c87f7bd800b9f2c469c7d4b36b16b8e67e65
+(merge-only) -> #730 afbb4c1a846422df6b09a028d71d2a763a6ccf76. Report ops/reports/B-BC2-122.md (FIX ROUND comments 6005447893, 6005448253,
+6005669771, 6005700804, 6005738820, 6005596999). Fixed: Sol B-727-1 (master-program audiences reach clients on that program), B-728-1
+(program-ref check + picker), Opus C-727-1 (archived clients), C-728-1 (draft edits stay drafts); outside the list: #730 live-spec seed
+(two sub-coaches shared a client), #728 test casts removed. Check your own lens's items are closed and the changed lines add nothing from
+the item list (wrong audience = a client gets a message not meant for them, or misses one meant for them). One verdict per PR (#729
+merge-only, #726 confirm unchanged).
+
+### AUD-OPUS-MSG2-122 / AUD-SOL-MSG2-122 — messaging mobile m#377 delta (T4)
+Lens: Opus and Sol, independent. Time box 20 minutes. m#371 d4244f2cab5a3d89124a5f56221ef389527d525b (dual APPROVE, unchanged) -> m#377
+fae228c8f1609c24f9a581c74393b072eea23c12 (was 316f0a13; one fix commit, FIX ROUND 6005846596, report ops/reports/B-MSG2-122.md; lane
+37390700458 77/77 incl. both lens probes). Check B-377-1 closed (a failed bubble stays until the server returns the same client_message_id;
+older same-text messages no longer remove it) and the change adds nothing from the item list. One verdict on #377.
+
+### AUD-OPUS-MF1-122 / AUD-SOL-MF1-122 — b#734 main fix: coachless map for invite-code lifecycle codes (T4)
+Lens: Opus and Sol, independent. Time box 15 minutes. b#734 11ebdf44ffe27beceff36c79073155624068e73f (base main 6aff479c; 4 lines; operator 122 wrote it, so lenses are
+independent). Main CI build-and-test red at 6aff479c (run 37390793076): b#658 made attachUserToCoachByCode throw code_revoked /
+code_expired / code_exhausted; ATTACH_TO_COACHLESS lacked them, so coachless redemption answered 500 redemption_failed. Check: the map is
+right, no other caller of attachUserToCoachByCode (auth.service.ts signup paths, auth.controller.ts) now turns those three codes into a
+500 or a wrong message for a normal client (say so if one does: that is a B), CI green. One verdict at the exact head.
+
+### AUD-OPUS-DUN2-122 / AUD-SOL-DUN2-122 — dunning delta b#689/#690/#691 (T4 money/access) — STEP 4, top priority
+Lens: Opus and Sol, independent. Time box 25 minutes. Heads: #687 c140575c, #688 610c5254, #704 524c4025, #705 346b7757, #724 410fb1b3
+(dual APPROVE, unchanged) -> #689 68796f675df9c67c0618145efff58caf32a26b04 (FIX ROUND 4, 6005485883: C-689-6 neutral dispute-or-inquiry
+copy; SetupIntent omits an empty on_behalf_of) -> #690 5d41f7678438c11865762a7925ad53520948fe75 (FIX ROUND 3, 6005486208: B-690-8 / B-690-S1
+coach restart route + clean #689 merge) -> #691 3dc0e9472954bdd8381d3394aeb79ab0d5712514 (RESTACK merge-only, 6005486528). Report
+ops/reports/B-DUNFIX-122.md; lane 37388562724 green. Re-review scope: #689 commits 46fe43f7..68796f67; #690 d46ea900 + 5d41f767 (+ clean
+merge 79601701); #691 merge-only. Check: B-690-8 closed (a coach can restart a client whose plan ended after failed payments, and only their
+own client), the copy is true, the changed lines add nothing from the item list. One verdict per PR (#689, #690, #691).
+
+### M-RESTART-122 — mobile: coach "Restart plan" for a dispute-paused client plan (T4 money; new PR on top of lockout m#354)
+Builder Opus. Time box 45 minutes. Backend route (b#690 5d41f7678438c11865762a7925ad53520948fe75, FIX ROUND 3 comment 6005486208, report
+ops/reports/B-DUNFIX-122.md): POST /v1/coach/purchases/:id/dispute-restart (coach/owner, own client only). 200 { restarted: true }; 404
+PURCHASE_NOT_FOUND; 409 PLAN_NOT_DISPUTE_PAUSED, PLAN_ENDED, OTHER_LIVE_PLAN, NEW_DISPUTE; billing_busy (read the controller for the exact
+code/status). Normal-user story: a coach whose client's plan was paused after a payment dispute (resolved in the coach's favour or settled)
+taps "Restart plan" on that client's purchase and billing resumes; each refusal shows one plain sentence (impersonal voice, no "we").
+Where: the coach's view of a client purchase that shows the dispute-paused state (find it in mobile main f5c399a7 or in the lockout stack
+m#352 da686cea -> #353 78ed4e07 -> #354 be5c74b1, which adds the dunning API client). Base the NEW PR on the branch of m#354
+(agent115/lockout-split-3-...; check with gh) so it lands right after lockout; under 1,500 lines; Conventional Commits title; confirm
+dialog before restarting; button only when the backend says the plan is dispute-paused. Tests: success, each 409 maps to its sentence,
+button hidden otherwise. Mobile CI lane; PR CI green. Comment FIX ROUND 1 (OPENING, M-RESTART-122, agent 122) + READY FOR AUDIT.
+
+### AUD-OPUS-WZ6-122 / AUD-SOL-WZ6-122 — wizard m#347 B-347-4 delta (T4 money)
+Lens: Opus and Sol, independent. Time box 15 minutes. m#347 9c86167e81cac8b0da12aabf129d9210fc435695 = 77e60a83 (money train landed into
+#347's branch at 16:58; tree 757a2b37 = dual-approved #351 top) + ONE commit (FIX ROUND 5, 6006026528; report ops/reports/B-WIZ5-122.md;
+lane 37391686887 green incl. Sol's probe). Fix: while the editor has unsaved changes, "Make live" sends nothing and shows "Save your
+changes before making this live."; after Save it publishes the saved terms. Check B-347-4 closed and the commit adds nothing from the
+item list. Delta = that one commit only (git diff 77e60a83 9c86167e). One verdict on #347.
+
+### AUD-OPUS-RMN3-122 / AUD-SOL-RMN3-122 — Roman backend b#666/#668 delta (T4: health safety, money)
+Lens: Opus and Sol, independent. Time box 25 minutes. Heads: #667 c5102cae, #665 4dde3ffe (dual APPROVE, unchanged) -> #666
+8cfad60751e77eedb99c5ef0bd08abfe679976c5 (was a3eb3206; clean merge of #665 + fixes A-666-2 crisis phrasings get 988/911 before any AI
+call, B-666-4 insulin line replaced, B-668-3 post-check half) -> #668 fefe73c6741843aaed2f31fa0881aa829114b201 (was dabed738; clean merge of
+#666 + B-668-1 coach credit admission at worst-case 9 cents). FIX ROUND 2 comments 6005723004, 6005723267; report ops/reports/B-RMN2-122.md;
+lane 37389901390 (all prior lens probes pass). #668 PR CI red only on the 12 known tests (11 C-668-6 mock tests fixed by #669's stub +
+by-design FR1-651-3); #668 lands only together with #669. Check your own lens's items are closed and the changed lines add nothing from
+the item list. Operator: keep the 9-cent threshold; Opus decision 2 (locked clients' Roman context) stays a follow-up C. One verdict per
+PR (#666, #668).
+
+### B-RMNC2-122 — Roman C2 b#669 finish + restack C3 b#670 (T4: health safety, money; stack lock: roman)
+Builder Opus. Time box 75 minutes. #669 head 6386c00b (base agent115/roman-split-c1-live-turns = #668's branch) is NOT READY: the C2 fix
+sits half-done and untested on ci/B-ROMAN-BFIX-121-669-wip @ 62f89792 (STATUS comment on #669 by B-ROMAN-BFIX-121: payload bound,
+advisory-lock admission, settledUsage, neutral roman.safety_route audit, no exclamation allowance, error-tag dedupe, roman.prompts.ts line,
+disclosed T4 ci.yml step for roman-spend-admission.live.spec.ts). Do: start from that wip branch, merge #668's new head
+fefe73c6741843aaed2f31fa0881aa829114b201, run the recipe's before-specs and make them pass, add the C-668-6 assertCoachPoolOpen stub (so
+#668's 11 mock tests pass on #669), keep the B-668-1 9-cent admission, make #669's own tests green (FR1-651-3 included: #669 is the fix
+for C2's red-by-design tests), push to #669's branch ONCE, then restack #670 (merge new #669; golden-set harness) and push. Read only the
+SoT A9 entries for B-ROMAN-BFIX-121 / B-SCHED-ROMAN-115 for the recipe if you need it. Size caps: #669 under 3,000, #670 under 3,000.
+CI lane at #670; PR CI green on #669 and #670. Comments FIX ROUND (B-RMNC2-122, agent 122) on #669 and RESTACK on #670, both ending READY
+FOR AUDIT. Write ops/lanes122/notify/roman-c2.txt.
+
+### B-WIZ6-122 — step 3 mobile: main refresh of the collapsed wizard+money train m#345 (T4 money; stack lock: wizard)
+Builder Opus. Time box 40 minutes. State: m#351..#346 all LANDED into #345's branch (agent115/wizard-split-1-setup-data) at 17:12; #345 head
+f7a86065bfe7e128eb4437b4124b63c1c2bb254a, tree 71c4f04e = the dual-approved top (#347 9c86167e). #345 base = main (mobile main c0e1c9ac).
+`git merge-tree` shows two content conflicts with main: src/api/packagesApi.ts and src/screens/coach/payments/CoachPackageEditScreen.tsx,
+from the m#321 S-FEE fee-rule editor that landed on main (commits 8bc4de3, a9b1f49, 4295fc7, 7322bbf, 11ed094: $19.99 minimum or free
+rule inline, specific package-save failures, currency/billing edits sent, publish/unpublish, every editor input saved and publish waits
+for a save, recurring price copy never offers $0). Do: merge origin/main into #345's branch and resolve so BOTH sides' behaviour stays:
+S-FEE (above) and the wizard train (B-347-1 a free one-time package saves edits at its unchanged $0 while a new $0 on a paid package is
+refused; B-347-2 no trial input; B-347-3/4 "Make <name> live" for drafts, blocked with "Save your changes before making this live." while
+unsaved). Where both sides solved the same thing (publish waits for a save), keep ONE path, not two. Both sides' tests must pass. ONE merge
+commit (plus a fix commit only if a test proves it is needed). Mobile CI lane (tsc + package/wizard/money tests + S-FEE tests); PR CI
+green. Comment MAIN REFRESH (B-WIZ6-122, agent 122) on #345 listing each conflict hunk and how it was resolved, ending READY FOR AUDIT.
+Write ops/lanes122/notify/wizard4.txt.
+
+### AUD-OPUS-DUN3-122 / AUD-SOL-DUN3-122 — dunning b#687 main merge check (rule 12: sensitive files in a main merge)
+Lens: Opus and Sol, independent. Time box 12 minutes. The whole dunning train (#691..#688, all dual APPROVE) landed into #687 at 17:11;
+#687 0716a0f4ebf82fe6d73399fe80d4930d9bd77589 had tree d5d8d95c = the audited #691 top. Operator then merged main a70533d5 into #687
+(GitHub update-branch, no conflicts) -> #687 aa736434287c7ebcf2b68e87ee8a0b5dabf2b015. ops/tree_check.sh flags two sensitive files changed by
+the merge: prisma/schema.prisma and src/common/env-validation.ts (main brought coachless b#721-#723, invite codes b#658, MWB 409 b#733,
+coachless map b#734). Check ONLY the merge commit: for those two files (and the migrations folder order), the result is the plain union of
+both sides, nothing of either side lost or changed, migration timestamps of dunning sort after main's or are independent, no duplicate
+model/enum/env key; PR CI at aa736434 green (or name the failing check). One verdict on #687 at aa736434 ("merge-only").
+ADDENDUM 17:15 to B-RMNC2-122: also fix in #669 Opus A-666-3 (named-medicine overdose phrasings must get the 911 reply before any
+consent/pool check; probe in ops/aud-122/AUD-OPUS-RMN3-122/probes/) and Sol B-666-5 (meals path bypasses whole-day validation; probe run
+37392562345). #666 8cfad607 and #668 fefe73c6 stay unchanged (#668 dual APPROVE; #666 Opus RC A-666-3 + Sol RC B-666-5 -> verified at #669).
+
+### AUD-OPUS-CAP1-122 / AUD-SOL-CAP1-122 — AI cap pop-up m#379, first review (T3 mobile; health-adjacent copy)
+Lens: Opus and Sol, independent. Time box 20 minutes. m#379 67d9aaa33afe9740201f8e110649967c832bd461 (base mobile main; +657/-6; report
+ops/reports/M-ROMANCAP-122.md; OPENING comment 6006235540). Owner 11:20: when a client hits the daily AI cap, every AI entry point shows a
+graceful pop-up "You've used your maximum AI allotment today." (with when it resets), never a generic error. Check: the pop-up shows on the
+real cap codes the backend sends (503 ROMAN_CAPACITY_REACHED from b#669, AI_DAILY_QUOTA_EXCEEDED, 429) in Roman chat (client + coach) and the
+AI guide; a crisis message is never blocked by the app; no false copy (reset time). Operator rulings: the platform-wide spend cap and the AI
+guide token limit are backend follow-ups, not Bs on this PR. One verdict.
+
+### B-AIG-122 — backend: AI guide crisis message is answered before the daily token limit (T4: health safety; new PR on main)
+Builder Opus. Time box 35 minutes. Found by M-ROMANCAP-122 (report ops/reports/M-ROMANCAP-122.md, decision 3): src/ai/ai.service.ts
+reserveDailyTokens throws 429 AI_DAILY_QUOTA_EXCEEDED before any safety handling, so a client who used up the day's AI guide limit and then
+types a crisis message (self-harm, overdose, "I want to die") gets the limit pop-up instead of 988/911. src/ai/ai-guardrails.service.ts
+already has crisis patterns. Normal-user story: a struggling client who chatted a lot today types "I want to kill myself" in the AI guide
+and must see the 988/911 message, never "You've used your maximum AI allotment today." Fix: run the crisis check first; a crisis message
+gets the safety reply without spending quota or calling the model (match Roman's crisis reply wording if one exists in main; impersonal
+voice). Do not change the token limit itself (operator: separate follow-up). NEW PR on backend main (pull first), under 1,500 lines,
+Conventional Commits title, no banned casts, failing-before test. CI lane (targeted) + PR CI green. Comment FIX ROUND 1 (OPENING,
+B-AIG-122, agent 122) + READY FOR AUDIT.
+
+### AUD-OPUS-AV1-122 / AUD-SOL-AV1-122 — coach booking options b#735, first review (T4: bookings)
+Lens: Opus and Sol, independent. Time box 30 minutes. b#735 32d8120712cc106eb87a4a3457661dc2cf427a1e (base main; 915 lines; report
+ops/reports/S-AVAIL-122.md; OPENING comment 6006284912; contract ops/lanes122/notify/avail.txt). PR CI build-and-test red only on the 3
+coach-code-redemption tests that were red on main 6aff479c (fixed on main by b#734 a70533d5; not this PR). Owner day-1 scope (10:32
+"COACHES DECIDE THEIR TIMES AND AVAILABILITY"): per-coach minimum notice (default 5 min), booking window (default 120 days), buffers
+before/after (default 0), optional daily maximum; defaults reproduce today's behaviour; enforced in the locked booking validation; open
+slots honour them; coach GET/PATCH own options. Operator accepts the builder's 4 design defaults (per coach not per type; buffers add up
+and need not fit open hours; daily max counts requested+scheduled+pending on the coach's local day; coach self-moves not bound). Item-list
+problems only: a client can book a time the options forbid, open slots show a time that then fails, a coach can read/change another
+coach's options, defaults change today's behaviour, the migration is not additive. One verdict.
+
+## Wave 5 (owner 17:18: 15 parallel workers, everything except free trials)
+
+### AUD-OPUS-DUN4-122 / AUD-SOL-DUN4-122 — dunning b#687 R75 fix commit (T4)
+Lens: Opus and Sol, independent. Time box 10 minutes. #687 2f11f14bb8c361d72dc0f5db8e0725801a83b821 = aa736434 (DUN3 dual APPROVE
+merge-only) + ONE operator commit: the two best-effort requeue writes in src/checkout/client-billing.service.ts (reconcile 2A requeue,
+deferOperation) now log a warn with dunningErrorCode instead of `.catch(() => undefined)`; nothing rethrown, behaviour otherwise unchanged.
+R75 local: empty-catch-undefined net 0, OK. Check the commit only (git diff aa736434 2f11f14b) + PR CI at 2f11f14b. One verdict on #687.
+
+### AUD-OPUS-SCH3-122 / AUD-SOL-SCH3-122 — scheduling mobile m#365-#367 delta (T4)
+Lens: Opus and Sol, independent. Time box 25 minutes. #365 cd546a43d0d90f1e032fdf1d8520dfc9ccdc2821 (MAIN REFRESH merge of main 2c88eae5,
+6006000889) -> #366 4936257bded6034fe9bda6eebd1783b9ecf1f526 (RESTACK 6006038493) -> #367 2699b4b10f4a5370a8d44121f7b8c18331a712b0 (FIX ROUND
+6006086428: Opus B-367-1 "Request closed, your coach did not answer in time" + "Pick another time"; Sol B-367-1 welcome heading/completion
+only for a real welcome type; Opus C-367-2 booking inbox copy). Report ops/reports/B-SCH2-122.md. Merges changed some PR files (main also
+edited them), so check #365/#366 merges are plain unions (merge-only), your own lens's B is closed, the fix adds nothing from the item list.
+Note: mobile main is now c0e1c9ac (programs + messaging merged after 2c88eae5); say if you see a conflict risk. One verdict per PR.
+
+### AUD-OPUS-RST1-122 / AUD-SOL-RST1-122 — coach "Restart plan" m#380, first review (T4 money)
+Lens: Opus and Sol, independent. Time box 20 minutes. m#380 b49d714777b6eaf2df12b200abbf2fc3eb78a1d5 (base m#354's branch
+agent115/lockout-split-3-card-update-tests @ be5c74b1; 549 lines; report ops/reports/M-RESTART-122.md; OPENING 6006316073). Backend route
+b#690 POST /v1/coach/purchases/:id/dispute-restart (now landed into b#687). Check: the button shows only for a dispute-paused plan of this
+coach's client, a confirm step, success refreshes the state, each refusal shows one true sentence, no client-side path can restart someone
+else's plan. Operator accepts placement on the coach's client detail screen. One verdict.
+
+### M-AVAIL-122 — mobile: coach booking options editor (T3 mobile; new PR on top of m#367)
+Builder Opus. Time box 50 minutes. Backend b#735 32d81207 (in review): GET/PATCH /scheduling/coach/booking-options, fields
+min_notice_minutes (default 5), booking_window_days (default 120), buffer_before_minutes, buffer_after_minutes (default 0),
+daily_max_sessions (null = no cap); 400 INVALID_BOOKING_OPTIONS names the field; 403 for non-coaches (contract
+ops/lanes122/notify/avail.txt). Build a coach "Booking options" screen next to open hours in the coach scheduling controls (m#366/#367
+area), plain labels and short helper lines (impersonal voice), validation matching the backend, save with clear success/failure copy; a
+404/feature-off answer hides the entry. Base the NEW PR on m#367's branch (agent115/sched-split-3-client-calendar @ 2699b4b1) so it lands
+right after scheduling; under 1,500 lines; Conventional Commits title. Tests: load, save, field error, hidden when off. Mobile CI lane; PR
+CI green. Comment FIX ROUND 1 (OPENING, M-AVAIL-122, agent 122) + READY FOR AUDIT.
+
+### B-BC4-122 — broadcasts b#726 main refresh (T4; stack lock: bcast)
+Builder Opus. Time box 40 minutes. Broadcasts #730..#727 LANDED into #726 at 17:05 (dual APPROVE BC3); #726 head
+cb5ef90a43974e17abca3715cdf8d1432d004f48, tree 22166591 = audited top (#730 afbb4c1a). #726 base main; conflicts with main in
+.github/fly-env-desired-state.json, .github/workflows/ci.yml, docs/runbooks/launch-flags.md, prisma/schema.prisma,
+src/account-deletion/account-deletion.manifest.ts, src/messaging/messaging.service.ts. WAIT until dunning b#687 is merged into main (poll
+`gh pr view 687 --json state` every 3 minutes, at most 25 minutes; if it has not merged by then, merge the current main anyway and say so),
+then merge origin/main into #726's branch and resolve: both sides kept (flags, CI steps, runbook rows, schema models, deletion manifest
+entries are unions; messaging.service.ts: keep main's behaviour AND broadcasts' additions, never drop either). Both sides' tests must pass;
+schema parity green. ONE merge commit (+ a fix commit only if a test proves it). CI lane + PR CI green (all 11 required). Comment MAIN
+REFRESH (B-BC4-122, agent 122) listing each conflict hunk and its resolution, ending READY FOR AUDIT. Write ops/lanes122/notify/bcast2.txt.
+
+### B-LOCK5-122 — lockout mobile m#352 main refresh (T4 access/money; stack lock: lockout-m)
+Builder Opus. Time box 35 minutes. m#380 (coach Restart plan, dual APPROVE b49d7147) -> #354 -> #353 all LANDED into #352's branch
+(agent115/lockout-split-1-dunning-data) at 17:30; #352 head e39a84de6e3b8e96afb44b96f80e2eb09ea3cb26, tree 9f6b64af = audited top. Base main
+(mobile main 3c315e40 + #365 soon). Conflicts with main: src/navigation/README.md, src/services/api.ts (main gained programs m#355-#358,
+messaging m#371/#377, AI cap pop-up m#379, Roman chats). Merge origin/main into #352's branch; resolve as unions: api.ts keeps BOTH main's
+interceptors/handlers (AI cap codes, MWB 409 etc.) AND lockout's 402/lockout handling, in an order where a lockout answer still routes to the
+lockout screen and an AI cap answer still shows the pop-up; README rows from both. Both sides' tests pass. ONE merge commit (+ a fix commit
+only if a test proves it). Mobile CI lane (tsc + lockout + api + AI-cap + messaging tests); PR CI green. Comment MAIN REFRESH (B-LOCK5-122,
+agent 122) on #352 listing each hunk and its resolution, ending READY FOR AUDIT. Write ops/lanes122/notify/lockout-m.txt. The payment sheet
+m#342 (collapsed, 4c79b67c) refreshes AFTER this lands (it conflicts with lockout in config/expected-env.json and ClientPackagesScreen.tsx).
+
+### AUD-OPUS-ADJ2-122 / AUD-SOL-ADJ2-122 — Roman approve-to-adjust delta b#655 + m#337 (T4: client plan changes)
+Lens: Opus and Sol, independent. Time box 30 minutes. b#655 2902add5bb9f96c2ea488282ee1e6d727d203044 (fix 2d356da4 + main merge; FIX ROUND
+6006482768; report ops/reports/B-ADJB-122.md) and m#337 c37add1c37dd47fb6d5ade587b320b84e64854db (FIX ROUND 6006171272; report
+ops/reports/B-ADJM-122.md). Flag FEATURE_ROMAN_ADJUST_ENABLED stays off. Builders' proposed Cs (operator will rule C (edge) unless you give
+a normal-user story): backend Sol B-655-1..4, the sleep-rule logic, sub-coach access (head coach only at launch), DB access rules for the
+reassigned-client case; mobile Sol B-337-4, Opus C-337-1..5, Sol C-337-1/2. Check your own lens's remaining Bs are closed (incl. Sol A-655-1:
+a reassigned client's old coach can no longer see her heart data or change her workout; B-337-2/3 unconfirmed results say so and reload),
+and the changes add nothing from the item list. One verdict per PR (2).
+
+### B-725R-122 — backend b#725 main refresh after dunning (T4 access; lock: lockout-be)
+Builder Opus. Time box 30 minutes. b#725 1dbc59b690119f03f010e406f9f1e0e43d1e6556 (base main; dual APPROVE; "a locked client reaches their
+own coach thread", B-353-10). Dunning (b#687 incl. #691) merged to main eb2e9e03 at 17:28 and conflicts with #725 on the lockout
+allow-list. Merge origin/main into #725's branch so there is ONE lockout allow-list holding both main's entries (incl. #691's and the coach
+restart route rules) and #725's own-coach-thread entries; a locked client reaches exactly their own coach's thread and nothing else new.
+Tests from both sides pass (route-table spec, lockout specs). ONE merge commit (+ fix commit only if a test proves it). CI lane + PR CI green
+(11 required). Comment MAIN REFRESH (B-725R-122, agent 122) with each hunk's resolution, ending READY FOR AUDIT.
+
+### B-339-122 — mobile m#339 impersonal-voice copy sweep fix round (T3 copy)
+Builder Opus. Time box 35 minutes. m#339 8165ca9560d2bcd35f92b1cd8468e6c998aa552a (base main; 698 lines; "impersonal voice across shipped copy with
+a repo-wide voice check"). Sol RC 5972066633 (10-03). Merge origin/main first (main moved a lot today: wizard pieces not yet, but programs,
+messaging, Roman chats, AI cap pop-up, scheduling soon): the repo-wide voice check must pass on the merged tree, so fix any new first-person
+copy ("we", "our", "I") main brought, or exempt only crisis/legal lines the check already exempts. Fix Sol's Bs that have an ordinary-use
+story; list the rest as proposed C. One push. Mobile CI lane; PR CI green. Comment FIX ROUND (B-339-122, agent 122) ending READY FOR AUDIT.
+
+### B-643-122 / B-341-122 — booking reminders on at launch: backend flag b#643 + mobile device zone/quiet hours m#341 (T4)
+Builders Opus (one per repo; coordinate via ops/lanes122/notify/reminders.txt). Time box 45 minutes. b#643 f21b3c63 "chore(flags):
+BOOKING_REMINDERS_ENABLED -> on, reminders on at launch (OR-110-5)", base main, both RC 10-02 (Sol 5960175016, Opus 5960179586). m#341
+7c791bb39979eb16481ce71a85de652b41368a3a "device zone via PUT /notifications/timezone, booking ..." (1,966 lines), base main, both RC 10-03 (Sol
+5972146496, Opus 5972160274). Scheduling backend is in production (deploy 4) and mobile scheduling m#365 is landing now. FIRST check what
+main already has (mobile main has src/services/timezoneSync.ts; backend may already have PUT /notifications/timezone): if a PR is
+superseded, say so in its comment and stop for that PR. Otherwise merge origin/main and fix only Bs with an ordinary-use story (a client
+gets a reminder at the wrong hour or not at all, a reminder for a cancelled booking, a tap that opens the wrong screen); RUTHLESS SCOPE
+(zero time on DST/race/retry edges: list as proposed C). One push each. CI lane + PR CI green. Comments FIX ROUND (B-643-122 / B-341-122,
+agent 122) ending READY FOR AUDIT.
+
+### B-MWBFLAG-122 — programs on at launch: backend flag PR + mobile build flags (T4 flags; do NOT merge)
+Builder Opus. Time box 35 minutes. Programs backend (b#733 + MWB-3) is in main and deploys now; mobile programs m#355-#358 merged (flag off).
+Backend .github/fly-env-desired-state.json has FEATURE_MWB_TEMPLATES, FEATURE_MWB_AUTOSAVE_UNDO, FEATURE_NAMED_REGIMES = unset and
+MWB_AUTOSAVE_LOCK_TOKEN_SECRET = unset (note: precondition of the autosave flag; the secret itself must exist as a GitHub secret before the
+flip; you must NOT create or set any secret and must NOT run any env sync or fly-secrets workflow). Do: (1) backend NEW PR on main flipping
+the three flags to on and the secret entry to github-secret, docs/runbooks/launch-flags.md rows, any flag test updated; PR body states
+"merge only after the owner confirms MWB_AUTOSAVE_LOCK_TOKEN_SECRET exists". (2) mobile NEW PR on main turning EXPO_PUBLIC_FF_MWB_AUTOSAVE and
+EXPO_PUBLIC_FF_MWB_PROGRAMS on for the production build profile the 10-07 Expo build uses (find where production EXPO_PUBLIC_FF_* values live:
+eas.json / config/expected-env.json; follow how other day-1 flags were turned on). Both under 300 lines, Conventional Commits titles. CI
+green. Comment FIX ROUND 1 (OPENING, B-MWBFLAG-122, agent 122) + READY FOR AUDIT on each. Report the exact owner step for the secret in
+plain words.
