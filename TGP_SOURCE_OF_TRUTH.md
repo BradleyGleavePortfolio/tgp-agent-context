@@ -7673,6 +7673,14 @@ turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to 
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
 
+#### 2026-10-06 14:59-15:03 PDT — AI safety passes now; purchased PDFs/videos screen ON if coach attach works (owner, to agent 125)
+> 14:59 "AI in the workout builder, community AI triage and diagnostic AI: each needs its own reviewed safety pass -> do that now"
+> 15:03 "Purchased PDFs and videos screen: turn it on for tomorrow's build? Recommended: yes" / "But we need to make sure theres veen a way to assing videos and files to packages at coach package creation screens that works robustly!"
+Recorded by agent 125. 15:00 SAFE-MWBAI-125, SAFE-TRIAGE-125, SAFE-DIAG-125 (Opus, 12-point AI safety checklist, verdict GO / GO AFTER
+FIXES / NO-GO; SAFE-DIAG first checks whether DIAGNOSTIC_AI_ENABLED is already on in production). 15:04 B-DROPS-125: trace the coach
+attach-PDF/video-to-package flow end to end, fix small breaks, PR EXPO_PUBLIC_FF_DELIVERABLES=true for the 10-07 build (owner approved,
+conditional on the coach flow being robust).
+
 #### 2026-10-06 14:51 PDT — Oura: proceed regardless of Oura's API terms (owner decision, to agent 125)
 > "nope, we fly with disregard for oura TOS - under the guse that we are such a small operation and have client permission AND are already requestiing/ recieving direct Oura ring data permission for our usage. No need to worry about it."
 Recorded by agent 125. OWNER DECISION: the Oura connector may be switched on with Roman / AI use and stored samples; no Oura-specific

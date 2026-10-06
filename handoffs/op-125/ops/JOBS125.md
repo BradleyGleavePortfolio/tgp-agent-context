@@ -302,3 +302,70 @@ BRIEF_CLAUDE_MODEL = COACH_AI_MODEL; uses temperature at ~:1560). Current Anthro
    workflow can run live in CI, make sure it runs on this PR and report its result; if it cannot, say so.
 4. PR body: before/after table (path, old model, new model, old price, new price), the API-compat notes with doc URLs, and the kill/rollback
    (revert the constants). READY comment per _COMMON_125 item 5 with job B-ROMANIQ-125.
+
+## B-HC732-125 (Claude Opus 5.5, builder, T4 health data) — Health Connect rewritten records must replace, not duplicate. Time box 40 min (hard stop 15:35).
+VERIFY-EXT-125 (report /home/user/workspace/ops/reports/VERIFY-EXT-125.md, "Route now" section: read it first) confirmed backend issue
+#732 as the only new day-1 B: an Android client corrects an already-imported night's sleep in its source app; the record posts again
+with the same source_record_id and a new interval; ingest dedups on the interval hash, so a second row is inserted and the sleep total
+inflates. Do exactly the Route-now fix: in src/wearables/ingestion/ingestion.service.ts, inside the existing transaction before
+createMany, for each incoming record identity (user_id, provider, metric, source_record_id) with a non-null source id, delete the stored
+rows for that identity, then insert the complete incoming sample set for it (group series samples first so a heart-rate record keeps its
+whole series). Null-id behaviour and the interval hash unchanged. No migration (the column/index exist: check prisma/schema.prisma), no
+mobile change, no new flag. Tests: 480 -> 450 replaces (total 450); unchanged same-id resubmission stays one version; same-id HR series
+keeps the full incoming series; null source id keeps today's behaviour. One backend PR under 300 lines, "Fixes #732" in the body. READY
+comment per _COMMON_125 item 5 with job B-HC732-125.
+
+# SAFETY PASSES (owner 14:59: "AI in the workout builder, community AI triage and diagnostic AI: each needs its own reviewed safety pass -> do that now")
+Common to SAFE-MWBAI-125 / SAFE-TRIAGE-125 / SAFE-DIAG-125 (Claude Opus 5.5, T4 AI). Time box 35 min, hard stop 15:40. Read-only by
+default; you MAY open ONE fix PR under 300 lines if a blocker has a small, safe fix (READY comment per _COMMON_125 item 5). Never flip a
+flag, never touch production config, never merge or deploy. Code: /home/user/workspace/wt/RO-backend and RO-mobile after
+`git fetch -q origin main`, read via `git show origin/main:<path>` / `git grep ... origin/main`. Production flags:
+.github/fly-env-desired-state.json (flags / gates / excluded), env defaults in src/common/env-validation.ts; mobile flags in eas.json
+profile "clinic" (extends production) + src/config/featureFlags.ts. "R2b acceptance" is an older gate named in the manifest notes: find
+what it required (git grep R2b in docs/ and src/, and the SoT) and say whether it is met.
+Safety checklist (verdict per item, file:line): 1 consent: every client-data AI call checks the AI consent ledger
+(FEATURE_AI_CONSENT_LEDGER_ENABLED is on in production) and the client's box-2 consent; 2 data minimisation: exactly what personal/health
+data goes to the model, nothing from other users; 3 tenancy: a coach can only run it on their own clients / own community; 4 human in the
+loop: nothing AI-made reaches a client or changes their plan without a coach approving it; 5 prompt injection: client- or member-written
+text inside prompts cannot change instructions or trigger actions; 6 output validation: strict schema, refusal/garbage handled, no
+unvalidated writes; 7 domain safety: injuries/contraindications/medical claims/eating-disorder or crisis content handled (workouts: volume
+and intensity bounds, injury substitutions; triage: self-harm content routed to humans, never auto-actioned); 8 cost: metered against the
+coach AI pool / daily caps, rate-limited; 9 kill switch works (flag off = 404/disabled, UI hides); 10 logs: no prompts or health data in
+logs/Sentry; 11 store/legal: Apple 5.1.2(i) third-party AI disclosure + permission, no false claims in UI copy; 12 mobile reachability:
+does the 10-07 clinic build contain the UI (which flag), or does turning it on need a later build.
+Output: /home/user/workspace/ops/reports/<JOB>.md: verdict GO (safe to flip now: name the exact flags/values and whether the mobile build
+needs a flag too) / GO AFTER FIXES (list blockers with smallest fix, tier, ~lines; the PR if you opened one) / NO-GO (why); B/U/C per
+_COMMON_125 "What you hunt" (here every item of the checklist that fails for a normal user on flip is a B). Append one line to
+/home/user/workspace/ops/lanes125/notify/<JOB>.txt.
+
+## SAFE-MWBAI-125 — AI in the workout builder: FEATURE_MWB_AI_LIVE_CREATE + AI gateway (AI_GATEWAY_ENABLED / _PROVIDER / _CAPABILITIES /
+_REQUIRE_APPROVAL). Start at src/ai/gateway/ (ai-gateway.config.ts, ai-gateway.service.ts, mwb-live-create.feature.ts, materialisers/
+create-workout-plan + edit-workout-plan, providers/), src/ai/gateway/ai-approval.service.ts, and the mobile workout builder entry points.
+Also note how this differs from the coach AI drafts already live (src/ai/coach/, AUDIT-14-125 report) so the owner knows what is new.
+
+## SAFE-TRIAGE-125 — Community AI triage: FEATURE_COMMUNITY_AI_TRIAGE (backend, needs FEATURE_COMMUNITY_API=true) + mobile
+EXPO_PUBLIC_FF_COMMUNITY_AI_TRIAGE (featureFlags.ts ~237-250). Start at src/community/ai-triage/ (controller, feature, flag guard,
+triage-output.schema.ts) and the coach report queue (m#428, AUDIT-10-125 report). Self-harm / crisis posts are the highest-stakes case.
+
+## SAFE-DIAG-125 — Diagnostic AI: DIAGNOSTIC_AI_ENABLED (+ DIAGNOSTIC_RATE_LIMIT_PER_HOUR). Start at src/diagnostic/ (README.md,
+ai-roadmap.service.ts, controllers). FIRST determine whether it may already be ON in production: the manifest says the name is present on
+Fly with an unread value. Probe read-only from outside: call its routes on https://api.trygrowthproject.com/api/... without auth and
+compare the status to a known flag-off route (404 when off vs 401/403 when on, per its guard); report the evidence. If it looks ON and
+any checklist item fails, mark it URGENT at the top of the report and in the notify line.
+
+## B-DROPS-125 (Claude Opus 5.5, auditor-builder, T4 money) — sell PDFs and videos on day 1. Time box 35 min (hard stop 15:40).
+Owner 15:03: yes to turning on the buyer screen for purchased PDFs/videos in the 10-07 build, "But we need to make sure theres been a way
+to assing videos and files to packages at coach package creation screens that works robustly!" Context: buyer side = DeliverablesScreen +
+PurchaseUnpackScreen + dropRow, behind EXPO_PUBLIC_FF_DELIVERABLES (src/config/featureFlags.ts ~160-184; OFF in eas.json "clinic", which
+extends "production"). b#798 (buyer signed-URL route) and m#434 (rows open files; delivered meal plan opens the right plan) are MERGED; read
+ops/reports/B-DELIV-125.md and AUDIT-18-125.md first. Do, in order:
+1. Trace the COACH flow end to end on current main, mobile + backend: Packages -> create/edit package -> Contents (or whatever screen
+   attaches content) -> upload a PDF and a video (which storage: Supabase bucket / Mux; are the needed keys present? production secret
+   names are listed in /tmp/flysecrets.txt) -> attach to the package / schedule the drop -> a client buys -> the drop is delivered ->
+   the buyer opens it. For each step: works / broken (file:line) / missing. Any extra mobile flag gating the coach side?
+2. Open ONE mobile PR (under 400 lines): set EXPO_PUBLIC_FF_DELIVERABLES "true" in eas.json for the profile(s) the 10-07 build uses
+   ("clinic" via "production"; keep preview consistent) AND fix any small break you found in the coach attach flow or the buyer screens.
+   If the coach flow needs backend changes, open ONE backend PR (under 300 lines). If the coach flow cannot be made robust in this box,
+   say so plainly and still open the flag PR but mark it DO NOT MERGE in its title, so the operator decides.
+3. Report /home/user/workspace/ops/reports/B-DROPS-125.md with the step table, B/U/C, PRs and heads. READY comments per _COMMON_125
+   item 5 with job B-DROPS-125. Never merge or deploy.
