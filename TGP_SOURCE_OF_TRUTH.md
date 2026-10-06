@@ -2360,6 +2360,15 @@ Contribution log (PDT, newest last)
   LAUNCH STEP 2 (Money) DONE: fees, recurring, card secrets, payment sheet m#342, trials (deployed) + m#338 (in the 10-07 build).
   Launch path 5/7 (1, 2, 3, 4, 6). Left: 5 (owner device pass on the 10-07 build), 7 (build + store review).
 - 19:26 Scout FLAGS-D1-123 (read-only): day-1 flag matrix (community, coachless, invite codes, broadcasts, inbox, Roman) before the build.
+- 19:50 FLAGS-D1-123 done (ops/reports/FLAGS-D1-123.md, copied to handoffs/op-123/ops/): backend flags to set true: FEATURE_COMMUNITY_API,
+  _POSTS, _MESSAGES, _PUSH, _REALTIME, FEATURE_MESSAGING_CORE_V2, FEATURE_ROMAN_CHAT_ENABLED (needs closed value sets in ENV_RULES);
+  FEATURE_ROMAN_ADJUST_ENABLED after the Opus C-337 mobile copy fix; mobile EXPO_PUBLIC_FF_ROMAN_CHAT (production + clinic) and community
+  tab/hall/cohorts (production). No mobile screens exist yet for featured coach / coachless Home, the coach Codes screen or the broadcasts
+  composer (their backend flags stay off). Operator rulings from owner day-1 scope (A6.1; C1 10-01 11:32, 10-02 16:34, 10-05 09:46/09:57):
+  Roman chat on in both profiles, community core + tab on, messaging v2 on, adjust on after C-337, dunning v2 not in these PRs.
+- 19:52 WAVE 2 (5 builders; FLEET.md): B-FLAGS-123 (backend + mobile flag PRs, C-337 fix), B-AIG4-123 (C-736-8 promoted: "I want to take
+  all my pills" / "I'm going to OD" must get 988 on the AI guide and Roman), M-INV-123 (coach Codes screen), M-COACHLESS-123 (coachless
+  Home, featured coach, scripted Roman card), M-BCAST-123 (broadcasts composer). 19:53 read-only fly-env-truth run 37405459790.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
