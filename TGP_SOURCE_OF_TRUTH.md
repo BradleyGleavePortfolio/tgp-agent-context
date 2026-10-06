@@ -2386,6 +2386,12 @@ Contribution log (PDT, newest last)
 - 20:23 M-BCAST-123: m#388 (coach broadcasts list + composer; server flag FEATURE_COACH_BROADCASTS) -> W2C lens pair dual APPROVE ->
   MERGED 20:30. Mobile main a0e225df. Opus C: while the flag is off every coach visit to Messages logs a 503 to Sentry (C-388-sentry).
 - 20:31 deploy 8 run 37409368179: release 5230306c (b#739, b#740, b#741), no migrations. Next: env sync plan + apply (8 flags).
+- 20:35 deploy 8 SUCCESS (5230306c = production); /health ok, /readyz 200. 20:36 env sync plan 37409673871: 8 to set, 0 unset, 53 unchanged.
+  20:37 apply 37409749015 (confirm=SET, deploy_staged=true) SUCCESS, verified on machine 860311cee0d008: FEATURE_COMMUNITY_API, _POSTS,
+  _MESSAGES, _PUSH, _REALTIME, FEATURE_MESSAGING_CORE_V2, FEATURE_ROMAN_CHAT_ENABLED, FEATURE_ROMAN_ADJUST_ENABLED = true. /health ok,
+  /readyz 200. Still off by design: coachless Home, coach code tools, broadcasts (screens merged; device pass first), dunning v2, DM, voice.
+- 10-07 build carries 33 mobile merges since the last EAS build (ff6bd4b, 10-01): m#388 387 385 384 383 338 339 381 382 340 342 341 352 345
+  337 365 379 371 355 372 378 321 335 312 359 368 315 305 326 327 314 330 333 (+ m#386 if it lands).
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
