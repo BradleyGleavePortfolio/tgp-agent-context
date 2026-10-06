@@ -161,8 +161,16 @@ list run 37536038425), so no '*' allow-list exists; set exactly the two workout 
   ops/merge_if_dual.sh when both approve; deploy them with the next backend deploy. These are AIB-1 of the AI master builder plan.
   PRs: b#805 metering (agent125/b-aib1-meter @ 41493e41, 272 lines), b#806 approve assigns (agent125/b-aiassign-approve-assigns @
   3c224d8e, 390 lines; m#425 already merged reads assigned_count), b#807 coach approves AI drafts (agent125/b-aib1-approve @ 0cdafb37,
-  332 lines). All CI green; L4 lenses re-pointed 16:32 (stop 16:55). Default taken: a coach with no sub-coaches may approve drafts they
-  typed themselves (B-AIB1 decision, recommended keep).
+  332 lines). Default taken: a coach with no sub-coaches may approve drafts they typed themselves (B-AIB1 decision).
+  RESULTS at agent 125's stop (16:57):
+  - b#806 MERGED 16:57 (Opus + Sol APPROVE B=0 at 3c224d8e; merged manually because the L4 job text gave a verdict format that
+    merge_if_dual.sh does not parse: give lenses the "AUDIT <model> (<job>) — <repo>#<n> @ <sha> — VERDICT: APPROVE" first line). Not
+    deployed yet: include in the next backend deploy.
+  - b#805 metering: Opus APPROVE, Sol REQUEST CHANGES B=1 "sequential near-empty-pool generations skip debits"; also conflicts with
+    b#806 on one import line in coach-ai.service.ts (now that b#806 merged, b#805 needs main merged in). One fix round, then both lenses.
+  - b#807 approvals: Sol APPROVE, Opus REQUEST CHANGES B=1: a solo coach can approve their own assign-workout / assign-meal-plan draft
+    that names another coach's client, who then gets the plan and a push. Fix ~10 lines + 1 test in ai-approval.service.ts: refuse
+    when a client id in the draft payload does not match the draft's client. One fix round, then both lenses.
 - APK: run 37541010175 FAILED only at "Prove the APK" (the proof still expected the old fly.dev URL); fixed and re-run as 37547000616
   (16:31, about 45 minutes). Mobile branch ci/APK-125-1, throwaway, never merge; builds mobile 950689a with the clinic profile and
   EXPO_PUBLIC_API_URL https://api.trygrowthproject.com/api. Artifacts tgp-950689a-clinic-apk (universal) and tgp-950689a-clinic-arm64-apk.

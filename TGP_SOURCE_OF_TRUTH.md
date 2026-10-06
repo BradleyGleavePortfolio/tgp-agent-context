@@ -2450,7 +2450,8 @@ Contribution log (PDT, newest last)
 - 15:51-15:59 DEPLOY 15: fly-deploy.yml run 37543198284, release_sha a6f4b5a98c1ce7667539df5105954c50407dcf93, migrations=apply-migrations
   (5 migration/schema files since ec12a4b3 incl. 20270401000000 roman_memory, 20270402000000 coach_playbook; release_command OK), image
   sha-a6f4b5a9 verified on machine 860311cee0d008, /health ok, /readyz db up. Carries b#795 b#798-b#804 b#776 b#778 b#785-b#797 etc.
-- CLOSING (16:00): merged today 92 (agents 124+125); deployed today 5. Late wave in flight at stop: B-AIB1-125 (metering + coach approves
+- 16:57 b#806 merged (AI program approve really assigns; dual APPROVE). b#805 and b#807 each have one REQUEST CHANGES B=1 -> agent 126.
+- CLOSING (16:58): merged today 93 (agents 124+125); deployed today 5. Late wave in flight at stop: B-AIB1-125 (metering + coach approves
   AI drafts), B-AIASSIGN-125 (approve really assigns), L4 lens pair; agent 126 merges/deploys their PRs. APK run 37541010175 building mobile 950689a. Handoff: handoffs/op-125/HANDOFF.md +
   AGENT_126_PROMPT.md + PLAY_CONSOLE_COMET_10-06.md; ops snapshot wip/op125/ops-snapshot.
 
