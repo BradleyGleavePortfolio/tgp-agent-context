@@ -485,6 +485,23 @@ PR 2 mobile (must be in the 10-07 build): CommunitySpaceScreen with workspaceId 
 Today-style "No cohort yet / Send your coach a message" state and hides the composer CTA; the composer never posts to
 workspaces//posts. Tests for both.
 
+## F7 B-PAYOUTSYNC-123 (Claude Opus 5.5, builder, 30 min) — coach payout status can stay "not ready" (B-COND-1)
+Report ops/reports/S-E2E-COACH-123.md B-COND-1. Operator ruling: treat as B (normal-use money; nobody confirmed the live Connect
+webhook). In ConnectController.me() (or its service), when the saved payout status is not ready, read the account from Stripe and
+persist it through the SAME code path account.updated uses, so Settings > Payouts and the Buy gate agree. No new retry/backoff code;
+a Stripe read failure keeps today's saved status. Test: saved not-ready + Stripe says charges/payouts enabled -> me() returns ready and
+the saved row is updated; Stripe error -> unchanged.
+
 # WAVE 3 REVIEW QUEUE (two lenses each; W2 lenses by message once the fleet is under 8)
+## Lens queue R3A (21:48; re-uses both W2A lenses: lens_opus_w2a_flags + lens_sol_w2a_flags). Time box 45 minutes. Queue order:
+1. b#747 ae1c103333361b3442c102b7bde1af4f3c950762 (T4 privacy; operator 123; B-PRIVACY-1 + B-AUTHZ-3; report S-PRIVACY-123 / S-AUTHZ-123)
+2. b#744 cda23212514b60adbfffef0e9add310a4c7f541a (T4 AI safety; Roman crisis lists shared with the AI guide; report B-ROMAN911-123).
+   The 30 B-AIG2 cases, every #736/#739 crisis phrase and the gym controls must hold; check the "possible overdose" with no person case.
+3. b#745 8ad33e4bbc1d826e2c896dc668e0fa86750c6f79 (invite landing per-platform buttons; report B-LINKS-123)
+4. b#742 c911aa95106bb68622d5c2797166fea270a16fcb (feature-off 503s kept out of Sentry; report M-SENTRY-123)
+5. b#743 3493baaa (flags; review only — MERGE HELD for the owner's decision; report B-FLAGS3-123 when it lands)
+6. b#746 31ae184d (data export day-1 data) ONLY once its READY FOR AUDIT comment exists; use the head in that comment.
+Verify each head right before posting; if it moved, review at the new head. Post each verdict as soon as that PR is done. Independent
+lenses (rule 8). Wrap-up: final answer lists every PR, head, verdict and comment URL; stop at the time box even if the queue is not empty.
 - b#747 operator fix: legacy leaderboard opt-in (B-PRIVACY-1) + removed/banned viewer own-only (B-AUTHZ-3) @ ae1c103333361b3442c102b7bde1af4f3c950762
 - b#742..b#746 from wave 3 builders (heads in their reports when they finish)

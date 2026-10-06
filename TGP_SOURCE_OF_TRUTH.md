@@ -2420,6 +2420,11 @@ Contribution log (PDT, newest last)
   flag; iOS build 6 / Android 5), capacity (one Fly machine; owner cost options $62-109/month). PRs open: b#742 (Sentry noise from
   flag-off 503s), b#743-b#746 (wave-3 builders), b#747. Owner docs: handoffs/op-123/DEVICE_PASS_10-07.md, STORE_TEXT_10-07.md.
 - 21:46 fleet drained to 7 -> F6 launched (8). Fix queue order: F6, F3 M-STORE, lens pair for the open PRs, F5, F1, F2, F4.
+- 21:50 W3-16 coach trace: 0 B, B-COND-1 (payout status only updates via the live Connect webhook; operator ruling B -> F7). W3-09 b#744
+  (Roman 911/988 false positives: 26 of 60 gym phrases misrouted; shared crisis lists), W3-05 b#745 (invite landing loop), W3-07 b#743
+  (Codes/Broadcasts/coachless manifest flags; merge OK after review, env-sync apply only after the owner says go). Launched F3 M-STORE,
+  lens queue R3A (W2A lenses) and F5 B-AUTHZ. Fleet 8. Owner A1.7 sent 21:50 with decisions: GP-BRADLEY/pitch, flags for the device
+  pass, clinic build profile, hosting option.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity

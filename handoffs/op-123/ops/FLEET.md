@@ -45,3 +45,6 @@
 | 21:35 | W3-19 S-STORECOPY-123 | GPT-6.1 Sol | w3_19_store_text_and_claims_muw6kxh7 | store text + false-claim sweep | done (4 B copy -> F3/F4) |
 | 21:35 | W3-20 S-CAPACITY-123 | GPT-6.1 Sol | w3_20_launch_day_capacity_muw6kxhd | launch-day capacity | done (0 B; owner cost options) |
 | 21:46 | F6 B-COMMWS-123 | Claude Opus 5.5 | f6_community_posting_fix_muw74o67 | community workspace auto-create + mobile safety net | running (45 min) |
+| 21:48 | F3 M-STORE-123 | Claude Opus 5.5 | f3_store_review_mobile_fixes_muw75oct | iOS purpose strings, community terms, Trust Center copy, mic off | running (50 min) |
+| 21:48 | R3A lenses | Opus + Sol (W2A lenses reused) | lens_opus_w2a_flags_muw3b8cz / lens_sol_w2a_flags_muw3b8d6 | b#747, 744, 745, 742, 743, 746 | running (45 min) |
+| 21:48 | F5 B-AUTHZ-123 | Claude Opus 5.5 | f5_cohort_access_block_list_fix_muw77ztq | cohort member assignment + block list names | running (40 min) |
