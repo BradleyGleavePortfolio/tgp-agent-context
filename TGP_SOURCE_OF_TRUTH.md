@@ -80,6 +80,8 @@ These sit on top of the agent rules (A2) and model routing (A3). Each rule shows
   number given until the owner changes it (agent 120 ran at 7 by order).
 - Check credits with the owner about every 30 minutes; agent 120 burned about 17k credits an hour at 7-15 agents.
 - Low credits or a possible session end: stop launching, let CI finish, post drafts, snapshot, update this document. Never stop silently.
+- STOP-LAUNCH LINE (owner 2026-10-05 18:12, "lets update stop launching at to 41k"): stop launching new agents at 41k of an operator's
+  45k (was 37k). Above about 8 agents, ask the owner for the credit number every 15 minutes so the line is not overshot.
 - Spending: none without the owner's word. No EAS builds, no paid CI or plans. Supabase Pro on launch day 1. EAS stays Free.
 
 ### A1.5 Review, merge and stacks
@@ -7193,6 +7195,10 @@ jobs at once), cancel superseded test runs right away, and stop launching at 37k
 Verbatim: "the expo build goes 10/7 with as much fixed as possible before then - I want agents 122 -> 130 done and exhausted before day 1
 launch!". Meaning: no EAS build tonight; one build on Wed 10-07 carrying every mobile fix merged by then (the Health Connect device pass
 uses that build); operators 122 through 130 all run before day 1.
+
+#### 2026-10-05 18:12 PDT — Stop-launch line moves to 41k (owner, to agent 122)
+Verbatim: "lets update stop launching at to 41k". Meaning: operators stop launching new agents at 41k of their 45k (was 37k). Recorded in
+A1 (credits rules) and the agent 123 prompt.
 
 #### 2026-10-05 17:55 PDT — Stop all agents (owner, to agent 122)
 Verbatim: "stop all agents asap - update in TGP SOURCE OF TRUTH and all relevant files your state and acomplishments - 41k/45k credits used".
