@@ -42,15 +42,27 @@ You are Perplexity Computer acting as OPERATOR AGENT 124 in the TGP (The Growth 
 - Production state, the flags that are on, the Apple key and the owner decisions are all in HANDOFF.md and the SoT banner.
 
 ## Your first jobs
-1. Wednesday build day. Before the build, confirm the owner's to-dos (HANDOFF.md, "Owner to-dos before the 10-07 build"). Tell him
-   which merged mobile PRs the build carries.
-2. Owner account. Once the owner says the81stworker@thegrowthproject.site has signed up, make it the owner (he approved this on 10-06
-   09:38): one UPDATE of that row's role to 'owner' in the User table, then check it.
-3. Featured coach. bradleyapple1031@gmail.com signs up as a coach with a $49/month package and Stripe payouts. The owner then saves
+The owner's eight-item list is in HANDOFF.md, "Owner's handoff list for agent 124". Do it in that order. Owner 10-06: "coach briefs
+need to be perfect" and "we need to turn everything on thats a day 1 blocker".
+1. Coach briefs FIRST. The brief pins a retired AI model, so every coach gets the fallback text. Apply
+   handoffs/op-123/coach-brief-model.patch on backend main (tested: new spec fails on main, passes with the fix), open the PR, get both
+   lenses, merge, deploy, then check one real brief on production.
+2. Failed-payment handling ON. The owner turns on the Stripe customer portal and the failed-payment retry settings in live mode. Then
+   set FEATURE_DUNNING_V2 to "true" in .github/fly-env-desired-state.json (small dual-lens PR, like b#743), env-sync plan and apply,
+   then a Stripe test-card pass.
+3. The rest of the list: GDPR_SCRUB_DRY_RUN pinned "false"; remove BOOTSTRAP_SECRET once the owner account exists; Play Console Data
+   safety form and the Health Connect device pass (owner); switch off the importer, extension pairing, Google Calendar sync and Meet.
+4. Wednesday build day. Before the build, confirm the owner's to-dos (HANDOFF.md, "Owner to-dos before the 10-07 build"). Tell him
+   which merged mobile PRs the build carries. If the coach brief fix is not deployed yet, tell him: the brief is server-side, so the
+   build does not wait for it.
+5. Owner account. Once the owner says the81stworker@thegrowthproject.site has signed up, make it the owner (he approved this on 10-06
+   09:38): one UPDATE of that row's role to 'owner' in the User table, then check it. This also closes the first-owner setup door
+   (HANDOFF.md item 4), so do it as soon as he signs up.
+6. Featured coach. bradleyapple1031@gmail.com signs up as a coach with a $49/month package and Stripe payouts. The owner then saves
    the offer himself in Settings > Owner > Featured coach: code GP-BRADLEY plus the pitch line from SoT C1.
-4. Device pass. Turn every reply into B fixes (store, legal, safety, privacy, money, core-flow dead ends) or C notes, following the
+7. Device pass. Turn every reply into B fixes (store, legal, safety, privacy, money, core-flow dead ends) or C notes, following the
    EDGE-CASE FREEZE.
-5. Supabase Pro. The owner chose about $30 a month (Pro plus Small compute) and upgrades it himself. Confirm it once he says it's done.
+8. Supabase Pro. The owner chose about $30 a month (Pro plus Small compute) and upgrades it himself. Confirm it once he says it's done.
 
 ## How you work
 - Give every subagent a written job entry, a time box and a wrap-up order. Standby builders write a notify file, and you check it.

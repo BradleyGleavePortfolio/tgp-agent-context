@@ -2482,6 +2482,15 @@ Contribution log (PDT, newest last)
   (HANDOFF.md list). Agent 124 start prompt: handoffs/op-123/AGENT_124_PROMPT.md.
 - 10-06 10:36 CLOSING (agent 123): no subagents running (all 4 fixers + R4A lenses done). Production = deploy 11 (1dbada71). Ops snapshot
   d89645fb on backend branch wip/op123/ops-snapshot (incl. merge_if_dual.sh). Handoff: handoffs/op-123/HANDOFF.md + AGENT_124_PROMPT.md.
+- 10-06 10:38-10:52 OWNER (C1 entry "2026-10-06 10:38-10:52"): older open PRs explained (handoffs/op-123/OLDER_OPEN_PRS.md); "coach
+  briefs need to be perfect"; "just update the handoff - dont try any work"; "we need to turn everything on thats a day 1 blocker";
+  "Add all eight items to the handoff list". Read-only review of 09-28 onward done (C1, A7.1, Fly secret names and digests, eas.json).
+- Eight items for agent 124 (HANDOFF.md, in order): 1 coach brief retired model (patch handoffs/op-123/coach-brief-model.patch, tested);
+  2 FEATURE_DUNNING_V2 on (owner Stripe portal + retry settings first); 3 GDPR_SCRUB_DRY_RUN pinned "false" (Fly digest is not "true",
+  but "1" also dry-runs); 4 BOOTSTRAP_SECRET set while no owner exists (promote the81stworker@, then remove it); 5 Play Console Data
+  safety form (owner); 6 Health Connect device pass (owner); 7 importer, extension pairing, Google Calendar sync and Meet are "true" on
+  Fly (unreachable; switch off); 8 SoT kept current. Correction: agent 123 earlier wrote the importer switches were off.
+- Fly digest method: equal values share a digest on one app. "true" = d8c5ac2e11c8e492 (FEATURE_COACH_BROADCASTS, set 10-06 to true).
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
@@ -7420,6 +7429,15 @@ the81stworker@thegrowthproject.site" / "Copy the Apple key to the server: Recomm
 10:03: "lets just finish the ci lanes and 4 fixer agents going right now and get a list of what PR's are still left to-do pre v1 launch
 - and exactly what stage each PR is in. Then I need an agent 124 handoff document - just a promopt saying read tgp source of truth and
 all other necessary files!" Recorded in agent 123 Part B (10-06 entries).
+
+#### 2026-10-06 10:38-10:52 PDT — Coach briefs perfect; day-1 blockers on; eight-item handoff list (owner, to agent 123)
+Verbatim 10:38: "Older open PRs (not needed for v1) explain each one to me in detail - what it is what the goal is and why we wouldnt do
+it?" 10:41: "The coach daily brief still names a retired AI mode - no no no coach briefs need to be perfect". 10:42: "just update the
+handoff - dont try any work". 10:47: "make a mental list of stuff to update the handoff and then ill tell you to when im done. Coach
+briefs goes on first. Are there ANY other to-do's we have missed from sept 28th forward?" 10:48: "With dunning v2 off - nope we need to
+turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
+- Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
+  FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 

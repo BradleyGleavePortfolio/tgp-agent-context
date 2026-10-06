@@ -64,7 +64,7 @@ Why not now: a library change touches code all over the app, and several of thes
 - It is unfinished. Most of these are drafts, and most sit on a side branch (`integration/importer`), not main.
 - Several are huge, between 4,000 and 11,000 lines.
 - They change the security rules on client data tables, and they send outside data to an AI that costs money.
-- Work on it stopped at the end of September. All its switches are off in production.
+- Work on it stopped at the end of September. Its two switches are on in production, but it is locked to nobody (no pilot coaches are listed), so no one can reach it. Agent 124 switches them off.
 
 | PR | What it is | Why it's waiting |
 |---|---|---|
