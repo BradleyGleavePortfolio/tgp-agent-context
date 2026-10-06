@@ -39,7 +39,10 @@ Subagent reports (ops/reports/<JOB>.md) and ops tools are in the snapshot on bac
    - SAFE-MWBAI-125: NO-GO, nothing to flip. FEATURE_MWB_AI_LIVE_CREATE turns on nothing that works: the model reply is only saved as a
      note, there is no UI in the build, coaches cannot approve their own drafts (ai-approval.service.ts:92), it is not metered against
      the coach AI pool, and there is no injury handling. Post-launch project; smallest fixes in the report.
-   - SAFE-TRIAGE-125: see FINAL (opened b#804: self-harm and crisis items always count as urgent).
+   - SAFE-TRIAGE-125: NO-GO for 10-07, GO AFTER FIXES later. b#804 (self-harm and crisis items always count as urgent) MERGED 15:23.
+     Later GO needs backend FEATURE_COMMUNITY_AI_TRIAGE=true, AI_GATEWAY_ENABLED=true, AI_GATEWAY_PROVIDER=anthropic,
+     AI_GATEWAY_CAPABILITIES=community_ai_triage, plus mobile EXPO_PUBLIC_FF_COMMUNITY_AI_TRIAGE=true in a new build, plus the owner's
+     scope OK (SoT says not in clinic scope). Report ops/reports/SAFE-TRIAGE-125.md.
    - The manifest's "stays off until R2b" notes are stale: R2b (b#626 AI consent gate) is merged and deployed. Refresh the notes.
 6. Vision recorded in SoT A7.5 "Company north star" (growth ladder, principles, 2030 goals G1-G9, sub-coach plan; teams are FREE).
 
@@ -69,6 +72,10 @@ Subagent reports (ops/reports/<JOB>.md) and ops tools are in the snapshot on bac
 - Expo: EXPO_PUBLIC_API_URL = https://api.trygrowthproject.com/api is set (owner 14:25).
 
 ## Owner to-dos before and during the 10-07 build
+0. REMIND THE OWNER (he asked, 15:23): Play Console Health apps declaration and Data safety form are DONE and saved; the Data safety
+   form is paused only on the App access reviewer logins. As soon as he confirms the tester accounts exist, remind him to enter the
+   client and coach reviewer sign-in details in Play Console (App content > App access) himself, then finish and send for review.
+   Instructions file: handoffs/op-125/PLAY_CONSOLE_COMET_10-06.md.
 1. Owner and coach accounts (the81stworker@thegrowthproject.site, bradleyapple1031@gmail.com) and the Google testers. When the owner
    account exists, make it owner (one approved UPDATE of the role, see AGENT_124_PROMPT history) and remove BOOTSTRAP_SECRET.
 2. Coach account: at least one appointment type and weekly hours, otherwise clients see no booking slots (AUDIT-04).
@@ -86,7 +93,7 @@ Subagent reports (ops/reports/<JOB>.md) and ops tools are in the snapshot on bac
    backend docs/runbooks/launch-flags.md line ~190 and the AGENT 124 banner (SoT ~2474-2500). Migrations 20270401000000_roman_memory
    and 20270402000000_coach_playbook must be deployed first. Consent v5 paragraph (SoT C1 11:53 owner decisions) applies.
 4. Safety follow-ups: SAFE-TRIAGE result (FINAL); SAFE-MWBAI four post-launch fixes; refresh stale R2b manifest notes.
-5. Trackers: when the owner registers a provider, keys go in through the secure form only, then FEATURE_WEARABLES_CLOUD_CONNECTORS and
+5. Trackers (never set Strava keys: Strava's terms bar showing data to coaches): when the owner registers a provider, keys go in through the secure form only, then FEATURE_WEARABLES_CLOUD_CONNECTORS and
    WEARABLES_OAUTH_REDIRECT_BASE_URL=https://api.trygrowthproject.com/api via a manifest PR and env sync. Redirect URI
    https://api.trygrowthproject.com/api/v1/wearables/connections/oauth/callback; webhooks .../api/v1/wearables/webhooks/<provider>.
 6. Sub-coach v1 (SoT A7.5 plan, 5 PRs; teams free).
