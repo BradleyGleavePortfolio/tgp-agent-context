@@ -14,8 +14,9 @@ and A6 (decisions in force). Do not read the rest unless your entry tells you to
   sessions, message clients, build programs and meal plans, get paid through Stripe Connect. Clients train, log food and workouts, log
   health data (Apple Health, Health Connect), chat with Roman (the AI coach persona, a butler and friend), join the community and pay.
   Backend: NestJS + Prisma + Postgres (Supabase) on Fly. Mobile: React Native / Expo, iOS and Android.
-- The store build is Wed 10-07 from mobile main: iOS uses eas.json profile "production", Android uses profile "clinic" (only the clinic
-  profile has Health Connect). EXPO_PUBLIC_FF_* values are fixed at build time (read eas.json for what is on).
+- The store build is Wed 10-07 from mobile main: BOTH iOS and Android build from eas.json profile "clinic" (it extends "production" and
+  adds Health Connect, the client tutorial, coach brief and consultation onboarding). CORRECTED 14:20: an earlier version of this line
+  said iOS uses "production"; that was wrong. EXPO_PUBLIC_FF_* values are fixed at build time (read eas.json for what is on).
 - Production backend flags = backend .github/fly-env-desired-state.json on main ("true" = on; "unset" = off unless the code default is on).
   ON today: community core (API/POSTS/MESSAGES/PUSH/REALTIME), FEATURE_MESSAGING_CORE_V2, FEATURE_ROMAN_CHAT_ENABLED,
   FEATURE_ROMAN_ADJUST_ENABLED, booking reminders, programs (MWB templates/autosave, named regimes), wearables ingest, AI consent ledger,

@@ -2349,6 +2349,16 @@ Contribution log (PDT, newest last)
   because Pro/Enterprise prices are unset in production.
 - 14:14 AUDIT-07-125: m#422 (client assigned workouts never load: paged response read as a list), B=1. Roman-approved change not shown
   on the client workout screen -> AUDIT-14. LENS QUEUE L2 (auditor PRs) to both L1 lenses.
+- 14:15 Owner credits 14.3k/45k. AUDIT-12-125: m#426 (client profile fields read under the wrong names, so Home nags and Edit Profile
+  shows blanks; dead Personalization row removed; first-person Roman error copy), B=0 U=6. Follow-ups queued: coach bio saved only on the
+  phone (hide row), Units / Calorie display rows do nothing (remove). Post-launch: coach deletion ends clients' plans with no pro-rata refund.
+- 14:17 MERGED backend b#782 (invite codes typed in lower case / without dash), b#777 (Clients list rows); mobile m#408 (Clients list),
+  m#414 (day-1 coach alerts), m#415 (help links). AUDIT-10-125: m#428 (coach report queue reachable from Messages; New post button in the
+  Hall), B=2. AUDIT-20-125: m#416 (contrast, screen-reader roles, large text), U=5. AUDIT-11-125: m#421 (Apple Health screens not tied to
+  the tutorial flag; Connections lists only what the phone can connect, no false "coming" cloud services), B=2.
+- 14:20 CORRECTION: _COMMON_125 said iOS builds from eas.json "production"; the plan (owner checklist, B-BUILDCFG-123) is the "clinic"
+  profile for BOTH platforms. Fixed in the brief and broadcast to running auditors and both lenses (m#421 B-1 premise does not hold under
+  clinic; its Connections fix stands).
 
 ## AGENT 124 — 2026-10-06 11:00 PDT onward (session b6cbb3b7; 124th operator in the chain)
 Why: agent 123 handed off 10-06 (prompt: handoffs/op-123/AGENT_124_PROMPT.md); owner 10-06: "Read tgp source of truth, launch one
