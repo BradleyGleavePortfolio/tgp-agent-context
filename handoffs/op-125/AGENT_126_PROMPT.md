@@ -34,10 +34,13 @@ repos (growth-project-backend and growth-project-mobile): every push, merge and 
   work and wrap up at about 91% of the budget.
 
 ## Your first jobs (detail and order in HANDOFF.md "Agent 126 job list")
-1. Finish agent 125's open PRs (HANDOFF FINAL) to dual APPROVE, merge, and deploy anything merged after agent 125's deploy.
-2. 10-07 build day with the owner: which mobile PRs the build carries, the device pass, store text.
-3. Roman v1.1, the owner's first project for you: R11-F1 memory and R11-F2 playbook flips (launch-flags.md ~190; migrations deployed
-   first).
-4. Then safety follow-ups, tracker switch-on as the owner registers providers, the sub-coach v1 plan (A7.5), and the AUDIT follow-ups.
+Budget: you have your own 45k credits (owner 15:33: agents 126 and 127 tonight, 128-131 tomorrow). Stop new work at 41k and hand off
+to the next agent the same way agent 125 did.
+1. Finish agent 125's leftovers (HANDOFF FINAL and job 1): b#795 fix round, the backend deploy if not done, the APK link to the owner.
+2. AI MASTER WORKOUT BUILDER (HANDOFF section of that name, AIB-1..6), the owner's top new ask, launched as soon as job 1 is moving.
+   The mobile PRs must merge before the 10-07 build; the server switch stays off until a fresh safety pass and the owner's device check.
+3. 10-07 build day with the owner: which mobile PRs the build carries, the device pass, store text.
+4. Roman v1.1: R11-F1 memory and R11-F2 playbook flips (launch-flags.md ~190; migrations deployed first). Server-only, no build needed.
+5. Then safety follow-ups, tracker switch-on as the owner registers providers, the sub-coach v1 plan (A7.5), and the AUDIT follow-ups.
 
 Every owner message you send follows A1.7. Lead with what changed for coaches and clients, in plain words.
