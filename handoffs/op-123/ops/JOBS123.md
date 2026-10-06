@@ -566,3 +566,32 @@ m#391 4f02a19e36383a64cb18b1e9ec467b638d9a5b87 — FIX ROUND 1 (M-FEATURED-123) 
 B-391-1 closed (a signed-in owner reaches the coach app, skips new-coach setup, keeps role owner, can open Settings > Owner > Featured
 coach); coach and client routing unchanged; no new dead end for the owner on coach Home. One verdict at 4f02a19e. Wrap-up: final
 answer with verdict + comment URL.
+
+# WAVE 4 — owner 10-06 09:13: "spin up the next 4 fixer agents and lets those run without starting new work" (credits 37k/45k).
+No new scouts. Each builder: one PR, failing tests first, CI green, FIX ROUND 1 (OPENING) comment ending READY FOR AUDIT, report +
+notify, worktree removed, then stop. Mobile PRs must land before the Wed 10-07 build. Never merge/deploy/run Fly workflows.
+
+## F8 M-COACHPUSH-123 (Claude Opus 5.5, builder, 35 min) — 10-06 09:27 — coach app push permission ask + dead "message your coach" button
+(a) C-S-PUSH-3 (ops/reports/S-PUSH-123.md): a fresh coach install never gets the OS notification permission ask (the opt-in card is
+only on client Home; coach auth goes to the wizard/dashboard), so coaches miss client messages and new-client alerts. Add the same
+opt-in (existing card/hook, no new permission logic) on the coach side: coach Home/dashboard after setup, once, dismissible, and it
+registers the push token through the existing path. (b) C-F6-1 (ops/reports/B-COMMWS-123.md): Community "Send your coach a message"
+(CommunityTodayScreen goToMessages, and the m#389 no-workspace state) does nothing while community DMs are off: open the 1:1 coach
+Messages screen; for a client with no coach, hide the button. Tests for both. Mobile PR on growth-project-mobile main.
+## F9 B-CRISIS2-123 (Claude Opus 5.5, builder, 30 min) — 10-06 09:27 — "not breathing" and OD spellings must route to 911 (safety)
+Reports ops/reports/B-ROMAN911-123.md, AUD-OPUS-R3D-123.md, AUD-SOL-R3D-123.md. On the shared crisis list (Roman + AI guide, b#744):
+"my teammate passed out and is not breathing", "he's not breathing", "she won't wake up", "unconscious and not breathing", and the
+spellings "ODed", "OD'd", "OD'ed", "O.D.", "overdosed" with a person -> 911. Gym controls stay normal ("can't breathe during burpees",
+"hold your breath on the brace", "out of breath", "creatine overdose?", "suicide sprints"). Every phrase a test that fails on main.
+Backend PR.
+## F10 B-COPY2-123 (Claude Opus 5.5, builder, 25 min) — 10-06 09:27 — public pages still make false claims (store/legal)
+From ops/reports/B-COPY-123.md Cs: /terms intro says "company policy draft"; download pages say "private review"; docs/help/faq.md (and
+the rendered FAQ if it matches) says 30-day deletion (check the real deletion window in code and state it); /signup with a code uses
+"we" / "Email us" wording that implies a manual process. Smallest accurate copy; tests/snapshots. Never name the clinic partner.
+Backend PR.
+## F11 B-COHORTPUSH-123 (Claude Opus 5.5, builder, 35 min) — 10-06 09:27 — group chat messages never send a push (C-S-PUSH-4)
+ops/reports/S-PUSH-123.md C-S-PUSH-4: CommunityMessagesService.send writes the message and emits realtime IDs but never calls a push
+sender, although COMMUNITY_MESSAGE_RECEIVED is a default-on kind. Send it through the existing sendCommunityPush (which honours "Mute
+all" since b#751 and the member's notify level) to the other active, unbanned cohort members, never the sender, never blocked pairs
+(either direction), no message text in the push body beyond what existing community pushes carry. No new retry/queue machinery.
+Backend PR.

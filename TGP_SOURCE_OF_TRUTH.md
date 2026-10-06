@@ -2446,6 +2446,19 @@ Contribution log (PDT, newest last)
   zero-tolerance line, Apple still enabled. All wave-3 runs and fixes done; no agents running. Merged today 135, deployed today 10.
   Ops snapshot f309913c. HANDOFF.md rewritten 22:54. Owner decisions open: featured coach account (must be coach role), flags for the
   device pass (b#743 dual-approved, held), clinic build profile, hosting option, fly-apple-signin-set.yml go.
+- 10-06 09:13 OWNER: featured coach = his coaching account bradleyapple1031@gmail.com with GP-BRADLEY + the 21:35 pitch line; Codes,
+  Broadcasts, no-coach Home ON for the device test; build the clinic profile once per platform; asked what the $109 hosting and the
+  Apple key are; 37k/45k credits; "spin up the next 4 fixer agents and lets those run without starting new work". Then 09:26: the 21:35
+  flow drawing is not the real UI (correct: a sketch; real screens unseen until the build); "merged numbers are way off".
+- 10-06 09:14-09:27: merged b#743; env-sync plan 37494157051 (3 to set) -> apply 37494291038: FEATURE_COACH_CODE_TOOLS,
+  FEATURE_COACH_BROADCASTS, FEATURE_COACHLESS_HOME = true, Deployed and verified on 860311cee0d008. Wave 4 launched 09:3x (JOBS123 "WAVE 4"):
+  F8 M-COACHPUSH, F9 B-CRISIS2, F10 B-COPY2, F11 B-COHORTPUSH. No new work after these.
+- CORRECTION (merged counts): 10-05 PDT had 68 PRs merged into main (backend 38, mobile 30). The 135 reported (and the earlier 118)
+  counted all merged PRs, including 67 split pieces merged into agent1xx/* stack branches that then reached main as one merge. From now on
+  "merged today" = PRs merged into main. Deploys 10-05 = 10 (verified, fly-deploy runs).
+- Production DB (rpyfdsgxxltzutgqeouk) read-only check 09:3x: no account for bradleyapple1031@gmail.com; the User table has 1 row (a system
+  account), no owner-role user. Owner must create the coach account (app sign-up, choose coach, $49 package, Stripe payouts) and name an
+  owner email to be promoted (no owner exists, so the Featured coach editor is unreachable until then).
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
