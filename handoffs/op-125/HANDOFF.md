@@ -114,7 +114,10 @@ hide it. Push it live and ON! Lets get a planner agent on that for agent 126 - n
 => AGENT 126 OWNS THIS. It ships ON and visible in the 10-07 build (no hidden toggle). Safety is built into the PRs as acceptance criteria
 (12-point checklist, injury handling, coach approves every change, metering), not a gate after; the server kill switch stays for
 emergencies only. Full plan: handoffs/op-125/AI_MASTER_BUILDER_PLAN.md (planner P-AIB-125, launched 15:41, due 16:10; if the file is
-missing, re-run the P-AIB-125 entry in ops/JOBS125.md first).
+missing, re-run the P-AIB-125 entry in ops/JOBS125.md first). DELIVERED 15:50, commit 78aba854: 7 code PRs + switch-on PR; two
+already in flight from agent 125's late wave (B-AIB1-125 metering + coach approval; B-AIASSIGN-125 approve really assigns). Fly check
+15:52: none of AI_GATEWAY_CAPABILITIES / AI_GATEWAY_ENABLED / AI_GATEWAY_PROVIDER / FEATURE_MWB_AI_LIVE_CREATE is set on Fly (secrets
+list run 37536038425), so no '*' allow-list exists; set exactly the two workout capabilities in the switch-on PR.
 
 ## Agent 126 job list, in order
 1. Finish what agent 125 left (FINAL): b#795 MERGED 15:38 on owner override (fixed emergency reply only for clear, unambiguous
