@@ -2369,6 +2369,15 @@ Contribution log (PDT, newest last)
 - 19:52 WAVE 2 (5 builders; FLEET.md): B-FLAGS-123 (backend + mobile flag PRs, C-337 fix), B-AIG4-123 (C-736-8 promoted: "I want to take
   all my pills" / "I'm going to OD" must get 988 on the AI guide and Roman), M-INV-123 (coach Codes screen), M-COACHLESS-123 (coachless
   Home, featured coach, scripted Roman card), M-BCAST-123 (broadcasts composer). 19:53 read-only fly-env-truth run 37405459790.
+- 19:55 env-truth 37405459790 (names only): ANTHROPIC_API_KEY present, non-empty (64-127). APPLE_AUDIENCES shape check still FAILS
+  (Sign in with Apple; owner to-do "Apple Sign-in key" open in A8.6).
+- 19:59-20:08 B-FLAGS-123: b#740 (day-1 flags: community core x5, messaging v2, Roman chat; closed value sets; supersedes b#650),
+  m#383 (eas.json: Roman chat production + clinic, community tab/hall/cohorts production), m#384 (C-337 "% more volume"). B-AIG4-123:
+  b#739 (C-736-8: "I want to take all my pills" / "I'm going to OD" -> 988 on the AI guide AND Roman; Roman missed all of them). W2A lens
+  pair dual APPROVE all four -> MERGED 20:08. Backend main b48319f0, mobile main ad05c23c. Operator PR b#741 (FEATURE_ROMAN_ADJUST_ENABLED
+  true after m#384) -> FL4 to the W2A lenses. Then deploy 8 (b#739/#740/#741) and ONE env sync apply for all day-1 flags.
+- 20:05 M-COACHLESS-123 opened m#386 0a1bc0bd (coachless Home, featured coach, code sheet, Roman card; server flag coachless_home; 1,189
+  lines) -> W2B lens pair (also queued: M-INV-123 and M-BCAST-123 PRs when posted).
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity

@@ -234,3 +234,40 @@ pick a segment: all clients / tag / package as the API offers, send now or sched
 scheduled one, saved replies picker if cheap. Clients receive broadcasts in their normal coach thread (check how the backend delivers;
 if it needs a client-side render for a card type, include it). Split if over 1,500 lines (api + list, then composer). Story: a coach
 sends "Gym closed Monday, do the home plan" to all clients now and schedules a weekly Sunday check-in; clients see it in their thread.
+
+## Lens pair W2A (Claude Opus 5.5 + GPT-6.1 Sol) — day-1 flags + C-337 (+ AIG4 when posted). Time box 40 minutes. (20:01)
+Background: ops/reports/FLAGS-D1-123.md (matrix + operator rulings in the "# WAVE 2" preamble above) and ops/reports/B-FLAGS-123.md.
+1. FL1 b#740 7e3ff31b1b28758a5ebaa6081e6ca090742fb6b3 (T4): manifest sets FEATURE_COMMUNITY_API/_POSTS/_MESSAGES/_PUSH/_REALTIME,
+   FEATURE_MESSAGING_CORE_V2, FEATURE_ROMAN_CHAT_ENABLED true; FEATURE_ROMAN_ADJUST_ENABLED unset; closed value sets in env-validation.ts;
+   regenerated runbook. Check: every flag set true is read by merged + deployed code (production = e6f9a5ec, deploy 7); the env-sync
+   preconditions pass (community surface flags need FEATURE_COMMUNITY_API); kill path = unset works; nothing else turned on (voice notes,
+   DM, coachless, code tools, broadcasts, dunning stay off); FEATURE_ROMAN_CHAT_ENABLED with box-2 consent enforced (FEATURE_AI_CONSENT_
+   LEDGER_ENABLED=true). Story: after env sync, a client opens Community and posts, chats with Roman (consent asked first), and messages
+   her coach in the new inbox; a coach can switch any of these off with one unset.
+2. FL2 m#383 d2845013b2a8f279606a8886ff45e25ad7064da8 (T3): eas.json production + clinic flags exactly as the preamble rules; config/
+   expected-env.json consistent; no other profile changed. Story: the 10-07 store build shows Roman chat and the Community tab.
+3. FL3 m#384 341216276547a1ead980a91f302768c554028237 (T3): C-337 "more volume" copy + tests; any other place formatting volume_pct.
+4. AIG4 (b#7xx from builder B-AIG4-123, when its FIX ROUND 1 (OPENING) comment is posted; check ops/lanes123/notify/B-AIG4-123.txt):
+   "I want to take all my pills" / "I'm going to OD" -> 988 on the AI guide and Roman; controls normal; tests fail on main.
+Required checks green at each exact head. One verdict per PR.
+
+## Lens pair W2B (Claude Opus 5.5 + GPT-6.1 Sol) — new day-1 mobile screens (T4/T3). Time box 45 minutes per PR, queue in order. (20:13)
+Each PR is server-gated (its backend flag is OFF in production and stays off until this review + an owner device pass), so the question is:
+is it correct and safe when the flag turns on, and invisible while it is off? Backend contracts are on backend main e6f9a5ec (deployed).
+1. CL1 m#386 0a1bc0bd7d18348742184a2e5dcac1a1c961748d (M-COACHLESS-123; report ops/reports/M-COACHLESS-123.md; opening comment
+   6008505792): coachless Home banner, code sheet (/coachless/coach-code/check + /redeem with Idempotency-Key), welcome, hand-off to the
+   Day 1 plan sheet, scripted Roman card (/coachless/roman-card/seen, /not-now), refusal copy, gated by server flag coachless_home.
+   Story: a person who signed up without a code sees the banner, enters GP-XXXX, joins the featured coach and picks a plan; with the
+   flag off nothing shows. Spec: the entry "M-COACHLESS-123" above + ops/reports/B-SPLIT-COACHLESS-121.md. The builder's deviation (a code
+   that already includes a plan never goes to pay) — judge it.
+2. INV1 (M-INV-123's PR(s), when ops/lanes123/notify/M-INV-123.txt exists): coach Codes screen + truthful day-one errors. Spec: entry
+   "M-INV-123" above.
+3. BC1 (M-BCAST-123's PR(s), when ops/lanes123/notify/M-BCAST-123.txt exists): broadcasts list + composer. Spec: entry "M-BCAST-123".
+Required checks green at each exact head. One verdict per PR. If a builder's PR is not posted when you reach it, wait up to 15 minutes
+polling the notify file, then finish your report and say which were not reviewed.
+
+## Lens FL4 (W2A lenses) — b#741 Roman approve-to-adjust flag on (T4). Time box 15 minutes. (20:12)
+b#741 00f9b8b693f409c73104dd17cde043db1b9781fc (operator PR): FEATURE_ROMAN_ADJUST_ENABLED "unset" -> "true" + gate text. Check: b#655
+code deployed (production e6f9a5ec), m#337 + m#384 (C-337 fix) merged on mobile main ad05c23c; closed value set from b#740 present;
+kill = unset hides the card (404); runbook table unchanged and the manifest spec passes. Required checks green at the exact head (poll up
+to 15 minutes). One verdict.
