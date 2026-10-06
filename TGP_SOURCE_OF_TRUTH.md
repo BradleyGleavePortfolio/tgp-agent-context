@@ -2383,6 +2383,22 @@ Contribution log (PDT, newest last)
   b#763 script), migrations=apply-migrations; success 12:18; /health ok, /readyz db up.
 - 12:20 MERGED b#768 (workout routines), m#397 (workout logging Bs), b#769 (Roman M1 memory schema, migration). m#399 Sol B-399-1 ->
   fix round. Roman PRs b#770-#774 open (P2, P1, seams, P3a, M2) -> W2/W3 lenses. Merged today 16; deployed today 3.
+- 12:24-12:36 Owner credits 27k/45k; SMTP via Resend saved. APK-124 launched (sideload APK on free GitHub runners). Merged b#765 (food
+  backend), b#770 (P2), b#772 (seams), b#774 (M2). Lens pair W4 (money) launched for m#402. b#775 consent v5 and m#403/m#404 queued.
+  Two reviewer accounts signed up 12:36 via public /api/auth/register (owner approved 12:33); passwords only in ops/private.
+- 12:33 SESSION INTERRUPTION (owner misclick) cancelled every running subagent; no pushed work lost. 12:35 relaunched 11 (5 finishers:
+  money, workout, coach lookup, food privacy, native proof; lens pairs MOB, BE, MONEY). Owner 12:33: agent 125's FIRST job = 20 QA
+  auditors (ops/lanes124/AUDIT20_FOR_125.md). 12:37 owner turned on Stripe live receipt + refund emails (dashboard-only setting).
+- 12:37-13:16 MERGED m#396 (food logging), m#398 (coach brief screen), b#773 (P3a), b#766 (coach brief backend), m#401 (live workout
+  session), b#775 (consent v5), m#399 (assigned workout names), m#403 (food speed), m#400 (iOS + Android native compile fix; Release
+  builds proven), b#771 (P1 playbook schema, migration 20270402000000). Reviewer emails confirmed 12:45; confirm link fell back to the web
+  Site URL (app link not allow-listed): owner added Redirect URLs tgp://verified and tgp://reset-password 12:48. 12:50 HUNT-01..10-124
+  (day-1 edge hunters, owner 12:48). HUNT-04 -> m#410 (3DS return reaches PaymentSheet).
+- 13:09 DEPLOY 14: fly-deploy run 37524272377, release ec12a4b3069d91438501d9aa8f9d8449d0a5e292 (b#765, b#766, b#768, b#769 M1
+  migration 20270401000000, b#770/#772/#773/#774 inert Roman code, b#775), migrations=apply-migrations; success 13:15; /health ok,
+  /readyz db up.
+- 13:14 APK-124 SUCCESS: run 37519719511, mobile 42daf108 (has m#394, m#395, m#397), com.growthproject.app vc5, debug-signed, production
+  API in bundle, mocks off; arm64 APK shared with the owner. Merged today 33; deployed today 4.
 
 ## AGENT 123 — 2026-10-05 18:27 PDT onward (session 56d37990; 123rd operator in the chain)
 Why: agent 122 retired 18:30 (41k/45k) after the owner's 17:55 stop; owner 18:27: "Time for your takeover!" (prompt:
