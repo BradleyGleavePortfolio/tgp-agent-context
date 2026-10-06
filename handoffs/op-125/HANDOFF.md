@@ -171,6 +171,8 @@ list run 37536038425), so no '*' allow-list exists; set exactly the two workout 
   - b#807 approvals: Sol APPROVE, Opus REQUEST CHANGES B=1: a solo coach can approve their own assign-workout / assign-meal-plan draft
     that names another coach's client, who then gets the plan and a push. Fix ~10 lines + 1 test in ai-approval.service.ts: refuse
     when a client id in the draft payload does not match the draft's client. One fix round, then both lenses.
+  FINAL WAVE (owner 16:58 "scale up to 3 agents"): FIX-AIB-125 (fix rounds on b#807 then b#805, stop 17:35) and lens pair L5 (stop
+  17:50) started 16:59. Check both PRs' latest heads and verdicts; merge with ops/merge_if_dual.sh if dual-approved.
 - APK: run 37541010175 FAILED only at "Prove the APK" (the proof still expected the old fly.dev URL); fixed and re-run as 37547000616
   (16:31, about 45 minutes). Mobile branch ci/APK-125-1, throwaway, never merge; builds mobile 950689a with the clinic profile and
   EXPO_PUBLIC_API_URL https://api.trygrowthproject.com/api. Artifacts tgp-950689a-clinic-apk (universal) and tgp-950689a-clinic-arm64-apk.
