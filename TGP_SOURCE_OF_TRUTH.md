@@ -1264,6 +1264,7 @@ Older entries not listed here still stand unless a later decision changed them; 
   money to be BULLETPROOF" + "Launch as many agents as you can GO GO GO!" -> Roman consent v5 text approved; reviewer sample data approved;
   eight superseded PRs closed; clinic programs + $49 package go into bradleyapple1031@ once the owner says it exists; WAVE 4 (money x4,
   food x2, workout x2) launched (C1 entry 2026-10-06 12:01-12:02).
+- 10-06 12:24 (agent 124) "27k/45k used" -> credits line 27k/45k; APK requested -> APK-124 (C1 entry 2026-10-06 12:24).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -7520,6 +7521,12 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 12:24 PDT — Credits 27k/45k; email settings saved; build an APK; which accounts to create (owner, to agent 124)
+> "27k/45k used - email settings saved - no apk build produced in recent history with all day 1 blockers fixed so go make one for me to singup all the accounts"
+> "I need to make google tester accounts, my coach account, and the81stworker@thegrowthproject,site owner account - any else?"
+Recorded by agent 124. Credits line now 27k/45k (owner's number for this session). Supabase custom SMTP via Resend saved
+(sender on growthprojectapp.com). APK-124 launched: sideloadable release APK of mobile main built on free GitHub runners (no EAS).
 
 #### 2026-10-06 12:01-12:02 PDT — Yes to all recommended; food, workout and money top priority; launch as many agents as possible (owner, to agent 124)
 > "yes to all recommended, il ltell you when the bradleyapple1031@gmail.com account is created and you can propogate the packages into it!"
