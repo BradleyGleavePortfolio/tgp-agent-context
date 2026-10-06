@@ -2459,6 +2459,13 @@ Contribution log (PDT, newest last)
 - Production DB (rpyfdsgxxltzutgqeouk) read-only check 09:3x: no account for bradleyapple1031@gmail.com; the User table has 1 row (a system
   account), no owner-role user. Owner must create the coach account (app sign-up, choose coach, $49 package, Stripe payouts) and name an
   owner email to be promoted (no owner exists, so the Featured coach editor is unreachable until then).
+- 10-06 09:38 OWNER: "ill do 30/mo for one database - I need no cooldowns ... app up 24/7"; owner account =
+  the81stworker@thegrowthproject.site; Apple key: "do it yourself". 09:39 fly-apple-signin-set.yml run 37497304676 FAILED safely at its
+  own check: GitHub secret APPLE_SIGNIN_PRIVATE_KEY (updated 10-01) is not a PEM (.p8 with BEGIN/END PRIVATE KEY lines); nothing changed
+  on Fly; /health ok. Owner must re-save that secret from the .p8 (or make a new Sign in with Apple key and update both secrets), then
+  re-run. Supabase org "The Growth Project" is on the free plan (projects pause after inactivity); the owner upgrades it to Pro himself
+  (agents spend no money); the org also holds project tgp-finance, billed under Pro too. fly.toml already keeps 1 machine always running
+  (min_machines_running=1). the81stworker@ has no account yet (checked 09:39): promote to owner after he signs up.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
