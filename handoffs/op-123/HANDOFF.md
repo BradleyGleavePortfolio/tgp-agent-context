@@ -74,7 +74,17 @@ bradleyapple1031@gmail.com nor the81stworker@thegrowthproject.site has an accoun
 - Play reviewer accounts.
 - Sign up the two accounts above.
 
+## Older open PRs (owner asked 10-06 10:38; full plain-words list: handoffs/op-123/OLDER_OPEN_PRS.md)
+- First check for agent 124: b#593 (D8). Main's RLS policy "assignment_coach_manage" (migration 20260702000000) only checks
+  assigned_by_coach_id = caller, so it never checks the client belongs to that coach. The same gap exists on DailyMealPlanAssignment. Check
+  whether authenticated PostgREST writes reach these tables on production. If they do, port only that policy as a small T4 PR; it is a B
+  under "reachable security". b#593 cannot land alone because it is stacked on #587.
+- Superseded, can be closed with the owner's OK: b#598, #601, #602, #603 (the Roman work landed via the later split), b#522, b#584,
+  m#262, m#283.
+
 ## Carried Cs (edge-case freeze; not day 1)
+- The coach brief uses retired model claude-3-5-sonnet-20241022 (src/coach/brief/coach-brief.service.ts BRIEF_CLAUDE_MODEL), so it
+  always falls back to the deterministic narrative.
 - Coachless clients still read "Your coach will place you in one."
 - No per-cohort mute (only Mute all).
 - "Oded" (a name) and "stopped breathing for a few seconds while sleeping" route to 911. Both err to safety.
