@@ -2425,6 +2425,14 @@ Contribution log (PDT, newest last)
   (Codes/Broadcasts/coachless manifest flags; merge OK after review, env-sync apply only after the owner says go). Launched F3 M-STORE,
   lens queue R3A (W2A lenses) and F5 B-AUTHZ. Fleet 8. Owner A1.7 sent 21:50 with decisions: GP-BRADLEY/pitch, flags for the device
   pass, clinic build profile, hosting option.
+- 21:58-22:12 merges (dual-approved, green at exact head): b#747 (leaderboard opt-in + removed members), b#745 (invite landing
+  per-platform buttons), b#742 (feature-off 503s out of Sentry), b#746 (export covers day-1 data), b#748 (Sign in with Apple:
+  APPLE_AUDIENCES=com.growthproject.app in the manifest, APPLE_NONCE_REQUIRED unset, apple key workflow), b#750 (payout status
+  re-read from Stripe), b#751 (community push honours Mute all), b#752 (cohort assignment authz + block list first names), b#753
+  (community workspace + "All members" auto-created; members may post in the Hall - operator ruling D-F6-1), m#389 (no composer
+  without a workspace). Backend main 9b78afd5 (no migrations since production 5230306c). b#744 FIX ROUND 1 running (both lenses:
+  bare "possible overdose" and "I cut myself again" stopped routing; operator ruling: they must route). b#743 approved by Opus,
+  merge held for the owner. Open: m#390 (store-review fixes, Opus APPROVE, Sol pending), F2 guide pool, F4 public copy, W3-06.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity

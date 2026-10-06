@@ -466,7 +466,8 @@ Backend public pages (exact copy in ops/reports/S-STORECOPY-123.md and ops/repor
 copy says invite-only (public-pages.html.ts:135-142, trust-pages.html.ts:665) -> open signup wording; B-STORECOPY-3 FAQ says coach is
 web-only (help-pages.html.ts:466-468 + docs/help/faq.md:105-108) -> mobile coach tools; B-PRIVACY-1 policy part: /privacy "Who can see
 your data" and /consumer-health-privacy "Categories we share" -> community spaces + opt-in leaderboard text (after b#747). Never name the
-clinic partner. Snapshot/spec updates for the pages.
+clinic partner. Snapshot/spec updates for the pages. Also (from m#390, ops/reports/M-STORE-123.md): the backend /terms page needs the
+same zero-tolerance objectionable-content sentence the new in-app Community terms sheet shows (Guideline 1.2), word for word.
 
 ## F5 B-AUTHZ-123 (Claude Opus 5.5, builder, 40 min) — cohort member assignment + legacy block list (B-AUTHZ-1, B-AUTHZ-2)
 Report ops/reports/S-AUTHZ-123.md (exact lines, stories, test sketches). B-AUTHZ-1: POST /api/community/cohorts/:cohortId/members
@@ -492,6 +493,15 @@ persist it through the SAME code path account.updated uses, so Settings > Payout
 a Stripe read failure keeps today's saved status. Test: saved not-ready + Stripe says charges/payouts enabled -> me() returns ready and
 the saved row is updated; Stripe error -> unchanged.
 
+## FIX ROUND 1 on b#744 (B-ROMAN911-123, same builder w3_09) — 21:59. Time box 30 minutes.
+Both R3A lenses REQUEST CHANGES at cda23212514b60adbfffef0e9add310a4c7f541a. Read BOTH AUDIT comments on b#744 and
+ops/reports/AUD-OPUS-R3A-123.md. Must fix: B-744-1 overdose reports with no listed person ("possible overdose", "is this an overdose?",
+"she might be overdosing", "my teammate is overdosing", "a guy at my gym is overdosing") must route to 911 on Roman AND the AI guide (they
+share the list now; main routes them); B-744-2 "I cut myself again" must get the 988 reply; plus every B in the Sol comment. Operator
+ruling on your decision: NOT accepted - a bare "possible overdose" routes to 911. Gym controls ("can you overdose on creatine?", "suicide
+sprints", drills) must stay out. Add every lens phrase as a test that fails on cda23212. One push; comment "FIX ROUND 1 (B-ROMAN911-123,
+agent 123) — growth-project-backend#744 @ <sha>" ending READY FOR AUDIT. Then stop.
+
 # WAVE 3 REVIEW QUEUE (two lenses each; W2 lenses by message once the fleet is under 8)
 ## Lens queue R3A (21:48; re-uses both W2A lenses: lens_opus_w2a_flags + lens_sol_w2a_flags). Time box 45 minutes. Queue order:
 1. b#747 ae1c103333361b3442c102b7bde1af4f3c950762 (T4 privacy; operator 123; B-PRIVACY-1 + B-AUTHZ-3; report S-PRIVACY-123 / S-AUTHZ-123)
@@ -500,8 +510,31 @@ the saved row is updated; Stripe error -> unchanged.
 3. b#745 8ad33e4bbc1d826e2c896dc668e0fa86750c6f79 (invite landing per-platform buttons; report B-LINKS-123)
 4. b#742 c911aa95106bb68622d5c2797166fea270a16fcb (feature-off 503s kept out of Sentry; report M-SENTRY-123)
 5. b#743 3493baaa (flags; review only — MERGE HELD for the owner's decision; report B-FLAGS3-123 when it lands)
-6. b#746 31ae184d (data export day-1 data) ONLY once its READY FOR AUDIT comment exists; use the head in that comment.
+6. b#746 31ae184dc06891e1818cd5b818a752d0fea3a4cd (data export day-1 data; READY FOR AUDIT posted; report B-DELETE-123)
+7. b#748 f6b3e191 (Sign in with Apple: APPLE_AUDIENCES in the manifest, APPLE_NONCE_REQUIRED unset, deletion revocation path; report
+   B-APPLE-123; T4 auth). Use the full head from the PR. Check the nonce change is safe for v1 and the workflow edit pushes no secret.
 Verify each head right before posting; if it moved, review at the new head. Post each verdict as soon as that PR is done. Independent
 lenses (rule 8). Wrap-up: final answer lists every PR, head, verdict and comment URL; stop at the time box even if the queue is not empty.
 - b#747 operator fix: legacy leaderboard opt-in (B-PRIVACY-1) + removed/banned viewer own-only (B-AUTHZ-3) @ ae1c103333361b3442c102b7bde1af4f3c950762
 - b#742..b#746 from wave 3 builders (heads in their reports when they finish)
+
+## Lens queue R3B (22:01; both W2A lenses again: Opus starts now, Sol after R3A). Time box 50 minutes. Review each item ONLY once its
+READY FOR AUDIT comment exists (use the head named in that comment; verify it is still the PR head); skip and come back if not ready.
+Mobile build is Wed 10-07: mobile items first when ready.
+1. m#390 (M-STORE-123: iOS purpose strings, community terms sheet, Trust Center copy, mic off; report M-STORE-123)
+2. m#389 6e3c581cadf225c33bfd0b9fe9c82604ae4b9878 (B-COMMWS-123 mobile safety net: no composer without a workspace; report B-COMMWS-123)
+3. b#753 d5cdf747e4e5442929a911a9a96d44f74bd6021f (B-COMMWS-123 backend: workspace + "All members" auto-created in getMe; T4 data;
+   report B-COMMWS-123). OPERATOR RULING on D-F6-1: members (active, unbanned) may create Hall posts (the app was built for it); review
+   that moderation, block and ban still apply to member posts.
+4. b#750 06745d7d4be0df8f85311a1f16c9893f32a91f69 (payout status re-read from Stripe in connect me(); money; report B-PAYOUTSYNC-123)
+5-7. MOVED to R3C at 22:06 (b#752, b#751, b#749) — W2A lenses stop after item 4.
+Wrap-up: final answer lists every PR, head, verdict and comment URL; stop at the time box even if the queue is not empty.
+
+## Lens queue R3C (22:06; re-uses both W2B lenses: lens_opus_w2b_mobile_screens + lens_sol_w2b_mobile_screens). Time box 45 minutes.
+Same rules as R3B (only once READY FOR AUDIT; verify head; post each verdict when done).
+1. b#752 69ad43d08f874f5a4d0122785493fd2c4d28187b (B-AUTHZ-123: cohort member assignment authz + block list first names; security;
+   reports S-AUTHZ-123 and B-AUTHZ-123). Operator ruling: no cross-roster cohort invites for v1.
+2. b#751 6a0261331490412ad1ba3549efa12f67cc4d7d98 (B-PUSHMUTE-123: community push honours Mute all; report B-PUSHMUTE-123)
+3. b#749 (M-FEATURED backend part: featured coach candidates; report M-FEATURED-123 once it lands)
+4. Any of F2 B-GUIDEPOOL / F4 B-COPY PRs that become READY FOR AUDIT inside the box (reports B-GUIDEPOOL-123 / B-COPY-123).
+Wrap-up: final answer lists every PR, head, verdict and comment URL.
