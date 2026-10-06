@@ -179,3 +179,12 @@ the test that proves it. Then write one line to /home/user/workspace/ops/lanes12
    CHANGES on an agent 124 PR (b#776-b#785, m#402-m#415), read that verdict on the PR and do the fix round the same way, money PRs first.
    If two lenses disagree on whether something is a B, fix it if the fix is small and safe; otherwise write it in your report for the operator.
 Report /home/user/workspace/ops/reports/FIX-Q1-125.md (per item: PR, old head -> new head, Bs fixed, tests, CI).
+
+# LENS QUEUE L2 (14:16) — auditor PRs (AUDIT-01..20-125), both L1 lenses after their L1 queue
+Same verdict rules as LENS PAIR L1. The live queue is every open PR whose comments contain "READY FOR AUDIT" from an AUDIT-xx-125 or
+FIX-Q1-125 job and that has no verdict of your model at its CURRENT head. Find them with:
+`for r in backend mobile; do gh pr list --repo BradleyGleavePortfolio/growth-project-$r --state open --search "agent125 in:head" --json number,headRefOid,title; done`
+(branches are agent125/...). Order: money and private data first, then core flows (sign up, train, log food, book, message), then the
+rest. Mobile PRs before backend PRs at equal weight (the 10-07 build only carries mobile main). 15 minutes per PR (T4 money 20).
+Delta reviews (FIX ROUND k READY FOR DELTA AUDIT on a PR you already reviewed): review only the delta, 10 minutes.
+Keep polling every 5 minutes until the operator sends WRAP UP or 16:30 PDT, whichever comes first.

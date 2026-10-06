@@ -2335,6 +2335,20 @@ Contribution log (PDT, newest last)
   CHANGES as they land. Shared deps install restarted (first nohup died with the shell). 23 agents running.
 - 14:04 Owner credits 9.1k/45k (burn ~800/min at launch). 14:05 every auditor: hard stop 14:45 (Sol T2 auditors 14:40), audit to
   14:20, READY by 14:45, report by 14:50. Lens pair L1 and FIX-Q1 keep their boxes (owner top priority PRs).
+- 14:07 Owner: Stripe customer portal + Retries custom 1/2/4 days set. 14:08 MERGED b#762 (dual APPROVE at d79497f6, checks green) ->
+  main ef5e514a. Env sync plan run 37531724231: "Plan: 1 to set (FEATURE_DUNNING_V2), 0 to unset, 70 unchanged". Apply run 37532040631
+  (confirm=SET, deploy_staged=true; production environment approved by operator): verified on machine 860311cee0d008. /health ok,
+  /readyz 200. FEATURE_DUNNING_V2 is ON in production.
+- 14:11-14:13 Lens Sol L1 done (22 PRs). Opus L1 at 15/22. MERGED on dual APPROVE at exact head + green checks: backend b#779 (webhook
+  transaction), b#780 (custom foods private), b#783 (/verified landing); mobile m#410 (bank authentication return), m#402 (ended plans
+  restart), m#405 (refund pause copy), m#407 (truthful Stripe setup), m#412 (Android digital purchases hidden), m#404 (coach food review,
+  FIX-Q1 round 3 at 0930dfeb), m#406 (offline workouts), m#413 (tgp://verified screen), m#409 (account-switch caches). Lens split: Sol
+  REQUEST CHANGES on b#776 and b#778 (Opus APPROVE) -> FIX-Q1. b#785 CI red -> FIX-Q1.
+- 14:11 AUDIT-16-125 done: m#420 (coach Team hidden for day 1; team code that sign-up rejects replaced by the normal invite link), B=1.
+  Post-launch (Opus builder): team-mode.service.ts:80 lets a coach be made a sub-coach without an accepted invite; blocked today only
+  because Pro/Enterprise prices are unset in production.
+- 14:14 AUDIT-07-125: m#422 (client assigned workouts never load: paged response read as a list), B=1. Roman-approved change not shown
+  on the client workout screen -> AUDIT-14. LENS QUEUE L2 (auditor PRs) to both L1 lenses.
 
 ## AGENT 124 — 2026-10-06 11:00 PDT onward (session b6cbb3b7; 124th operator in the chain)
 Why: agent 123 handed off 10-06 (prompt: handoffs/op-123/AGENT_124_PROMPT.md); owner 10-06: "Read tgp source of truth, launch one
@@ -7568,6 +7582,13 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 14:07 PDT — Stripe portal + retries set; expo.dev environment shown (owner, to agent 125)
+> "stripe settings set correctly."
+> (pasted the expo.dev environment variable list: EXPO_PUBLIC_API_URL = the Fly app host + /api on development/preview/production;
+> EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES true on preview/production; SENTRY_AUTH_TOKEN sensitive on production since Apr 29;
+> SENTRY_DISABLE_AUTO_UPLOAD true on preview only; Supabase, Stripe pk_live, Sentry DSN, PostHog, Crisp present)
+Recorded by agent 125. Dunning gate met: b#762 merged, env-sync applied. All three expo.dev build settings already present.
 
 #### 2026-10-06 14:02-14:04 PDT — Stripe dunning steps requested; accounts tonight; expo.dev settings explained; credits 9.1k (owner, to agent 125)
 > 14:02 "Automatic payment-retry emails - give me a link to the exact stripe page and easy bullet pointed instructions"
