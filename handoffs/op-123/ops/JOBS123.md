@@ -290,3 +290,9 @@ m#386 0a1bc0bd. Both lenses REQUEST CHANGES (Sol 6008549315, Opus 6008571221; re
   screen; Android keeps the sheet. Test both platforms.
 One push. PR CI green. Comment `FIX ROUND 2 (M-COACHLESS-123, agent 123) — growth-project-mobile#386 @ <sha>` ending READY FOR AUDIT.
 Cs stay. Then notify file update.
+
+## Re-audit CL1 m#386 FIX ROUND 2 (W2B lenses). Time box 20 minutes (delta). (20:45)
+m#386 64c5bde0f20f3a39d76961e7eb9838dc515fa2d3 (was 0a1bc0bd); FIX ROUND 2 comment 6008806111. Check only the delta: B-386-SOL-1
+(successful redeem refreshes the shared entitlement gate; integrated test fails without the fix) and B-386-OPUS-1 (iOS "Choose a plan"
+-> "1:1 coaching with <coach>" screen; Android keeps the sheet; tests both). No new Bs outside the freeze. Required checks green at the
+exact head. One verdict.

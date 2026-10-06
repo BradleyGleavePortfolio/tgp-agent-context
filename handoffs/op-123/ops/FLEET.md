@@ -15,7 +15,7 @@
 | 19:52 | B-FLAGS-123 | Claude Opus 5.5 | builder_day_1_flag_prs_muw2pixz | backend + mobile day-1 flag PRs, C-337 fix | done 19:59 (b#740, m#383, m#384) |
 | 19:52 | B-AIG4-123 | Claude Opus 5.5 | builder_crisis_pills_od_fix_muw2piy7 | C-736-8 pills/OD crisis routes | done 20:05 (b#739) |
 | 19:52 | M-INV-123 | Claude Opus 5.5 | builder_mobile_coach_codes_screen_muw2piyd | mobile coach Codes screen | done 20:16 (m#385, m#387) |
-| 19:52 | M-COACHLESS-123 | Claude Opus 5.5 | builder_mobile_coachless_home_muw2piyk | mobile coachless Home + featured coach | m#386 opened 20:05; FIX ROUND 2 running (30 min, 20:29) |
+| 19:52 | M-COACHLESS-123 | Claude Opus 5.5 | builder_mobile_coachless_home_muw2piyk | mobile coachless Home + featured coach | m#386 opened 20:05; FIX ROUND 2 done 20:36; merged 20:39 |
 | 19:52 | M-BCAST-123 | Claude Opus 5.5 | builder_mobile_broadcasts_composer_muw2piyq | mobile broadcasts composer | done 20:23 (m#388) |
 | 20:01 | AUD-OPUS-W2A-123 | Claude Opus 5.5 | lens_opus_w2a_flags_muw3b8cz | b#740, m#383, m#384, b#739, FL4 b#741 | done 20:19 |
 | 20:01 | AUD-SOL-W2A-123 | GPT-6.1 Sol | lens_sol_w2a_flags_muw3b8d6 | same | done 20:20 |

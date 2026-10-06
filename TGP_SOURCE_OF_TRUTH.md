@@ -2392,6 +2392,12 @@ Contribution log (PDT, newest last)
   /readyz 200. Still off by design: coachless Home, coach code tools, broadcasts (screens merged; device pass first), dunning v2, DM, voice.
 - 10-07 build carries 33 mobile merges since the last EAS build (ff6bd4b, 10-01): m#388 387 385 384 383 338 339 381 382 340 342 341 352 345
   337 365 379 371 355 372 378 321 335 312 359 368 315 305 326 327 314 330 333 (+ m#386 if it lands).
+- 20:38 m#386 FIX ROUND 2 (64c5bde0: redeem refreshes the entitlement gate; iOS "Choose a plan" -> "1:1 coaching with <coach>") dual
+  APPROVE -> MERGED 20:39; mobile main a727eb49 (main CI green through a0e225df). 10-07 build now carries 34 mobile merges incl. m#386.
+- Note: b#650 closed automatically at 20:08 when b#740 (its replacement) merged; no other PR was closed. Decision 1 now = b#657, b#659,
+  m#331, m#336.
+- 20:45 STANDBY: day-1 code complete; all six takeover priorities done. Waiting on the owner: decisions 1-2, device passes on the 10-07
+  build, Apple sign-in key, Stripe portal check. Handoff: handoffs/op-123/HANDOFF.md. No agents running.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
