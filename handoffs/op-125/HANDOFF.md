@@ -108,8 +108,13 @@ diff ops add/update/remove/reorder, plan revisions author_kind 'ai', template fo
   change, reject; label "AI-suggested, coach-approved". Hidden unless the server says enabled.
 - AIB-6 mobile: create-from-scratch entry ("New program with AI") plus quick actions (swap for injury, progress a week, deload).
 - Then a fresh 12-point safety pass (same checklist as SAFE-MWBAI-125) and a device test before the server switch goes on.
-Ship rule: the two mobile PRs must merge before the 10-07 build so the screens are in it, hidden behind the server switch. The server
-switch goes on only after the safety re-pass passes and the owner taps through it on a device, which needs no new build.
+Owner 15:40 (verbatim, binding): "lets build it - world class, better UI and UX than any competitor, more per client intelligent, and
+smooth transitions with haptic feedback layered in. I want the FUN part of being a trainer to be fun in-app. But, dont turn it off or
+hide it. Push it live and ON! Lets get a planner agent on that for agent 126 - notated as his responsibility to do!"
+=> AGENT 126 OWNS THIS. It ships ON and visible in the 10-07 build (no hidden toggle). Safety is built into the PRs as acceptance criteria
+(12-point checklist, injury handling, coach approves every change, metering), not a gate after; the server kill switch stays for
+emergencies only. Full plan: handoffs/op-125/AI_MASTER_BUILDER_PLAN.md (planner P-AIB-125, launched 15:41, due 16:10; if the file is
+missing, re-run the P-AIB-125 entry in ops/JOBS125.md first).
 
 ## Agent 126 job list, in order
 1. Finish what agent 125 left (FINAL): b#795 MERGED 15:38 on owner override (fixed emergency reply only for clear, unambiguous
@@ -137,5 +142,21 @@ switch goes on only after the safety re-pass passes and the owner taps through i
 - Read production flags from .github/fly-env-desired-state.json, never from memory; "unset" can mean ON (LEADERBOARD_ENABLED,
   SIGNUP_ROLE_CHOICE_ENABLED, COACH_WELCOME_SCHEDULER_ENABLED, WORKOUT_REMINDERS_ENABLED).
 
-## FINAL (filled at agent 125's stop)
-(pending)
+## FINAL (agent 125 stop, 10-06 about 15:45 PDT)
+- Backend main a6f4b5a98c1ce7667539df5105954c50407dcf93 (includes b#795, b#802, b#803, b#804, b#776, b#778, b#799, b#800, b#801 and
+  every earlier merge today). Mobile main 950689af696f993d6bb2b361ca6b5d07bab1328e (includes m#416, m#427, m#434-m#438).
+- Merged today across both repos: 92 (agents 124 and 125). PR sizes: none over 1,500 lines (largest b#774 1,408).
+- Open agent PRs: mobile m#411 (agent 124 offline onboarding resume, failing CI, no verdicts: fix or close with the owner's OK). Older
+  parked PRs: handoffs/op-123/OLDER_OPEN_PRS.md.
+- DEPLOY: see the AGENT 125 banner's last line in the SoT for whether agent 125 started it. If not: fly-deploy.yml with release_sha =
+  backend main (40 hex) once its CI run and CodeQL are green, confirm=deploy, migrations=apply-migrations (b#771 migration
+  20270402000000 and 20270401000000 roman_memory are not yet in production), approve pending_deployments (env 23065966686,
+  ops/approve_deploy.sh), then /health, /readyz, the Coach AI startup check log, one Roman message, one test report email.
+- APK: run 37541010175 (mobile branch ci/APK-125-1, throwaway, never merge) builds mobile 950689a with the clinic profile and
+  EXPO_PUBLIC_API_URL https://api.trygrowthproject.com/api. Artifacts tgp-950689a-clinic-apk (universal) and tgp-950689a-clinic-arm64-apk.
+  Send the owner the run link once green. It does not contain the AI master builder; a new APK after those PRs merge.
+- CI note: backend ran 1,228 workflow runs today; the queue drains in about 20-40 minutes after a merge burst. The safety classifier blocks
+  mass-cancelling runs without the owner's explicit OK.
+- Owner decisions after 15:20 (SoT C1): community AI triage v1.1+; Roman fixed reply only for clear emergencies (b#795 merged on owner
+  override); PDFs/videos launch as is on iOS too; AI master builder ON in the 10-07 build, agent 126 owns it.
+- Ops snapshot: backend branch wip/op125/ops-snapshot (re-snapshotted at stop).
