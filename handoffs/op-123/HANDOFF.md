@@ -1,58 +1,62 @@
-# Operator 123 -> next operator handoff (2026-10-05 20:45 PDT)
+# Operator 123 -> next operator handoff (2026-10-05 22:56 PDT)
 
 No agents are running. GitHub is the truth: re-check every head before acting. Lane files: handoffs/op-123/ops/ (JOBS123.md has every
-job entry; _COMMON_123.md the shared rules; FLEET.md every subagent). Subagent reports were in the session workspace (ops/reports/); the
-ones that matter are summarised here and in the SoT Part B banner "AGENT 123".
+job entry incl. wave 3 + fix queue + lens queues R3A-R3F; _COMMON_123.md the shared rules; FLEET.md every subagent). Subagent reports
+were in the session workspace (ops/reports/, snapshot on backend branch wip/op123/ops-snapshot f309913c); the ones that matter are
+summarised here and in the SoT Part B banner "AGENT 123".
 
 ## State
-- Launch path 5/7: 1 Privacy, 2 Money (trials b#671 + payment sheet m#342 + trial push m#338), 3 Coach, 4 Failed payments (dunning v2
-  flag OFF), 6 Remainder (programs on, voice sweep m#339, tax CSV m#340, booking options m#381). Left: 5 Health Connect (owner device
-  pass on the 10-07 build; code + flag live since deploy 4) and 7 (10-07 Expo build + store review).
-- Backend main 5230306cb63df7290459bb362340a42f385f39d5 = production (deploy 8, 20:35, run 37409368179, no migrations). Main CI green.
-- Mobile main a727eb495a0ce381a22c4ac40370c0c69f53a656 (m#386 merge; CI green at a0e225df, check a727eb49).
-- Merged today 118 (backend 64 incl. Roman stack pieces into stack branches, mobile 54). Deployed today 8.
+- Launch path 5/7. Left: 5 Health Connect (owner device pass on the 10-07 build) and 7 (10-07 Expo build + store review).
+- Backend main 2e3a749809da643e4e73ff1175d77bfda4086bed = production (deploy 10, 22:53, run 37420489986, no migrations; /health and
+  /readyz ok). Main CI green at 2e3a7498 (Release Please fails on main, pre-existing, not required).
+- Mobile main 435e67a97be515703e1915663fc3323176c5257a (m#391 merge; CI was running at 22:55 - check it). Mobile main CI green at
+  5098fb22 (m#392).
+- Merged today 135 (backend 77, mobile 58). Deployed today 10.
 
-## Production flags (env sync apply 37409749015, 20:37, verified on machine 860311cee0d008)
-- ON: FEATURE_COMMUNITY_API, _POSTS, _MESSAGES, _PUSH, _REALTIME, FEATURE_MESSAGING_CORE_V2, FEATURE_ROMAN_CHAT_ENABLED,
-  FEATURE_ROMAN_ADJUST_ENABLED (plus earlier today: BOOKING_REMINDERS_ENABLED, FEATURE_MWB_TEMPLATES, FEATURE_MWB_AUTOSAVE_UNDO,
-  FEATURE_NAMED_REGIMES, MWB_AUTOSAVE_LOCK_TOKEN_SECRET, FEATURE_WEARABLES_INGEST_POST, GOOGLE_CLIENT_IDS).
-- OFF by design (screens merged, waiting on an owner device pass on the 10-07 build): FEATURE_COACHLESS_HOME (m#386),
-  FEATURE_COACH_CODE_TOOLS (m#387), FEATURE_COACH_BROADCASTS (m#388). Turning each on = one manifest line PR + lens pair + env sync.
-- OFF: FEATURE_DUNNING_V2 (owner must confirm the Stripe customer portal is on in live mode first), DM, voice notes.
-- env-truth 37405459790 (names only): ANTHROPIC_API_KEY present (64-127). APPLE_AUDIENCES shape check FAILS -> Sign in with Apple fails
-  until the owner sets the Apple sign-in key (A8.6).
+## Production settings (verified on machine 860311cee0d008)
+- 20:37 apply 37409749015: community API/posts/messages/push/realtime, messaging core v2, Roman chat, Roman adjust ON.
+- 22:36 apply 37419274006 (after b#748): APPLE_AUDIENCES=com.growthproject.app, APPLE_NONCE_REQUIRED unset. /api/auth/signup-policy
+  lists apple. NOT done (owner go needed): fly-apple-signin-set.yml (copies the Apple sign-in key from GitHub secrets to Fly so account
+  deletion revokes Apple tokens - App Store requirement). Never run fly-secrets-set.yml.
+- OFF until the owner says go: FEATURE_COACH_CODE_TOOLS, FEATURE_COACH_BROADCASTS, FEATURE_COACHLESS_HOME. b#743 (manifest, +6/-6)
+  has Opus + Sol APPROVE at 3493baaa; merge, then env-sync plan (expect 3 to set) and apply. Owner should save the featured offer first.
+- OFF: FEATURE_DUNNING_V2 (Stripe customer portal in live mode first), DMs, voice notes.
 
-## 10-07 Expo build carries (34 mobile merges since the last EAS build ff6bd4b, 10-01)
-m#386 388 387 385 384 383 338 339 381 382 340 342 341 352 345 337 365 379 371 355 372 378 321 335 312 359 368 315 305 326 327 314 330 333.
-eas.json (m#383): Roman chat on in production + clinic; community tab, hall, cohorts on in production. EXPO_PUBLIC flags are fixed at
-build time.
+## Wave 3 (20 runs launched 21:35, all done) + fixes - merged and deployed
+b#747 legacy leaderboard opt-in + removed members own-only (operator), b#745 invite landing per-platform buttons, b#742 feature-off 503s
+out of Sentry, b#746 export covers day-1 data, b#748 Apple audience/nonce manifest + key workflow, b#750 payout status re-read from Stripe,
+b#751 community push honours Mute all, b#752 cohort assignment authz + block list first names, b#753 community workspace + "All members"
+auto-created in /community/me (members may post in the Hall - operator ruling), b#744 Roman/AI guide shared crisis lists (FIX ROUND 1:
+bare "possible overdose" -> 911, "I cut myself again" -> 988), b#755 public pages (open signup, coach FAQ, community/leaderboard privacy,
+terms zero-tolerance line), b#749 owner-only featured coach list, b#754 AI Guide spends from the coach monthly pool (pool empty -> normal
+reply, code COACH_AI_BUDGET_EXHAUSTED).
+Mobile (in the 10-07 build): m#389 no composer without a workspace, m#390 iOS camera/photo purpose strings + community terms sheet +
+signup terms line + Trust Center security copy + Android mic permission removed, m#392 Trust Center community/leaderboard line
+(operator), m#391 owner-only Featured coach editor in Settings (owner accounts now open the coach app).
+No-B scouts: RLS (42 new tables forced RLS), coach journey, capacity, build config, Play review (apart from mic).
 
-## Open PRs (not dependabot)
-| PR | Head | State | Next |
-|---|---|---|---|
-| b#657 coachless split | c25960a8 | superseded (coachless landed in pieces; mobile m#386) | close with owner OK (decision 1) |
-| b#659 broadcasts split | fa9a7cbd | superseded (b#726 + m#388) | close with owner OK (decision 1) |
-| m#331 Roman conversations list | 5b58a121 | superseded per agent 122 notes | close with owner OK (decision 1) |
-| m#336 S-SCHED-5 request auto-expiry | e043bb44 | superseded per agent 122 notes | close with owner OK (decision 1) |
-| b#427/#428, m#262/#264/#265, m#283, importer/scout b#5xx, m#302 | old | not day 1 | leave |
-b#650 closed automatically at 20:08 when its replacement b#740 merged (b#740 body said it supersedes b#650).
+## Owner docs (this folder)
+DEVICE_PASS_10-07.md (tap-by-tap device test with reply form; A4 updated: Apple sign-in should now work; Part B2 menu path is
+Settings > Owner > Featured coach), STORE_TEXT_10-07.md (store text, review notes, health disclaimer).
 
-## Today under operator 123 (18:27-20:45)
-Deploys 6 (0521b393, migrations), 7 (e6f9a5ec, migrations), 8 (5230306c). Merged: m#381, b#643, m#342, m#340, b#737, b#725, m#382,
-Roman train into #667 (dual APPROVE c5c86cb4), b#738 (proxy-addr critical advisory), m#339, b#736, b#671 trials, m#338, b#739 (pills/OD
--> 988 on AI guide and Roman), b#740 (day-1 flags), b#741 (Roman adjust on), m#383 (eas.json flags), m#384 (C-337 copy), m#385 (code
-errors), m#387 (coach Codes screen), m#388 (broadcasts composer), m#386 (coachless Home; FIX ROUND 2 closed both Bs).
+## Open owner decisions (A1.7 22:37)
+1. Featured coach account: must be a coach-role account (with the $49 package + Stripe payouts); which email? Code GP-BRADLEY, pitch:
+   "Sir/Ma'am, just so you're aware, TGP's top coach has available slots. Enter code GP-BRADLEY and join for $49/mo. Interested?"
+2. Codes/Broadcasts/no-coach Home on for the device pass (b#743).
+3. Build the clinic profile once per platform (only profile with Health Connect).
+4. Hosting: ~$109/mo (Supabase Pro + 2 dedicated Fly machines) vs ~$62/mo shared CPU (scout S-CAPACITY; inspect Prisma pool before
+   replicas).
+5. Go for fly-apple-signin-set.yml.
 
-## Next actions
-1. Owner decisions 1 (close b#657, b#659, m#331, m#336) and 2 (turn on Codes + Broadcasts after the device pass).
-2. After the owner's device pass on the 10-07 build: flag PRs for FEATURE_COACH_CODE_TOOLS, FEATURE_COACH_BROADCASTS, then
-   FEATURE_COACHLESS_HOME (needs a featured coach configured; the owner saves the Roman pitch text himself, suggested wording:
-   "Sir/Ma'am, just so you're aware, TGP's top coach has available slots. Enter code <code> and join for <price>. Interested?").
-3. Carried Cs (freeze): C-388 Sentry 503 noise on Messages while broadcasts is off; C-386-a onboarding-agreement screen; Roman sends
-   "overdose on cardio" / "can you overdose on creatine?" to 911 (over-routing); dotted "O.D." not routed; the C list in the SoT banner.
+## Owner to-dos before the 10-07 build
+- expo.dev production environment: EXPO_PUBLIC_API_URL ends with /api; add SENTRY_AUTH_TOKEN (sensitive); add
+  EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES=true (plain text). All EXPO_PUBLIC_* plain text or sensitive, never secret.
+- Confirm highest TestFlight build is 5 and highest Play versionCode is 4 (this build: iOS 6, Android 5).
+- Stripe live mode: a connected-accounts webhook to /api/v1/webhooks/stripe (b#750 covers a missing one when the coach opens Payouts).
+- Supabase Apple provider client IDs include com.growthproject.app. Play reviewer accounts. POSTHOG key (optional).
 
-## Owner to-dos
-- Health Connect device pass + Android push check on the 10-07 build (launch step 5).
-- Apple sign-in key (APPLE_AUDIENCES failing). Supabase Pro on day 1. Confirm POSTHOG_KEY. Play reviewer accounts.
-- Stripe customer portal on in live mode before dunning v2.
-- Try the Codes, Broadcasts and no-coach Home screens on the 10-07 build.
+## Carried Cs (edge-case freeze; not day 1)
+Trust cue row overclaim (unused component), wearable export size, "ODed" spellings, "not breathing" with a person -> medical scope,
+coach list cap 200, Guide call logs lack coach id, anon key can list coach packages incl. drafts/share tokens (RLS C), leaked-password
+protection off, /terms intro "company policy draft", download pages "private review", FAQ doc 30-day deletion, community inbox rows not
+saved (dup guard), coach push permission prompt on fresh install, Today "Send your coach a message" does nothing while DMs are off.

@@ -2441,6 +2441,11 @@ Contribution log (PDT, newest last)
   APPLE_AUDIENCES=com.growthproject.app, APPLE_NONCE_REQUIRED unset, verified on 860311cee0d008; /api/auth/signup-policy now lists
   apple. Still needs owner go: fly-apple-signin-set.yml (Apple token revocation on account deletion). Open: b#749 + b#754 (Opus
   APPROVE, Sol pending), m#391 FIX ROUND 1 (owner account loops at sign-in, B-391-1), b#743 (held for the owner). Merged today 132.
+- 22:40-22:54: merged b#749, b#754, m#391 (FIX ROUND 1: owner accounts open the coach app; editor at Settings > Owner > Featured coach).
+  DEPLOY 10: 2e3a7498, run 37420489986, no migrations, 22:53, /health + /readyz ok; /signup no longer says invite-only, /terms has the
+  zero-tolerance line, Apple still enabled. All wave-3 runs and fixes done; no agents running. Merged today 135, deployed today 10.
+  Ops snapshot f309913c. HANDOFF.md rewritten 22:54. Owner decisions open: featured coach account (must be coach role), flags for the
+  device pass (b#743 dual-approved, held), clinic build profile, hosting option, fly-apple-signin-set.yml go.
 
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity

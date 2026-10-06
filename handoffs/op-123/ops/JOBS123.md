@@ -560,3 +560,9 @@ skipping new-coach setup, IF the backend coach routes behind coach Home/Settings
 override); otherwise a minimal owner stack (Settings with Featured coach + account + sign out). Pick the smaller one that has no dead
 end and say why. Tests: owner routing + the editor reachable. One push; "FIX ROUND 1 (M-FEATURED-123, agent 123) —
 growth-project-mobile#391 @ <sha>" ending READY FOR AUDIT. Featured coach stays coach-role only (operator ruling).
+
+## Lens delta R3F (22:46; both W2B lenses, who reviewed m#391 at 914b3ed3). Time box 20 minutes.
+m#391 4f02a19e36383a64cb18b1e9ec467b638d9a5b87 — FIX ROUND 1 (M-FEATURED-123) comment on the PR. Review the delta 914b3ed3..4f02a19e:
+B-391-1 closed (a signed-in owner reaches the coach app, skips new-coach setup, keeps role owner, can open Settings > Owner > Featured
+coach); coach and client routing unchanged; no new dead end for the owner on coach Home. One verdict at 4f02a19e. Wrap-up: final
+answer with verdict + comment URL.
