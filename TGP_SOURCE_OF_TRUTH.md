@@ -2298,6 +2298,32 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
 
+## AGENT 123 — 2026-10-05 18:27 PDT onward (session 56d37990; 123rd operator in the chain)
+Why: agent 122 retired 18:30 (41k/45k) after the owner's 17:55 stop; owner 18:27: "Time for your takeover!" (prompt:
+handoffs/op-122/PROMPT_AGENT_123.md). Agent 123 runs alone over both repos. Files: handoffs/op-123/ops/ (_COMMON_123.md, JOBS123.md,
+FLEET.md). Raw evidence: backend branch wip/op123/ops-snapshot.
+
+Contribution log (PDT, newest last)
+- 15:09-15:17 (first start, parallel plan) GitHub 401 at start; reconnected 15:16, which took the connector from agent 122; read agent
+  121's 15:15 sequential update and stood down with no GitHub writes. Owner 15:40: "Wait for futher instrctions, 122 will go sequentially
+  first".
+- 18:27-18:31 Takeover. GitHub 401 again (connector on agent 122's account): reconnected 18:28. Verified every head in agent 122's
+  handoff (all unchanged); backend main 0521b393 CI green; mobile main 7083b7a1 CI red on one Health Connect test
+  (ConnectProviderSheet.attemptFence sign-out case; fb904a75 was green): failed job re-run. Both of 122's last builders had finished
+  (m#342 5acdf5ca READY; m#381 eab75ece STOPPED needing a test mock). Merged today 91 (backend 49, mobile 42), deployed today 5.
+- 18:28 DEPLOY 6: fly-deploy run 37399364660, release 0521b3930e34bf20d8594dc5d043174c1d49d784, migrations=apply-migrations (carries
+  b#735 coach booking options, b#655 approve-to-adjust flag off, b#726 broadcasts split 1 flag off); production approved; success 18:33;
+  /health ok, /readyz db up.
+- 18:33 Posted the finished-but-unannounced work of three builders cancelled at 17:55 (drafts from their reports, CI verified green):
+  b#736 FIX ROUND 1 (B-AIG2-122) 6007481786, b#669 FIX ROUND 2 + b#670 RESTACK (B-RMNC3-122) 6007481946 / 6007482100, m#340 MAIN REFRESH
+  (B-340-122) 6007482247.
+- 18:36 Wave 1 (8 agents; FLEET.md): lens pairs W1A (b#737 + m#382 programs flags, then b#725 lockout allow-list), W1B (m#342 sheet merge
+  resolution, then m#340 tax CSV), W1C (b#736 AI guide crisis routing, then Roman b#669/#670); builders B-TR12-123 (trials b#671 main
+  refresh + R75 test casts) and B-339R-123 (m#339 refresh, then m#338 refresh).
+- 18:36 m#381: operator merged mobile main into the branch (clean) and added the booking-options stub to main's Settings money-row test
+  (test only, 6 lines): head 5c13f144; PR CI pending. 18:37 merged b#643 (BOOKING_REMINDERS_ENABLED on; dual APPROVE RM1) -> backend main
+  74706577; Fly Env Sync plan run 37399838882 (apply batched with b#737 programs flags).
+
 ## AGENT 122 — 2026-10-05 15:06 PDT onward (session 8c904d31; 122nd operator in the chain)
 Why: agent 121 reached 38.1k/45k at 15:05 and handed off (handoffs/op-121/HANDOFF_122_123.md). Owner 15:15: GitHub holds one Perplexity
 account at a time, so agent 122 runs ALONE over both repos; agent 123 starts after 122 (PROMPT_AGENT_122_UPDATE.md).
@@ -7211,6 +7237,13 @@ Done 17:55 (10 agents cancelled; state in agent 122 Part B and handoffs/op-122/H
 Verbatim: "10.3k/45k credits used - give me the exact link to update the stripe webhook - launch parallized workers outside of free trials
 (15)". Meaning: run 15 workers at once; no trials work (b#671 train, m#338) until the owner finishes the webhook change (add refund.updated,
 keep customer.subscription.trial_will_end on endpoint we_1UMt9WDUoC5CCVhShvAELVmI). Done 17:31 (15 workers; agent 122 Part B).
+
+#### 2026-10-05 15:40 PDT — Agent 123 waits; 122 first (owner, to agent 123)
+Verbatim: "Wait for futher instrctions, 122 will go sequentially first". Agent 123 made no GitHub writes until the takeover.
+
+#### 2026-10-05 18:27-18:28 PDT — Agent 123 takeover (owner, to agent 123)
+Verbatim 18:27: "Time for your takeover!" (with handoffs/op-122/PROMPT_AGENT_123.md attached). 18:28: "Read tgp source of truth especially".
+Recorded in agent 123 Part B.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
