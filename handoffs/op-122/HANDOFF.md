@@ -1,4 +1,6 @@
-# Operator 122 -> 123 handoff (2026-10-05 17:58 PDT)
+# Operator 122 -> 123 handoff (2026-10-05 17:58 PDT, updated 18:05)
+
+Paste-ready prompt for agent 123: handoffs/op-122/PROMPT_AGENT_123.md.
 
 Owner stopped the fleet at 17:55 ("stop all agents asap", 41k/45k). No agents are running. GitHub is the truth: re-check every head
 before acting. Lane files: handoffs/op-122/ops/ (JOBS122.md has every job entry; _COMMON_122.md has the shared rules incl. the 17:38
@@ -20,7 +22,7 @@ note: use `gh api .../actions/runs/<id>/jobs`, not `gh run view`, which hits the
 | b#643 reminders flag on | 2234862b | dual APPROVE (RM1) at this head | merge to main any time (m#341 already merged); flag applies via env sync |
 | b#725 lockout allow-list strict table | b3caa5b1 | dual APPROVE at 1dbc59b6; refresh b3caa5b1 NOT reviewed (LA1 cancelled) | LA1 delta pair (entry in JOBS122), then merge |
 | b#736 AI guide crisis before limit | 58a31e6f (unaudited fix push by cancelled B-AIG2) | both RC at f2dd87ad (B-736: Tylenol bottle + "hang myself" missed; "overdose on cardio/creatine", "hurt myself deadlifting" false 911/988) | check the fix commit covers all five, then lens pair, merge |
-| b#737 programs flags on | f743dc73 | none (MF2 cancelled) | MF2 pair; merge ONLY after owner confirms GitHub secret MWB_AUTOSAVE_LOCK_TOKEN_SECRET exists |
+| b#737 programs flags on | f743dc73 | none (MF2 cancelled) | MF2 pair, merge, env sync (owner created the secret 18:02) |
 | Roman stack #667 c5102cae -> #665 4dde3ffe -> #666 8cfad607 -> #668 fefe73c6 -> #669 -> #670 | #669 31573c83, #670 30f09747 (unaudited pushes by cancelled B-RMNC3) | #667/#665/#668 dual APPROVE; #669 Opus APPROVE / Sol RC (B-669-1 meals aggregate without "today") at ef71cb9c; #670 dual APPROVE at dc159eaf | verify RMNC3 push fixes B-669-1 (ops/reports/AUD-SOL-RMN4-122.md), delta pair on #669/#670, land #670->#669->#668->#666->#665->#667, #667 to main |
 | b#671-#707 trials | 4315136a | needs main refresh + R75 cast fix in 2 specs + delta pair | webhook gate CLEARED 17:59 (owner screen shows refund.updated + customer.subscription.trial_will_end selected): go ahead after the deploy |
 
@@ -37,8 +39,8 @@ note: use `gh api .../actions/runs/<id>/jobs`, not `gh run view`, which hits the
 
 ## Owner to-dos
 1. DONE 17:59: Stripe webhook we_1UMt9WDUoC5CCVhShvAELVmI already has refund.updated and customer.subscription.trial_will_end (21 events selected). Trials are unblocked.
-2. MWB_AUTOSAVE_LOCK_TOKEN_SECRET: GitHub > growth-project-backend > Settings > Secrets and variables > Actions > New repository secret,
-   64+ characters 0-9a-f (gates b#737 programs flags). Agent 122 did not create it (needs owner authorization).
+2. DONE 18:02: owner created the GitHub secret MWB_AUTOSAVE_LOCK_TOKEN_SECRET on growth-project-backend. b#737 now needs only the MF2
+   lens pair, then merge and env sync.
 3. Health Connect device pass + Android push check on the 10-07 build; Supabase Pro day 1.
 4. Optional: authorize closing superseded PRs m#331 (Roman chats, split landed) and b#657 (coachless, split landed); the safety check
    blocked agent 122 from closing them without owner OK.

@@ -1,4 +1,6 @@
-# Handoff — agent 121 to agents 122 and 123 (2026-10-05, written 14:55 PDT, updated 15:08 PDT)
+# Handoff — agent 121 to agents 122 and 123 (2026-10-05, written 14:55 PDT, updated 15:08 PDT; outcome added by agent 122 at 18:05)
+
+> HISTORICAL. Superseded by handoffs/op-122/HANDOFF.md and handoffs/op-122/PROMPT_AGENT_123.md. See "Outcome" at the end.
 
 Owner goal (14:50 PDT): launch path 4/7 by end of day, "truly, without cutting corners". Owner budget today: agent 121's 45k,
 plus agent 122's 45k and agent 123's 45k. Agents 122 and 123 run IN PARALLEL, split by repo, so they never touch the same branch.
@@ -73,3 +75,21 @@ GOOGLE_CLIENT_IDS env sync, HC13 verdicts then m#378 + b#731 merge. Writes a clo
 - Health Connect device pass after the flag deploy (step 5).
 - Stripe: add refund.updated; confirm customer.subscription.trial_will_end (before trials deploy, step 2).
 - Android push check after deploy 3 (push is live once deploy 3 finishes).
+
+## Outcome (recorded by agent 122, 2026-10-05 18:05 PDT)
+Agent 122 ran alone over both repos from 15:06 to 17:55 (owner stop at 41k/45k). Launch path went from 1/7 to 3/7. Whole-day totals at
+18:05: merged 91, deployed 5.
+- Step 4 Failed payments: DONE. Dunning train (#687, #688, #704, #705 + #724, #689, #690, #691) reviewed, fixed, landed into #687, merged
+  17:28; deploy 5 (release eb2e9e03, 4 migrations) live 17:42, FEATURE_DUNNING_V2 off. Lockout m#352-#354 + coach Restart plan m#380 merged
+  17:47. Left: b#725 (refreshed to b3caa5b1, needs a delta pair).
+- Step 3 Coach: DONE. Wizard m#345-#347 + money screens m#348-#351 landed into m#345 (Sol B-347-4 "Make live published the old price"
+  fixed), refreshed onto main, merged 17:43.
+- Step 5 Health Connect: m#378 and b#731 merged by 121; only the owner device pass on the 10-07 build remains.
+- Step 2 Money: payment sheet m#342-#344 landed into m#342 (needs a main refresh); trials b#671 train still open. Owner confirmed the Stripe
+  webhook events at 17:59, so trials are unblocked.
+- Step 6 and extras merged today by 122: invite codes b#658, coachless b#721-#723 (+ fix b#734), programs m#355-#358 + b#733, Roman chats
+  m#372-#376, messaging m#371/#377, scheduling m#365-#367, AI cap pop-up m#379, approve-to-adjust b#655 + m#337, coach booking options
+  b#735, broadcasts split 1 b#726, notifications m#341. Open: Roman b#665-#670, AI guide crisis b#736, programs flags b#737 + m#382 (secret
+  created 18:02), reminders flag b#643 (dual APPROVE), m#381, m#339, m#340.
+- Process lessons: two green PRs can break main together with up-to-date off (b#658 + b#721); check standby builders' notify files;
+  15+ agents burn credits faster than the owner's numbers arrive.

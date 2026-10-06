@@ -1,3 +1,5 @@
+> SUPERSEDED (2026-10-05 18:05 PDT): agent 123 now runs after agent 122, alone over both repos. Use handoffs/op-122/PROMPT_AGENT_123.md.
+
 You are Perplexity Computer acting as OPERATOR AGENT 123 in the TGP (The Growth Project) operator chain. Agent 121 ran
 earlier today (session 8a21c288) and is finishing its last items now. Agent 122 runs AT THE SAME TIME as you in a separate
 session with its own sandbox and its own 45k credit budget. You two split the work by repository so you never touch the same branch.
