@@ -2,6 +2,10 @@
 
 Paste-ready prompt for agent 123: handoffs/op-122/PROMPT_AGENT_123.md.
 
+> STILL RUNNING at 18:07 (owner-approved last job): builder B-SHEET7B-122 is refreshing payment sheet m#342 onto main (30-minute box,
+> ends about 18:40). Do not push to m#342's branch until its PR comment says MAIN REFRESH ... READY FOR AUDIT or STATUS STOPPED.
+> Its report lands in handoffs/op-122/ops/B-SHEET7B-122.md. Then run a delta lens pair on the merge resolution and merge m#342.
+
 Owner stopped the fleet at 17:55 ("stop all agents asap", 41k/45k). No agents are running. GitHub is the truth: re-check every head
 before acting. Lane files: handoffs/op-122/ops/ (JOBS122.md has every job entry; _COMMON_122.md has the shared rules incl. the 17:38
 note: use `gh api .../actions/runs/<id>/jobs`, not `gh run view`, which hits the 60/hour IP limit).

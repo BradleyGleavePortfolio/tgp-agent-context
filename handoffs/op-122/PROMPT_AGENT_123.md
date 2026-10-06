@@ -40,6 +40,10 @@ deployed, its mobile PRs are merged to main, and any owner device pass it names 
 - Use `gh api repos/<o>/<r>/actions/runs/<id>/jobs` and `gh pr view N --json statusCheckRollup`, NOT `gh run view` / `gh pr checks`
   (those hit an unauthenticated 60/hour IP limit).
 
+## Still running when you start
+Agent 122's last builder, B-SHEET7B-122, is refreshing payment sheet m#342 onto main (18:07 to about 18:40). Do not push to m#342's
+branch until its PR comment says MAIN REFRESH ... READY FOR AUDIT or STATUS STOPPED; its report: handoffs/op-122/ops/B-SHEET7B-122.md.
+
 ## State at handoff (verify)
 - Backend main 0521b3930e34bf20d8594dc5d043174c1d49d784, main CI green. Production = eb2e9e03 (deploy 5, 17:42). Main is ahead by b#735
   coach booking options, b#655 approve-to-adjust (flag off), b#726 broadcasts split 1 (flag off), all with migrations.
@@ -55,8 +59,8 @@ deployed, its mobile PRs are merged to main, and any owner device pass it names 
 2. Programs on for launch: MF2 lens pair over b#737 f743dc73 + m#382 695460e7 (JOBS122 entry), merge both, env sync for b#737; m#382
    must be merged before the 10-07 build.
 3. Step 2 Money: trials b#671 train (main refresh, R75 cast fix in test/b-trials-trial-ending-push-prefs.spec.ts and
-   test/b-trials-4-fix-round.spec.ts, delta pair, land, deploy) + m#338; payment sheet m#342 4c79b67c (main refresh per B-SHEET7 entry,
-   delta pair, merge).
+   test/b-trials-4-fix-round.spec.ts, delta pair, land, deploy) + m#338; payment sheet m#342 (being refreshed by B-SHEET7B-122: check its comment;
+   then delta pair, merge).
 4. Unaudited heads pushed by cancelled builders: b#736 58a31e6f (AI guide crisis Bs), b#669 31573c83 + b#670 30f09747 (Roman B-669-1),
    m#340 62794564 (tax CSV onto main). Check each push is complete and green, lens pair, then land (Roman: #670 -> #669 -> #668 -> #666
    -> #665 -> #667, #667 to main).

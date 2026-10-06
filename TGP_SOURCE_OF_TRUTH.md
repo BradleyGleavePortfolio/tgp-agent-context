@@ -2373,6 +2373,8 @@ Contribution log (PDT, newest last)
   customer.subscription.trial_will_end are both already selected. Webhook gate for trials CLEARED; nothing to change in Stripe.
 - 18:02 owner created the GitHub secret MWB_AUTOSAVE_LOCK_TOKEN_SECRET (growth-project-backend): programs flags b#737 unblocked
   (needs MF2 lens pair). 18:05 agent 123 prompt written: handoffs/op-122/PROMPT_AGENT_123.md; agent 121's handoff annotated with outcomes.
+- 18:07 owner: one last fixer with the remaining credits. B-SHEET7B-122 (Opus) refreshing payment sheet m#342 onto main, 30-minute box;
+  agent 123: do not push to m#342 until its MAIN REFRESH / STATUS STOPPED comment; report handoffs/op-122/ops/B-SHEET7B-122.md.
 
 ## AGENT 121 — 2026-10-05 11:5x PDT onward (session 8a21c288; 121st operator in the chain)
 Why: agent 120 stopped launching at 11:28 (37.7k/45k credits) and handed off; the owner started agent 121 with the four documents and
