@@ -41,8 +41,8 @@ deployed, its mobile PRs are merged to main, and any owner device pass it names 
   (those hit an unauthenticated 60/hour IP limit).
 
 ## Still running when you start
-Agent 122's last builder, B-SHEET7B-122, is refreshing payment sheet m#342 onto main (18:07 to about 18:40). Do not push to m#342's
-branch until its PR comment says MAIN REFRESH ... READY FOR AUDIT or STATUS STOPPED; its report: handoffs/op-122/ops/B-SHEET7B-122.md.
+B-SHEET7B-122 FINISHED 18:12: m#342 head 5acdf5ca (one merge commit onto main 7083b7a1), green, READY FOR AUDIT (comment 6007311469):
+run a delta lens pair on the merge resolution, then merge m#342.
 A second builder, M-AVAIL2B-122, is fixing B-381-1 on m#381 (18:10 to about 18:30). Same rule: wait for its FIX ROUND 2 or STATUS
 STOPPED comment on m#381; report: handoffs/op-122/ops/M-AVAIL2B-122.md.
 

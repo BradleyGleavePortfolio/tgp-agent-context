@@ -2,8 +2,8 @@
 
 Paste-ready prompt for agent 123: handoffs/op-122/PROMPT_AGENT_123.md.
 
-> STILL RUNNING at 18:07 (owner-approved last job): builder B-SHEET7B-122 is refreshing payment sheet m#342 onto main (30-minute box,
-> ends about 18:40). Do not push to m#342's branch until its PR comment says MAIN REFRESH ... READY FOR AUDIT or STATUS STOPPED.
+> FINISHED 18:12: B-SHEET7B-122 refreshed payment sheet m#342 onto main 7083b7a1: head 5acdf5ca204689dfca604339be9fd1b347f3b5d8, ONE merge
+> commit, PR CI + lane green, MAIN REFRESH comment 6007311469 (READY FOR AUDIT; resolutions incl. weekly billing maps to weekly).
 > Its report lands in handoffs/op-122/ops/B-SHEET7B-122.md. Then run a delta lens pair on the merge resolution and merge m#342.
 > ALSO RUNNING from 18:10 (about 20 minutes): M-AVAIL2B-122 fixing B-381-1 on m#381 (booking notice capped under 14 days). Same rule: wait
 > for its FIX ROUND 2 or STATUS STOPPED comment on m#381; report handoffs/op-122/ops/M-AVAIL2B-122.md; then a delta lens pair, merge.
@@ -38,7 +38,7 @@ note: use `gh api .../actions/runs/<id>/jobs`, not `gh run view`, which hits the
 | m#339 voice sweep | 0b0de03d | dual APPROVE (VC1) | conflicts with main (CoachEarningsScreen deleted in main; CoachPackageEditScreen): refresh (B-339R entry), voice check, delta pair, merge |
 | m#381 coach booking options editor | feab0c3b | both RC: B-381-1 (14+ days notice hides all times; ruling: editor refuses 14+ days) | M-AVAIL2 entry, then delta pair, merge (needs b#735 deployed) |
 | m#382 programs flags in production/clinic profiles | 695460e7 | none (MF2 cancelled) | MF2 pair; merge before the 10-07 build, with b#737 |
-| m#342 payment sheet (collapsed #344/#343) | 4c79b67c | dual APPROVE train (10-04), tree = audited top | main refresh (B-SHEET7 entry: conflicts expected-env.json, ClientPackagesScreen.tsx), delta pair, merge |
+| m#342 payment sheet (collapsed #344/#343) | 5acdf5ca | dual APPROVE train (10-04) at 4c79b67c; main refresh 5acdf5ca READY (B-SHEET7B, 18:12) | delta lens pair on the merge resolution, merge |
 | m#340 tax CSV | 62794564 (rebased onto main by cancelled B-340, unaudited) | Sol RC 10-03; FR1 never audited | confirm diff is CSV-only, lens pair, merge |
 | m#338 trial setting | 48b5e6b5 | dual APPROVE | lands with trials (webhook gate cleared 17:59) |
 | m#336 | e043bb44 | dead base | likely superseded by scheduling m#365-#367 (B-367-1 fix); owner OK needed to close |
