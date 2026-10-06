@@ -7673,6 +7673,14 @@ turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to 
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
 
+#### 2026-10-06 15:23-15:27 PDT — Play forms paused on reviewer logins; community AI triage deferred; AI master builder asked (owner, to agent 125)
+> 15:23 "the health form done, the data form done BUT they need the tester account sign in details to finish the data form, thats all - its paused rn. Remind me once i confirm tester account creation under agent 126"
+> 15:27 "yea save Community AI triage for v1.1 or beyond, requires scale to be of use"
+> 15:27 "What about the AI supported master workout builder tooling? Thats a high leverage tool our competitors have and we dont!"
+Recorded by agent 125. Triage: v1.1 or later (SAFE-TRIAGE-125 flags list in handoffs/op-125/HANDOFF.md). AI master builder: day-1
+coach AI program drafts per client are live (AUDIT-14); the in-builder AI (MWB-5 live-create) is NO-GO per SAFE-MWBAI-125 (5 blockers)
+and needs a new app build; proposed as agent 126's parallel project with Roman v1.1 (owner reply pending).
+
 #### 2026-10-06 14:59-15:03 PDT — AI safety passes now; purchased PDFs/videos screen ON if coach attach works (owner, to agent 125)
 > 14:59 "AI in the workout builder, community AI triage and diagnostic AI: each needs its own reviewed safety pass -> do that now"
 > 15:03 "Purchased PDFs and videos screen: turn it on for tomorrow's build? Recommended: yes" / "But we need to make sure theres veen a way to assing videos and files to packages at coach package creation screens that works robustly!"
