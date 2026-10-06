@@ -1265,6 +1265,7 @@ Older entries not listed here still stand unless a later decision changed them; 
   eight superseded PRs closed; clinic programs + $49 package go into bradleyapple1031@ once the owner says it exists; WAVE 4 (money x4,
   food x2, workout x2) launched (C1 entry 2026-10-06 12:01-12:02).
 - 10-06 12:24 (agent 124) "27k/45k used" -> credits line 27k/45k; APK requested -> APK-124 (C1 entry 2026-10-06 12:24).
+- 10-06 12:33 (agent 124) "make his FIRST to do to launch 20 auditors" -> AGENT 125 FIRST JOB; reviewer accounts "yes - do it" (C1 entry 2026-10-06 12:33).
 - 13:37 "turn off up-to-date + 28k/45k credits used" -> branch protection strict mode off on both repos (A5 note); credits 28k/45k.
 - 13:49 "Minimum for you - 5 more merged PR's that move the baton towards the end goal state clearly and largely by 45k credits used."
   -> every remaining credit goes to landing: b#674 (coach, 4 PRs), b#692 (push, 2), b#642, m#321 on green; scheduling train (10); messaging
@@ -7521,6 +7522,13 @@ briefs goes on first. Are there ANY other to-do's we have missed from sept 28th 
 turn everything on thats a day 1 blocker to do". 10:52: "Add all eight items to the handoff list".
 - Coach brief retired-model fix is no longer a C: it is agent 124's job 1. Every day-1 switch that is a blocker goes ON, starting with
   FEATURE_DUNNING_V2 (job 2). The eight items: handoffs/op-123/HANDOFF.md "Owner's handoff list for agent 124".
+
+#### 2026-10-06 12:33 PDT — Agent 125's first job: 20 QA auditors; reviewer accounts approved (owner, to agent 124)
+> "When you make agent 125's handoff - make his FIRST to do to launch 20 auditors on each of those sections. We are nearing IOS launch and need final QA passes and fixes!"
+> (on "Should I create the two store-reviewer accounts myself? ... bradleyapple1031+reviewcoach@gmail.com and bradleyapple1031+reviewclient@gmail.com") "Recommended: yes - do it"
+Recorded by agent 124. The 20 sections are the list sent at 12:33 (ops/lanes124/AUDIT20_FOR_125.md); agent 125 launches one find-and-fix
+auditor per section as its first job. Agent 124 signs up the two reviewer accounts through the normal public sign-up (approved write).
+12:33: a session interruption cancelled every running subagent; pushed PRs, reports and CI runs survived; 11 agents relaunched 12:35.
 
 #### 2026-10-06 12:24 PDT — Credits 27k/45k; email settings saved; build an APK; which accounts to create (owner, to agent 124)
 > "27k/45k used - email settings saved - no apk build produced in recent history with all day 1 blockers fixed so go make one for me to singup all the accounts"
