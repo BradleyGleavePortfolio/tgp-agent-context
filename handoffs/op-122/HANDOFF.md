@@ -22,7 +22,7 @@ note: use `gh api .../actions/runs/<id>/jobs`, not `gh run view`, which hits the
 | b#736 AI guide crisis before limit | 58a31e6f (unaudited fix push by cancelled B-AIG2) | both RC at f2dd87ad (B-736: Tylenol bottle + "hang myself" missed; "overdose on cardio/creatine", "hurt myself deadlifting" false 911/988) | check the fix commit covers all five, then lens pair, merge |
 | b#737 programs flags on | f743dc73 | none (MF2 cancelled) | MF2 pair; merge ONLY after owner confirms GitHub secret MWB_AUTOSAVE_LOCK_TOKEN_SECRET exists |
 | Roman stack #667 c5102cae -> #665 4dde3ffe -> #666 8cfad607 -> #668 fefe73c6 -> #669 -> #670 | #669 31573c83, #670 30f09747 (unaudited pushes by cancelled B-RMNC3) | #667/#665/#668 dual APPROVE; #669 Opus APPROVE / Sol RC (B-669-1 meals aggregate without "today") at ef71cb9c; #670 dual APPROVE at dc159eaf | verify RMNC3 push fixes B-669-1 (ops/reports/AUD-SOL-RMN4-122.md), delta pair on #669/#670, land #670->#669->#668->#666->#665->#667, #667 to main |
-| b#671-#707 trials | 4315136a | needs main refresh + R75 cast fix in 2 specs + delta pair | HOLD until owner confirms the Stripe webhook change |
+| b#671-#707 trials | 4315136a | needs main refresh + R75 cast fix in 2 specs + delta pair | webhook gate CLEARED 17:59 (owner screen shows refund.updated + customer.subscription.trial_will_end selected): go ahead after the deploy |
 
 ## Mobile open PRs
 | PR | Head | Verdicts | Next |
@@ -32,11 +32,11 @@ note: use `gh api .../actions/runs/<id>/jobs`, not `gh run view`, which hits the
 | m#382 programs flags in production/clinic profiles | 695460e7 | none (MF2 cancelled) | MF2 pair; merge before the 10-07 build, with b#737 |
 | m#342 payment sheet (collapsed #344/#343) | 4c79b67c | dual APPROVE train (10-04), tree = audited top | main refresh (B-SHEET7 entry: conflicts expected-env.json, ClientPackagesScreen.tsx), delta pair, merge |
 | m#340 tax CSV | 62794564 (rebased onto main by cancelled B-340, unaudited) | Sol RC 10-03; FR1 never audited | confirm diff is CSV-only, lens pair, merge |
-| m#338 trial setting | 48b5e6b5 | dual APPROVE | HOLD with trials |
+| m#338 trial setting | 48b5e6b5 | dual APPROVE | lands with trials (webhook gate cleared 17:59) |
 | m#336 | e043bb44 | dead base | likely superseded by scheduling m#365-#367 (B-367-1 fix); owner OK needed to close |
 
 ## Owner to-dos
-1. Stripe webhook we_1UMt9WDUoC5CCVhShvAELVmI: add refund.updated, keep customer.subscription.trial_will_end (gates trials).
+1. DONE 17:59: Stripe webhook we_1UMt9WDUoC5CCVhShvAELVmI already has refund.updated and customer.subscription.trial_will_end (21 events selected). Trials are unblocked.
 2. MWB_AUTOSAVE_LOCK_TOKEN_SECRET: GitHub > growth-project-backend > Settings > Secrets and variables > Actions > New repository secret,
    64+ characters 0-9a-f (gates b#737 programs flags). Agent 122 did not create it (needs owner authorization).
 3. Health Connect device pass + Android push check on the 10-07 build; Supabase Pro day 1.

@@ -2369,6 +2369,8 @@ Contribution log (PDT, newest last)
   state, verdicts and next actions: handoffs/op-122/HANDOFF.md. Owner to-dos: Stripe webhook (refund.updated + trial_will_end on
   we_1UMt9WDUoC5CCVhShvAELVmI) gates trials; MWB_AUTOSAVE_LOCK_TOKEN_SECRET GitHub secret gates programs b#737; Health Connect device pass on
   the 10-07 build; Supabase Pro day 1.
+- 17:59 owner pasted the Stripe edit screen for the endpoint (api/v1/webhooks/stripe, 21 events): refund.updated and
+  customer.subscription.trial_will_end are both already selected. Webhook gate for trials CLEARED; nothing to change in Stripe.
 
 ## AGENT 121 — 2026-10-05 11:5x PDT onward (session 8a21c288; 121st operator in the chain)
 Why: agent 120 stopped launching at 11:28 (37.7k/45k credits) and handed off; the owner started agent 121 with the four documents and
