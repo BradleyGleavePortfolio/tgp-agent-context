@@ -1317,6 +1317,12 @@ Older entries not listed here still stand unless a later decision changed them; 
   the two synthetic review accounts only; sample data through the public API); coachless copy "Version B (new)"; AI builder "As soon as
   it passes" (flip right after SAFE-AIB GO and b#823 deployed, without waiting for the owner's device test).
 - 09:31: "8 agents running is great, lets go up to 14" -> fleet ceiling 14; credit check every 15 minutes while more than 8 run.
+- 10:09: Roman memory: "why offer them romans memory at all? Lets just keep that all hidden as much as possible - wayyyy down in
+  settings" -> R11 D1 = NO: no memory offer in the consultation (R11-C2 not built); memory stays opt-in only, on the Settings > Roman AI
+  page, placed at the bottom of that page; never in onboarding, chat or banners. Roman look-up tools (no new permission) are unaffected.
+- 10:09: real purchase test: "yes we will do this" -> after b#825 and b#826 are live and the new test build is out, the owner connects
+  Stripe on his coach account, buys his cheapest package from the review client with a real card and refunds it; agent 127 watches each
+  step read-only. Stripe fees accepted by the owner.
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -2418,6 +2424,12 @@ builder and AI workout assistance, then a fresh APK, review accounts and App Sto
   GitHub Actions secrets REVIEW_* set on mobile for the screenshot pipeline. WAVE 1b (6): B-U4-127, B-GUESTPAY-127, B-WELCOME-127,
   B-HELPCOPY-127, B-FOODLOG3-127, LN-OPUS-127. Fleet 14.
 - 09:3x b#823 MERGED via merge_if_dual (Opus + Sol APPROVE @ ec96487a, checks green) -> backend main 97c07437; deploy 21 after main CI.
+- 09:51 deploy 21 = 97c07437 (b#823) live, run 37654172792; /health ok, /readyz db up. SAFE-AIB-127 GO; FLIP PR b#829 opened.
+- 09:58-10:00 GitHub writes failed (500) for every agent; recovered 10:00; saved pushes/comments replayed by the operator.
+- 10:0x PRs: b#824 help copy, b#825 welcome after payment, b#826 share-link Stripe refresh (Sol APPROVE), b#827 coach sharing, b#828
+  digest links + unsubscribe, b#829 FLIP; m#454 coachless Version B, m#455 food polish, m#456 assigned workout entry, m#457 coach
+  settings. Wave 2: R11-T2A/M5/T2B, R11-M4, R11-L1/P4, R11-T1, R11-P3B, AIB-FINISH-127, DESIGN-AUD-127 (owner 09:59 question), lenses
+  LN-OPUS-127, LN-OPUS2-127, LN-SOL3-127. Production money tables: 0 Connect accounts, 0 Stripe events, 1 ClientPurchase (seeded free).
 
 ## AGENT 126 — 2026-10-06 17:56 PDT onward (session c0c3aa1c; 126th operator in the chain)
 Why: owner 10-06: "Read this attached document, TGP Source of Truth, and all supporting documents" (attachment = handoffs/op-125/HANDOFF.md
@@ -7920,6 +7932,14 @@ Refferal codes and tracking?"
 > "coach sharing - try to just sneak it in somehwere they already click accept"
 > "coachless copy - find the original copy and bring both versions to me"
 > "you are at 500/45000 credits used, lets start finishing all v1 blockers and romans increased intelligence asap. I also want the master workout builde rmade and the AI workout building assistance feature done. Then i need a fresh APK build to test, tester accounts prepped, and images of the app for apple store submission!"
+Recorded by agent 127. Applied in A6.10.
+
+#### 2026-10-07 09:31-10:09 PDT — standing production-gate approval; review accounts; Version B; AI builder on when it passes; fleet 14; memory hidden; real purchase test (owner, to agent 127)
+> 09:31 answers: "Yes, standing approval" / "Yes, set and fill them" / "Version B (new)" / "As soon as it passes"
+> 09:31 "8 agents running is great, lets go up to 14"
+> 09:59 "Is client side food logging and workout logging simple, beautiful UI, luxurious and world class? Is the app overall luxurious and vibrant, does it speak "health and mental clarity"? Set an opus 5.5 model agent to go search for those anwsers and find room for improvement" / "Has the money flow been bulletproffed?"
+> 10:09 "Should clients be offered Roman's memory - why offer them romans memory at all? Lets just keep that all hidden as much as possible - wayyyy down in settings"
+> 10:09 (real purchase test) "yes we will do this"
 Recorded by agent 127. Applied in A6.10.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
