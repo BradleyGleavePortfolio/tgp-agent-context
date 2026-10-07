@@ -185,7 +185,8 @@ list run 37536038425), so no '*' allow-list exists; set exactly the two workout 
   HEAD-START WAVE (owner 17:09 "use your last 4k credits asap without any wasted work"): HS-AIB5-125 (plan entry B-AIB5-126, mobile
   Ask AI in the builder) and HS-AIB4-125 (plan entry B-AIB4-126, backend status route + manifest) started 17:10. They push every 15
   minutes to DRAFT PRs whose body has "Done / Remaining / Next step". If agent 125's session ran out, CONTINUE THOSE BRANCHES with your
-  B-AIB5-126 / B-AIB4-126 builders (tell them to read the draft PR checklist first); do not start fresh.
+  B-AIB5-126 / B-AIB4-126 builders (tell them to read the draft PR checklist first); do not start fresh. 17:23 (owner 17:22 "keep it
+  pushing"): HS-AIB2-125 added on plan entry B-AIB2-126 (backend generator), same draft-PR rule; continue its branch too.
 - APK: run 37541010175 FAILED only at "Prove the APK" (the proof still expected the old fly.dev URL); fixed and re-run as 37547000616
   (16:31, about 45 minutes). Mobile branch ci/APK-125-1, throwaway, never merge; builds mobile 950689a with the clinic profile and
   EXPO_PUBLIC_API_URL https://api.trygrowthproject.com/api. Artifacts tgp-950689a-clinic-apk (universal) and tgp-950689a-clinic-arm64-apk.

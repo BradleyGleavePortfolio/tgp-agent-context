@@ -469,7 +469,7 @@ must be exactly
 then B/U/C counts and findings. Re-check the head right before posting. Stop 17:50.
 
 # HEAD-START WAVE (owner 17:09: "wall clock time is the main constraint now - use your last 4k credits asap without any wasted work")
-## HS-AIB5-125 and HS-AIB4-125 (Claude Opus 5.5 builders) — head start on agent 126's AI master builder PRs.
+## HS-AIB5-125, HS-AIB4-125 and HS-AIB2-125 (Claude Opus 5.5 builders; HS-AIB2 runs plan entry "B-AIB2-126", added 17:23) — head start on agent 126's AI master builder PRs.
 Run the entry "B-AIB5-126" (HS-AIB5) or "B-AIB4-126" (HS-AIB4) from tgp-agent-context/handoffs/op-125/AI_MASTER_BUILDER_PLAN.md
 section 8 exactly, as an agent 125 worker under _COMMON_125 (not _COMMON_126). Read PART 1 "Exact screens and taps" / "The fun layer"
 and PART 2 sections 2, 3 and 5 of the plan first. Use the branch name the entry gives (or agent126/<entry-slug> if none).
