@@ -1,3 +1,11 @@
+# OWNER 14:08 OVERRIDE (wins over item 7 and over any "then wait for verdicts" / "second job" text below or in JOBS128.md):
+# BUILDERS: after your READY comment is posted (CI green, no conflict), write your report's HANDOFF + the notify line and FINISH. Do not wait
+# for verdicts and do not start a second job; the operator spawns a fresh agent for every next screen. Review findings and merge conflicts
+# are fixed by the FIX lane (FIX-*-128 in JOBS128.md). The PR stays open and safe: nothing merges without both lenses at the exact head.
+
+# OPERATOR 14:16: backend commits MUST be made with LEFTHOOK=0 (e.g. `LEFTHOOK=0 git -c user.name=... commit ...`): the backend pre-commit
+# hook runs a full-project type check that exhausts the shared sandbox's memory and can kill other agents' processes. CI runs the same check.
+
 # _COMMON_128 — common brief for every agent 128 worker (read fully, then ONLY your entry in /home/user/workspace/ops/lanes128/JOBS128.md)
 
 Operator: agent 128, 2026-10-07 from 12:50 PDT. Agent 127 and all earlier operators are retired; their workers are stopped. You are one of up

@@ -1,0 +1,6 @@
+# FROZEN by owner 14:33 (drain to 10; no new launches until the owner resumes)
+DES-AQ-127 (unblocked: m#491 merged)
+DES-AZ-127 after m#483
+DES-P-128 after m#473
+CHECKOUT-COPY-128 after m#499 (PackageCheckoutScreen.tsx:123-126 offline claim -> neutral connection-failure copy)
+NUTR-LOGPLAN-128 (owner decision 3 pending; after m#490 merges)

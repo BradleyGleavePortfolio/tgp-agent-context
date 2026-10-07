@@ -56,3 +56,33 @@ AP + AX (after m#470), AZ (after DES-H), AY (after m#463), DES-P-128 (after m#47
 - 14:10 owner 14:07 "Lets continue working through the 30 screens". Second screen per builder, started while the first PR waits for verdicts:
   AA agent -> AQ (after #491) | AF -> AR | AE -> AU | AB -> AV | AD -> AW | AH -> AX | AI -> AY | AN -> BA | DES-K -> BC | DES-H -> AZ (after #483)
   AM -> BD | FIN-DESV -> DES-P-128 (after #473) | AG -> AT | FIN-T3 (Opus) -> BB (after R11-T3-FU READY). All 30 tranche-3 screens now assigned.
+- 14:11 merged b#848 AIB-INJ, m#488 DES-AF. 14:13 owner 14:08 override sent (builders finish at READY). 14:14 fix lane: fix_lane_sol_a_muylr8sl, fix_lane_sol_b_muylr8st, fix_lane_opus_muylr8t0. 14:16 FIN-T1B done; LEFTHOOK=0 rule.
+- 14:17 DES-AD done (#489 READY). launched FLIP-TOOLS-128.
+- 14:18 DES-AM done. launched DES-AR-127.
+- 14:20 DES-K done (#492 READY; child-card follow-up DES-K2 queued). launched DES-AT-127.
+- 14:21 DES-AB done (#490 READY). launched DES-AU-127.
+- 14:14 merged m#489 DES-AD, m#486 DES-AC, m#481 DES-S2. 14:23 DES-H done (#483 Sol B unfixed -> FIX-SOL-A). launched DES-AV-127.
+- 14:24 DES-AH done (#495 READY). launched DES-AW-127.
+- 14:14 owner: "was romans increased intelligence completed in production? ... if not lets go up to 35 agents" + Opus agent on grocery/meal plan.
+  14:27 fleet cap 35. Launched: roman_all_switches_audit_muylyz9k (R11-INT-AUD-128), meal_plan_and_grocery_audit_muylyz9v (NUTR-AUD-128),
+  redo_day_1_onboarding_muylyza4 (DES-AX), redo_consultation_muylyzad (DES-AY), redo_preferences_muylyzak (DES-BA). DES-S2 done (merged).
+- 14:31 DES-AN done (#494 READY; allergy B -> ALLERGY-128 fix_false_allergy_promise_muym0ah2). 14:33 FIN-DESQ done (#479 round 2 READY). launched DES-BB-127 (Opus).
+- 14:36 FIN-T3 done (#849 READY 14:19; deploy 25 waits for it). m#495 dual APPROVE but CONFLICTING -> FIX-SOL-B. launched DES-BC-127.
+- 14:38 FIN-DESV done (#473 READY). launched DES-BD-127.
+- 14:40 FIN-L2 done (#850 R11-L3 READY 14:22). DES-AI done (#493 READY). launched lenses LN-OPUS-E-128, LN-SOL-E-128 (review backlog 8). Playbook credit-spend question -> R11-INT-AUD.
+- 14:43 DES-AA done (#491 round 2 READY). Slot kept free for audit fix jobs.
+- 14:46 DES-AP done (#496 READY).
+- CORRECTION (14:25): FLEET entries stamped 14:31-14:46 actually happened ~14:17-14:25 (operator stamped guessed times). 14:25 merged m#492 DES-K, m#479 DES-Q. DES-AL done (#498 READY), DES-AS done (#499 READY; checkout offline-copy follow-up after #499).
+- 14:31 owner 14:25: decision 1 YES (memory + playbook on once coach wording live); 16.9k/45k; "keep going at 30+ agents", top models for UI/UX,
+  first-week audits, "no agent cap" while sandbox healthy. Done since: NUTR-AUD (8 fix jobs, 5 decisions), R11-INT-AUD (TOOLS/MEMORY GO after
+  deploy 25; PLAYBOOK NO-GO: b#850 + B2 coach credits), DES-AG (#497 READY), FIX-SOL-A (#483 round 3 READY).
+  Launched 20 (all Opus except NUTR-BE, NUTR-COPY Sol): FLIP-MEM-PB, R11-FIX, PB-POOL (owner decision pending), NUTR-BE, FIX-490/494/500,
+  NUTR-COPY, DES-K2 (Opus), DESIGN-QA, FW-ONB/FOOD/TRAIN/BODY/COACH/MONEY/ROMAN/NOTIF/ACCOUNT/COMM.
+- 14:33 OWNER 14:33 (verbatim): "LETS LET ALL 42 AGENTS FINISH SAFELY AND NOT INTERRUPT THEM, and then start stop-and-drain down back to 10
+  agents. Basicall just dont launch any new work for now". DRAIN MODE: no new launches; running agents finish untouched; operator keeps
+  merging dual-approved PRs, deploy 25, flag flips (owner-approved). CONFLICT-128 (resolve_merge_conflicts_muymjskq) launched 14:33 just
+  before the message. Done since: DES-AE (#485 READY), DES-AV (#503 READY), FLIP-TOOLS (#851 READY, 14:32).
+  Merged ~14:32: b#850, b#849, m#500, m#498, m#496, m#491. Conflicts (dual-approved): m#493, m#473 -> CONFLICT-128.
+- 14:41 DEPLOY 25 started: c7caffff run 37691195804 (no prisma changes). Owner 14:39 decisions: PB keeps coach pool (PB-POOL redirected to option A copy); Log this meal YES; coach recipe writing tomorrow (iOS submission tonight); grocery+shopping -> ONE list; allergy filtering REQUIRED. Owner 14:40: 'only thing between us and IOS submission is a final build with all mobile UI updates + tester account creation'.
+- 14:46 deploy 25 run 37691195804 FAILED at 'Record currently running machines': flyctl: command not found (setup-flyctl step green; same pinned action worked 13:15; fly-deploy.yml unchanged). Retried: run 37691740962.
+- 14:54 DEPLOY 25 LIVE: c7caffff run 37691740962 success (retry); /health ok uptime 74s. Deployed today: 7. Operator README merges pushed: m#504 431f65b8, m#490 e9da3274, m#485 6515839a (re-review needed). Merged 14:51: m#508, m#493.

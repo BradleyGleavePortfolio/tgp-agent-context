@@ -190,3 +190,203 @@ hold: ONE PR, branch agent128/flip-tools-128, changing only "FEATURE_ROMAN_TOOLS
 its gates note and the docs/runbooks/launch-flags.md row; evidence in the body; test/ci/fly-env-manifest.spec.ts passes (heavy.sh). Title
 "chore(flags): turn on Roman's tools (FLIP-TOOLS, T4)". READY per _COMMON item 7 (job FLIP-TOOLS-128). The operator merges and applies it
 only after deploy 25 is live. If a precondition fails: no PR; the gap + smallest fix in ops/reports/FLIP-TOOLS-128.md.
+
+# ---- OWNER 14:08: builders finish at READY; fresh agent per screen; a standing FIX lane handles findings and conflicts ----
+
+## FIX-128 (fix lane; instances FIX-SOL-A-128, FIX-SOL-B-128 = GPT-6.1 Sol for T1/T2; FIX-OPUS-A-128 = Claude Opus 5.5 for T3/T4 and any
+## consent, privacy, money or Roman PR). Run until 18:30 PDT or an operator stop; finish if the queue is empty for 45 minutes in a row.
+Loop (sleep 240 between polls) over open PRs in growth-project-backend and growth-project-mobile with head branch "agent127/*" or
+"agent128/*". A PR is in YOUR queue when one of these holds at its CURRENT head (gh pr view N --json headRefOid,mergeable):
+ (a) a lens verdict "AUDIT ... @ <head> — VERDICT: REQUEST CHANGES" exists and no "READY FOR AUDIT" comment is newer than it;
+ (b) both lenses APPROVE at the head but mergeable is CONFLICTING;
+ (c) the latest READY names the head but a required check FAILED at the head.
+Sol instances take T1/T2 PRs (tier in the PR body header) except consent/privacy/money/Roman; FIX-OPUS-A takes T3/T4 and those. Claim with
+"FIX CLAIM (<your id>) @ <full sha>"; re-read comments; if an earlier FIX CLAIM for that head exists (under 60 minutes old), delete yours and
+move on. Work in a worktree on the PR's own branch (_COMMON item 3, "Finishing an existing PR"; worktree /home/user/workspace/wt/FIX-<n>-<repo>,
+remove it when done). Read the PR body, the original job entry it names, the builder's report if present in /home/user/workspace/ops/reports/,
+and BOTH verdicts in full. Fix ONLY the Bs (plus a U if it is one line), each with a test where behaviour changes; for (b) merge origin/main
+and resolve keeping both sides (README rule: own entry in place); for (c) read the failed log and fix. Merge origin/main, confirm no conflict,
+run the touched tests via heavy.sh, push ONCE, wait for CI green (poll every 120 s), then post
+`FIX ROUND <k> (<original JOB>, agent 128, <your id>) — growth-project-<repo>#<n> @ <full sha> — READY FOR AUDIT` (k = previous round + 1)
+listing each finding fixed (B1 ... with file:line). A finding you judge wrong: answer it in that comment with evidence (file:line), do not
+silently skip it. Never merge; never touch other PRs. One line per PR in /home/user/workspace/ops/reports/<your id>.md.
+
+## NEXT SCREENS (operator launches each as a FRESH builder, one screen per agent, as slots free; same entries as before)
+DES-AQ (after #491 merges), DES-AR, DES-AT, DES-AU, DES-AV, DES-AW, DES-AX, DES-AY, DES-AZ (after #483 merges), DES-BA, DES-BB (Claude Opus
+5.5), DES-BC, DES-BD, DES-P-128 (after #473 merges). The 14:10/14:11 "second job" messages are WITHDRAWN except for a second job the agent
+had already pushed commits for (it brings that one to READY, then finishes).
+
+## R11-INT-AUD-128 (Claude Opus 5.5, AUDITOR, read-only, T4, 90 min) — Roman v1.1 with ALL switches on, before they flip.
+Owner 14:14: push Roman's increased intelligence into production. Every R11 slice is merged on backend main (L1 #831, T2A, T1 #840, T2B #838,
+M4, M5 #834, P3b #833/#837, P4, T3 #846, W1 #842, T1b #843, C2B #835, C2C #845, L2 #844; open: R11-T3-FU #849, R11-L3 #850 coach wording,
+FLIP-TOOLS PR coming). Each slice was reviewed alone; nobody has traced them TOGETHER. Trace on current main, as if FEATURE_ROMAN_MEMORY,
+FEATURE_ROMAN_TOOLS and FEATURE_ROMAN_PLAYBOOK were all 'true' (read src/common/env-validation.ts for any companion flags): (1) one student
+turn end to end: consent scope per path (v4 'base' vs v5 'memory' in src/ai-consent/ai-consent.constants.ts), memory block + coach-method
+block + tools sections in one prompt (size limits, ordering, truncation), the tool loop budget and metering to the right pool, the reply
+check, what the client sees on provider error/timeout/budget exhaustion; (2) the memory writer after the turn (what is stored, PII, which
+consent, chat deletion keeps notes, account deletion erases via the manifest); (3) the playbook builder schedule (whose data, cost cap,
+failure handling) and the augmenter; (4) memory off / Roman withdrawal / v4-only clients: nothing memory-scoped is read or written;
+(5) logs and errors carry no PII or note text; (6) the coach never sees notes, playbook or chats; (7) mobile: the Roman chat screen and
+the memory switch (m#463) behave with tools latency and the new states. Use A2 overrides strictly: Bs only with a one-sentence normal-user
+story; edge cases one line. Output /home/user/workspace/ops/reports/R11-INT-AUD-128.md: B list (file:line, smallest fix, which flag it
+blocks), U list, a per-flag GO / NO-GO table (TOOLS, MEMORY, PLAYBOOK) with evidence, then "## HANDOFF". No code, no PRs, no comments.
+Read-only on Supabase only if truly needed (SELECT; never print personal data). Final answer under 200 words with the GO/NO-GO table.
+
+## NUTR-AUD-128 (Claude Opus 5.5, AUDITOR, read-only, T2/T3, 90 min) — meal plans, grocery, shopping, prep and recipes, end to end.
+Owner 14:14 (verbatim): "Is the grocery and meal plan tools in the app working correctly? Is it world class, luxurious, calm, and useful?
+Dead buttons? Lets get an opus5.5 agent to investigate this area!" Trace client AND coach paths on mobile main + backend main: client meal
+plan (daily and week views), macro targets, recipes and recipe detail, grocery list, shopping list, prep guide, logging a planned meal into
+the food log, and the coach side that creates/assigns meal plans and recipes (including any AI drafts). For each screen: does every
+button do something real (dead buttons), are the numbers right (portions, units, per-meal and daily totals, grocery aggregation and
+de-duplication, check-off persistence across app restarts and days), loading/empty/error states, honest copy, and the calm luxury rules
+of _COMMON_128. Open redo PRs on these screens: m#490 (DES-AB meal plan), m#494 (DES-AN recipes), m#500 (DES-AO grocery/shopping/prep);
+read their diffs and judge at their heads so you do not re-report what they fix. Output /home/user/workspace/ops/reports/NUTR-AUD-128.md:
+(1) B list (one-sentence normal-user story, file:line, smallest fix); (2) U list; (3) dead-button table; (4) "world class and useful":
+the 5-8 highest-value improvements ranked, each marked FIX (within the existing feature) or NEW (needs an owner yes, with a recommended
+default); (5) proposed fix jobs, each file-disjoint, under 400 lines, with exact files, tier and model, ready for the operator to launch;
+then "## HANDOFF". No code, no PRs, no comments. Final answer under 200 words.
+
+## ALLERGY-128 (Claude Opus 5.5, BUILDER, T3 safety copy, 60 min) — the allergy prompt must not promise filtering that does not exist.
+Found by DES-AN-127 (report /home/user/workspace/ops/reports/DES-AN-127.md, B2): a client opens Recipes for the first time, the allergy prompt
+(src/components/AllergySafetyPrompt.tsx ~109-110) says recipes that conflict with their allergies are hidden, they pick a nut allergy, but
+RecipesScreen.tsx (~202-208) filters only by search and tags; a client could cook a recipe with nuts trusting that promise. FIRST verify on
+backend main whether any recipe/meal-plan endpoint filters by the client's stored allergies or dietary restrictions (and what
+src/lib/profileCompletion.ts:31 "the recipe engine reads ..." refers to); record the evidence. If nothing filters recipes the client sees:
+smallest fix = make every user-facing line true (the prompt states what the saved allergies are actually used for, if anything, and tells
+the client plainly to check each recipe's ingredients; no promise of hiding, no "yet"); keep the prompt's actions (submit, later, dismiss)
+and where the answer is saved. Do NOT build keyword allergen matching (false negatives would create false safety); list real filtering as an
+owner decision (NEW) with a recommended default in your report. If something DOES filter, make the copy match exactly what it does. Mobile
+files: src/components/AllergySafetyPrompt.tsx (+ its tests; RecipesScreen.tsx only if a line there is false — m#494 DES-AN edits
+RecipesScreen.tsx, so prefer not to touch it; if you must, merge origin/main after #494 merges). Failing-first test on the copy. Under 150
+lines. Title "fix(recipes): the allergy prompt says what saved allergies actually do (ALLERGY, T3)". READY per _COMMON item 7 (job
+ALLERGY-128), then finish (owner 14:08 override). Report ops/reports/ALLERGY-128.md.
+
+## DES-K2-128 (GPT-6.1 Sol, BUILDER, T1 mobile presentation, 75 min) — Home's child cards in the calm look (DES-K m#492 merged).
+DES-K-128 (report /home/user/workspace/ops/reports/DES-K-128.md, "Not fixed") left the boxed chrome inside Home's child components:
+src/components/home/PushPermissionCard.tsx (~86), src/components/home/CoachIntroductionBanner.tsx (~160),
+src/components/home/HolisticInsightsTile.tsx (~141), src/entitlements/dunning/DunningBanner.tsx (~108), plus any other card Home renders
+with its own box (list them first). Presentation only: replace boxes, fills and shadows with hairline sections in the A23 look (overline,
+Inter body, one forest action where the card has a primary action), theme tokens only. Every action, handler, condition and order stays
+exactly as on main; consent (push permission) and payment (dunning) logic untouched, copy unchanged unless false (then fix truthfully and
+say so). Optional presentation props are fine if a component is also used outside Home (check every caller; other callers keep today's
+look unless the prop is passed). Parity test: every card's actions still reachable and firing the same handlers. One PR under 400 lines,
+branch agent128/des-k2-128. README rule. READY per _COMMON item 7 (job DES-K2-128), then finish. Report ops/reports/DES-K2-128.md.
+
+## FLIP-MEM-PB-128 (Claude Opus 5.5, BUILDER, T4 AI/config, 75 min) — the FEATURE_ROMAN_MEMORY and FEATURE_ROMAN_PLAYBOOK flip PRs.
+Owner 14:25 (decision 1, verbatim): "turn on memory and the coach playbook as soon as the coach wording is live; recommended yes". This
+waives agent 127's "m#463 in a shipped store build" precondition (only builds with m#461 grant client-ai-v5; v4 holders stay 'base'; a
+fresh APK with the m#463 off switch follows). Preconditions to verify on main with file:line: b#845 (memory off keeps notes), b#844 (policy
+names Roman's inputs), b#850 R11-L3 (coach-method wording; in review — if not merged yet, open the PRs anyway and say so in the body),
+m#461 + m#463 merged on mobile main, consent scope gating ('memory' only for client-ai-v5), the playbook cost cap and pool (read
+/home/user/workspace/ops/reports/FLIP-PB-128.md; the R11-INT-AUD-128 auditor is checking the coach-credit disclosure — read its report
+/home/user/workspace/ops/reports/R11-INT-AUD-128.md if present and cite its GO/NO-GO), kill switches. Open TWO separate PRs (every flip is its
+own audited PR): agent128/flip-mem-128 ("FEATURE_ROMAN_MEMORY": "unset" -> "true") and agent128/flip-pb-128 ("FEATURE_ROMAN_PLAYBOOK":
+"unset" -> "true"), each also updating its gates note and its docs/runbooks/launch-flags.md row, evidence in the body, test/ci/fly-env-
+manifest.spec.ts passing (heavy.sh; LEFTHOOK=0 commits). Titles "chore(flags): turn on Roman's memory (FLIP-MEM, T4)" and "chore(flags):
+turn on Roman's coach playbook (FLIP-PB, T4)". READY per _COMMON item 7 for each (jobs FLIP-MEM-128, FLIP-PB-128), then finish. If a
+precondition fails for one flag, open only the other and write the gap + smallest fix in ops/reports/FLIP-MEM-PB-128.md.
+
+## FW-AUD-128 (Claude Opus 5.5, AUDITOR, read-only, 90 min) — first-week client journeys, audited with scrutiny. One instance per area.
+Owner 14:25 (verbatim): "We need to identify more areas of small features a client oculd run into within the first week (like the meal
+prep area) and audit them with scruitiny!" and "I want top models producing top grade UI/UX design!". Your area is named in your objective
+(table below). Trace it on mobile main + backend main as a brand-new client in their first 7 days would meet it, in BOTH states that apply
+(with a coach / without a coach; memory on / off where relevant). For every screen and small feature in the area: does each button and
+row do something real (dead buttons), are numbers/units/dates right, do loading/empty/error/offline states exist and say true things,
+does data persist (restart, next day), is anything private shown to the wrong person, is the copy honest, and does it meet the calm luxury
+rules of _COMMON_128 (mobile redo rules 1-8). Before reporting, list the open agent127/agent128 PRs touching your files
+(`gh pr list -R ... --state open --json number,title,files`) and judge those screens at the PR heads so you do not re-report what they fix.
+Apply SoT A2 overrides strictly (B only with a one-sentence normal-user story; edge cases one line). Output
+/home/user/workspace/ops/reports/<your id>.md: (1) B list (story, file:line, smallest fix); (2) U list; (3) dead-button table;
+(4) "first-week polish": the 5-8 highest-value improvements ranked, each FIX (inside the existing feature) or NEW (needs an owner yes; give
+a recommended default); (5) proposed fix jobs, file-disjoint from each other and from open PRs, each under 400 lines, exact files, tier,
+model (Claude Opus 5.5 for T3/T4, consent, privacy, money, safety; GPT-6.1 Sol otherwise), ready for the operator to launch; "## HANDOFF".
+No code, no PRs, no comments. Supabase SELECT only if truly needed, never print personal data. Final answer under 200 words: Bs first.
+| id | area |
+|---|---|
+| FW-ONB-128 | first open to first Home: welcome, sign up, verify email, role choice, consultation (Roman consent boxes), Day-1 onboarding, the first Home, first push/email; new client with an invite vs. without |
+| FW-FOOD-128 | food logging beyond the main log: search, barcode scan, recents/favorites, custom foods, edit/delete entries, copy a meal or day, quick add, water, fasting timer and history, meal reminders, day navigation |
+| FW-TRAIN-128 | training beyond the live set rows: assigned vs. empty workout start, swap/replace/add exercise, notes, rest timer settings, finish/abandon, history edit/delete, personal bests, routines, workout reminders |
+| FW-BODY-128 | weight log, body measurements, progress photos (who can see them, storage, delete), charts and trends, units kg/lb and cm/in, goals, Apple Health / Health Connect connect, permissions, sync status, disconnect |
+| FW-COACH-128 | the client side of the coach relationship: joining a coach or accepting an invite, coach profile, messages, booking a session and its reminders, check-in forms, coach-assigned habits and plans appearing, sharing settings, leaving a coach |
+| FW-MONEY-128 | client money: packages, buying, receipts, subscription status and renewal date, cancel, failed payment / dunning, restore, refunds and support path, promo codes, what access ends on expiry (money must be bulletproof) |
+| FW-ROMAN-128 | Roman in week one: first chat, consent boxes, replies with no data yet, AI guide, limit/credit messages, error states, crisis and safety routing (self-harm, eating disorder, medical emergency), chat history and deletion, the memory switch |
+| FW-NOTIF-128 | notifications and reminders: push permission, everything that fires in week one, preferences honoured (mute all), deep links landing on the right screen, badges, email digests |
+| FW-ACCOUNT-128 | account and settings: change email/password, sign out, delete account (what goes, who is told), data export, blocked users, units, support/contact, legal links (privacy, terms) open the right pages |
+| FW-COMM-128 | community in week one: first post, reply, reactions, report and block (App Store 1.2: report, block, act within 24 h), direct messages, notifications, challenges join/leave, leaderboard names and privacy |
+
+## DESIGN-QA-128 (Claude Opus 5.5, AUDITOR, read-only, 90 min) — top-grade UI/UX: cross-screen consistency of the redo.
+Owner 14:25: "I want top models producing top grade UI/UX design!". About 25 redo PRs by different builders merged or are in review today
+(DES-A/F/J/L/M/O/W/X/Z/S/T/R/K/Q/AA-AP...). Read the doctrine sources in _COMMON_128 and mobile docs/QUIET_LUXURY_DOCTRINE.md, then the
+current main code of every redone screen (git log --since=2026-10-07 on mobile main; open DES PR heads too). Find DRIFT that a client would
+notice moving between screens: different overline styles or sizes, mixed type scales and weights, inconsistent spacing rhythm and page
+margins, hairline vs. box mixing, more than one forest primary per screen, different press states/haptics, different empty/loading/error
+patterns, icons, tab-label and header treatments, tabular numerals, and theme-token violations. Check src/ui primitives: is there ONE
+shared overline / hairline section / quiet row / primary button component, or did builders each roll their own? Output
+/home/user/workspace/ops/reports/DESIGN-QA-128.md: a ranked drift list (screen, file:line, what differs, the house rule), a proposal for the
+smallest set of shared primitives or tokens that removes the drift (only if small and safe), and fix jobs (file-disjoint, under 400 lines
+each, exact files, model Claude Opus 5.5) ready to launch; "## HANDOFF". Use the target images in design-targets/mobile (read tool) as the
+bar. No code, no PRs, no comments. Final answer under 200 words.
+
+## R11-FIX-128 (Claude Opus 5.5, BUILDER, T4 AI, 60 min) — R11-INT-AUD-128 U1 + U2, one backend PR.
+Read /home/user/workspace/ops/reports/R11-INT-AUD-128.md (U list). U1: a 3-round tools turn can outlive the app's 60 s abort (the 25 s wall
+is checked only before a call, roman-tool-loop.ts:127), so the client reads "No connection to Roman right now", no reply is stored and the
+tokens are still debited. Smallest fix: turn_wall_ms 25_000 -> 15_000 (roman-tool.types.ts:66) plus a spec proving a worst-case 3-round
+turn (wall + last round + final call at their timeouts) finishes inside 60 s; if the arithmetic says 15 s is not enough, pick the number
+that is and show it. U2: the memory augmenter reads a v4 / memory-off client's notes before the scope check drops them
+(roman.service.ts:1031-1035); read consentedClients('memory') first and skip the augmenter without it (~5 lines + spec). Failing-first
+specs; heavy.sh; LEFTHOOK=0 commits. Branch agent128/r11-fix-128, title "fix(roman): a tools turn ends before the app gives up, and notes
+are read only with memory consent (R11-FIX, T4)". Under 150 lines. READY per _COMMON item 7 (job R11-FIX-128), then finish.
+
+## PB-POOL-128 (Claude Opus 5.5, BUILDER, T4 money, 75 min) — playbook learning paid by the platform, not the head coach's AI credits.
+R11-INT-AUD-128 B2 (report section "Playbook metering"): every playbook rebuild (up to 4 a day) debits the head coach's AI credits
+(playbook-builder.service.ts:173) while coach-facing text never says so. Owner decision pending (operator recommended option B, platform
+pays); build it now, the operator merges only after the owner's yes. Option B: add payer {kind:'platform'} to RomanBackgroundPayer
+(roman-background-spend.ts:39-41), skip the coach-pool pre-check and debit for it (:110-120, :211-233) while still recording the spend in
+the platform ledger/meter the background ceiling reads, pass it at playbook-builder.service.ts:173; spend stays bounded by the $10/day
+background ceiling (prove it in a spec). No other payer changes. Failing-first specs (coach pool unchanged after a playbook build; ceiling
+still enforced). heavy.sh; LEFTHOOK=0. Branch agent128/pb-pool-128, title "fix(roman): coach playbook learning no longer spends the
+coach's AI credits (PB-POOL, T4)"; body line "Owner decision pending: merge only after the owner's yes." Under 200 lines. READY per
+_COMMON item 7 (job PB-POOL-128), then finish.
+
+## NUTR-BE-128 (GPT-6.1 Sol, BUILDER, T2 backend, 90 min) — NUTR-AUD-128 backend rows, one PR.
+Read /home/user/workspace/ops/reports/NUTR-AUD-128.md (B1, U2, U3, U4 and the fix-job rows NUTR-PREP-B, NUTR-LISTS, NUTR-PLAN-B).
+(1) prep-guide.service.ts: stop presenting the newest visible recipes as the client's planned prep: return what the data really is with a
+`source` field ('plan' when it comes from the client's assigned meal plan, 'library' otherwise), no invented week (the week parameter
+must either filter truly or be ignored and reported as such), canonical singular units before aggregation (cup/cups, tbsp/tablespoon,
+lb/lbs, g/grams...). (2) lists.service.ts addItem: merge into an unchecked row with the same lower-cased name + canonical unit (sum
+quantity) instead of a duplicate. (3) meal-plans.service.ts canonical fallback: exclude ended plans (OR ends_on null / ends_on >= today, as
+real-meal-plans.service.ts:289). Additive and safe for the production app (old clients ignore `source`). Specs for each; heavy.sh;
+LEFTHOOK=0. Branch agent128/nutr-be-128, title "fix(nutrition): prep guide says where its recipes come from, grocery items merge, ended
+plans leave (NUTR-BE, T2)". Under 400 lines. READY per _COMMON item 7 (job NUTR-BE-128), then finish.
+
+## FIX-PR-128 (Claude Opus 5.5, FIXER, one PR per instance, 75 min) — fix one redo PR's findings plus folded audit fixes, same branch.
+Your instance names the PR. Follow ## FIX-128 (claim comment, failing-first, push once, CI green, FIX ROUND n READY, README rule, merge
+origin/main first) for that PR only, at its current head: fix every finding of any REQUEST CHANGES verdict at the head, then the folded
+NUTR-AUD-128 items listed for your PR (read /home/user/workspace/ops/reports/NUTR-AUD-128.md). Keep every existing pathway; parity test
+updated; whole PR stays under 800 lines. If another lane posted a FIX CLAIM at this head in the last 60 min, stop and report.
+| instance | PR | folded audit items |
+|---|---|---|
+| FIX-490-128 | mobile#490 (DES-AB meal plan) | U1 (de-duplicate the plan shown twice, PlanScreen.tsx:244-256) and U12 (one tabular day-total line, ClientDailyMealPlanScreen.tsx:139-141) |
+| FIX-494-128 | mobile#494 (DES-AN recipes) | U5 (saved state from /recipes/saved, not the list cache; a "Saved" filter backed by /recipes/saved); NOT the allergy prompt (ALLERGY-128 owns it) |
+| FIX-500-128 | mobile#500 (DES-AO grocery/prep) | B1 mobile (Prep guide copy says where the recipes come from: missing `source` = library, honest wording, week arrows removed or truthful), U3 mobile ("Add all" calls POST /lists/grocery/bulk once), recipe rows tappable to detail |
+
+## NUTR-COPY-128 (GPT-6.1 Sol, BUILDER, T1 copy, 45 min) — NUTR-AUD-128 U7, U8, U9.
+U7 client-detail/MealPlanTab.tsx:57-59 "the client will see it on their Plan tab" -> "The client sees it under Meal plan."; U8
+AIMealPlanDraftScreen.tsx:225 pass initialTab: 'mealplan' (ClientDetailScreen reads it, line 86) so approval lands where the flow says;
+U9 MoreScreen.tsx:52 "The meals planned for you this week" -> "The meals your coach planned for you" (check the no-coach state: if a
+client without a coach can reach it, make the line true for them too). Tests. Branch agent128/nutr-copy-128, title "fix(copy): meal plan
+lines say where things really are (NUTR-COPY, T1)". Under 120 lines. READY per _COMMON item 7, then finish.
+
+## FIXWAVE-128 (owner 14:58: "get to work fixing this broken BULLSHIT") — six builders, one PR each, READY per _COMMON item 7, then finish.
+Each instance does the job row named below from the audit report given (read that report's B/U text and job row first), plus the owner's
+words where quoted. Failing-first tests, parity for any screen touched, theme tokens, honest copy, heavy.sh, LEFTHOOK=0 for backend.
+If an open PR edits the same file, merge origin/main first and keep your diff minimal; say so in the PR body. Tonight's store builds are
+cut from mobile main at 23:00 PDT.
+| instance | report + row | owner's words / extra |
+|---|---|---|
+| WEIGH-KB-128 (Opus, mobile) | ops/reports/FW-BODY-128.md B1 + job row J1 (FW-BODY-J1-128) | "the number pad covers the Log weight sheet ... well thats awful - fix it!" Log weight must work on iPhone: field and Save visible above the keyboard, a Done/tap-outside dismiss, Save disabled while saving. Include the J1 truthful-number fixes only if they stay in the same file and under 300 lines total. |
+| TRAIN-GATE-128 (Opus, mobile, T4) | ops/reports/FW-TRAIN-128.md B1 + job row J1 TRAIN-GATE-128 | Owner: leaving the app or screen mid-workout must NOT close or lose the workout; returning shows it exactly where it was. Deleting a workout in progress is its own clearly named action ("Discard workout", with a confirm), never the first choice and never called "Start Fresh"; "Resume" is the first choice. A paid client on weak signal must never be dropped to "Choose a Plan" mid-workout (keep the screen while re-checking; only a confirmed inactive result gates). |
+| ONB-RESEND-128 (Opus, mobile, T3) | ops/reports/FW-ONB-128.md B1 + job row ONB-RESEND-128 | "a new client can't ask for the confirmation email again - WTF!?!" Call the live POST /auth/resend-verification from the verify step, the sign-in "confirm your email" error and the expired-link screen, with honest sent/limit/error states. m#504 (sign in) and m#502 (role choice/invite) are open on nearby auth files: base on main, keep the diff minimal. |
+| MONEY-MAIL-128 (Opus, backend, T3) | ops/reports/FW-MONEY-128.md B2 + job row MONEY-MAIL-128 | Owner: "coaches can read it no?" Payment/dunning emails to a client set Reply-To to that client's coach's email, so a reply reaches the coach; emails with no coach (or platform-level) reply to the support address. Template lines say exactly where a reply goes. No other email behaviour changes. |
+| EXLIB-128 (Opus, mobile first) | ops/reports/FW-TRAIN-128.md U2 (exercise library empty: ExerciseCatalogItem 0 rows) | "Empty exercise library ... wtf!?!" Make the client Exercise library show real exercises in production WITHOUT a production write if possible: the coach builder and in-workout picker already use a working catalog (exerciseLibraryApi / seed library); point the client library and detail at the source that has data, keeping search, filters and detail. If that is impossible, prepare (do not run) the exact idempotent seed command and the before/after count queries for the operator, and say so. |
+| REFUND-COPY-128 (Sol, mobile, T1) | ops/reports/FW-MONEY-128.md B1 (ClientPackagesScreen.tsx:588) | Owner wants coaches to issue refunds (agent 129 builds coach payment controls). Until that ships, the line must be true today: refunds are issued by The Growth Project team; tell the client how to ask (the in-app support/contact path that exists). One line plus its test; no other change. |
