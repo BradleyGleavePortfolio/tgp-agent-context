@@ -1350,6 +1350,10 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 11:46 RULING: Roman's notes are deleted ONLY on account deletion. Memory off, Roman withdrawal and chat deletion keep the notes (unread
   while memory is off). No "Delete my notes" control. Jobs: R11-C2C-127 (backend: memory off no longer deletes; mobile#463 copy) and
   R11-L2-127 (policy text). mobile#463 held until updated.
+- 11:49: "ok lets get all agents done safely - we are at 39.5k/45k credits - so I want a gradual wind down for prep for agent 128" ->
+  no new launches; builders finish their current PR to READY or push WIP + HANDOFF by 12:40; lenses review until 12:50; the design
+  auditor's 30 TRANCHE 3 jobs (by 12:30) become agent 128's starting plan; agent 127 merges dual-approved PRs, deploys backend main once
+  green, and finalizes handoffs/op-127/.
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -8005,6 +8009,10 @@ Recorded by agent 127. Applied in A6.10.
 
 #### 2026-10-07 11:46 PDT — Roman notes deleted only on account deletion (owner ruling, to agent 127)
 > "Notes are deleted in only two cases: no lets jsut do on account deletion. Thats the ruling - go in that direction."
+Recorded by agent 127. Applied in A6.10.
+
+#### 2026-10-07 11:49 PDT — gradual wind-down for agent 128 (owner, to agent 127)
+> "ok lets get all agents done safely - we are at 39.5k/45k credits - so I want a gradual wind down for prep for agent 128"
 Recorded by agent 127. Applied in A6.10.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
