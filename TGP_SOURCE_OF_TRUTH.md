@@ -1323,6 +1323,12 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 10:09: real purchase test: "yes we will do this" -> after b#825 and b#826 are live and the new test build is out, the owner connects
   Stripe on his coach account, buys his cheapest package from the review client with a real card and refunds it; agent 127 watches each
   step read-only. Stripe fees accepted by the owner.
+- 10:15: "LET THEM RUN" (after agent 127 paused four agents at 10:14 at 14.8k/45k) -> all four resumed; fleet stays 14; full Roman plan.
+- 10:18: "Memory stays switched off for clients unless they turn it on?? MEMORY IS ON BY DEFAULT UNLESS THEY SWITCH IT OFF! Roman needs
+  all, every single bit, of data they ever produce or bring in" -> SUPERSEDES the 10:09 opt-in reading: Roman memory rides in the Roman
+  consent tick every client already gives in the consultation (box 2 grants client-ai-v5 while memory is on; no separate question, nothing
+  pre-ticked); an off switch "Roman's memory" sits at the bottom of Settings > Roman AI (off = memory withdrawal + notes deleted). Roman's
+  look-up tools cover every client-owned data kind. Jobs R11-C2B-127 (consent), R11-T1 scope widened, R11-L1 policy text updated.
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -7941,6 +7947,11 @@ Recorded by agent 127. Applied in A6.10.
 > 10:09 "Should clients be offered Roman's memory - why offer them romans memory at all? Lets just keep that all hidden as much as possible - wayyyy down in settings"
 > 10:09 (real purchase test) "yes we will do this"
 Recorded by agent 127. Applied in A6.10.
+
+#### 2026-10-07 10:15-10:18 PDT — let the fleet run; Roman memory on by default with an off switch; Roman reads all client data (owner, to agent 127)
+> 10:15 "LET THEM RUN"
+> 10:18 "Memory stays switched off for clients unless they turn it on?? MEMORY IS ON BY DEFAULT UNLESS THEY SWITCH IT OFF! Roman needs all, every single bit, of data they ever produce or bring in"
+Recorded by agent 127. Applied in A6.10 (supersedes the 10:09 opt-in reading).
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
