@@ -167,3 +167,26 @@ src/screens/client/HomeScreen.tsx, src/components/home/HomeHeaderActions.tsx (+ 
 ## DES-P-128 (GPT-6.1 Sol, BUILDER, T1 mobile, 90 min) — Progress, "the full picture" (after mobile#470 AND #473 merge).
 Base: JOBS127 entry "DES-P-127" (last occurrence); image design-targets/mobile/progress-details/luxury.jpg. Branch from origin/main after
 both DES-V PRs are merged. One PR under 400 lines. Report ops/reports/DES-P-128.md.
+
+## FLIP-PB-128 (Claude Opus 5.5, BUILDER, T4 AI/config, 60 min) — the FEATURE_ROMAN_PLAYBOOK flip PR (second job of FIN-T3-128).
+Backend deploy 24 (0d179edb, 13:15 PDT) put b#837 R11-P3b-2 (playbook builder + schedule) in production. Verify every playbook
+precondition on main with file:line: all playbook slices merged and deployed (schema/migration, signals, builder + scheduler, the coach-method
+augmenter in roman.module.ts), consent gates (whose data the builder reads and under which consent; nothing from a client without the
+consent the policy names), the background cost cap (coaches per run, tokens/credits metered to the right pool, no unmetered model call),
+the kill switch (unset = off, no timer, no reads), the merged privacy text (b#831 R11-L1) describing coach-method learning truthfully, and
+that coaches never see the playbook (owner 11:22: coaches see Roman's proposals only). If ALL hold: ONE PR, branch agent128/flip-pb-128, that
+changes only "FEATURE_ROMAN_PLAYBOOK": "unset" -> "true" in .github/fly-env-desired-state.json, its gates note, and the
+docs/runbooks/launch-flags.md row; precondition evidence in the body; test/ci/fly-env-manifest.spec.ts passes (heavy.sh). Title
+"chore(flags): turn on Roman's coach playbook (FLIP-PB, T4)". READY per _COMMON item 7 (job FLIP-PB-128). If any precondition fails, open
+no PR: write the gap and the smallest fix in ops/reports/FLIP-PB-128.md. Never run fly-env-sync (the operator applies after merge).
+
+## FLIP-TOOLS-128 (Claude Opus 5.5, BUILDER, T4 AI/config, 60 min) — the FEATURE_ROMAN_TOOLS flip PR (next job of FIN-T1B-128).
+All tools pieces are merged on backend main (14:06): R11-T1 #840, R11-T2B #838 (budgeted, metered tool loop), R11-W1 #842, R11-T1b #843,
+R11-T3 #846 (answer contract, golden cases, reply check) and the policy text #844 (names what Roman may read). R11-T3-FU (#849, reply-check
+follow-up) is in review; deploy 25 follows it. Verify every tools precondition on main with file:line: tools only on student turns, subject =
+caller only, per-turn and per-day budgets metered to the right AI pool, no unmetered model call, the result clamp, the reply check active,
+the policy names every data kind the tools read, the kill switch (unset = off, prompt byte-identical), and no mobile change needed. If ALL
+hold: ONE PR, branch agent128/flip-tools-128, changing only "FEATURE_ROMAN_TOOLS": "unset" -> "true" in .github/fly-env-desired-state.json,
+its gates note and the docs/runbooks/launch-flags.md row; evidence in the body; test/ci/fly-env-manifest.spec.ts passes (heavy.sh). Title
+"chore(flags): turn on Roman's tools (FLIP-TOOLS, T4)". READY per _COMMON item 7 (job FLIP-TOOLS-128). The operator merges and applies it
+only after deploy 25 is live. If a precondition fails: no PR; the gap + smallest fix in ops/reports/FLIP-TOOLS-128.md.
