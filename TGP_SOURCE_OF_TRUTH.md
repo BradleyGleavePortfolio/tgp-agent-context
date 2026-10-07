@@ -2372,6 +2372,21 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
 
+## AGENT 126 — 2026-10-06 17:56 PDT onward (session c0c3aa1c; 126th operator in the chain)
+Why: owner 10-06: "Read this attached document, TGP Source of Truth, and all supporting documents" (attachment = handoffs/op-125/HANDOFF.md
++ AGENT_126_PROMPT.md, verified identical); 17:56 "EXECUTE. You're at 0/45k" + defaults 1-3 accepted (10:00 build; close m#411 keep
+branch) + "Fix the stuck content-release job first" + "Send one real Roman message now" + "Run this as a fleet, not solo" + "All mobile AI
+builder PRs merged by 00:30, then a new APK" + "Roman v1.1 switch-on PRs once the AI builder work is moving" + "scale to 20+ agents".
+Files: handoffs/op-126/ops/ (_COMMON_126.md, JOBS126.md). Credits: 0/45k at 17:56 (owner's number).
+- 17:48 verified: deploy 16 run 37552977754 success (f71bb9a4); /health ok, /readyz db up. Fly logs (run 37553922065): "[coach-ai] ready
+  (model=claude-sonnet-5-5)" at 00:40:58Z = key has access; b#803 stays.
+- 17:58 "stuck content-release job" = NOT stuck: ScheduledDrop has 0 rows in production (SELECT). The "drip-dispatcher tick skipped"
+  warning at exactly :00 each minute comes from ScheduleModule.forRoot() imported twice (app.module.ts:169 + data-export.module.ts:32,
+  since #171 2026-05-12); on Nest 11 every @Cron is registered twice, so every timed job runs twice concurrently. Not caused by deploy 16;
+  no rollback. Fix B-CRON-126 (one-line removal + regression test); double-run impact audit AUD-CRONX-126; operator runs its SELECTs.
+- 18:00 m#411 closed with note, branch kept. Fleet of 20 launched 17:59-18:00 (JOBS126.md). Merge loop: ops/lanes126/merge_loop.sh runs
+  merge_if_dual.sh every 3 min on non-draft agent126/* PRs based on main.
+
 ## AGENT 125 — 2026-10-06 13:47 PDT onward (session d712a008; 125th operator in the chain)
 Why: owner 10-06 13:4x: "Read TGP source of truth in github ... who you are (agent 125) ... Then read all the supporting documents
 mentioned inside!"; 13:50 gave agent 124's AUDIT20 list + "start one agent to audit every single one of these areas, seperately, in
