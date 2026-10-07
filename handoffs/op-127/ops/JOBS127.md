@@ -913,3 +913,13 @@ another lens is newer than 40 minutes; then post "OPUS LENS CLAIM (LN-OPUS3-127)
 ## LN-SOL5-127 (GPT-6.1 Sol, LENS, T3/T4) — third Sol lens queue. Time box 150 min.
 Exactly the LN-SOL2-127 entry, but sign verdicts "(LN-SOL5-127)", report ops/reports/LN-SOL5-127.md, notify LN-SOL5-127.txt. Same
 priority order and claim rule as LN-OPUS3-127 (DES-* PRs first, with the six owner rules as acceptance criteria), using "SOL LENS CLAIM".
+
+## OWNER DECISIONS 11:26 (apply to DES jobs; these override the entries above where they differ)
+- Tabs: keep six with labels (DES-N cancelled). Dark mode: hidden for launch (DES-A). Client Settings grouped on one screen, nothing
+  removed: DES-S APPROVED (start after DES-A mobile#467 merges). Forest green for every primary button: DES-J APPROVED (start after DES-A
+  merges; do not wait for screenshots).
+- Health rings (DES-H amendment): owner 11:26 "maybe populate a basic, easy to hit goal set by default for everyone". So: every client gets
+  STARTER goals by default — Steps 5,000, Exercise 20 minutes, Move 250 kcal — used only when no coach- or client-set target exists.
+  Honest copy: the ring/goal label says "Starter goal" (or "Starter goal: 5,000 steps") so the client knows nobody set it for them; a
+  coach- or client-set target replaces it and the label drops "Starter". If an in-app goal editor already exists, link it; if not, add no
+  button (no dead buttons). Keep the values in one constants file with a test.

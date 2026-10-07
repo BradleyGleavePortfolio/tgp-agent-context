@@ -1339,6 +1339,10 @@ Older entries not listed here still stand unless a later decision changed them; 
   and money PRs finish; every freed slot goes to the screen redo (DES jobs from DESIGN-AUD-127 section (d)).
 - 10:45: "25.5k/45 used - no reason to slow down until 44k/45k used" -> overrides the A1.4 41k stop-launch line for agent 127: keep
   launching until 44k; fleet cap raised to 20 for the screen redo; agent 127 keeps Part B and the handoff current so the 44k handoff is fast.
+- 11:26 design decisions: six tabs with labels; dark mode hidden for launch (redo code uses theme colours so a later dark pass is a
+  palette swap); client Settings grouped on one screen, nothing removed (DES-S approved); forest green for every primary button (DES-J
+  approved); Health rings get default STARTER goals for everyone (5,000 steps, 20 exercise minutes, 250 move kcal), labelled "Starter goal",
+  replaced by any coach/client target.
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -7981,6 +7985,10 @@ Recorded by agent 127. Applied in A6.10.
 
 #### 2026-10-07 10:45 PDT — no slowdown until 44k (owner, to agent 127)
 > "25.5k/45 used - no reason to slow down until 44k/45k used"
+Recorded by agent 127. Applied in A6.10.
+
+#### 2026-10-07 11:26 PDT — tabs, dark mode, Settings, button colour, Health goals (owner, to agent 127)
+> "Tabs: recommended keep six with labels - if thats whats easiest for clients to use! Dark mode: recommended hide it for launch - sure, I assume its broken or ugly? We cant make it work? We dont have to redo every screen - all scrren stuff stays the same we just switch tan and greens for dark blue and oxblood or such? Client Settings: recommended group it on one tidy screen, with nothing removed - sure Button colour: recommended forest green everywhere - if thats what looks. best! Health rings: recommended no fill until someone sets a goal - maybe populate. abasic, easy to hit goal set by default for everyone?"
 Recorded by agent 127. Applied in A6.10.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)

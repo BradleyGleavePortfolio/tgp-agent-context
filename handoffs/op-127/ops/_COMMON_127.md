@@ -95,3 +95,5 @@ OR LOOSING FUNCTIONALITY!"
 5. Mentally deloading: one primary action per screen, calm hierarchy, fewer competing elements, secondary detail by progressive disclosure.
 6. No pathway or function cut: list every route/button/action on the screens you touch before and after in the PR body, and prove parity
    in tests (navigation targets and handlers still reachable).
+7. (operator, 11:26) Dark-mode readiness: any screen code you add or change takes colours from the theme (useTheme / semantic tokens),
+   never the legacy fixed palette, so a later dark-mode pass is a palette swap. Dark stays hidden for launch.
