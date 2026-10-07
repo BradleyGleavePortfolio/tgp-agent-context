@@ -2467,6 +2467,9 @@ builder and AI workout assistance, then a fresh APK, review accounts and App Sto
   manifest), run 37660243967; /health ok, /readyz db up. Staged flags were "Deployed" but absent in the machine (plan 37660895920), so
   apply with deploy_staged=true (run 37661054772) -> Verified, machine 860311cee0d008 holds every declared value.
 - 10:44 AI WORKOUT BUILDER LIVE: GET /api/ai/gateway/workout-builder/status as the review coach -> state "on", create true, edit true.
+- 11:2x-11:58: deploy 23 f73c6521 (11:22, run 37665898547) healthy. Merged today 40 (see handoffs/op-127/HANDOFF.md). Interim APK 1
+  (mobile b81f71c) delivered 11:24. 11:49 wind-down ordered by the owner; handoffs/op-127/ (HANDOFF.md, AGENT_128_PROMPT.md, ops/) is the
+  agent 128 start point; deploy 24 (backend main c2c97612+) pending queued CI.
 
 ## AGENT 126 — 2026-10-06 17:56 PDT onward (session c0c3aa1c; 126th operator in the chain)
 Why: owner 10-06: "Read this attached document, TGP Source of Truth, and all supporting documents" (attachment = handoffs/op-125/HANDOFF.md

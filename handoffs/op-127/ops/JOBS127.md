@@ -923,3 +923,7 @@ priority order and claim rule as LN-OPUS3-127 (DES-* PRs first, with the six own
   Honest copy: the ring/goal label says "Starter goal" (or "Starter goal: 5,000 steps") so the client knows nobody set it for them; a
   coach- or client-set target replaces it and the label drops "Starter". If an in-app goal editor already exists, link it; if not, add no
   button (no dead buttons). Keep the values in one constants file with a test.
+
+## R11-T3 AMENDMENT (operator 11:3x, from R11-W1-127 report): the reply check (fact gate) has no protein facts from the tools, so once tools
+are on, Roman's protein figures from the baselines tool (b#842) would be treated as invented and rewritten. R11-T3 must register a protein
+fact (and every numeric field the T1 and W1 tools return) with the reply check before the FEATURE_ROMAN_TOOLS flip.

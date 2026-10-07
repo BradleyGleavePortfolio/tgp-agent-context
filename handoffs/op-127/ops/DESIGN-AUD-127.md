@@ -802,3 +802,6 @@ Report ops/reports/DES-J-127.md.
   - The queued drafts DES-B-127 and DES-C-127 in JOBS127.md are superseded; DES-A-127 is replaced by the revised entry in (d)2.
   - Every file:line was checked on mobile main `f71b425e`.
   - When SHOTS-127 signed-in screenshots land, compare 10-client-home, 11-client-train, 12-client-live-workout, 13-client-food-macros and 14-client-progress against the sweep rows before the DES PRs are audited.
+
+### Tranche 3 (owner 11:44, wind-down 11:49)
+- 30 client DES entries (DES-AA..DES-BD) with a launch-order table, exact file lists and a not-yet-covered list: `ops/reports/DESIGN-AUD-127-jobs-paste.md` under "# TRANCHE 3". No builders launched today; they are the starting plan for operator agent 128. Checked file-disjoint against open mobile PRs and earlier DES entries on main 8591058.
