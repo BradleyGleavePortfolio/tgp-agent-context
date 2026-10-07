@@ -1333,6 +1333,10 @@ Older entries not listed here still stand unless a later decision changed them; 
   (quality-references/MOBILE_APP_DESIGN_INTELLIGENCE*.md) and plan a luxurious, comfortable makeover ASAP; "id really like it if my
   screens didnt make shit up in copy!" -> truthful-copy rule for every screen (copy states real data or is neutral).
 - 10:25: "roman is original design, not impersonation" -> Roman portrait stays as is (design-audit likeness note closed).
+- 10:35: "romans intelligence, money fix - whatevers getting done get those PR's done asap - we need all hands on deck for the mobile
+  screen redo - HONEST COPY, NO DEAD BUTTONS, LUXURIOUS SIMPLE FEELING, ALL IMPORTANT INFO PRESENT, MENTALLY DELOADING, WIHTOUT CUTTING
+  MOBILE PATHWAYS OR LOOSING FUNCTIONALITY! DO YOU UNDERSTAND?" -> six binding redo rules in ops/lanes127/_COMMON_127.md; in-flight Roman
+  and money PRs finish; every freed slot goes to the screen redo (DES jobs from DESIGN-AUD-127 section (d)).
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -7961,6 +7965,10 @@ Recorded by agent 127. Applied in A6.10 (supersedes the 10:09 opt-in reading).
 > 10:20 "there should be a set of example pages for a screen makeover from some weeks ago in github as a future job - have the auditor go check those and see if he likes those instead? This needs to be improved ASAP so lets get the auditors opninion and start planning to make the screens more luxurious and comftorable to use! Also, in github is a Mobile design guide - big document full of UI best practices and reasoning!"
 > 10:22 "yea id really like it if my screens didnt make shit up in copy! Add this to the plan the auditor eventually produces!"
 > 10:25 "roman is original design, not impersonation"
+Recorded by agent 127. Applied in A6.10.
+
+#### 2026-10-07 10:35 PDT — all hands on the mobile screen redo; six rules (owner, to agent 127)
+> "romans intelligence, money fix - whatevers getting done get those PR's done asap - we need all hands on deck for the mobile screen redo - HONEST COPY, NO DEAD BUTTONS, LUXURIOUS SIMPLE FEELING, ALL IMPORTANT INFO PRESENT, MENTALLY DELOADING, WIHTOUT CUTTING MOBILE PATHWAYS OR LOOSING FUNCTIONALITY! DO YOU UNDERSTAND?"
 Recorded by agent 127. Applied in A6.10.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
