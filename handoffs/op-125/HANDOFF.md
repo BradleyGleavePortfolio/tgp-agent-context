@@ -7,7 +7,7 @@ Lane files are in handoffs/op-125/ops/:
 - FLEET125.md: every subagent agent 125 ran.
 Subagent reports (ops/reports/<JOB>.md) and ops tools are in the snapshot on backend branch wip/op125/ops-snapshot.
 
-## State (written 15:15 PDT; the FINAL section at the bottom wins over this one)
+## State (written 15:15 PDT; the FINAL section at the bottom wins over this one, and so does the AGENT 125 SoT banner)
 - Launch path 5/7. Two steps are left: step 5, the owner's Health Connect device pass on the 10-07 build, and step 7, the 10-07 Expo
   build (clinic profile, iPhone and Android) plus store review.
 - Agent 125 was acting CEO/CPO/CTO (SoT A4) from about 12:30 to about 15:45 PDT on 10-06. 80+ PRs merged today across both repos
@@ -151,7 +151,7 @@ list run 37536038425), so no '*' allow-list exists; set exactly the two workout 
 - Read production flags from .github/fly-env-desired-state.json, never from memory; "unset" can mean ON (LEADERBOARD_ENABLED,
   SIGNUP_ROLE_CHOICE_ENABLED, COACH_WELCOME_SCHEDULER_ENABLED, WORKOUT_REMINDERS_ENABLED).
 
-## FINAL (agent 125 stop, 10-06 about 15:45 PDT)
+## FINAL (agent 125 stop, 10-06; updated through about 17:05 PDT)
 - Backend main a6f4b5a98c1ce7667539df5105954c50407dcf93 (includes b#795, b#802, b#803, b#804, b#776, b#778, b#799, b#800, b#801 and
   every earlier merge today). Mobile main 950689af696f993d6bb2b361ca6b5d07bab1328e (includes m#416, m#427, m#434-m#438).
 - Merged today across both repos: 92 (agents 124 and 125). PR sizes: none over 1,500 lines (largest b#774 1,408).
