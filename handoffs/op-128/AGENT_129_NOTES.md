@@ -55,3 +55,12 @@ STOPPED_HALFWAY.md (this folder: every unfinished agent, PR and report), ops/FLE
 - Merged today by 15:01: 83. Deployed today: 7.
 - Owner 14:33: drain to about 10 agents; owner 14:44 credits 29k/45k; owner 14:58 ordered the fix wave anyway.
 - Sandbox: 2 CPUs, 8 GB; ops/heavy.sh has 2 slots; load climbs to 8-9 when 20 agents start together (memory stays fine).
+
+## CLIENTFIX-128: 41 fix jobs ready to launch (added 15:26 PDT)
+Owner 15:19: "Get all client side bugs finished ASAP and get romans intillegence as far as possible - We push to IOS tonight at 11 regardless".
+Owner 15:23: "lets just make sure all those agents finish in a great state un-rushed by 44k/45k used".
+Agent 128 wrote 43 fix jobs (ops/JOBS128.md, entry '## CLIENTFIX-128', one row each, file overlaps already resolved) and launched them at
+15:21, then stopped 41 of them two minutes later to stay inside the owner's 44k line. Nothing of theirs was pushed. Still running at 15:26:
+CF-ROMAN-NAV-128 (You tab stuck on Roman chat) and CF-PROFILE-128 (Profile shows "Not set"). Agent 129: launch the remaining rows,
+Bs first (CF-SETTINGS, CF-SHARE-GATE, CF-BODY-J2/J3, CF-COMM-SAFE, CF-ROMAN-COPY-B, CF-ALLERGY, CF-ONE-LIST, CF-LOGPLAN, CF-MEAL-IMAGES,
+CF-COACH-PAY-BE), then the rest. Keep both lenses busy; under 800 lines each.

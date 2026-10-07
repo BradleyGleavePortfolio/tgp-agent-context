@@ -390,3 +390,58 @@ cut from mobile main at 23:00 PDT.
 | MONEY-MAIL-128 (Opus, backend, T3) | ops/reports/FW-MONEY-128.md B2 + job row MONEY-MAIL-128 | Owner: "coaches can read it no?" Payment/dunning emails to a client set Reply-To to that client's coach's email, so a reply reaches the coach; emails with no coach (or platform-level) reply to the support address. Template lines say exactly where a reply goes. No other email behaviour changes. |
 | EXLIB-128 (Opus, mobile first) | ops/reports/FW-TRAIN-128.md U2 (exercise library empty: ExerciseCatalogItem 0 rows) | "Empty exercise library ... wtf!?!" Make the client Exercise library show real exercises in production WITHOUT a production write if possible: the coach builder and in-workout picker already use a working catalog (exerciseLibraryApi / seed library); point the client library and detail at the source that has data, keeping search, filters and detail. If that is impossible, prepare (do not run) the exact idempotent seed command and the before/after count queries for the operator, and say so. |
 | REFUND-COPY-128 (Sol, mobile, T1) | ops/reports/FW-MONEY-128.md B1 (ClientPackagesScreen.tsx:588) | Owner wants coaches to issue refunds (agent 129 builds coach payment controls). Until that ships, the line must be true today: refunds are issued by The Growth Project team; tell the client how to ask (the in-app support/contact path that exists). One line plus its test; no other change. |
+
+## CLIENTFIX-128 (owner 15:19: "Get all client side bugs finished ASAP and get romans intillegence as far as possible - We push to IOS tonight
+## at 11 regardless so lets push forward FAST! Wall clock time is the ONLY constraint now!") — one PR per instance, READY, then finish.
+Your instance row names a source: "REPORT:JOB" means read /home/user/workspace/ops/reports/REPORT.md (its B/U text and the job row JOB) and do
+that job exactly; "NEW" rows are specified here. Wave rules (override where stricter): mobile main is cut for the iOS build at 23:00 PDT, so
+READY by 21:30 at the latest; merge origin/main before READY; README rule; parity table + parity test for any screen; theme tokens; honest copy
+(no first person, no exclamation marks, no emojis); keep every pathway. SPEED: local tests only for the test files you add or change, through
+/home/user/workspace/ops/heavy.sh; if the heavy line makes you wait over 15 minutes, push and let CI prove it (show failing-first by citing
+the test that fails on main in the PR body). Poll CI at most once every 3 minutes (shared GitHub rate limit). Backend commits LEFTHOOK=0.
+If a file in your row is also changed by an open PR, base on main, keep the diff minimal and say so in the body.
+| instance | model | source / spec |
+|---|---|---|
+| CF-SETTINGS-128 | Opus | FW-FOOD-128:SET-TRUTH-128 + FW-NOTIF-128:NOTIF-SET-128 + FW-ACCOUNT-128:FWA-SETTINGS-128 in ONE PR (Settings switches that do nothing: make them work or say exactly what they do; never a switch that lies) |
+| CF-TRAIN-TAB-128 | Opus | FW-TRAIN-128:TRAIN-TAB-128 + DESIGN-QA-128:QA-TRAIN-128 (WorkoutScreen.tsx; do not touch ActiveWorkoutScreen, TRAIN-GATE owns the live workout) |
+| CF-HOME-START-128 | Sol | FW-TRAIN-128:HOME-START-128 |
+| CF-GUIDE-READ-128 | Opus | FW-TRAIN-128:GUIDE-READ-128 (make Coach Guidelines readable by the client, privacy-scoped; this replaces FW-COACH's "remove the button") |
+| CF-REMIND-COPY-128 | Sol | FW-TRAIN-128:REMIND-COPY-128 |
+| CF-BODY-J2-128 | Opus | FW-BODY-128:FW-BODY-J2-128 (backend weigh-in delete and edit) |
+| CF-BODY-J3-128 | Opus | FW-BODY-128:FW-BODY-J3-128 (B2 sharing copy + coachless copy) |
+| CF-BODY-J4-128 | Sol | FW-BODY-128:FW-BODY-J4-128 |
+| CF-SHARE-GATE-128 | Opus | FW-COACH-128:FWC-SHARE-GATE-128 (T4: the four sharing switches gate every coach read) |
+| CF-INVITE-128 | Sol | FW-COACH-128:FWC-INVITE-128 |
+| CF-CONTACT-128 | Sol | FW-COACH-128:FWC-CONTACT-128 |
+| CF-CHECKIN-128 | Sol | FW-COACH-128:FWC-CHECKIN-128 |
+| CF-SHARE-UI-128 | Sol | FW-COACH-128:FWC-SHARE-UI-128 |
+| CF-PROFILE-128 | Opus | FW-ACCOUNT-128:FWA-PROFILE-128 (Profile shows real saved values) |
+| CF-TRUST-128 | Sol | FW-ACCOUNT-128:FWA-TRUST-128 (m#516 merged on these screens: re-check main first) |
+| CF-DATA-COPY-128 | Sol | FW-ACCOUNT-128:FWA-DATA-COPY-128 (m#516 merged: skip anything main already fixed) |
+| CF-HELP-128 | Sol | FW-ACCOUNT-128:FWA-HELP-128 (owner default: change email = prefilled support email row) |
+| CF-COMM-BE-128 | Opus | FW-COMM-128:FWC-BE-128 (owner default: author FIRST names on posts and replies) |
+| CF-COMM-SAFE-128 | Opus | FW-COMM-128:FWC-SAFE-128 (self-harm report shows 988/911; leaderboard names filtered) |
+| CF-COMM-SPACE-128 | Sol | FW-COMM-128:FWC-SPACE-128 |
+| CF-COMM-THREAD-128 | Opus | FW-COMM-128:FWC-THREAD-128 |
+| CF-COMM-WINS-128 | Opus | FW-COMM-128:FWC-WINS-128 |
+| CF-FOOD-LOAD-128 | Sol | FW-FOOD-128:FOOD-LOAD-128 |
+| CF-FOOD-WATER-128 | Sol | FW-FOOD-128:FOOD-WATER-128 |
+| CF-FAST-CALM-128 | Opus | FW-FOOD-128:FAST-CALM-128 |
+| CF-FOOD-UNDO-BE-128 | Opus | FW-FOOD-128:FOOD-UNDO-BE-128 |
+| CF-MONEY-PLANS-128 | Opus | FW-MONEY-128:MONEY-PLANS-128 (m#499 merged) |
+| CF-MONEY-MEMBER-128 | Opus | FW-MONEY-128:MONEY-MEMBER-128 (m#473 merged) |
+| CF-NOTIF-FG-128 | Sol | FW-NOTIF-128:NOTIF-FG-128 |
+| CF-NOTIF-DIGEST-128 | Opus | FW-NOTIF-128:NOTIF-DIGEST-128 (owner default: client DAILY digest email off by default, weekly kept) |
+| CF-ONB-TOUR-128 | Sol | FW-ONB-128:ONB-TOUR-128 |
+| CF-ONB-LEAN-128 | Sol | FW-ONB-128:ONB-LEAN-128 (owner defaults: never show the Day-1 flow after onboarding; ask a coachless client for a code once; remove the check-in time step) |
+| CF-ONB-WIN-128 | Sol | FW-ONB-128:ONB-WIN-128 |
+| CF-ONB-NUDGE-128 | Sol | FW-ONB-128:ONB-NUDGE-128 |
+| CF-ROMAN-NAV-128 | Sol | FW-ROMAN-128:FW-ROMAN-NAV-128 (You tab stuck on Roman chat; Back in the chat header) |
+| CF-ROMAN-COPY-B-128 | Opus | FW-ROMAN-128:FW-ROMAN-COPY-B-128 + owner default: a fixed eating-disorder reply (like the 988/911 one) when the AI cannot answer; Roman does not reintroduce himself to a client he has spoken with before |
+| CF-ROMAN-COPY-M-128 | Sol | FW-ROMAN-128:FW-ROMAN-COPY-M-128 |
+| CF-LOGPLAN-128 | Opus | NUTR-AUD-128:NUTR-LOGPLAN-128 ("Log this meal", owner YES; m#490 is open on the same screens: base on main, minimal wire-in lines) |
+| CF-ONE-LIST-128 | Opus | NEW. Owner: "grocery lsit is what to buy this week, shopping lsit is just useless ... merge them/ cut one and keep one" and "makes eating healthy SIMPLE AND EASY". Keep Grocery as the one list: remove the Shopping entry points, show any existing shopping items inside Grocery (or migrate them once, additive), keep every Grocery action. Mobile (+ backend only if needed). Read NUTR-AUD-128 first. |
+| CF-ALLERGY-128 | Opus | NEW, T4 safety. Owner: allergy filtering "absolutely neccesary". Build the design in ALLERGY-128.md "Filtering design input": one shared allergen list, author-declared allergens on recipes (and meal templates if small), the client library hides a recipe only on a declared match, undeclared recipes are labelled, the "check ingredients" line stays, NO keyword guessing. Backend PR first (additive migration if needed: say so loudly in the body), then the mobile PR. |
+| CF-MEAL-IMAGES-128 | Opus | NEW. Owner: no "missing images for meals". Find why recipe and meal images are missing (data, URLs, signing, component fallbacks) on main + production read-only counts; fix the app side so a missing image shows a calm designed placeholder, never a broken box; report what data is missing. |
+| CF-QA-THEME-128 | Opus | DESIGN-QA-128:QA-THEME-128 (owner-default tokens: hairline warm grey #DCD5CC, overline 11 pt) |
+| CF-COACH-PAY-BE-128 | Opus | NEW, T4 money. Owner 14:58: "coaches HAVE to be able to issue refunds - they hsopuld see per client payments and be able to pause reccuring payments, cancel payments, make refunds". Backend: coach-scoped endpoints to list a client's payments, refund (full/partial, Stripe on the platform account with the matching transfer reversal and application-fee handling), pause/resume and cancel recurring. Only the client's own coach (or head coach of the org) may act; idempotency keys; audit log; no flag-off behaviour change (new endpoints behind a new flag, default off). Under 800 lines; split if bigger. |

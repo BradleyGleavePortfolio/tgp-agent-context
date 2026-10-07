@@ -30,3 +30,7 @@ Finished fully before the order: FW-ROMAN-128, FW-NOTIF-128, FW-ACCOUNT-128, FW-
 
 ## F. Written but never started (owner 14:33 drain, then credits)
 DES-AQ-127, DES-AZ-127, DES-P-128 (after WEIGH-KB merges: same file), CHECKOUT-COPY-128, NUTR-LOGPLAN-128 ("Log this meal", owner YES), every fix-job row in the FW-* reports, DESIGN-QA-128's 10 jobs, ONB-TOUR-128, MONEY-MEMBER-128.
+
+## Stopped at 15:24 PDT (owner credit line, 44k): 48 agents launched at 15:21
+41 CLIENTFIX-128 builders, 6 lenses (C2, D2, E2) and the Sol standing fixer were stopped two minutes after launch, before any push.
+Their jobs are rows in ops/JOBS128.md '## CLIENTFIX-128'. Their stale claim comments on m#517, m#514, m#506 and b#857 were deleted.
