@@ -1298,6 +1298,19 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 19:23: "yes please remove any coach subscription teirs for now. We have the white label service, thats the only thing thats even implied to use the gate right?" Ordinary coach tools have no coach-software subscription requirement. Generic BILLING_ENFORCEMENT is unset/observe-only via dual-reviewed #822 and verified sync run 37562398593; client recurring packages, payments, dunning and payouts remain separate and unchanged. White-label may have a separate paid-service entitlement; its current custom-domain Pro check is independent and was not removed.
 - 19:21 credit report: "your at 37.5k/45k". Handoff remains at 43k under the 18:01 owner order. Do not predict credit use. No new agent 127 fleet is implicitly authorized by the handoff.
 
+### A6.10 Agent 127 decisions (owner 2026-10-07, recorded by agent 127)
+- 09:24: "agent 126 and all prior are retired and all agents are stopped. minimal work is lost." -> agent 127 is the only operator; it
+  owns both app repos, all merges, deploys and flag changes. Credits for agent 127: "you are at 500/45000 credits used".
+- 09:24: "lets start finishing all v1 blockers and romans increased intelligence asap. I also want the master workout builde rmade and
+  the AI workout building assistance feature done. Then i need a fresh APK build to test, tester accounts prepped, and images of the app
+  for apple store submission!" -> agent 127 fleet sized to its credits (A1.4); order: v1 blockers + AI builder finish/flip + Roman
+  intelligence, then APK, review accounts and App Store screenshots.
+- 09:24: "coach sharing - try to just sneak it in somehwere they already click accept" -> replaces the separate sharing prompt (#451)
+  with one visible sentence on the accept/join control the client already taps when a coach relationship starts, recorded server-side
+  as the FITNESS_* grant for that pair (job B-SHARE-127). Visible on that screen, never only inside the general Terms.
+- 09:24: "nightly digest emails - explain those to me" / "coachless copy - find the original copy and bring both versions to me" ->
+  explanation and both U-4 versions sent to the owner; no U-4 change until the owner picks.
+
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -2378,6 +2391,23 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
+
+## AGENT 127 — 2026-10-07 09:19 PDT onward (127th operator in the chain)
+Why: owner 09:19 "Read this start prompt word for word. Then go through TGP Source of truth doctrine" (handoffs/op-126/AGENT_127_PROMPT.md);
+09:24 agents 126 and earlier retired; "500/45000 credits used"; finish v1 blockers, Roman's increased intelligence, the master workout
+builder and AI workout assistance, then a fresh APK, review accounts and App Store images (A6.10). Files: /home/user/workspace/ops/lanes127/
+(_COMMON_127.md, JOBS127.md), reports ops/reports/*127*.
+- 09:20 verified on GitHub: production = backend bdc9d911 (deploy 20, run 37588630735); /health ok, /readyz db up at 09:20. Backend main
+  bdc9d911; mobile main 5e3e9398 (m#453 merged 07:59 by agent 126 after its handoff). b#823 revision 0 open: Opus APPROVE @ ec96487a,
+  11/11 required checks green, needs Sol. Both APK runs (37561702685, 37582331122) finished incl. universal variants. Last fly-env-sync
+  37562398593 (BILLING_ENFORCEMENT unset); no later config change. The AGENT_127_PROMPT predates the night lane: #809/#813/#815 and m#452
+  are merged and live.
+- 09:3x production SELECTs: NotificationDigestLog 10-07 = coach_daily sent x2 (incl. internal system coach account) at 06:00Z,
+  client_daily sent x1 at 07:00Z; 10-06 06:00Z failed (pre domain verification). Review coach and review client exist (client not
+  linked to a coach). WorkoutPlan 0 rows. No writes.
+- 09:4x WAVE 1 (8): LN-SOL-127 (#823 lens), SAFE-AIB-127 (AI builder go/no-go), B-SHARE-127 (coach sharing at join), B-DIGEST-127
+  (digest links + one-click unsubscribe), V1-LEDGER-127 (open v1 list), R11-PLAN-127 (Roman intelligence slices), SHOTS-127 (App Store
+  screenshots via iOS simulator CI on a throwaway branch), SEED-127 (review-account seed script, no writes until owner approval).
 
 ## AGENT 126 — 2026-10-06 17:56 PDT onward (session c0c3aa1c; 126th operator in the chain)
 Why: owner 10-06: "Read this attached document, TGP Source of Truth, and all supporting documents" (attachment = handoffs/op-125/HANDOFF.md
@@ -7873,6 +7903,14 @@ programmed? Master workout builder completed? The merge of money and biz info sc
 Refferal codes and tracking?"
 - Agent 124 runs up to 20 concurrent agents, each on a job that changes the launch outcome (no filler, no edge work); while more than 8
   run, the operator asks for the credit number every 15 minutes (A8 rule) and stops launching at the owner's line.
+
+#### 2026-10-07 09:24 PDT — Agents 126 and earlier retired; agent 127 at 500/45k; v1 + Roman + AI builder, then APK, review accounts, store images; coach sharing in an existing accept (owner, to agent 127)
+> "agent 126 and all prior are retired and all agents are stopped. minimal work is lost."
+> "nightly digest emails - explain those to me"
+> "coach sharing - try to just sneak it in somehwere they already click accept"
+> "coachless copy - find the original copy and bring both versions to me"
+> "you are at 500/45000 credits used, lets start finishing all v1 blockers and romans increased intelligence asap. I also want the master workout builde rmade and the AI workout building assistance feature done. Then i need a fresh APK build to test, tester accounts prepped, and images of the app for apple store submission!"
+Recorded by agent 127. Applied in A6.10.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
