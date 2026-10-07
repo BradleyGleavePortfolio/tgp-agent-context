@@ -19,7 +19,8 @@ Subagent reports (ops/reports/<JOB>.md) and ops tools are in the snapshot on bac
 1. AUDIT-01..20: twenty separate in-depth audits of the owner's list (one auditor each, reports ops/reports/AUDIT-NN-125.md). Every day-1
    B they found was fixed and merged or is in the open-PR list below. Auditor decisions taken at the recommended defaults:
    - AUDIT-05: Roman keeps 988 for real crisis words; gym talk ("I want to die after these burpees") stops triggering it (b#795).
-   - AUDIT-14: an approved AI program saves to the coach library on day 1; coach AI metering is post-launch; "Ask AI" stays hidden.
+   - AUDIT-14: an approved AI program saves to the coach library on day 1 (b#806 now also assigns it to the client). The "metering
+     post-launch" and "Ask AI stays hidden" defaults are SUPERSEDED by the owner's 15:40 AI master builder decision (ON, metered).
    - AUDIT-02: a paid package can no longer be granted free through the free invite link (b#791, merged).
 2. Merges only through ops/merge_if_dual.sh (Opus APPROVE + Sol APPROVE at the exact head, green checks).
 3. VERIFY-EXT-125 (Sol): checked another model's 38-item findings list against main. 1 real new day-1 B (backend #732, Health Connect
@@ -56,8 +57,8 @@ Subagent reports (ops/reports/<JOB>.md) and ops tools are in the snapshot on bac
 - Flags ON in production: see .github/fly-env-desired-state.json "flags". Everything off, and why, was sent to the owner at 15:00 and is
   derivable from that file's "gates" and "excluded" notes plus eas.json "clinic". Notable: LEADERBOARD_ENABLED is unset, which means ON
   (leaderboard.service.ts:100); the backend leaderboard has been live, the app just had no way in.
-- AI models: Roman ROMAN_MODEL_PHASE_1 claude-sonnet-4-6, background claude-haiku-4-5, COACH_AI_MODEL claude-sonnet-4-6, brief uses
-  COACH_AI_MODEL until b#803 deploys (then Sonnet 5.5 for Roman and coach AI, Opus 5.5 for the brief).
+- AI models: b#803 is DEPLOYED (deploy 15): Roman and coach AI on claude-sonnet-5-5, coach brief on claude-opus-5-5 (effort low),
+  background claude-haiku-4-5. Not yet confirmed that the key has access to the new models: agent 126 checks first (FINAL).
 
 ## Owner decisions today (all recorded in SoT C1, newest first)
 - 15:06 Leaderboard: turn on if usability and placement are good, inside Community (B-LEADER-125).
@@ -79,14 +80,16 @@ Subagent reports (ops/reports/<JOB>.md) and ops tools are in the snapshot on bac
 1. Owner and coach accounts (the81stworker@thegrowthproject.site, bradleyapple1031@gmail.com) and the Google testers. When the owner
    account exists, make it owner (one approved UPDATE of the role, see AGENT_124_PROMPT history) and remove BOOTSTRAP_SECRET.
 2. Coach account: at least one appointment type and weekly hours, otherwise clients see no booking slots (AUDIT-04).
-3. Play Console Health Connect declaration (15 permissions) and the Data safety form.
+3. Play Console: Health apps declaration and Data safety form are DONE and saved by the owner; only the App access reviewer logins are
+   left (to-do 0).
 4. After tonight's deploy: file one test report in the app and check the support inbox gets the email (b#801).
 5. Optional: register Polar and Withings developer apps; Garmin contact form sent (Garmin paused new access since spring 2026);
    WHOOP needs a membership and about 17 days' approval; the Oura ring purchase is the owner's call.
 
 ## Budget model (owner 15:33)
-"every agent starts with 0/45k credits. We have agents 126 and 127 for tonight and 128-131 tomorrow!" Each agent has its own 45k; stop new
-work at 41k and hand off. Agent 127 continues whatever 126 does not finish tonight.
+"every agent starts with 0/45k credits. We have agents 126 and 127 for tonight and 128-131 tomorrow!" Each agent has its own 45k. Owner 16:58 to agent 125:
+"I wont start 126 until your dead and out 45k/45k" - he wants the budget used. Keep agents working; stop starting new work around 43k and
+keep the last ~2k for the handoff. Agent 127 continues whatever 126 does not finish tonight.
 
 ## AI MASTER WORKOUT BUILDER (owner 15:27/15:32: "Thats a high leverage tool our competitors have and we dont!" / "we can get 7 PR's
 done tonight and a new apk build done? Lets do it after we finish all the in-flight work!")
@@ -105,9 +108,12 @@ diff ops add/update/remove/reorder, plan revisions author_kind 'ai', template fo
   manifest entries: FEATURE_MWB_AI_LIVE_CREATE, AI_GATEWAY_ENABLED, AI_GATEWAY_PROVIDER=anthropic, AI_GATEWAY_CAPABILITIES (list only
   the two workout capabilities; community_ai_triage stays out until v1.1+).
 - AIB-5 mobile: "Ask AI" in the master builder: prompt box, preview of proposed changes (added/changed/removed), accept all, accept per
-  change, reject; label "AI-suggested, coach-approved". Hidden unless the server says enabled.
+  change, reject; label "AI-suggested, coach-approved". Always VISIBLE (owner 15:40); the server status route only switches it between
+  live and a "paused" state for emergencies. Never hidden.
 - AIB-6 mobile: create-from-scratch entry ("New program with AI") plus quick actions (swap for injury, progress a week, deload).
-- Then a fresh 12-point safety pass (same checklist as SAFE-MWBAI-125) and a device test before the server switch goes on.
+- Then a fresh 12-point safety pass (same checklist as SAFE-MWBAI-125) and the owner's device test on the morning of 10-07, then the
+  server switch goes ON before the build (plan timeline: device test 07:30-08:30, switch-on 08:30, mobile freeze 09:30, build 10:00
+  assumed; ask the owner the real build time).
 Owner 15:40 (verbatim, binding): "lets build it - world class, better UI and UX than any competitor, more per client intelligent, and
 smooth transitions with haptic feedback layered in. I want the FUN part of being a trainer to be fun in-app. But, dont turn it off or
 hide it. Push it live and ON! Lets get a planner agent on that for agent 126 - notated as his responsibility to do!"
@@ -120,10 +126,10 @@ already in flight from agent 125's late wave (B-AIB1-125 metering + coach approv
 list run 37536038425), so no '*' allow-list exists; set exactly the two workout capabilities in the switch-on PR.
 
 ## Agent 126 job list, in order
-1. Finish what agent 125 left (FINAL): b#795 MERGED 15:38 on owner override (fixed emergency reply only for clear, unambiguous
-   emergencies; the rest goes to the model). The backend deploy if
-   agent 125 did not complete it; send the owner the APK link from run 37541010175 (mobile ci/APK-125-1, artifact tgp-950689a-clinic*).
-   After b#803 deploys: check the Coach AI startup check in the logs and send one Roman message; revert b#803 if either fails.
+1. Finish what agent 125 left (FINAL): deploy 15 is DONE (a6f4b5a9). First 10 minutes: check the Coach AI startup line in the Fly
+   logs and send one real Roman message (b#803 models); revert b#803 and redeploy if either fails. Send the owner the APK link from run
+   37547000616 once green (re-run if red). Finish b#805 / b#807 (FINAL WAVE), merge when dual-approved, and deploy b#806 + them with
+   the next backend deploy.
 2. AI MASTER WORKOUT BUILDER (section above), tonight, after item 1. The mobile PRs must merge before the 10-07 build.
 3. 10-07 build day: tell the owner which merged mobile PRs the build carries; support the device pass
    (handoffs/op-123/DEVICE_PASS_10-07.md) and store text (handoffs/op-123/STORE_TEXT_10-07.md).
