@@ -6,6 +6,8 @@ Status: drain completed and continuity package prepared at 19:53 PDT. Latest own
 
 Owner 22:53: "38k/45k credits - scale to one agent, keep working until credit exhaustion". Operator builds fixes; exactly one lens agent at a time (Sol and Opus in sequence). GitHub wins over every SHA here.
 
+Latest (00:18 PDT 10-07): #813 and #809 MERGED 00:02 (dual APPROVE). Deploy 19 run 37585925478 shipped backend `ee2b0c1da0b894fadaed6e855b09f784342787a6` at 00:17; /health ok, /readyz db up, no prisma delta. #815 head `911f9257` (retargeted to main): Sol APPROVE, Opus lens LN-OPUS-126 r2 running; merge via merge_if_dual when both approve, then deploy it (flag-gated, AI builder stays OFF). Next build before the flip: the revision-0 / setExercises head fix below.
+
 - Mobile #452 MERGED 23:35 (Sol + Opus APPROVE at e287d4b6, via merge_if_dual) -> mobile main `8ba3ec30`. Fixes: assigned-workout Start opens the live workout (one getParent), coach contact card from Home, client Settings opens full Notification settings with Mute all, Support copy says it is separate from Roman.
 - (superseded below) New owner APK building from `8ba3ec30`: throwaway branch `ci/APK-126-2` (workflow-only, never merge), run 37582331122. Verify the arm64 artifact sha256 and proof log, then share as "TGP Android test build — October 07" (owner installs, then sends one Roman message).
 - Backend #813 head `69518cdd`: Opus APPROVE at that head (after B-813-4 fix). Sol r2 re-grade running.
