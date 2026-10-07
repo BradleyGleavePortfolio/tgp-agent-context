@@ -1311,6 +1311,12 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 09:24: "nightly digest emails - explain those to me" / "coachless copy - find the original copy and bring both versions to me" ->
   explanation and both U-4 versions sent to the owner; no U-4 change until the owner picks.
 
+- 09:31 (owner answers): production gate "Yes, standing approval" (agent 127 approves the production environment for deploys and
+  settings changes that meet the doctrine: dual exact-head approval, checks green, exact main; includes switching digests off tonight if
+  the link fix is not live by 22:30); review accounts "Yes, set and fill them" (new passwords set 09:31 via one approved auth UPDATE for
+  the two synthetic review accounts only; sample data through the public API); coachless copy "Version B (new)"; AI builder "As soon as
+  it passes" (flip right after SAFE-AIB GO and b#823 deployed, without waiting for the owner's device test).
+- 09:31: "8 agents running is great, lets go up to 14" -> fleet ceiling 14; credit check every 15 minutes while more than 8 run.
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -2408,6 +2414,10 @@ builder and AI workout assistance, then a fresh APK, review accounts and App Sto
 - 09:4x WAVE 1 (8): LN-SOL-127 (#823 lens), SAFE-AIB-127 (AI builder go/no-go), B-SHARE-127 (coach sharing at join), B-DIGEST-127
   (digest links + one-click unsubscribe), V1-LEDGER-127 (open v1 list), R11-PLAN-127 (Roman intelligence slices), SHOTS-127 (App Store
   screenshots via iOS simulator CI on a throwaway branch), SEED-127 (review-account seed script, no writes until owner approval).
+- 09:31 owner approvals (A6.10). Review-account passwords set (auth UPDATE, 2 rows) and both sign-ins verified via /api/auth/login;
+  GitHub Actions secrets REVIEW_* set on mobile for the screenshot pipeline. WAVE 1b (6): B-U4-127, B-GUESTPAY-127, B-WELCOME-127,
+  B-HELPCOPY-127, B-FOODLOG3-127, LN-OPUS-127. Fleet 14.
+- 09:3x b#823 MERGED via merge_if_dual (Opus + Sol APPROVE @ ec96487a, checks green) -> backend main 97c07437; deploy 21 after main CI.
 
 ## AGENT 126 — 2026-10-06 17:56 PDT onward (session c0c3aa1c; 126th operator in the chain)
 Why: owner 10-06: "Read this attached document, TGP Source of Truth, and all supporting documents" (attachment = handoffs/op-125/HANDOFF.md
