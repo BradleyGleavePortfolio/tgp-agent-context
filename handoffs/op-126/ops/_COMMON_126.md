@@ -23,8 +23,8 @@ and A6 (decisions in force). Do not read the rest unless your entry tells you to
 - Production backend flags = backend .github/fly-env-desired-state.json on main ("true" = on; "unset" = off unless the code default is on).
   ON today: community core (API/POSTS/MESSAGES/PUSH/REALTIME), FEATURE_MESSAGING_CORE_V2, FEATURE_ROMAN_CHAT_ENABLED,
   FEATURE_ROMAN_ADJUST_ENABLED, booking reminders, programs (MWB templates/autosave, named regimes), wearables ingest, AI consent ledger,
-  FEATURE_COACH_CODE_TOOLS, FEATURE_COACH_BROADCASTS, FEATURE_COACHLESS_HOME. OFF: FEATURE_DUNNING_V2 (turns on after an owner Stripe
-  step; b#762), DMs, voice notes, importer, Google Calendar/Meet. Verify in the file; it wins over this list.
+  FEATURE_COACH_CODE_TOOLS, FEATURE_COACH_BROADCASTS, FEATURE_COACHLESS_HOME. ALSO ON: FEATURE_DUNNING_V2 (b#762 merged, env-sync applied 10-06 14:11 PDT). OFF: DMs, voice notes, importer, Google
+  Calendar/Meet, the AI builder names (FEATURE_MWB_AI_LIVE_CREATE, AI_GATEWAY_*), FEATURE_ROMAN_MEMORY/PLAYBOOK. Verify in the file; it wins over this list.
 - Production = backend f71bb9a4 (deploy 16, 17:41 10-06) = backend main. Mobile main 950689af. Open PRs that are the AI builder
   (agent 126 owns them): backend b#808 (AIB-4 status route + manifest, agent126/b-aib4-126), b#809 (AIB-2 generator, draft,
   agent126/b-aib2-126), mobile m#439 (AIB-5 Ask AI, agent126/b-aib5-126). Run `gh pr list --repo BradleyGleavePortfolio/growth-project-<repo>

@@ -196,3 +196,64 @@ open PRs touching the same files.
 Trace the client workout path: today's assigned workout, start, log sets/reps/weight, rest timer, swap an exercise, finish and the
 summary, history and PRs, the coach seeing the session, a coach edit reaching the client, one normal offline moment. Find Bs and Us
 and fix the small, safe ones. Do not touch CoachWorkoutBuilderScreen or src/components/coach/ai-builder/* (AI builder PRs own them).
+
+# OWNER 18:01 SCOPE (binding): "The double scheduler is now top priority, above everything else." / "Check every money job (billing,
+# settlement, payouts, dunning) to confirm it can't do the same work twice." / "Tonight, app changes are limited to the AI builder plus
+# fixes for food logging, workout logging and money; everything else waits until after the build. Sub-coach waits."
+# OWNER 18:03 OVERRIDE (binding, replaces the scope line above): "disregard what I said, everything is in your scope IF ITS NOT OPENING OLD
+# WORK ALREADY CLOSED OR COMPLETED". FU-CHECKIN / FU-BOOK / FU-COPY / FU-FIRSTRUN relaunched 18:04 (never reopen closed PRs, e.g. m#411).
+# LF lens pair reviews all FU PRs.
+
+# MONEY JOBS — CAN ANY OF THEM DO THE SAME WORK TWICE? (read-only auditors, Claude Opus 5.5, T4 money). Time box 45 min (hard stop 18:55).
+Context: section "PRODUCTION FINDING — duplicate scheduler" above. Until B-CRON-126 deploys, every @Cron/@Interval in production runs
+as TWO concurrent copies in the same process at the same second; webhooks can also arrive twice. For EVERY timed job, queue consumer,
+webhook handler and retry path in your area (list them with file:line first: `git -C /home/user/workspace/wt/RO-backend grep -n
+"@Cron(\|@Interval(\|@Timeout(" -- src` plus the services they call): can two concurrent runs, or a re-run after a crash, do the same
+money work twice (create two charges/invoices/payment intents, settle twice, transfer/payout twice, refund twice, send two dunning
+emails, double-count a fee or earnings)? For each, cite the guard with file:line: claim-by-write conditional update (WHERE status=...
+returning only won rows), unique DB constraint (prisma/schema.prisma @@unique / migration), deterministic Stripe idempotency key (show
+how the key is built: must be identical across the two copies), advisory lock, instance flag (note: an instance flag only protects the
+same instance; both copies call the same singleton, so it does protect against this bug but not against two machines). Verdict per job:
+SAFE (guard cited) / UNSAFE (one plain sentence: what a normal coach or client would see) / UNKNOWN (what is missing). For every UNSAFE
+or UNKNOWN: a read-only Postgres query (quoted Prisma table names, last 30 days) the operator can run to count whether it actually
+happened, and the smallest fix (file:line, ~lines). No PRs, no SQL yourself (no database access), no Stripe calls. Report
+/home/user/workspace/ops/reports/<JOB>.md (table + queries + B/U/C); notify line /home/user/workspace/ops/lanes126/notify/<JOB>.txt.
+## AUD-MJ-BILL-126 — recurring billing and purchases: subscriptions/recurring packages, invoice creation, charge attempts, checkout
+   receipts, purchase fan-out (src/billing, src/packages, src/payments, src/stripe* and their crons/webhooks).
+## AUD-MJ-SETTLE-126 — settlement and fees: ChargeSettlementService (incl. SFEE invoice backfill), platform/service fees, refunds,
+   credit notes, ledger entries.
+## AUD-MJ-PAYOUT-126 — payouts: Stripe Connect transfers, payout sync (B-PAYOUTSYNC-123), coach earnings/balances, transfer.failed alerts.
+## AUD-MJ-DUNNING-126 — dunning v1 and v2 (FEATURE_DUNNING_V2 is off in production: check what runs with it off), payment retries,
+   card-update reminders, pause/cancel on failed payment, past-due emails/pushes.
+
+# ROMAN v1.1 — consent surface in the 10-07 build (operator 18:10, after B-R11F-126: flips not ready; M3a/M4/M5/P3b/P4 unbuilt)
+## B-R11C-126 (Claude Opus 5.5, BUILDER, T4 consent, backend + mobile) — v5 memory consent offer, server-gated. Time box 90 min (hard stop 19:45).
+Read /home/user/workspace/ops/reports/B-R11F-126.md (rows 3 and 7, "F1 items 4 and 5"). Today GET /me/ai-consent returns
+`upgrade` (the v5 memory copy) to EVERY v4 client (backend src/ai-consent/ai-consent.service.ts:254), even though Roman memory does not
+exist yet; the 10-07 mobile build ignores it (mobile src/api/aiConsentApi.ts:42-56, consentVersion.ts:40 pins client-ai-v4).
+Goal: clients on the 10-07 build can give the v5 memory consent LATER, when memory actually ships, without a new store build.
+Backend PR (tiny, branch agent126/r11c-126-backend): return `upgrade: null` unless FEATURE_ROMAN_MEMORY is exactly "true" (reuse
+isRomanMemoryEnabled from roman-memory.feature.ts:14); test that fails on main (flag unset -> upgrade null; flag true + base scope ->
+v5 copy). Mobile PR (branch agent126/r11c-126-mobile): parse `upgrade` (zod, optional/nullable, tolerant of its absence on old
+servers); when non-null, Settings > Privacy > Roman and AI shows the v5 offer with the server's copy and grants client-ai-v5 with its
+sha256 exactly as the backend expects (read the grant DTO); when null, nothing new is shown. Keep v4 first-consent flow unchanged.
+Copy rules (no first person, no emojis, no exclamation marks, no generic errors). Each PR under 400 lines. Do NOT touch the privacy
+policy (that sentence ships with the memory flip, not before). READY per _COMMON item 5 (job B-R11C-126) on both PRs by 19:45 so the
+mobile one merges before the 09:30 freeze. Report /home/user/workspace/ops/reports/B-R11C-126.md.
+
+# OWNER 18:12 (binding): "just hold at 20+ agents, then in 30 minutes stop-and-drain back to 10". At 18:42 the operator sends WRAP UP to
+# every worker except: B-CRON-126, LB-OPUS-126, LB-SOL-126, B-AIB2-126, B-AIB3-126, B-AIB6-126, LM-OPUS-126, LM-SOL-126, FU-FOODLOG-126,
+# FU-WORKLOG-126. WRAP UP = within 10 minutes push complete work, post READY/STATUS, finish the report with ## HANDOFF, remove worktrees.
+
+# MONEY FIX (operator 18:20, from AUD-MJ-BILL-126)
+## B-GUEST-126 (Claude Opus 5.5, BUILDER, T4 money) — guest checkout: never charge without an account, never email twice. Time box 70 min (hard stop 19:35).
+Read /home/user/workspace/ops/reports/AUD-MJ-BILL-126.md fully (UNSAFE rows and "Noticed outside scope", lines ~90-111). Production
+"GuestCheckout" has 0 rows today, so nobody is affected yet; this is before-launch hardening of a money path.
+(1) VERIFY first (code + a targeted spec), then fix if confirmed: a guest buyer who is slow to pay or retries after a card decline
+can end up charged with no account (lost-webhook-reconcile.service.ts:179-216 + guest-checkout.service.ts:919-931; smallest fix in the
+report). User story must be one plain sentence. If it does not reproduce, say why with file:line and do not change it.
+(2) The "converted" write at guest-checkout.service.ts:1645 is unconditional, so the webhook and the reconciler (or a retry) can both
+send the guest the welcome/receipt email: make the write conditional (claim-by-write on the prior status) and send the email only from
+the copy that wins (~12 lines) + a spec that fails on main. Branch agent126/b-guest-126, worktree
+/home/user/workspace/wt/B-GUEST-126-backend, ONE backend PR under 400 lines. READY per _COMMON item 5. Report
+/home/user/workspace/ops/reports/B-GUEST-126.md. Never touch Stripe or production.
