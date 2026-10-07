@@ -467,3 +467,13 @@ must be exactly
   AUDIT Claude Opus 5.5 (L5-OPUS-125) — growth-project-backend#<n> @ <40-hex head> — VERDICT: APPROVE        (or REQUEST CHANGES)
   AUDIT GPT-6.1 Sol (L5-SOL-125) — growth-project-backend#<n> @ <40-hex head> — VERDICT: APPROVE            (or REQUEST CHANGES)
 then B/U/C counts and findings. Re-check the head right before posting. Stop 17:50.
+
+# HEAD-START WAVE (owner 17:09: "wall clock time is the main constraint now - use your last 4k credits asap without any wasted work")
+## HS-AIB5-125 and HS-AIB4-125 (Claude Opus 5.5 builders) — head start on agent 126's AI master builder PRs.
+Run the entry "B-AIB5-126" (HS-AIB5) or "B-AIB4-126" (HS-AIB4) from tgp-agent-context/handoffs/op-125/AI_MASTER_BUILDER_PLAN.md
+section 8 exactly, as an agent 125 worker under _COMMON_125 (not _COMMON_126). Read PART 1 "Exact screens and taps" / "The fun layer"
+and PART 2 sections 2, 3 and 5 of the plan first. Use the branch name the entry gives (or agent126/<entry-slug> if none).
+NO WASTED WORK RULE: this session may run out of credits at any minute. Commit and push to the branch at least every 15 minutes, and
+open a DRAFT PR at the first push whose body keeps an up-to-date checklist "Done / Remaining / Next step" so agent 126's builder can
+continue on the same branch without re-reading anything. Merge main in, never rebase or force-push. When the work is complete and CI
+green, mark the PR ready and post the READY comment per _COMMON_125 item 5. Hard stop 18:15 PDT. Never merge, deploy or flip flags.
