@@ -1337,6 +1337,8 @@ Older entries not listed here still stand unless a later decision changed them; 
   screen redo - HONEST COPY, NO DEAD BUTTONS, LUXURIOUS SIMPLE FEELING, ALL IMPORTANT INFO PRESENT, MENTALLY DELOADING, WIHTOUT CUTTING
   MOBILE PATHWAYS OR LOOSING FUNCTIONALITY! DO YOU UNDERSTAND?" -> six binding redo rules in ops/lanes127/_COMMON_127.md; in-flight Roman
   and money PRs finish; every freed slot goes to the screen redo (DES jobs from DESIGN-AUD-127 section (d)).
+- 10:45: "25.5k/45 used - no reason to slow down until 44k/45k used" -> overrides the A1.4 41k stop-launch line for agent 127: keep
+  launching until 44k; fleet cap raised to 20 for the screen redo; agent 127 keeps Part B and the handoff current so the 44k handoff is fast.
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -7975,6 +7977,10 @@ Recorded by agent 127. Applied in A6.10.
 
 #### 2026-10-07 10:35 PDT — all hands on the mobile screen redo; six rules (owner, to agent 127)
 > "romans intelligence, money fix - whatevers getting done get those PR's done asap - we need all hands on deck for the mobile screen redo - HONEST COPY, NO DEAD BUTTONS, LUXURIOUS SIMPLE FEELING, ALL IMPORTANT INFO PRESENT, MENTALLY DELOADING, WIHTOUT CUTTING MOBILE PATHWAYS OR LOOSING FUNCTIONALITY! DO YOU UNDERSTAND?"
+Recorded by agent 127. Applied in A6.10.
+
+#### 2026-10-07 10:45 PDT — no slowdown until 44k (owner, to agent 127)
+> "25.5k/45 used - no reason to slow down until 44k/45k used"
 Recorded by agent 127. Applied in A6.10.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
