@@ -2,6 +2,20 @@
 
 Status: drain completed and continuity package prepared at 19:53 PDT. Latest owner-reported credits remain 37.5k/45k; the owner has not yet reported the 43k handoff threshold. GitHub main, exact-head checks and verdicts win over every SHA or result written here. This is not an instruction to launch agent 127 or a new fleet before the owner does so.
 
+## Night lane after 22:53 (read first)
+
+Owner 22:53: "38k/45k credits - scale to one agent, keep working until credit exhaustion". Operator builds fixes; exactly one lens agent at a time (Sol and Opus in sequence). GitHub wins over every SHA here.
+
+- Mobile #452 MERGED 23:35 (Sol + Opus APPROVE at e287d4b6, via merge_if_dual) -> mobile main `8ba3ec30`. Fixes: assigned-workout Start opens the live workout (one getParent), coach contact card from Home, client Settings opens full Notification settings with Mute all, Support copy says it is separate from Roman.
+- New owner APK building from `8ba3ec30`: throwaway branch `ci/APK-126-2` (workflow-only, never merge), run 37582331122. Verify the arm64 artifact sha256 and proof log, then share as "TGP Android test build — October 07" (owner installs, then sends one Roman message).
+- Backend #813 (AI program safety, round 3+) head `69518cdd`: curly-apostrophe and n't negation fix for Opus B-813-4. Needs READY after CI, then Opus re-grade and Sol re-grade at that head.
+- Backend #809 (AI workout edit) head `2197e94a`: B-809-1 progression injury screen, B-809-2 weekly cap 24 / beginner 16 across the program week (week-limits.ts), B-809-3 clause-level positive override, plus the apostrophe fix. Needs READY after CI, then both lenses at that head.
+- Backend #815 (selective Apply, stacked on #809) head `3ccc08aa`: Sol APPROVE at that head (delta). B-815-1 fixed: partial Apply re-checked against per-workout, per-week and 14-exercise ceilings, 422 SELECTION_OVER_LIMITS. After #809 merges: merge main into #815, CI, READY, both lenses, merge.
+- Then backend deploy (fly-deploy.yml only; exact-main CI, CodeQL, SBOM first). AI builder flags stay OFF until #809/#815/#813 are deployed AND the standalone-plan revision-0 fix lands (createPlan writes no WorkoutPlanRevision, workout-builder.service.ts:362-375; production has 0 workout plans today, so only createPlan needs it), then an owner-visible manifest PR.
+- Digest: first real send 23:00 PDT, NotificationDigestLog 2 rows sent, no errors. Links in it are dead (APP_URL / CONSOLE_URL defaults, digest.service.ts:47-49; no /settings/notifications page). Owner decision pending: turn digests off via manifest until fixed (recommended) or keep sending.
+- Still open for launch: Help pages say a paid plan is required; guest share-link purchase reads the saved Stripe status; U-4 coachless copy (owner decision). #820 / mobile #451 held (sharing policy).
+- Worktrees: wt/OP-813, wt/OP-809, wt/OP-815 (backend), /tmp/apk2 (mobile ci/APK-126-2). Lens outputs: ops/aud-126/LN-SOL-126, LN-OPUS-126.
+
 ## Owner orders
 
 - Agent 126 owns both app repos and all merges, pushes and deployments. Builders never merge or deploy.
