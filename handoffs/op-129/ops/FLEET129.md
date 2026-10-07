@@ -1,0 +1,30 @@
+# FLEET129.md: operator agent 129 log (times PDT, from TZ=America/Los_Angeles date)
+
+## 2026-10-07
+- 15:47 Recon done on GitHub: both mains (backend c3324d4a = b#854 at 15:30; mobile a1be6fb2 = m#507 at 15:30), nothing merged after 15:30;
+  deploy 26 87f4489b (run 37695999540) success 15:28; 8 successful deploys and 92 merged PRs (35 backend, 57 mobile) since 00:00 PDT; all
+  16 open PR heads match HANDOFF section 5. New since the handoff: b#855 and m#523 conflict with main; stale Sol claims on m#518, m#519.
+- 15:50 Production /health ok, /readyz db up. Plan 37696669686: exactly 1 to set (FEATURE_ROMAN_MEMORY), 77 unchanged.
+- 15:56 FEATURE_ROMAN_MEMORY apply run 37699335256 (confirm=SET, deploy_staged=true), production gate approved (standing approval);
+  success 15:57: "FEATURE_ROMAN_MEMORY: declared present; Fly Deployed"; the 1 started machine (860311cee0d008) holds every declared value.
+  Behaviour check with the tester client still owed (owner sending accounts).
+- 15:58 Fresh sandbox (2 CPU, 7.9 GB): cloned both repos, RO worktrees at the mains, shared deps npm ci started (backend, mobile).
+  ops/ rebuilt from handoffs/op-128 (scripts, 191 reports, lanes128 with an OPERATOR AGENT 129 OVERRIDES header on _COMMON_128.md).
+  New: ops/board.py + board_loop.sh (one GitHub reader, every 3 min, ops/board/board.md) and health_loop.sh (ops/board/health.log).
+- 16:04 Deleted stale claims 6048121898 (m#518, LN-SOL-E2-128) and 6048173159 (m#519, LN-SOL-C2-128).
+- 16:05 Owner 16:02: launch the first 50 now; explorers first; standing reviewer lanes; respect file dependencies; measure health;
+  do NOT impose the playbook cooldown (PB-GAP-129 not launched; decision 2 open); label REPRODUCED vs CODE-ONLY findings; 23:00 cut
+  and exact-head reviews stay. Credits 700 / 45,000 (owner 16:02).
+- 16:06 LAUNCHED 27 (no deps needed): EXPLORE-CLIENT/COACH/SUBCOACH-129; LN-OPUS-A3..D3-129, LN-SOL-A3..D3-129 (standing until 22:45);
+  FIX-OPUS-129, FIX-SOL-129 (standing until 22:30); CF-PROFILE-FIN-129 (m#522); CF-ROMAN-NAV-FIN-129 (m#523, new entry in JOBS129.md);
+  ROMAN-GUARD-129; IOS-RELEASE-129; STORE-AUD-129; AUD-FIN-ONB/MONEY/TRAIN/BODY/COACH/FOOD/DESIGN-129; AUD-COACH-WEEK1-129; AUD-ORG-129.
+- 16:09 LAUNCHED 23 builders (CLIENTFIX-128 rows, file-disjoint from open PRs): CF-SHARE-GATE, CF-COMM-SAFE, CF-ALLERGY (backend first),
+  CF-COACH-PAY-BE, CF-GUIDE-READ, CF-ROMAN-COPY-B, CF-BODY-J2, CF-SETTINGS, CF-MONEY-PLANS, CF-MONEY-MEMBER, CF-LOGPLAN (wire-in after
+  m#490), CF-ONE-LIST, CF-BODY-J3, CF-TRAIN-TAB, CF-HOME-START, CF-FOOD-LOAD, CF-FOOD-WATER, CF-FAST-CALM, CF-FOOD-UNDO-BE, CF-COMM-BE,
+  CF-NOTIF-DIGEST, CF-ONB-LEAN, CF-COMM-THREAD. Running: 50.
+  HELD for file dependencies: CF-SHARE-UI (after CF-BODY-J3: coachSharingCopy.ts), CF-ROMAN-COPY-M (after m#523 + m#506), CF-MEAL-IMAGES
+  (after m#494), CF-QA-THEME (global tokens; after the wave's UI PRs), DES-P-128 (after m#520). Next wave when health allows:
+  CF-REMIND-COPY, CF-BODY-J4, CF-INVITE, CF-CONTACT, CF-CHECKIN, CF-TRUST, CF-DATA-COPY, CF-HELP, CF-COMM-SPACE, CF-COMM-WINS,
+  CF-NOTIF-FG, CF-ONB-TOUR, CF-ONB-WIN, CF-ONB-NUDGE, DES-AQ-127, DES-AZ-127. 22:50: APK-FINAL-129, SHOTS-129. Wave 2 per JOBS129.
+- 16:12 Operator READY posted: m#521 (TRAIN-GATE-128 R1 @ 0b10156d, CI green), m#502 (R2 @ a83774e0: fixes Sol B1 invite across Sign in),
+  m#504 (R2 @ 431f65b8, main merge only), m#485 (R2 @ 6515839a, main merge only).

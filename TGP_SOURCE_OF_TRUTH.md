@@ -1354,6 +1354,45 @@ Older entries not listed here still stand unless a later decision changed them; 
   no new launches; builders finish their current PR to READY or push WIP + HANDOFF by 12:40; lenses review until 12:50; the design
   auditor's 30 TRANCHE 3 jobs (by 12:30) become agent 128's starting plan; agent 127 merges dual-approved PRs, deploys backend main once
   green, and finalizes handoffs/op-127/.
+### A6.11 Owner decisions 2026-10-07 afternoon (operator agent 128, 12:50-15:35; recorded by agent 129 at 16:15)
+- 13:02: "scale to 25 agents - I want all the PR's agent 127 left half done finished, and then all 30 screens on the next to-do done and
+  made LUXURIOUS, SIMPLE, MENTALLY DELOADING, AND CALM! execute".
+- 14:08: builders finish right after their READY comment; review findings and merge conflicts go to the FIX lanes (OWNER 14:08 OVERRIDE
+  at the top of handoffs/op-128/ops/_COMMON_128.md).
+- 14:14: push Roman's increased intelligence into production; audit meal plans, grocery and shopping ("Is it world class, luxurious,
+  calm, and useful? Dead buttons?").
+- 14:25: "turn on memory and the coach playbook as soon as the coach wording is live; recommended yes"; audit the first-week client
+  features "with scruitiny"; "I want top models producing top grade UI/UX design!".
+- 14:39: playbook "pull it from the coachs AI pool"; "Log this meal": "yes!"; coach recipe writing after the iOS submission ("lets get
+  IOS submission tonight, this tmrw"); one list: keep Grocery, merge or cut Shopping, "SIMPLE AND EASY", no missing meal images; allergy
+  filtering "absolutely neccesary!".
+- 14:40: "the only thing between us and IOS submission is just a final APK build with all mobile UI updates, tester account creation,
+  and thats it!"
+- 14:58: coaches must see per-client payments, refund, pause and cancel recurring payments; payment emails reply to the coach ("coaches
+  can read it no?"); the empty exercise library and the missing sign-up email resend must be fixed; "Build cutoff: cut tonight's builds
+  from mobile main at 11pm PDT seattle time".
+- 15:03 (corrects 14:58): workouts autosave; returning opens the in-progress workout; no option to delete it; trying to leave for another
+  page asks to log or save.
+- 15:19: "Get all client side bugs finished ASAP and get romans intillegence as far as possible - We push to IOS tonight at 11 regardless".
+- 15:23: "lets just make sure all those agents finish in a great state un-rushed by 44k/45k used".
+- 15:33: three explorer agents (client, coach, sub-coach) that use the app like normal people and hunt for break points.
+- Operator record: FEATURE_ROMAN_TOOLS on 15:05 (fly-env-sync apply 37693661031); deploy 26 87f4489b 15:28 (run 37695999540); b#854
+  (FEATURE_ROMAN_MEMORY true in the desired state) merged 15:30. Full detail: handoffs/op-128/ (HANDOFF.md, AGENT_129_NOTES.md, ops/FLEET.md).
+
+### A6.12 Owner decisions 2026-10-07 evening (operator agent 129, from about 15:40)
+- 15:48: finish the reconnaissance, then launch the launch-plan agents, "as many as your sandbox will let you (last agent was healthy at
+  45 concurrent)".
+- 16:02: launch independent work immediately, explorers first; reviewers and auditors run while the shared deps install; standing
+  reviewer lanes, not two new reviewers per PR; respect file dependencies; measure sandbox health as concurrency grows; do NOT impose the
+  proposed playbook cooldown (PB-GAP) without owner approval; explorers follow the interruption and offline method and label REPRODUCED
+  findings separately from CODE-ONLY ones; keep the 23:00 build cutoff and exact-head reviews; credits 700/45,000; launch the first 50
+  now. 16:04: "EXECUTE".
+- Operator record: FEATURE_ROMAN_MEMORY applied 15:57 (fly-env-sync apply 37699335256): "declared present; Fly Deployed" and the one
+  started machine holds every declared value. 50 agents launched 16:06-16:09 (handoffs/op-129/ops/FLEET129.md).
+- Open owner decisions: (1) m#521 autosave details, default keep as built; (2) PB-GAP 6-hour minimum gap between playbook rebuilds before
+  the playbook goes on, default yes, not built until the owner says yes; (3) exercise catalog seed tonight, default no seed (m#519
+  shows real exercises without a data write).
+
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -2434,6 +2473,17 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
+
+## AGENT 129 — 2026-10-07 from about 15:40 PDT (129th operator in the chain)
+Why: owner "Read both attached documents word for word -> then read tgp source of truth -> then checkover agent 128's logs in github"
+(handoffs/op-128/AGENT_129_PROMPT.md and HANDOFF.md); 16:02 "launch the first 50 agents NOW" (A6.12). Files: /home/user/workspace/ops/
+(lanes128/_COMMON_128.md with an OPERATOR AGENT 129 OVERRIDES header, lanes128/JOBS128.md and JOBS129.md, FLEET129.md, board/board.md
+written every 3 minutes by ops/board.py, board/health.log). Records: handoffs/op-129/.
+
+## AGENT 128 — 2026-10-07 12:50-15:35 PDT (128th operator in the chain; banner added by agent 129)
+Why: owner 12:50 start prompt handoffs/op-127/AGENT_128_PROMPT.md; 13:02 "scale to 25 agents" (A6.11). Stopped by the owner at 15:35.
+Log: handoffs/op-128/ops/FLEET.md; handoff: handoffs/op-128/HANDOFF.md, AGENT_129_NOTES.md, STOPPED_HALFWAY.md; reports in
+handoffs/op-128/reports/. Decisions: A6.11 (agent 128 did not write them into this file; agent 129 did at 16:15).
 
 ## AGENT 127 — 2026-10-07 09:19 PDT onward (127th operator in the chain)
 Why: owner 09:19 "Read this start prompt word for word. Then go through TGP Source of truth doctrine" (handoffs/op-126/AGENT_127_PROMPT.md);
