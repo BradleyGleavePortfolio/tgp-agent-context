@@ -26,6 +26,10 @@ Started 13:11 PDT 2026-10-07. Pick order: newest READY first; backend T4/T3 Roma
 - mobile#509 @ 2fdab25288b6bf0144a4455d5816f0ea6ac02667 — APPROVE (full, DES-AY consultation; consent frozen) — Bs: none. Comment 6047559188 at 14:50.
 - mobile#513 @ 3cc982576143ed32a318f72d9835f5e6b3bf6291 — REQUEST CHANGES (full, PB-POOL-A AI-credit copy) — B1: 'at most four times a day' is false. The playbook builder also runs 3 minutes after every boot, and the only guard is the digest, with no per-coach 6h minimum. Smallest fix: drop the cap from the copy. Comment 6047666998 at 14:57.
 - mobile#516 @ dd9b5e7de439476ccb4ef4c23271c48642520d62 — APPROVE (full, DES-BB privacy screens; flows frozen) — Bs: none. Comment 6047685418 at 14:58.
+- backend#853 @ dae4234935cd3b90886d0f57332426cece0e1cd4 — APPROVE (full, NUTR-BE T2; tenancy kept) — Bs: none. Comment 6047772487 at 15:05.
+- mobile#515 @ 19b28ec204846b33382c7cd7f1ceb9132105c45c — APPROVE (full, DES-K2 Home child cards; dunning/push/invite handlers same) — Bs: none. Comment 6047787539 at 15:06.
+- mobile#494 @ 3950c6ebdb7ea97edcb2b7f68560648d215c6017 — APPROVE (delta; server saved state + Saved filter) — Bs: none. Comment 6047892416 at 15:12.
+- mobile#513 @ 79e0760d90c7a3cebee3728d4c7e94113498f8d7 — APPROVE (delta; B1 fixed, cap dropped) — Bs: none. Comment 6048096599 at 15:24.
 
 ## Log
 - 13:11 scan: READY at head = m#469 (d9bab899), m#474 (c657bebb); m#470, m#463 already have Opus verdicts at head. Claimed m#469; LN-OPUS-D-128 claimed 3 s earlier -> my claim deleted. m#474 claimed by A and C. Nothing free; polling every 300 s.
@@ -43,11 +47,17 @@ Started 13:11 PDT 2026-10-07. Pick order: newest READY first; backend T4/T3 Roma
 - 14:21 m#494 READY (DES-AN); claimed (sole), full review, APPROVE 14:22.
 
 - 14:46 OPERATOR CREDIT EMERGENCY: scope limited to iOS-build/Roman-switch PRs (mobile DES/FIX/NUTR/ALLERGY; backend R11-FIX, FLIP-MEM, FLIP-PB, NUTR-BE, PB-POOL). Order is now oldest READY first; finish at 17:30 or after 20 idle minutes; reviews kept tight.
+- 15:13 skipped as outside the 14:46 scope list: m#517 REFUND-COPY and m#518 ONB-RESEND (not DES/FIX/NUTR/ALLERGY). m#507 was claimed by A.
+- 15:29 OWNER STOP received (15:27). I hold no open claim; m#506 is claimed by C2. Stopped with no new work.
 
 ## Not fixed (needs operator)
 - Allergy false safety promise: mobile main src/components/AllergySafetyPrompt.tsx:109-110 ("Your recipe library will hide anything that conflicts.") — not implemented (RecipesScreen filters search/tags only). Smallest fix: one-line copy change (see m#494 verdict). Default: copy now, filter later after policy.
 
-- (m#513) Playbook builder spend frequency: backend has no per-coach minimum interval (boot run plus 6h cron, digest-only guard). Recommended default: change the copy to drop 'at most four times a day' now. Optionally add a built_at >= 6h skip (T4 backend) before FEATURE_ROMAN_PLAYBOOK is turned on.
+- (m#513) Playbook builder spend frequency: backend has no per-coach minimum interval (boot run plus 6h cron, digest-only guard). Copy fixed in m#513 @ 79e0760d. Optionally add a built_at >= 6h skip (T4 backend) before FEATURE_ROMAN_PLAYBOOK is turned on.
 
 ## HANDOFF
-Run `python3 /home/user/workspace/ops/lens_tools_B128/scan.py` (bash, api_credentials github). Review rows with status OPEN, newest first. Finish when nothing READY for 45 min or 18:30 PDT.
+Finished at 15:29 PDT on the owner stop. 27 verdicts: 26 APPROVE and 1 REQUEST CHANGES (m#513 @ 3cc98257, B1 'at most four times a day'), which was fixed and APPROVED @ 79e0760d. B=1 total (fixed); U=0.
+Open operator items:
+(1) AllergySafetyPrompt hiding promise: reported fixed on main by m#505.
+(2) Playbook builder has no per-coach 6h minimum (boot run plus cron). Optional built_at guard before FEATURE_ROMAN_PLAYBOOK is turned on; recommended default: add it.
+Not reviewed by me: m#506, m#507, m#514, m#517, m#518, m#519, m#520, b#854, b#855, b#857, and the operator re-review requests on m#504, m#490, m#485.
