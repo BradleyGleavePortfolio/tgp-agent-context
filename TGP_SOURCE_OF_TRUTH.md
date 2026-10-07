@@ -1347,6 +1347,9 @@ Older entries not listed here still stand unless a later decision changed them; 
   batches of 10; fleet cap raised to 24 for DES builders. Roman notes: "lets jsut never delete them. de-identify the notes but done
   delete" -> agent 127 asked the owner to confirm the legal exception (delete only on an explicit delete-my-notes or account-deletion
   request) before changing merged b#835 behaviour (memory off currently deletes notes) or the policy text (b#831). Pending.
+- 11:46 RULING: Roman's notes are deleted ONLY on account deletion. Memory off, Roman withdrawal and chat deletion keep the notes (unread
+  while memory is off). No "Delete my notes" control. Jobs: R11-C2C-127 (backend: memory off no longer deletes; mobile#463 copy) and
+  R11-L2-127 (policy text). mobile#463 held until updated.
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -7998,6 +8001,10 @@ Recorded by agent 127. Applied in A6.10.
 #### 2026-10-07 11:41-11:44 PDT — scale the redo; never delete Roman notes (owner, to agent 127)
 > 11:41 "37.2k/45k - burn rate is slower with using mobile redo agents -> we can scale those faster?"
 > 11:44 "delete them on full withdrawal too - no, lets jsut never delete them. de-identify the notes but done delete - the auditor is finding 8 screens but we have like 100 for clients, lets get him to give us 30"
+Recorded by agent 127. Applied in A6.10.
+
+#### 2026-10-07 11:46 PDT — Roman notes deleted only on account deletion (owner ruling, to agent 127)
+> "Notes are deleted in only two cases: no lets jsut do on account deletion. Thats the ruling - go in that direction."
 Recorded by agent 127. Applied in A6.10.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
