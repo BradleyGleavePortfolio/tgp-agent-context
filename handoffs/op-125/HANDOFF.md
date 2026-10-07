@@ -179,6 +179,9 @@ list run 37536038425), so no '*' allow-list exists; set exactly the two workout 
     when a client id in the draft payload does not match the draft's client. One fix round, then both lenses.
   FINAL WAVE (owner 16:58 "scale up to 3 agents"): FIX-AIB-125 (fix rounds on b#807 then b#805, stop 17:35) and lens pair L5 (stop
   17:50) started 16:59. Check both PRs' latest heads and verdicts; merge with ops/merge_if_dual.sh if dual-approved.
+  RESULT 17:19: b#807 (@91f10306) and b#805 (@0096987c) MERGED via ops/merge_if_dual.sh after FIX-AIB-125 and dual APPROVE (L5).
+  Backend main f71bb9a4 = deploy 15 (a6f4b5a9) + b#805 + b#806 + b#807, no prisma change (deploy WITHOUT migrations). If agent 125 did
+  not deploy it (check fly-deploy runs after 37543198284), deploy f71bb9a4 or newer once CI + CodeQL are green.
   HEAD-START WAVE (owner 17:09 "use your last 4k credits asap without any wasted work"): HS-AIB5-125 (plan entry B-AIB5-126, mobile
   Ask AI in the builder) and HS-AIB4-125 (plan entry B-AIB4-126, backend status route + manifest) started 17:10. They push every 15
   minutes to DRAFT PRs whose body has "Done / Remaining / Next step". If agent 125's session ran out, CONTINUE THOSE BRANCHES with your

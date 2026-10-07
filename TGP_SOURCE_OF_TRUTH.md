@@ -2451,7 +2451,9 @@ Contribution log (PDT, newest last)
   (5 migration/schema files since ec12a4b3 incl. 20270401000000 roman_memory, 20270402000000 coach_playbook; release_command OK), image
   sha-a6f4b5a9 verified on machine 860311cee0d008, /health ok, /readyz db up. Carries b#795 b#798-b#804 b#776 b#778 b#785-b#797 etc.
 - 16:57 b#806 merged (AI program approve really assigns; dual APPROVE). b#805 and b#807 each have one REQUEST CHANGES B=1 -> agent 126.
-- CLOSING (16:58): merged today 93 (agents 124+125); deployed today 5. Late wave in flight at stop: B-AIB1-125 (metering + coach approves
+- 17:19 b#807 + b#805 merged after fix round FIX-AIB-125 and dual APPROVE (L5): AI builder groundwork (AIB-1) complete on main f71bb9a4.
+  17:10 head-start builders HS-AIB5-125 (mobile Ask AI) and HS-AIB4-125 (backend status route) push draft PRs for agent 126 to continue.
+- CLOSING (17:20): merged today 95 (agents 124+125); deployed today 5. Late wave in flight at stop: B-AIB1-125 (metering + coach approves
   AI drafts), B-AIASSIGN-125 (approve really assigns), L4 lens pair; agent 126 merges/deploys their PRs. APK run 37541010175 building mobile 950689a. Handoff: handoffs/op-125/HANDOFF.md +
   AGENT_126_PROMPT.md + PLAY_CONSOLE_COMET_10-06.md; ops snapshot wip/op125/ops-snapshot.
 
