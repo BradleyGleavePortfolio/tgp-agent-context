@@ -2444,6 +2444,12 @@ builder and AI workout assistance, then a fresh APK, review accounts and App Sto
   digest links + unsubscribe, b#829 FLIP; m#454 coachless Version B, m#455 food polish, m#456 assigned workout entry, m#457 coach
   settings. Wave 2: R11-T2A/M5/T2B, R11-M4, R11-L1/P4, R11-T1, R11-P3B, AIB-FINISH-127, DESIGN-AUD-127 (owner 09:59 question), lenses
   LN-OPUS-127, LN-OPUS2-127, LN-SOL3-127. Production money tables: 0 Connect accounts, 0 Stripe events, 1 ClientPurchase (seeded free).
+- 10:1x merged b#825, b#826, b#828, m#455 (dual APPROVE each); 10:2x b#829 FLIP merged; fly-env-sync plan 37658403558 (4 to set) ->
+  apply 37658609097 (staged). m#457 merged 10:28; b#824 merged 10:37.
+- 10:38 deploy 22 = 6664ced0 (b#825 welcome after payment, b#826 share-link Stripe refresh, b#828 digest links + unsubscribe, b#829
+  manifest), run 37660243967; /health ok, /readyz db up. Staged flags were "Deployed" but absent in the machine (plan 37660895920), so
+  apply with deploy_staged=true (run 37661054772) -> Verified, machine 860311cee0d008 holds every declared value.
+- 10:44 AI WORKOUT BUILDER LIVE: GET /api/ai/gateway/workout-builder/status as the review coach -> state "on", create true, edit true.
 
 ## AGENT 126 — 2026-10-06 17:56 PDT onward (session c0c3aa1c; 126th operator in the chain)
 Why: owner 10-06: "Read this attached document, TGP Source of Truth, and all supporting documents" (attachment = handoffs/op-125/HANDOFF.md
