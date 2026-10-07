@@ -1343,6 +1343,10 @@ Older entries not listed here still stand unless a later decision changed them; 
   palette swap); client Settings grouped on one screen, nothing removed (DES-S approved); forest green for every primary button (DES-J
   approved); Health rings get default STARTER goals for everyone (5,000 steps, 20 exercise minutes, 250 move kcal), labelled "Starter goal",
   replaced by any coach/client target.
+- 11:41-11:44: scale the redo faster (owner: burn is slower with redo agents); design auditor to deliver 30 more DES jobs (TRANCHE 3) in
+  batches of 10; fleet cap raised to 24 for DES builders. Roman notes: "lets jsut never delete them. de-identify the notes but done
+  delete" -> agent 127 asked the owner to confirm the legal exception (delete only on an explicit delete-my-notes or account-deletion
+  request) before changing merged b#835 behaviour (memory off currently deletes notes) or the policy text (b#831). Pending.
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -7989,6 +7993,11 @@ Recorded by agent 127. Applied in A6.10.
 
 #### 2026-10-07 11:26 PDT — tabs, dark mode, Settings, button colour, Health goals (owner, to agent 127)
 > "Tabs: recommended keep six with labels - if thats whats easiest for clients to use! Dark mode: recommended hide it for launch - sure, I assume its broken or ugly? We cant make it work? We dont have to redo every screen - all scrren stuff stays the same we just switch tan and greens for dark blue and oxblood or such? Client Settings: recommended group it on one tidy screen, with nothing removed - sure Button colour: recommended forest green everywhere - if thats what looks. best! Health rings: recommended no fill until someone sets a goal - maybe populate. abasic, easy to hit goal set by default for everyone?"
+Recorded by agent 127. Applied in A6.10.
+
+#### 2026-10-07 11:41-11:44 PDT — scale the redo; never delete Roman notes (owner, to agent 127)
+> 11:41 "37.2k/45k - burn rate is slower with using mobile redo agents -> we can scale those faster?"
+> 11:44 "delete them on full withdrawal too - no, lets jsut never delete them. de-identify the notes but done delete - the auditor is finding 8 screens but we have like 100 for clients, lets get him to give us 30"
 Recorded by agent 127. Applied in A6.10.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
