@@ -182,12 +182,28 @@ list run 37536038425), so no '*' allow-list exists; set exactly the two workout 
   RESULT 17:19: b#807 (@91f10306) and b#805 (@0096987c) MERGED via ops/merge_if_dual.sh after FIX-AIB-125 and dual APPROVE (L5).
   Backend main f71bb9a4 = deploy 15 (a6f4b5a9) + b#805 + b#806 + b#807, no prisma change (deploy WITHOUT migrations). If agent 125 did
   not deploy it (check fly-deploy runs after 37543198284), deploy f71bb9a4 or newer once CI + CodeQL are green.
+  DEPLOY 16 started 17:37 by agent 125: fly-deploy run 37552977754, release_sha f71bb9a4c973fbd7d3f3bcd555dbcd0cd491e199 (no migrations;
+  adds b#805 b#806 b#807). Approved. If it is not "success" with verify-fly-release OK when you start, re-run it the same way.
+  HEAD-START RESULTS at agent 125's stop (17:41):
+  - backend #808 (agent126/b-aib4-126 @ 9487faa2, 615 lines, CI green, READY): status route (on / paused / no_credits /
+    not_configured), gateway status lists the two workout capabilities, read-only revisions list, coach approval always required, five
+    manifest flags (all unset), fly-env-sync now allows "_" and "," in values (review this). Needs: dual lens, merge, then the values-only
+    flip PR.
+  - backend #809 DRAFT (agent126/b-aib2-126 @ c0984e2a, 1,112 lines, CI NOT checked; specs passed at d08d721e): propose route with
+    flag-off, tenancy, lock-token, consent, budget, repair-then-422, explain; model writes the diff; coach applies only kept changes.
+    Needs: re-run specs, CI green, SPLIT under 800 lines (A2 cap), safety checklist line refs, per-mode model settings, then READY.
+    Also (from HS-AIB5): return lock_token on approve (Undo toast) and accept proposals without one.
+  - mobile #439 (agent126/b-aib5-126 @ c138b4c4, 797 lines, CI green, READY): Ask AI in the builder (header button, prompt bar + sheet with
+    chips, change cards, apply/discard/undo, per-state messages, haptics, Reduce Motion). OWNER RULE CHECK: it hides the button while the
+    backend status says not_configured; the owner said never hide it. Before merge, make not_configured/paused show the button with a
+    "paused" state instead (small change), then dual lens and merge BEFORE the 10-07 build. Remaining AIB-6: client context, other entry
+    points, revision history.
   HEAD-START WAVE (owner 17:09 "use your last 4k credits asap without any wasted work"): HS-AIB5-125 (plan entry B-AIB5-126, mobile
   Ask AI in the builder) and HS-AIB4-125 (plan entry B-AIB4-126, backend status route + manifest) started 17:10. They push every 15
   minutes to DRAFT PRs whose body has "Done / Remaining / Next step". If agent 125's session ran out, CONTINUE THOSE BRANCHES with your
   B-AIB5-126 / B-AIB4-126 builders (tell them to read the draft PR checklist first); do not start fresh. 17:23 (owner 17:22 "keep it
   pushing"): HS-AIB2-125 added on plan entry B-AIB2-126 (backend generator), same draft-PR rule; continue its branch too.
-- APK: run 37541010175 FAILED only at "Prove the APK" (the proof still expected the old fly.dev URL); fixed and re-run as 37547000616
+- APK: run 37547000616 GREEN (17:3x): https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37547000616 . First run 37541010175 failed only at the proof step (old URL); the re-run is
   (16:31, about 45 minutes). Mobile branch ci/APK-125-1, throwaway, never merge; builds mobile 950689a with the clinic profile and
   EXPO_PUBLIC_API_URL https://api.trygrowthproject.com/api. Artifacts tgp-950689a-clinic-apk (universal) and tgp-950689a-clinic-arm64-apk.
   Send the owner the run link once green. It does not contain the AI master builder; a new APK after those PRs merge.
