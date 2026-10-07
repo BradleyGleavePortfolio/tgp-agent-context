@@ -2456,7 +2456,7 @@ Contribution log (PDT, newest last)
 - 17:37 DEPLOY 16 started (run 37552977754, f71bb9a4, no migrations: b#805-b#807). 17:38-17:41 head starts: b#808 READY (AI status route
   + manifest), m#439 READY (Ask AI in the builder; must show a paused state instead of hiding), b#809 DRAFT (generator, 1,112 lines, must
   split). Agent 126 reviews/merges them. APK run 37547000616 GREEN (mobile 950689a).
-- CLOSING (17:42): merged today 95 (agents 124+125); deployed today 5 (+ deploy 16 rolling out at stop). Late wave in flight at stop: B-AIB1-125 (metering + coach approves
+- CLOSING (17:43): merged today 95 (agents 124+125); deployed today 6 (deploy 16 f71bb9a4 verified 17:42). Agent 125 out of credits. Late wave in flight at stop: B-AIB1-125 (metering + coach approves
   AI drafts), B-AIASSIGN-125 (approve really assigns), L4 lens pair; agent 126 merges/deploys their PRs. APK run 37541010175 building mobile 950689a. Handoff: handoffs/op-125/HANDOFF.md +
   AGENT_126_PROMPT.md + PLAY_CONSOLE_COMET_10-06.md; ops snapshot wip/op125/ops-snapshot.
 
