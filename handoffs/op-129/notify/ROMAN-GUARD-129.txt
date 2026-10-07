@@ -1,0 +1,1 @@
+stopped (owner 16:35) | PRs: b#861 @ cf1c4176 (CI: build-and-test running, READY not posted) | B=0 U=1 (fixed in #861) | verdicts: -/- @ cf1c4176 | needs operator: 1 (post READY once CI green)

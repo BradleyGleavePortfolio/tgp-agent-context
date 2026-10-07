@@ -1,0 +1,52 @@
+Wed Oct  7 16:29:23 PDT 2026
+  console.warn
+    SafeAreaView has been deprecated and will be removed in a future release. Please use 'react-native-safe-area-context' instead. See https://github.com/AppAndFlow/react-native-safe-area-context
+
+      367 |
+      368 |   return (
+    > 369 |     <SafeAreaView style={{ flex: 1, backgroundColor: sc.bgPrimary }}>
+          |      ^
+      370 |       <ScrollView
+      371 |         testID="home-scroll"
+      372 |         contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: 48 }}
+
+      at warn (../../deps/mobile/node_modules/react-native/Libraries/Utilities/warnOnce.js:27:11)
+      at Object.warnOnce [as SafeAreaView] (../../deps/mobile/node_modules/react-native/index.js:101:5)
+      at SafeAreaView (src/screens/client/HomeScreen.tsx:369:6)
+      at Object.react_stack_bottom_frame (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:17596:20)
+      at renderWithHooks (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:5335:22)
+      at updateFunctionComponent (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:7720:19)
+      at beginWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:9277:18)
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at performUnitOfWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15273:22)
+      at workLoopSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15099:41)
+      at renderRootSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15080:11)
+      at performWorkOnRoot (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14165:11)
+      at performWorkOnRootViaSchedulerTask (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:3335:7)
+      at flushActQueue (../../deps/mobile/node_modules/react/cjs/react.development.js:590:34)
+      at ../../deps/mobile/node_modules/react/cjs/react.development.js:847:21
+
+PASS src/__tests__/assignedWorkoutEntry127.test.tsx (5.679 s)
+  U-V1-5: assigned workout entry from Home
+    ✓ opens the first assigned workout from Home, without claiming completion (268 ms)
+    ✓ offers Explore only when both history and pending assignments are empty (32 ms)
+    ✓ does not count completed assignments as pending (19 ms)
+    ✓ finds a pending assignment after a completed assignment (16 ms)
+    ✓ still offers Continue when there is workout history and no assignment (20 ms)
+    ✓ keeps the loading placeholder until the assignment query settles (23 ms)
+    ✓ keeps workouts reachable when the assignment query fails (14 ms)
+    ✓ preserves the existing Continue fallback when history fails (11 ms)
+  U-V1-8: assigned workout Start and Resume labels
+    ✓ uses Resume and matching accessibility text only for the saved assignment (134 ms)
+    ✓ keeps Start when there is no matching saved assignment (null) (9 ms)
+    ✓ keeps Start when there is no matching saved assignment ({"session":{"assignmentId":"another-assignment"}}) (15 ms)
+    ✓ keeps Start when there is no matching saved assignment ({"session":{}}) (6 ms)
+    ✓ rereads the session on focus after the live workout is closed (18 ms)
+    ✓ keeps the existing exercise-name loading gate while a session matches (250 ms)
+    ✓ keeps completed assignments free of a Start or Resume action (10 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       15 passed, 15 total
+Snapshots:   0 total
+Time:        5.83 s
+Ran all test suites matching /src\/__tests__\/assignedWorkoutEntry127.test.tsx/i.

@@ -1,0 +1,409 @@
+Wed Oct  7 16:13:49 PDT 2026
+Failing-first test against unchanged HomeScreen on main a1be6fb25538b02e961fd379a0d86d71d610ad7a
+  console.warn
+    SafeAreaView has been deprecated and will be removed in a future release. Please use 'react-native-safe-area-context' instead. See https://github.com/AppAndFlow/react-native-safe-area-context
+
+      344 |
+      345 |   return (
+    > 346 |     <SafeAreaView style={{ flex: 1, backgroundColor: sc.bgPrimary }}>
+          |      ^
+      347 |       <ScrollView
+      348 |         testID="home-scroll"
+      349 |         contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: 48 }}
+
+      at warn (../../deps/mobile/node_modules/react-native/Libraries/Utilities/warnOnce.js:27:11)
+      at Object.warnOnce [as SafeAreaView] (../../deps/mobile/node_modules/react-native/index.js:101:5)
+      at SafeAreaView (src/screens/client/HomeScreen.tsx:346:6)
+      at Object.react_stack_bottom_frame (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:17596:20)
+      at renderWithHooks (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:5335:22)
+      at updateFunctionComponent (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:7720:19)
+      at beginWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:9277:18)
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at performUnitOfWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15273:22)
+      at workLoopSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15099:41)
+      at renderRootSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15080:11)
+      at performWorkOnRoot (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14165:11)
+      at performWorkOnRootViaSchedulerTask (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:3335:7)
+      at flushActQueue (../../deps/mobile/node_modules/react/cjs/react.development.js:590:34)
+      at ../../deps/mobile/node_modules/react/cjs/react.development.js:847:21
+
+FAIL src/screens/client/__tests__/HomeScreen.honestCopy127.test.tsx (111.458 s)
+  ✓ keeps Messages registered on Home and reachable from More/Membership (4 ms)
+  ✕ assigned: truthful line and a CTA that opens what it names (40372 ms)
+  ✕ active: truthful line and a CTA that opens what it names (1210 ms)
+  ✕ active-only: truthful line and a CTA that opens what it names (1107 ms)
+  ✕ active-assigned: truthful line and a CTA that opens what it names (28 ms)
+  ✓ done: truthful line and a CTA that opens what it names (24 ms)
+  ✓ empty: truthful line and a CTA that opens what it names (60 ms)
+  ✓ coachless: truthful line and a CTA that opens what it names (36 ms)
+  ✕ opens the first unfinished assignment, not a completed workout or a different plan (19 ms)
+  ✓ keeps Train reachable when the history read fails (19 ms)
+  ✓ keeps Train reachable when the assignments read fails (35 ms)
+  ✓ profile copy reflects coach plan presence: false (19 ms)
+  ✓ profile copy reflects coach plan presence: true (11 ms)
+  ✓ keeps coachless actions in simple mode with 0 oz (15 ms)
+  ✓ keeps coachless actions in full mode with 24 oz (13 ms)
+  ✓ keeps every simple metric in one hairline row with serif tabular figures (17 ms)
+  ✓ keeps every full metric in one hairline row with serif tabular figures (12 ms)
+
+  ● assigned: truthful line and a CTA that opens what it names
+
+    thrown: "Exceeded timeout of 20000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+      76 |   ['empty', 'One meal logged.', 'Log a meal', ['Log']],
+      77 |   ['coachless', 'One meal logged.', 'Log a meal', ['Log']],
+    > 78 | ] as const)('%s: truthful line and a CTA that opens what it names', async (state, line, label, destination) => {
+         |            ^
+      79 |   if (state === 'assigned' || state === 'done' || state === 'active-assigned') mockAssignments.mockResolvedValue([
+      80 |     { id: 'pending-assignment', completed_at: null, workout_plan: { name: 'Foundations' } },
+      81 |   ]);
+
+      at ../../deps/mobile/node_modules/jest-each/build/bind.js:47:15
+          at Array.forEach (<anonymous>)
+      at Object.<anonymous> (src/screens/client/__tests__/HomeScreen.honestCopy127.test.tsx:78:12)
+
+  ● active: truthful line and a CTA that opens what it names
+
+    Unable to find an element with accessibility label: Resume workout
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<RCTScrollView[39m
+        [33mtestID[39m=[32m"home-scroll"[39m
+      [36m>[39m
+        [36m<RCTRefreshControl />[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Message Bradley"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"home-message-coach"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mMessage Bradley[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Notifications"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"home-notification-bell"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<Text[39m
+            [33mtestID[39m=[32m"home-date"[39m
+          [36m>[39m
+            [0mWednesday, the seventh.[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mOne meal logged. Foundations is ready.[0m
+          [36m</Text>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"Opens Train"[39m
+            [33maccessibilityLabel[39m=[32m"Start Foundations"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"home-continue-cta"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mStart Foundations[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33mtestID[39m=[32m"home-number-grid"[39m
+          [36m>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Log a meal to see your protein"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mPROTEIN[0m
+                [36m</Text>[39m
+                [36m<Text[39m
+                  [33mtestID[39m=[32m"home-value-PROTEIN"[39m
+                [36m>[39m
+                  [0m—[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Log a meal to see your carbs"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mCARBS[0m
+                [36m</Text>[39m
+                [36m<Text[39m
+                  [33mtestID[39m=[32m"home-value-CARBS"[39m
+                [36m>[39m
+                  [0m—[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Log a meal to see your fat"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mFAT[0m
+                [36m</Text>[39m
+                [36m<Text[39m
+                  [33mtestID[39m=[32m"home-value-FAT"[39m
+                [36m>[39m
+                  [0m—[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mWATER[0m
+                [36m</Text>[39m
+                [36m<Text[39m
+                  [33mtestID[39m=[32m"home-value-WATER"[39m
+                [36m>[39m
+                  [0m24 oz[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Complete your profile. Missing Sex, Date of birth, and 9 more."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mFINISH YOUR PROFILE[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mAdd Sex, Date of birth, and 9 more so your plan reflects you.[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m0% complete[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      88 |   await render(<HomeScreen />);
+      89 |   expect(await screen.findByText(line)).toBeTruthy();
+    > 90 |   const button = await screen.findByLabelText(label);
+         |                               ^
+      91 |   await fireEvent.press(button);
+      92 |   expect(mockNavigate).toHaveBeenCalledWith(...destination);
+      93 |   if (label !== 'Log a meal') {
+
+      at findByLabelText (src/screens/client/__tests__/HomeScreen.honestCopy127.test.tsx:90:31)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● active-only: truthful line and a CTA that opens what it names
+
+    Unable to find an element with accessibility label: Resume workout
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<RCTScrollView[39m
+        [33mtestID[39m=[32m"home-scroll"[39m
+      [36m>[39m
+        [36m<RCTRefreshControl />[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Message Bradley"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"home-message-coach"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mMessage Bradley[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Notifications"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"home-notification-bell"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<Text[39m
+            [33mtestID[39m=[32m"home-date"[39m
+          [36m>[39m
+            [0mWednesday, the seventh.[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mOne meal logged. A workout is in progress.[0m
+          [36m</Text>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Log a meal"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"home-explore-cta"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mLog a meal →[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33mtestID[39m=[32m"home-number-grid"[39m
+          [36m>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Log a meal to see your protein"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mPROTEIN[0m
+                [36m</Text>[39m
+                [36m<Text[39m
+                  [33mtestID[39m=[32m"home-value-PROTEIN"[39m
+                [36m>[39m
+                  [0m—[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Log a meal to see your carbs"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mCARBS[0m
+                [36m</Text>[39m
+                [36m<Text[39m
+                  [33mtestID[39m=[32m"home-value-CARBS"[39m
+                [36m>[39m
+                  [0m—[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Log a meal to see your fat"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mFAT[0m
+                [36m</Text>[39m
+                [36m<Text[39m
+                  [33mtestID[39m=[32m"home-value-FAT"[39m
+                [36m>[39m
+                  [0m—[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mWATER[0m
+                [36m</Text>[39m
+                [36m<Text[39m
+                  [33mtestID[39m=[32m"home-value-WATER"[39m
+                [36m>[39m
+                  [0m24 oz[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Complete your profile. Missing Sex, Date of birth, and 9 more."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mFINISH YOUR PROFILE[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mAdd Sex, Date of birth, and 9 more to set daily targets.[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m0% complete[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      88 |   await render(<HomeScreen />);
+      89 |   expect(await screen.findByText(line)).toBeTruthy();
+    > 90 |   const button = await screen.findByLabelText(label);
+         |                               ^
+      91 |   await fireEvent.press(button);
+      92 |   expect(mockNavigate).toHaveBeenCalledWith(...destination);
+      93 |   if (label !== 'Log a meal') {
+
+      at findByLabelText (src/screens/client/__tests__/HomeScreen.honestCopy127.test.tsx:90:31)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● active-assigned: truthful line and a CTA that opens what it names
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: "WorkoutTab", {"params": {"assignmentId": "saved-assignment", "exercises": "[{\"exerciseId\":\"seed:push-001\",\"exerciseName\":\"Push-up\",\"sets\":3,\"reps\":8}]", "resume": true, "routineName": "Saved strength"}, "screen": "ActiveWorkout"}
+    Received: "WorkoutTab"
+
+    Number of calls: 1
+
+      90 |   const button = await screen.findByLabelText(label);
+      91 |   await fireEvent.press(button);
+    > 92 |   expect(mockNavigate).toHaveBeenCalledWith(...destination);
+         |                        ^
+      93 |   if (label !== 'Log a meal') {
+      94 |     expect(button.props.accessibilityHint).toBe(label === 'Resume workout'
+      95 |       ? 'Opens your saved workout' : label === 'Open Train' ? 'Opens Train' : 'Opens the assigned workout');
+
+      at toHaveBeenCalledWith (src/screens/client/__tests__/HomeScreen.honestCopy127.test.tsx:92:24)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● opens the first unfinished assignment, not a completed workout or a different plan
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: "MoreTab", {"params": {"assignmentId": "next-assignment"}, "screen": "WorkoutAssignmentDetail"}
+    Received: "WorkoutTab"
+
+    Number of calls: 1
+
+      105 |   await render(<HomeScreen />);
+      106 |   await fireEvent.press(await screen.findByLabelText('Start Next session'));
+    > 107 |   expect(mockNavigate).toHaveBeenCalledWith('MoreTab', {
+          |                        ^
+      108 |     screen: 'WorkoutAssignmentDetail', params: { assignmentId: 'next-assignment' },
+      109 |   });
+      110 | });
+
+      at Object.toHaveBeenCalledWith (src/screens/client/__tests__/HomeScreen.honestCopy127.test.tsx:107:24)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       5 failed, 12 passed, 17 total
+Snapshots:   0 total
+Time:        113.673 s
+Ran all test suites matching /src\/screens\/client\/__tests__\/HomeScreen.honestCopy127.test.tsx/i.

@@ -1,0 +1,13 @@
+PASS src/screens/client/__tests__/profileDisplay.test.ts
+  ✓ prints saved server fields with honest labels and units instead of raw enums (4 ms)
+  ✓ preserves legacy answers, including an explicit no-restrictions answer (1 ms)
+  ✓ does not invent gym access or a restrictions answer
+  ✓ uses current targets first and treats confirmed null as no targets (2 ms)
+  ✓ falls back to saved server targets, then legacy values, only while the current target is unknown (1 ms)
+  ✓ keeps explicitly saved zero gram targets visible
+
+Test Suites: 1 passed, 1 total
+Tests:       6 passed, 6 total
+Snapshots:   0 total
+Time:        1.781 s
+Ran all test suites within paths "src/screens/client/__tests__/profileDisplay.test.ts".

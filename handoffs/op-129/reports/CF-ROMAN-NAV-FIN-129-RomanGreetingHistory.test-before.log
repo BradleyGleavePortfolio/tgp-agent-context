@@ -1,0 +1,89 @@
+FAIL src/screens/roman/__tests__/RomanGreetingHistory.test.tsx
+  ✕ introduces Roman only when the account has no earlier chats, checked before opening today (20 ms)
+  ✕ a returning client gets the returning greeting even when today has no messages (3 ms)
+  ✕ offline history: do not guess that this is a first meeting or block chat (3 ms)
+  ✕ busy history: do not guess that this is a first meeting or block chat (2 ms)
+
+  ● introduces Roman only when the account has no earlier chats, checked before opening today
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: {"epoch": 1, "subject": "sub:client-1"}, {"limit": 1}
+
+    Number of calls: 0
+
+      31 |   await waitFor(() => expect(hook.result.current.phase).toBe('ready'));
+      32 |   expect(hook.result.current.isFirstOpen).toBe(true);
+    > 33 |   expect(mockHistory).toHaveBeenCalledWith(binding, { limit: 1 });
+         |                       ^
+      34 |   expect(mockHistory.mock.invocationCallOrder[0]).toBeLessThan(mockOpen.mock.invocationCallOrder[0]);
+      35 | });
+      36 |
+
+      at Object.toHaveBeenCalledWith (src/screens/roman/__tests__/RomanGreetingHistory.test.tsx:33:23)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● a returning client gets the returning greeting even when today has no messages
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      41 |   const hook = await renderHook(() => useRomanChat('client'));
+      42 |   await waitFor(() => expect(hook.result.current.phase).toBe('ready'));
+    > 43 |   expect(hook.result.current.isFirstOpen).toBe(false);
+         |                                           ^
+      44 | });
+      45 |
+      46 | it.each(['offline', 'busy'] as const)(
+
+      at Object.toBe (src/screens/roman/__tests__/RomanGreetingHistory.test.tsx:43:43)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● offline history: do not guess that this is a first meeting or block chat
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      50 |     const hook = await renderHook(() => useRomanChat('client'));
+      51 |     await waitFor(() => expect(hook.result.current.phase).toBe('ready'));
+    > 52 |     expect(hook.result.current.isFirstOpen).toBe(false);
+         |                                             ^
+      53 |     expect(mockOpen).toHaveBeenCalledWith('client');
+      54 |   },
+      55 | );
+
+      at toBe (src/screens/roman/__tests__/RomanGreetingHistory.test.tsx:52:45)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● busy history: do not guess that this is a first meeting or block chat
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      50 |     const hook = await renderHook(() => useRomanChat('client'));
+      51 |     await waitFor(() => expect(hook.result.current.phase).toBe('ready'));
+    > 52 |     expect(hook.result.current.isFirstOpen).toBe(false);
+         |                                             ^
+      53 |     expect(mockOpen).toHaveBeenCalledWith('client');
+      54 |   },
+      55 | );
+
+      at toBe (src/screens/roman/__tests__/RomanGreetingHistory.test.tsx:52:45)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 4 total
+Snapshots:   0 total
+Time:        2.012 s
+Ran all test suites matching /src\/screens\/roman\/__tests__\/RomanGreetingHistory.test.tsx/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

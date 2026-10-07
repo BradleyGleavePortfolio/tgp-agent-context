@@ -1,0 +1,18 @@
+PASS test/roman/roman-copy-b-128.spec.ts (46 MB heap size)
+  CF-ROMAN-COPY-B-128 — no coach is assumed (U3 backend)
+    ✓ the 911 template closes with someone the client trusts, not a coach (5 ms)
+    ✓ the eating-disorder hint offers the coach only when client_data shows one (1 ms)
+    ✓ the client framing does not say every client trains under a coach
+  CF-ROMAN-COPY-B-128 — real tab names (U5)
+    ✓ the degraded-mode notice and the context errors name Home, Train and Food, never a Today tab (1 ms)
+  CF-ROMAN-COPY-B-128 — eating-disorder fallback copy (owner default)
+    ✓ hasCoach=true: people to turn to, 988 and 911, safety-copy rules (2 ms)
+    ✓ hasCoach=false: people to turn to, 988 and 911, safety-copy rules (2 ms)
+  CF-ROMAN-COPY-B-128 — returning client (owner default: no second introduction)
+    ✓ only metBefore=true on the client surface adds the line, inside SESSION STATE (1 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       7 passed, 7 total
+Snapshots:   0 total
+Time:        0.966 s, estimated 1 s
+Ran all test suites matching test/roman/roman-copy-b-128.spec.ts.

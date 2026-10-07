@@ -1,0 +1,1 @@
+done | PRs: b#857,m#518,m#504,m#525 | B=0 U=0 | verdicts: unread/APPROVE @ daf0ad19,cd4a29d2,431f65b8,3cc08a1a | needs operator: 0 | STOPPED per owner 16:35; m#504 approval is old-head only; no branch or unpushed commits

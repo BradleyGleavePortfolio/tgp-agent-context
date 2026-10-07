@@ -1,0 +1,346 @@
+  console.error
+    An update to PurchaseUnpackScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      488 |
+      489 |   const onRefresh = useCallback(async () => {
+    > 490 |     setRefreshing(true);
+          |     ^
+      491 |     await load(() => isAliveRef.current);
+      492 |     if (isAliveRef.current) setRefreshing(false);
+      493 |   }, [load]);
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at Object.setRefreshing (src/screens/client/PurchaseUnpackScreen.tsx:490:5)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at ../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.onRefresh (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+      at Object.onRefresh (src/__tests__/truthfulCopy.guard.test.ts:103:75)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    An update to PurchaseUnpackScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      466 |       ]);
+      467 |       if (!isAlive()) return;
+    > 468 |       setDropsResult(drops);
+          |       ^
+      469 |       setReceipt(
+      470 |         buildReceipt(
+      471 |           purchaseId,
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setDropsResult (src/screens/client/PurchaseUnpackScreen.tsx:468:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    An update to PurchaseUnpackScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      467 |       if (!isAlive()) return;
+      468 |       setDropsResult(drops);
+    > 469 |       setReceipt(
+          |       ^
+      470 |         buildReceipt(
+      471 |           purchaseId,
+      472 |           purchases.ok ? purchases.data : [],
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setReceipt (src/screens/client/PurchaseUnpackScreen.tsx:469:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    An update to PurchaseUnpackScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      490 |     setRefreshing(true);
+      491 |     await load(() => isAliveRef.current);
+    > 492 |     if (isAliveRef.current) setRefreshing(false);
+          |                             ^
+      493 |   }, [load]);
+      494 |
+      495 |   const onOpenDrop = useCallback(
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at Object.setRefreshing (src/screens/client/PurchaseUnpackScreen.tsx:492:29)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.warn
+    [PurchaseUnpackScreen] Coach name did not load
+
+      16 | function log(level: LogLevel, context: string, ...args: unknown[]) {
+      17 |   if (__DEV__) {
+    > 18 |     console[level](`[${context}]`, ...args);
+         |                   ^
+      19 |   }
+      20 |   // In production, could forward to Sentry breadcrumbs here
+      21 | }
+
+      at log (src/utils/logger.ts:18:19)
+      at Object.log [as warn] (src/utils/logger.ts:25:50)
+      at warn (src/screens/client/PurchaseUnpackScreen.tsx:441:29)
+
+  console.warn
+    SafeAreaView has been deprecated and will be removed in a future release. Please use 'react-native-safe-area-context' instead. See https://github.com/AppAndFlow/react-native-safe-area-context
+
+      100 |
+      101 |   return (
+    > 102 |     <SafeAreaView style={styles.container}>
+          |      ^
+      103 |       <View style={styles.header}>
+      104 |         <HapticPressable
+      105 |           intent="light"
+
+      at warn (../../deps/mobile/node_modules/react-native/Libraries/Utilities/warnOnce.js:27:11)
+      at Object.warnOnce [as SafeAreaView] (../../deps/mobile/node_modules/react-native/index.js:101:5)
+      at SafeAreaView (src/screens/client/MembershipScreen.tsx:102:6)
+      at Object.react_stack_bottom_frame (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:17596:20)
+      at renderWithHooks (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:5335:22)
+      at updateFunctionComponent (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:7720:19)
+      at beginWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:9277:18)
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at performUnitOfWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15273:22)
+      at workLoopSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15099:41)
+      at renderRootSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15080:11)
+      at performWorkOnRoot (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14165:11)
+      at performWorkOnRootViaSchedulerTask (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:3335:7)
+      at flushActQueue (../../deps/mobile/node_modules/react/cjs/react.development.js:590:34)
+      at ../../deps/mobile/node_modules/react/cjs/react.development.js:847:21
+
+  console.error
+    An update to PrivateCommunityHubScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      105 |
+      106 |   const onRefresh = () => {
+    > 107 |     setRefreshing(true);
+          |     ^
+      108 |     load();
+      109 |   };
+      110 |
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at Object.setRefreshing [as onRefresh] (src/screens/client/PrivateCommunityHubScreen.tsx:107:5)
+      at Object.onRefresh (src/__tests__/truthfulCopy.guard.test.ts:151:85)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    An update to PrivateCommunityHubScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      65 |     try {
+      66 |       const next = await fetchCommunityHub();
+    > 67 |       setPayload(next);
+         |       ^
+      68 |     } finally {
+      69 |       setLoading(false);
+      70 |       setRefreshing(false);
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setPayload (src/screens/client/PrivateCommunityHubScreen.tsx:67:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    An update to PrivateCommunityHubScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      67 |       setPayload(next);
+      68 |     } finally {
+    > 69 |       setLoading(false);
+         |       ^
+      70 |       setRefreshing(false);
+      71 |     }
+      72 |   }, []);
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (src/screens/client/PrivateCommunityHubScreen.tsx:69:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    An update to PrivateCommunityHubScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      68 |     } finally {
+      69 |       setLoading(false);
+    > 70 |       setRefreshing(false);
+         |       ^
+      71 |     }
+      72 |   }, []);
+      73 |
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setRefreshing (src/screens/client/PrivateCommunityHubScreen.tsx:70:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.warn
+    [coach-packages] config blocker PACKAGES_DISABLED
+
+      75 |       if (httpCode === 404) {
+      76 |         const resolvedCode = code ?? 'PACKAGES_NOT_CONFIGURED';
+    > 77 |         console.warn('[coach-packages] config blocker', resolvedCode);
+         |                 ^
+      78 |         setConfigState({ code: resolvedCode, ...packagesConfigCopy(resolvedCode) });
+      79 |         setItems([]);
+      80 |       } else {
+
+      at warn (src/screens/coach/payments/CoachPackagesListScreen.tsx:77:17)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.warn
+    [ProfileScreen] Sharing status did not load
+
+      16 | function log(level: LogLevel, context: string, ...args: unknown[]) {
+      17 |   if (__DEV__) {
+    > 18 |     console[level](`[${context}]`, ...args);
+         |                   ^
+      19 |   }
+      20 |   // In production, could forward to Sentry breadcrumbs here
+      21 | }
+
+      at log (src/utils/logger.ts:18:19)
+      at Object.log [as warn] (src/utils/logger.ts:25:50)
+      at warn (src/screens/client/ProfileScreen.tsx:88:58)
+
+PASS src/__tests__/truthfulCopy.guard.test.ts (11.59 s)
+  ✓ does not bring back retired customer-facing claims (70 ms)
+  ✓ shows a neutral purchase empty state and keeps Done and refresh (239 ms)
+  ✓ does not invent a coach when the purchase coach name is unavailable (15 ms)
+  ✓ keeps purchase fallback Done and real Retry: not_configured (78 ms)
+  ✓ keeps purchase fallback Done and real Retry: error (106 ms)
+  ✓ keeps Membership Back, plans, messages and support without predicting coach activity (45 ms)
+  ✓ confirms only payment status, retaining the Home action (9 ms)
+  ✓ keeps checkout recovery routes without invented payment facts: cancel (4 ms)
+  ✓ keeps checkout recovery routes without invented payment facts: error (4 ms)
+  ✓ keeps checkout recovery routes without invented payment facts: pending (7 ms)
+  ✓ keeps private rooms/posts and refresh, removing only a false voice-note placeholder (13 ms)
+  ✓ labels unavailable packages honestly and retains Back and refresh (1109 ms)
+  ✓ keeps real package editing, preview and navigation, not a dead share row (2347 ms)
+  ✓ retains real package sharing and the create/open-package routes (178 ms)
+  ✓ does not promise import enablement and keeps pairing Copy/Cancel/Review/Retry (20 ms)
+  ✓ matches each confirmed coach-sharing state (true/true) (75 ms)
+  ✓ matches each confirmed coach-sharing state (false/false) (74 ms)
+  ✓ matches each confirmed coach-sharing state (true/false) (86 ms)
+  ✓ matches each confirmed coach-sharing state (false/true) (82 ms)
+  ✓ does not invent privacy reassurance while sharing state is unavailable (59 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       20 passed, 20 total
+Snapshots:   0 total
+Time:        11.692 s
+Ran all test suites within paths "src/__tests__/truthfulCopy.guard.test.ts".

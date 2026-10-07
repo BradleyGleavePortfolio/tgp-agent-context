@@ -1,0 +1,1 @@
+stopped (owner 16:35) | PRs: none (branch agent129/cf-logplan-128 @ 74b605e1, pushed, no PR) | B=0 U=0 | verdicts: none/none @ 74b605e1 | needs operator: 0

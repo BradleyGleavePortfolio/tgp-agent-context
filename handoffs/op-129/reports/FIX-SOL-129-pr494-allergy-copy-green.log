@@ -1,0 +1,6 @@
+PASS src/components/__tests__/AllergySafetyPrompt.copy.test.tsx (11.719 s)
+
+Test Suites: 1 passed, 1 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        12.914 s

@@ -1,0 +1,1 @@
+stopped (operator STOP 16:35) | PRs: none (branch agent129/cf-roman-copy-b-128 @ f772b8d7, pushed to my own branch, no PR) | B=0 U=4 | verdicts: none/none @ f772b8d7 | needs operator: 2

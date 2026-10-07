@@ -1,0 +1,1 @@
+stopped | PRs: m#531 | B=1 U=1 | verdicts: -/- @ 18bec1b5 | needs operator: 2 (READY after CI green; N3 owner decision)

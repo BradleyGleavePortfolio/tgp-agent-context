@@ -1,0 +1,33 @@
+  console.warn
+    [homeHeader.unread-messages] { error: 'Error: 404' }
+
+      16 | function log(level: LogLevel, context: string, ...args: unknown[]) {
+      17 |   if (__DEV__) {
+    > 18 |     console[level](`[${context}]`, ...args);
+         |                   ^
+      19 |   }
+      20 |   // In production, could forward to Sentry breadcrumbs here
+      21 | }
+
+      at log (src/utils/logger.ts:18:19)
+      at Object.log [as warn] (src/utils/logger.ts:25:50)
+      at warn (src/components/home/HomeHeaderActions.tsx:74:41)
+
+PASS src/components/home/__tests__/HomeHeaderActions.test.tsx (7.282 s)
+  HomeHeaderActions
+    ✓ adds the Roman shortcut only when chat is enabled: false (992 ms)
+    ✓ adds the Roman shortcut only when chat is enabled: true (1235 ms)
+    ✓ keeps both outline header actions at 24 pt (4 ms)
+    ✓ labels the message entry with the coach first name (7 ms)
+    ✓ falls back to "Message your coach" without a coach or on error (4 ms)
+    ✓ lets the message action label wrap at larger text sizes (3 ms)
+    ✓ message entry opens Messages; bell opens NotificationCenter with unread label (191 ms)
+    ✓ shows the unread coach-message count on the message entry (AUDIT-03-125 U2) (12 ms)
+    ✓ HomeScreen mounts the actions and the deferred push card; ClientNavigator has no dead headerRight bell (1 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        9.296 s
+Ran all test suites matching /src\/components\/home\/__tests__\/HomeHeaderActions.test.tsx/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

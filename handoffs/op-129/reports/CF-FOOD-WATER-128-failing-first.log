@@ -1,0 +1,367 @@
+FAIL src/components/__tests__/WaterTracker.goal.test.tsx (17.717 s)
+  WaterTracker
+    ✓ uses a changed Settings goal without calling it a starter goal (4530 ms)
+    ✕ labels the default reference as Starter goal and preserves the glass count (18 ms)
+    ✕ keeps the starter label when only the units preference was saved (1011 ms)
+    ✓ honours an explicit target, even when it matches the starter amount (9 ms)
+    ✕ converts a changed goal and current amount together for metric progress (1012 ms)
+    ✓ preserves all three imperial quick-add actions and ounce callback values (27 ms)
+    ✕ makes every metric quick-add reach the same callback with exact stored ml (1015 ms)
+
+  ● WaterTracker › labels the default reference as Starter goal and preserves the glass count
+
+    Unable to find an element with text: Starter goal
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0m[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mWater[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m24[0m
+          [0m / [0m
+          [0m100[0m
+          [0m oz[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"Water progress"[39m
+        [33maccessibilityRole[39m=[32m"progressbar"[39m
+        [33maccessibilityValue[39m=[32m{
+          {
+            "max": 100,
+            "min": 0,
+            "now": 24,
+            "text": "24 of 100 ounces",
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<View />[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 8 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m8[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 12 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m12[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 16 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m16[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0m3 glasses (8 oz each)[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      18 |     await render(<WaterTracker currentOz={24} onAdd={jest.fn()} />);
+      19 |     expect(await screen.findByText('24 / 100 oz')).toBeTruthy();
+    > 20 |     expect(screen.getByText('Starter goal')).toBeTruthy();
+         |                   ^
+      21 |     expect(screen.getByText('3 glasses (8 oz each)')).toBeTruthy();
+      22 |   });
+      23 |
+
+      at Object.getByText (src/components/__tests__/WaterTracker.goal.test.tsx:20:19)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● WaterTracker › keeps the starter label when only the units preference was saved
+
+    Unable to find an element with text: ≈ 237 / 2957 ml
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0m[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mWater[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m8[0m
+          [0m / [0m
+          [0m100[0m
+          [0m oz[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"Water progress"[39m
+        [33maccessibilityRole[39m=[32m"progressbar"[39m
+        [33maccessibilityValue[39m=[32m{
+          {
+            "max": 100,
+            "min": 0,
+            "now": 8,
+            "text": "8 of 100 ounces",
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<View />[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 8 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m8[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 12 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m12[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 16 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m16[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0m1 glass (8 oz)[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      25 |     await AsyncStorage.setItem('gp_client_settings', JSON.stringify({ unit: 'kg' }));
+      26 |     await render(<WaterTracker currentOz={8} onAdd={jest.fn()} />);
+    > 27 |     expect(await screen.findByText('≈ 237 / 2957 ml')).toBeTruthy();
+         |                         ^
+      28 |     expect(screen.getByText('Starter goal')).toBeTruthy();
+      29 |     expect(screen.getByText('1 glass (about 237 ml)')).toBeTruthy();
+      30 |     expect(screen.queryByText(/oz|ounces/)).toBeNull();
+
+      at Object.findByText (src/components/__tests__/WaterTracker.goal.test.tsx:27:25)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● WaterTracker › converts a changed goal and current amount together for metric progress
+
+    Unable to find an element with text: ≈ 710 / 1893 ml
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0m[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mWater[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m24[0m
+          [0m / [0m
+          [0m64[0m
+          [0m oz[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"Water progress"[39m
+        [33maccessibilityRole[39m=[32m"progressbar"[39m
+        [33maccessibilityValue[39m=[32m{
+          {
+            "max": 64,
+            "min": 0,
+            "now": 24,
+            "text": "24 of 64 ounces",
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<View />[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 8 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m8[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 12 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m12[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 16 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m16[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0m3 glasses (8 oz each)[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      48 |     await AsyncStorage.setItem('gp_client_settings', JSON.stringify({ unit: 'kg', waterGoalOz: 64 }));
+      49 |     await render(<WaterTracker currentOz={24} onAdd={jest.fn()} />);
+    > 50 |     expect(await screen.findByText('≈ 710 / 1893 ml')).toBeTruthy();
+         |                         ^
+      51 |     expect(screen.queryByText('Starter goal')).toBeNull();
+      52 |     expect(screen.getByText('3 glasses (about 237 ml each)')).toBeTruthy();
+      53 |     expect(screen.getByLabelText('Water progress').props.accessibilityValue).toEqual({
+
+      at Object.findByText (src/components/__tests__/WaterTracker.goal.test.tsx:50:25)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● WaterTracker › makes every metric quick-add reach the same callback with exact stored ml
+
+    Unable to find an element with text: +250 ml
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0m[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mWater[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<Text>[39m
+          [0m0[0m
+          [0m / [0m
+          [0m100[0m
+          [0m oz[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"Water progress"[39m
+        [33maccessibilityRole[39m=[32m"progressbar"[39m
+        [33maccessibilityValue[39m=[32m{
+          {
+            "max": 100,
+            "min": 0,
+            "now": 0,
+            "text": "0 of 100 ounces",
+          }
+        }[39m
+        [33maccessible[39m=[32m{true}[39m
+      [36m>[39m
+        [36m<View />[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 8 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m8[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 12 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m12[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Add 16 ounces of water"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0m+[0m
+            [0m16[0m
+            [0moz[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<Text>[39m
+        [0m0 glasses (8 oz each)[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      75 |     const onAdd = jest.fn();
+      76 |     await render(<WaterTracker currentOz={0} onAdd={onAdd} />);
+    > 77 |     await screen.findByText('+250 ml');
+         |                  ^
+      78 |     expect(screen.getAllByRole('button')).toHaveLength(3);
+      79 |     for (const ml of [250, 350, 500]) {
+      80 |       expect(screen.getByText(`+${ml} ml`)).toBeTruthy();
+
+      at Object.findByText (src/components/__tests__/WaterTracker.goal.test.tsx:77:18)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       4 failed, 3 passed, 7 total
+Snapshots:   0 total
+Time:        18.204 s
+Ran all test suites matching /src\/components\/__tests__\/WaterTracker.goal.test.tsx/i.

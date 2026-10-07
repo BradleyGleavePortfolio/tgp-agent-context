@@ -1,0 +1,1 @@
+done | PRs: mobile#530 | B=0 U=7 | verdicts: none/none @ 6ffc1db6 | needs operator: 2 (STOP; CI verify failed, no READY; D2 once-only coach-code prompt belongs to excluded auth owner)

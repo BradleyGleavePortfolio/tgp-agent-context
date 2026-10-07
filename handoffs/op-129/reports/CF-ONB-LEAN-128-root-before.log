@@ -1,0 +1,49 @@
+FAIL src/__tests__/rootNavigatorConsultationAvailable.test.tsx (20.371 s)
+  ● B-REV-1: the consultation only where the server can finish it (flag on) › after lean completion, never starts another Day-1 flow (profile synced: false)
+
+    Unable to find an element with testID: day1-win
+
+    [36m<Text[39m
+      [33mtestID[39m=[32m"nav-day1"[39m
+    [36m>[39m
+      [0mday1[0m
+    [36m</Text>[39m
+
+      211 |     }));
+      212 |     const r = await mount();
+    > 213 |     await r.findByTestId('day1-win');
+          |             ^
+      214 |     expect(r.queryByTestId('nav-day1')).toBeNull();
+      215 |     expect(onboardingReads()).toBe(0);
+      216 |   });
+
+      at findByTestId (src/__tests__/rootNavigatorConsultationAvailable.test.tsx:213:13)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● B-REV-1: the consultation only where the server can finish it (flag on) › ignores an old Day-1 checkpoint after onboarding, with the consultation flag off
+
+    Unable to find an element with testID: day1-win
+
+    [36m<Text[39m
+      [33mtestID[39m=[32m"nav-day1"[39m
+    [36m>[39m
+      [0mday1[0m
+    [36m</Text>[39m
+
+      221 |     await AsyncStorage.setItem('day_one_onboarding_state_v1', JSON.stringify({ step: 'Goals' }));
+      222 |     const r = await mount();
+    > 223 |     await r.findByTestId('day1-win');
+          |             ^
+      224 |     expect(r.queryByTestId('nav-day1')).toBeNull();
+      225 |   });
+      226 |
+
+      at Object.findByTestId (src/__tests__/rootNavigatorConsultationAvailable.test.tsx:223:13)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 6 passed, 8 total
+Snapshots:   0 total
+Time:        20.501 s

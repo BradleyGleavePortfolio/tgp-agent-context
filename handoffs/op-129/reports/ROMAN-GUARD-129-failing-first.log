@@ -1,0 +1,276 @@
+FAIL test/roman/roman-post-check-day-claim.spec.ts (46 MB heap size)
+  ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month"
+    ✕ accepted unchanged: Today you have logged 780 kcal and 60 g protein, both under your usual. (35 ms)
+    ✕ accepted unchanged: You are at 60 g protein, under your usual. (2 ms)
+    ✕ accepted unchanged: You are at 60 g protein against your baseline. (2 ms)
+    ✕ accepted unchanged: So far you have logged 780 kcal and 60 g protein, both below last month. (1 ms)
+    ✕ accepted unchanged: You are at 780 kcal, below your average last month. (2 ms)
+    ✕ accepted unchanged: Today, you are at 60 g protein, below your baseline. (1 ms)
+    ✕ accepted unchanged: You burned 2500 kcal, more than your usual. (1 ms)
+    ✕ accepted unchanged: You are at 60 g protein, under your usual 110 g. (1 ms)
+    ✕ accepted unchanged: Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein. (2 ms)
+    ✓ still rewritten: Today you have logged 780 kcal and 95 g protein, both under your usual. (1 ms)
+    ✓ still rewritten: You are at 95 g protein, under your usual. (1 ms)
+    ✓ still rewritten: You are at 1,234 kcal, below your average last month. (1 ms)
+    ✓ still rewritten: You burned 999 kcal, more than your usual. (1 ms)
+    ✓ still rewritten: You are at 60 g protein, under your usual 95 g.
+    ✓ still rewritten: Yesterday, you logged 780 kcal. (11 ms)
+    ✓ still rewritten: Yesterday you logged 1850 kcal and 60 g protein. (1 ms)
+
+  ● ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month" › accepted unchanged: Today you have logged 780 kcal and 60 g protein, both under your usual.
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 5
+
+      Object {
+    -   "guardrails_applied": Array [],
+    -   "rewritten": false,
+    -   "text": "Today you have logged 780 kcal and 60 g protein, both under your usual.",
+    +   "guardrails_applied": Array [
+    +     "ungrounded_number",
+    +   ],
+    +   "rewritten": true,
+    +   "text": "Your daily target is 1,450 kcal (120 g protein, 140 g carbs, 45 g fat), which Alex set. So far today you have logged 780 kcal and 60 g protein, leaving 670 kcal. I will not suggest different targets; if you would like them reviewed, message Alex.",
+      }
+
+      60 |     'Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.',
+      61 |   ])('accepted unchanged: %s', (reply) => {
+    > 62 |     expect(check(reply)).toEqual({ text: reply, guardrails_applied: [], rewritten: false });
+         |                          ^
+      63 |   });
+      64 |
+      65 |   it.each([
+
+      at test/roman/roman-post-check-day-claim.spec.ts:62:26
+
+  ● ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month" › accepted unchanged: You are at 60 g protein, under your usual.
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 5
+
+      Object {
+    -   "guardrails_applied": Array [],
+    -   "rewritten": false,
+    -   "text": "You are at 60 g protein, under your usual.",
+    +   "guardrails_applied": Array [
+    +     "ungrounded_number",
+    +   ],
+    +   "rewritten": true,
+    +   "text": "Your daily target is 1,450 kcal (120 g protein, 140 g carbs, 45 g fat), which Alex set. So far today you have logged 780 kcal and 60 g protein, leaving 670 kcal. I will not suggest different targets; if you would like them reviewed, message Alex.",
+      }
+
+      60 |     'Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.',
+      61 |   ])('accepted unchanged: %s', (reply) => {
+    > 62 |     expect(check(reply)).toEqual({ text: reply, guardrails_applied: [], rewritten: false });
+         |                          ^
+      63 |   });
+      64 |
+      65 |   it.each([
+
+      at test/roman/roman-post-check-day-claim.spec.ts:62:26
+
+  ● ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month" › accepted unchanged: You are at 60 g protein against your baseline.
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 5
+
+      Object {
+    -   "guardrails_applied": Array [],
+    -   "rewritten": false,
+    -   "text": "You are at 60 g protein against your baseline.",
+    +   "guardrails_applied": Array [
+    +     "ungrounded_number",
+    +   ],
+    +   "rewritten": true,
+    +   "text": "Your daily target is 1,450 kcal (120 g protein, 140 g carbs, 45 g fat), which Alex set. So far today you have logged 780 kcal and 60 g protein, leaving 670 kcal. I will not suggest different targets; if you would like them reviewed, message Alex.",
+      }
+
+      60 |     'Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.',
+      61 |   ])('accepted unchanged: %s', (reply) => {
+    > 62 |     expect(check(reply)).toEqual({ text: reply, guardrails_applied: [], rewritten: false });
+         |                          ^
+      63 |   });
+      64 |
+      65 |   it.each([
+
+      at test/roman/roman-post-check-day-claim.spec.ts:62:26
+
+  ● ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month" › accepted unchanged: So far you have logged 780 kcal and 60 g protein, both below last month.
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 5
+
+      Object {
+    -   "guardrails_applied": Array [],
+    -   "rewritten": false,
+    -   "text": "So far you have logged 780 kcal and 60 g protein, both below last month.",
+    +   "guardrails_applied": Array [
+    +     "ungrounded_number",
+    +   ],
+    +   "rewritten": true,
+    +   "text": "Your daily target is 1,450 kcal (120 g protein, 140 g carbs, 45 g fat), which Alex set. So far today you have logged 780 kcal and 60 g protein, leaving 670 kcal. I will not suggest different targets; if you would like them reviewed, message Alex.",
+      }
+
+      60 |     'Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.',
+      61 |   ])('accepted unchanged: %s', (reply) => {
+    > 62 |     expect(check(reply)).toEqual({ text: reply, guardrails_applied: [], rewritten: false });
+         |                          ^
+      63 |   });
+      64 |
+      65 |   it.each([
+
+      at test/roman/roman-post-check-day-claim.spec.ts:62:26
+
+  ● ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month" › accepted unchanged: You are at 780 kcal, below your average last month.
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 5
+
+      Object {
+    -   "guardrails_applied": Array [],
+    -   "rewritten": false,
+    -   "text": "You are at 780 kcal, below your average last month.",
+    +   "guardrails_applied": Array [
+    +     "ungrounded_number",
+    +   ],
+    +   "rewritten": true,
+    +   "text": "Your daily target is 1,450 kcal (120 g protein, 140 g carbs, 45 g fat), which Alex set. So far today you have logged 780 kcal and 60 g protein, leaving 670 kcal. I will not suggest different targets; if you would like them reviewed, message Alex.",
+      }
+
+      60 |     'Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.',
+      61 |   ])('accepted unchanged: %s', (reply) => {
+    > 62 |     expect(check(reply)).toEqual({ text: reply, guardrails_applied: [], rewritten: false });
+         |                          ^
+      63 |   });
+      64 |
+      65 |   it.each([
+
+      at test/roman/roman-post-check-day-claim.spec.ts:62:26
+
+  ● ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month" › accepted unchanged: Today, you are at 60 g protein, below your baseline.
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 5
+
+      Object {
+    -   "guardrails_applied": Array [],
+    -   "rewritten": false,
+    -   "text": "Today, you are at 60 g protein, below your baseline.",
+    +   "guardrails_applied": Array [
+    +     "ungrounded_number",
+    +   ],
+    +   "rewritten": true,
+    +   "text": "Your daily target is 1,450 kcal (120 g protein, 140 g carbs, 45 g fat), which Alex set. So far today you have logged 780 kcal and 60 g protein, leaving 670 kcal. I will not suggest different targets; if you would like them reviewed, message Alex.",
+      }
+
+      60 |     'Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.',
+      61 |   ])('accepted unchanged: %s', (reply) => {
+    > 62 |     expect(check(reply)).toEqual({ text: reply, guardrails_applied: [], rewritten: false });
+         |                          ^
+      63 |   });
+      64 |
+      65 |   it.each([
+
+      at test/roman/roman-post-check-day-claim.spec.ts:62:26
+
+  ● ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month" › accepted unchanged: You burned 2500 kcal, more than your usual.
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 5
+
+      Object {
+    -   "guardrails_applied": Array [],
+    -   "rewritten": false,
+    -   "text": "You burned 2500 kcal, more than your usual.",
+    +   "guardrails_applied": Array [
+    +     "ungrounded_number",
+    +   ],
+    +   "rewritten": true,
+    +   "text": "Your daily target is 1,450 kcal (120 g protein, 140 g carbs, 45 g fat), which Alex set. So far today you have logged 780 kcal and 60 g protein, leaving 670 kcal. I will not suggest different targets; if you would like them reviewed, message Alex.",
+      }
+
+      60 |     'Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.',
+      61 |   ])('accepted unchanged: %s', (reply) => {
+    > 62 |     expect(check(reply)).toEqual({ text: reply, guardrails_applied: [], rewritten: false });
+         |                          ^
+      63 |   });
+      64 |
+      65 |   it.each([
+
+      at test/roman/roman-post-check-day-claim.spec.ts:62:26
+
+  ● ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month" › accepted unchanged: You are at 60 g protein, under your usual 110 g.
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 5
+
+      Object {
+    -   "guardrails_applied": Array [],
+    -   "rewritten": false,
+    -   "text": "You are at 60 g protein, under your usual 110 g.",
+    +   "guardrails_applied": Array [
+    +     "ungrounded_number",
+    +   ],
+    +   "rewritten": true,
+    +   "text": "Your daily target is 1,450 kcal (120 g protein, 140 g carbs, 45 g fat), which Alex set. So far today you have logged 780 kcal and 60 g protein, leaving 670 kcal. I will not suggest different targets; if you would like them reviewed, message Alex.",
+      }
+
+      60 |     'Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.',
+      61 |   ])('accepted unchanged: %s', (reply) => {
+    > 62 |     expect(check(reply)).toEqual({ text: reply, guardrails_applied: [], rewritten: false });
+         |                          ^
+      63 |   });
+      64 |
+      65 |   it.each([
+
+      at test/roman/roman-post-check-day-claim.spec.ts:62:26
+
+  ● ROMAN-GUARD-129: a correct today figure next to "usual", "baseline" or "last month" › accepted unchanged: Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 3
+    + Received  + 5
+
+      Object {
+    -   "guardrails_applied": Array [],
+    -   "rewritten": false,
+    -   "text": "Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.",
+    +   "guardrails_applied": Array [
+    +     "ungrounded_number",
+    +   ],
+    +   "rewritten": true,
+    +   "text": "Your daily target is 1,450 kcal (120 g protein, 140 g carbs, 45 g fat), which Alex set. So far today you have logged 780 kcal and 60 g protein, leaving 670 kcal. I will not suggest different targets; if you would like them reviewed, message Alex.",
+      }
+
+      60 |     'Yesterday you logged 1,850 kcal, and today you have logged 780 kcal and 60 g protein.',
+      61 |   ])('accepted unchanged: %s', (reply) => {
+    > 62 |     expect(check(reply)).toEqual({ text: reply, guardrails_applied: [], rewritten: false });
+         |                          ^
+      63 |   });
+      64 |
+      65 |   it.each([
+
+      at test/roman/roman-post-check-day-claim.spec.ts:62:26
+
+Test Suites: 1 failed, 1 total
+Tests:       9 failed, 7 passed, 16 total
+Snapshots:   0 total
+Time:        2.72 s
+Ran all test suites matching test/roman/roman-post-check-day-claim.spec.ts.

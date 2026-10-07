@@ -1,0 +1,55 @@
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[33m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [33m   WARN[39m [38;5;3m[RomanService] [39m[33mroman.augment_omitted kind=coach_method reason=error Error[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=none[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=none[39m
+[31m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [31m  ERROR[39m [38;5;3m[RomanService] [39m[31mroman.context_builder_missing[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=unavailable[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.augment_dropped reason=no_memory_scope[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.augment_dropped reason=no_memory_scope[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[32m[Nest] 22229  - [39m10/01/2026, 12:30:00 AM [32m    LOG[39m [38;5;3m[RomanService] [39m[32mroman.turn session=sess_1 prompt_version=roman-client-v4 model_call=true rewritten=false guardrail_count=0 usage=final context=d9bf9e715ea2[39m
+[33m[Nest] 22229  - [39m10/07/2026, 11:35:12 PM [33m   WARN[39m [38;5;3m[RomanBackgroundSpendService] [39m[33mroman.background_capacity_reached cap_usd=1[39m
+[31m[Nest] 22229  - [39m10/07/2026, 11:35:12 PM [31m  ERROR[39m [38;5;3m[RomanBackgroundSpendService] [39m[31mroman.background_ledger_failed: Error[39m
+[33m[Nest] 22229  - [39m10/07/2026, 11:35:12 PM [33m   WARN[39m [38;5;3m[RomanBackgroundSpendService] [39m[33mroman.background_pool_empty capability=roman.memory[39m
+[31m[Nest] 22229  - [39m10/07/2026, 11:35:12 PM [31m  ERROR[39m [38;5;3m[RomanBackgroundSpendService] [39m[31mroman.background_pool_failed: Error[39m
+PASS test/roman/r11-seams.spec.ts (129 MB heap size)
+  R11-00 prompt seam
+    ✓ no augments (absent, empty, blank) -> the prompt hash equals main (8 ms)
+    ✓ augments follow client_data as their own sections, in the given order, before subject context (1 ms)
+    ✓ the coach surface never carries augments (1 ms)
+  R11-00 runRomanTurnAugmenters
+    ✓ fixed order (client_memory, then coach_method) whatever the registration order (1 ms)
+    ✓ a throw, a timeout and an empty block each omit only that block; failures carry no content (22 ms)
+    ✓ the module collects no augmenter on main (default empty) and provides the background spend service (2 ms)
+  R11-00 turn seam (RomanService.streamAssistantTurn)
+    ✓ zero augmenters: the system prompt and the ledger row are exactly the pre-v1.1 ones (77 ms)
+    ✓ a throwing augmenter: the turn still answers, its block is absent, the other block is applied; ledger has kinds + hashes only (10 ms)
+    ✓ the coach surface, a coach caller and a degraded turn never call an augmenter (4 ms)
+    ✓ R11-T2A v4 caller: the block is dropped, the prompt has no augment, the send is base scope (8 ms)
+    ✓ R11-T2A v5 caller: the block follows client_data and the send carries scope memory (11 ms)
+    ✓ R11-T2A no augmenter: no memory read; none applied: the base-scope send (30 ms)
+    ✓ R11-FIX U2 v4 caller: the grant is read first and no augmenter reads the notes (16 ms)
+  R11-00 flags and capabilities
+    ✓ only the literal "true" turns each flag on (1 ms)
+    ✓ ENV_RULES, the Fly manifest and the runbook register both flags off and the background cap (3 ms)
+    ✓ R11-T2A: the toolbox is an optional injection and the tool limits are pinned
+    ✓ the background capabilities are metered and are not the chat capability (1 ms)
+  R11-00 background spend breaker
+    ✓ cap: unset or invalid = 10, never no cap
+    ✓ admits under the cap: reserves on the ledger under its own capability, the head coach pays (1 ms)
+    ✓ refuses above the cap and on a ledger read failure, inserting nothing (2 ms)
+    ✓ refuses when the coach pool cannot pay the worst case, or cannot be read, before any ledger write (1 ms)
+    ✓ settle replaces the reservation and debits the pool under the job capability; a coach payer uses its head coach (1 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       22 passed, 22 total
+Snapshots:   0 total
+Time:        3.392 s
+Ran all test suites matching test/roman/r11-seams.spec.ts.

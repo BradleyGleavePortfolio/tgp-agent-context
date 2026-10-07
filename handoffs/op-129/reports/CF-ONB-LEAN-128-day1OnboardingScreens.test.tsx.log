@@ -1,0 +1,6 @@
+PASS src/screens/day-one/__tests__/day1OnboardingScreens.test.tsx (7.534 s)
+
+Test Suites: 1 passed, 1 total
+Tests:       28 passed, 28 total
+Snapshots:   0 total
+Time:        7.631 s

@@ -1,0 +1,2614 @@
+FAIL src/screens/onboarding/__tests__/leanHonest.test.tsx (110.813 s)
+  ● renders honest six-step progress on [Function LeanQ1GoalScreen] (1)
+
+    Unable to find an element with text: Step 1 of 6
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mWhere are you headed?[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mOne direction at a time.[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLose Weight[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mA gradual shift.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mBuild Muscle[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mSlow, deliberate strength.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMaintain[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mHold the line.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mSkip — I'll set this later[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      65 |   async (Screen, step) => {
+      66 |     const r = await render(<Screen navigation={navigation} />);
+    > 67 |     expect(r.getByText(`Step ${step} of 6`)).toBeTruthy();
+         |              ^
+      68 |     expect(r.queryByText(/I'll|I’ll|Track my|←|SAVE AND CONTINUE|^CONTINUE$/)).toBeNull();
+      69 |     expect(r.queryByText(/home screen is set up|Your title begins/)).toBeNull();
+      70 |   },
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:67:14)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● renders honest six-step progress on [Function LeanQ2ExperienceScreen] (2)
+
+    Unable to find an element with text: Step 2 of 6
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mHow long have you been at this?[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mThe first steps are shaped to fit.[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mNew to this[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mFinding your footing.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mSome experience[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mSome time in.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mExperienced[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mThe work is familiar.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m← Back[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSkip — I'll set this later[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      65 |   async (Screen, step) => {
+      66 |     const r = await render(<Screen navigation={navigation} />);
+    > 67 |     expect(r.getByText(`Step ${step} of 6`)).toBeTruthy();
+         |              ^
+      68 |     expect(r.queryByText(/I'll|I’ll|Track my|←|SAVE AND CONTINUE|^CONTINUE$/)).toBeNull();
+      69 |     expect(r.queryByText(/home screen is set up|Your title begins/)).toBeNull();
+      70 |   },
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:67:14)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● renders honest six-step progress on [Function LeanQ3IntentScreen] (3)
+
+    Unable to find an element with text: Step 3 of 6
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mWhere does it begin?[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mYour home screen is set up to make it instant.[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLog a workout[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mBegin your first session.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mTrack my meals[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mLog what you eat. Hit your targets.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mJust explore[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mTake a look around.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mYour title begins with your first session[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m← Back[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSkip — I'll set this later[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      65 |   async (Screen, step) => {
+      66 |     const r = await render(<Screen navigation={navigation} />);
+    > 67 |     expect(r.getByText(`Step ${step} of 6`)).toBeTruthy();
+         |              ^
+      68 |     expect(r.queryByText(/I'll|I’ll|Track my|←|SAVE AND CONTINUE|^CONTINUE$/)).toBeNull();
+      69 |     expect(r.queryByText(/home screen is set up|Your title begins/)).toBeNull();
+      70 |   },
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:67:14)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● renders honest six-step progress on [Function LeanQ4MetricsScreen] (4)
+
+    Unable to find an element with text: Step 4 of 6
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<RCTScrollView>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View />[39m
+                [36m<View />[39m
+                [36m<View />[39m
+                [36m<View />[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mA measure to begin.[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mThese guide your targets. Add what you know — or skip and add later.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Use imperial units"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-units-imperial"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mft / lbs[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Use metric units"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-units-metric"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mcm / kg[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mHEIGHT[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<TextInput[39m
+                  [33maccessibilityLabel[39m=[32m"Height in feet"[39m
+                  [33mplaceholder[39m=[32m"ft"[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m/>[39m
+                [36m<TextInput[39m
+                  [33maccessibilityLabel[39m=[32m"Height in inches"[39m
+                  [33mplaceholder[39m=[32m"in"[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m/>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mCURRENT WEIGHT[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Current weight in pounds"[39m
+                [33mplaceholder[39m=[32m"lbs"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View />[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Save and continue"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"lean-q4-save-continue"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mSAVE AND CONTINUE[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Go back"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-back"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0m← Back[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Skip metrics, add later"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-skip"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mSkip — I’ll add later[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</RCTScrollView>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      65 |   async (Screen, step) => {
+      66 |     const r = await render(<Screen navigation={navigation} />);
+    > 67 |     expect(r.getByText(`Step ${step} of 6`)).toBeTruthy();
+         |              ^
+      68 |     expect(r.queryByText(/I'll|I’ll|Track my|←|SAVE AND CONTINUE|^CONTINUE$/)).toBeNull();
+      69 |     expect(r.queryByText(/home screen is set up|Your title begins/)).toBeNull();
+      70 |   },
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:67:14)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● renders honest six-step progress on [Function LeanQ5Screen] (5)
+
+    Unable to find an element with text: Step 5 of 6
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<RCTScrollView>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<View />[39m
+                  [36m<View />[39m
+                  [36m<View />[39m
+                  [36m<View />[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0mA little more about you.[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mOptional — these help personalise your targets.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mBIRTH YEAR[0m
+                [36m</Text>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<RCTScrollView[39m
+                    [33maccessibilityLabel[39m=[32m"Birth year picker"[39m
+                    [33maccessibilityRole[39m=[32m"adjustable"[39m
+                    [33mtestID[39m=[32m"birth-year-wheel"[39m
+                  [36m>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1996"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": true,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1996"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1996[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1995"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1995"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1995[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1994"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1994"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1994[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1993"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1993"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1993[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1992"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1992"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1992[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1991"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1991"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1991[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1990"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1990"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1990[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1989"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1989"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1989[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1988"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1988"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1988[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1987"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1987"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1987[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View />[39m
+                    [36m</View>[39m
+                  [36m</RCTScrollView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mTARGET WEIGHT (OPTIONAL)[0m
+                [36m</Text>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"Use pounds"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "selected": true,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                    [33mtestID[39m=[32m"unit-chip-lbs"[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mlbs[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"Use kilograms"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "selected": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                    [33mtestID[39m=[32m"unit-chip-kg"[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mkg[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+                [36m<TextInput[39m
+                  [33maccessibilityLabel[39m=[32m"Target weight in pounds"[39m
+                  [33mplaceholder[39m=[32m"lbs"[39m
+                  [33mtestID[39m=[32m"target-weight-input"[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m/>[39m
+              [36m</View>[39m
+              [36m<View />[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Save and continue"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"save-continue-btn"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mSAVE AND CONTINUE[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Go back"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                  [33mtestID[39m=[32m"back-btn"[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0m← Back[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Skip, add later"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                  [33mtestID[39m=[32m"skip-btn"[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mSkip — I'll add later[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</RCTScrollView>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      65 |   async (Screen, step) => {
+      66 |     const r = await render(<Screen navigation={navigation} />);
+    > 67 |     expect(r.getByText(`Step ${step} of 6`)).toBeTruthy();
+         |              ^
+      68 |     expect(r.queryByText(/I'll|I’ll|Track my|←|SAVE AND CONTINUE|^CONTINUE$/)).toBeNull();
+      69 |     expect(r.queryByText(/home screen is set up|Your title begins/)).toBeNull();
+      70 |   },
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:67:14)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● renders honest six-step progress on [Function LeanQ6Screen] (6)
+
+    Unable to find an element with text: Step 6 of 6
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mAny dietary preferences?[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mSelect all that apply.[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"None"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": true,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-none"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mNone[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Vegan"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-vegan"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mVegan[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Vegetarian"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-vegetarian"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mVegetarian[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Gluten-free"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-gluten_free"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mGluten-free[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Halal"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-halal"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mHalal[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Kosher"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-kosher"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mKosher[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Nut-free"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-nut_free"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mNut-free[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View />[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Continue"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"continue-btn"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mCONTINUE[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Go back"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"back-btn"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m← Back[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Skip, add later"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"skip-btn"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mSkip — I'll add later[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      65 |   async (Screen, step) => {
+      66 |     const r = await render(<Screen navigation={navigation} />);
+    > 67 |     expect(r.getByText(`Step ${step} of 6`)).toBeTruthy();
+         |              ^
+      68 |     expect(r.queryByText(/I'll|I’ll|Track my|←|SAVE AND CONTINUE|^CONTINUE$/)).toBeNull();
+      69 |     expect(r.queryByText(/home screen is set up|Your title begins/)).toBeNull();
+      70 |   },
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:67:14)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● retains the answer and onward route for [Function LeanQ3IntentScreen]
+
+    Unable to find an element with text: Track meals
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mWhere does it begin?[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mYour home screen is set up to make it instant.[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLog a workout[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mBegin your first session.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mTrack my meals[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mLog what you eat. Hit your targets.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mJust explore[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mTake a look around.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mYour title begins with your first session[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m← Back[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSkip — I'll set this later[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      77 | ] as const)('retains the answer and onward route for %p', async (Screen, label, route, answer) => {
+      78 |   const r = await render(<Screen navigation={navigation} />);
+    > 79 |   await fireEvent.press(r.getByText(label));
+         |                           ^
+      80 |   await waitFor(() => expect(navigation.navigate).toHaveBeenCalledWith(route));
+      81 |   expect(await getOnboardingData()).toMatchObject(answer);
+      82 | });
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:79:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● keeps Back reachable on [Function LeanQ2ExperienceScreen]
+
+    Unable to find an element with text: Back
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mHow long have you been at this?[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mThe first steps are shaped to fit.[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mNew to this[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mFinding your footing.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mSome experience[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mSome time in.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mExperienced[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mThe work is familiar.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m← Back[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSkip — I'll set this later[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      84 | it.each(screens.slice(1))('keeps Back reachable on %p', async (Screen) => {
+      85 |   const r = await render(<Screen navigation={navigation} />);
+    > 86 |   await fireEvent.press(r.getByText('Back'));
+         |                           ^
+      87 |   expect(navigation.goBack).toHaveBeenCalledTimes(1);
+      88 | });
+      89 |
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:86:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● keeps Back reachable on [Function LeanQ3IntentScreen]
+
+    Unable to find an element with text: Back
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mWhere does it begin?[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mYour home screen is set up to make it instant.[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLog a workout[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mBegin your first session.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mTrack my meals[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mLog what you eat. Hit your targets.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mJust explore[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mTake a look around.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mYour title begins with your first session[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m← Back[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSkip — I'll set this later[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      84 | it.each(screens.slice(1))('keeps Back reachable on %p', async (Screen) => {
+      85 |   const r = await render(<Screen navigation={navigation} />);
+    > 86 |   await fireEvent.press(r.getByText('Back'));
+         |                           ^
+      87 |   expect(navigation.goBack).toHaveBeenCalledTimes(1);
+      88 | });
+      89 |
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:86:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● keeps Back reachable on [Function LeanQ4MetricsScreen]
+
+    Unable to find an element with text: Back
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<RCTScrollView>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View />[39m
+                [36m<View />[39m
+                [36m<View />[39m
+                [36m<View />[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mA measure to begin.[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mThese guide your targets. Add what you know — or skip and add later.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Use imperial units"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-units-imperial"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mft / lbs[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Use metric units"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-units-metric"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mcm / kg[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mHEIGHT[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<TextInput[39m
+                  [33maccessibilityLabel[39m=[32m"Height in feet"[39m
+                  [33mplaceholder[39m=[32m"ft"[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m/>[39m
+                [36m<TextInput[39m
+                  [33maccessibilityLabel[39m=[32m"Height in inches"[39m
+                  [33mplaceholder[39m=[32m"in"[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m/>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mCURRENT WEIGHT[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Current weight in pounds"[39m
+                [33mplaceholder[39m=[32m"lbs"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View />[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Save and continue"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"lean-q4-save-continue"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mSAVE AND CONTINUE[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Go back"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-back"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0m← Back[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Skip metrics, add later"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-skip"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mSkip — I’ll add later[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</RCTScrollView>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      84 | it.each(screens.slice(1))('keeps Back reachable on %p', async (Screen) => {
+      85 |   const r = await render(<Screen navigation={navigation} />);
+    > 86 |   await fireEvent.press(r.getByText('Back'));
+         |                           ^
+      87 |   expect(navigation.goBack).toHaveBeenCalledTimes(1);
+      88 | });
+      89 |
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:86:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● keeps Back reachable on [Function LeanQ5Screen]
+
+    Unable to find an element with text: Back
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<RCTScrollView>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<View />[39m
+                  [36m<View />[39m
+                  [36m<View />[39m
+                  [36m<View />[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0mA little more about you.[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mOptional — these help personalise your targets.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mBIRTH YEAR[0m
+                [36m</Text>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<RCTScrollView[39m
+                    [33maccessibilityLabel[39m=[32m"Birth year picker"[39m
+                    [33maccessibilityRole[39m=[32m"adjustable"[39m
+                    [33mtestID[39m=[32m"birth-year-wheel"[39m
+                  [36m>[39m
+                    [36m<View>[39m
+                      [36m<View />[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1996"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": true,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1996"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1996[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1995"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1995"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1995[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1994"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1994"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1994[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1993"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1993"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1993[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1992"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1992"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1992[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1991"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1991"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1991[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1990"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1990"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1990[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1989"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1989"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1989[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1988"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1988"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1988[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View>[39m
+                        [36m<View[39m
+                          [33maccessibilityLabel[39m=[32m"Select year 1987"[39m
+                          [33maccessibilityRole[39m=[32m"button"[39m
+                          [33maccessibilityState[39m=[32m{
+                            {
+                              "selected": false,
+                            }
+                          }[39m
+                          [33maccessible[39m=[32m{true}[39m
+                          [33mtestID[39m=[32m"wheel-year-1987"[39m
+                        [36m>[39m
+                          [36m<Text>[39m
+                            [0m1987[0m
+                          [36m</Text>[39m
+                        [36m</View>[39m
+                      [36m</View>[39m
+                      [36m<View />[39m
+                    [36m</View>[39m
+                  [36m</RCTScrollView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mTARGET WEIGHT (OPTIONAL)[0m
+                [36m</Text>[39m
+                [36m<View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"Use pounds"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "selected": true,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                    [33mtestID[39m=[32m"unit-chip-lbs"[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mlbs[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                  [36m<View[39m
+                    [33maccessibilityLabel[39m=[32m"Use kilograms"[39m
+                    [33maccessibilityRole[39m=[32m"button"[39m
+                    [33maccessibilityState[39m=[32m{
+                      {
+                        "selected": false,
+                      }
+                    }[39m
+                    [33maccessible[39m=[32m{true}[39m
+                    [33mtestID[39m=[32m"unit-chip-kg"[39m
+                  [36m>[39m
+                    [36m<Text>[39m
+                      [0mkg[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+                [36m<TextInput[39m
+                  [33maccessibilityLabel[39m=[32m"Target weight in pounds"[39m
+                  [33mplaceholder[39m=[32m"lbs"[39m
+                  [33mtestID[39m=[32m"target-weight-input"[39m
+                  [33mvalue[39m=[32m""[39m
+                [36m/>[39m
+              [36m</View>[39m
+              [36m<View />[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Save and continue"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"save-continue-btn"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mSAVE AND CONTINUE[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Go back"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                  [33mtestID[39m=[32m"back-btn"[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0m← Back[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Skip, add later"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                  [33mtestID[39m=[32m"skip-btn"[39m
+                [36m>[39m
+                  [36m<Text>[39m
+                    [0mSkip — I'll add later[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</RCTScrollView>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      84 | it.each(screens.slice(1))('keeps Back reachable on %p', async (Screen) => {
+      85 |   const r = await render(<Screen navigation={navigation} />);
+    > 86 |   await fireEvent.press(r.getByText('Back'));
+         |                           ^
+      87 |   expect(navigation.goBack).toHaveBeenCalledTimes(1);
+      88 | });
+      89 |
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:86:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● keeps Back reachable on [Function LeanQ6Screen]
+
+    Unable to find an element with text: Back
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mAny dietary preferences?[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mSelect all that apply.[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"None"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": true,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-none"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mNone[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Vegan"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-vegan"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mVegan[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Vegetarian"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-vegetarian"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mVegetarian[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Gluten-free"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-gluten_free"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mGluten-free[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Halal"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-halal"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mHalal[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Kosher"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-kosher"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mKosher[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Nut-free"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-nut_free"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mNut-free[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View />[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Continue"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"continue-btn"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mCONTINUE[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Go back"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"back-btn"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m← Back[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Skip, add later"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"skip-btn"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mSkip — I'll add later[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      84 | it.each(screens.slice(1))('keeps Back reachable on %p', async (Screen) => {
+      85 |   const r = await render(<Screen navigation={navigation} />);
+    > 86 |   await fireEvent.press(r.getByText('Back'));
+         |                           ^
+      87 |   expect(navigation.goBack).toHaveBeenCalledTimes(1);
+      88 | });
+      89 |
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:86:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● saves an optional sex choice with metric measurements and advances to Q5
+
+    Unable to find an element with accessibility label: Female
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<RCTScrollView>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View />[39m
+                [36m<View />[39m
+                [36m<View />[39m
+                [36m<View />[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mA measure to begin.[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mThese guide your targets. Add what you know — or skip and add later.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Use imperial units"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-units-imperial"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mft / lbs[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Use metric units"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-units-metric"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mcm / kg[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mHEIGHT[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Height in centimetres"[39m
+                [33mplaceholder[39m=[32m"cm"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mCURRENT WEIGHT[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Current weight in kilograms"[39m
+                [33mplaceholder[39m=[32m"kg"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View />[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Save and continue"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"lean-q4-save-continue"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mSAVE AND CONTINUE[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Go back"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-back"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0m← Back[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Skip metrics, add later"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+                [33mtestID[39m=[32m"lean-q4-skip"[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mSkip — I’ll add later[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</RCTScrollView>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      91 |   const r = await render(<LeanQ4 navigation={navigation} />);
+      92 |   await fireEvent.press(r.getByLabelText('Use metric units'));
+    > 93 |   await fireEvent.press(r.getByLabelText('Female'));
+         |                           ^
+      94 |   await fireEvent.changeText(r.getByLabelText('Height in centimetres'), '168');
+      95 |   await fireEvent.changeText(r.getByLabelText('Current weight in kilograms'), '72');
+      96 |   await fireEvent.press(r.getByTestId('lean-q4-save-continue'));
+
+      at Object.getByLabelText (src/screens/onboarding/__tests__/leanHonest.test.tsx:93:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● leaves sex and measurements unanswered on the Q4 skip path
+
+    thrown: "Exceeded timeout of 20000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+       99 | });
+      100 |
+    > 101 | it('leaves sex and measurements unanswered on the Q4 skip path', async () => {
+          | ^
+      102 |   const r = await render(<LeanQ4 navigation={navigation} />);
+      103 |   await fireEvent.press(r.getByTestId('lean-q4-skip'));
+      104 |   await waitFor(() => expect(navigation.navigate).toHaveBeenCalledWith('LeanQ5'));
+
+      at Object.it (src/screens/onboarding/__tests__/leanHonest.test.tsx:101:1)
+
+  ● does not invent a birth date from the displayed wheel or an unconfirmed old draft (undefined)
+
+    expect(received).toBeUndefined()
+
+    Received: "1996-01-01"
+
+      113 |     await fireEvent.press(r.getByTestId('save-continue-btn'));
+      114 |     await waitFor(() => expect(navigation.navigate).toHaveBeenCalledWith('LeanQ6'));
+    > 115 |     expect((await getOnboardingData()).dob).toBeUndefined();
+          |                                             ^
+      116 |     await waitFor(() => expect(JSON.parse(mockDrafts[draftKey] ?? '{}').dob).toBeUndefined());
+      117 |   },
+      118 | );
+
+      at toBeUndefined (src/screens/onboarding/__tests__/leanHonest.test.tsx:115:45)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● does not invent a birth date from the displayed wheel or an unconfirmed old draft (1996-01-01)
+
+    expect(received).toBeUndefined()
+
+    Received: "1996-01-01"
+
+      113 |     await fireEvent.press(r.getByTestId('save-continue-btn'));
+      114 |     await waitFor(() => expect(navigation.navigate).toHaveBeenCalledWith('LeanQ6'));
+    > 115 |     expect((await getOnboardingData()).dob).toBeUndefined();
+          |                                             ^
+      116 |     await waitFor(() => expect(JSON.parse(mockDrafts[draftKey] ?? '{}').dob).toBeUndefined());
+      117 |   },
+      118 | );
+
+      at toBeUndefined (src/screens/onboarding/__tests__/leanHonest.test.tsx:115:45)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● keeps skip-to-finish available on [Function LeanQ2ExperienceScreen]
+
+    Unable to find an element with text: Skip for now
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mHow long have you been at this?[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mThe first steps are shaped to fit.[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mNew to this[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mFinding your footing.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mSome experience[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mSome time in.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mExperienced[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mThe work is familiar.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m← Back[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSkip — I'll set this later[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      143 | it.each([LeanQ2, LeanQ3, LeanQ6])('keeps skip-to-finish available on %p', async (Screen) => {
+      144 |   const r = await render(<Screen navigation={navigation} />);
+    > 145 |   await fireEvent.press(r.getByText('Skip for now'));
+          |                           ^
+      146 |   await waitFor(() => expect(authEvents.emit).toHaveBeenCalled());
+      147 |   expect(await AsyncStorage.getItem('onboarding_complete')).toBe('true');
+      148 | });
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:145:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● keeps skip-to-finish available on [Function LeanQ3IntentScreen]
+
+    Unable to find an element with text: Skip for now
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mWhere does it begin?[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mYour home screen is set up to make it instant.[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLog a workout[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mBegin your first session.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mTrack my meals[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mLog what you eat. Hit your targets.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mJust explore[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mTake a look around.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mYour title begins with your first session[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m← Back[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSkip — I'll set this later[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      143 | it.each([LeanQ2, LeanQ3, LeanQ6])('keeps skip-to-finish available on %p', async (Screen) => {
+      144 |   const r = await render(<Screen navigation={navigation} />);
+    > 145 |   await fireEvent.press(r.getByText('Skip for now'));
+          |                           ^
+      146 |   await waitFor(() => expect(authEvents.emit).toHaveBeenCalled());
+      147 |   expect(await AsyncStorage.getItem('onboarding_complete')).toBe('true');
+      148 | });
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:145:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● keeps skip-to-finish available on [Function LeanQ6Screen]
+
+    Unable to find an element with text: Skip for now
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mAny dietary preferences?[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mSelect all that apply.[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"None"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": true,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-none"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mNone[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Vegan"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-vegan"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mVegan[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Vegetarian"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-vegetarian"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mVegetarian[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Gluten-free"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-gluten_free"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mGluten-free[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Halal"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-halal"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mHalal[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Kosher"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-kosher"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mKosher[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Nut-free"[39m
+              [33maccessibilityRole[39m=[32m"checkbox"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "checked": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"chip-nut_free"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mNut-free[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View />[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Continue"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"continue-btn"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mCONTINUE[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Go back"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"back-btn"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0m← Back[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Skip, add later"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"skip-btn"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mSkip — I'll add later[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      143 | it.each([LeanQ2, LeanQ3, LeanQ6])('keeps skip-to-finish available on %p', async (Screen) => {
+      144 |   const r = await render(<Screen navigation={navigation} />);
+    > 145 |   await fireEvent.press(r.getByText('Skip for now'));
+          |                           ^
+      146 |   await waitFor(() => expect(authEvents.emit).toHaveBeenCalled());
+      147 |   expect(await AsyncStorage.getItem('onboarding_complete')).toBe('true');
+      148 | });
+
+      at getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:145:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● keeps Q1 skip confirmation with the actual profile-edit destination
+
+    Unable to find an element with text: Skip for now
+
+    [36m<RCTSafeAreaView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+            [36m<View />[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mWhere are you headed?[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mOne direction at a time.[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLose Weight[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mA gradual shift.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mBuild Muscle[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mSlow, deliberate strength.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMaintain[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0mHold the line.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mSkip — I'll set this later[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTSafeAreaView>[39m
+
+      151 |   const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+      152 |   const r = await render(<LeanQ1 navigation={navigation} />);
+    > 153 |   await fireEvent.press(r.getByText('Skip for now'));
+          |                           ^
+      154 |   expect(alert).toHaveBeenCalledWith('Skip personalisation?', expect.stringContaining('Profile > Edit profile'), expect.any(Array));
+      155 |   const confirm = alert.mock.calls[0]?.[2]?.find((button) => button.text === 'Skip anyway');
+      156 |   await confirm?.onPress?.();
+
+      at Object.getByText (src/screens/onboarding/__tests__/leanHonest.test.tsx:153:27)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       20 failed, 4 passed, 24 total
+Snapshots:   0 total
+Time:        113.718 s

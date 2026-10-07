@@ -1,0 +1,648 @@
+FAIL src/screens/roman/__tests__/RomanChatNav.test.tsx (21.307 s)
+  ✕ loading: Back is a labelled 44 pt header action and history stays reachable (1815 ms)
+  ✕ ready: Back is a labelled 44 pt header action and history stays reachable (3255 ms)
+  ✕ offline: Back is a labelled 44 pt header action and history stays reachable (8 ms)
+  ✕ error: Back is a labelled 44 pt header action and history stays reachable (7 ms)
+  ✕ unavailable: Back is a labelled 44 pt header action and history stays reachable (6 ms)
+  ✕ client: Back preserves the conversation controls and failed-send draft (2954 ms)
+  ✕ coach: Back preserves the conversation controls and failed-send draft (21 ms)
+
+  ● loading: Back is a labelled 44 pt header action and history stays reachable
+
+    Unable to find an element with role: button, name: Back
+
+    [36m<RNCSafeAreaView[39m
+      [33mtestID[39m=[32m"roman-chat-screen"[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-header-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mRoman[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"See, open and delete your past conversations with Roman"[39m
+            [33maccessibilityLabel[39m=[32m"Your conversations with Roman"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"roman-conversations-button"[39m
+          [36m>[39m
+            [36m<Text[39m
+              [33mtestID[39m=[32m"icon-time-outline"[39m
+            [36m/>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"Roman is getting ready"[39m
+        [33maccessibilityRole[39m=[32m"progressbar"[39m
+        [33maccessibilityState[39m=[32m{
+          {
+            "busy": true,
+          }
+        }[39m
+        [33mtestID[39m=[32m"roman-loading-skeleton"[39m
+      [36m/>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      54 |     state.phase = phase;
+      55 |     const view = await render(<RomanChatScreen />);
+    > 56 |     const back = view.getByRole('button', { name: 'Back' });
+         |                       ^
+      57 |     expect(StyleSheet.flatten(back.props.style)).toMatchObject({ width: 44, height: 44 });
+      58 |     expect(view.getByTestId('icon-arrow-back').props.style.color).toBe('theme-foreground');
+      59 |     await fireEvent.press(back);
+
+      at getByRole (src/screens/roman/__tests__/RomanChatNav.test.tsx:56:23)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● ready: Back is a labelled 44 pt header action and history stays reachable
+
+    Unable to find an element with role: button, name: Back
+
+    [36m<RNCSafeAreaView[39m
+      [33mtestID[39m=[32m"roman-chat-screen"[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-header-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mRoman[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"See, open and delete your past conversations with Roman"[39m
+            [33maccessibilityLabel[39m=[32m"Your conversations with Roman"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"roman-conversations-button"[39m
+          [36m>[39m
+            [36m<Text[39m
+              [33mtestID[39m=[32m"icon-time-outline"[39m
+            [36m/>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33mtestID[39m=[32m"roman-empty-greeting"[39m
+          [36m>[39m
+            [36m<Image[39m
+              [33maccessibilityLabel[39m=[32m"Roman"[39m
+              [33maccessibilityRole[39m=[32m"image"[39m
+              [33mtestID[39m=[32m"roman-greeting-avatar"[39m
+            [36m/>[39m
+            [36m<Text[39m
+              [33maccessibilityRole[39m=[32m"text"[39m
+            [36m>[39m
+              [0mWelcome back, Sam. Where shall we begin?[0m
+            [36m</Text>[39m
+            [36m<Text[39m
+              [33maccessibilityRole[39m=[32m"text"[39m
+            [36m>[39m
+              [0mWhenever you need me, I am present. Send a message to begin.[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"roman-composer"[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<TextInput[39m
+              [33maccessibilityLabel[39m=[32m"Message Roman"[39m
+              [33meditable[39m=[32m{true}[39m
+              [33mplaceholder[39m=[32m"Message Roman"[39m
+              [33mtestID[39m=[32m"roman-composer-input"[39m
+              [33mvalue[39m=[32m""[39m
+            [36m/>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Send message"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "busy": false,
+                  "disabled": true,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"roman-composer-send"[39m
+            [36m>[39m
+              [36m<Text[39m
+                [33maccessible[39m=[32m{false}[39m
+              [36m>[39m
+                [0m→[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      54 |     state.phase = phase;
+      55 |     const view = await render(<RomanChatScreen />);
+    > 56 |     const back = view.getByRole('button', { name: 'Back' });
+         |                       ^
+      57 |     expect(StyleSheet.flatten(back.props.style)).toMatchObject({ width: 44, height: 44 });
+      58 |     expect(view.getByTestId('icon-arrow-back').props.style.color).toBe('theme-foreground');
+      59 |     await fireEvent.press(back);
+
+      at getByRole (src/screens/roman/__tests__/RomanChatNav.test.tsx:56:23)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● offline: Back is a labelled 44 pt header action and history stays reachable
+
+    Unable to find an element with role: button, name: Back
+
+    [36m<RNCSafeAreaView[39m
+      [33mtestID[39m=[32m"roman-chat-screen"[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-header-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mRoman[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"See, open and delete your past conversations with Roman"[39m
+            [33maccessibilityLabel[39m=[32m"Your conversations with Roman"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"roman-conversations-button"[39m
+          [36m>[39m
+            [36m<Text[39m
+              [33mtestID[39m=[32m"icon-time-outline"[39m
+            [36m/>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityRole[39m=[32m"alert"[39m
+        [33mtestID[39m=[32m"roman-chat-state"[39m
+      [36m>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-state-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mI cannot reach the service.[0m
+        [36m</Text>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"text"[39m
+        [36m>[39m
+          [0mThere appears to be no connection at the moment. I will try again once it returns.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Try again"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"roman-state-retry"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mTry again[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      54 |     state.phase = phase;
+      55 |     const view = await render(<RomanChatScreen />);
+    > 56 |     const back = view.getByRole('button', { name: 'Back' });
+         |                       ^
+      57 |     expect(StyleSheet.flatten(back.props.style)).toMatchObject({ width: 44, height: 44 });
+      58 |     expect(view.getByTestId('icon-arrow-back').props.style.color).toBe('theme-foreground');
+      59 |     await fireEvent.press(back);
+
+      at getByRole (src/screens/roman/__tests__/RomanChatNav.test.tsx:56:23)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● error: Back is a labelled 44 pt header action and history stays reachable
+
+    Unable to find an element with role: button, name: Back
+
+    [36m<RNCSafeAreaView[39m
+      [33mtestID[39m=[32m"roman-chat-screen"[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-header-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mRoman[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"See, open and delete your past conversations with Roman"[39m
+            [33maccessibilityLabel[39m=[32m"Your conversations with Roman"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"roman-conversations-button"[39m
+          [36m>[39m
+            [36m<Text[39m
+              [33mtestID[39m=[32m"icon-time-outline"[39m
+            [36m/>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityRole[39m=[32m"alert"[39m
+        [33mtestID[39m=[32m"roman-chat-state"[39m
+      [36m>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-state-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mThat request did not complete. I will try again.[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Try again"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessible[39m=[32m{true}[39m
+          [33mtestID[39m=[32m"roman-state-retry"[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mTry again[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      54 |     state.phase = phase;
+      55 |     const view = await render(<RomanChatScreen />);
+    > 56 |     const back = view.getByRole('button', { name: 'Back' });
+         |                       ^
+      57 |     expect(StyleSheet.flatten(back.props.style)).toMatchObject({ width: 44, height: 44 });
+      58 |     expect(view.getByTestId('icon-arrow-back').props.style.color).toBe('theme-foreground');
+      59 |     await fireEvent.press(back);
+
+      at getByRole (src/screens/roman/__tests__/RomanChatNav.test.tsx:56:23)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● unavailable: Back is a labelled 44 pt header action and history stays reachable
+
+    Unable to find an element with role: button, name: Back
+
+    [36m<RNCSafeAreaView[39m
+      [33mtestID[39m=[32m"roman-chat-screen"[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-header-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mRoman[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"See, open and delete your past conversations with Roman"[39m
+            [33maccessibilityLabel[39m=[32m"Your conversations with Roman"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"roman-conversations-button"[39m
+          [36m>[39m
+            [36m<Text[39m
+              [33mtestID[39m=[32m"icon-time-outline"[39m
+            [36m/>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityRole[39m=[32m"alert"[39m
+        [33mtestID[39m=[32m"roman-chat-state"[39m
+      [36m>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-state-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mRoman is not available right now.[0m
+        [36m</Text>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"text"[39m
+        [36m>[39m
+          [0mI am not able to attend to this just yet. I will be here when the service is ready.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      54 |     state.phase = phase;
+      55 |     const view = await render(<RomanChatScreen />);
+    > 56 |     const back = view.getByRole('button', { name: 'Back' });
+         |                       ^
+      57 |     expect(StyleSheet.flatten(back.props.style)).toMatchObject({ width: 44, height: 44 });
+      58 |     expect(view.getByTestId('icon-arrow-back').props.style.color).toBe('theme-foreground');
+      59 |     await fireEvent.press(back);
+
+      at getByRole (src/screens/roman/__tests__/RomanChatNav.test.tsx:56:23)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● client: Back preserves the conversation controls and failed-send draft
+
+    Unable to find an element with accessibility label: Back
+
+    [36m<RNCSafeAreaView[39m
+      [33mtestID[39m=[32m"roman-chat-screen"[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-header-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mRoman[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"See, open and delete your past conversations with Roman"[39m
+            [33maccessibilityLabel[39m=[32m"Your conversations with Roman"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"roman-conversations-button"[39m
+          [36m>[39m
+            [36m<Text[39m
+              [33mtestID[39m=[32m"icon-time-outline"[39m
+            [36m/>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<RCTScrollView[39m
+          [33mrole[39m=[32m"list"[39m
+          [33mtestID[39m=[32m"roman-message-list"[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33mrole[39m=[32m"listitem"[39m
+                [33mtestID[39m=[32m"roman-message-older-message"[39m
+              [36m>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mYOU[0m
+                  [36m</Text>[39m
+                  [36m<Text[39m
+                    [33maccessibilityLabel[39m=[32m"You said: Earlier question."[39m
+                  [36m>[39m
+                    [0mEarlier question.[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</RCTScrollView>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"alert"[39m
+          [33mtestID[39m=[32m"roman-send-error"[39m
+        [36m>[39m
+          [36m<Image[39m
+            [33maccessibilityLabel[39m=[32m"Roman"[39m
+            [33maccessibilityRole[39m=[32m"image"[39m
+          [36m/>[39m
+          [36m<Text[39m
+            [33maccessibilityRole[39m=[32m"text"[39m
+          [36m>[39m
+            [0mThat request did not complete. Send it once more, and I will try again.[0m
+          [36m</Text>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Send again"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"roman-send-retry"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSend again[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"roman-composer"[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<TextInput[39m
+              [33maccessibilityLabel[39m=[32m"Message Roman"[39m
+              [33meditable[39m=[32m{true}[39m
+              [33mplaceholder[39m=[32m"Message Roman"[39m
+              [33mtestID[39m=[32m"roman-composer-input"[39m
+              [33mvalue[39m=[32m"Training question"[39m
+            [36m/>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Send message"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"roman-composer-send"[39m
+            [36m>[39m
+              [36m<Text[39m
+                [33maccessible[39m=[32m{false}[39m
+              [36m>[39m
+                [0m→[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      88 |     expect(state.loadOlder).toHaveBeenCalledTimes(1);
+      89 |     expect(view.getByText('Earlier question.')).toBeTruthy();
+    > 90 |     await fireEvent.press(view.getByLabelText('Back'));
+         |                                ^
+      91 |     expect(mockGoBack).toHaveBeenCalledTimes(1);
+      92 |     expect(mockUseRomanChat).toHaveBeenCalledWith(surface);
+      93 |   },
+
+      at getByLabelText (src/screens/roman/__tests__/RomanChatNav.test.tsx:90:32)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● coach: Back preserves the conversation controls and failed-send draft
+
+    Unable to find an element with accessibility label: Back
+
+    [36m<RNCSafeAreaView[39m
+      [33mtestID[39m=[32m"roman-chat-screen"[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Roman"[39m
+          [33maccessibilityRole[39m=[32m"image"[39m
+          [33mtestID[39m=[32m"roman-header-avatar"[39m
+        [36m/>[39m
+        [36m<Text[39m
+          [33maccessibilityRole[39m=[32m"header"[39m
+        [36m>[39m
+          [0mRoman[0m
+        [36m</Text>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"See, open and delete your past conversations with Roman"[39m
+            [33maccessibilityLabel[39m=[32m"Your conversations with Roman"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"roman-conversations-button"[39m
+          [36m>[39m
+            [36m<Text[39m
+              [33mtestID[39m=[32m"icon-time-outline"[39m
+            [36m/>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<RCTScrollView[39m
+          [33mrole[39m=[32m"list"[39m
+          [33mtestID[39m=[32m"roman-message-list"[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33mrole[39m=[32m"listitem"[39m
+                [33mtestID[39m=[32m"roman-message-older-message"[39m
+              [36m>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mYOU[0m
+                  [36m</Text>[39m
+                  [36m<Text[39m
+                    [33maccessibilityLabel[39m=[32m"You said: Earlier question."[39m
+                  [36m>[39m
+                    [0mEarlier question.[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</RCTScrollView>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"alert"[39m
+          [33mtestID[39m=[32m"roman-send-error"[39m
+        [36m>[39m
+          [36m<Image[39m
+            [33maccessibilityLabel[39m=[32m"Roman"[39m
+            [33maccessibilityRole[39m=[32m"image"[39m
+          [36m/>[39m
+          [36m<Text[39m
+            [33maccessibilityRole[39m=[32m"text"[39m
+          [36m>[39m
+            [0mThat request did not complete. Send it once more, and I will try again.[0m
+          [36m</Text>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Send again"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+            [33mtestID[39m=[32m"roman-send-retry"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSend again[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33mtestID[39m=[32m"roman-composer"[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<TextInput[39m
+              [33maccessibilityLabel[39m=[32m"Message Roman"[39m
+              [33meditable[39m=[32m{true}[39m
+              [33mplaceholder[39m=[32m"Message Roman"[39m
+              [33mtestID[39m=[32m"roman-composer-input"[39m
+              [33mvalue[39m=[32m"Training question"[39m
+            [36m/>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Send message"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+              [33mtestID[39m=[32m"roman-composer-send"[39m
+            [36m>[39m
+              [36m<Text[39m
+                [33maccessible[39m=[32m{false}[39m
+              [36m>[39m
+                [0m→[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RNCSafeAreaView>[39m
+
+      88 |     expect(state.loadOlder).toHaveBeenCalledTimes(1);
+      89 |     expect(view.getByText('Earlier question.')).toBeTruthy();
+    > 90 |     await fireEvent.press(view.getByLabelText('Back'));
+         |                                ^
+      91 |     expect(mockGoBack).toHaveBeenCalledTimes(1);
+      92 |     expect(mockUseRomanChat).toHaveBeenCalledWith(surface);
+      93 |   },
+
+      at getByLabelText (src/screens/roman/__tests__/RomanChatNav.test.tsx:90:32)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       7 failed, 7 total
+Snapshots:   0 total
+Time:        21.399 s
+Ran all test suites matching /src\/screens\/roman\/__tests__\/RomanChatNav.test.tsx/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

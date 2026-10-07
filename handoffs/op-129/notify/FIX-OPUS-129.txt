@@ -1,0 +1,1 @@
+done (stopped 16:38) | PRs: m#514 7691dc60 READY, m#490 dcddb208 READY, m#521 0d278929 pushed (READY not posted, CI running) | B=0 new (fixed lens Bs: m#514 B1+U1, m#521 2B) | verdicts: pending/pending @ 7691dc60, dcddb208, 0d278929 | needs operator: 1 (post m#521 READY when CI green)

@@ -1,0 +1,1 @@
+stopped (operator STOP 16:35) | PRs: none | B=0 U=6 (local, unpushed) | verdicts: none/none @ e634d19e | needs operator: 1

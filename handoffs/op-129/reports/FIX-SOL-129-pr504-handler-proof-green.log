@@ -1,0 +1,4 @@
+PASS src/screens/auth/LoginScreen.tsx: 13 named handlers/helpers/effects equal origin/main
+PASS src/screens/auth/ForgotPasswordScreen.tsx: 2 named handlers/helpers/effects equal origin/main
+PASS src/screens/auth/ResetPasswordScreen.tsx: 3 named handlers/helpers/effects equal origin/main
+PASS 18 auth contracts; styles/render copy intentionally excluded

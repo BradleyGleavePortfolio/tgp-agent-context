@@ -1,0 +1,1 @@
+stopped (operator 16:35) | PRs: none (branch agent129/cf-share-gate-128 @ dc75b0e5 pushed: yes) | B=0 U=1 | verdicts: none/none @ dc75b0e5 | needs operator: 3

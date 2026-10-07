@@ -1,0 +1,90 @@
+  console.warn
+    [Worklets] Couldn't determine the version of the native part of Worklets.
+        See `https://docs.swmansion.com/react-native-worklets/docs/guides/troubleshooting#couldnt-determine-the-version-of-the-native-part-of-worklets` for more details.
+
+      39 |   Line as SvgLine,
+      40 | } from 'react-native-svg';
+    > 41 | import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+         | ^
+      42 | import Animated, {
+      43 |   Easing,
+      44 |   useAnimatedProps,
+
+
+  console.log
+    [AUD129] ancestors with onLayout (keyboard avoiders measure through it): 1
+
+
+  console.log
+    [AUD129] ancestor styles changed by keyboardWillShow(291pt): ["{\"flex\":1,\"paddingBottom\":291}"]
+
+
+  console.log
+    [AUD129] max paddingBottom in the chain after the keyboard: 291
+
+
+  console.log
+    [AUD129] weight field props: {"keyboardType":"decimal-pad","autoFocus":true,"returnKeyType":"done","inputAccessoryViewID":"progress-log-weight-keyboard","inputAccessoryViewButtonLabel":null,"onSubmitEditing":"function"}
+
+
+  console.log
+    [AUD129] paddingBottom chain after keyboardWillShow(291pt): [0,40,0,291,0,0,0]
+
+
+  console.log
+    [AUD129] inputAccessoryViewID / accessory host above Done with that nativeID / Done present: ["progress-log-weight-keyboard",1,true]
+
+
+  console.log
+    [AUD129] Keyboard.dismiss calls after a tap on the dimmed area: 1
+
+
+FAIL src/screens/client/__tests__/zzAudFinBody129.throwaway.test.tsx
+  AUD-FIN-BODY-129 throwaway: Log weight sheet vs the iPhone keyboard (FW-BODY-128 B1)
+    ✓ 0: runs as iOS (2 ms)
+    ✕ 1 MAIN-BUG: nothing above the weight field reacts when the iOS keyboard opens (262 ms)
+    ✕ 2 MAIN-BUG: the decimal pad gets no Done key, the dim area does not dismiss it, the modal cannot be swiped away (64 ms)
+    ✓ 4 FIX-EXPECTED: the sheet rides 291 pt up and the pad can be dismissed (fails where B1 is open) (97 ms)
+
+  ● AUD-FIN-BODY-129 throwaway: Log weight sheet vs the iPhone keyboard (FW-BODY-128 B1) › 1 MAIN-BUG: nothing above the weight field reacts when the iOS keyboard opens
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "{\"flex\":1,\"paddingBottom\":291}",
+    + ]
+
+      133 |     log('ancestor styles changed by keyboardWillShow(291pt)', changed);
+      134 |     log('max paddingBottom in the chain after the keyboard', Math.max(...chain(again).map((n) => flat(n).paddingBottom ?? 0)));
+    > 135 |     expect(changed).toEqual([]);
+          |                     ^
+      136 |   });
+      137 |
+      138 |   it('2 MAIN-BUG: the decimal pad gets no Done key, the dim area does not dismiss it, the modal cannot be swiped away', async () => {
+
+
+  ● AUD-FIN-BODY-129 throwaway: Log weight sheet vs the iPhone keyboard (FW-BODY-128 B1) › 2 MAIN-BUG: the decimal pad gets no Done key, the dim area does not dismiss it, the modal cannot be swiped away
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "default"
+    Received: "done"
+
+      153 |     // returnKeyType or an inputAccessoryViewButtonLabel
+      154 |     // (react-native 0.85.3 RCTTextInputComponentView.mm:644-666).
+    > 155 |     expect((p.returnKeyType as string | undefined) ?? 'default').toBe('default');
+          |                                                                  ^
+      156 |     expect(p.inputAccessoryViewButtonLabel).toBeUndefined();
+      157 |     expect(p.inputAccessoryViewID).toBeUndefined();
+      158 |     expect(utils.queryByLabelText('Done')).toBeNull();
+
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 2 passed, 4 total
+Snapshots:   0 total
+Time:        4.828 s
+Ran all test suites matching /src\/screens\/client\/__tests__\/zzAudFinBody129.throwaway.test.tsx/i.

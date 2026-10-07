@@ -1,0 +1,19 @@
+PASS 2026-10-07 16:15:49 PDT
+ELIGIBLE BOARD ROWS (scanned from top; prioritize T4/T3 and B fixes):
+m#521 | 0b10156da508c37cba55a18f902ad97ab6cb953e | 602 lines | green | agent128/train-gate-128
+m#504 | 431f65b8b239f63f63f7668a82e07d903630a731 | 376 lines | green | agent128/des-au-127
+m#502 | a83774e0e4504b38875ad66f3d4e86750d0f84b1 | 381 lines | green | agent128/des-aw-127
+m#485 | 6515839abcaa8fd359c0bcdcd2d57849200494e6 | 270 lines | green | agent128/des-ae-127
+PASS 2026-10-07 16:25:18 PDT
+No eligible READY head without a Sol verdict or recent Sol claim.
+PASS 2026-10-07 16:28:18 PDT
+No eligible READY head without a Sol verdict or recent Sol claim.
+PASS 2026-10-07 16:31:18 PDT
+ELIGIBLE BOARD ROWS (scanned from top; prioritize T4/T3 and B fixes):
+m#523 | 7e909c35e8192a383f4b7b8e50272ccdf7062057 | 221 lines | green | agent128/cf-roman-nav-128
+m#494 | 7109690f2ca2c8ac3f816381cdfd4ad2bbf1e102 | 533 lines | green | agent128/des-an-127
+PASS 2026-10-07 16:36:41 PDT
+ELIGIBLE BOARD ROWS (scanned from top; prioritize T4/T3 and B fixes):
+m#527 | f980a8e41cf9e06430dffa542ee9f9e54878c7ee | 221 lines | green | agent129/cf-one-list-128
+m#526 | 61bf609ce531fcec11c55876d806a402b32b8768 | 460 lines | green | agent129/cf-food-load-128
+m#490 | dcddb2088c688f1fccf61f5d0358f11374353ff0 | 510 lines | green | agent128/des-ab-127

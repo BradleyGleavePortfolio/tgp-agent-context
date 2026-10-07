@@ -1,0 +1,1 @@
+stopped (operator 16:41) | PRs: b#864 | B=0 U=3 | verdicts: none/none @ 7f9409d7 | needs operator: 2 (build-and-test red at 7f9409d7, not READY; weekly-summary switch U2 owned by CF-SETTINGS-128)

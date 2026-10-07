@@ -1,0 +1,60 @@
+  console.warn
+    [homeHeader.unread-messages] { error: 'Error: 404' }
+
+      16 | function log(level: LogLevel, context: string, ...args: unknown[]) {
+      17 |   if (__DEV__) {
+    > 18 |     console[level](`[${context}]`, ...args);
+         |                   ^
+      19 |   }
+      20 |   // In production, could forward to Sentry breadcrumbs here
+      21 | }
+
+      at log (src/utils/logger.ts:18:19)
+      at Object.log [as warn] (src/utils/logger.ts:25:50)
+      at warn (src/components/home/HomeHeaderActions.tsx:74:41)
+
+FAIL src/components/home/__tests__/HomeHeaderActions.test.tsx (6.384 s)
+  HomeHeaderActions
+    ✓ adds the Roman shortcut only when chat is enabled: false (1057 ms)
+    ✕ adds the Roman shortcut only when chat is enabled: true (1503 ms)
+    ✓ keeps both outline header actions at 24 pt (7 ms)
+    ✓ labels the message entry with the coach first name (7 ms)
+    ✓ falls back to "Message your coach" without a coach or on error (3 ms)
+    ✓ lets the message action label wrap at larger text sizes (3 ms)
+    ✓ message entry opens Messages; bell opens NotificationCenter with unread label (18 ms)
+    ✓ shows the unread coach-message count on the message entry (AUDIT-03-125 U2) (6 ms)
+    ✓ HomeScreen mounts the actions and the deferred push card; ClientNavigator has no dead headerRight bell (1 ms)
+
+  ● HomeHeaderActions › adds the Roman shortcut only when chat is enabled: true
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    - Expected
+    + Received
+
+      "MoreTab",
+      Object {
+    -   "initial": false,
+        "screen": "RomanChat",
+      },
+
+    Number of calls: 1
+
+      45 |     expect(StyleSheet.flatten(view.getByTestId('home-roman-chat').props.style)).toMatchObject({ width: 44, height: 44 });
+      46 |     await fireEvent.press(view.getByLabelText('Chat with Roman'));
+    > 47 |     expect(mockNavigate).toHaveBeenCalledWith('MoreTab', { screen: 'RomanChat', initial: false });
+         |                          ^
+      48 |     await fireEvent.press(view.getByTestId('home-message-coach'));
+      49 |     expect(mockNavigate).toHaveBeenLastCalledWith('Messages');
+      50 |     await fireEvent.press(view.getByTestId('home-notification-bell'));
+
+      at toHaveBeenCalledWith (src/components/home/__tests__/HomeHeaderActions.test.tsx:47:26)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 8 passed, 9 total
+Snapshots:   0 total
+Time:        7.717 s
+Ran all test suites matching /src\/components\/home\/__tests__\/HomeHeaderActions.test.tsx/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

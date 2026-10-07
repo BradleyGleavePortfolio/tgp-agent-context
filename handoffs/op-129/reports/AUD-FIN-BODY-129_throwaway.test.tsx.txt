@@ -1,0 +1,193 @@
+/**
+ * THROWAWAY (AUD-FIN-BODY-129, agent 129). Lives only in the detached worktree
+ * /home/user/workspace/wt/AUD-FIN-BODY-129-mobile. Never committed, never pushed.
+ *
+ * Confirms FW-BODY-128 B1 at render level: what the Log weight sheet does when
+ * the iPhone keyboard opens. Run on mobile main (expects the bug: tests 1-2 pass,
+ * test 4 fails) and on the m#520 head (expects the fix: tests 1-2 fail, test 4 passes).
+ * Jest cannot draw the native keyboard; the iOS keyboardWillShow event that
+ * UIKit sends is simulated with a 291 pt keyboard on a 393 x 852 pt window.
+ */
+import React from 'react';
+import { DeviceEventEmitter, Keyboard, Platform, StyleSheet } from 'react-native';
+import { render, fireEvent, act } from '@testing-library/react-native';
+
+const mockGetHistory = jest.fn(async (): Promise<{ data: unknown }> => ({
+  data: {
+    logs: [
+      { id: '1', date: '2026-10-01T00:00:00.000Z', weight_lbs: 185 },
+      { id: '2', date: '2026-10-07T00:00:00.000Z', weight_lbs: 187 },
+    ],
+    height_cm: null,
+  },
+}));
+const mockLog = jest.fn(async (_body: unknown): Promise<unknown> => ({}));
+jest.mock('../../../services/api', () => ({
+  weightApi: {
+    getHistory: (...args: unknown[]) => mockGetHistory(...(args as [])),
+    log: (body: unknown) => mockLog(body),
+  },
+  logApi: { getDaily: jest.fn(async () => ({ data: {} })) },
+}));
+jest.mock('../../../hooks/useMacroTargets', () => ({
+  useMacroTargets: () => ({ calories: 2000, protein: 150, carbs: 200, fat: 60 }),
+}));
+jest.mock('../../../hooks/useCurrentUser', () => ({
+  useCurrentUser: () => ({ id: 'user-1', profile: {} }),
+}));
+jest.mock('../../../theme/ThemeProvider', () => {
+  const tokens = require('../../../theme/tokens');
+  return {
+    useTheme: () => ({
+      colorScheme: 'light',
+      colors: tokens.colors,
+      semanticColors: tokens.lightTokens,
+    }),
+  };
+});
+jest.mock('@react-navigation/native', () => ({
+  useNavigation: () => ({ navigate: jest.fn() }),
+}));
+jest.mock('../../../lib/analytics', () => ({ track: jest.fn() }));
+jest.mock('../../../config/featureFlags', () => ({
+  __esModule: true,
+  featureFlags: {
+    romanFirstPaymentBodyweightPolish: false,
+    romanFirstPaymentRequireBackendHistory: false,
+  },
+}));
+
+import ProgressScreen from '../ProgressScreen';
+
+const WIN = { x: 0, y: 0, width: 393, height: 852 };
+const K = 291;
+
+type Node = { type: unknown; props: Record<string, unknown>; parent: Node | null };
+type Flat = { paddingBottom?: number; padding?: number } & Record<string, unknown>;
+
+function chain(el: Node): Node[] {
+  const out: Node[] = [];
+  let n: Node | null = el;
+  while (n) {
+    out.push(n);
+    n = n.parent;
+  }
+  return out;
+}
+function flat(n: Node): Flat {
+  return (StyleSheet.flatten(n.props.style as never) ?? {}) as Flat;
+}
+function log(label: string, value: unknown) {
+  // eslint-disable-next-line no-console
+  console.log(`[AUD129] ${label}: ${JSON.stringify(value)}`);
+}
+
+async function openSheet() {
+  const utils = await render(<ProgressScreen />);
+  await fireEvent.press(await utils.findByLabelText('Log weight'));
+  const field = utils.getByLabelText('Enter weight in pounds') as unknown as Node;
+  return { utils, field };
+}
+function sheetOf(field: Node): Node {
+  const s = chain(field).find((n) => flat(n).paddingBottom === 40 && flat(n).padding === 24);
+  if (!s) throw new Error('sheet not found');
+  return s;
+}
+async function showKeyboard(field: Node) {
+  for (const n of chain(field)) {
+    if (typeof n.props.onLayout === 'function') {
+      const onLayout = n.props.onLayout as (e: unknown) => unknown;
+      await act(async () => {
+        await onLayout({ nativeEvent: { layout: WIN }, persist: () => undefined });
+      });
+    }
+  }
+  const ev = {
+    startCoordinates: { screenX: 0, screenY: WIN.height, width: WIN.width, height: K },
+    endCoordinates: { screenX: 0, screenY: WIN.height - K, width: WIN.width, height: K },
+    duration: 0,
+    easing: 'keyboard',
+    isEventFromThisApp: true,
+  };
+  await act(async () => {
+    DeviceEventEmitter.emit('keyboardWillShow', ev);
+    DeviceEventEmitter.emit('keyboardDidShow', ev);
+    await new Promise((r) => setTimeout(r, 0));
+  });
+}
+
+describe('AUD-FIN-BODY-129 throwaway: Log weight sheet vs the iPhone keyboard (FW-BODY-128 B1)', () => {
+  it('0: runs as iOS', () => {
+    expect(Platform.OS).toBe('ios');
+  });
+
+  it('1 MAIN-BUG: nothing above the weight field reacts when the iOS keyboard opens', async () => {
+    const { utils, field } = await openSheet();
+    const before = chain(field).map((n) => JSON.stringify(flat(n)));
+    const listeners = chain(field).filter((n) => typeof n.props.onLayout === 'function').length;
+    await showKeyboard(field);
+    const again = utils.getByLabelText('Enter weight in pounds') as unknown as Node;
+    const after = chain(again).map((n) => JSON.stringify(flat(n)));
+    const changed = after.filter((s, i) => s !== before[i]);
+    log('ancestors with onLayout (keyboard avoiders measure through it)', listeners);
+    log('ancestor styles changed by keyboardWillShow(291pt)', changed);
+    log('max paddingBottom in the chain after the keyboard', Math.max(...chain(again).map((n) => flat(n).paddingBottom ?? 0)));
+    expect(changed).toEqual([]);
+  });
+
+  it('2 MAIN-BUG: the decimal pad gets no Done key, the dim area does not dismiss it, the modal cannot be swiped away', async () => {
+    const dismiss = jest.spyOn(Keyboard, 'dismiss').mockImplementation(() => undefined);
+    const { utils, field } = await openSheet();
+    const p = field.props;
+    log('weight field props', {
+      keyboardType: p.keyboardType,
+      autoFocus: p.autoFocus,
+      returnKeyType: p.returnKeyType ?? null,
+      inputAccessoryViewID: p.inputAccessoryViewID ?? null,
+      inputAccessoryViewButtonLabel: p.inputAccessoryViewButtonLabel ?? null,
+      onSubmitEditing: typeof p.onSubmitEditing,
+    });
+    expect(p.keyboardType).toBe('decimal-pad');
+    expect(p.autoFocus).toBe(true);
+    // React Native adds its own Done bar to a number pad only for a non-default
+    // returnKeyType or an inputAccessoryViewButtonLabel
+    // (react-native 0.85.3 RCTTextInputComponentView.mm:644-666).
+    expect((p.returnKeyType as string | undefined) ?? 'default').toBe('default');
+    expect(p.inputAccessoryViewButtonLabel).toBeUndefined();
+    expect(p.inputAccessoryViewID).toBeUndefined();
+    expect(utils.queryByLabelText('Done')).toBeNull();
+    const overlay = sheetOf(field).parent as Node;
+    await fireEvent.press(overlay as never);
+    log('Keyboard.dismiss calls after a tap on the dimmed area', dismiss.mock.calls.length);
+    expect(dismiss).not.toHaveBeenCalled();
+    const modal = chain(field).find((n) => n.type === 'Modal');
+    log('modal props', {
+      transparent: modal?.props.transparent,
+      animationType: modal?.props.animationType,
+      presentationStyle: modal?.props.presentationStyle ?? null,
+      onRequestClose: typeof modal?.props.onRequestClose,
+    });
+    expect(modal?.props.transparent).toBe(true);
+    expect(modal?.props.presentationStyle).toBeUndefined();
+    dismiss.mockRestore();
+  });
+
+  it('4 FIX-EXPECTED: the sheet rides 291 pt up and the pad can be dismissed (fails where B1 is open)', async () => {
+    const dismiss = jest.spyOn(Keyboard, 'dismiss').mockImplementation(() => undefined);
+    const { utils, field } = await openSheet();
+    await showKeyboard(field);
+    const again = utils.getByLabelText('Enter weight in pounds') as unknown as Node;
+    const pads = chain(again).map((n) => flat(n).paddingBottom ?? 0);
+    log('paddingBottom chain after keyboardWillShow(291pt)', pads);
+    expect(pads).toContain(K);
+    const id = again.props.inputAccessoryViewID as string | undefined;
+    const done = utils.queryByLabelText('Done') as unknown as Node | null;
+    const accessory = done && id ? chain(done).filter((n) => n.props.nativeID === id) : [];
+    log('inputAccessoryViewID / accessory host above Done with that nativeID / Done present', [id ?? null, accessory.length, done != null]);
+    expect(accessory.length).toBeGreaterThan(0);
+    await fireEvent.press(sheetOf(again).parent as never);
+    log('Keyboard.dismiss calls after a tap on the dimmed area', dismiss.mock.calls.length);
+    expect(dismiss).toHaveBeenCalled();
+    dismiss.mockRestore();
+  });
+});

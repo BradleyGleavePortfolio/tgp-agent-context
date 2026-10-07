@@ -1,0 +1,1 @@
+stopped (operator 16:37) | PRs: b#859 @ b7f74c4e, 258 lines, CI no fail/pending 16:37, READY not posted | B=0 U=1 | verdicts: -/- @ b7f74c4e | needs operator: 1 (post READY)

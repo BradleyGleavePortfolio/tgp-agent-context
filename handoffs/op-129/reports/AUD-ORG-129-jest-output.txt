@@ -1,0 +1,223 @@
+  console.error
+    The current testing environment is not configured to support act(...)
+
+      197 |     try {
+      198 |       const res = await subCoachApi.listSubCoaches();
+    > 199 |       setSubCoaches(res.data ?? []);
+          |       ^
+      200 |     } catch {
+      201 |       setError('Could not load team. Please try again.');
+      202 |     } finally {
+
+      at isConcurrentActEnvironment (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setSubCoaches (src/screens/coach/TeamManagementScreen.tsx:199:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    The current testing environment is not configured to support act(...)
+
+      201 |       setError('Could not load team. Please try again.');
+      202 |     } finally {
+    > 203 |       setLoading(false);
+          |       ^
+      204 |     }
+      205 |   }, []);
+      206 |
+
+      at isConcurrentActEnvironment (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (src/screens/coach/TeamManagementScreen.tsx:203:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.log
+    A gate copy: Scale plan required
+
+      at Object.log (src/screens/coach/__tests__/zzAudOrg129Team.throwaway.test.tsx:74:13)
+
+  console.error
+    The current testing environment is not configured to support act(...)
+
+      197 |     try {
+      198 |       const res = await subCoachApi.listSubCoaches();
+    > 199 |       setSubCoaches(res.data ?? []);
+          |       ^
+      200 |     } catch {
+      201 |       setError('Could not load team. Please try again.');
+      202 |     } finally {
+
+      at isConcurrentActEnvironment (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setSubCoaches (src/screens/coach/TeamManagementScreen.tsx:199:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    The current testing environment is not configured to support act(...)
+
+      201 |       setError('Could not load team. Please try again.');
+      202 |     } finally {
+    > 203 |       setLoading(false);
+          |       ^
+      204 |     }
+      205 |   }, []);
+      206 |
+
+      at isConcurrentActEnvironment (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (src/screens/coach/TeamManagementScreen.tsx:203:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    The current testing environment is not configured to support act(...)
+
+      181 |     // of whether sub-coaches exist yet.
+      182 |     const tier = await resolveHeadCoachTier();
+    > 183 |     setPlanTier(tier);
+          |     ^
+      184 |     // P0-3 — fetch seat headroom in parallel with the roster. A failure here
+      185 |     // is non-fatal: the modal degrades to "no clamp" rather than blocking
+      186 |     // invites, but on the happy path we surface the exact remaining-seat
+
+      at isConcurrentActEnvironment (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setPlanTier (src/screens/coach/TeamManagementScreen.tsx:183:5)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    The current testing environment is not configured to support act(...)
+
+      192 |         setRemainingSeats(headroom >= 0 ? headroom : 0);
+      193 |       } else {
+    > 194 |         setRemainingSeats(null);
+          |         ^
+      195 |       }
+      196 |     });
+      197 |     try {
+
+      at isConcurrentActEnvironment (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setRemainingSeats (src/screens/coach/TeamManagementScreen.tsx:194:9)
+
+  console.error
+    The current testing environment is not configured to support act(...)
+
+      197 |     try {
+      198 |       const res = await subCoachApi.listSubCoaches();
+    > 199 |       setSubCoaches(res.data ?? []);
+          |       ^
+      200 |     } catch {
+      201 |       setError('Could not load team. Please try again.');
+      202 |     } finally {
+
+      at isConcurrentActEnvironment (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setSubCoaches (src/screens/coach/TeamManagementScreen.tsx:199:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    The current testing environment is not configured to support act(...)
+
+      201 |       setError('Could not load team. Please try again.');
+      202 |     } finally {
+    > 203 |       setLoading(false);
+          |       ^
+      204 |     }
+      205 |   }, []);
+      206 |
+
+      at isConcurrentActEnvironment (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (src/screens/coach/TeamManagementScreen.tsx:203:7)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.log
+    C caught: (see TypeError printed above)
+
+      at Object.log (src/screens/coach/__tests__/zzAudOrg129Team.throwaway.test.tsx:99:13)
+
+FAIL src/screens/coach/__tests__/zzAudOrg129Team.throwaway.test.tsx
+  AUD-ORG-129 throwaway: Team tab with main server shapes
+    ✓ A: /auth/me without plan_tier -> head coach always sees the paid upgrade gate, never the roster (195 ms)
+    ✓ B: iOS (purchases hidden) -> neutral gate, roster still never renders (53 ms)
+    ✕ C: even with plan_tier scale, the legacy list envelope throws subCoaches.map is not a function (117 ms)
+
+  ● AUD-ORG-129 throwaway: Team tab with main server shapes › C: even with plan_tier scale, the legacy list envelope throws subCoaches.map is not a function
+
+    TypeError: subCoaches.map is not a function
+
+      288 |           void load();
+      289 |         }}
+    > 290 |         existingEmails={subCoaches.map((s) => s.email)}
+          |                                    ^
+      291 |         remainingSeats={remainingSeats ?? undefined}
+      292 |       />
+      293 |     </View>
+
+      at map (src/screens/coach/TeamManagementScreen.tsx:290:36)
+      at Object.react_stack_bottom_frame (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:17596:20)
+      at renderWithHooks (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:5335:22)
+      at updateFunctionComponent (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:7720:19)
+      at beginWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:9277:18)
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at performUnitOfWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15273:22)
+      at workLoopSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15099:41)
+      at renderRootSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15080:11)
+      at performWorkOnRoot (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14245:35)
+      at performWorkOnRootViaSchedulerTask (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:3335:7)
+      at flushActQueue (../../deps/mobile/node_modules/react/cjs/react.development.js:590:34)
+      at recursivelyFlushAsyncActWork (../../deps/mobile/node_modules/react/cjs/react.development.js:566:13)
+      at Immediate.<anonymous> (../../deps/mobile/node_modules/react/cjs/react.development.js:849:32)
+
+  ● AUD-ORG-129 throwaway: Team tab with main server shapes › C: even with plan_tier scale, the legacy list envelope throws subCoaches.map is not a function
+
+    `render` function has not been called
+
+       98 |     // eslint-disable-next-line no-console
+       99 |     console.log('C caught:', caught || '(see TypeError printed above)');
+    > 100 |     expect(screen.queryByText('Sam Sub')).toBeNull();
+          |                   ^
+      101 |   });
+      102 | });
+      103 |
+
+      at Object.notImplemented (../../deps/mobile/node_modules/@testing-library/react-native/src/screen.ts:8:9)
+      at Object.queryByText (src/screens/coach/__tests__/zzAudOrg129Team.throwaway.test.tsx:100:19)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 2 passed, 3 total
+Snapshots:   0 total
+Time:        2.121 s, estimated 8 s
+Ran all test suites matching /src\/screens\/coach\/__tests__\/zzAudOrg129Team.throwaway.test.tsx/i.

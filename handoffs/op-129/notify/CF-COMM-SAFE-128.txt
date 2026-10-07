@@ -1,0 +1,1 @@
+stopped (owner 16:35) | PRs: m#529 @ eed587f0 (CI green, READY not posted), b#863 @ 381fdda0 (CI running, READY not posted) | B=0 U=2 | verdicts: -/- @ eed587f0, -/- @ 381fdda0 | needs operator: 1 (post READY on both; texts in ops/reports/CF-COMM-SAFE-128-*-ready.md)

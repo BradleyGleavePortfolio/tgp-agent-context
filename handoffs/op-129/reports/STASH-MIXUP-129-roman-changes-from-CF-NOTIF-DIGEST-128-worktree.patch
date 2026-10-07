@@ -1,0 +1,361 @@
+diff --git a/src/roman/context/roman-context.errors.ts b/src/roman/context/roman-context.errors.ts
+index a297e855..26f7d12b 100644
+--- a/src/roman/context/roman-context.errors.ts
++++ b/src/roman/context/roman-context.errors.ts
+@@ -7,9 +7,9 @@
+ /** 503: a transient read failure (pool timeout, dropped link); retry works. */
+ export const ROMAN_ERROR_CONTEXT_UNAVAILABLE = 'ROMAN_CONTEXT_UNAVAILABLE';
+ export const ROMAN_CONTEXT_UNAVAILABLE_MESSAGE =
+-  'The view of what Roman can see could not load just now. Your plan and logs are safe. Try again in a moment, or open the Today tab to see them there.';
++  'The view of what Roman can see could not load just now. Your plan and logs are safe. Try again in a moment, or open Home, Train or Food to see them there.';
+ 
+ /** 500: an unexpected failure; support can trace it by the reference id. */
+ export const ROMAN_ERROR_CONTEXT_FAILED = 'ROMAN_CONTEXT_FAILED';
+ export const ROMAN_CONTEXT_FAILED_MESSAGE =
+-  'The view of what Roman can see could not load. Your plan and logs are safe and still open from the Today tab. If this keeps happening, contact support and quote the reference shown with this message.';
++  'The view of what Roman can see could not load. Your plan and logs are safe and still open from Home, Train and Food. If this keeps happening, contact support and quote the reference shown with this message.';
+diff --git a/src/roman/guardrails/safety-router.ts b/src/roman/guardrails/safety-router.ts
+index 4f6e531a..08e8d2df 100644
+--- a/src/roman/guardrails/safety-router.ts
++++ b/src/roman/guardrails/safety-router.ts
+@@ -169,7 +169,8 @@ export const ROMAN_SAFETY_TEMPLATES: Record<'emergency' | 'self_harm', string> =
+     'Please stop what you are doing and call 911 now, or your local emergency number. ' +
+     'If you are able, stay where you are, unlock the door, and keep your phone within reach so help can find you quickly. ' +
+     'This is beyond what I can help with, and it should not wait. ' +
+-    'Once you are safe, your coach would want to hear from you in Messages, and I will be here.',
++    // CF-ROMAN-COPY-B-128: no coach is assumed (a client may have none).
++    'Once you are safe, let someone you trust know what happened, and I will be here.',
+   self_harm:
+     'I am sorry you are carrying this, and I am glad you said it here rather than holding it alone. ' +
+     'Please reach the 988 Suicide & Crisis Lifeline now: call or text 988 in the United States, any hour, and a trained person will answer. ' +
+@@ -195,6 +196,30 @@ export const ROMAN_SAFETY_ROUTE_REASON: Record<'emergency' | 'self_harm', 'call_
+ 
+ export const ROMAN_SAFETY_ROUTER_MODEL_ID = 'safety-router';
+ 
++/**
++ * CF-ROMAN-COPY-B-128 (owner default 10-07): the fixed reply to an
++ * eating_disorder_risk message the AI cannot answer (AI help off, the turn
++ * limit or a daily limit reached, the coach's AI credits used up). Like the
++ * 911 / 988 templates: no model call, no spend, nothing sent anywhere. It
++ * points to people: the coach only when the client has one, a physician or a
++ * qualified professional, someone they trust, and 988 / 911 (988 serves anyone
++ * in distress). Worded for a broad router match ("binge" also fires on TV).
++ * When the AI can answer, the model replies under the hint below instead.
++ */
++export function romanEatingDisorderFallback(hasCoach: boolean): string {
++  return [
++    'I am not able to answer in chat at the moment.',
++    'If eating or food is weighing on you, you do not have to carry it alone.',
++    ...(hasCoach ? ['Your coach would want to hear from you, and Messages reaches them.'] : []),
++    'A physician, or a qualified professional who works with eating concerns, is the right person to talk to, and it helps to tell someone you trust how you are doing.',
++    'If you are in distress, call or text 988 in the United States, any hour, and a trained person will answer.',
++    'If you are in immediate danger, call 911.',
++  ].join(' ');
++}
++
++/** Closed reason code for the eating-disorder fallback (restricted-read audit metadata). */
++export const ROMAN_EATING_DISORDER_FALLBACK_REASON = 'eating_disorder_fallback';
++
+ // ─── per-class hints appended to the system block ────────────────────────────
+ 
+ /**
+@@ -217,7 +242,8 @@ export const ROMAN_ROUTER_HINTS: Record<
+     'ROUTER HINT (eating_disorder_risk): the message signals disordered eating or extreme restriction. Be warm, supportive and calm. ' +
+     'Do not give any calorie number below the floor, do not praise restriction, do not suggest compensatory exercise. ' +
+     'Offer one steadying next step inside their plan (for example, the next regular meal with protein, logged as usual), ' +
+-    'offer to help them message their coach, and suggest talking with a physician or a qualified professional. Keep it short.',
++    'offer to help them message their coach only if client_data shows they have one (coach.has_coach), ' +
++    'and suggest talking with a physician or a qualified professional. Keep it short.',
+   medical_scope:
+     'ROUTER HINT (medical_scope): the message touches medication, labs, pregnancy, diabetes, blood pressure, a heart condition or a diagnosis. ' +
+     'Stay within general fitness and nutrition; do not interpret, diagnose or advise on the medical matter itself, and do not change or time any medication. ' +
+diff --git a/src/roman/roman.controller.ts b/src/roman/roman.controller.ts
+index 97f76608..a008d71c 100644
+--- a/src/roman/roman.controller.ts
++++ b/src/roman/roman.controller.ts
+@@ -110,6 +110,11 @@ export class RomanController {
+     // the AI processor, CONSENT_D2_CONTRACT) may stand between the client and
+     // that answer. Every other turn keeps all three checks.
+     const crisis = this.roman.isSafetyShortCircuit(dto.content);
++    // CF-ROMAN-COPY-B-128 (owner default 10-07): an eating-disorder message
++    // that one of the checks below refuses gets the fixed fallback (a pointer
++    // to people, no model call) instead of the refusal.
++    const edRisk = !crisis && this.roman.isEatingDisorderRisk(dto.content);
++    let edFallback = false;
+ 
+     // Rate-limit BEFORE persisting the user turn (so a rejected turn does not
+     // count against the cap). Throws a structured 429 Too Many Requests; we
+@@ -118,13 +123,14 @@ export class RomanController {
+     try {
+       if (!crisis) await this.roman.assertWithinRateLimit(caller);
+     } catch (err) {
++      if (edRisk) edFallback = true;
+       const payload = (
+         err as { getResponse?: () => unknown }
+       ).getResponse?.() as { retryAfterSeconds?: number } | undefined;
+-      if (typeof payload?.retryAfterSeconds === 'number') {
++      if (!edFallback && typeof payload?.retryAfterSeconds === 'number') {
+         res.setHeader('Retry-After', String(payload.retryAfterSeconds));
+       }
+-      throw err;
++      if (!edFallback) throw err;
+     }
+ 
+     const session = await this.roman.getOwnedSession(caller, id);
+@@ -133,13 +139,18 @@ export class RomanController {
+     // the stream opens.
+     // A crisis turn skips it: the template involves no AI processing, and
+     // streamAssistantTurn answers it before its own egress check.
+-    if (!crisis) await this.roman.assertMayUseAi(caller);
+-    // OR-113-2 — daily spend cap, checked before the turn is stored (coded
+-    // 503 ROMAN_CAPACITY_REACHED with a specific message; fail closed).
+-    if (!crisis) await this.roman.assertDailyCapacity(caller);
+-    // B-668-1 — the coach's monthly AI credit pool, before the turn is stored
+-    // (402 COACH_AI_BUDGET_EXHAUSTED, copy for the caller's audience).
+-    if (!crisis) await this.roman.assertCoachPoolOpen(caller);
++    try {
++      if (!crisis && !edFallback) await this.roman.assertMayUseAi(caller);
++      // OR-113-2 — daily spend cap, checked before the turn is stored (coded
++      // 503 ROMAN_CAPACITY_REACHED with a specific message; fail closed).
++      if (!crisis && !edFallback) await this.roman.assertDailyCapacity(caller);
++      // B-668-1 — the coach's monthly AI credit pool, before the turn is stored
++      // (402 COACH_AI_BUDGET_EXHAUSTED, copy for the caller's audience).
++      if (!crisis && !edFallback) await this.roman.assertCoachPoolOpen(caller);
++    } catch (err) {
++      if (!edRisk) throw err;
++      edFallback = true;
++    }
+     await this.roman.appendMessage(caller, session.id, {
+       role: 'user',
+       content: dto.content,
+@@ -168,11 +179,14 @@ export class RomanController {
+     const onClose = () => abort.abort();
+     req.on('close', onClose);
+ 
++    const turn = edFallback
++      ? this.roman.streamEatingDisorderFallback(caller, session)
++      : this.roman.streamAssistantTurn(caller, session, {
++          signal: abort.signal,
++          userMessage: dto.content,
++        });
+     try {
+-      for await (const chunk of this.roman.streamAssistantTurn(caller, session, {
+-        signal: abort.signal,
+-        userMessage: dto.content,
+-      })) {
++      for await (const chunk of turn) {
+         res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+         if (chunk.type === 'done') break;
+       }
+diff --git a/src/roman/roman.prompts.ts b/src/roman/roman.prompts.ts
+index 0311961e..0a6e0241 100644
+--- a/src/roman/roman.prompts.ts
++++ b/src/roman/roman.prompts.ts
+@@ -91,8 +91,17 @@ export interface BuildSystemPromptInput {
+    * absent or false = the prompt is byte-identical to the one without tools.
+    */
+   tools?: boolean;
++  /**
++   * CF-ROMAN-COPY-B-128: the client has an earlier chat with Roman. Only
++   * `true` adds ROMAN_MET_BEFORE_LINE; absent = the prompt is unchanged.
++   */
++  metBefore?: boolean;
+ }
+ 
++/** CF-ROMAN-COPY-B-128 (owner default 10-07): no second introduction for a returning client. */
++export const ROMAN_MET_BEFORE_LINE =
++  'You have spoken with this client in earlier chats. Do not introduce yourself or say who you are again unless they ask, and do not claim to remember anything you cannot see here.';
++
+ /** R11-T3: when and how to use the read tools (tools turns only). */
+ export const ROMAN_TOOLS_SECTION =
+   '# LOOKING THINGS UP\n' +
+@@ -118,7 +127,7 @@ export const ROMAN_ANSWER_CONTRACT =
+ export const ROMAN_CLIENT_DATA_UNAVAILABLE_NOTICE =
+   '# CLIENT DATA UNAVAILABLE\n' +
+   "The client's plan, logs, targets and health-screen answers could not be loaded for this turn. " +
+-  'Do not state or estimate any of their numbers, sessions or dates. Say briefly that you cannot see their details at this moment and that their plan and logs are on the Today tab. ' +
++  'Do not state or estimate any of their numbers, sessions or dates. Say briefly that you cannot see their details at this moment and that their plan and logs are still in the app, on Home, Train and Food. ' +
+   'Keep any training guidance general and conservative; never suggest increasing intensity, load or volume in this turn.';
+ 
+ /** One line of surface-specific framing. The voice contract is identical on both. */
+@@ -128,7 +137,7 @@ function surfaceFraming(surface: RomanSurface): string {
+       return 'You are addressing a coach inside the TGP coach app. Speak to a professional who runs a coaching practice; never reveal another coach\'s or client\'s private data.';
+     case 'client':
+     default:
+-      return 'You are addressing a client inside the TGP client app. Speak to the person training under a coach; never reveal another user\'s private data.';
++      return 'You are addressing a client inside the TGP client app. Speak to the person doing the training (client_data shows whether they have a coach); never reveal another user\'s private data.';
+   }
+ }
+ 
+@@ -141,6 +150,7 @@ export function buildRomanSystemPrompt(input: BuildSystemPromptInput): string {
+   const { surface, voice, subjectContext, routerHint, clientData, clientDataUnavailable, augments } =
+     input;
+   const tools = input.tools === true && surface === 'client';
++  const metBefore = input.metBefore === true && surface === 'client' ? `\n${ROMAN_MET_BEFORE_LINE}` : '';
+ 
+   // B-651-9: shipped replies carry no exclamation marks at all, so the old
+   // one-per-session allowance is gone whatever the session recorded.
+@@ -159,7 +169,7 @@ export function buildRomanSystemPrompt(input: BuildSystemPromptInput): string {
+     ROMAN_VOICE_CONTRACT,
+     ...(surface === 'client' ? [ROMAN_GUARDRAIL_CONTRACT] : []),
+     `# SURFACE\n${surfaceFraming(surface)}`,
+-    `# SESSION STATE\n${remainingExclamation}\n${quipGuidance}${
++    `# SESSION STATE\n${remainingExclamation}\n${quipGuidance}${metBefore}${
+       routerHint && routerHint.trim().length > 0 ? `\n${routerHint.trim()}` : ''
+     }`,
+     ...(tools ? [ROMAN_TOOLS_SECTION, ROMAN_ANSWER_CONTRACT] : []),
+diff --git a/src/roman/roman.service.ts b/src/roman/roman.service.ts
+index 77e8d31f..1c261dd0 100644
+--- a/src/roman/roman.service.ts
++++ b/src/roman/roman.service.ts
+@@ -91,6 +91,8 @@ import { PROMPT_VERSION } from './guardrails/roman-guardrail.contract';
+ import {
+   classifySafety,
+   routerHintFor,
++  ROMAN_EATING_DISORDER_FALLBACK_REASON,
++  romanEatingDisorderFallback,
+   ROMAN_SAFETY_ROUTE_REASON,
+   ROMAN_SAFETY_ROUTER_MODEL_ID,
+   ROMAN_SAFETY_TEMPLATES,
+@@ -974,29 +976,7 @@ export class RomanService {
+ 
+     if (route.short_circuit && (route.class === 'emergency' || route.class === 'self_harm')) {
+       const text = ROMAN_SAFETY_TEMPLATES[route.class];
+-      const persisted = await this.appendMessage(caller, session.id, {
+-        role: 'roman',
+-        content: text,
+-        modelId: ROMAN_SAFETY_ROUTER_MODEL_ID,
+-        interrupted: false,
+-      });
+-      // OR-115-1 (C-651-5): one neutral action name and no class in the log
+-      // line. The closed reason code lives only in AuditLog.metadata, which
+-      // the owner audit list never returns and #608's erasure manifest nulls
+-      // for this actor.
+-      this.logger.warn(
+-        `roman.turn session=${session.id} prompt_version=${PROMPT_VERSION} model_call=false template=fixed`,
+-      );
+-      await this.audit?.write({
+-        action: AuditAction.ROMAN_SAFETY_ROUTE,
+-        actorId: caller.id,
+-        actorRole: caller.role,
+-        targetType: 'RomanSession',
+-        targetId: session.id,
+-        metadata: { route_reason: ROMAN_SAFETY_ROUTE_REASON[route.class] },
+-      });
+-      yield { type: 'delta', text };
+-      yield { type: 'done', text, messageId: persisted.id, interrupted: false };
++      yield* this.fixedSafetyReply(caller, session, text, ROMAN_SAFETY_ROUTE_REASON[route.class]);
+       return;
+     }
+ 
+@@ -1039,6 +1019,7 @@ export class RomanService {
+     // bundle) reserves every call it may make; any other turn is today's.
+     // R11-T3: only a tools turn's prompt carries the tools and answer sections.
+     const toolsTurn = this.toolsTurnOf(grounded && bundle !== null);
++    const metBefore = grounded && (await this.hasEarlierChat(caller, session));
+ 
+     const system = buildRomanSystemPrompt({
+       surface: session.surface,
+@@ -1052,6 +1033,7 @@ export class RomanService {
+         ? { augments: augmentRun.applied.map((a) => a.block) }
+         : {}),
+       ...(toolsTurn ? { tools: true } : {}),
++      ...(metBefore ? { metBefore: true } : {}),
+     });
+     // B-651-4: the reservation is an upper bound of THIS payload, built from
+     // the exact system prompt and history that will be sent (trimmed to the
+@@ -1255,6 +1237,94 @@ export class RomanService {
+     return route.short_circuit && (route.class === 'emergency' || route.class === 'self_harm');
+   }
+ 
++  /** CF-ROMAN-COPY-B-128: true when the message gets the eating-disorder fallback if the AI cannot answer. */
++  isEatingDisorderRisk(message: string): boolean {
++    return classifySafety(message).class === 'eating_disorder_risk';
++  }
++
++  /**
++   * CF-ROMAN-COPY-B-128 (owner default 10-07): the fixed eating-disorder reply
++   * for a turn the AI cannot answer (the controller calls it when a turn-limit,
++   * consent, daily-cap or coach-pool check refused). No model call, no spend;
++   * the only read is whether the client has a coach, for the coach line.
++   */
++  async *streamEatingDisorderFallback(
++    caller: RomanCaller,
++    session: RomanSession,
++  ): AsyncGenerator<RomanStreamChunk> {
++    let hasCoach = false;
++    try {
++      if (caller.role === 'student') {
++        const user = await this.prisma.user.findUnique({
++          where: { id: caller.id },
++          select: { coach_id: true },
++        });
++        hasCoach = Boolean(user?.coach_id);
++      }
++    } catch (err) {
++      // The coachless wording is true for everyone; never block the reply.
++      this.logger.warn(`roman.fallback_coach_read_failed: ${romanErrorTag(err)}`);
++    }
++    const text = romanEatingDisorderFallback(hasCoach);
++    yield* this.fixedSafetyReply(caller, session, text, ROMAN_EATING_DISORDER_FALLBACK_REASON);
++  }
++
++  /** A deterministic safety reply: stored once, audited by reason code only, then emitted. */
++  private async *fixedSafetyReply(
++    caller: RomanCaller,
++    session: RomanSession,
++    text: string,
++    reason: string,
++  ): AsyncGenerator<RomanStreamChunk> {
++    const persisted = await this.appendMessage(caller, session.id, {
++      role: 'roman',
++      content: text,
++      modelId: ROMAN_SAFETY_ROUTER_MODEL_ID,
++      interrupted: false,
++    });
++    // OR-115-1 (C-651-5): one neutral action name and no class in the log
++    // line. The closed reason code lives only in AuditLog.metadata, which
++    // the owner audit list never returns and #608's erasure manifest nulls
++    // for this actor.
++    this.logger.warn(
++      `roman.turn session=${session.id} prompt_version=${PROMPT_VERSION} model_call=false template=fixed`,
++    );
++    await this.audit?.write({
++      action: AuditAction.ROMAN_SAFETY_ROUTE,
++      actorId: caller.id,
++      actorRole: caller.role,
++      targetType: 'RomanSession',
++      targetId: session.id,
++      metadata: { route_reason: reason },
++    });
++    yield { type: 'delta', text };
++    yield { type: 'done', text, messageId: persisted.id, interrupted: false };
++  }
++
++  /**
++   * CF-ROMAN-COPY-B-128 (owner default 10-07): the client has a live chat with
++   * messages from an earlier day, so Roman is not reintroduced. A failed read
++   * means no line (the prompt as before), never a failed turn.
++   */
++  private async hasEarlierChat(caller: RomanCaller, session: RomanSession): Promise<boolean> {
++    try {
++      const earlier = await this.prisma.romanSession.findFirst({
++        where: {
++          user_id: caller.id,
++          surface: session.surface,
++          id: { not: session.id },
++          deleted_at: null,
++          message_count: { gt: 0 },
++        },
++        select: { id: true },
++      });
++      return earlier !== null && earlier !== undefined;
++    } catch (err) {
++      this.logger.warn(`roman.earlier_chat_read_failed: ${romanErrorTag(err)}`);
++      return false;
++    }
++  }
++
+   /**
+    * R11-00: run the registered augmenters (none on main). Returns null when
+    * none are registered so the turn and its ledger row stay exactly as before.

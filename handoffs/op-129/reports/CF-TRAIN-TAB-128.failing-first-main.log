@@ -1,0 +1,80 @@
+                [36m<View>[39m
+                  [36m<View />[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0m–[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mLegs[0m
+                [36m</Text>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0m–[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mCore[0m
+                [36m</Text>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0m–[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+    [36m</View>[39m
+
+      208 |     mockGetVolume.mockResolvedValue({ data: [{ muscle_group: 'chest', total_volume: 1200, period: 'week' }] });
+      209 |     const view = await render(<WorkoutScreen />);
+    > 210 |     await waitFor(() => expect(view.getByText('1,200 lb')).toBeTruthy());
+          |                  ^
+      211 |     expect(view.getByText('500 lb')).toBeTruthy();
+      212 |     expect(view.queryByText(/\blbs\b/)).toBeNull();
+      213 |     const week = StyleSheet.flatten(view.getByTestId('workout-week-count').props.style);
+
+      at Object.<anonymous> (src/screens/client/__tests__/WorkoutScreen.calm128.test.tsx:210:18)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Train tab sync rows (CF-TRAIN-TAB-128) › the queued notice says when it sends without promising a coach
+
+    Unable to find an element with text: 2 workouts are saved on this phone and will be sent once the phone is back online.
+
+    [36m<View[39m
+      [33maccessibilityRole[39m=[32m"text"[39m
+      [33mtestID[39m=[32m"workout-queued-notice"[39m
+    [36m>[39m
+      [36m<Text>[39m
+        [0m[0m
+      [36m</Text>[39m
+      [36m<Text>[39m
+        [0m2 workouts are saved on this phone and will be sent to your coach once the phone is back online.[0m
+      [36m</Text>[39m
+    [36m</View>[39m
+
+      224 |     const view = await render(<RealSyncCards userId="c1" />);
+      225 |     await waitFor(() => expect(view.getByTestId('workout-queued-notice')).toBeTruthy());
+    > 226 |     expect(view.getByText('2 workouts are saved on this phone and will be sent once the phone is back online.')).toBeTruthy();
+          |                 ^
+      227 |     expect(view.queryByText(/coach/)).toBeNull();
+      228 |   });
+      229 | });
+
+      at Object.getByText (src/screens/client/__tests__/WorkoutScreen.calm128.test.tsx:226:17)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       8 failed, 1 passed, 9 total
+Snapshots:   0 total
+Time:        17.24 s
+Ran all test suites matching /src\/screens\/client\/__tests__\/WorkoutScreen.calm128.test.tsx/i.

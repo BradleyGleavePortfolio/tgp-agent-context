@@ -1,0 +1,1 @@
+done | PRs: none (branch agent129/cf-money-member-128 @ f4d1d169, stopped by operator before PR) | B=1 U=1 | verdicts: none/none @ f4d1d169 | needs operator: 0

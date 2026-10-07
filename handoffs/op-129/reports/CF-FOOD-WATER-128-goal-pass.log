@@ -1,0 +1,15 @@
+PASS src/components/__tests__/WaterTracker.goal.test.tsx
+  WaterTracker
+    ✓ uses a changed Settings goal without calling it a starter goal (375 ms)
+    ✓ labels the default reference as Starter goal and preserves the glass count (16 ms)
+    ✓ keeps the starter label when only the units preference was saved (12 ms)
+    ✓ honours an explicit target, even when it matches the starter amount (9 ms)
+    ✓ converts a changed goal and current amount together for metric progress (11 ms)
+    ✓ preserves all three imperial quick-add actions and ounce callback values (22 ms)
+    ✓ makes every metric quick-add reach the same callback with exact stored ml (21 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       7 passed, 7 total
+Snapshots:   0 total
+Time:        2.684 s, estimated 18 s
+Ran all test suites matching /src\/components\/__tests__\/WaterTracker.goal.test.tsx/i.

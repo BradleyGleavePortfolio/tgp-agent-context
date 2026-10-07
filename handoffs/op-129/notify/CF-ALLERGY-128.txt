@@ -1,0 +1,1 @@
+stopped | PRs: none (branch agent129/cf-allergy-128 @ be06333c pushed, no PR) | B=1 U=0 | verdicts: -/- @ be06333c | needs operator: 1

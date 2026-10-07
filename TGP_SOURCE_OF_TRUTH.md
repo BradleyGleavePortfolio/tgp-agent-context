@@ -1386,7 +1386,7 @@ Older entries not listed here still stand unless a later decision changed them; 
   reviewer lanes, not two new reviewers per PR; respect file dependencies; measure sandbox health as concurrency grows; do NOT impose the
   proposed playbook cooldown (PB-GAP) without owner approval; explorers follow the interruption and offline method and label REPRODUCED
   findings separately from CODE-ONLY ones; keep the 23:00 build cutoff and exact-head reviews; credits 700/45,000; launch the first 50
-  now. 16:04: "EXECUTE". 16:16: "12k/45k used - keep letting agents finish, do not start new work" (no launches after 16:09).
+  now. 16:04: "EXECUTE". 16:16: "12k/45k used - keep letting agents finish, do not start new work" (no launches after 16:09). 16:35: stop (37k/45k); all 50 ended with a HANDOFF by 16:41 (none cancelled). 16:43: five resumed to finish their workflows. Deploy 27 (fd190078, b#857) live 16:37. Handoff: handoffs/op-129/HANDOFF.md.
 - Operator record: FEATURE_ROMAN_MEMORY applied 15:57 (fly-env-sync apply 37699335256): "declared present; Fly Deployed" and the one
   started machine holds every declared value. 50 agents launched 16:06-16:09 (handoffs/op-129/ops/FLEET129.md).
 - Open owner decisions: (1) m#521 autosave details, default keep as built; (2) PB-GAP 6-hour minimum gap between playbook rebuilds before

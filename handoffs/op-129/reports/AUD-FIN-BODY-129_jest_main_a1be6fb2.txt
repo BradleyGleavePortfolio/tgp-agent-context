@@ -1,0 +1,69 @@
+  console.warn
+    [Worklets] Couldn't determine the version of the native part of Worklets.
+        See `https://docs.swmansion.com/react-native-worklets/docs/guides/troubleshooting#couldnt-determine-the-version-of-the-native-part-of-worklets` for more details.
+
+      39 |   Line as SvgLine,
+      40 | } from 'react-native-svg';
+    > 41 | import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+         | ^
+      42 | import Animated, {
+      43 |   Easing,
+      44 |   useAnimatedProps,
+
+
+  console.log
+    [AUD129] ancestors with onLayout (keyboard avoiders measure through it): 0
+
+
+  console.log
+    [AUD129] ancestor styles changed by keyboardWillShow(291pt): []
+
+
+  console.log
+    [AUD129] max paddingBottom in the chain after the keyboard: 40
+
+
+  console.log
+    [AUD129] weight field props: {"keyboardType":"decimal-pad","autoFocus":true,"returnKeyType":null,"inputAccessoryViewID":null,"inputAccessoryViewButtonLabel":null,"onSubmitEditing":"undefined"}
+
+
+  console.log
+    [AUD129] Keyboard.dismiss calls after a tap on the dimmed area: 0
+
+
+  console.log
+    [AUD129] modal props: {"transparent":true,"animationType":"slide","presentationStyle":null,"onRequestClose":"undefined"}
+
+
+  console.log
+    [AUD129] paddingBottom chain after keyboardWillShow(291pt): [0,40,0,0,0,0]
+
+
+FAIL src/screens/client/__tests__/zzAudFinBody129.throwaway.test.tsx
+  AUD-FIN-BODY-129 throwaway: Log weight sheet vs the iPhone keyboard (FW-BODY-128 B1)
+    ✓ 0: runs as iOS (5 ms)
+    ✓ 1 MAIN-BUG: nothing above the weight field reacts when the iOS keyboard opens (158 ms)
+    ✓ 2 MAIN-BUG: the decimal pad gets no Done key, the dim area does not dismiss it, the modal cannot be swiped away (44 ms)
+    ✕ 4 FIX-EXPECTED: the sheet rides 291 pt up and the pad can be dismissed (fails where B1 is open) (49 ms)
+
+  ● AUD-FIN-BODY-129 throwaway: Log weight sheet vs the iPhone keyboard (FW-BODY-128 B1) › 4 FIX-EXPECTED: the sheet rides 291 pt up and the pad can be dismissed (fails where B1 is open)
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 291
+    Received array: [0, 40, 0, 0, 0, 0]
+
+      180 |     const pads = chain(again).map((n) => flat(n).paddingBottom ?? 0);
+      181 |     log('paddingBottom chain after keyboardWillShow(291pt)', pads);
+    > 182 |     expect(pads).toContain(K);
+          |                  ^
+      183 |     const id = again.props.inputAccessoryViewID as string | undefined;
+      184 |     const done = utils.queryByLabelText('Done') as unknown as Node | null;
+      185 |     const accessory = done && id ? chain(done).filter((n) => n.props.nativeID === id) : [];
+
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 3 passed, 4 total
+Snapshots:   0 total
+Time:        2.67 s, estimated 5 s
+Ran all test suites matching /src\/screens\/client\/__tests__\/zzAudFinBody129.throwaway.test.tsx/i.

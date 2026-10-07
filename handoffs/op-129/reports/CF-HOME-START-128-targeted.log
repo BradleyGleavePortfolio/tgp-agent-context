@@ -1,0 +1,52 @@
+Wed Oct  7 16:16:47 PDT 2026
+  console.warn
+    SafeAreaView has been deprecated and will be removed in a future release. Please use 'react-native-safe-area-context' instead. See https://github.com/AppAndFlow/react-native-safe-area-context
+
+      367 |
+      368 |   return (
+    > 369 |     <SafeAreaView style={{ flex: 1, backgroundColor: sc.bgPrimary }}>
+          |      ^
+      370 |       <ScrollView
+      371 |         testID="home-scroll"
+      372 |         contentContainerStyle={{ paddingHorizontal: 24, paddingTop: 24, paddingBottom: 48 }}
+
+      at warn (../../deps/mobile/node_modules/react-native/Libraries/Utilities/warnOnce.js:27:11)
+      at Object.warnOnce [as SafeAreaView] (../../deps/mobile/node_modules/react-native/index.js:101:5)
+      at SafeAreaView (src/screens/client/HomeScreen.tsx:369:6)
+      at Object.react_stack_bottom_frame (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:17596:20)
+      at renderWithHooks (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:5335:22)
+      at updateFunctionComponent (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:7720:19)
+      at beginWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:9277:18)
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at performUnitOfWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15273:22)
+      at workLoopSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15099:41)
+      at renderRootSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15080:11)
+      at performWorkOnRoot (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14165:11)
+      at performWorkOnRootViaSchedulerTask (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:3335:7)
+      at flushActQueue (../../deps/mobile/node_modules/react/cjs/react.development.js:590:34)
+      at ../../deps/mobile/node_modules/react/cjs/react.development.js:847:21
+
+PASS src/screens/client/__tests__/HomeScreen.honestCopy127.test.tsx
+  ✓ keeps Messages registered on Home and reachable from More/Membership (4 ms)
+  ✓ assigned: truthful line and a CTA that opens what it names (265 ms)
+  ✓ active: truthful line and a CTA that opens what it names (14 ms)
+  ✓ active-only: truthful line and a CTA that opens what it names (12 ms)
+  ✓ active-assigned: truthful line and a CTA that opens what it names (12 ms)
+  ✓ done: truthful line and a CTA that opens what it names (12 ms)
+  ✓ empty: truthful line and a CTA that opens what it names (15 ms)
+  ✓ coachless: truthful line and a CTA that opens what it names (11 ms)
+  ✓ opens the first unfinished assignment, not a completed workout or a different plan (11 ms)
+  ✓ keeps Train reachable when the history read fails (12 ms)
+  ✓ keeps Train reachable when the assignments read fails (15 ms)
+  ✓ profile copy reflects coach plan presence: false (14 ms)
+  ✓ profile copy reflects coach plan presence: true (19 ms)
+  ✓ keeps coachless actions in simple mode with 0 oz (13 ms)
+  ✓ keeps coachless actions in full mode with 24 oz (13 ms)
+  ✓ keeps every simple metric in one hairline row with serif tabular figures (12 ms)
+  ✓ keeps every full metric in one hairline row with serif tabular figures (22 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       17 passed, 17 total
+Snapshots:   0 total
+Time:        4.574 s, estimated 112 s
+Ran all test suites matching /src\/screens\/client\/__tests__\/HomeScreen.honestCopy127.test.tsx/i.

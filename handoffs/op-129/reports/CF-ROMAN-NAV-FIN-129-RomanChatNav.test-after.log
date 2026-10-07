@@ -1,0 +1,15 @@
+PASS src/screens/roman/__tests__/RomanChatNav.test.tsx (15.527 s)
+  ✓ loading: Back is a labelled 44 pt header action and history stays reachable (1559 ms)
+  ✓ ready: Back is a labelled 44 pt header action and history stays reachable (1754 ms)
+  ✓ offline: Back is a labelled 44 pt header action and history stays reachable (11 ms)
+  ✓ error: Back is a labelled 44 pt header action and history stays reachable (13 ms)
+  ✓ unavailable: Back is a labelled 44 pt header action and history stays reachable (8 ms)
+  ✓ client: Back preserves the conversation controls and failed-send draft (3398 ms)
+  ✓ coach: Back preserves the conversation controls and failed-send draft (23 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       7 passed, 7 total
+Snapshots:   0 total
+Time:        15.735 s
+Ran all test suites matching /src\/screens\/roman\/__tests__\/RomanChatNav.test.tsx/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

@@ -1,0 +1,13 @@
+PASS src/components/log/__tests__/FoodLogging.makeover.test.tsx (12.163 s)
+  ✓ preserves meal add, tap-to-edit and long-press-to-delete (406 ms)
+  ✓ preserves search, clear, both tabs, food selection, repeat and manual entry (2445 ms)
+  ✓ preserves portion input, unit, log and cancel with the same macro values (3158 ms)
+  ✓ preserves all water quick-add amounts and displayed quantities (15 ms)
+  ✓ preserves previous, next and jump-to-today, with today marked and next disabled (3046 ms)
+  ✓ animates changed bar fills in 250 ms and skips motion when reduced (11 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       6 passed, 6 total
+Snapshots:   0 total
+Time:        12.253 s
+Ran all test suites matching /src\/components\/log\/__tests__\/FoodLogging.makeover.test.tsx/i.

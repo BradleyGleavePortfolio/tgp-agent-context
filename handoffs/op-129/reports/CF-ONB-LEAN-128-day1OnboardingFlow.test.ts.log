@@ -1,0 +1,6 @@
+PASS src/screens/day-one/__tests__/day1OnboardingFlow.test.ts
+
+Test Suites: 1 passed, 1 total
+Tests:       23 passed, 23 total
+Snapshots:   0 total
+Time:        1.5 s

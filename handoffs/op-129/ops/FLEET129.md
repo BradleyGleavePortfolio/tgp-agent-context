@@ -32,3 +32,22 @@
   m#520 WEIGH-KB, m#519 EXLIB, m#518 ONB-RESEND, m#506 DES-BC. Backend main fd190078 CI running; deploy 27 after it is green.
 - 16:16 OWNER: "12k/45k used - keep letting agents finish, do not start new work". No new launches from here (the held rows, DES-P-128,
   wave 2 and the 23:00 runners are not started). Merges and backend deploys of finished work continue.
+- 16:29 board loop restarted: proxy tokens expire after ~20 min; loop now re-reads ops/.ghtoken (sandbox only, never committed).
+- 16:29:51 deploy 27 dispatched at backend main fd190078 (run 37702604355; no prisma delta 87f4489b..fd190078); gate approved 16:31;
+  success 16:37; /health and /readyz ok. b#857 (payment emails reply to the coach) is live.
+- 16:24 OWNER "keep those 50 working - let them finish naturally, 23k/45k": all 50 told to keep reports current and finish fast.
+- 16:35 OWNER "34k/45k ... smoothly stopping in the next 5 min", then "37k/45k ... next 1 min": STOP sent to the 35 still running (16:36).
+  16:37 OWNER "give them 240 seconds"; 16:41 "burn rate is much lower, let stragglers continue". No agent was cancelled; all 50 ended
+  on their own with a HANDOFF by 16:41.
+- 16:42-16:43 MERGED (dual APPROVE at exact head): m#485, m#523, m#525 (Opus U: metric water leaves fractional ounces; Math.round
+  follow-up at clientStore.ts:213 and HomeScreen.tsx:229), m#494, m#504, m#514. Mobile main 1d0564ff.
+- 16:43 OWNER "You can instruct 5 of those agents that stopped to finish their workflow - a slow easy load".
+  16:44 operator READY posted for builders stopped before READY (CI green at exact head): m#531, m#529, m#521 (FIX ROUND 2), b#860,
+  b#861, b#863, b#859, b#862.
+  16:45 RESUMED: IOS-RELEASE-129 (m#528 CI fix, READY), FIX-OPUS-129 (m#521 RCs only if posted; b#864 CI; fix lane to 22:30),
+  FIX-SOL-129 (m#502 main merge; m#530 CI; fix lane to 22:30), LN-OPUS-A3-129 (finish m#527 first), LN-SOL-B3-129 (finish m#526 first).
+  Lens order: m#528, m#521, m#526, m#490 (tree check vs 3c5d793b), m#527, m#522, m#524, m#531, m#529, m#502, m#530; then b#860, b#861,
+  b#863, b#858, b#859, b#862, b#864. m#513 held (playbook copy; playbook off tonight).
+- Proposed jobs NOT started (owner: no new work): CF-COACH-BILLING-129 (coach Billing & access crash, App Review risk), MONEY-INBOX-129,
+  MONEY-DUNNING-COPY-129, COACH-WEEKLY-129, FIN-COACH-AI-GATE-129, CF-TEAMPROFILE-COPY-129, four QA-COACH-* design jobs, five team jobs,
+  client sign-out flush (EXPLORE-CLIENT-129 B1), food fold-ins (AUD-FIN-FOOD-129).

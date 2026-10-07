@@ -1,0 +1,1 @@
+done (stopped by operator 16:40; CI green, READY not posted) | PRs: b#860 @ b896ef9a (255 lines) | B=0 U=1 | verdicts: -/- @ b896ef9a | needs operator: 3

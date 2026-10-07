@@ -1,0 +1,299 @@
+FAIL src/screens/client/__tests__/ProfileScreen.savedValues.test.tsx (10.176 s)
+  ✕ reads saved server answers and current daily targets on focus instead of stale cache (5158 ms)
+  ○ skipped refreshes saved values after Edit and removes targets when the server confirms none
+  ○ skipped keeps cached saved values when the profile and target reads fail
+  ○ skipped distinguishes loading and failed targets from a server-confirmed empty state
+  ○ skipped keeps all quick routes, every personal row, Edit and confirmed sign-out reachable
+
+  ● reads saved server answers and current daily targets on focus instead of stale cache
+
+    Unable to find an element with text: 175 lbs
+
+    [36m<RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mProfile[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mC[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mClient[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mclient@example.test[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"Opens app settings"[39m
+            [33maccessibilityLabel[39m=[32m"Settings"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mSettings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"Opens your progress report"[39m
+            [33maccessibilityLabel[39m=[32m"My report"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mMy Report[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"Customize your dashboard widgets"[39m
+            [33maccessibilityLabel[39m=[32m"Widgets"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mWidgets[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityHint[39m=[32m"Opens learning content"[39m
+            [33maccessibilityLabel[39m=[32m"Learn"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0m[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mLearn[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mPersonal Info[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Edit personal info"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+            [36m>[39m
+              [36m<Text>[39m
+                [0mEdit[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0m9[0m
+            [0m% complete · [0m
+            [0m10[0m
+            [0m field[0m
+            [0ms[0m
+            [0m to add[0m
+          [36m</Text>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Name: Client. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mName[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mClient[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Email: client@example.test. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mEmail[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mclient@example.test[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Sex: Not set. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mSex[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNot set[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Date of Birth: Not set. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mDate of Birth[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNot set[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Current Weight: 150 lbs. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mCurrent Weight[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m150 lbs[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Target Weight: Not set. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mTarget Weight[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNot set[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Activity Level: Not set. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mActivity Level[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNot set[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Goal: Not set. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mGoal[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNot set[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Diet: Not set. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mDiet[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNot set[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Workout Days: Not set. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mWorkout Days[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNot set[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Equipment: Not set. Tap to edit."[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mEquipment[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNot set[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mDaily Targets[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mTDEE[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m1700 kcal[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mCalorie Target[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m1200 kcal[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mProtein[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m--[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mCarbs[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m--[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mFat[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0m--[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View />[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0m[0m
+          [36m</Text>[39m
+          [36m<Text>[39m
+            [0mSign Out[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</RCTScrollView>[39m
+
+      63 |   for (const value of ['175 lbs', '165 lbs', '180 cm', 'May 12, 1990', 'Prefer not to say',
+      64 |     'Moderately active', 'Lose weight', 'Omnivore', 'Nut allergy', '3 per week', 'Gym access',
+    > 65 |     '2200 kcal', '145 g', '260 g', '65 g']) expect(view.getByText(value)).toBeTruthy();
+         |                                                         ^
+      66 |   expect(mockProfileGet).toHaveBeenCalledTimes(1); expect(mockMacroGet).toHaveBeenCalledTimes(1);
+      67 |   expect(view.queryByText('150 lbs')).toBeNull(); expect(view.queryByText('1200 kcal')).toBeNull();
+      68 |   expect(view.queryByText('TDEE')).toBeNull(); expect(view.queryByText(/fields? to add/)).toBeNull();
+
+      at Object.getByText (src/screens/client/__tests__/ProfileScreen.savedValues.test.tsx:65:57)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 4 skipped, 5 total
+Snapshots:   0 total
+Time:        11.135 s
+Ran all test suites within paths "src/screens/client/__tests__/ProfileScreen.savedValues.test.tsx".

@@ -1,0 +1,12 @@
+PASS src/screens/roman/__tests__/RomanGreetingHistory.test.tsx
+  ✓ introduces Roman only when the account has no earlier chats, checked before opening today (16 ms)
+  ✓ a returning client gets the returning greeting even when today has no messages (2 ms)
+  ✓ offline history: do not guess that this is a first meeting or block chat (2 ms)
+  ✓ busy history: do not guess that this is a first meeting or block chat (7 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        1.692 s
+Ran all test suites matching /src\/screens\/roman\/__tests__\/RomanGreetingHistory.test.tsx/i.
+Force exiting Jest: Have you considered using `--detectOpenHandles` to detect async operations that kept running after all tests finished?

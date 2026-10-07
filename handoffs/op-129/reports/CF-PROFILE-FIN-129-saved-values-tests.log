@@ -1,0 +1,12 @@
+PASS src/screens/client/__tests__/ProfileScreen.savedValues.test.tsx (16.92 s)
+  ✓ reads saved server answers and current daily targets on focus instead of stale cache (4252 ms)
+  ✓ refreshes saved values after Edit and removes targets when the server confirms none (40 ms)
+  ✓ keeps cached saved values when the profile and target reads fail (19 ms)
+  ✓ distinguishes loading and failed targets from a server-confirmed empty state (46 ms)
+  ✓ keeps all quick routes, every personal row, Edit and confirmed sign-out reachable (65 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        17.754 s
+Ran all test suites within paths "src/screens/client/__tests__/ProfileScreen.savedValues.test.tsx".

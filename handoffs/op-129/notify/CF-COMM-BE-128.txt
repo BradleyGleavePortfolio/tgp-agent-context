@@ -1,0 +1,1 @@
+stopped (owner 16:35) | PRs: b#862 @ a3401139 (CI running, READY not posted) | B=0 U=2 | verdicts: -/- @ a3401139 | needs operator: 1 (post READY on b#862 when CI is green)

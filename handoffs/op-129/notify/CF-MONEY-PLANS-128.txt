@@ -1,0 +1,1 @@
+stopped | PRs: none (branch agent129/cf-money-plans-128 @ 331a3a58 pushed, PR not opened) | B=1 U=3 | verdicts: none/none @ 331a3a58 | needs operator: 1 (open PR + READY)

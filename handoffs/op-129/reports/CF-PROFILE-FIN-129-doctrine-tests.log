@@ -1,0 +1,200 @@
+  console.error
+    An update to WorkoutScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      548 |             try {
+      549 |               await workoutApi.deleteWorkout(session.id);
+    > 550 |               setRecentSessions((prev) => prev.filter((s) => s.id !== session.id));
+          |               ^
+      551 |               setHistorySessions((prev) => prev.filter((s) => s.id !== session.id));
+      552 |               loadData();
+      553 |             } catch (err) {
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at Object.setRecentSessions (src/screens/client/WorkoutScreen.tsx:550:15)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    An update to WorkoutScreen inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      549 |               await workoutApi.deleteWorkout(session.id);
+      550 |               setRecentSessions((prev) => prev.filter((s) => s.id !== session.id));
+    > 551 |               setHistorySessions((prev) => prev.filter((s) => s.id !== session.id));
+          |               ^
+      552 |               loadData();
+      553 |             } catch (err) {
+      554 |               logger.error('WorkoutScreen', 'deleteWorkout failed', err);
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at Object.setHistorySessions (src/screens/client/WorkoutScreen.tsx:551:15)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.error
+    [progress] weight history load failed { reason: 'offline' }
+
+      16 | function log(level: LogLevel, context: string, ...args: unknown[]) {
+      17 |   if (__DEV__) {
+    > 18 |     console[level](`[${context}]`, ...args);
+         |                   ^
+      19 |   }
+      20 |   // In production, could forward to Sentry breadcrumbs here
+      21 | }
+
+      at log (src/utils/logger.ts:18:19)
+      at Object.log [as error] (src/utils/logger.ts:26:51)
+      at error (src/screens/client/ProgressScreen.tsx:318:14)
+          at Generator.throw (<anonymous>)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _throw (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:20:9)
+
+  console.warn
+    SafeAreaView has been deprecated and will be removed in a future release. Please use 'react-native-safe-area-context' instead. See https://github.com/AppAndFlow/react-native-safe-area-context
+
+      78 |
+      79 |   return (
+    > 80 |     <SafeAreaView style={styles.container} testID="day-one-notifications">
+         |      ^
+      81 |       <StepHeader step={4} onBack={() => navigation.goBack()} />
+      82 |       <View style={styles.inner}>
+      83 |         <View style={styles.iconHeader}>
+
+      at warn (../../deps/mobile/node_modules/react-native/Libraries/Utilities/warnOnce.js:27:11)
+      at Object.warnOnce [as SafeAreaView] (../../deps/mobile/node_modules/react-native/index.js:101:5)
+      at SafeAreaView (src/screens/day-one/NotificationsScreen.tsx:80:6)
+      at Object.react_stack_bottom_frame (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:17596:20)
+      at renderWithHooks (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:5335:22)
+      at updateFunctionComponent (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:7720:19)
+      at beginWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:9277:18)
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at performUnitOfWork (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15273:22)
+      at workLoopSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15099:41)
+      at renderRootSync (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:15080:11)
+      at performWorkOnRoot (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14165:11)
+      at performWorkOnRootViaSchedulerTask (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:3335:7)
+      at flushActQueue (../../deps/mobile/node_modules/react/cjs/react.development.js:590:34)
+      at ../../deps/mobile/node_modules/react/cjs/react.development.js:847:21
+
+  console.error
+    An update to Animated(View) inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchReducerAction (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6731:13)
+      at Object.scheduleUpdate [as current] (../../deps/mobile/node_modules/react-native/src/private/animated/createAnimatedPropsHook.js:131:20)
+      at AnimatedProps._callback (../../deps/mobile/node_modules/react-native/src/private/animated/createAnimatedPropsHook.js:71:36)
+      at AnimatedProps._callback [as update] (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedProps.js:237:10)
+      at update (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedValue.js:67:31)
+          at Set.forEach (<anonymous>)
+      at forEach (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedValue.js:67:10)
+      at AnimatedValue.flushValue [as _updateValue] (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedValue.js:361:7)
+      at TimingAnimation._updateValue [as _onUpdate] (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedValue.js:325:14)
+      at TimingAnimation._onUpdate [as onUpdate] (../../deps/mobile/node_modules/react-native/Libraries/Animated/animations/TimingAnimation.js:157:10)
+      at Timeout.callback [as _onTimeout] (../../deps/mobile/node_modules/@react-native/jest-preset/jest/setup.js:61:31)
+
+  console.error
+    An update to Animated(View) inside a test was not wrapped in act(...).
+    
+    When testing, code that causes React state updates should be wrapped into act(...):
+    
+    act(() => {
+      /* fire events that update state */
+    });
+    /* assert on the output */
+    
+    This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      at ../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchReducerAction (../../deps/mobile/node_modules/react-reconciler/cjs/react-reconciler.development.js:6731:13)
+      at Object.scheduleUpdate [as current] (../../deps/mobile/node_modules/react-native/src/private/animated/createAnimatedPropsHook.js:131:20)
+      at AnimatedProps._callback (../../deps/mobile/node_modules/react-native/src/private/animated/createAnimatedPropsHook.js:71:36)
+      at AnimatedProps._callback [as update] (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedProps.js:237:10)
+      at update (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedValue.js:67:31)
+          at Set.forEach (<anonymous>)
+      at forEach (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedValue.js:67:10)
+      at AnimatedValue.flushValue [as _updateValue] (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedValue.js:361:7)
+      at TimingAnimation._updateValue [as _onUpdate] (../../deps/mobile/node_modules/react-native/Libraries/Animated/nodes/AnimatedValue.js:325:14)
+      at TimingAnimation._onUpdate [as onUpdate] (../../deps/mobile/node_modules/react-native/Libraries/Animated/animations/TimingAnimation.js:157:10)
+      at Timeout.callback [as _onTimeout] (../../deps/mobile/node_modules/@react-native/jest-preset/jest/setup.js:61:31)
+
+PASS src/__tests__/quietLuxuryDoctrine.test.ts (11.496 s)
+  Quiet-luxury doctrine (docs/QUIET_LUXURY_DOCTRINE.md)
+    ✓ does not use fontWeight 700 or 800 in shipped screens or components (70 ms)
+    ✓ does not contain "Coming Soon" / "In Development" / "Planned" placeholder copy (47 ms)
+    ✓ does not contain TODO / FIXME / XXX comments (40 ms)
+    ✓ does not contain trophy / confetti / first-win celebration chrome (81 ms)
+    ✓ does not use Ionicons name="flame" anywhere in shipped surface (91 ms)
+    ✓ does not use Ionicons name="trophy" anywhere in shipped surface (54 ms)
+    ✓ does not reference the legacy BadgeCabinet identifier (43 ms)
+    ✓ does not include 'streak' as a discriminated-union member in db/notificationsDb.ts
+    ✓ does not reference Leaderboard in shipped screens (55 ms)
+    ✓ does not embed pictograph emoji in source (61 ms)
+  Truthful client copy and routes/actions parity
+    ✓ puts Quick Workout, routines and history before both collapsed charts on day one (442 ms)
+    ✓ keeps assigned, routine, edit, delete, older history and refresh actions (124 ms)
+    ✓ names the weigh-in run and preserves share, Report, periods and weight logging: today gap (1606 ms)
+    ✓ names the weigh-in run and preserves share, Report, periods and weight logging: today not logged (308 ms)
+    ✓ names the weigh-in run and preserves share, Report, periods and weight logging: look-back limit (496 ms)
+    ✓ keeps every Profile route and names only granted sharing scopes (310 ms)
+    ✓ describes only assigned-coach sharing for grants [true, true] (46 ms)
+    ✓ describes only assigned-coach sharing for grants [false, false] (34 ms)
+    ✓ describes only assigned-coach sharing for grants [true, false] (56 ms)
+    ✓ describes only assigned-coach sharing for grants [false, true] (42 ms)
+    ✓ never hides owner access or assumes it is absent (true) (49 ms)
+    ✓ never hides owner access or assumes it is absent (false) (34 ms)
+    ✓ never hides owner access or assumes it is absent (undefined) (40 ms)
+    ✓ never hides owner access or assumes it is absent (false) (32 ms)
+    ✓ refreshes sharing after Profile to Settings to Profile and suppresses stale reassurance during the read (141 ms)
+    ✓ labels canned report advice as general and keeps Back (12 ms)
+    ✓ names a failed weight chart and retains its explicit retry (81 ms)
+    ✓ schedules a fasting-window message, not a claim that a goal was reached (42 ms)
+    ✓ uses the actual pairing state in Day-1 notifications (false), retaining enable/skip (422 ms)
+    ✓ uses the actual pairing state in Day-1 notifications (true), retaining enable/skip (18 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       30 passed, 30 total
+Snapshots:   0 total
+Time:        11.671 s
+Ran all test suites within paths "src/__tests__/quietLuxuryDoctrine.test.ts".

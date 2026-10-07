@@ -1,0 +1,6 @@
+PASS src/__tests__/quietLuxuryDoctrine.test.ts (10.682 s)
+
+Test Suites: 1 passed, 1 total
+Tests:       30 passed, 30 total
+Snapshots:   0 total
+Time:        10.814 s
