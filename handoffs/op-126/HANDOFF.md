@@ -1,6 +1,6 @@
 # Operator 126 to agent 127 handoff
 
-Status: preparation in progress. GitHub main, exact-head checks and verdicts win over every SHA or result written here. This is not an instruction to launch agent 127 before the owner does so.
+Status: drain completed and continuity package prepared at 19:53 PDT. Latest owner-reported credits remain 37.5k/45k; the owner has not yet reported the 43k handoff threshold. GitHub main, exact-head checks and verdicts win over every SHA or result written here. This is not an instruction to launch agent 127 or a new fleet before the owner does so.
 
 ## Owner orders
 
@@ -14,14 +14,15 @@ Status: preparation in progress. GitHub main, exact-head checks and verdicts win
 
 ## Verified release state
 
-- Production deploy 17: backend `111b0ad6c6290209ce50390643326ad67d1c8b11`, [successful run 37561522514](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37561522514).
+- Current production deploy 18: backend `b59ccb3e539376f67e98a5399df1dfadf257f92f`, [successful run 37563690500](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37563690500). The release verifier proves the sole machine runs that exact SHA/image digest `f45c269e6e71643fc6ab60bd0a04c327c81e75703e1b2a704785cd3363dbe70a`. `/health` ok and `/readyz` db up rechecked at 19:53.
+- Previous deploy 17: backend `111b0ad6c6290209ce50390643326ad67d1c8b11`, [successful run 37561522514](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37561522514).
 - `/health` returned ok and `/readyz` returned ok/db up at 19:25. Endpoints: https://api.trygrowthproject.com/health and https://api.trygrowthproject.com/readyz.
-- No prisma schema or migration delta from deploy 16; migrations acknowledgement left empty. No production customer data changed.
+- No prisma schema or migration delta from deploy 16; migrations acknowledgement left empty. No operator-initiated production customer-data writes were performed.
 - Release contains #808 status/manifest, #810 scheduler registration fix, #812 Day-1 backend fix, #811 memory-consent capability, #816 guest payment/account and welcome-email fix, #817 sub-coach AI 404, #818 workout list ordering.
-- Final drain backend main `b59ccb3e539376f67e98a5399df1dfadf257f92f` includes #821 Stripe readiness refresh, #814 assignment push preference fix, #822 coach billing observe-only configuration and #819 email sender unification. Their source changes are not part of deploy 17. CI/CodeQL/SBOM for this exact main are running for release 18; hold promotion until they finish, then deploy through the evidence-gated workflow. No prisma delta from release 17.
+- Final drain backend main and current production `b59ccb3e539376f67e98a5399df1dfadf257f92f` include #821 Stripe readiness refresh, #814 assignment push preference fix, #822 coach billing observe-only configuration and #819 email sender unification. Exact-main CI, CodeQL/analysis and SBOM passed the release gate. Deploy 18 is complete; no prisma delta from release 17 and no customer-data write or sender rotation was performed.
 - Mobile main `357663d5c6ade2e0c8fba3b6e177840bd7bf2e8d` includes #439 Ask AI, #443 entry points/history, #450 fun layer, #440 copy, #441 Day-1 round 2, #442 check-ins, #444/#448 workout logging, #445 booking, #446 memory consent and #447/#449 food logging.
 - New owner arm64 APK was verified and delivered at 19:42 from that exact mobile main: [successful arm64 job 112600202794](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37561702685/job/112600202794). Artifact `tgp-357663d-clinic-arm64-apk` (ID 11456679547); SHA-256 check passed; proof confirms production API/Supabase endpoints, target SDK 36, no screenshot/dummy-host/service-role/server-key markers. Shared asset title: TGP Android test build — October 06. The universal variant in [run 37561702685](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37561702685) is still building. Workflow-only throwaway branch `ci/APK-126-1`, commit `6d7ba5d0`; never merge it. It does NOT contain the still-unfixed assigned-workout Start navigation fix or held privacy PR, and Ask AI is visible but paused pending backend safety fixes.
-- Live recount at 19:34: backend 63 + mobile 57 = 120 PRs into app-repo main today. #819 subsequently merged at 19:35, so expected total is 121 until the next live recount. Seven successful Fly Deploy runs today were counted at 19:25; configuration restarts are not code deployments. Launch path remains 5/7 pending owner device pass and store build/review. Owner update at 19:42 requested the current credit number to honour the 43k threshold; latest known remains 37.5k, not an estimate of current consumption.
+- Final live recount at 19:53: backend 64 + mobile 57 = 121 PRs into app-repo main today, 8 successful Fly Deploy runs today. Configuration restarts and merges to non-main branches are not counted. Launch path remains 5/7 pending owner device pass and store build/review. Owner update at 19:42 requested the current credit number to honour the 43k threshold; latest known remains 37.5k, not an estimate of current consumption.
 
 ## Approved coach gate change
 
@@ -82,16 +83,16 @@ This was a read-only response, not a new build assignment.
 ## Files and operating rules
 
 - Rules: TGP_SOURCE_OF_TRUTH.md A1, A2 overrides, A3 tier/dual-review format. Agent 125 handoff and AI_MASTER_BUILDER_PLAN remain supporting references.
-- Current lane briefs and operator log: `handoffs/op-126/ops/`; full original workspace reports under `/home/user/workspace/ops/reports/*126*`. All builders and lens pairs reported finished by 19:36. There are no new assignments or replacement workers; only existing release/build receipts remain to finish.
-- A continuity snapshot was pushed on backend branch `wip/op126/ops-snapshot`, commit `82407fe710c59eda1e3777b71996a84320b21392`. Do not merge that branch or use its root app source for a build; it was based on b5b54662 and contains selected redacted reports/queries/patches and tools, not secret/runtime payloads. Latest worker reports may get one final refresh.
+- Current lane briefs and operator log: `handoffs/op-126/ops/`; full original workspace reports under `/home/user/workspace/ops/reports/*126*`. All builders and lens pairs reported finished by 19:36. There are no new assignments or replacement workers. Final backend rollout is verified; only the universal APK variant remains running externally.
+- A continuity snapshot was pushed on backend branch `wip/op126/ops-snapshot`, final commit `bf56e40313961550ffd998dbfdecbded75573e20`. Do not merge that branch or use its root app source for a build; it was based on b5b54662 and contains selected redacted reports/queries/patches and tools, not secret/runtime payloads. It includes the final completed worker reports and verified release-18/operator notes.
 - Promotion ONLY via `ops/merge_if_dual.sh`; require both latest same-head model approvals and no failed/pending required checks. Do not self-author a reviewer verdict. A REQUEST CHANGES is not waived by another model's approval.
-- `sweep.sh` holds #809/#820/#822 and mobile #451 explicitly; #822's owner approval is now given, so promote it manually through merge_if_dual once reviews/checks satisfy the gate. Inspect holds, never run a blind sweep.
+- `sweep.sh` holds #809/#820 and mobile #451 explicitly; #822 is already merged/applied/verified. Inspect holds and latest exact-head REQUEST CHANGES before any promotion; never run a blind sweep.
 - Backend code deploy ONLY `fly-deploy.yml`, current main exact SHA and release evidence. It refuses old main heads; repeated merges delayed deploy 17. Freeze promotion long enough for current-head CI/CodeQL/SBOM to finish rather than repeatedly dispatching queued heads.
 - Flag changes ONLY reviewed manifest + `fly-env-sync.yml`; NEVER fly-secrets-set. Ask before production customer-data writes. No money spending, no account creation/reset.
 - Every commit is Bradley Gleave with the standing approved email, no AI co-author. Never publicize the clinic partner or private records/secrets. Times from `TZ=America/Los_Angeles date`; owner is on Windows, never give terminal commands.
 - Local heavy runs through `ops/heavy.sh`, one targeted suite. No full local tsc/full test suite; an operator attempt at full tsc ran out of memory. Use CI for full checks.
 - The RO-backend worktree was accidentally advanced in its index/worktree without moving HEAD during earlier operator reads. At 19:36, after reviewers finished, operator restored its tracked files/index to its actual f71bb9a4 HEAD; tracked status is clean. Use clean pinned read-only worktrees or git show `<sha>:<path>` for new reads. Exact-head PR reviewers used their own worktrees.
 
-## Required final update
+## Continuation
 
-Replace this draft's state with final receipts after the current drain: billing plan/apply/verify, APK result, final PR inventory, final deployment SHA and scheduler log evidence. Update agent 126's own SoT banner and AGENT_127_PROMPT.md; leave agent 125's banner untouched.
+The verified coach-gate change, deploy 18, delivered arm64 APK and five held/blocked PRs are the final drain state. The universal APK variant may still finish externally; check its job and proof before delivering that variant. Agent 127 should begin only under the owner's next instruction and should not reopen completed work. The owner may still supply a new credit number or Roman/device-test result. No unverified “launch ready”, “AI on”, current wrong sender or live white-label claim is justified by this package.
