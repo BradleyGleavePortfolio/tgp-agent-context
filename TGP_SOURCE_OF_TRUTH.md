@@ -1329,6 +1329,10 @@ Older entries not listed here still stand unless a later decision changed them; 
   consent tick every client already gives in the consultation (box 2 grants client-ai-v5 while memory is on; no separate question, nothing
   pre-ticked); an off switch "Roman's memory" sits at the bottom of Settings > Roman AI (off = memory withdrawal + notes deleted). Roman's
   look-up tools cover every client-owned data kind. Jobs R11-C2B-127 (consent), R11-T1 scope widened, R11-L1 policy text updated.
+- 10:20-10:22: design: auditor to review the A23 makeover targets (design-targets/mobile, roadmap/specs/A23) and the mobile design guide
+  (quality-references/MOBILE_APP_DESIGN_INTELLIGENCE*.md) and plan a luxurious, comfortable makeover ASAP; "id really like it if my
+  screens didnt make shit up in copy!" -> truthful-copy rule for every screen (copy states real data or is neutral).
+- 10:25: "roman is original design, not impersonation" -> Roman portrait stays as is (design-audit likeness note closed).
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -7952,6 +7956,12 @@ Recorded by agent 127. Applied in A6.10.
 > 10:15 "LET THEM RUN"
 > 10:18 "Memory stays switched off for clients unless they turn it on?? MEMORY IS ON BY DEFAULT UNLESS THEY SWITCH IT OFF! Roman needs all, every single bit, of data they ever produce or bring in"
 Recorded by agent 127. Applied in A6.10 (supersedes the 10:09 opt-in reading).
+
+#### 2026-10-07 10:20-10:25 PDT — screen makeover from the A23 targets and design guide; truthful copy; Roman portrait original (owner, to agent 127)
+> 10:20 "there should be a set of example pages for a screen makeover from some weeks ago in github as a future job - have the auditor go check those and see if he likes those instead? This needs to be improved ASAP so lets get the auditors opninion and start planning to make the screens more luxurious and comftorable to use! Also, in github is a Mobile design guide - big document full of UI best practices and reasoning!"
+> 10:22 "yea id really like it if my screens didnt make shit up in copy! Add this to the plan the auditor eventually produces!"
+> 10:25 "roman is original design, not impersonation"
+Recorded by agent 127. Applied in A6.10.
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
