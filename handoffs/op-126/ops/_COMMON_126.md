@@ -61,7 +61,7 @@ and A6 (decisions in force). Do not read the rest unless your entry tells you to
    (mobile main 950689af). Never edit, check out or build in them, or in the main clones /home/user/workspace/growth-project-*.
 3. To fix: create your own worktree with an ABSOLUTE path from origin/main:
    `git -C /home/user/workspace/growth-project-<repo> fetch -q origin main && git -C /home/user/workspace/growth-project-<repo> worktree add -b agent126/<job-lower>-<short> /home/user/workspace/wt/<JOB>-<repo> origin/main`
-   Commit identity: `git -c user.name="Bradley Gleave" -c user.email="bradley@bradleytgpcoaching.com" commit ...`, no AI co-author trailer.
+   Commit identity: `git -c user.name="Bradley Gleave" -c user.email="[redacted email]" commit ...`, no AI co-author trailer.
 4. Sandbox: 2 CPU / 7.9 GB shared with ~20 agents. Shared deps: /home/user/workspace/deps/backend and /home/user/workspace/deps/mobile
    (a READY file appears when the install finishes; until then read code and use CI). Link with
    `/home/user/workspace/ops/link_deps.sh <backend|mobile> <worktree>`; backend then `/home/user/workspace/ops/heavy.sh npx prisma generate`

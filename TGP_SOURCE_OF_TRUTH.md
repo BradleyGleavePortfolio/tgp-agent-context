@@ -1291,6 +1291,13 @@ Older entries not listed here still stand unless a later decision changed them; 
 - 14:06 credits "33.5k/45k credits used".
 - 14:29 RUTHLESS SCOPE -> A2 override items 7-11 (auditors hunt only real, huge issues; no time on edge cases; time boxes).
 
+### A6.9 Current operator decisions (owner 2026-10-06, recorded by agent 126)
+- 18:36: sub-coach Ask AI launch support moves to v1.1; hide only for sub-coaches at launch (#817), leaving head/solo-coach entry visible.
+- 18:55: "32k/45k used - stop-and-drain to 6 agents". 18:56: "DO NOT CANCEL AGENTS" / "LET THEM FINISH AND THEN DO NOT START NEW WORK". Let existing builders and reviewers finish; do not cancel, replace or launch new scope. This supersedes the earlier steady 20+ fleet instruction for agent 126.
+- 19:19 approved the prepared coach-sharing wording. 19:20 questioned why a separate prompt is needed when sharing with one's coach is implied. A notice-only join flow is not yet implemented or approved. #820/#451 remain held for product alignment; #451 also has a technical privacy fallback blocker. Do not silently grant consent or write customer records.
+- 19:23: "yes please remove any coach subscription teirs for now. We have the white label service, thats the only thing thats even implied to use the gate right?" Ordinary coach tools have no coach-software subscription requirement. Generic BILLING_ENFORCEMENT is unset/observe-only via dual-reviewed #822 and verified sync run 37562398593; client recurring packages, payments, dunning and payouts remain separate and unchanged. White-label may have a separate paid-service entitlement; its current custom-domain Pro check is independent and was not removed.
+- 19:21 credit report: "your at 37.5k/45k". Handoff remains at 43k under the 18:01 owner order. Do not predict credit use. No new agent 127 fleet is implicitly authorized by the handoff.
+
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -2384,8 +2391,14 @@ Files: handoffs/op-126/ops/ (_COMMON_126.md, JOBS126.md). Credits: 0/45k at 17:5
   warning at exactly :00 each minute comes from ScheduleModule.forRoot() imported twice (app.module.ts:169 + data-export.module.ts:32,
   since #171 2026-05-12); on Nest 11 every @Cron is registered twice, so every timed job runs twice concurrently. Not caused by deploy 16;
   no rollback. Fix B-CRON-126 (one-line removal + regression test); double-run impact audit AUD-CRONX-126; operator runs its SELECTs.
-- 18:00 m#411 closed with note, branch kept. Fleet of 20 launched 17:59-18:00 (JOBS126.md). Merge loop: ops/lanes126/merge_loop.sh runs
-  merge_if_dual.sh every 3 min on non-draft agent126/* PRs based on main.
+- 18:00 m#411 closed with note, branch kept. Fleet launched 17:59-18:00, later expanded under the owner. The detached merge loop stopped making progress at 18:13; replaced with operator-run credentialed sweeps, never ungated merges.
+- 18:55-18:56 owner stop-and-drain, no cancellations/replacements/new assignments. Existing review queues and builders finished naturally. Latest credit report 37.5k/45k at 19:21; 43k handoff preparation in handoffs/op-126/HANDOFF.md and AGENT_127_PROMPT.md.
+- 19:24 deploy 17 succeeded: exact image 111b0ad6c6290209ce50390643326ad67d1c8b11, run 37561522514; /health ok, /readyz db up at 19:25. No prisma delta/customer-data writes. Scheduler #810 is live, with runtime registration tests and a post-release 19:30 log tick showing one NudgeScheduler row and one SettlementSweepCron completion (log run 37562451242), not two.
+- 19:32 owner-approved obsolete coach-subscription enforcement disabled through #822 + plan 37562180086 + apply/verify 37562398593. Sole changed name BILLING_ENFORCEMENT; no other staged values; the one production machine proves it absent. Client payment/dunning/payout logic unchanged; custom-domain white-label Pro gate untouched.
+- Mobile main 357663d5c6ade2e0c8fba3b6e177840bd7bf2e8d includes Ask AI #439, entry/history #443 and fun layer #450. Owner APK run 37561702685 is building that exact source on throwaway ci/APK-126-1 (never merge). No accounts created/reset; owner sends Roman's real message.
+- Existing clean drain PRs #821 Stripe readiness, #814 real assignment-push gate regression and #819 sender unification have merged. Final backend main b59ccb3e539376f67e98a5399df1dfadf257f92f awaits release evidence for deploy 18. Source is NOT live merely because it merged.
+- Still blocked by same-head Sol findings: #809 injury/weekly bounds, #815 unsafe selective Apply, #813 negative keep-instruction bypass and mobile #451 current-production privacy metadata fallback. #820/#451 also held for sharing-policy alignment. AI builder remains paused until the engine is safe; no blanket switch-on was performed. Standalone revision zero and assigned-workout Start navigation findings are not fixed in this drain.
+- Corrections: earlier owner updates prematurely described #443 merged, the billing PR reviewed, and a current wrong email sender/live enforce value. Correct facts are in HANDOFF.md. Digest historical failures preceded domain verification; actual delivery still needs a post-23:00 SELECT. White-label inspection found web branding/domain foundations, not a verified finished branded-app service. No white-label build started.
 
 ## AGENT 125 — 2026-10-06 13:47 PDT onward (session d712a008; 125th operator in the chain)
 Why: owner 10-06 13:4x: "Read TGP source of truth in github ... who you are (agent 125) ... Then read all the supporting documents

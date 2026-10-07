@@ -257,3 +257,130 @@ send the guest the welcome/receipt email: make the write conditional (claim-by-w
 the copy that wins (~12 lines) + a spec that fails on main. Branch agent126/b-guest-126, worktree
 /home/user/workspace/wt/B-GUEST-126-backend, ONE backend PR under 400 lines. READY per _COMMON item 5. Report
 /home/user/workspace/ops/reports/B-GUEST-126.md. Never touch Stripe or production.
+
+# WAVE 2 (operator 18:32; owner: "keep steady at 20+ concurrent agents without skipping PR grading, agent rules, or ever letting the
+# hyperscaler quality bar drop - without getting distracted by edge cases and bullshit"). Same _COMMON_126 rules; C gets ZERO time.
+
+## B-EMAILFROM-126 (Claude Opus 5.5, BUILDER, T3 core flow + owner config) — every TGP email actually sends. Time box 50 min (hard stop 19:25).
+Evidence: production "NotificationDigestLog" has 6 rows, one per day, ALL status='failed': 10-02..10-04 "Resend API error 403: The
+growthprojectapp.com domain is not verified", 10-05 and 10-06 "provider=resend status=403 code=validation_error". The owner verified
+growthprojectapp.com in Resend and told agent 124 the sender is [redacted email], but digest.service.ts:420 falls back to
+`[redacted email]` when EMAIL_FROM_ADDRESS is unset, and EMAIL_FROM_ADDRESS / RESEND_FROM_EMAIL are NOT in
+.github/fly-env-desired-state.json. Trace EVERY email sender in src (digest, invites, bulk invite, receipts, guest checkout, dunning
+notices, payment recovery, support, auth/password paths): which from-address each uses, which env name it reads, and what happens today.
+Then: (1) ONE backend PR that makes the from-address consistent and loud — single source of truth for the sender, no silent wrong-domain
+fallback in production (fail closed with a specific log line naming the env var), plus a spec that fails on main; keep test/dev 'log'
+transport working. (2) In the PR body list the EXACT env names and values the operator must put in the manifest
+(names only, never secrets) so the owner's verified domain is used. Do NOT edit fly-env-desired-state.json yourself (operator does the
+flag PR) and never run fly-env-sync. Branch agent126/b-emailfrom-126, worktree /home/user/workspace/wt/B-EMAILFROM-126-backend, under
+400 lines. READY per _COMMON item 5. Report /home/user/workspace/ops/reports/B-EMAILFROM-126.md.
+
+## AUD-MONEY-E2E-126 (Claude Opus 5.5, AUDITOR, read-only, T4 money; owner: "the flow of money to be BULLETPROOF") — one buyer, end to end. Time box 60 min (hard stop 19:35).
+Follow ONE normal purchase end to end on the 10-07 build with production flags, naming every file:line and screen: client taps Buy in
+the app (Apple/Google surface rules in src/config/purchaseSurfaces.ts) or on the coach's web storefront -> Stripe -> webhook ->
+ClientPurchase -> entitlements/content fan-out -> coach earnings -> settlement -> Connect transfer -> coach sees the money. Then the same
+for a recurring package renewal and for a refund. At every hop: what the client sees, what the coach sees, and what happens if that hop
+fails once (the normal failure, not exotic races). Bs only per _COMMON_126; for each B the one-sentence user story, file:line and the
+smallest fix. Do not re-audit what AUD-MJ-BILL/SETTLE/PAYOUT/DUNNING-126 already graded SAFE (read those four reports first and cite
+them); your job is the SEAMS between them and what the human sees. No PRs. Report
+/home/user/workspace/ops/reports/AUD-MONEY-E2E-126.md.
+
+## FU-FOODLOG2-126 (Claude Opus 5.5, AUDITOR-BUILDER, T3; owner TOP PRIORITY) — food logging, second pass. Time box 70 min (hard stop 19:40).
+Read /home/user/workspace/ops/reports/FU-FOODLOG-126.md and mobile m#447 first; do NOT redo or re-fix anything it covers. Take the parts
+it did not reach: the coach's view of a client's food log and targets, the daily totals vs targets maths (units, rounding, net vs gross
+calories), water and meal counts, the Today screen's food cards and empty states, barcode and quick-add failure copy, and the log on a
+day with no plan. Fix the small, safe Bs and Us (ONE mobile PR, one backend PR if a route is wrong; under 600 lines each) and do not
+touch files m#447 owns while it is open (name the overlap in your PR body instead). Branch agent126/fu-foodlog2-126. READY per _COMMON
+item 5. Report /home/user/workspace/ops/reports/FU-FOODLOG2-126.md.
+
+## FU-WORKLOG2-126 (Claude Opus 5.5, AUDITOR-BUILDER, T3; owner TOP PRIORITY) — workout logging, second pass. Time box 70 min (hard stop 19:40).
+Read /home/user/workspace/ops/reports/FU-WORKLOG-126.md, merged m#444 and open b#814 first; do NOT redo what they cover. Take the rest:
+the coach seeing a finished session (sets, weights, notes, timing), personal records and history, the rest timer and swap flows' copy and
+states, a workout assigned for today that the client opens twice, and the client's own history screens. Fix the small, safe Bs and Us
+(ONE mobile PR, one backend PR if needed; under 600 lines each). Branch agent126/fu-worklog2-126. READY per _COMMON item 5. Report
+/home/user/workspace/ops/reports/FU-WORKLOG2-126.md.
+
+## AUD-E2E-CLIENT-126 (Claude Opus 5.5, AUDITOR, read-only, T4) — the client's first hour on the 10-07 build. Time box 60 min (hard stop 19:35).
+Walk the client app exactly as a new person would on the clinic build with production flags: install, sign up (email and Sign in with
+Apple), consultation, onboarding, Day One, home, chat with Roman, log food, log a workout, log weight, book the welcome call, join the
+community, see the leaderboard, open a purchased PDF or video, connect Health Connect, report a problem, settings and privacy. Every
+screen: does it load, is every button alive, is there a loading/empty/error state, is the copy true. Use
+/home/user/workspace/ops/reports/S-BUILDDAY-126/DEVICE_PASS_10-07.md as the route and say where the sheet is wrong. Bs and Us only (C
+gets zero time), each with file:line and the smallest fix. No PRs. Report /home/user/workspace/ops/reports/AUD-E2E-CLIENT-126.md.
+
+## AUD-E2E-COACH-126 (Claude Opus 5.5, AUDITOR, read-only, T4) — the coach's first hour on the 10-07 build. Time box 60 min (hard stop 19:35).
+Same method, coach side: sign up as coach, consultation, profile, Stripe Connect onboarding, first package (one-off and recurring),
+appointment types and weekly hours, invite a client (code, email, bulk), accept a booking, message the client, build a program (incl. Ask
+AI paused state), assign it, approve an AI draft, build a meal plan, see the risk board and Overview, check earnings and payouts, check
+the support inbox. Bs and Us only, file:line and smallest fix. No PRs. Report /home/user/workspace/ops/reports/AUD-E2E-COACH-126.md.
+
+## B-AIBFUN-126 (Claude Opus 5.5, BUILDER, T3 mobile; owner 15:40 "the FUN part of being a trainer to be fun in-app") — the fun layer. Time box 70 min (hard stop 19:45).
+Start AFTER m#439 merges (poll `gh pr view 439 --repo BradleyGleavePortfolio/growth-project-mobile --json state`), on mobile main; if it
+has not merged by 19:00, branch from origin/agent126/b-aib5-126 and open the PR against that branch, then retarget to main when it
+merges. Read AI_MASTER_BUILDER_PLAN.md PART 1 "The fun layer" and section 6, and B-AIB5P-126's report. Build the fun layer the plan
+lists that AIB-5/AIB-6 did not: the staged reveal of change cards with spring motion, haptic intents on propose/apply/undo, the
+"coach win" moment after apply, and the momentum line in the builder header. Rules: Reduce Motion respected (no motion-only meaning),
+colour never the only signal, screen-reader labels on every new control, no first person, no emojis, no exclamation marks. Never hide the
+AI entry. Do not change the files m#443 (AIB-6) owns while it is open; name any overlap in your PR body. ONE mobile PR under 500 lines,
+tests per plan section 6. Branch agent126/b-aibfun-126. READY per _COMMON item 5. Report /home/user/workspace/ops/reports/B-AIBFUN-126.md.
+
+## LX-OPUS-126 (Claude Opus 5.5) and LX-SOL-126 (GPT-6.1 Sol) — THIRD lens pair, overflow queue
+Same "# LENS PAIRS" common rules (read them fully). You take the overflow so no PR waits: every open non-draft PR on a branch starting
+agent126/ that has a READY comment at its current head and is missing a verdict from your model. List:
+for repo in growth-project-backend growth-project-mobile; do gh pr list --repo BradleyGleavePortfolio/$repo --state open --limit 100 \
+  --json number,headRefName,isDraft --jq '.[]|select(.headRefName|startswith("agent126/"))|select(.isDraft|not)|.number'; done
+Order: mobile before backend (the 09:30 build freeze), then by PR number ascending. Before reviewing, check whether the OTHER pair
+(LB/LM/LF) already has a verdict from your model at that head; if yes, skip. Verdict first line per the common rules with your JOB id.
+
+# OWNER DECISION 18:36 (binding): sub-coaches and Ask AI — "hide Ask AI for sub-coaches on the 10-07 build and support them properly in
+# the next version - approved to move to v1.1 scope". So: on 10-07 the status route returns 404 for a user who is a sub-coach (mobile
+# already hides the entry only on 404; no mobile change). Full sub-coach support = v1.1 scope, not tonight.
+## B-AIBSUB-126 (Claude Opus 5.5, BUILDER, T4 tenancy) — Ask AI hidden for sub-coaches. Time box 45 min (hard stop 19:35).
+Read /home/user/workspace/ops/reports/SAFE-AIB-PRE-126.md (B4, and B3 for context) and HS-AIB4-125.md. b#808 is merged, so the status
+route is on main: src/ai/gateway/workout-builder/workout-builder-status.{controller,service}.ts. Change: GET
+/ai/gateway/workout-builder/status returns 404 (the same shape an old build sees, so the mobile entry hides) when the caller is a
+sub-coach — a user whom `getHeadCoachIdForSubCoach` (find the exact helper and cite file:line) maps to another coach; POST
+/ai/gateway/workout-builder/propose returns the same 404 for that caller. Head coaches and solo coaches are unaffected. Specs that fail
+on main: sub-coach -> 404 on both routes; head coach with a sub-coach -> unchanged 200/normal; solo coach -> unchanged. In the PR body:
+the one-sentence user story, and a "v1.1 scope" note naming what full sub-coach support needs (tenant plan scope via the autosave
+authorisePlanAccess path, per the SAFE report). Branch agent126/b-aibsub-126, worktree /home/user/workspace/wt/B-AIBSUB-126-backend,
+under 300 lines. READY per _COMMON item 5. Report /home/user/workspace/ops/reports/B-AIBSUB-126.md. Never merge or deploy.
+
+## B-SHARE-126 (Claude Opus 5.5, BUILDER, T4 private health data + store/legal) — the client's coach can actually see their logs. Time box 80 min (hard stop 20:10). OWNER APPROVAL PENDING: build both PRs, get CI green and READY, but say clearly in each PR body "HELD: needs owner approval of the wording" — the operator will not merge until the owner answers.
+Finding (FU-FOODLOG-126 B2, /home/user/workspace/ops/reports/FU-FOODLOG-126.md): for any coach whose role is `coach` (not `owner`),
+every client's food log, workouts, weigh-ins and habits read "not shared with this coach", because `coachCanAccess`
+(src/consent/consent.service.ts:328-336) requires a granted ConsentScope.FITNESS_* row, no app surface ever grants one (POST
+/consent/grant exists; nothing in mobile calls it), and only the owner role bypasses it. The owner is the featured coach, so his own
+account hides nothing — the clinic's coaches would see empty clients on 10-07. The published privacy notice tells clients their coach
+sees these logs (src/public-pages/trust-pages.html.ts).
+Build the EXPLICIT-CONSENT version (do NOT silently default-grant, and do not weaken `coachCanAccess`):
+(1) Mobile: at the moment a client links to a coach (invite code redemption / coachless home coach-code sheet / onboarding when a coach
+is already linked) show ONE clear screen: plain-words line naming exactly the four things the coach will see (workouts, food logs,
+weigh-ins and check-ins/habits), a primary "Share with my coach" that calls POST /consent/grant for the four FITNESS_* scopes, and a
+secondary "Not now" that continues without granting and is reachable again from Settings > Privacy. Settings > Privacy gets four
+toggles (grant/revoke per scope) with the current state from GET /consent/me. If the client declines, every coach-side screen already
+shows its "not shared" state, so nothing breaks. Copy rules: no first person, no emojis, no exclamation marks, no generic errors;
+screen-reader labels; colour never the only signal.
+(2) Backend: only what is missing for that flow (e.g. a bulk grant/revoke for the four fitness scopes in one call if the four separate
+calls are not acceptable, and GET /consent/me returning the four states) + specs. Never change the owner bypass or the default meaning
+of "no row" (= not shared).
+Also state in the mobile PR body whether the 10-07 clinic build reaches this screen for a client who links a coach DURING onboarding and
+for one who links later. Branches agent126/b-share-126-mobile and agent126/b-share-126-backend, under 600 lines each. READY per _COMMON
+item 5 (job B-SHARE-126). Report /home/user/workspace/ops/reports/B-SHARE-126.md.
+
+## B-CONNECT-126 (Claude Opus 5.5, BUILDER, T4 money) — a coach Stripe just approved can take payments. Time box 45 min (hard stop 19:40).
+From AUD-MONEY-E2E-126 B1 (/home/user/workspace/ops/reports/AUD-MONEY-E2E-126.md — read it first). A coach finishes Stripe onboarding
+while Stripe is still checking them; Stripe approves minutes later; the saved mirror row never updates because the connected-account
+webhook is backlog, so the coach's screen keeps saying "Stripe is checking your details" and every client who taps Buy is told the coach
+cannot take card payments, until the coach happens to tap "Check status again". The existing re-read (b#750) only runs on
+/v1/connect/accounts/me, which the 10-07 app never calls.
+Fix, backend only so it works with the 10-07 binary: in the three places that read only the saved mirror — checkout.service.ts:594-610,
+subscription-checkout.service.ts:272 and coach-connect.service.ts:191 — when the saved status says NOT ready, re-read the account from
+Stripe through the existing b#750 helper (reuse it; do not write a second Stripe call path), refresh the mirror row, then decide. When
+the saved status already says ready, change nothing and make no Stripe call. Keep it small (target under 60 source lines): a short
+cached-refresh helper with a cooldown so a client hammering Buy cannot fan out Stripe calls (in-process cooldown is fine, name the TTL),
+never block a purchase on a Stripe timeout (fall back to the saved status and log a specific line), and no secrets in logs. Specs that
+fail on main: (1) coach mirror says not-ready + Stripe says charges_enabled -> client's Buy succeeds and the coach status reads ready;
+(2) mirror ready -> zero Stripe calls; (3) Stripe error/timeout -> same answer as today, no exception to the client. Branch
+agent126/b-connect-126, worktree /home/user/workspace/wt/B-CONNECT-126-backend, under 400 lines. READY per _COMMON item 5. Report
+/home/user/workspace/ops/reports/B-CONNECT-126.md.
