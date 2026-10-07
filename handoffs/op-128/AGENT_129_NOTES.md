@@ -15,8 +15,7 @@ STOPPED_HALFWAY.md (this folder: every unfinished agent, PR and report), ops/FLE
   finish this asap!"
 - 14:58: "Build cutoff: cut tonight's builds from mobile main at 11pm PDT seattle time"
 - 14:58 (mid-workout): "it should cancel it if you exit the screen/app, and it should just give an option that deletes the mid session
-  workout!" Agent 128 read this as: never lose the workout on leaving; deleting is its own clearly named action (job TRAIN-GATE-128).
-  Confirm with the owner if the PR's behaviour is questioned.
+  workout!" CORRECTED by the owner 15:03: "NOO i want workouts to have autosave - you go out and change a yt video, come back, opens right to the in progress workout! We should NOT have options to delete it - it should ask, if trying to exit to another app page to log/save the workout!" (TRAIN-GATE-128 was told).
 
 ## Your priority list, in order
 1. Tonight's iOS submission (cutoff 23:00 PDT mobile main): merge every dual-approved mobile PR before 23:00; then from that exact main:
