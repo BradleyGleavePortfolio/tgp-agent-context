@@ -28,3 +28,7 @@
   CF-NOTIF-FG, CF-ONB-TOUR, CF-ONB-WIN, CF-ONB-NUDGE, DES-AQ-127, DES-AZ-127. 22:50: APK-FINAL-129, SHOTS-129. Wave 2 per JOBS129.
 - 16:12 Operator READY posted: m#521 (TRAIN-GATE-128 R1 @ 0b10156d, CI green), m#502 (R2 @ a83774e0: fixes Sol B1 invite across Sign in),
   m#504 (R2 @ 431f65b8, main merge only), m#485 (R2 @ 6515839a, main merge only).
+- 16:14-16:15 MERGED (merge_if_dual.sh, dual APPROVE at exact head, checks green): b#857 MONEY-MAIL (payment emails reply to the coach),
+  m#520 WEIGH-KB, m#519 EXLIB, m#518 ONB-RESEND, m#506 DES-BC. Backend main fd190078 CI running; deploy 27 after it is green.
+- 16:16 OWNER: "12k/45k used - keep letting agents finish, do not start new work". No new launches from here (the held rows, DES-P-128,
+  wave 2 and the 23:00 runners are not started). Merges and backend deploys of finished work continue.
