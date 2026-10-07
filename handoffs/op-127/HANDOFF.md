@@ -43,14 +43,14 @@ read their READY / AUDIT comments on GitHub and their reports (sanitized copies 
 ## Merged today (40 by 11:58)
 
 Backend: 809 813 815 823 825 826 828 829 824 827 830 832 836 833 834 838 835 831 840 841.
-Mobile: 453 455 457 454 459 460 458 461 466 468 472 467 462 456 465 464 476 480.
+Mobile: 453 455 457 454 459 460 458 461 466 468 472 467 462 456 465 464 476 480 478 (12:03).
 
 ## Open PRs at 11:58 (all agent 127; verify verdicts at exact heads; merge only via ops/merge_if_dual.sh)
 
 Backend: b#837 P3B-2 playbook builder, b#839 share-link buyer sharing, b#842 W1 baselines — all dual APPROVE, BLOCKED only on queued
 required checks (rls-floor-guard, rls-live-tests, community-live-tests, build-and-test); merge when green. b#843 R11-T1b read_history
 (device health etc.), b#844 policy text for the 11:46 ruling, b#845 memory off keeps notes — need lenses.
-Mobile: m#463 memory switch (HELD by operator comment until updated for the 11:46 ruling; new head + fresh dual lenses), m#469 DES-T Home
+Mobile: m#463 memory switch (now also CONFLICTING with main; HELD by operator comment until updated for the 11:46 ruling; new head + fresh dual lenses), m#469 DES-T Home
 honest copy, m#470 DES-V copy sweep (Sol REQUEST CHANGES at 110f9f74 fixed at ec5dc175 — needs fresh lenses), m#473 DES-V part 2, m#471
 DES-F food logging, m#474 DES-R rest alert (CI had a failure — check), m#475 DES-J forest buttons, m#477 DES-S Settings grouped, m#479
 DES-Q coach client file, m#478 operator copy fix (Roman community Today-empty line; T1). Merge order notes: m#469 before DES-K;
@@ -61,7 +61,7 @@ Closed today as superseded: b#820, m#451.
 
 - Interim APK 1: mobile b81f71c, run 37661643888, arm64 sha256 6c5d0f962577b0c66fb91a4d08ee97fb74e6917d6e6f783eca015e6e06413b2a,
   delivered 11:24 as "TGP Android test build — October 07".
-- APK 2: branch ci/APK-127-2 pushed ~11:59 from mobile main 82c80133 (redo wave 1 partly merged). Check the run on that branch; download
+- APK 2: run 37670828683 (in progress at 12:03) on branch ci/APK-127-2 pushed ~11:59 from mobile main 82c80133 (redo wave 1 partly merged). Check the run on that branch; download
   with `gh api repos/BradleyGleavePortfolio/growth-project-mobile/actions/artifacts/<id>/zip` (gh run download fails through the proxy),
   extract with python zipfile, verify sha256 against the proof file, deliver as "TGP Android test build — October 07 (2)". Never merge
   ci/* branches.
@@ -84,3 +84,9 @@ Closed today as superseded: b#820, m#451.
 ## Open owner decisions
 
 None at 12:00.
+
+## 12:03 status
+
+Backend main c2c97612 CI still queued (runner backlog) -> deploy 24 not done. b#837/#839/#842 dual-approved, blocked only on queued checks.
+Agent 127's remaining subagents (5 lenses until 12:50; builders DES-F, DES-R, DES-S, DES-Q, DES-T, R11-T3, R11-C2C, R11-L2) finish their
+current PR or push WIP with a HANDOFF section in their report, then stop. Lens verdicts and READY comments on GitHub are the record.
