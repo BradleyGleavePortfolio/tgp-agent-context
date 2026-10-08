@@ -1,0 +1,1322 @@
+diff --git a/src/screens/client/WorkoutScreen.tsx b/src/screens/client/WorkoutScreen.tsx
+index 3c608294..071add5d 100644
+--- a/src/screens/client/WorkoutScreen.tsx
++++ b/src/screens/client/WorkoutScreen.tsx
+@@ -7,7 +7,6 @@ import {
+   RefreshControl,
+   Dimensions,
+   ActivityIndicator,
+-  TouchableOpacity,
+   Alert,
+   AppState,
+ } from 'react-native';
+@@ -18,6 +17,7 @@ import {
+   useRoute,
+   useFocusEffect,
+   NavigationProp,
++  ParamListBase,
+   RouteProp,
+ } from '@react-navigation/native';
+ import type { WorkoutStackParamList } from '../../navigation/ClientNavigator';
+@@ -33,7 +33,11 @@ import {
+ import { logger } from '../../utils/logger';
+ import { buildCompletionLogBase, normalizeError } from './_completionLogging';
+ import FadeInView from '../../components/FadeInView';
+-import { useTheme, ThemeColors } from '../../theme/ThemeProvider';
++import { useTheme } from '../../theme/ThemeProvider';
++import { typography, type SemanticTokens } from '../../theme/tokens';
++import { QuietSection, QuietOverline } from '../../ui/sections/QuietSection';
++import QuietBar from '../../ui/progress/QuietBar';
++import CoachErrorState from '../../components/community/coach/CoachErrorState';
+ import { EmptyStateNoWorkouts, EmptyStateNoData } from '../../ui/empty-states';
+ // W-3: client needs an entry point to coach-assigned workouts. The
+ // ClientWorkoutViewer + WorkoutAssignmentDetail screens have been
+@@ -45,11 +49,12 @@ import { useMyWorkoutAssignments } from '../../hooks/useWorkoutBuilder';
+ import PlanExplanationCard from '../../components/tutorial/PlanExplanationCard';
+ import WorkoutSyncCards from '../../components/workout/WorkoutSyncCards';
+ import { featureFlags } from '../../config/featureFlags';
+-// §2.8 Workout complete + §2.10 generic error — Roman speaks beside his face
+-// (both components co-locate <RomanAvatar />). Gated behind
+-// featureFlags.romanChat (default OFF), the dedicated Roman flag.
++// §2.8 Workout complete — Roman speaks beside his face (the card co-locates
++// <RomanAvatar />). Gated behind featureFlags.romanChat (default OFF), the
++// dedicated Roman flag. CF-TRAIN-TAB-128: a load failure uses CoachErrorState
++// (Roman's neutral face with a true line). The generic Roman banner said
++// retries had failed, but services/api.ts retries only 401s.
+ import RomanWorkoutCompleteCard from '../../components/roman/RomanWorkoutCompleteCard';
+-import RomanErrorBanner from '../../components/roman/RomanErrorBanner';
+ 
+ const { width: SCREEN_WIDTH } = Dimensions.get('window');
+ const CHART_WIDTH = SCREEN_WIDTH - 48;
+@@ -67,8 +72,8 @@ interface MuscleVolume {
+ // ── Pure-RN Bar Chart ─────────────────────────────────────────────────────
+ 
+ function BarChart({ data }: { data: WeeklyVolume[] }) {
+-  const { colors } = useTheme();
+-  const chart = useMemo(() => makeChart(colors), [colors]);
++  const { semanticColors: sc } = useTheme();
++  const chart = useMemo(() => makeChart(sc), [sc]);
+   if (!data.length) return null;
+   const maxVol = Math.max(...data.map((d) => d.volume), 1);
+   const BAR_HEIGHT = 160;
+@@ -102,7 +107,7 @@ function BarChart({ data }: { data: WeeklyVolume[] }) {
+                       {
+                         width: BAR_WIDTH,
+                         height: barH,
+-                        backgroundColor: i === data.length - 1 ? colors.primary : colors.primaryLight,
++                        backgroundColor: i === data.length - 1 ? sc.accent : sc.textMuted,
+                       },
+                     ]}
+                   />
+@@ -120,8 +125,6 @@ function BarChart({ data }: { data: WeeklyVolume[] }) {
+ // ── Muscle Progress Bars ──────────────────────────────────────────────────
+ 
+ function MuscleBreakdown({ data }: { data: MuscleVolume[] }) {
+-  const { colors } = useTheme();
+-  const muscle = useMemo(() => makeMuscle(colors), [colors]);
+   if (!data.length) return null;
+   const maxVol = Math.max(...data.map((d) => d.volume), 1);
+   const MUSCLES_DISPLAY = ['chest', 'back', 'shoulders', 'arms', 'legs', 'core'];
+@@ -129,26 +132,44 @@ function MuscleBreakdown({ data }: { data: MuscleVolume[] }) {
+   const displayData = MUSCLES_DISPLAY.map((m) => {
+     const found = data.find((d) => d.muscle.toLowerCase().includes(m) || m.includes(d.muscle.toLowerCase()));
+     return { muscle: m.charAt(0).toUpperCase() + m.slice(1), volume: found?.volume || 0 };
+-  }).filter((d) => d.volume > 0 || true);
++  });
+ 
+   return (
+-    <View style={muscle.container}>
+-      {displayData.map((item) => {
+-        const pct = maxVol > 0 ? item.volume / maxVol : 0;
+-        return (
+-          <View key={item.muscle} style={muscle.row}>
+-            <Text style={muscle.label}>{item.muscle}</Text>
+-            <View style={muscle.track}>
+-              <View style={[muscle.fill, { width: `${Math.round(pct * 100)}%` }]} />
+-            </View>
+-            <Text style={muscle.value}>{item.volume > 0 ? `${item.volume.toLocaleString()} lbs` : '–'}</Text>
+-          </View>
+-        );
+-      })}
++    <View>
++      {displayData.map((item) => (
++        <QuietBar
++          key={item.muscle}
++          label={item.muscle}
++          value={item.volume > 0 ? `${item.volume.toLocaleString()} lb` : '–'}
++          current={item.volume}
++          target={maxVol}
++        />
++      ))}
+     </View>
+   );
+ }
+ 
++/** CF-TRAIN-TAB-128: a hairline row for every action that is not the screen's one forest action. */
++function QuietRow({ title, meta, label, onPress, testID, styles, iconColor }: {
++  title: string;
++  meta: string;
++  label: string;
++  onPress: () => void;
++  testID?: string;
++  styles: ReturnType<typeof makeStyles>;
++  iconColor: string;
++}) {
++  return (
++    <HapticPressable intent="light" onPress={onPress} accessibilityRole="button" accessibilityLabel={label} testID={testID} style={styles.quietRow}>
++      <View style={styles.flex}>
++        <Text style={styles.rowTitle}>{title}</Text>
++        <Text style={styles.rowMeta}>{meta}</Text>
++      </View>
++      <Ionicons name="chevron-forward" size={18} color={iconColor} />
++    </HapticPressable>
++  );
++}
++
+ interface ApiSession {
+   id: string;
+   date: string;
+@@ -325,8 +346,8 @@ export function useJustCompletedOneShot(
+ }
+ 
+ export default function WorkoutScreen() {
+-  const { colors } = useTheme();
+-  const styles = useMemo(() => makeStyles(colors), [colors]);
++  const { semanticColors: sc } = useTheme();
++  const styles = useMemo(() => makeStyles(sc), [sc]);
+   const currentUser = useCurrentUser();
+   const navigation = useNavigation<NavigationProp<WorkoutStackParamList>>();
+   const route = useRoute<RouteProp<WorkoutStackParamList, 'WorkoutMain'>>();
+@@ -337,6 +358,7 @@ export default function WorkoutScreen() {
+   const [refreshing, setRefreshing] = useState(false);
+   const [isLoading, setIsLoading] = useState(true);
+   const [loadError, setLoadError] = useState(false);
++  const [retrying, setRetrying] = useState(false);
+   // FU-WORKLOG-126: workouts in the last 7 days, counted from the 50-workout
+   // window the chart reads. The "This Week" tile used to count only the 5
+   // most recent workouts, so a 6th session in a week still showed 5.
+@@ -430,6 +452,8 @@ export default function WorkoutScreen() {
+       ]);
+       setRoutines(rRes.data || []);
+       setRecentSessions(sRes.data || []);
++      // A later refresh that succeeds clears an earlier failure.
++      setLoadError(false);
+     } catch (err) {
+       // Read-only data load for the workout landing screen; error state shown.
+       logger.error('WorkoutScreen', 'loadData failed', err);
+@@ -538,7 +562,8 @@ export default function WorkoutScreen() {
+   const confirmDeleteSession = (session: ApiSession) => {
+     Alert.alert(
+       'Delete this workout?',
+-      `${session.workout_name || session.notes || 'This workout'} will be removed from your history and from what your coach sees.`,
++      // CF-TRAIN-TAB-128 (U5): only a coached client has a coach who sees it.
++      `${session.workout_name || session.notes || 'This workout'} will be removed from your history${currentUser?.coach_id ? ' and from what your coach sees' : ''}.`,
+       [
+         { text: 'Keep', style: 'cancel' },
+         {
+@@ -595,55 +620,47 @@ export default function WorkoutScreen() {
+   const pendingAssignments = assignmentsList.filter((a) => !a.completed_at);
+   const historyRows =
+     showAllHistory && historySessions.length > recentSessions.length ? historySessions : recentSessions;
++  const completedAssignments = assignmentsList.length - pendingAssignments.length;
++  // Cross-tab navigate: WorkoutScreen lives in WorkoutTab; the assignment
++  // screens live in MoreTab. Same shape as the W-4 fix.
++  const openInMoreTab = (screen: 'WorkoutAssignmentDetail' | 'ClientWorkoutViewer', params?: { assignmentId: string }) => {
++    navigation.getParent<NavigationProp<ParamListBase> | undefined>()?.navigate('MoreTab', params ? { screen, params } : { screen });
++  };
+   const openAssignedList = () => {
+-    // Cross-tab navigate: WorkoutScreen lives in WorkoutTab; the assignment
+-    // viewer lives in MoreTab. Same shape as the W-4 fix.
+-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+-    const parentAny = (navigation as any).getParent?.();
+-    if (parentAny?.navigate) {
+-      parentAny.navigate('MoreTab', {
+-        screen:
+-          pendingAssignments.length === 1
+-            ? 'WorkoutAssignmentDetail'
+-            : 'ClientWorkoutViewer',
+-        params:
+-          pendingAssignments.length === 1
+-            ? { assignmentId: pendingAssignments[0].id }
+-            : undefined,
+-      });
+-    }
++    if (pendingAssignments.length === 1) openInMoreTab('WorkoutAssignmentDetail', { assignmentId: pendingAssignments[0].id });
++    else openInMoreTab('ClientWorkoutViewer');
++  };
++  const retryLoad = async () => {
++    setRetrying(true);
++    await loadData();
++    setRetrying(false);
+   };
+ 
+   if (isLoading) {
+     return (
+       <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+-        <ActivityIndicator size="large" color={colors.primary} />
++        <ActivityIndicator size="large" color={sc.accent} />
+       </View>
+     );
+   }
+ 
+-  if (loadError) {
+-    return (
+-      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', padding: 24 }]}>
+-        {/* §2.10 Roman generic-error — voiced beside his face on the full error
+-            screen. Only when the Roman flag is on; otherwise the plain copy
+-            below carries the message (the failure is never swallowed). */}
+-        {featureFlags.romanChat ? (
+-          <RomanErrorBanner mode="error" surface="screen" testID="roman-workout-error" />
+-        ) : (
+-          <Text style={{ fontSize: 16, color: colors.textPrimary, marginBottom: 16, textAlign: 'center' }}>
+-            Could not load workout data.
+-          </Text>
+-        )}
+-        <TouchableOpacity
+-          style={{ backgroundColor: colors.primary, paddingHorizontal: 24, paddingVertical: 12, borderRadius: 8 }}
+-          onPress={() => { setLoadError(false); setIsLoading(true); loadData(); }}
+-        >
+-          <Text style={{ color: colors.textOnPrimary, fontWeight: '500' }}>Retry</Text>
+-        </TouchableOpacity>
+-      </View>
+-    );
+-  }
++  // CF-TRAIN-TAB-128: one forest action per state. After a failed load it is
++  // Try again; with a pending coach workout it is that workout; otherwise it
++  // is Quick workout. Every other action is a quiet row, and a failed load no
++  // longer hides the header, the sync rows or Quick workout.
++  const assignedLabel =
++    pendingAssignments.length === 1
++      ? `Open assigned workout: ${pendingAssignments[0].workout_plan?.name ?? 'Coach-assigned workout'}`
++      : `View ${pendingAssignments.length} coach-assigned workouts`;
++  const assignedTitle =
++    pendingAssignments.length === 1
++      ? (pendingAssignments[0].workout_plan?.name ?? 'New workout assigned')
++      : `${pendingAssignments.length} workouts waiting`;
++  const assignedLeads = !loadError && pendingAssignments.length > 0;
++  const quickLeads = !loadError && pendingAssignments.length === 0;
++  const showAssignedRow = loadError && pendingAssignments.length > 0;
++  // U10: completed coach workouts were reachable only with 2+ pending.
++  const showAllCoachRow = completedAssignments > 0 && pendingAssignments.length < 2;
+ 
+   return (
+     <View style={styles.container}>
+@@ -651,30 +668,30 @@ export default function WorkoutScreen() {
+         testID="workout-scroll"
+         contentContainerStyle={styles.content}
+         showsVerticalScrollIndicator={false}
+-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.primary} colors={[colors.primary]} />}
++        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={sc.accent} colors={[sc.accent]} />}
+       >
+         <View style={styles.header}>
+           <Text style={styles.title}>Workouts</Text>
+-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
++          <View style={styles.headerActions}>
+             {/* S-REACH: the exercise library (GET /exercise-catalog) had no entry. */}
+             <HapticPressable
+               intent="light"
+               onPress={() => navigation.navigate('ExerciseLibrary')}
+-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
++              hitSlop={{ top: 11, bottom: 11, left: 11, right: 11 }}
+               accessibilityRole="button"
+               accessibilityLabel="Exercise library"
+               testID="workout-exercise-library"
+             >
+-              <Ionicons name="library-outline" size={22} color={colors.textSecondary} />
++              <Ionicons name="library-outline" size={22} color={sc.textMuted} />
+             </HapticPressable>
+             <HapticPressable
+               intent="light"
+               onPress={() => navigation.navigate('CoachGuidelines')}
+-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
++              hitSlop={{ top: 11, bottom: 11, left: 11, right: 11 }}
+               accessibilityRole="button"
+               accessibilityLabel="Coach guidelines"
+             >
+-              <Ionicons name="clipboard-outline" size={22} color={colors.textSecondary} />
++              <Ionicons name="clipboard-outline" size={22} color={sc.textMuted} />
+             </HapticPressable>
+           </View>
+         </View>
+@@ -683,28 +700,35 @@ export default function WorkoutScreen() {
+ 
+         <WorkoutSyncCards userId={currentUser?.id} onSynced={loadData} />
+ 
+-        {pendingAssignments.length > 0 ? (
+-          <HapticPressable
+-            intent="medium"
+-            onPress={openAssignedList}
+-            accessibilityRole="button"
+-            accessibilityLabel={
+-              pendingAssignments.length === 1
+-                ? `Open assigned workout: ${pendingAssignments[0].workout_plan?.name ?? 'Coach-assigned workout'}`
+-                : `View ${pendingAssignments.length} coach-assigned workouts`
+-            }
+-            style={styles.assignedCta}
+-          >
+-            <View style={{ flex: 1 }}>
+-              <Text style={styles.assignedCtaLabel}>From your coach</Text>
+-              <Text style={styles.assignedCtaTitle}>
+-                {pendingAssignments.length === 1
+-                  ? (pendingAssignments[0].workout_plan?.name ?? 'New workout assigned')
+-                  : `${pendingAssignments.length} workouts waiting`}
+-              </Text>
+-            </View>
+-            <Ionicons name="chevron-forward" size={22} color={colors.primary} />
+-          </HapticPressable>
++        {assignedLeads ? (
++          <View style={styles.hero}>
++            <QuietOverline>From your coach</QuietOverline>
++            <Text style={styles.heroTitle}>{assignedTitle}</Text>
++            <HapticPressable
++              intent="medium"
++              onPress={openAssignedList}
++              accessibilityRole="button"
++              accessibilityLabel={assignedLabel}
++              style={styles.primaryButton}
++            >
++              <Text style={styles.primaryLabel}>{pendingAssignments.length === 1 ? 'Open workout' : 'See workouts'}</Text>
++            </HapticPressable>
++          </View>
++        ) : null}
++        {quickLeads ? (
++          <View style={styles.hero}>
++            <HapticPressable
++              intent="medium"
++              onPress={startQuickWorkout}
++              accessibilityRole="button"
++              accessibilityLabel="Quick workout"
++              style={styles.primaryButton}
++              testID="workout-quick-start"
++            >
++              <Text style={styles.primaryLabel}>Quick workout</Text>
++            </HapticPressable>
++            <Text style={styles.heroNote}>Start an empty session</Text>
++          </View>
+         ) : null}
+ 
+         {/* §2.8 Roman workout-complete — voiced beside his face ONLY after a
+@@ -722,180 +746,202 @@ export default function WorkoutScreen() {
+           </FadeInView>
+         ) : null}
+ 
+-        {/* Quick Start */}
+-        <HapticPressable intent="medium" style={styles.quickStart} onPress={startQuickWorkout}>
+-          <View style={styles.quickStartLeft}>
+-            <View style={styles.quickStartIcon}>
+-              <Ionicons name="flash" size={24} color={colors.textOnPrimary} />
+-            </View>
+-            <View>
+-              <Text style={styles.quickStartTitle}>Quick Workout</Text>
+-              <Text style={styles.quickStartSub}>Start an empty session</Text>
+-            </View>
++        {showAssignedRow || showAllCoachRow || !quickLeads ? (
++          <View style={styles.rows}>
++            {showAssignedRow ? (
++              <QuietRow title={assignedTitle} meta="From your coach" label={assignedLabel} onPress={openAssignedList} styles={styles} iconColor={sc.textMuted} />
++            ) : null}
++            {showAllCoachRow ? (
++              <QuietRow
++                title="All coach workouts"
++                meta={`${completedAssignments} completed`}
++                label="All coach workouts"
++                onPress={() => openInMoreTab('ClientWorkoutViewer')}
++                testID="workout-all-coach-workouts"
++                styles={styles}
++                iconColor={sc.textMuted}
++              />
++            ) : null}
++            {quickLeads ? null : (
++              <QuietRow title="Quick workout" meta="Start an empty session" label="Quick workout" onPress={startQuickWorkout} testID="workout-quick-start" styles={styles} iconColor={sc.textMuted} />
++            )}
+           </View>
+-          <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+-        </HapticPressable>
+-
+-        {/* My Routines */}
+-        <View style={styles.sectionHeader}>
+-          <Text style={styles.sectionTitle}>My Routines</Text>
+-          <HapticPressable intent="medium" onPress={() => navigation.navigate('RoutineBuilder')} accessibilityLabel="Create a routine" hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+-            <Ionicons name="add-circle" size={24} color={colors.primary} />
+-          </HapticPressable>
+-        </View>
++        ) : null}
+ 
+-        {routines.length === 0 ? (
+-          <EmptyStateNoWorkouts onCreate={() => navigation.navigate('RoutineBuilder')} />
++        {loadError ? (
++          <CoachErrorState
++            message="Your routines and history did not load. Check the connection, then try again."
++            onRetry={() => void retryLoad()}
++            retrying={retrying}
++            testID="workout-load-error"
++          />
+         ) : (
+-          routines.map((routine) => {
+-            const exList = routine.exercises || [];
+-            return (
+-              <HapticPressable
+-                key={routine.id}
+-                intent="medium"
+-                style={styles.routineCard}
+-                onPress={() => startRoutine(routine)}
+-              >
+-                <View style={styles.routineTop}>
+-                  <Text style={styles.routineName}>{routine.name}</Text>
+-                  {/* Shared template routines belong to no client; the server
+-                      answers 404 to an edit, so only the client's own
+-                      routines get the pencil. */}
+-                  {routine.is_template ? null : (
++          <>
++            <QuietSection style={styles.section}>
++              <View style={styles.sectionHead}>
++                <QuietOverline style={styles.overlineInline}>My routines</QuietOverline>
++                <HapticPressable intent="medium" onPress={() => navigation.navigate('RoutineBuilder')} accessibilityLabel="Create a routine" hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
++                  <Ionicons name="add-circle-outline" size={24} color={sc.accentText} />
++                </HapticPressable>
++              </View>
++
++              {routines.length === 0 ? (
++                <EmptyStateNoWorkouts onCreate={() => navigation.navigate('RoutineBuilder')} />
++              ) : (
++                routines.map((routine, index) => {
++                  const exList = routine.exercises || [];
++                  return (
+                     <HapticPressable
+-                      intent="light"
+-                      onPress={() => navigation.navigate('RoutineBuilder', { routineId: routine.id })}
+-                      hitSlop={{ top: 13, bottom: 13, left: 13, right: 13 }}
+-                      accessibilityRole="button"
+-                      accessibilityLabel={`Edit routine ${routine.name}`}
++                      key={routine.id}
++                      intent="medium"
++                      style={[styles.listRow, index > 0 && styles.listDivider]}
++                      onPress={() => startRoutine(routine)}
+                     >
+-                      <Ionicons name="create-outline" size={18} color={colors.textMuted} />
++                      <View style={styles.rowTop}>
++                        <Text style={styles.rowTitle}>{routine.name}</Text>
++                        {/* Shared template routines belong to no client; the server
++                            answers 404 to an edit, so only the client's own
++                            routines get the pencil. */}
++                        {routine.is_template ? null : (
++                          <HapticPressable
++                            intent="light"
++                            onPress={() => navigation.navigate('RoutineBuilder', { routineId: routine.id })}
++                            hitSlop={{ top: 13, bottom: 13, left: 13, right: 13 }}
++                            accessibilityRole="button"
++                            accessibilityLabel={`Edit routine ${routine.name}`}
++                          >
++                            <Ionicons name="create-outline" size={18} color={sc.textMuted} />
++                          </HapticPressable>
++                        )}
++                      </View>
++                      <Text style={styles.rowMeta}>{exList.length} {exList.length === 1 ? 'exercise' : 'exercises'}</Text>
++                      <Text style={styles.rowMeta} numberOfLines={1}>
++                        {exList.map((e) => e.exercise_name).join(' · ')}
++                      </Text>
+                     </HapticPressable>
+-                  )}
+-                </View>
+-                <Text style={styles.routineExCount}>{exList.length} exercises</Text>
+-                <Text style={styles.routineExList} numberOfLines={1}>
+-                  {exList.map((e) => e.exercise_name).join(' · ')}
+-                </Text>
+-              </HapticPressable>
+-            );
+-          })
+-        )}
++                  );
++                })
++              )}
++            </QuietSection>
+ 
+-        {/* Recent Workouts */}
+-        <Text style={[styles.sectionTitle, { marginTop: 24 }]}>Recent Workouts</Text>
+-        {historyRows.length === 0 ? (
+-          <EmptyStateNoData
+-            headline="No recent workouts"
+-            body="Complete a workout to see your history here."
+-          />
+-        ) : (
+-          historyRows.map((session) => (
+-            <View key={session.id} style={styles.historyCard}>
+-              <View style={styles.historyHeader}>
+-                <Text style={styles.historyTitle}>{session.workout_name || session.notes || 'Workout'}</Text>
+-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+-                  <Text style={styles.historyDate}>
+-                    {new Date(session.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}
++            <QuietSection style={styles.section}>
++              <QuietOverline>Recent workouts</QuietOverline>
++              {historyRows.length === 0 ? (
++                <EmptyStateNoData
++                  headline="No recent workouts"
++                  body="Complete a workout to see your history here."
++                />
++              ) : (
++                historyRows.map((session, index) => (
++                  <View key={session.id} style={[styles.listRow, index > 0 && styles.listDivider]}>
++                    <View style={styles.rowTop}>
++                      <Text style={styles.rowTitle}>{session.workout_name || session.notes || 'Workout'}</Text>
++                      <View style={styles.historyActions}>
++                        <Text style={styles.historyDate}>
++                          {new Date(session.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })}
++                        </Text>
++                        <HapticPressable
++                          intent="light"
++                          onPress={() => navigation.navigate('WorkoutHistoryEdit', { workout: JSON.stringify(session) })}
++                          hitSlop={{ top: 13, bottom: 13, left: 13, right: 13 }}
++                          accessibilityRole="button"
++                          accessibilityLabel={`Edit workout ${session.workout_name || session.notes || ''}`.trim()}
++                        >
++                          <Ionicons name="create-outline" size={18} color={sc.textMuted} />
++                        </HapticPressable>
++                        <HapticPressable
++                          intent="warning"
++                          onPress={() => confirmDeleteSession(session)}
++                          hitSlop={{ top: 14, bottom: 14, left: 14, right: 14 }}
++                          accessibilityRole="button"
++                          accessibilityLabel={`Delete workout ${session.workout_name || session.notes || ''}`.trim()}
++                          testID={`delete-workout-${session.id}`}
++                        >
++                          <Ionicons name="trash-outline" size={16} color={sc.textMuted} />
++                        </HapticPressable>
++                      </View>
++                    </View>
++                    {session.duration_minutes ? (
++                      <Text style={styles.rowMeta}>{formatDuration(session.duration_minutes)}</Text>
++                    ) : null}
++                    {(session.exercises || []).map((ex, i) => (
++                      <View key={i} style={styles.historyExercise}>
++                        <Text style={styles.exerciseName}>{ex.exercise_name}</Text>
++                        <Text style={styles.rowMeta}>{formatLoggedSets(ex)}</Text>
++                        {ex.notes ? <Text style={styles.rowMeta}>{ex.notes}</Text> : null}
++                      </View>
++                    ))}
++                    {/* FU-WORKLOG2-126: the note written at Finish was only visible
++                        inside Edit. */}
++                    {session.workout_name && session.notes ? (
++                      <Text style={styles.rowMeta} testID={`workout-note-${session.id}`}>Note: {session.notes}</Text>
++                    ) : null}
++                  </View>
++                ))
++              )}
++              {historySessions.length > recentSessions.length ? (
++                <HapticPressable
++                  intent="light"
++                  onPress={() => setShowAllHistory((v) => !v)}
++                  accessibilityRole="button"
++                  accessibilityLabel={showAllHistory ? 'Show recent workouts only' : 'Show older workouts'}
++                  testID="workout-history-toggle"
++                  style={styles.textAction}
++                >
++                  <Text style={styles.textActionLabel}>
++                    {showAllHistory ? 'Show recent workouts only' : 'Show older workouts'}
+                   </Text>
+-                  <HapticPressable
+-                    intent="light"
+-                    onPress={() => navigation.navigate('WorkoutHistoryEdit', { workout: JSON.stringify(session) })}
+-                    hitSlop={{ top: 13, bottom: 13, left: 13, right: 13 }}
+-                    accessibilityRole="button"
+-                    accessibilityLabel={`Edit workout ${session.workout_name || session.notes || ''}`.trim()}
+-                  >
+-                    <Ionicons name="create-outline" size={18} color={colors.primary} />
+-                  </HapticPressable>
+-                  <HapticPressable
+-                    intent="warning"
+-                    onPress={() => confirmDeleteSession(session)}
+-                    hitSlop={{ top: 13, bottom: 13, left: 13, right: 13 }}
+-                    accessibilityRole="button"
+-                    accessibilityLabel={`Delete workout ${session.workout_name || session.notes || ''}`.trim()}
+-                    testID={`delete-workout-${session.id}`}
+-                  >
+-                    <Ionicons name="trash-outline" size={16} color={colors.textMuted} />
+-                  </HapticPressable>
+-                </View>
+-              </View>
+-              {session.duration_minutes ? (
+-                <Text style={styles.historyMeta}>{formatDuration(session.duration_minutes)}</Text>
++                </HapticPressable>
+               ) : null}
+-              {(session.exercises || []).map((ex, i) => (
+-                <View key={i} style={styles.historyExercise}>
+-                  <Text style={styles.exerciseName}>{ex.exercise_name}</Text>
+-                  <Text style={styles.exerciseSets}>{formatLoggedSets(ex)}</Text>
+-                  {ex.notes ? <Text style={styles.historyMeta}>{ex.notes}</Text> : null}
++            </QuietSection>
++
++            {/* Charts follow every training action; empty charts are one sentence. */}
++            {historySessions.length > 0 || recentSessions.length > 0 || routines.length > 0 || assignmentsList.length > 0 ? <FadeInView>
++              <View style={styles.statsRow}>
++                <View style={styles.statCell}>
++                  <QuietOverline>This week</QuietOverline>
++                  <Text style={styles.statValue} testID="workout-week-count">{weekSessionCount ?? weekSessions.length}</Text>
+                 </View>
+-              ))}
+-              {/* FU-WORKLOG2-126: the note written at Finish was only visible
+-                  inside Edit. */}
+-              {session.workout_name && session.notes ? (
+-                <Text style={styles.historyMeta} testID={`workout-note-${session.id}`}>Note: {session.notes}</Text>
+-              ) : null}
+-            </View>
+-          ))
+-        )}
+-        {historySessions.length > recentSessions.length ? (
+-          <HapticPressable
+-            intent="light"
+-            onPress={() => setShowAllHistory((v) => !v)}
+-            accessibilityRole="button"
+-            accessibilityLabel={showAllHistory ? 'Show recent workouts only' : 'Show older workouts'}
+-            testID="workout-history-toggle"
+-            style={{ paddingVertical: 12, alignItems: 'center' }}
+-          >
+-            <Text style={{ color: colors.primary, fontWeight: '500' }}>
+-              {showAllHistory ? 'Show recent workouts only' : 'Show older workouts'}
+-            </Text>
+-          </HapticPressable>
+-        ) : null}
+-        {/* Charts follow every training action; empty charts are one sentence. */}
+-        {historySessions.length > 0 || recentSessions.length > 0 || routines.length > 0 || assignmentsList.length > 0 ? <FadeInView>
+-          <View style={styles.statsRow}>
+-            <View style={styles.statCard}>
+-              <Text style={[styles.statValue, { color: colors.primary }]} testID="workout-week-count">{weekSessionCount ?? weekSessions.length}</Text>
+-              <Text style={styles.statLabel}>This Week</Text>
+-            </View>
+-            <View style={styles.statCard}>
+-              <Text style={styles.statValue}>{routines.length}</Text>
+-              <Text style={styles.statLabel}>Routines</Text>
+-            </View>
+-            {currentUser?.coach_id ? <View style={styles.statCard}>
+-              <Text style={styles.statValue}>{pendingAssignments.length}</Text>
+-              <Text style={styles.statLabel}>From coach</Text>
+-            </View> : null}
+-          </View>
+-        </FadeInView> : null}
+-        <FadeInView delay={80}>
+-          {weeklyVolume.some((w) => w.volume > 0) ? (
+-            <View style={styles.chartCard}>
+-              <View style={styles.chartHeader}>
+-                <View>
+-                  <Text style={styles.chartTitle}>Training Volume</Text>
+-                  <Text style={styles.chartSubtitle}>Last 8 weeks (lbs lifted)</Text>
++                <View style={styles.statCell}>
++                  <QuietOverline>Routines</QuietOverline>
++                  <Text style={styles.statValue}>{routines.length}</Text>
+                 </View>
+-                {totalVolumeThisWeek > 0 && (
+-                  <View style={styles.chartBadge}>
+-                    <Text style={styles.chartBadgeText}>{totalVolumeThisWeek.toLocaleString()} lbs</Text>
+-                    <Text style={styles.chartBadgeSub}>this week</Text>
+-                  </View>
+-                )}
++                {currentUser?.coach_id ? <View style={styles.statCell}>
++                  <QuietOverline>From coach</QuietOverline>
++                  <Text style={styles.statValue}>{pendingAssignments.length}</Text>
++                </View> : null}
+               </View>
+-              <BarChart data={weeklyVolume} />
+-            </View>
+-          ) : <Text style={styles.chartEmptyText}>Complete workouts to see volume data</Text>}
+-        </FadeInView>
+-        <FadeInView delay={120}>
+-          {muscleVolume.length > 0 ? (
+-            <View style={styles.muscleCard}>
+-              <Text style={styles.chartTitle}>Muscle Breakdown</Text>
+-              <Text style={styles.chartSubtitle}>This week's volume by muscle group</Text>
+-              <MuscleBreakdown data={muscleVolume} />
+-            </View>
+-          ) : <Text style={styles.chartEmptyText}>Log a workout to see muscle breakdown</Text>}
+-        </FadeInView>
++            </FadeInView> : null}
++            <FadeInView delay={80}>
++              {weeklyVolume.some((w) => w.volume > 0) ? (
++                <QuietSection style={styles.section}>
++                  <View style={styles.chartHeader}>
++                    <View style={styles.flex}>
++                      <QuietOverline>Training volume</QuietOverline>
++                      <Text style={styles.rowMeta}>Last 8 weeks, lb lifted</Text>
++                    </View>
++                    {totalVolumeThisWeek > 0 && (
++                      <View style={styles.chartBadge}>
++                        <Text style={styles.chartBadgeText}>{totalVolumeThisWeek.toLocaleString()} lb</Text>
++                        <Text style={styles.rowMeta}>this week</Text>
++                      </View>
++                    )}
++                  </View>
++                  <BarChart data={weeklyVolume} />
++                </QuietSection>
++              ) : <Text style={styles.chartEmptyText}>Complete workouts to see volume data</Text>}
++            </FadeInView>
++            <FadeInView delay={120}>
++              {muscleVolume.length > 0 ? (
++                <QuietSection style={styles.section}>
++                  <QuietOverline>Muscle breakdown</QuietOverline>
++                  <Text style={[styles.rowMeta, styles.chartSubtitle]}>This week's volume by muscle group</Text>
++                  <MuscleBreakdown data={muscleVolume} />
++                </QuietSection>
++              ) : <Text style={styles.chartEmptyText}>Log a workout to see muscle breakdown</Text>}
++            </FadeInView>
++          </>
++        )}
+       </ScrollView>
+     </View>
+   );
+@@ -903,7 +949,10 @@ export default function WorkoutScreen() {
+ 
+ // ── Chart Styles ──────────────────────────────────────────────────────────
+ 
+-const makeChart = (colors: ThemeColors) =>
++// CF-TRAIN-TAB-128: chart labels at 11 pt with tabular figures (were 8-9 pt).
++const chartLabel = { ...typography.eyebrow, letterSpacing: 0, textTransform: 'none' as const, fontVariant: ['tabular-nums' as const] };
++
++const makeChart = (sc: SemanticTokens) =>
+   StyleSheet.create({
+   container: {
+     flexDirection: 'row',
+@@ -919,9 +968,8 @@ const makeChart = (colors: ThemeColors) =>
+     paddingBottom: 20,
+   },
+   yLabel: {
+-    fontSize: 9,
+-    color: colors.textMuted,
+-    fontWeight: '600',
++    ...chartLabel,
++    color: sc.textMuted,
+   },
+   barsContainer: {
+     flexDirection: 'row',
+@@ -934,9 +982,9 @@ const makeChart = (colors: ThemeColors) =>
+     gap: 2,
+   },
+   barLabel: {
+-    fontSize: 8,
+-    color: colors.textMuted,
+-    height: 12,
++    ...chartLabel,
++    color: sc.textMuted,
++    height: 14,
+     textAlign: 'center',
+   },
+   barTrack: {
+@@ -947,271 +995,88 @@ const makeChart = (colors: ThemeColors) =>
+     borderRadius: 2, // radius.md
+   },
+   weekLabel: {
+-    fontSize: 9,
+-    color: colors.textMuted,
+-    fontWeight: '600',
++    ...chartLabel,
++    color: sc.textMuted,
+     marginTop: 4,
+     textAlign: 'center',
+   },
+ 
+   });
+ 
+-const makeMuscle = (colors: ThemeColors) =>
+-  StyleSheet.create({
+-  container: {
+-    gap: 10,
+-    marginTop: 12,
+-  },
+-  row: {
+-    flexDirection: 'row',
+-    alignItems: 'center',
+-    gap: 8,
+-  },
+-  label: {
+-    fontSize: 12,
+-    fontWeight: '500',
+-    color: colors.textSecondary,
+-    width: 70,
+-  },
+-  track: {
+-    flex: 1,
+-    height: 8,
+-    backgroundColor: colors.border,
+-    borderRadius: 4,
+-    overflow: 'hidden',
+-  },
+-  fill: {
+-    height: '100%',
+-    backgroundColor: colors.primary,
+-    borderRadius: 4,
+-    minWidth: 0,
+-  },
+-  value: {
+-    fontSize: 11,
+-    color: colors.textMuted,
+-    width: 70,
+-    textAlign: 'right',
+-    fontWeight: '600',
+-  },
+-
+-  });
+-
+ // ── Screen Styles ─────────────────────────────────────────────────────────
++// CF-TRAIN-TAB-128 (A23 calm look): bone page, hairlines instead of cream
++// boxes, one forest fill, Cormorant only for the title and the numbers.
+ 
+-const makeStyles = (colors: ThemeColors) =>
++const makeStyles = (sc: SemanticTokens) =>
+   StyleSheet.create({
+-  container: { flex: 1, backgroundColor: colors.background },
++  container: { flex: 1, backgroundColor: sc.bgPrimary },
+   content: { paddingBottom: 100 },
+-  romanWorkoutWrap: {
+-    marginHorizontal: 24,
+-    marginBottom: 16,
+-  },
++  flex: { flex: 1 },
+   header: {
+     flexDirection: 'row',
+     justifyContent: 'space-between',
+     alignItems: 'center',
+     paddingHorizontal: 24,
+     paddingTop: 60,
+-    marginBottom: 20,
++    marginBottom: 24,
+   },
+-  title: { fontSize: 28, fontWeight: '500', color: colors.textPrimary },
+-  assignedCta: {
+-    flexDirection: 'row',
+-    alignItems: 'center',
+-    marginHorizontal: 24,
+-    marginBottom: 16,
+-    paddingHorizontal: 16,
+-    paddingVertical: 14,
++  title: { ...typography.h1, color: sc.textPrimary },
++  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 16 },
++  hero: { marginHorizontal: 24, marginBottom: 24 },
++  heroTitle: { ...typography.h2, color: sc.textPrimary, marginBottom: 16 },
++  heroNote: { ...typography.bodySmall, color: sc.textMuted, marginTop: 8 },
++  primaryButton: {
++    minHeight: 48,
+     borderRadius: 4,
+-    backgroundColor: colors.surface,
+-    borderWidth: 1,
+-    borderColor: colors.primary,
+-  },
+-  assignedCtaLabel: {
+-    fontSize: 11,
+-    color: colors.textSecondary,
+-    textTransform: 'uppercase',
+-    letterSpacing: 1,
+-    marginBottom: 2,
+-  },
+-  assignedCtaTitle: {
+-    fontSize: 15,
+-    fontWeight: '500',
+-    color: colors.textPrimary,
+-  },
+-  statsRow: {
+-    flexDirection: 'row',
+-    paddingHorizontal: 24,
+-    gap: 8,
+-    marginBottom: 20,
+-  },
+-  statCard: {
+-    flex: 1,
+-    backgroundColor: colors.surface,
+-    borderRadius: 4, // radius.lg
+-    padding: 14,
+-    alignItems: 'center',
+-    gap: 4,
+-  },
+-  statValue: { fontSize: 22, fontWeight: '500', color: colors.textPrimary },
+-  statLabel: { fontSize: 11, color: colors.textSecondary },
+-  // Charts
+-  chartCard: {
+-    marginHorizontal: 24,
+-    marginBottom: 16,
+-    backgroundColor: colors.surface,
+-    borderRadius: 4, // radius.lg
+-    padding: 16,
+-    borderWidth: 1,
+-    borderColor: colors.border,
+-  },
+-  muscleCard: {
+-    marginHorizontal: 24,
+-    marginBottom: 16,
+-    backgroundColor: colors.surface,
+-    borderRadius: 4, // radius.lg
+-    padding: 16,
+-    borderWidth: 1,
+-    borderColor: colors.border,
+-  },
+-  chartHeader: {
+-    flexDirection: 'row',
+-    justifyContent: 'space-between',
+-    alignItems: 'flex-start',
+-  },
+-  chartTitle: {
+-    fontSize: 15,
+-    fontWeight: '500',
+-    color: colors.textPrimary,
+-  },
+-  chartSubtitle: {
+-    fontSize: 11,
+-    color: colors.textMuted,
+-    marginTop: 2,
+-  },
+-  chartBadge: {
+-    backgroundColor: colors.primaryPale,
+-    borderRadius: 4, // radius.lg
+-    paddingHorizontal: 10,
+-    paddingVertical: 6,
+-    alignItems: 'center',
+-  },
+-  chartBadgeText: {
+-    fontSize: 14,
+-    fontWeight: '500',
+-    color: colors.primary,
+-  },
+-  chartBadgeSub: {
+-    fontSize: 9,
+-    color: colors.textMuted,
+-    fontWeight: '600',
+-  },
+-  chartEmpty: {
+-    paddingVertical: 20,
++    backgroundColor: sc.accent,
+     alignItems: 'center',
+-    gap: 8,
+-  },
+-  chartEmptyText: {
+-    fontSize: 13,
+-    color: colors.textMuted,
+-    textAlign: 'center',
++    justifyContent: 'center',
++    paddingHorizontal: 20,
+   },
+-  // Existing styles
+-  quickStart: {
+-    flexDirection: 'row',
+-    alignItems: 'center',
+-    justifyContent: 'space-between',
++  primaryLabel: { ...typography.bodyMd, color: sc.textOnAccent },
++  romanWorkoutWrap: { marginHorizontal: 24, marginBottom: 16 },
++  rows: {
+     marginHorizontal: 24,
+     marginBottom: 24,
+-    backgroundColor: colors.surface,
+-    borderRadius: 4, // radius.lg
+-    padding: 16,
+-  },
+-  quickStartLeft: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+-  quickStartIcon: {
+-    width: 44,
+-    height: 44,
+-    borderRadius: 2, // radius.md
+-    backgroundColor: colors.primary,
+-    justifyContent: 'center',
+-    alignItems: 'center',
++    borderTopWidth: StyleSheet.hairlineWidth,
++    borderTopColor: sc.border,
+   },
+-  quickStartTitle: { fontSize: 16, fontWeight: '500', color: colors.textPrimary },
+-  quickStartSub: { fontSize: 13, color: colors.textMuted, marginTop: 2 },
+-  sectionHeader: {
++  quietRow: {
+     flexDirection: 'row',
+-    justifyContent: 'space-between',
+     alignItems: 'center',
+-    paddingHorizontal: 24,
+-    marginBottom: 12,
+-  },
+-  sectionTitle: {
+-    fontSize: 17,
+-    fontWeight: '500',
+-    color: colors.textPrimary,
+-    paddingHorizontal: 24,
+-    marginBottom: 12,
+-  },
+-
+-  routineCard: {
+-    marginHorizontal: 24,
+-    marginBottom: 10,
+-    backgroundColor: colors.surface,
+-    borderRadius: 4, // radius.lg
+-    padding: 16,
++    minHeight: 56,
++    paddingVertical: 12,
++    gap: 12,
++    borderBottomWidth: StyleSheet.hairlineWidth,
++    borderBottomColor: sc.border,
+   },
+-  routineTop: {
++  section: { marginHorizontal: 24 },
++  sectionHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
++  overlineInline: { marginBottom: 0 },
++  listRow: { paddingVertical: 14 },
++  listDivider: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: sc.border },
++  rowTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 },
++  rowTitle: { ...typography.h4, color: sc.textPrimary, flexShrink: 1 },
++  rowMeta: { ...typography.bodySmall, fontSize: 13, lineHeight: 20, color: sc.textMuted, marginTop: 2 },
++  historyActions: { flexDirection: 'row', alignItems: 'center', gap: 16 },
++  historyDate: { ...typography.bodySmall, fontSize: 13, color: sc.textMuted, fontVariant: ['tabular-nums'] },
++  historyExercise: { marginTop: 8 },
++  exerciseName: { ...typography.bodyMd, fontSize: 14, lineHeight: 20, color: sc.textPrimary },
++  textAction: { minHeight: 44, justifyContent: 'center', alignItems: 'center' },
++  textActionLabel: { ...typography.bodyMd, color: sc.accentText },
++  statsRow: {
+     flexDirection: 'row',
+-    justifyContent: 'space-between',
+-    alignItems: 'center',
+-  },
+-  routineName: { fontSize: 16, fontWeight: '500', color: colors.textPrimary },
+-  routineExCount: { fontSize: 13, color: colors.textSecondary, marginTop: 4 },
+-  routineExList: { fontSize: 12, color: colors.textMuted, marginTop: 4 },
+-  historyCard: {
+     marginHorizontal: 24,
+-    marginBottom: 10,
+-    backgroundColor: colors.surface,
+-    borderRadius: 4, // radius.lg
+-    padding: 16,
+-    borderWidth: 1,
+-    borderColor: colors.border,
+-  },
+-  historyHeader: {
+-    flexDirection: 'row',
+-    justifyContent: 'space-between',
+-    alignItems: 'center',
+-  },
+-  historyTitle: {
+-    fontSize: 16,
+-    fontWeight: '500',
+-    color: colors.textPrimary,
+-  },
+-  historyDate: {
+-    fontSize: 13,
+-    fontWeight: '600',
+-    color: colors.primary,
+-  },
+-  historyMeta: {
+-    fontSize: 12,
+-    color: colors.textMuted,
+-    marginTop: 4,
+-  },
+-  historyExercise: {
+-    marginTop: 8,
+-    paddingTop: 8,
+-    borderTopWidth: 1,
+-    borderTopColor: colors.border,
+-  },
+-  exerciseName: {
+-    fontSize: 14,
+-    fontWeight: '600',
+-    color: colors.textPrimary,
+-  },
+-  exerciseSets: {
+-    fontSize: 12,
+-    color: colors.textSecondary,
+-    marginTop: 2,
++    marginBottom: 24,
++    borderTopWidth: StyleSheet.hairlineWidth,
++    borderBottomWidth: StyleSheet.hairlineWidth,
++    borderColor: sc.border,
+   },
+-
++  statCell: { flex: 1, paddingVertical: 16 },
++  statValue: { ...typography.h2, color: sc.textPrimary, fontVariant: ['tabular-nums'] },
++  chartHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 },
++  chartBadge: { alignItems: 'flex-end' },
++  chartBadgeText: { ...typography.h3, color: sc.textPrimary, fontVariant: ['tabular-nums'] },
++  chartSubtitle: { marginBottom: 12 },
++  chartEmptyText: { ...typography.bodySmall, fontSize: 13, color: sc.textMuted, marginHorizontal: 24, marginBottom: 24 },
+   });
+diff --git a/src/screens/client/__tests__/WorkoutScreen.calm128.test.tsx b/src/screens/client/__tests__/WorkoutScreen.calm128.test.tsx
+new file mode 100644
+index 00000000..3dc9842b
+--- /dev/null
++++ b/src/screens/client/__tests__/WorkoutScreen.calm128.test.tsx
+@@ -0,0 +1,229 @@
++/**
++ * CF-TRAIN-TAB-128: the Train tab in the calm layout, with every action kept.
++ *
++ *   - One forest action per state: the coach's pending workout when there is
++ *     one, otherwise Quick workout; after a load failure, Try again.
++ *   - Completed coach workouts stay one tap away with 0 or 1 pending.
++ *   - A load failure keeps the header and Quick workout instead of replacing
++ *     the whole tab, and says what did not load.
++ *   - Copy names a coach only when there is one; weights read "lb".
++ */
++import React from 'react';
++import { Alert, AppState, StyleSheet, type StyleProp, type TextStyle } from 'react-native';
++import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
++import { lightTokens, typography } from '../../../theme/tokens';
++
++jest.mock('../../../config/featureFlags', () => ({ featureFlags: { romanChat: false, clientTutorial: false } }));
++
++let mockUser: { id: string; email: string; role: string; coach_id?: string } = { id: 'c1', email: 'c1@example.test', role: 'client' };
++jest.mock('../../../hooks/useCurrentUser', () => ({ useCurrentUser: () => mockUser }));
++
++const mockNavigate = jest.fn();
++const mockNavigation = { navigate: mockNavigate, setParams: jest.fn(), getParent: () => ({ navigate: mockNavigate }) };
++jest.mock('@react-navigation/native', () => {
++  const ReactLib = jest.requireActual('react');
++  return {
++    useNavigation: () => mockNavigation,
++    useRoute: () => ({ params: {} }),
++    useFocusEffect: (cb: () => undefined | (() => void)) => {
++      ReactLib.useEffect(() => {
++        const cleanup = cb();
++        return typeof cleanup === 'function' ? cleanup : undefined;
++        // eslint-disable-next-line react-hooks/exhaustive-deps
++      }, []);
++    },
++  };
++});
++
++const mockGetRoutines = jest.fn();
++const mockGetAll = jest.fn();
++const mockGetVolume = jest.fn();
++jest.mock('../../../services/api', () => ({
++  workoutApi: {
++    getRoutines: (...a: unknown[]) => mockGetRoutines(...a),
++    getAll: (...a: unknown[]) => mockGetAll(...a),
++    getVolume: (...a: unknown[]) => mockGetVolume(...a),
++    deleteWorkout: jest.fn(async () => ({})),
++  },
++}));
++
++let mockAssignments: Array<{ id: string; completed_at: string | null; workout_plan: { name: string } }> = [];
++jest.mock('../../../hooks/useWorkoutBuilder', () => ({
++  useMyWorkoutAssignments: () => ({ data: mockAssignments, refetch: async () => ({}) }),
++}));
++
++const mockLoadSession = jest.fn();
++const mockCountQueued = jest.fn();
++jest.mock('../../../storage/activeWorkoutSession', () => ({ loadActiveWorkoutSession: (...a: unknown[]) => mockLoadSession(...a) }));
++jest.mock('../../../offline', () => ({
++  countQueuedWorkouts: (...a: unknown[]) => mockCountQueued(...a),
++  pushQueuedWorkouts: async () => undefined,
++  workoutSyncEvents: { on: () => undefined, off: () => undefined },
++}));
++jest.mock('../../../components/workout/WorkoutSyncCards', () => () => null);
++jest.mock('../../../components/tutorial/PlanExplanationCard', () => () => null);
++jest.mock('../../../components/FadeInView', () => ({ children }: { children: React.ReactNode }) => children);
++
++import WorkoutScreen from '../WorkoutScreen';
++const RealSyncCards: typeof import('../../../components/workout/WorkoutSyncCards').default =
++  jest.requireActual('../../../components/workout/WorkoutSyncCards').default;
++
++type Node = { props?: Record<string, unknown>; children?: Array<Node | string> | null } | string | null;
++/** Labels of the buttons drawn with the forest fill (the screen's primary action). */
++function forestButtons(view: { toJSON: () => unknown }): string[] {
++  const found: string[] = [];
++  const walk = (node: Node | Node[]) => {
++    if (!node || typeof node === 'string') return;
++    if (Array.isArray(node)) { node.forEach(walk); return; }
++    const style = StyleSheet.flatten(node.props?.style as StyleProp<TextStyle>);
++    if (node.props?.accessibilityRole === 'button' && style?.backgroundColor === lightTokens.accent) {
++      found.push(String(node.props?.accessibilityLabel));
++    }
++    (node.children ?? []).forEach(walk);
++  };
++  walk(view.toJSON() as Node);
++  return found;
++}
++/** Font sizes of every text on screen. */
++function fontSizes(view: { toJSON: () => unknown }): number[] {
++  const sizes: number[] = [];
++  const walk = (node: Node | Node[]) => {
++    if (!node || typeof node === 'string') return;
++    if (Array.isArray(node)) { node.forEach(walk); return; }
++    const style = StyleSheet.flatten(node.props?.style as StyleProp<TextStyle>);
++    if (typeof style?.fontSize === 'number' && (node.children ?? []).some((c) => typeof c === 'string')) sizes.push(style.fontSize);
++    (node.children ?? []).forEach(walk);
++  };
++  walk(view.toJSON() as Node);
++  return sizes;
++}
++
++const pending = (id: string, name: string) => ({ id, completed_at: null, workout_plan: { name } });
++const done = (id: string) => ({ id, completed_at: '2026-10-01T10:00:00Z', workout_plan: { name: `Done ${id}` } });
++const lifted = (id: string) => ({
++  id, date: new Date().toISOString(), workout_name: `Session ${id}`, duration_minutes: 30, notes: '',
++  exercises: [{ muscle_group: 'chest', exercise_name: 'Bench Press', sets_completed: 1, weight_per_set: [100], reps_per_set: [5] }],
++});
++
++beforeEach(() => {
++  jest.clearAllMocks();
++  jest.spyOn(AppState, 'addEventListener').mockImplementation(() => ({ remove: jest.fn() }));
++  mockUser = { id: 'c1', email: 'c1@example.test', role: 'client' };
++  mockAssignments = [];
++  mockGetRoutines.mockResolvedValue({ data: [] });
++  mockGetAll.mockResolvedValue({ data: [] });
++  mockGetVolume.mockResolvedValue({ data: [] });
++});
++
++describe('Train tab: one forest action and every route kept (CF-TRAIN-TAB-128)', () => {
++  it('day one: Quick workout is the one forest action, the title is Cormorant, header and routine routes stay', async () => {
++    const view = await render(<WorkoutScreen />);
++    await waitFor(() => expect(view.getByText('Quick workout')).toBeTruthy());
++    expect(StyleSheet.flatten(view.getByText('Workouts').props.style).fontFamily).toBe(typography.h1.fontFamily);
++    expect(forestButtons(view)).toEqual(['Quick workout']);
++    await fireEvent.press(view.getByLabelText('Quick workout'));
++    expect(mockNavigate).toHaveBeenLastCalledWith('ActiveWorkout', { routineName: 'Quick Workout', exercises: '[]' });
++    for (const button of view.getAllByLabelText('Create a routine')) {
++      mockNavigate.mockClear();
++      await fireEvent.press(button);
++      expect(mockNavigate).toHaveBeenLastCalledWith('RoutineBuilder');
++    }
++    await fireEvent.press(view.getByLabelText('Exercise library'));
++    expect(mockNavigate).toHaveBeenLastCalledWith('ExerciseLibrary');
++    await fireEvent.press(view.getByLabelText('Coach guidelines'));
++    expect(mockNavigate).toHaveBeenLastCalledWith('CoachGuidelines');
++    expect(view.queryByLabelText('All coach workouts')).toBeNull();
++  });
++
++  it('one pending coach workout leads; completed coach workouts and Quick workout stay one tap away', async () => {
++    mockUser = { ...mockUser, coach_id: 'coach' };
++    mockAssignments = [pending('a1', 'Upper body A'), done('a0')];
++    const view = await render(<WorkoutScreen />);
++    await waitFor(() => expect(view.getByText('Upper body A')).toBeTruthy());
++    expect(forestButtons(view)).toEqual(['Open assigned workout: Upper body A']);
++    await fireEvent.press(view.getByLabelText('Open assigned workout: Upper body A'));
++    expect(mockNavigate).toHaveBeenLastCalledWith('MoreTab', { screen: 'WorkoutAssignmentDetail', params: { assignmentId: 'a1' } });
++    expect(view.getByText('1 completed')).toBeTruthy();
++    await fireEvent.press(view.getByLabelText('All coach workouts'));
++    expect(mockNavigate).toHaveBeenLastCalledWith('MoreTab', { screen: 'ClientWorkoutViewer' });
++    await fireEvent.press(view.getByLabelText('Quick workout'));
++    expect(mockNavigate).toHaveBeenLastCalledWith('ActiveWorkout', { routineName: 'Quick Workout', exercises: '[]' });
++  });
++
++  it('two pending: the one forest action opens the list, with no second row to the same place', async () => {
++    mockUser = { ...mockUser, coach_id: 'coach' };
++    mockAssignments = [pending('a1', 'Upper body A'), pending('a2', 'Lower body B'), done('a0')];
++    const view = await render(<WorkoutScreen />);
++    await waitFor(() => expect(view.getByText('2 workouts waiting')).toBeTruthy());
++    expect(forestButtons(view)).toEqual(['View 2 coach-assigned workouts']);
++    await fireEvent.press(view.getByLabelText('View 2 coach-assigned workouts'));
++    expect(mockNavigate).toHaveBeenLastCalledWith('MoreTab', { screen: 'ClientWorkoutViewer' });
++    expect(view.queryByLabelText('All coach workouts')).toBeNull();
++  });
++
++  it('nothing pending but some completed: Quick workout leads and the completed list stays reachable', async () => {
++    mockUser = { ...mockUser, coach_id: 'coach' };
++    mockAssignments = [done('a0'), done('a9')];
++    const view = await render(<WorkoutScreen />);
++    await waitFor(() => expect(view.getByText('2 completed')).toBeTruthy());
++    expect(forestButtons(view)).toEqual(['Quick workout']);
++    await fireEvent.press(view.getByLabelText('All coach workouts'));
++    expect(mockNavigate).toHaveBeenLastCalledWith('MoreTab', { screen: 'ClientWorkoutViewer' });
++  });
++
++  it('a load failure keeps the header and Quick workout, says what failed, and Try again reloads', async () => {
++    mockGetRoutines.mockRejectedValueOnce(new Error('Network Error'));
++    mockGetRoutines.mockResolvedValue({ data: [{ id: 'r1', name: 'Full body', exercises: [], is_template: false }] });
++    const view = await render(<WorkoutScreen />);
++    const line = 'Your routines and history did not load. Check the connection, then try again.';
++    await waitFor(() => expect(view.getByText(line)).toBeTruthy());
++    expect(forestButtons(view)).toEqual(['Try again']);
++    expect(view.getByLabelText('Exercise library')).toBeTruthy();
++    await fireEvent.press(view.getByLabelText('Quick workout'));
++    expect(mockNavigate).toHaveBeenLastCalledWith('ActiveWorkout', { routineName: 'Quick Workout', exercises: '[]' });
++    await act(async () => {
++      await fireEvent.press(view.getByLabelText('Try again'));
++    });
++    await waitFor(() => expect(view.getByText('Full body')).toBeTruthy());
++    expect(view.queryByText(line)).toBeNull();
++    expect(forestButtons(view)).toEqual(['Quick workout']);
++  });
++
++  it.each([
++    ['coachless', undefined, 'Session s1 will be removed from your history.'],
++    ['coached', 'coach', 'Session s1 will be removed from your history and from what your coach sees.'],
++  ])('delete copy names a coach only when there is one: %s', async (_case, coachId, body) => {
++    mockUser = { ...mockUser, coach_id: coachId };
++    mockGetAll.mockResolvedValue({ data: [lifted('s1')] });
++    const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => undefined);
++    const view = await render(<WorkoutScreen />);
++    await waitFor(() => expect(view.getByLabelText('Delete workout Session s1')).toBeTruthy());
++    await fireEvent.press(view.getByLabelText('Delete workout Session s1'));
++    expect(alert).toHaveBeenCalledWith('Delete this workout?', body, expect.any(Array));
++    alert.mockRestore();
++  });
++
++  it('weights read lb, the week count is tabular ink, and no text is below 11 pt', async () => {
++    mockGetAll.mockResolvedValue({ data: [lifted('s1')] });
++    mockGetVolume.mockResolvedValue({ data: [{ muscle_group: 'chest', total_volume: 1200, period: 'week' }] });
++    const view = await render(<WorkoutScreen />);
++    await waitFor(() => expect(view.getByText('1,200 lb')).toBeTruthy());
++    expect(view.getByText('500 lb')).toBeTruthy();
++    expect(view.queryByText(/\blbs\b/)).toBeNull();
++    const week = StyleSheet.flatten(view.getByTestId('workout-week-count').props.style);
++    expect(week.color).toBe(lightTokens.textPrimary);
++    expect(week.fontVariant).toContain('tabular-nums');
++    expect(Math.min(...fontSizes(view))).toBeGreaterThanOrEqual(11);
++  });
++});
++
++describe('Train tab sync rows (CF-TRAIN-TAB-128)', () => {
++  it('the queued notice says when it sends without promising a coach', async () => {
++    mockLoadSession.mockResolvedValue(null);
++    mockCountQueued.mockResolvedValue(2);
++    const view = await render(<RealSyncCards userId="c1" />);
++    await waitFor(() => expect(view.getByTestId('workout-queued-notice')).toBeTruthy());
++    expect(view.getByText('2 workouts are saved on this phone and will be sent once the phone is back online.')).toBeTruthy();
++    expect(view.queryByText(/coach/)).toBeNull();
++  });
++});
