@@ -1,0 +1,86 @@
+[
+ {
+  "id": "CONSULT-ALL-BE-133",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/CONSULT-ALL-BE-133-backend",
+  "wave": 1
+ },
+ {
+  "id": "DS-PRIMITIVES-133",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/DS-PRIMITIVES-133-mobile",
+  "wave": 1
+ },
+ {
+  "id": "ROMAN-CONTEXT-133",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/ROMAN-CONTEXT-133-backend and /home/user/workspace/wt/ROMAN-CONTEXT-133-mobile",
+  "wave": 1
+ },
+ {
+  "id": "CONSULT-ALL-M-133",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/CONSULT-ALL-M-133-mobile",
+  "wave": 1
+ },
+ {
+  "id": "LN-OPUS-A-133",
+  "model": "claude_opus_5_5",
+  "kind": "lens",
+  "worktree": null,
+  "wave": 1
+ },
+ {
+  "id": "LN-SOL-A-133",
+  "model": "gpt_6_1_sol",
+  "kind": "lens",
+  "worktree": null,
+  "wave": 1
+ },
+ {
+  "id": "AUTH-ENTRY-133",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/AUTH-ENTRY-133-mobile",
+  "wave": 2
+ },
+ {
+  "id": "CONSULT-PARITY-133",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/CONSULT-PARITY-133-mobile",
+  "wave": 2
+ },
+ {
+  "id": "ROMAN-ROOM-133",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/ROMAN-ROOM-133-mobile",
+  "wave": 2
+ },
+ {
+  "id": "TOUR-133",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/TOUR-133-mobile",
+  "wave": 2
+ },
+ {
+  "id": "CLIENT-HOME-133",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/CLIENT-HOME-133-mobile",
+  "wave": 3
+ },
+ {
+  "id": "LEAN-CUT-133",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "worktree": "/home/user/workspace/wt/LEAN-CUT-133-mobile",
+  "wave": 3
+ }
+]
