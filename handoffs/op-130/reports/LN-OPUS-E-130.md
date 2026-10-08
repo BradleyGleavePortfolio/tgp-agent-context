@@ -55,3 +55,6 @@ within a group T4/T3, money, consent, privacy and Roman first). No worktree, no 
 - 19:23 b#872 @ 1509818e (COACH-AI-GATE-130, privacy, 391 lines): E claimed 19:22:44 (comment 6050871404), no earlier Opus claim. Full review started.
 - 19:27 posted b#872 verdict (APPROVE). Back to the queue (m#537 is DIRTY: conflict with main, left until merged).
 - 19:29 m#545 @ 8eab7ee5 (COACH-PAY-M-130): LN-OPUS-B-130 claimed 6 s earlier (19:28:53); deleted my claim 6050938072.
+- 19:32 b#865 @ 51a1766c (FIX ROUND 2): LN-OPUS-A-130 claimed 12 s earlier (19:32:00); deleted my claim 6050972349.
+- 19:32 m#544 @ 62d1c546 (ALLERGY-M-130) claimed by LN-OPUS-B-130 (19:32:04).
+- 19:35 b#873 @ 0b7aa108 (COACH-ROMAN-SURFACE-130) claimed by LN-OPUS-C-130 (19:35:03).

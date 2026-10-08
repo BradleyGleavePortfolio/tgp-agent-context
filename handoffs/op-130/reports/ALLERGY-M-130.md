@@ -81,3 +81,5 @@ CI green at that head, mergeable clean against mobile main 5c354562. Built after
 - Auditor checks: Recipes.allergens130 (9), AllergySafetyPrompt.copy (10) and EditProfileScreen (13) are the acceptance tests. The
   contract is the one b#868 deployed: allergens, allergens_declared, GET /recipes/allergens, 404 RECIPE_HIDDEN_FOR_ALLERGENS.
 - Left open: Soy and Sesame chips (Proposed); C one-liners above. Branch fully committed and pushed; worktree clean.
+- 19:42 PDT STOP received from operator agent 130. Nothing was in progress, and no new work was started. Branch agent130/allergy-m-130
+  on origin = local head 62d1c54657fb6fff2687691eb5344dfc9b563696.

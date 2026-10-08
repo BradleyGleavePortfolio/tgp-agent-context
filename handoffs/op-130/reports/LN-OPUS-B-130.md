@@ -11,6 +11,8 @@ Started 18:17 PDT 2026-10-07. Queue order for instance B: newest READY first (gr
 - 19:10 m#524 @ fa5e66fa (CF-HOME-START-128, FIX ROUND 3, delta): APPROVE, B=0 U=0. Earlier B1 fixed (WorkoutAssignmentDetailScreen.tsx:142 initial: false; mounted test Home Start -> assignment Start -> Leave -> Train = ['WorkoutMain']); main merge clean (tree c783976c). Comment 6050744841.
 - 19:15 m#543 @ d0285e7d (SESSION-KEEP-130, T4, iOS-build, full review, 561 lines): APPROVE, B=0 U=0. Refused renewal (400/no token) still signs out; no-answer keeps session; unsynced confirm copy true (per-user food queue and open workout are wiped at sign-out). Cs: up to 4 s + 4 s silent waits on weak signal; sign-in service down says check connection (edge); account deletion with queued items (edge). Comment 6050791778.
 - 19:23 m#537 @ 6e4ca3c1 (SETTINGS-FIN-130, FIX ROUND 2, delta): APPROVE, B=0 U=0. Earlier B1 fixed (SettingsScreen.tsx:163 copy; parity test rejects "target"); main bf208f78 merge clean (tree e6b7cfbb). Head is DIRTY against main 4e9116b5 (m#543/m#535/m#524 merged): conflicts in SettingsScreen.tsx, client README, checkInTime test. Comment 6050882568.
+- 19:31 m#545 @ 8eab7ee5 (COACH-PAY-M-130, T4 money, full review, 1,115 lines): APPROVE, B=0 U=0. Flag inert unless true; sub-coach hidden; DTO match (UUID key, charge_id, amount_cents); keys kept per amount/tap; consequence copy matches backend (full refund revokes, pause void, cancel period end). Cs: sheet prefills the full refundable amount; "1,000" rejected (edge). Comment 6050963174.
+- 19:33 m#544 @ 62d1c546 (ALLERGY-M-130, T3 allergy safety, full review, 475 lines): APPROVE, B=0 U=0. Allergen list = backend 9 codes; every allergy chip maps; prompt copy follows on/off/unknown and keeps check-ingredients; 404 code and invalidation match. C (edge): "Recipes that list X are hidden" not true for the client's own recipes (never hidden). Comment 6050992368.
 
 ## Queue log
 
@@ -26,6 +28,26 @@ Started 18:17 PDT 2026-10-07. Queue order for instance B: newest READY first (gr
 - 19:07 m#535 @ d60bc9ae claimed by LN-OPUS-E-130; skipped. 19:10 claimed m#524 @ fa5e66fa (comment 6050735732).
 - 19:12 claimed m#543 @ d0285e7d (comment 6050766492).
 - 19:22 b#872 @ 1509818e claimed by LN-OPUS-E-130; skipped. Claimed m#537 @ 6e4ca3c1 (comment 6050871738).
+- 19:28 claimed m#545 @ 8eab7ee5 (comment 6050936963).
+- 19:31 b#865 @ 51a1766c claimed by LN-OPUS-A-130; skipped. Claimed m#544 @ 62d1c546 (comment 6050970811).
 
 ## Proposed (needs operator)
 - m#537 @ 6e4ca3c1 is not mergeable (conflicts with main 4e9116b5 after m#543 SESSION-KEEP-130). Default: the FIX lane merges main, keeping m#543's prepareSignOutConfirm message and null guard with m#537's "Sign out" wording; both lenses then delta-check the merge only.
+
+## HANDOFF
+
+- Finished 19:34 PDT because the step budget was nearly used up, not because the queue had been empty for 60 minutes. The operator relaunches to keep the lens loop running.
+- Verdicts posted: 9 (6 APPROVE, 3 REQUEST CHANGES), all at the exact READY heads, with one comment each:
+  - m#524 c397b2a4 REQUEST CHANGES, then fa5e66fa APPROVE.
+  - m#538 3ade4f54 APPROVE.
+  - m#537 34413e9f REQUEST CHANGES, then 6e4ca3c1 APPROVE.
+  - m#542 1d45b2ea REQUEST CHANGES.
+  - m#543 d0285e7d APPROVE.
+  - m#545 8eab7ee5 APPROVE.
+  - m#544 62d1c546 APPROVE.
+- Totals B=3, U=0. Every B is from the code: m#524 B1 (now fixed), m#537 B1 (now fixed) and m#542 B1 (open: openInMoreTab needs `initial: false`).
+- Open lens claims held by this instance: none. Every claim has its verdict.
+- Still to do: m#542's next FIX head needs a delta review of B1. m#537 needs a main merge, because it conflicts with main 4e9116b5 (see Proposed); the merge head then needs a delta check of the merge only.
+- Tools for a relaunch: `/home/user/workspace/ops/reports/LN-OPUS-B-130-wait.py <max_s> "<skip list>"`, which reads board.json and prints queue items. Skip list at finish: b#861@c3f69a8a,m#533@2803331c,m#535@6283fb6a,m#534@e61ad735,m#524@c397b2a4,m#538@3ade4f54,b#869@e1d398cd,b#865@9523b5ec,m#539@735c4e6a,b#868@a2caccf1,m#537@34413e9f,b#870@5f89fb1d,m#541@c1066f16,m#542@1d45b2ea,m#535@d60bc9ae,m#524@fa5e66fa,m#543@d0285e7d,b#872@1509818e,m#537@6e4ca3c1,m#545@8eab7ee5,b#865@51a1766c,m#544@62d1c546.
+- No code edits, merges, deploys or production changes.
+

@@ -1,0 +1,4 @@
+# Operator merge holds (check before every merge_if_dual.sh call)
+b#871 owner decision 2 (locked failed-payment copy): merge only after the owner's yes
+b#872 B-872-SOL-130-1 (cached today/history briefs return named health details after sharing is revoked; ops/reports/LN-SOL-B-130-b872-verdict.txt, verdict NOT posted: Sol safety check): merge only after a FIX ROUND fixes it and both lenses approve the new head
+m#537 merge-main round after m#543 (FIX lane), then lens check of the merge

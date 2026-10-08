@@ -6,7 +6,8 @@ Plan: FIX_PLANS_130_131.md C1 #7; owner decision 2 default = reword (no client r
 Recon 130: waits for ROMAN-COPY-B-FIN-130 (agent129/cf-roman-copy-b-128) to merge: same function surfaceFraming, adjacent lines,
 and the same pinned prompt-hash block in test/roman/r11-seams.spec.ts.
 
-Status: 19:20 PDT — #866 merged 19:16 (main 80cebd11); merged into my branch cleanly; PR b#873 opened at 0b7aa108; CI running.
+Status: 19:33 PDT — DONE (builder). b#873 @ 0b7aa108, CI green, merges clean, READY posted 19:33. Verdicts not awaited (rule 7).
+STOP 19:41 (operator) acknowledged 19:42: nothing in flight; all work committed and pushed at 0b7aa108; no further polls.
 
 ## Scope traced (from the code, base main 272dc8ef / d6065661)
 - Entry: mobile coach Settings row "Ask for a brief, a client read, or the next step." (mobile SettingsScreen.tsx:663-670, the mobile
@@ -27,8 +28,10 @@ Status: 19:20 PDT — #866 merged 19:16 (main 80cebd11); merged into my branch c
   Workouts tabs (mobile ClientDetailScreen.tsx:293-301).
 
 ## B list
-- (pending grade) B2 backend half, from the code: a coach opens Roman from Settings, asks how a client's week went, and Roman, which
-  sees no client data, can answer with made-up figures; no prompt rule and no reply check stops it. Auditor allows a U grade.
+- B2 backend half (AUD-COACH-WEEK1-129; the auditor allows a U grade). FIXED in b#873. Seen in a test: on main the coach prompt carries
+  no no-client-data statement and no no-invented-number rule (failing-first logs). From the code: the reply check never catches a
+  coach-turn figure. A coach opens Roman from Settings, asks how a client's week went, and gets an answer built from no client data,
+  possibly with made-up numbers.
 
 ## U list
 - none yet
@@ -36,6 +39,8 @@ Status: 19:20 PDT — #866 merged 19:16 (main 80cebd11); merged into my branch c
 ## C one-liners
 - C (edge, deferred to 10k clients): the prompt builder still accepts a coach subjectContext (never set by any caller today); if a
   caller ever passes one, the coach framing must be revisited.
+- C (deferred): no coach-surface reply check for invented figures (roman-post-check.ts grounding needs a client context); the prompt
+  rule is the launch fix per owner decision 2.
 
 ## Fix (b#873, branch agent130/coach-roman-surface-130 @ 0b7aa108, 122 changed lines)
 - src/roman/roman.prompts.ts: surfaceFraming('coach') now states what coach Roman does (programming, nutrition, running the practice),
@@ -62,7 +67,23 @@ Status: 19:20 PDT — #866 merged 19:16 (main 80cebd11); merged into my branch c
 
 ## PRs
 - b#873 https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/873 @ 0b7aa108aea612f82e7c4844cbfa775bbb63520f,
-  122 lines (108+/14-), CI pending, READY not yet posted.
+  122 lines (108+/14-), CI green (build-and-test, CodeQL, danger, rls/live suites, size-label all SUCCESS), MERGEABLE,
+  READY posted 19:33 (comment 6050985696, text in reports/COACH-ROMAN-SURFACE-130-ready-comment.md). Verdicts: none yet.
 
 ## Proposed (needs operator)
-- none yet
+1. Mobile half of B2 (CF-COACH-SETTINGS-AI-129): the coach Settings Roman sub-label and accessibilityHint still say "Ask for a brief,
+   a client read, or the next step." (mobile src/screens/coach/SettingsScreen.tsx:663-670). With b#873 Roman answers that honestly,
+   but the entry copy still promises it. Default: a one-line copy change to "Ask about programming, nutrition or running your
+   practice." in the next mobile PR that touches coach Settings, before the 23:00 iOS cut if a lane is free.
+
+## HANDOFF
+- State: b#873 open at 0b7aa108aea612f82e7c4844cbfa775bbb63520f on agent130/coach-roman-surface-130 (based on main 80cebd11, which
+  includes #866). CI green, MERGEABLE, READY posted 19:33. Nothing left for the builder.
+- Next: the Opus and Sol lenses review at 0b7aa108; the operator merges with merge_if_dual.sh. Findings or a conflict go to
+  FIX-OPUS-130 / FIX-SOL-130 (worktree /home/user/workspace/wt/COACH-ROMAN-SURFACE-130-backend, node_modules linked).
+- Likely conflict points if main moves: src/roman/roman.prompts.ts surfaceFraming, test/roman/r11-seams.spec.ts prompt-hash block
+  (coach_plain only is mine; the expected coach hash is f2f65e8a1e5a165f1e51f2b5f429317c34701c6282fd236673a0128842fb6248 unless the
+  voice contract or coach framing changes), and the three prompt_version call sites in src/roman/roman.service.ts.
+- Review notes for lenses: the "prompt version bump" is a coach-only version (roman-coach-v1) because PROMPT_VERSION is the client
+  contract's version; bumping it would have changed every client prompt for a coach-only change. Nothing reads prompt_version back.
+- No deploy, flag or production change. FEATURE_ROMAN_* flags untouched.

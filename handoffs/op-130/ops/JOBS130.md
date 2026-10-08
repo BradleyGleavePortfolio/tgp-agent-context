@@ -168,3 +168,10 @@ owner's yes." Fix B3 of /home/user/workspace/ops/reports/CREDIT-REFILL-130.md wi
   scheme; never `fly secrets set`; the operator applies fly-env-sync after merge). Keep this PR small and fast: CREDIT-METER-130 merges
   main after it.
 No Stripe changes, no production writes, spend nothing. READY per _COMMON for each PR, then end.
+
+## COACH-ROMAN-ROW-130 (GPT-6.1 Sol, BUILDER, T2 mobile copy, under 100 lines) - added 19:3x from COACH-ROMAN-SURFACE-130 (b#873)
+Mobile half of the delegated coach-Roman B2 (ops/reports/COACH-ROMAN-SURFACE-130.md, Needs operator 1): the coach Settings Roman row
+still promises "Ask for a brief, a client read, or the next step." (CF-COACH-SETTINGS-AI-129), but coach Roman cannot see clients
+(b#873). Change it to exactly "Ask about programming, nutrition or running your practice." Find every copy of the old line (rg the
+mobile repo, including tests and snapshots) and change only those; failing-first test that pins the new line. No other copy changes.
+Worktree /home/user/workspace/wt/COACH-ROMAN-ROW-130-mobile (branch agent130/coach-roman-row-130). Aim: READY by 21:00 for the 23:00 cut.

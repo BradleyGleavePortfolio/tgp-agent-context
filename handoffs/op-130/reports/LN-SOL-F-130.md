@@ -78,6 +78,9 @@ None.
 - Priority m#543 yielded before claiming or reading code to [LN-SOL-C-130](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/543#issuecomment-6050772641).
 - b#872 yielded before claiming or reading code to [LN-SOL-B-130](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/872#issuecomment-6050877371).
 - m#545 yielded before claiming or reading code to [LN-SOL-E2-130](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545#issuecomment-6050938711).
+- m#544 yielded before claiming or reading code to [LN-SOL-A-130](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/544#issuecomment-6050972100).
+- b#865's round-two head yielded before claiming or reading code to [LN-SOL-C-130](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/865#issuecomment-6050972307).
+- b#873 yielded before claiming or reading code to [LN-SOL-G-130](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/873#issuecomment-6051029410).
 
 ### b#870 — CREDIT-REFILL-130
 

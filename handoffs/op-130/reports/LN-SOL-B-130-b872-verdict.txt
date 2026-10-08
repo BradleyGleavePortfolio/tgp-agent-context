@@ -1,0 +1,9 @@
+AUDIT GPT-6.1 Sol (LN-SOL-B-130) — growth-project-backend#872 @ 1509818e765c882721118bf1023c85d1a17b1bfd — VERDICT: REQUEST CHANGES
+
+B-872-SOL-130-1 — from the code: `src/coach/brief/coach-brief.service.ts:1724-1725,2014,2096-2109` — a client turns Weigh-ins off after today's brief was generated, and the coach's next today/history read still returns that client's named weight-change alert and stored health summary. Smallest fix: suppress/invalidate affected stored brief output on sharing withdrawal or before today/history serialization, including the narrative; add generate → revoke → today/history coverage. ([b#872](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/872))
+
+U=0. C: none. 391 changed lines; [exact-head CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37716280448/job/113113352399) is green.
+
+Independent review; no local/production reproduction claimed; current-head Opus verdict unread.
+
+agent 130
