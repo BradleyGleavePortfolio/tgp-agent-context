@@ -1,0 +1,15 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-C-131) — growth-project-mobile#545 @ d13041ca5577664c5e30b9481e4509d2a6b379dc — VERDICT: APPROVE
+
+Delta re-review from 8eab7ee5 (Opus APPROVE by LN-OPUS-B-130, no Opus Bs open) to this head: one merge of main (44f17157) plus d13041ca. T4 money, flag-gated; 1,132 changed lines (under 1,500); CI green at this head (Typecheck, lint, test; CodeQL); merge state clean.
+
+B: none.
+U: none.
+
+Checked (from the code, plus the new test at src/screens/coach/__tests__/ClientPayments.test.tsx:150):
+- Merge-only tree check passes: the PR diff against main e1688b51 after 44f17157 is byte-identical to its diff at 8eab7ee5, and the merge brings in exactly main's changes; no hand-resolved conflict.
+- B-545-1 as named in the READY is fixed: with billing "unknown", refundConsequence (src/lib/money/clientPaymentsCopy.ts:85-96) no longer says access and billing stay as they are; a full refund says it ends access and sets endsAccess, so the confirm button reads "Refund $X and end access" (ClientPaymentsScreen.tsx:354); a partial refund makes no billing claim. Live, one-time, paused-by-refund/dispute and ended branches are unchanged.
+- The refund request path is unchanged: cents bounded by refundableCents (ClientPaymentsScreen.tsx:276-277), one idempotency key per confirmed amount, amount_cents posted as entered.
+
+C: with billing unread, a full refund on a plan that has in fact already ended still says it ends access (C, edge, deferred to 10k clients).
+
+agent 131

@@ -1,0 +1,83 @@
+FAST-CALM-FIN-131 failing-first: PR tests (trial e8d29879) run against main+m#537 source (sim tree of origin/main e1688b51 + m#537 abb29668), Wed Oct  7 20:57:28 PDT 2026
+=== src/screens/client/__tests__/WidgetsScreen.test.tsx
+FAIL src/screens/client/__tests__/WidgetsScreen.test.tsx
+    ✕ Back goes back and Quick log opens the food log (282 ms)
+    ✕ Start fast starts 16:8, schedules the same end alert, and opens the timer (15 ms)
+    ✓ Start fast schedules nothing when Fasting Alerts is off (10 ms)
+    ✓ a failed start says so and neither schedules nor navigates (9 ms)
+Tests:       2 failed, 2 passed, 4 total
+=== src/screens/client/__tests__/HabitsFasting.launch.test.tsx
+FAIL src/screens/client/__tests__/HabitsFasting.launch.test.tsx (8.218 s)
+    ✓ adds a habit using only fields accepted by the production CreateHabitDto (381 ms)
+    ✓ check-off shows the saved quantity, and undo persists zero and clears today (125 ms)
+    ✓ shows recorded consecutive days in the week indicators (62 ms)
+    ✓ shows a load failure and retry, not an empty 0% progress claim (70 ms)
+    ✓ shows a useful empty state for a new client (59 ms)
+    ✓ keeps add/dismiss, long-press deletion, check-in editing/saving and tab return reachable (207 ms)
+    ✓ hydrates a saved check-in and keeps update reachable (96 ms)
+    ✓ offers retry instead of an invented check-in when its read fails (120 ms)
+    ✓ shows loading instead of guessed counts or an editable check-in before reads resolve (14 ms)
+    ✓ uses semantic colours and keeps the outlined check at 44 pt for a future dark palette (77 ms)
+    ✕ restores the selected 12h target on reopen (27 ms)
+    ✕ restores the selected 16h target on reopen (21 ms)
+    ✕ restores the selected 18h target on reopen (15 ms)
+    ✕ restores the selected 20h target on reopen (15 ms)
+    ✕ restores the selected 24h target on reopen (15 ms)
+    ✓ starting 12:12 sends the protocol and shows the same server-backed target (42 ms)
+    ✕ ending early saves history without awarding a completion (1031 ms)
+    ✕ counts consecutive qualifying days, excluding a short ended fast today (1018 ms)
+    ✕ one day with a completed fast is not called a run or a program day (1014 ms)
+    ✓ starting a fast schedules the end alert while Fasting Alerts is on (the default) (24 ms)
+    ✓ starting a fast schedules nothing when Fasting Alerts is off (23 ms)
+    ✓ ending a fast cancels its scheduled end alert (33 ms)
+    ✕ a running fast reads in hours and minutes, with a progress bar and a forest End fast (1014 ms)
+    ✕ keeps every action: a failed load offers Try again, and pull to refresh reloads (1004 ms)
+Tests:       10 failed, 14 passed, 24 total
+=== src/navigation/__tests__/reachabilityGates.test.ts
+FAIL src/navigation/__tests__/reachabilityGates.test.ts
+    ✓ Plan (client meal plan) is opened from at least one screen (12 ms)
+    ✓ ClientMacros (client macro targets) is opened from at least one screen (10 ms)
+    ✓ Progress (client progress) is opened from at least one screen (10 ms)
+    ✓ Habits (client habits and check-in) is opened from at least one screen (10 ms)
+    ✓ Timeline (client timeline) is opened from at least one screen (9 ms)
+    ✓ ExerciseLibrary (exercise library) is opened from at least one screen (10 ms)
+    ✓ ClientConsultation (coach consultation answers) is opened from at least one screen (9 ms)
+    ✓ the scan ignores push-tap routing, the tutorial and the screenshot script (4 ms)
+    ✓ client Bloodwork and coach BloodworkReviewQueue register only behind featureFlags.bloodwork (1 ms)
+    ✓ no EAS profile turns the lab flag on
+    ✓ the guard helper rejects an unguarded route
+    ✓ MoreStackNav Plan registers with the back-only header (4 ms)
+    ✓ MoreStackNav Progress registers with the back-only header
+    ✓ MoreStackNav Timeline registers with the back-only header
+    ✓ MoreStackNav ClientMacros registers with the back-only header (1 ms)
+    ✕ MoreStackNav Fast registers with the back-only header (2 ms)
+    ✓ HomeStackNav Habits registers with the back-only header (1 ms)
+    ✓ the back-only header shows the native header with a Back label
+    ✓ the Workout header opens the exercise library
+    ✓ is registered once, in the Clients stack, with no flag
+Tests:       1 failed, 19 passed, 20 total
+=== src/hooks/__tests__/useSettings.test.ts
+FAIL src/hooks/__tests__/useSettings.test.ts
+    ✓ defaults Fasting Alerts to on and reads no profile while signed out (14 ms)
+    ✓ keeps a water goal already saved on this phone (2 ms)
+    ✕ takes the profile's water goal when this phone has none, with one read for every open hook (1003 ms)
+Tests:       1 failed, 2 passed, 3 total
+=== src/screens/client/__tests__/FastingScreen.p0.test.ts
+FAIL src/screens/client/__tests__/FastingScreen.p0.test.ts
+    ✓ declares a submitting state (2 ms)
+    ✓ disables Start while submitting
+    ✓ flips submitting=true before awaiting fastingApi.start (1 ms)
+    ✓ early-returns from handleStart when already submitting
+    ✕ persists the scheduled notification id under a user-scoped key (2 ms)
+    ✕ doEndFast cancels and removes the persisted notification id (user-scoped)
+    ✓ imports the bucketDateLocal helper
+    ✓ uses bucketDateLocal in the streak loop, not toISOString().split
+Tests:       2 failed, 6 passed, 8 total
+=== src/screens/client/__tests__/FastingScreen.remove.test.tsx
+FAIL src/screens/client/__tests__/FastingScreen.remove.test.tsx
+  ✕ requires confirmation, removes the selected ended fast, and clears statistics for empty history (1189 ms)
+  ✓ removes a running fast and cancels only this client’s scheduled end alert after server success (41 ms)
+  ✓ keeps the running fast and end alert after failed deletion, with a specific actionable error (25 ms)
+  ✓ locks existing actions during removal without claiming a different fast action is underway (122 ms)
+  ✓ leaves the running timer and its end alert intact when removing a history row (36 ms)
+Tests:       1 failed, 4 passed, 5 total

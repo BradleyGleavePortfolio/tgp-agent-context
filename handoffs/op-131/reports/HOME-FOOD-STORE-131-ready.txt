@@ -1,0 +1,7 @@
+FIX ROUND 1 (OPENING) (HOME-FOOD-STORE-131, agent 131) — growth-project-mobile#547 @ 54b4552deb702f910b1f05c48a67c588c2d959b9 — READY FOR AUDIT
+
+- B1 — seen in a test, fixed at `src/store/clientStore.ts:86,169`: returning from an earlier Food Log day to Home cannot let that earlier read replace today's meals, totals, water or loading/error state ([PR #547](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/547)).
+- U1 — seen in a test, fixed at `src/store/clientStore.ts:233`: failed metric water-add notices round ounces; the 250 ml request and original-amount rollback are unchanged ([PR #547](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/547)).
+- Failing first: three new regressions failed, ten existing tests passed; after the fix, the targeted store suite passes 13/13 ([PR #547](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/547)).
+- [Typecheck, lint and test](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37724630106/job/113139882295) and [CodeQL analysis](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37724630088/job/113139882373) are green at this head.
+- 88 changed lines across three files; module README updated; no route/action, dependency or backend contract change ([PR #547](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/547)).

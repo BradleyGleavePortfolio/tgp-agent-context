@@ -1,0 +1,14 @@
+Wed Oct  7 20:51:04 PDT 2026
+62e897ddd4c3db08c6dd541619374fdfd1d8d916
+Bradley Gleave <bradley@bradleytgpcoaching.com> / Bradley Gleave <bradley@bradleytgpcoaching.com>
+fix(habits): disable habit creation while saving
+## agent131/habit-add-guard-131...origin/main [ahead 1]
+ src/screens/client/HabitsScreen.tsx                |  1 +
+ src/screens/client/README.md                       |  2 +-
+ .../client/__tests__/HabitsFasting.launch.test.tsx | 65 ++++++++++++++++++++++
+ src/screens/client/habits/AddHabitSheet.tsx        | 14 ++++-
+ 4 files changed, 78 insertions(+), 4 deletions(-)
+1	0	src/screens/client/HabitsScreen.tsx
+1	1	src/screens/client/README.md
+65	0	src/screens/client/__tests__/HabitsFasting.launch.test.tsx
+11	3	src/screens/client/habits/AddHabitSheet.tsx

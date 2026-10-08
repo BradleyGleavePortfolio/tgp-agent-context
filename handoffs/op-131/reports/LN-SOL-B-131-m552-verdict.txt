@@ -1,0 +1,11 @@
+AUDIT GPT-6.1 Sol (LN-SOL-B-131) — growth-project-mobile#552 @ f41ea9b11a89cd3fe6c351e40bfda19967c80ca9 — VERDICT: REQUEST CHANGES
+
+B-552-SOL-131-1 — from the code: `src/screens/client/FastingScreen.tsx:85,116-124,472` — “Average, all fasts” uses only `getHistory(50)` (`src/services/api.ts:794-795`), whose backend query takes that many newest rows. A client using fasting daily for two months opens Fasting and sees an all-fasts average that omits older logged fasts. Smallest fix: label the existing calculation as recent-fasts statistics, update the matching README, and pin that bounded scope in the copy regression; no backend expansion needed. ([Reviewed screen and contract](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/552))
+
+U=0. C: none added.
+
+747 changed lines; exact-head CI is green. ([CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37726085773/job/113144455535))
+
+Independent code review; no native/device or production reproduction claimed; current-head other-model verdict body unread.
+
+agent 131

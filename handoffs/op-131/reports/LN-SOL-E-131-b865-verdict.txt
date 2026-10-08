@@ -1,0 +1,11 @@
+AUDIT GPT-6.1 Sol (LN-SOL-E-131) — growth-project-backend#865 @ 9810123222b576b959f35a92bc392c13fab31410 — VERDICT: APPROVE
+
+B=0; U=0. Delta re-review from 51a1766c. ([PR](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/865))
+
+Prior B-865-SOL-130-2 closed — from the code: `src/v1/v1-coach.service.ts:309-323,348-352` scopes thread check-in reads to the roster grant and suppresses hidden-date risk; `src/coach/command-center/churn-intervention.service.ts:344-359` requires all four sharing scopes before private reads, idempotency claim/replay and AI processing, with caller role forwarded at `command-center.controller.ts:287-291`. ([Fixed reads](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/865))
+
+Tests inspected, not locally rerun: `test/coach-sharing-coach-reads.spec.ts:397-445` covers revoked/partial sharing, sub-coach grant and owner bypass, and refusal before downstream work; required consent DI coverage remains, and exact-head CI is green. ([CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37725721024/job/113143299992))
+
+C: from the code, the PR body still lists the now-fixed thread/draft reads as deferred; refresh that description without another fix round. ([PR body](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/865))
+
+agent 131

@@ -1,0 +1,13 @@
+AUDIT GPT-6.1 Sol (LN-SOL-F-131) — growth-project-backend#877 @ dc6149d74ee69ba7778585fb5602b4cdff8acb7f — VERDICT: APPROVE
+
+B=0; U=0.
+
+From the code: `src/ai-credits/client-purchase-policy.ts:48-58,81-88` scopes purchase-capability headers to the request and uses them only to select pool-empty wording; the existing access, egress and debit gates remain unchanged. ([Caller policy](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/dc6149d74ee69ba7778585fb5602b4cdff8acb7f/src%2Fai-credits%2Fclient-purchase-policy.ts), [Reviewed diff](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/877))
+
+From the code: the two checkout-return values match `src/common/env-validation.ts:1023-1038`, have gate/kill text and add no unmet manifest PRECONDITIONS; the existing checkout service still prefers inline return links. ([Closed sets](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/dc6149d74ee69ba7778585fb5602b4cdff8acb7f/src%2Fcommon%2Fenv-validation.ts), [Manifest](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/dc6149d74ee69ba7778585fb5602b4cdff8acb7f/.github%2Ffly-env-desired-state.json), [Reviewed scope](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/877))
+
+Tests inspected, not locally rerun: `test/ai-credits-caller-purchase-policy.spec.ts:26-160` covers caller variants, awaited HTTP handlers and awaited 402 copy; exact-head CI is green (15 success, 1 deployment-gate skip). ([Regression tests](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/dc6149d74ee69ba7778585fb5602b4cdff8acb7f/test%2Fai-credits-caller-purchase-policy.spec.ts), [CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37726737441/job/113146510154))
+
+C (from the code): owner-decision-10 HOLD remains; keep it until the owner's yes, with no flag application by this lens. ([Declared owner gate](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/dc6149d74ee69ba7778585fb5602b4cdff8acb7f/.github%2Ffly-env-desired-state.json))
+
+agent 131

@@ -1,0 +1,19 @@
+# PR board (operator agent 131) - updated 21:50 PDT; refreshed every 3 minutes
+Open agent127-131 PRs in both repos: 12 (dependabot, cand/* and other old PRs are out of scope). GitHub calls this refresh: 4.
+Verdicts and claims count only AT THE CURRENT HEAD. Re-check the head on GitHub before you claim or post a verdict.
+
+| PR | head | lines | CI | READY@head | [independent Opus field suppressed] | Sol@head | claims@head (age) | needs | branch |
+|---|---|---:|---|---| [independent Opus field suppressed] |---|---|---|---|
+| b#878 | 3ec27c47de4e838c93de63e3ba3c7d99aa1b8092 | 159 | green | no | [independent Opus field suppressed] | - | - | needs READY at head | agent130/coach-row-scrub-130 |
+| b#877 | dc6149d74ee69ba7778585fb5602b4cdff8acb7f | 386 | green | yes | [independent Opus field suppressed] | APPROVE | OPUS LENS:LN-OPUS-A-131 18m; SOL LENS:LN-SOL-F-131 16m | DUAL APPROVED: operator merge | agent131/credit-pay-131 |
+| b#874 | 24c6c1976a54189f30030e8f6b5a1a2f219184f6 | 696 | green | yes | [independent Opus field suppressed] | APPROVE | OPUS LENS:LN-OPUS-B-131 9m; SOL LENS:LN-SOL-A-131 8m | DUAL APPROVED: operator merge | agent130/credit-meter-130 |
+| b#872 | b84193df74ffe1c14e874e35f38bbc7261bc8306 | 520 | green | no | [independent Opus field suppressed] | - | - | needs READY at head | agent130/coach-ai-gate-130 |
+| b#871 | fa38982ea9ef8ba7b796142e869ce03caa838998 | 166 | green | yes | [independent Opus field suppressed] | APPROVE | OPUS LENS:LN-OPUS-D-130 167m; SOL LENS:LN-SOL-A-130 166m | DUAL APPROVED: operator merge | agent130/money-dunning-copy-130 |
+| b#870 | 87f7f27543963ab6d3cfdaf1def1e643ba37e2f4 | 479 | green | no | [independent Opus field suppressed] | - | - | needs READY at head | agent130/credit-refill-130 |
+| m#556 | 53f10d0a84ac7a342b996a6d8fe57fc6895dc5b7 | 746 | green | no | [independent Opus field suppressed] | - | - | needs READY at head | agent131/qa-coach-states-131 |
+| m#555 | 042bb82dd9450b8a337170d7a043c313be293a41 | 389 | green | yes | [independent Opus field suppressed] | APPROVE | OPUS LENS:LN-OPUS-A-131 12m; SOL LENS:LN-SOL-B-131 11m | DUAL APPROVED: operator merge | agent131/qa-empty-131 |
+| m#554 | da05524f07dcca64465e50634d62478e4887a1fe | 764 | green | yes | [independent Opus field suppressed] | APPROVE | OPUS LENS:LN-OPUS-C-131 12m; SOL LENS:LN-SOL-A-131 12m | DUAL APPROVED: operator merge | agent131/qa-coach-home-131 |
+| m#552 | f41ea9b11a89cd3fe6c351e40bfda19967c80ca9 | 747 | green | yes | [independent Opus field suppressed] | REQUEST CHANGES | OPUS LENS:LN-OPUS-D-131 31m; SOL LENS:LN-SOL-B-131 30m | conflict with main: merge origin/main | agent130/fast-calm-fin-130 |
+| m#551 | ae7e2a94b4c12c08bcbf96e55c58eb313b3d987b | 786 | green | yes | [independent Opus field suppressed] | APPROVE | OPUS LENS:LN-OPUS-E-131 18m; SOL LENS:LN-SOL-D-131 18m | needs Opus | agent130/credit-pay-m-130 |
+| m#549 | 371c555bbbdbc4a8402baf2733715ab3517ae498 | 371 | green | no | [independent Opus field suppressed] | - | - | needs READY at head | agent131/home-food-ui-131 |
+

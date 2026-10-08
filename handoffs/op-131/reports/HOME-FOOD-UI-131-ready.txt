@@ -1,0 +1,9 @@
+FIX ROUND 1 (OPENING) (HOME-FOOD-UI-131, agent 131) — growth-project-mobile#549 @ 534908a1154b3a3e531c39d7595dc2abca5d1cce — READY FOR AUDIT
+
+B1 and U1/U2 are fixed: Home waits for verified today intake, formats water in the selected unit without long decimals, and sends inactive access to the existing Membership screen rather than a locked food/workout route.
+
+Failing-first proof: 11 failures reproduced before implementation. Local targeted proof: 111 tests across eight files passed; the new suite and real-router parity tests passed again after bringing main into this branch. The diff is 360 changed lines, the matching README is updated, and the PR body contains the route/action parity table and truthful state sweep. CI is green at this exact head and GitHub reports no conflict.
+
+No entitlement policy, payment, backend, dependency, flag or production changes. No PR merge or deployment performed.
+
+agent 131

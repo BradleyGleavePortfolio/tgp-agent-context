@@ -1,0 +1,15 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-C-131) — growth-project-backend#876 @ 15db749298b1a0a4b63837adfe40653b81566b5e — VERDICT: APPROVE
+
+Full review (T2, 64 changed lines: 9 source, 55 tests; CI green at this head; merge state clean).
+
+B: none.
+U: none.
+
+Checked (from the code):
+- The cap reaches the handler: the global ValidationPipe runs with transform: true (src/main.ts:98-102), so createWorkout/updateWorkout (src/workout/workout.controller.ts:24,44) receive the capped instance, and workout.service.ts:31,139 writes it to the nullable Int column unchanged.
+- capWorkoutDuration (src/workout/workout.dto.ts:29-30) only rewrites integers above 1440; negatives, fractions and strings still fail @IsInt/@Min, and an absent duration stays absent. The spec builds the pipe with the production options (whitelist, forbidNonWhitelisted, transform).
+- No other DTO or service path re-checks the 1440 limit; no schema, flag, auth or money change.
+
+C: a resumed session older than a day is stored as exactly 1440 minutes, so history shows a 24-hour workout (from the code); a hand-edited duration above 1440 on update is capped silently instead of refused (C, edge, deferred to 10k clients).
+
+agent 131

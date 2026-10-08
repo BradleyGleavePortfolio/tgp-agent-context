@@ -1,5 +1,7 @@
 # LN-SOL-G-131 — agent 131
 
+Status: DONE under the operator's 21:50 wind-down; one completed independent Sol audit, mobile #545 APPROVE, B=0/U=0, and the earlier refund-consequence blocker is closed. ([Posted verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545#issuecomment-6052030805))
+
 ## Scope traced
 - Instance G: oldest eligible READY head, mobile first; independent GPT-6.1 Sol lens only.
 - Initial candidate mobile #537 at `abb296689f21ba7a7dbecb514e404e932ad40044` was skipped because LN-SOL-E-131 already held an earlier current-head claim. ([Earlier Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/537#issuecomment-6051744906))
@@ -11,7 +13,7 @@
 
 ## B list
 - None proven.
-- Prior B-545-1 is closed in the reviewed delta: an ordinary coach refunding when billing is unreadable now sees that a charge-covering refund ends client access, while a partial refund makes no billing-state promise (`src/lib/money/clientPaymentsCopy.ts:87-106`; `ClientPaymentsScreen.tsx:354`). ([Fix round](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545#issuecomment-6051967498))
+- Prior B-545-1 closed — seen in a test: an ordinary coach refunding when billing is unreadable now sees that a charge-covering refund ends client access, while a partial refund makes no billing-state promise (`src/lib/money/clientPaymentsCopy.ts:87-106`; `ClientPaymentsScreen.tsx:354`). ([Fix round](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545#issuecomment-6051967498))
 
 ## U list
 - None proven.
@@ -20,7 +22,7 @@
 - None added.
 
 ## PRs
-- [mobile #545](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545): `d13041ca5577664c5e30b9481e4509d2a6b379dc`, 1,132 changed lines (+1,132/-0), 13 files, open and mergeable; claimed by this lane. ([Claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545#issuecomment-6051980614))
+- [mobile #545](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545): `d13041ca5577664c5e30b9481e4509d2a6b379dc`, 1,132 changed lines (+1,132/-0), 13 files; reviewed while open and mergeable, and final GitHub verification confirms it is now merged and closed. ([Claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545#issuecomment-6051980614), [PR state](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545))
 - Independent Sol verdict: APPROVE, B=0/U=0; current-head Opus verdict body remained unread before posting. ([Posted verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545#issuecomment-6052030805))
 - Exact-head Typecheck/lint/test and both CodeQL analysis checks are green. ([Typecheck/lint/test](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37725074057/job/113141273441), [JS/TS analysis](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37725074103/job/113141274093), [Actions analysis](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37725074103/job/113141273839))
 - Existing earlier claims on skipped PRs were respected; no duplicate claim was posted. ([mobile #537 claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/537#issuecomment-6051744906), [backend #855 claim](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/855#issuecomment-6051758113), [mobile #546 claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/546#issuecomment-6051830899))
@@ -38,6 +40,13 @@
 ## Proposed (needs operator)
 - None.
 
+## Wind-down
+- Operator's 21:15 heads-up: stop rules arrive at 21:50; finish the review in hand and eligible heads already READY, aiming to end by about 22:10. Agent 132 owns tonight's builds. No merge, build or deployment will be performed by this lane.
+- Wind-down completed after the 21:50 board showed no eligible unclaimed READY head; other current-head Sol claims were respected.
+
 ## HANDOFF
-- Mobile #545 is complete: APPROVE at `d13041ca5577664c5e30b9481e4509d2a6b379dc`, 1,132 lines, green CI, prior B-545-1 closed; no unfinished own claim. ([Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545#issuecomment-6052030805))
-- Active standing lane: continue oldest eligible unclaimed READY, mobile first; no merge, deployment or production action is authorized by this verdict.
+- DONE. Mobile #545: independent Sol APPROVE at `d13041ca5577664c5e30b9481e4509d2a6b379dc`, 1,132 lines, green CI, prior B-545-1 closed; final GitHub verification at 21:53 PDT confirms merged/closed and the posted verdict remains present. ([Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545#issuecomment-6052030805), [PR](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545))
+- B=0/U=0; no unresolved own review, safety-posting fallback or operator decision.
+- Independent evidence remains in the two non-worktree snapshot folders, `LN-SOL-G-131-m545-ClientPayments.log`, `LN-SOL-G-131-m545-before.log`, and `LN-SOL-G-131-m545-verdict.txt`.
+- No worktree or code branch was created; no tracked source changed and no WIP exists to push. No merge, deployment, flag change, production write or real payment action was performed.
+- Stopped under the operator's 21:50 wind-down; no waiting for new READY lines. Agent 132 owns tonight's builds.

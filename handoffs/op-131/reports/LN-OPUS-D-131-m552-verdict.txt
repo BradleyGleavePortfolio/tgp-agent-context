@@ -1,0 +1,15 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-D-131) — growth-project-mobile#552 @ f41ea9b11a89cd3fe6c351e40bfda19967c80ca9 — VERDICT: APPROVE
+
+Full review. 15 files, +480/-267 (747 lines). CI green at this head (Typecheck, lint, test; CodeQL). Merge state clean, 0 behind main 2bed5deb.
+
+No B. No U.
+
+Checked and fine:
+- The copy is true. Completed uses the 90 percent rule the screen states (`FastingScreen.tsx:102`, `:124`, `:479`). Production history rows have no `completed` field (backend `FastingWindow`, schema.prisma:1049), so that rule always applies. The run line counts only completed fasts and only shows for two or more days (`:46`, `:135`). The stats stay hidden until a fast has ended, and the hero, "remaining" and "Target reached" come from the running fast's server start time. From the code.
+- Alerts. Both start paths use `scheduleFastEndAlert` (`fastingAlert.ts:19`; `FastingScreen.tsx:199`; `WidgetsScreen.tsx:76`), behind the one Fasting alerts gate. That gate never throws (`notifications.ts:100`), so a Shortcuts start that worked is never reported as failed. End and remove cancel the stored alert (`FastingScreen.tsx:222`, `:270`). Seen in a test (WidgetsScreen on/off/failed start, through the real gate).
+- The water goal seed only fills a phone with no saved goal, and a goal saved on the phone wins (`useSettings.ts:45-57`). Production `GET /profile` returns `water_goal_oz` (schema.prisma:918), and a failed read is tried again later (`:85`). Seen in a test (useSettings).
+- Parity. Every row in the parity table is in the code: the five protocols, Start fast / End fast with the early-end confirm, Remove this fast, Try again, pull to refresh, Back on `Fast` (`ClientNavigator.tsx:500`), and Quick log / Start fast / Back on Shortcuts. The old empty state had no action, so nothing is cut. Start and End are forest (`FastingScreen.tsx:603`, `:611`), theme colours only, README and doctrine row updated.
+
+Cs: C (edge, deferred to 10k clients): `gp_client_settings` is per device and is not cleared on sign-out, so on a phone shared by two accounts, the water goal seeded from the first account stays for the second. From the code.
+
+agent 131

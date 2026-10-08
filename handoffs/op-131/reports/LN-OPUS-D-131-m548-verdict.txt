@@ -1,0 +1,13 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-D-131) — growth-project-mobile#548 @ ba855c3ef4e0115017d38a6c07051af0ef52ad9d — VERDICT: APPROVE
+
+Full review. 4 files, +85/-6 (91 lines). CI green at this head (Typecheck, lint, test; CodeQL). Merge state clean.
+
+No B. No U.
+
+Checked and fine:
+- The guard holds. `HabitsScreen.tsx:211-212` blocks a second create before the pending state renders, and `onSettled` (`:230-231`) clears it after success or failure. An unmount rebuilds the ref, so Create habit cannot stay locked. From the code.
+- The button state is true. `AddHabitSheet.tsx:34` disables Create habit for a blank name or while the existing mutation is pending (`createHabit.isPending`, TanStack Query v5), and "Creating habit" (`:92`) shows only then. Seen in a test (`HabitsFasting.launch.test.tsx:128`).
+- Success still closes and resets the sheet. A failure keeps the entered values and allows another try. Seen in a test (`HabitsFasting.launch.test.tsx:128`, `:154`, `:183`).
+- The mutation and the DTO are unchanged. No route or action is removed, and the parity table matches the code. Theme colours only, README updated, copy within the rules, commit identity correct.
+
+agent 131

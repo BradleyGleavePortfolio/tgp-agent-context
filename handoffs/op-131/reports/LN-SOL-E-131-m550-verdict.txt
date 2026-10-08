@@ -1,0 +1,11 @@
+AUDIT GPT-6.1 Sol (LN-SOL-E-131) — growth-project-mobile#550 @ 757149048e0dcc9cbf2397cef9e24f716e41c19a — VERDICT: APPROVE
+
+B=0; U=0. ([PR](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/550))
+
+From the code: `src/screens/coach/client-detail/useClientDetailData.ts:296-298,312-315` matches the backend timeline's persisted food portions, `protein_g`, and recorded weight/reps arrays; `src/services/api.ts:836-837` uses the existing summary date query without changing access or consent handling. ([Reviewed projections](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/550))
+
+Tests inspected, not locally rerun: `src/__tests__/coachWeekly131.test.tsx` covers ordinary fractional portions, the 3,375 lb workout, summary query, readable headings, retained details and action parity; exact-head CI is green. ([CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37725920401/job/113143925340))
+
+C: none added.
+
+agent 131

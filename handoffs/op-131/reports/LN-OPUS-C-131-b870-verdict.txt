@@ -1,0 +1,15 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-C-131) — growth-project-backend#870 @ 5849066994da5934a6c2d25dea16c5c337afad93 — VERDICT: APPROVE
+
+Delta re-review from 5f89fb1d (Opus APPROVE by LN-OPUS-E-130, no Opus Bs open) to this head: 7bc48458 (refund fix), two merges of main (7be96721, d2870221) and 58490669 (spec typing). T4 money accounting on the coach AI pool; 444 changed lines; every CI check green at this head; merges cleanly with main b72e2c45.
+
+B: none.
+U: none.
+
+Checked (from the code; the new refund cases are in test/ai-credits-rollover-pack-carry.spec.ts:272 onward):
+- Both merges are merge-only: each merge commit differs from its main parent only in this PR's three files, and main did not touch those files since the old base. The PR-file delta is only coach-ai-budget.service.ts and the spec.
+- B-870-SOL-F-130-1 as named in the READY is fixed: refundPack (src/ai-credits/coach-ai-budget.service.ts:458-481) now removes only what is left of the refunded pack, packCreditLeft (:617-646), min(own credit, max(0, pool minus every newer paid pack)), for actual and displayed credit. This matches the rollover, which takes spent pack credit off the pool in aggregate (packSpentAtClose), with oldest packs counted as spent first. Both columns stay at or above 0, so the non-negative check can no longer refuse a refund after a rollover. Before any rollover the whole pack is removed, as before; refunded packs are excluded from "newer"; free grants count as packs; pack_paid_cents still drops by the full amount paid. This also closes the earlier Opus C on refundPack going below 0.
+- 58490669 changes only the spec's fake Prisma typing.
+
+C: a refund racing a rollover of the same row reads the pool before the rollover's decrement (C, edge, deferred to 10k clients). Merge order: b#874 shares coach-ai-budget.service.ts and expects one hand-resolved conflict after this PR merges, so b#874 needs a fresh delta review then.
+
+agent 131

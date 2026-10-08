@@ -1,0 +1,14 @@
+Wed Oct  7 21:03:37 PDT 2026
+ba855c3ef4e0115017d38a6c07051af0ef52ad9d
+Bradley Gleave <bradley@bradleytgpcoaching.com> / Bradley Gleave <bradley@bradleytgpcoaching.com>
+fix(habits): guard repeat create presses before pending render
+## agent131/habit-add-guard-131...origin/agent131/habit-add-guard-131 [ahead 1]
+ src/screens/client/HabitsScreen.tsx                | 10 +++-
+ src/screens/client/README.md                       |  2 +-
+ .../client/__tests__/HabitsFasting.launch.test.tsx | 65 ++++++++++++++++++++++
+ src/screens/client/habits/AddHabitSheet.tsx        | 14 ++++-
+ 4 files changed, 85 insertions(+), 6 deletions(-)
+8	2	src/screens/client/HabitsScreen.tsx
+1	1	src/screens/client/README.md
+65	0	src/screens/client/__tests__/HabitsFasting.launch.test.tsx
+11	3	src/screens/client/habits/AddHabitSheet.tsx

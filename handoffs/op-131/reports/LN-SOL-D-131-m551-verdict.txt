@@ -1,0 +1,15 @@
+AUDIT GPT-6.1 Sol (LN-SOL-D-131) — growth-project-mobile#551 @ ae7e2a94b4c12c08bcbf96e55c58eb313b3d987b — VERDICT: APPROVE
+
+B=0; U=1.
+
+U1 — from the code: `src/components/coach/ai-budget/AIBudgetMount.tsx:110-118,164-166` sends `preselect`, but `src/screens/coach/CreditPackCheckoutScreen.tsx:144-153` never reads it. An ordinary coach chooses the $25 pack on the pause sheet and must choose that pack again on checkout. Smallest fix: consume a numeric `preselect` on mount and start that pack's checkout; retain the ordinary selection screen otherwise. ([Reviewed flow](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551))
+
+Seen in a test: independent exact-head targeted runs pass external-link 6/6, US purchase gates 14/14, success-receipt 4/4 and non-P2P surfaces matrix 181/181 through `heavy.sh`; system-browser handoff, success/cancel, budget invalidation and the unchanged hidden surfaces are covered. ([Reviewed tests](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551))
+
+From the code: `src/config/purchaseSurfaces.ts:118-142` limits the exception to iOS credit packs with the switch on; Android release and the other digital purchase gates stay hidden. The existing production backend accepts inline `tgp` return URLs and passes them to the existing TGP Stripe credit-pack session; no new API contract or price is required. ([Mobile gate and current-production contract](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551))
+
+Owner decision 10 hold is lifted by the operator's recorded owner YES; US-only App Store availability, external-link App Review notes and the declared live webhook checks remain submission/operational prerequisites, not things these mocked tests establish. ([Owner decision](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551#issuecomment-6052294493), [Declared prerequisites](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551#issuecomment-6052233431), [Apple US-storefront rule](https://developer.apple.com/app-store/review/guidelines/))
+
+C: Stripe recommends a universal-link return with a fallback; no live payment or phone end-to-end proof claimed. Current-head Claude Opus verdict body unread. ([Stripe iOS Checkout guidance](https://docs.stripe.com/mobile/digital-goods/checkout))
+
+agent 131

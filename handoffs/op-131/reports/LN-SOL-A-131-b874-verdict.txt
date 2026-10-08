@@ -1,0 +1,17 @@
+AUDIT GPT-6.1 Sol (LN-SOL-A-131) — growth-project-backend#874 @ 24c6c1976a54189f30030e8f6b5a1a2f219184f6 — VERDICT: APPROVE
+
+B: none remaining in the reviewed delta. U: none.
+
+Prior Sol B1 fixed — from the code: `src/ai/gateway/ai-gateway.service.ts:383-403` now handles a refused debit by consuming at most the available remainder; the next sequential call reaches the existing empty-pool gate at `:283-299` before a provider request ([PR #874](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/874)).
+
+From the code: the added regression at `test/ai-credits-exact-metering.spec.ts:365-410` uses the real budget service, verifies both stored totals reach the cap after a 1.6-cent answer with 1 cent left, then requires a 402 with only one provider call; no local execution by this lens ([PR #874](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/874)).
+
+Reviewed the 70-line fix delta plus all 15 changed files: five spend paths retain fractional costs, the budget writes the period-total ceiling beside the exact column, worst-case Guide admission remains rounded up, rollover resets both usage fields, and the public budget DTO remains unchanged ([PR #874](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/874)).
+
+C: races/rollout edge cases deferred to 10k clients.
+
+Operator handoff: apply the additive migration before this code runs; the declared b#870/earlier-payment merge-main rounds still require new exact-head verdicts. This review does not authorize a merge or deploy ([PR #874](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/874)).
+
+All required head checks successful, including build/test and migration/schema checks; code-only review, no local tests ([build-and-test](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37727776083/job/113149762709)).
+
+agent 131

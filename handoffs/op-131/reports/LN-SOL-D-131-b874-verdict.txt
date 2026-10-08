@@ -1,0 +1,13 @@
+AUDIT GPT-6.1 Sol (LN-SOL-D-131) — growth-project-backend#874 @ fbab7f996c5cd52426857cdcd8bad4e0b3a4a91a — VERDICT: REQUEST CHANGES
+
+B1 — seen in a test: `src/ai/gateway/ai-gateway.service.ts:383-388` ignores `recorded: false`, while `:283-284` admits any remaining credit; three sequential live workout-explanation calls at 1.6 cents each succeeded with a 3999/4000-cent pool and left both usage columns unchanged. ([Reviewed metering path](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/874))
+
+A coach reaches the last cent of AI credit and keeps tapping Ask AI; paid answers continue without consuming the remainder or reaching the exhausted-pool stop. ([Ask AI and gateway path](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/874))
+
+Smallest fix: when recording is refused, consume the available remainder using the existing `CoachAIService.recordSpend` pattern (`src/ai/coach/coach-ai.service.ts:131-142`), then pin that the next sequential call returns 402 before another provider call. ([Existing remainder handling](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/874))
+
+U=0. C: none added. The blocker is pre-existing on this touched money path, not a race or unusual input. ([Reviewed path](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/874))
+
+Independent exact-head tests: exact-metering 14 passed, stream1 30 passed/4 existing skips, coach-ai-metering 23 passed; the additional local reproduction proves B1. ([Reviewed scope](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/874))
+
+agent 131

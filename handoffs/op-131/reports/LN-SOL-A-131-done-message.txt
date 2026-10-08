@@ -1,0 +1,1 @@
+LN-SOL-A-131 done: four APPROVEs and original b#872 REQUEST CHANGES (B=2/U=0); report ops/reports/LN-SOL-A-131.md and notify saved; b#872 fix not READY at cutoff, b#874 migration/merge-round handoff remains.

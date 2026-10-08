@@ -1,0 +1,16 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-C-131) — growth-project-backend#870 @ 87f7f27543963ab6d3cfdaf1def1e643ba37e2f4 — VERDICT: APPROVE
+
+Delta re-review from 58490669 (my Opus APPROVE, no Opus Bs open) to this head: one commit, 87f7f275, which changes only src/ai-credits/coach-ai-budget.service.ts (+19/-2) and the spec (+18). T4 AI-pool money accounting; 479 changed lines; every CI check green at this head.
+
+B: none.
+U: none.
+
+Checked (from the code; the new case is in test/ai-credits-rollover-pack-carry.spec.ts:327-343):
+- B-870-SOL-F-131-1 as named in the READY is fixed: refundPack (coach-ai-budget.service.ts:462-489) now first removes this month's pack spend, using packSpentAtClose (the same sum the rollover uses; it reads used, base, base-displayed and multiplier from the row). Only then does it split what is left oldest first. Spent credit stays spent, and a newer pack keeps all of its credit. I worked the spec numbers by hand (4300 used, 4000 base, two 800/2500 packs) and they match: 500 actual / 1562 displayed removed, and 800 actual / 2500 displayed stay spendable.
+- No pack field can go below 0: what is removed is never more than the unspent pack credit, which is never more than the stored fields. After a rollover the month's spend is 0, so the round-2 refund cases give the same results as before. pack_paid_cents still drops by the full amount paid.
+
+C: a debit or rollover that lands between the refund's read and its write is not counted in the split, so a few cents can come off the wrong pack, or the refund fails on the not-below-0 check and must be retried (C, edge, deferred to 10k clients).
+
+Merge note (not a code finding): main moved after the READY. b#874 merged (21598a39), and GitHub now reports this PR conflicting with main in coach-ai-budget.service.ts. A merge-main round that resolves the conflict needs a fresh delta review before merge.
+
+agent 131

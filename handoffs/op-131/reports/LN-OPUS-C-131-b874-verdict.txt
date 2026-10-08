@@ -1,0 +1,19 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-C-131) — growth-project-backend#874 @ fbab7f996c5cd52426857cdcd8bad4e0b3a4a91a — VERDICT: APPROVE
+
+Full review (T4 money accounting + additive migration; 626 changed lines; every CI check green at this head, including forward migrations, reversible migrations and schema parity; merges cleanly with main b72e2c45).
+
+B: none.
+U: none.
+
+Checked (from the code; the new spec test/ai-credits-exact-metering.spec.ts drives the real CoachAIBudgetService over a fake updateMany):
+- recordUsage (src/ai-credits/coach-ai-budget.service.ts:213-276): the exact cost goes into actual_used_micro_cents and actual_used_cents becomes the ceiling of the period total; the write is pinned to both values it read plus period_end > now, so no debit is lost or double-counted in normal use; "refused" keeps the old hard-stop meaning (ceiling of the new exact total above the available cents).
+- Mixed rows: exactUsedMicroCents (:608-616) reads a whole-cent row as (cents - 1) + one millionth, so the shown balance never drops during the rollout or for the one existing row; the rollover (:547-548) resets both columns.
+- All five debit paths now pass only the exact cost to recordUsage and nothing else: ai.service.ts:767, ai-gateway.service.ts:381/705-715 (1-cent floor kept for 0/0 counts), coach-ai.service.ts:123, roman.service.ts:1728, roman-background-spend.ts:212. No fractional value reaches an Int column (AICallLog/AIDraft keep their own whole-cent figures); pre-call checks stay whole cents (aiGuideWorstCaseCents ceil at ai.service.ts:199). The remainder step in each caller still consumes at most min(rest, exact cost).
+- The new BIGINT column never reaches JSON: toSnapshot converts it to Number, the admin list (admin-coach-ai.controller.ts:160-171) maps fields explicitly, and CoachAIBudget is not in the data export.
+- Migration 20270405000000 is additive (NOT NULL DEFAULT 0, lock_timeout 5s), has down.sql and is newer than every migration on main.
+
+Deploy note for the operator: this head reads the new column, so it must ship with migrations=apply-migrations (as the PR body says). A b#870 merge-main round with a hand-resolved conflict in coach-ai-budget.service.ts moves the head and needs a fresh delta review.
+
+C: after three lost pinned writes plus the remainder retry, one debit can be dropped under heavy same-pool concurrency (C, edge, deferred to 10k clients); a whole-cent legacy row absorbs under one cent once (documented, production has 1 row with 0 used); a non-finite cost passes the >= 0 guard and throws at BigInt inside the callers' try (C, edge).
+
+agent 131

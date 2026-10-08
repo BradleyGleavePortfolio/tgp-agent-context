@@ -1,0 +1,17 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-C-131) — growth-project-mobile#554 @ da05524f07dcca64465e50634d62478e4887a1fe — VERDICT: APPROVE
+
+Full review (T2 mobile UI; 764 changed lines; CI green at this head: Typecheck, lint, test and CodeQL; merges cleanly with main 96b83d0f). Redo rules applied as acceptance criteria.
+
+B: none.
+U: none.
+
+Checked (from the code, plus src/__tests__/qaCoachHome131.test.tsx):
+- Setup checklist and Money card stay reachable: OverviewScreen (src/screens/coach/command-center/OverviewScreen.tsx:83-108) renders the header in loading and error states, under the same ScrollView with the same leading children as the data return (:115-131), so the header keeps its place and mounts once; it starts in 'loading', so the first frame has no flash.
+- No dead buttons: every "Try again" (LoadFailedNotice, src/components/coach/LoadFailedNotice.tsx) re-runs the failed read, with a 44 pt target and a text-only forest label, so it is not a second filled primary. Team Invite stays when the load fails. The parity table matches the code; tabs, KPI tiles and retries are covered by the parity test.
+- Honest copy: each failure sentence names what did not load and claims no cause. "No sub-coaches yet" now shows only after a successful empty read (TeamManagementScreen.tsx:268-275), and error is cleared at the start of each load (:180). "Need attention"/"Needs attention" follow the count, and "Waiting in Actions" is true because the tile opens the Action Queue. No first person, exclamation marks or emojis.
+- Calm, monochrome data: KPI values are ink (valueColor removed; MoneyScreen never passed it). Tabs are 14 pt, 44 pt tall and use theme colours (CommandCenterScreen.tsx:112-141). The mock-data banner returns null.
+- The changes in commandCenterScreens.test.tsx only follow the new copy; no assertion is weakened.
+
+C: the new loading branch tints its RefreshControl with the legacy colors.forest, as the unchanged data branch already does, not the theme accent (dark mode is hidden for launch); a failed pull-to-refresh keeps old numbers with no notice, and KpiTile keeps its legacy palette and cream fill (both listed in the PR as out of scope).
+
+agent 131

@@ -1,0 +1,11 @@
+AUDIT GPT-6.1 Sol (LN-SOL-C-131) — growth-project-mobile#549 @ 534908a1154b3a3e531c39d7595dc2abca5d1cce — VERDICT: REQUEST CHANGES
+
+B=1; U=0. ([Reviewed PR](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/549))
+
+**B-549-SOL-C-131-1 — from the code:** `src/screens/client/HomeScreen.tsx:174,247-249` treats `hasLoadedDay` as water verification, but `src/store/clientStore.ts:81-84,148,161-165` sets it true after food succeeds even when water failed, retaining the initial zero. An ordinary client opening Home on a weak connection can see zero water as today's intake when food loads but water does not. Smallest fix: keep the water cell unknown on a water-load error (a conservative `loadError` guard here is sufficient), with a regression for food success plus water failure. ([Water display](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/534908a1154b3a3e531c39d7595dc2abca5d1cce/src/screens/client/HomeScreen.tsx#L246-L249), [Reviewed tree](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/549))
+
+Tests inspected, not locally rerun; the new tests cover a wholly failed day read but not this partial-read state, and exact-head CI is green. ([Regression tests](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/534908a1154b3a3e531c39d7595dc2abca5d1cce/src/screens/client/__tests__/HomeScreen.foodUi131.test.tsx), [CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37725159378/job/113141542757))
+
+C: none added.
+
+agent 131

@@ -1,0 +1,17 @@
+AUDIT GPT-6.1 Sol (LN-SOL-F-131) — growth-project-backend#870 @ 5849066994da5934a6c2d25dea16c5c337afad93 — VERDICT: REQUEST CHANGES
+
+B-870-SOL-F-131-1 — seen in an isolated test — `src/ai-credits/coach-ai-budget.service.ts:463-478,630-641` (consumer `:245-252`): the residual calculation uses gross pack counters without subtracting current-period pack consumption, while the balance still deducts that consumption. ([Affected accounting](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/5849066994da5934a6c2d25dea16c5c337afad93/src%2Fai-credits%2Fcoach-ai-budget.service.ts))
+
+A coach uses part of an older $25 pack, buys another $25 pack and receives an owner refund for the older one before month-end; the still-paid newer pack incorrectly falls to $15.62 instead of retaining $25. ([Reviewed refund path](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/870))
+
+Smallest fix: calculate unspent current-period pack credit before FIFO residual allocation; remove only that pack's unspent credit, keeping already-recorded consumption from being deducted twice. Add a same-period partially-spent two-pack refund regression.
+
+Proof through `heavy.sh`: the actual head's `refundPack`, `getBudgetDto` and `canCharge`, with synthetic in-memory tables, leave 500 actual / 1562 displayed cents and refuse a 501-cent call; the newer paid pack should retain 800 / 2500. ([Exact-head methods](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/5849066994da5934a6c2d25dea16c5c337afad93/src%2Fai-credits%2Fcoach-ai-budget.service.ts))
+
+The after-rollover control preserves 800 / 2500, so the previous constraint-failure B is fixed; no database connection or Stripe call was made. ([Prior fix and regressions](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/5849066994da5934a6c2d25dea16c5c337afad93/test%2Fai-credits-rollover-pack-carry.spec.ts))
+
+Evidence: `ops/reports/LN-SOL-F-131-b870-in-period-refund-probe.log`; diagnostic: `ops/review-evidence/LN-SOL-F-131/b870-in-period-refund-probe.cjs`.
+
+U=0; C: none added.
+
+agent 131

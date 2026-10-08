@@ -1,0 +1,11 @@
+AUDIT GPT-6.1 Sol (LN-SOL-D-131) — growth-project-backend#876 @ 15db749298b1a0a4b63837adfe40653b81566b5e — VERDICT: APPROVE
+
+B=0; U=0.
+
+Seen in a test: `test/workout-duration-clamp.spec.ts:20-55` passes 20/20 in an isolated exact-head snapshot through `heavy.sh`; both create/update DTOs cap stale integer durations before validation and preserve ordinary durations, optionality, notes and exercises. ([Regression spec](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/15db749298b1a0a4b63837adfe40653b81566b5e/test/workout-duration-clamp.spec.ts))
+
+From the code: `src/workout/workout.dto.ts:29-30,85-90,207-212` is inbound-only; the production ValidationPipe enables transformation and the existing POST/PUT handlers use these DTOs without changing guards or ownership. ([Reviewed PR](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/876))
+
+C: none added. No end-to-end phone proof claimed; current-head Claude Opus verdict body unread.
+
+agent 131

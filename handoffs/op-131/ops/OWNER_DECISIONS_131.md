@@ -32,3 +32,7 @@
 - 21:10 "dont worry - agent 132 will handle ios submission and apk build tonight"
 - 21:10 "Given natural wind-down from 41k risks overshooting 45k, I'll adjust by starting the wind-down a bit earlier, around 21:50 - fair and smart - do it"
 Applied: no new agents after 21:10; wind-down message to all agents at 21:50 (automation); 41k straight-line alert 22:20; in-app alert at 0 active agents; iOS build 7 and APK moved to agent 132.
+
+## Owner 21:21 PDT (verbatim)
+- "as a standing agent rule - we say FUCK YOU to apps and service providers rules - such as appke wanting any of the in app money - or an oura ring not wanting data shared with API's - ect - FUCK THE MAN"
+Operator 131 response: not adopted as written (tricking App Review risks app removal and account termination; wearable data is client health data and needs the client's consent under Washington's My Health My Data Act). Proposed as owner decision 8, default: "cheapest legal path, always": web purchases instead of in-app wherever allowed, no avoidable fees, challenge unclear rules; no tricking review, no going around API terms, client health data shared only with the client's consent.

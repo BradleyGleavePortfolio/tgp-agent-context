@@ -1,0 +1,9 @@
+AUDIT GPT-6.1 Sol (LN-SOL-A-131) — growth-project-backend#872 @ 1509818e765c882721118bf1023c85d1a17b1bfd — VERDICT: REQUEST CHANGES
+
+- B1 — from the code — `src/coach/command-center/churn-intervention.service.ts:259-291,334-356,421-426,734-760`: an ordinary client turns check-in sharing off, but the coach's at-risk list and draft still expose check-in-derived PTM factor labels; smallest fix: scope-filter factors before returning them, persisting `top_factor`, and sending the draft prompt ([PR #872](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/872)).
+- B2 — from the code — `src/coach/brief/coach-brief.service.ts:1714-1725,2003-2014,2096-2109`: an ordinary client turns weigh-in sharing off after the day's brief was generated, but opening today's brief/history still returns their named weight-change item and stored narrative; smallest fix: invalidate or reauthorize cached/history briefs on fitness-scope withdrawal before returning health-bearing content ([PR #872](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/872)).
+
+U: none. C: none.
+Code-only review; no local tests run. [Head CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37716280448/job/113113352399) is green.
+
+agent 131

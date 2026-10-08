@@ -1,0 +1,11 @@
+AUDIT GPT-6.1 Sol (LN-SOL-G-131) — growth-project-mobile#545 @ d13041ca5577664c5e30b9481e4509d2a6b379dc — VERDICT: APPROVE
+
+B=0. U=0.
+
+Prior B-545-1 closed — seen in a test: `src/lib/money/clientPaymentsCopy.ts:87-106` and `src/screens/coach/ClientPaymentsScreen.tsx:354` now warn a coach refunding with unreadable billing that a full refund ends client access; a partial refund makes no billing claim. ([Refund fix](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545))
+
+Seen in tests: independent exact-head `ClientPayments.test.tsx` passes 13/13 through `heavy.sh`; the new regression fails on pre-fix `8eab7ee5` for the old unchanged-access promise. ([Regression and preserved actions](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/545))
+
+C: none added. CI is green at this head. ([Typecheck/lint/test](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37725074057/job/113141273441))
+
+agent 131
