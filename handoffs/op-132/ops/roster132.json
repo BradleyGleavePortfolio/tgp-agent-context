@@ -1,0 +1,226 @@
+[
+ {
+  "id": "CLINIC-APK-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are CLINIC-APK-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'CLINIC-APK-132'. Your worktree(s), already made with node_modules linked: /home/user/workspace/wt/CLINIC-APK-132-mobile. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/CLINIC-APK-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/CLINIC-APK-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "ALLERGY-FIN-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are ALLERGY-FIN-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'ALLERGY-FIN-132'. Your worktree(s), already made with node_modules linked: /home/user/workspace/wt/ALLERGY-FIN-132-mobile. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/ALLERGY-FIN-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/ALLERGY-FIN-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "NUT-FREE-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are NUT-FREE-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'NUT-FREE-132'. Your worktree(s), already made with node_modules linked: /home/user/workspace/wt/NUT-FREE-132-backend. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/NUT-FREE-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/NUT-FREE-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "FLAG-TOOL-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are FLAG-TOOL-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'FLAG-TOOL-132'. Your worktree(s), already made with node_modules linked: /home/user/workspace/wt/FLAG-TOOL-132-backend. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/FLAG-TOOL-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/FLAG-TOOL-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "SUBCOACH-SCOPE-V1-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are SUBCOACH-SCOPE-V1-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'SUBCOACH-SCOPE-V1-132'. Your worktree(s), already made with node_modules linked: /home/user/workspace/wt/SUBCOACH-SCOPE-V1-132-backend. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/SUBCOACH-SCOPE-V1-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/SUBCOACH-SCOPE-V1-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "SMALL-BE-COPY-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are SMALL-BE-COPY-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'SMALL-BE-COPY-132'. Your worktree(s), already made with node_modules linked: /home/user/workspace/wt/SMALL-BE-COPY-132-backend. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/SMALL-BE-COPY-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/SMALL-BE-COPY-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "CHURN-LABELS-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are CHURN-LABELS-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'CHURN-LABELS-132'. Your worktree(s), already made with node_modules linked: /home/user/workspace/wt/CHURN-LABELS-132-backend. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/CHURN-LABELS-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/CHURN-LABELS-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "COACH-SCREENS-132",
+  "model": "gpt_6_1_sol",
+  "msg": "You are COACH-SCREENS-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'COACH-SCREENS-132'. Your worktree(s), already made with node_modules linked: /home/user/workspace/wt/COACH-SCREENS-132-mobile. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/COACH-SCREENS-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/COACH-SCREENS-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "CLIENT-DETAIL-132",
+  "model": "gpt_6_1_sol",
+  "msg": "You are CLIENT-DETAIL-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'CLIENT-DETAIL-132'. Your worktree(s), already made with node_modules linked: /home/user/workspace/wt/CLIENT-DETAIL-132-mobile. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/CLIENT-DETAIL-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/CLIENT-DETAIL-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "LN-OPUS-A-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are LN-OPUS-A-132, a review lens for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'LN-OPUS-132' (you are instance A; review only your slice). No worktree: read code with gh, git fetch/show in the clones, and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile. Start now: read the rules, then loop on /home/user/workspace/ops/board/board.md every 180 s until PRs in your slice post READY. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/LN-OPUS-A-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/LN-OPUS-A-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "LN-OPUS-B-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are LN-OPUS-B-132, a review lens for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'LN-OPUS-132' (you are instance B; review only your slice). No worktree: read code with gh, git fetch/show in the clones, and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile. Start now: read the rules, then loop on /home/user/workspace/ops/board/board.md every 180 s until PRs in your slice post READY. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/LN-OPUS-B-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/LN-OPUS-B-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "LN-SOL-A-132",
+  "model": "gpt_6_1_sol",
+  "msg": "You are LN-SOL-A-132, a review lens for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'LN-SOL-132' (you are instance A; review only your slice). No worktree: read code with gh, git fetch/show in the clones, and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile. Start now: read the rules, then loop on /home/user/workspace/ops/board/board.md every 180 s until PRs in your slice post READY. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/LN-SOL-A-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/LN-SOL-A-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "LN-SOL-B-132",
+  "model": "gpt_6_1_sol",
+  "msg": "You are LN-SOL-B-132, a review lens for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'LN-SOL-132' (you are instance B; review only your slice). No worktree: read code with gh, git fetch/show in the clones, and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile. Start now: read the rules, then loop on /home/user/workspace/ops/board/board.md every 180 s until PRs in your slice post READY. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/LN-SOL-B-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/LN-SOL-B-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "ROMAN-V11-PLAN-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are ROMAN-V11-PLAN-132, the read-only Roman v1.1 planner for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'ROMAN-V11-PLAN-132'. No worktree: read /home/user/workspace/wt/RO-backend, /home/user/workspace/wt/RO-mobile and /home/user/workspace/tgp-agent-context. No GitHub writes. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/ROMAN-V11-PLAN-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/ROMAN-V11-PLAN-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "APPSTORE-PACK-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are APPSTORE-PACK-132 for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q9 fully; the older parts only where the header or your entry points to them), then ONLY your entry in /home/user/workspace/ops/lanes132/JOBS132.md. Your entry: 'APPSTORE-PACK-132'. No worktree: read /home/user/workspace/wt/RO-mobile, /home/user/workspace/tgp-agent-context and Apple's developer pages (web search and fetch). No GitHub writes. Deliverable: /home/user/workspace/deliverables/TGP-App-Store-Submission-Pack.md. Use bash with api_credentials [\"github\"] for gh and git; repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/APPSTORE-PACK-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/APPSTORE-PACK-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "AUDIT-FIX-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are AUDIT-FIX-132, a builder for operator agent 132 in the TGP chain. Read /home/user/workspace/ops/lanes132/_COMMON_132.md (the agent 132 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then ONLY your entry 'AUDIT-FIX-132' in /home/user/workspace/ops/lanes132/JOBS132.md. Your worktree, already made with node_modules linked: /home/user/workspace/wt/AUDIT-FIX-132-backend. This PR unblocks every backend PR and deploy: move fast, keep every rule. Use bash with api_credentials [\"github\"] for gh and git; repo BradleyGleavePortfolio/growth-project-backend. Sign every comment \"agent 132\". Report /home/user/workspace/ops/reports/AUDIT-FIX-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/AUDIT-FIX-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "V11-FUNNEL-PLAN-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are V11-FUNNEL-PLAN-132, a read-only v1.1 planner for operator agent 132 in the TGP chain. Read the header Q1-Q10 of /home/user/workspace/ops/lanes132/_COMMON_132.md, then ONLY the entry 'V11-*-PLAN-132' in /home/user/workspace/ops/lanes132/JOBS132.md (the common part and your own bullet 'V11-FUNNEL-PLAN-132'). No worktree: read /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (fetch origin main in the clones and use git show for newer code) and /home/user/workspace/tgp-agent-context. No GitHub writes. Use bash with api_credentials [\"github\"] only for read-only gh calls. Time box 40 minutes. Deliverable: the plan file named in the entry. Report /home/user/workspace/ops/reports/V11-FUNNEL-PLAN-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/V11-FUNNEL-PLAN-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "V11-IMPORTER-PLAN-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are V11-IMPORTER-PLAN-132, a read-only v1.1 planner for operator agent 132 in the TGP chain. Read the header Q1-Q10 of /home/user/workspace/ops/lanes132/_COMMON_132.md, then ONLY the entry 'V11-*-PLAN-132' in /home/user/workspace/ops/lanes132/JOBS132.md (the common part and your own bullet 'V11-IMPORTER-PLAN-132'). No worktree: read /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (fetch origin main in the clones and use git show for newer code) and /home/user/workspace/tgp-agent-context. No GitHub writes. Use bash with api_credentials [\"github\"] only for read-only gh calls. Time box 40 minutes. Deliverable: the plan file named in the entry. Report /home/user/workspace/ops/reports/V11-IMPORTER-PLAN-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/V11-IMPORTER-PLAN-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "V11-TEAMS-PLAN-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are V11-TEAMS-PLAN-132, a read-only v1.1 planner for operator agent 132 in the TGP chain. Read the header Q1-Q10 of /home/user/workspace/ops/lanes132/_COMMON_132.md, then ONLY the entry 'V11-*-PLAN-132' in /home/user/workspace/ops/lanes132/JOBS132.md (the common part and your own bullet 'V11-TEAMS-PLAN-132'). No worktree: read /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (fetch origin main in the clones and use git show for newer code) and /home/user/workspace/tgp-agent-context. No GitHub writes. Use bash with api_credentials [\"github\"] only for read-only gh calls. Time box 40 minutes. Deliverable: the plan file named in the entry. Report /home/user/workspace/ops/reports/V11-TEAMS-PLAN-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/V11-TEAMS-PLAN-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "V11-REFERRAL-PLAN-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are V11-REFERRAL-PLAN-132, a read-only v1.1 planner for operator agent 132 in the TGP chain. Read the header Q1-Q10 of /home/user/workspace/ops/lanes132/_COMMON_132.md, then ONLY the entry 'V11-*-PLAN-132' in /home/user/workspace/ops/lanes132/JOBS132.md (the common part and your own bullet 'V11-REFERRAL-PLAN-132'). No worktree: read /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (fetch origin main in the clones and use git show for newer code) and /home/user/workspace/tgp-agent-context. No GitHub writes. Use bash with api_credentials [\"github\"] only for read-only gh calls. Time box 40 minutes. Deliverable: the plan file named in the entry. Report /home/user/workspace/ops/reports/V11-REFERRAL-PLAN-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/V11-REFERRAL-PLAN-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "V11-CHURN-PLAN-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are V11-CHURN-PLAN-132, a read-only v1.1 planner for operator agent 132 in the TGP chain. Read the header Q1-Q10 of /home/user/workspace/ops/lanes132/_COMMON_132.md, then ONLY the entry 'V11-*-PLAN-132' in /home/user/workspace/ops/lanes132/JOBS132.md (the common part and your own bullet 'V11-CHURN-PLAN-132'). No worktree: read /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (fetch origin main in the clones and use git show for newer code) and /home/user/workspace/tgp-agent-context. No GitHub writes. Use bash with api_credentials [\"github\"] only for read-only gh calls. Time box 40 minutes. Deliverable: the plan file named in the entry. Report /home/user/workspace/ops/reports/V11-CHURN-PLAN-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/V11-CHURN-PLAN-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "V11-ROMAN-PLAN-132",
+  "model": "claude_opus_5_5",
+  "msg": "You are V11-ROMAN-PLAN-132, a read-only v1.1 planner for operator agent 132 in the TGP chain. Read the header Q1-Q10 of /home/user/workspace/ops/lanes132/_COMMON_132.md, then in /home/user/workspace/ops/lanes132/JOBS132.md ONLY the entry 'V11-*-PLAN-132' (its common part) and the '### ADDENDUM 13:47' after it. Your pillar is ROMAN: rework the finished Roman v1.1 plan /home/user/workspace/ops/V11_PLAN_132.md (and its report ops/reports/ROMAN-V11-PLAN-132.md) into /home/user/workspace/ops/V11_ROMAN_PLAN_132.md. PART A keeps its 10 PRs, waves, flags and decisions D1-D10 unless the addendum (pathway placement, the Quiet Luxury Doctrine and mobile design docs, best-in-class AI coaching and companion rivals with cited URLs, how Roman makes TGP superior, SoT A7.5) shows a change is needed; mark every change. PART B: your additional Roman ideas pitched separately. Owner 12:52: \"roman intelligence increase is largely built - finish it\". Owner 13:20: best features for the first 5 coaches and clients; 13:21: leaderboards and coach-run challenges are in scope. No worktree: read /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (fetch origin main and use git show for newer code). No GitHub writes. Use bash with api_credentials [\"github\"] only for read-only gh calls. Time box 45 minutes (due 14:33 PDT). Report /home/user/workspace/ops/reports/V11-ROMAN-PLAN-132.md (final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes132/notify/V11-ROMAN-PLAN-132.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "SETUP-STALE-132",
+  "agent_id": "setup_stale_132_mv03n8v2",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "START-HANG-132",
+  "agent_id": "start_hang_132_mv03n8vb",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "COACH-EDGES-132",
+  "agent_id": "coach_edges_132_mv03n8vj",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "COACHLESS-LOG-132",
+  "agent_id": "coachless_log_132_mv03n8vr",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R01",
+  "agent_id": "r01_forensics_the_redo_jobs_mv03n8vz",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R02",
+  "agent_id": "r02_builds_and_flags_mv03n8w9",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R03",
+  "agent_id": "r03_startup_hang_mv03n8wg",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R04",
+  "agent_id": "r04_coachless_access_mv03n8yl",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R05",
+  "agent_id": "r05_coach_setup_mechanics_mv03n8zg",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R06",
+  "agent_id": "r06_layout_android_and_ios_mv03n91q",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R07",
+  "agent_id": "r07_auth_entry_and_email_mv03n92x",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R08",
+  "agent_id": "r08_consultation_mv03n935",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R09",
+  "agent_id": "r09_programs_and_macros_mv03n93q",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R10",
+  "agent_id": "r10_tutorial_and_client_tabs_mv03n94v",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R11",
+  "agent_id": "r11_roman_mv03n9d9",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R12",
+  "agent_id": "r12_coach_onboarding_mv03n9es",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R13",
+  "agent_id": "r13_coach_daily_app_mv03n9f6",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R14",
+  "agent_id": "r14_design_system_quiet_luxury_mv03n9fm",
+  "launched": "15:20",
+  "wave": "rescue"
+ },
+ {
+  "id": "R15",
+  "agent_id": "r15_qa_and_release_gate_mv03n9go",
+  "launched": "15:20",
+  "wave": "rescue"
+ }
+]

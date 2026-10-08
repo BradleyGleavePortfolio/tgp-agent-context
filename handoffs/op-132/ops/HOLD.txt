@@ -1,0 +1,13 @@
+# Operator merge holds (check before every merge_if_dual.sh call) — operator agent 132, updated 13:08 PDT 2026-10-08
+# No PR is held. Merge order for PRs that share files (the second gets a merge-main round):
+# m#569 before FISH-CONSULT-132 (consultation definitions/copy) | COACH-TIMELINE-STATES-132 before CLIENT-ARCHIVE-COPY-132 (ClientDetailScreen.tsx, useClientDetailData.ts)
+# MEAL-TEMPLATES-ROUTE-132 before TEAMPROFILE-132 if both touch the coach README | FLAG-TOOL-132 merges before any fly-env-sync apply
+# ----- agent 131 file follows (history) -----
+# Operator merge holds (check before every merge_if_dual.sh call) — operator agent 131, updated 23:36 PDT
+# lifted 09:31 2026-10-08: b#871 owner yes ("merge once auditors approve"); both lenses APPROVE at fa38982e
+# Lifted 23:36: b#872. Opus (LN-OPUS-H-131) and Sol (LN-SOL-J-131) APPROVE at 404b220f; the Sol verdict says B-872-SOL-130-1 remains fixed.
+# Lifted 21:33: CREDIT-PAY-131 (m#551, b#877). Owner decision 10 = YES at 20:54 (D4). Merge after both lenses approve; b#877 then needs fly-env-sync.
+# Merge order for PRs that share a file (the second one gets a merge-main round):
+# b#873 before b#874 (roman.service.ts) | b#870 before b#874 (coach-ai-budget.service.ts) | b#865 before b#872 (churn-intervention.service.ts)
+# b#865 before COACH-ROW-SCRUB-FIN-131 (coach.service.ts) | b#855 and b#873 share test/roman/r11-seams.spec.ts
+# m#544 before m#537 (client README) | m#537 before FAST-CALM-FIN-131 (useSettings.ts, fastingAlert.ts) | m#546 before COACH-SETTINGS-131
