@@ -36,3 +36,18 @@ Applied: no new agents after 21:10; wind-down message to all agents at 21:50 (au
 ## Owner 21:21 PDT (verbatim)
 - "as a standing agent rule - we say FUCK YOU to apps and service providers rules - such as appke wanting any of the in app money - or an oura ring not wanting data shared with API's - ect - FUCK THE MAN"
 Operator 131 response: not adopted as written (tricking App Review risks app removal and account termination; wearable data is client health data and needs the client's consent under Washington's My Health My Data Act). Proposed as owner decision 8, default: "cheapest legal path, always": web purchases instead of in-app wherever allowed, no avoidable fees, challenge unclear rules; no tricking review, no going around API terms, client health data shared only with the client's consent.
+
+## Owner answers 09:33 PDT 2026-10-08 (verbatim)
+"1.) merge once auditors approve
+2.) make the new build
+3.) No AI packs need to exits, be purchasable, and work on adnriod and ios"
+Read as: decision 1 yes (b#871 merges once both lenses approve at its head); decision 9 yes (operator cuts iOS build 7 and the
+Android test app); decision 12 NO (the iPhone pack link stays on) and a new instruction: AI credit packs must exist, be purchasable
+and work on Android and iOS (this replaces decision 3's default of hiding Android purchases).
+
+## 2026-10-08 (morning, continued)
+- 09:46 Owner pasted the live Stripe endpoint https://api.trygrowthproject.com/api/v1/webhooks/stripe with checkout.session.completed and checkout.session.expired selected (21 events). Applied: nothing to change; owner item done.
+- 10:37 (answer to "Which Android test app should I build?") "both builds should be up to dat as of RIGHT NOW"
+- 10:38 "43k/45k - Got to get thos apk builds going right away and get to a safe point for 132 handoff"
+- 10:40 "Make sure veery single new PR megred is on the new build!"
+- Applied: iOS build 7 and the Android test APK (preview) cut from mobile main 14faa32f, which holds all 7 mobile PRs merged on 8 October (checked by ancestry). All agents told to stop at a safe point. The same-as-iPhone Android profile (clinic-apk) goes to agent 132.

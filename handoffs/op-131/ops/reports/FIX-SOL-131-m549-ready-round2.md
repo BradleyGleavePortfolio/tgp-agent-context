@@ -1,0 +1,10 @@
+FIX ROUND 2 (HOME-FOOD-UI-131, agent 131, FIX-SOL-131) — growth-project-mobile#549 @ 371c555bbbdbc4a8402baf2733715ab3517ae498 — READY FOR AUDIT
+
+- B-549-SOL-C-131-1 fixed, seen in a test: `src/screens/client/HomeScreen.tsx:247` now keeps water unknown when the day read has `loadError`, instead of asserting zero after food succeeds but water fails; loaded food remains visible with the existing error and retry. An ordinary client opening Home on a weak connection no longer sees an unverified zero water intake. ([Sol finding](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/549#issuecomment-6052330951), [Water display correction](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/549))
+- Failing-first: `src/screens/client/__tests__/HomeScreen.foodUi131.test.tsx:144-153` adds lbs/kg partial-water-failure cases; both fail at the opening source (`534908a1`), while the existing 17 cases pass. After the correction and main merge, Home food UI passes 19/19 and real-router parity passes 4/4, run separately through `heavy.sh`. ([Regression and retained route tests](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/549))
+- Main `96b83d0f0180539ea2b67c27bf437e73c7f25b3b` merged cleanly; only the water-display guard, its two unit regressions, and the matching client README sentence were changed by the correction. Size: 371 changed lines (+343/-28); exact-head CI is green and GitHub reports no conflict. ([PR delta](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/549), [Exact-head CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37728942426/job/113153424923))
+- PR body updated with the finding, failing-first proof and partial-read truthful-state row; access policy, provider, backend, dependencies, flags and route/action parity are unchanged by this fix. ([Acceptance scope](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/549))
+
+No PR merge or deployment performed.
+
+agent 131

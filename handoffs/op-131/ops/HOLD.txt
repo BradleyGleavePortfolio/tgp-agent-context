@@ -1,5 +1,5 @@
 # Operator merge holds (check before every merge_if_dual.sh call) — operator agent 131, updated 23:36 PDT
-b#871 owner decision 3 (locked failed-payment copy; owner asked to see the copy at 20:54): merge only after the owner's yes
+# lifted 09:31 2026-10-08: b#871 owner yes ("merge once auditors approve"); both lenses APPROVE at fa38982e
 # Lifted 23:36: b#872. Opus (LN-OPUS-H-131) and Sol (LN-SOL-J-131) APPROVE at 404b220f; the Sol verdict says B-872-SOL-130-1 remains fixed.
 # Lifted 21:33: CREDIT-PAY-131 (m#551, b#877). Owner decision 10 = YES at 20:54 (D4). Merge after both lenses approve; b#877 then needs fly-env-sync.
 # Merge order for PRs that share a file (the second one gets a merge-main round):

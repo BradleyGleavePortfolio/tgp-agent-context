@@ -1,0 +1,1 @@
+done | PRs: m#563, m#564, m#565 (lens; verdicts: m#563 @ 3c10e116 APPROVE, m#564 @ 9a9f7bc7 APPROVE, m#565 @ bcd9eac7 APPROVE) | B=0 U=1 | head: 3c10e116, 9a9f7bc7, bcd9eac7 | needs operator: 1 (m#563 U1 Shortcuts start-fast failure copy, non-blocking; default: route to next round)
