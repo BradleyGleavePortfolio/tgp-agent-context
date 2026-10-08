@@ -52,3 +52,4 @@ and work on Android and iOS (this replaces decision 3's default of hiding Androi
 - 10:40 "Make sure veery single new PR megred is on the new build!"
 - Applied: iOS build 7 and the Android test APK (preview) cut from mobile main 14faa32f, which holds all 7 mobile PRs merged on 8 October (checked by ancestry). All agents told to stop at a safe point. The same-as-iPhone Android profile (clinic-apk) goes to agent 132.
 - 10:52 iOS build 7 blocked (HealthKit not in the signing profile); decision 15 proposed [ship build 7 without Apple Health now].
+- 11:44 "All three steps done start Build 7 for andriod and ios with all functionailty restored!" (decision 15: keep Apple Health). 11:49 "Android needs one small settings change - how and where? Notate it in agent 132's handoff - you are out of credits and retiring immedieately"
