@@ -45,6 +45,7 @@ b#871 failed-payment copy (09:33); m#564 Trust & Privacy coach line, m#565 Roman
   4. app.json: android.versionCode 6, so it installs over the versionCode 5 test app.
   5. Guard tests that pin eas.json profiles (easUpdateGuard and the profile expectation tests; ops/reports/PACKS-BOTH-131.md HANDOFF lists them).
   6. Both lenses, merge, then cut the APK: EAS build for Android with profile clinic-apk from a worktree with a real node_modules directory. Send the owner the build page (it shows the install QR code).
+- Caution from PACKS-BOTH-131 (11:52): its clinic-apk edits were never committed and exist only in agent 131's sandbox, so redo them from the steps above. Raising android.versionCode changes the app fingerprint, so over-the-air updates published from main would no longer reach iOS build 7. Mobile has no update workflow today; decide versionCode 6 (install over the test app) or keep 5 (uninstall the cut-down app first) before merging.
 - PACKS-BOTH-131 was told at 11:50 to stop; its branch agent131/android-test-profile-131 in wt/PACKS-BOTH-131-mobile may hold unpushed partial work (see its report line). Start from it or from main.
 
 ### Your first jobs, in order (owner yes already given for 1-5 unless marked)
