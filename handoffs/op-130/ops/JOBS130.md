@@ -127,3 +127,44 @@ agent130/credit-refill-130 (worktree /home/user/workspace/wt/CREDIT-REFILL-130-b
 (`git -C /home/user/workspace/growth-project-mobile worktree add -b agent130/credit-refill-m-130 /home/user/workspace/wt/CREDIT-REFILL-130-mobile origin/main`).
 Do not edit src/components/coach/ai-budget/AIBudgetTutorialModal.tsx until m#513 merges. No flag flips, no Stripe changes, no production
 writes, spend nothing. If no B exists: no PR; the report proves each step with file:line and a passing test. READY per _COMMON, then end.
+
+# ---- Added 19:00 PDT from CREDIT-REFILL-130's findings (owner order 18:02; ops/reports/CREDIT-REFILL-130.md) ----
+
+## CREDIT-METER-130 (Claude Opus 5.5, BUILDER, T4 backend, additive migration, under 800 lines)
+Owner order 18:02: the multiplier must be "correctly quoted and delivered". Fix B2 of /home/user/workspace/ops/reports/CREDIT-REFILL-130.md:
+four debit paths round each AI call UP to a whole hard-cost cent (src/ai/ai.service.ts:185-190 aiGuideCostCents, src/ai/gateway/
+ai-gateway.service.ts:714-715, src/roman/roman.service.ts:1658, src/roman/background/roman-background-spend.ts:212; coach meal plans round to
+nearest at src/ai/adapters/anthropic.adapter.ts:236-240), so a 0.5-cent call debits 1 cent (6.25x instead of 3.125x). Smallest correct fix
+(report Proposed 2): an additive migration adding an exact sub-cent usage total to CoachAIBudget (BigInt, default 0, name per schema
+conventions); every debit path passes the exact cost; the whole-cent used figure becomes the ceiling of the period total (one round-up per
+period, under one hard-cost cent per coach); canCharge / hard stop / displayed math keep their meaning; the monthly rollover resets the
+sub-cent total. Failing-first tests with the report's numbers (1,500 in / 200 out = 0.5 cents; 6,000 / 400 = 1.6; 20,000 / 1,500 = 5.5).
+U3 (flat 5-cent debit when no token counts, ai-gateway.service.ts:705-710): trace; fix only if one line, else report it.
+Overlaps: b#870 (CREDIT-REFILL-130, READY) edits coach-ai-budget.service.ts rollover: build on origin/main, then `git merge origin/main`
+after b#870 merges, before READY. CREDIT-PAY-130's backend PR edits the pool-empty strings in ai.service.ts, ai-gateway.service.ts and
+roman.constants.ts (different lines): merge origin/main after it merges. Migration timestamp newer than every migration on main AND on
+b#868 (ALLERGY-FIN-130, READY, adds a Recipe migration); additive only, with down.sql; say so loudly in the body (deploy needs
+migrations=apply-migrations). Production: read-only aggregate SELECTs only. Worktree /home/user/workspace/wt/CREDIT-METER-130-backend
+(branch agent130/credit-meter-130).
+
+## CREDIT-PAY-130 (Claude Opus 5.5, BUILDER, T4 money; one mobile PR + one small backend PR, each under 800 lines)
+Owner decision 10 is PENDING (refill pay path). Build now; both PR bodies start with "Owner decision 10 pending: merge only after the
+owner's yes." Fix B3 of /home/user/workspace/ops/reports/CREDIT-REFILL-130.md with its Proposed 1 default (also the owner's recorded
+09-30 fallback, SoT "Fallback if Apple disagrees: an external link to web checkout on the US storefront (3.1.1(a))"):
+- Mobile (worktree /home/user/workspace/wt/CREDIT-PAY-130-mobile, branch agent130/credit-pay-m-130): on iOS, show the three packs and the
+  custom amount in the existing AI budget surfaces (PackOptionsRow.tsx, AIBudgetHardPauseModal.tsx, the CreditPackCheckout route that
+  withNonP2PPurchaseGate.tsx now blocks) and open the Stripe Checkout URL that POST /coach/ai/credit-packs/checkout mints in the SYSTEM
+  browser (expo-web-browser or Linking; no new native dependency), not the in-app WebView. Keep everything else purchaseSurfaces.ts hides
+  (group products, seat upgrades) hidden; coach 1:1 packages unchanged; Android release builds stay hidden. US storefront only: if the app
+  cannot read the storefront with existing dependencies, gate with a build-time switch and say in the body that the app must be offered
+  only on the US App Store (owner action in App Store Connect) and that the App Review notes must mention the US external link. Copy rules
+  (no first person, no exclamation marks, no emojis, plain words; say the coach pays TGP and the price). Do not edit
+  AIBudgetTutorialModal.tsx until m#513 merges (board). Aim: READY by 21:30 so the owner can include it in the 23:00 build.
+- Backend (worktree /home/user/workspace/wt/CREDIT-PAY-130-backend, branch agent130/credit-pay-130): the pool-empty copy
+  (src/roman/roman.constants.ts:221, src/ai/ai.service.ts:181, src/ai/gateway/ai-gateway.service.ts:288) tells the coach to add a credit
+  pack only when the request's X-Client-Purchase-Policy header (sent by the app, mobile src/services/api.ts:159) allows it; otherwise it
+  gives the date the pool renews. Return pages (U2): set non-secret COACH_AI_PACK_SUCCESS_URL / COACH_AI_PACK_CANCEL_URL in
+  .github/fly-env-desired-state.json to a link that returns the coach to the app (check env-validation.ts closed sets and the deep-link
+  scheme; never `fly secrets set`; the operator applies fly-env-sync after merge). Keep this PR small and fast: CREDIT-METER-130 merges
+  main after it.
+No Stripe changes, no production writes, spend nothing. READY per _COMMON for each PR, then end.
