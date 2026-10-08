@@ -3,12 +3,22 @@
 # rescue/ORCHESTRATOR_PLAN_132.md lands, the operator maps each entry to its plan point numbers, re-orders, and adds or drops entries;
 # the plan wins where it differs. Every entry obeys _COMMON_133.md Q1-Q10. Owner yes is needed before launch ("execute").
 
-## Order and dependencies
-Wave 1 (start together): CONSULT-ALL-BE-133, DS-PRIMITIVES-133, ROMAN-CONTEXT-133, then CONSULT-ALL-M-133 once agent 132 writes
-"OK src/navigation/RootNavigator.tsx" and "OK eas.json" in COORDINATION.md. Lenses LN-OPUS-A-133 and LN-SOL-A-133 start with wave 1.
-Wave 2 (after DS-PRIMITIVES-133 merges): AUTH-ENTRY-133, CONSULT-PARITY-133, ROMAN-ROOM-133, TOUR-133.
-Wave 3: CLIENT-HOME-133 (after COACHLESS-LOG-132 merges), LEAN-CUT-133 (after the consultation is verified on both phones; decision 133-7).
-Production seed of the house programs: an operator step after decision 133-2 and the merge + deploy of CONSULT-ALL-BE-133.
+## Order and dependencies (OWNER 16:42 "use subagents and start executing RIGHT AWAY", 16:36 "use all opus 5.5 coders")
+EXECUTE given 16:42. Every BUILDER is claude_opus_5_5. Lenses stay one Opus + one Sol (the dual-lens merge rule).
+Owner 16:42 also: "all those redo screens that got redesigned need actually applied - all the old ugly screens, and the thin skimpy
+shitty onbaording flows, can jsut get thrown away and never used again" (decision 133-7 answered: delete the lean/old onboarding).
+Launched together at 16:5x: CONSULT-ALL-BE-133, CONSULT-ALL-M-133, DS-PRIMITIVES-133, ROMAN-CONTEXT-133, REDO-AUDIT-133,
+AUTH-ENTRY-133, CONSULT-PARITY-133, ROMAN-ROOM-133, TOUR-133, lenses LN-OPUS-A-133 and LN-SOL-A-133.
+PARALLEL RULE for AUTH-ENTRY, CONSULT-PARITY, ROMAN-ROOM, TOUR: do flow, questions, copy, states and logic first; NEVER write your own
+button, screen wrapper or headline component. DS-PRIMITIVES-133 posts its API (file paths, component names, props) in its report under
+"## API" within its first hour and opens its PR first; the operator pings you when it merges; then `git merge origin/main` and use it.
+File split (no two builders on one file): WelcomeScreen.tsx and src/screens/auth/** = AUTH-ENTRY only; src/screens/consultation/**
+and src/lib/consultation/** = CONSULT-PARITY, except ConsultationFlow error/route handling = CONSULT-ALL-M; consultation wheels
+(components.tsx) = CONSULT-PARITY (moved out of DS-PRIMITIVES); src/screens/roman/** + src/components/roman/** = ROMAN-ROOM (ROMAN-CONTEXT
+touches mobile only for the consent sheet, after asking ROMAN-ROOM in its report); src/tutorial/** + src/components/tutorial/** = TOUR.
+Wave 3: LEAN-CUT-133 (after CONSULT-ALL-M-133 merges; deletion approved by the owner 16:42), CLIENT-HOME-133 (after COACHLESS-LOG-132
+merges), plus any apply jobs REDO-AUDIT-133 proposes.
+Production seed of the house programs: an operator step after the merge + deploy of CONSULT-ALL-BE-133 (decision 133-2 default yes).
 
 ---
 
@@ -37,8 +47,10 @@ Build:
 Then wait for verdicts (Q3).
 
 ### CONSULT-ALL-M-133 (claude_opus_5_5) — B14, B18, B20, B21, B33, B40 (consultation part)
-Worktree: /home/user/workspace/wt/CONSULT-ALL-M-133-mobile. Starts only after agent 132's "OK src/navigation/RootNavigator.tsx" and
-"OK eas.json" lines (or agent 132 makes those two edits in its lane; then this job is the consultation side only).
+Worktree: /home/user/workspace/wt/CONSULT-ALL-M-133-mobile. Starts NOW on the consultation side. RootNavigator.tsx and eas.json
+(+ config/expected-env.json, scripts/validate-app-config.js) are agent 132's: edit them only after agent 132 writes "OK <file>" in
+handoffs/op-132/COORDINATION.md (tgp-agent-context; `git pull` and read the tail); until then write the exact diff in your report under
+"## DIFF FOR 132" and tell the operator.
 (1) Every new student goes to the consultation: RootNavigator.tsx consultationApplies() (:342-351) and :765-775 stop choosing the lean
     flow; a server `consultation_available: false` (old backend) shows the calm server state (prototype 44) with retry, never the lean
     flow. (2) consultationOnboarding and clientTutorial true in every eas.json store and test profile (preview, production, clinic,
@@ -53,22 +65,34 @@ Worktree: /home/user/workspace/wt/DS-PRIMITIVES-133-mobile. The shared parts eve
     keyboard-aware footer above the gesture bar). (2) Buttons: one primary (forest fill, bone text, full width, prototype height and
     spacing, pressed state, light haptic, disabled and loading states) and one quiet text link; shape per decision 133-4 (default soft
     12-point corners). (3) Serif headline text that never clips descenders on Android (lineHeight rule in src/theme/tokens.ts type scale;
-    a test that asserts lineHeight >= 1.2 x fontSize for every serif role). (4) The wheel picker band sits behind the selected value as
-    two hairlines or a tinted band under the text (B19, S5; consultation components.tsx wheels). (5) Move the lane-133 screens off
-    SafeAreaView from 'react-native': auth/WelcomeScreen, client/HomeScreen, MembershipScreen, MoreScreen, PlanScreen, Day1WinScreen,
+    a test that asserts lineHeight >= 1.2 x fontSize for every serif role). (4) A shared wheel-band style token (hairlines or a tinted band BEHIND the selected value) that CONSULT-PARITY-133 applies to the
+    consultation wheels (B19, S5); you do not edit consultation files. (5) Move the lane-133 screens off
+    SafeAreaView from 'react-native': client/HomeScreen, MembershipScreen, MoreScreen, PlanScreen, Day1WinScreen,
     BloodworkEntryScreen, components/trust/TrustExplainerSheet, components/BloodworkDisclaimerModal (not the lean screens: they retire;
-    not coach or entitlements files). (6) src/theme/README.md rows. Parity table against 00, 03, 07, 08, 09 (wheels), 37.
+    not coach or entitlements files). (6) src/theme/README.md rows. Post "## API" in your report and open the PR FIRST (others wait on it). Parity table against 00, 03, 07, 08, 09 (wheels), 37.
 
 ### ROMAN-CONTEXT-133 (claude_opus_5_5, T4: health data + AI) — B31, B32
 Worktree: /home/user/workspace/wt/ROMAN-CONTEXT-133-backend (and -mobile only if the consent sheet needs a fix).
-WHY (RECON133 F6): Roman says it cannot see the client when the context bundle is null (src/roman/roman.service.ts:1005-1010,
-loadTurnBundle :1438-1451 returns null on any getBundle error). Find which error a coachless client hits (reproduce in a test with a
-coachless student, no package, FEATURE_COACHLESS_HOME on; read src/roman/context/roman-client-context.service.ts buildFresh and
-roman-coach-scope.ts). Fix it so Roman knows the client's name, targets, plan, food log and check-ins for coached AND coachless clients,
-within the consent the client gave. Verify on the mobile side that "Before Roman answers" (prototype 68) appears before the first answer
-for a client without consent on file; fix only if it does not. Failing-first tests. Never quote crisis or eating-disorder copy (Sol rule).
+WHY (operator trace 16:40, from the code + production data; NOT yet reproduced): the owner's turn at 2026-10-08 21:48:14Z was a
+coachless student on surface 'client' and ran in DEGRADED mode: the reply is ROMAN_CLIENT_DATA_UNAVAILABLE_NOTICE (roman.prompts.ts:127-131,
+pushed at :201 only when the bundle is null), and the whole prompt was 2,837 tokens (no client_data block). The bundle is null only when
+getBundle throws (roman.service.ts loadTurnBundle :1438-1451 logs `roman.context_failed: <tag>` + Sentry). The context code itself
+handles a null coach (every coach-only query is skipped). All 211 repo migrations are applied in production, enums match, and Postgres
+logged NO error at 21:48, so the throw is client-side (Prisma row decoding or JS). PRIME SUSPECT: production UserProfile.preferred_snacks
+is NULL for this client while prisma/schema.prisma declares `preferred_snacks String[]` (required list; the DB column is nullable; also
+dietary_restrictions and equipment_access are nullable in the DB). build() selects `profile: true`, so Prisma 6.19.3 may fail decoding
+the NULL list ("Inconsistent column data: List field did not return an Array"). Find and fix:
+(1) Reproduce failing-first against a real Postgres (heavy.sh, or a local postgres + `prisma db push`) with a NULL preferred_snacks row.
+    If it does not reproduce, find the real throw (try each Q in build() and renderClientContext) and say so plainly.
+(2) Fix the read (explicit profile select, or a NOT NULL DEFAULT '{}' migration + backfill reviewed as T4; justify) AND find every
+    writer that leaves NULL there (lean finalize? a raw SQL path? Supabase client writes?) and every other reader of `profile: true`
+    that breaks the same way (list them; fix the ones in your lane, NEED lines for the rest).
+(3) Roman knows the client's name, targets, plan, food log and check-ins for coached AND coachless clients, within the consent given.
+    A test with a coachless student whose profile has NULL lists proves client_data is present.
+(4) Verify on mobile that "Before Roman answers" (prototype 68) appears before the first answer for a client without consent on file;
+    fix only if it does not (ask ROMAN-ROOM-133 first; it owns src/screens/roman/**). Never quote crisis or eating-disorder copy.
 
-### AUTH-ENTRY-133 (gpt_6_1_sol) — B11, B12, B13, B17; prototype 00, 01, 02 (75-76 for the coach role row only)
+### AUTH-ENTRY-133 (claude_opus_5_5) — B11, B12, B13, B17; prototype 00, 01, 02 (75-76 for the coach role row only)
 Worktree: /home/user/workspace/wt/AUTH-ENTRY-133-mobile. After DS-PRIMITIVES-133 merges.
 (1) TGP wordmark, never "GP" (WelcomeScreen.tsx:30). (2) Welcome (00): eyebrow "PERSONAL TRAINING, IN YOUR POCKET", serif title, hairline,
 "A plan, daily targets, and a coach who knows you.", "Get started" filled + "Log in" link (same two actions as today). (3) Role (01):
@@ -77,7 +101,7 @@ Worktree: /home/user/workspace/wt/AUTH-ENTRY-133-mobile. After DS-PRIMITIVES-133
 the signup policy advertises it (LoginScreen.tsx:119-125 rule), email form below, eyebrow "Joining <coach first name>" when a code or
 link is known, show-password, required/optional marks. (5) Safe areas and breathing room via DS-PRIMITIVES. Do not touch
 ResendVerificationLink.tsx (COACH-EDGES-132 owns it until m#576 merges). Parity table 00-02. A T4 auth change (session handling, token
-storage) is out of scope for a Sol builder: write it up.
+storage) needs the T4 scan in the PR body.
 
 ### CONSULT-PARITY-133 (claude_opus_5_5) — B21, B33 and prototype 03-45 at 90%
 Worktree: /home/user/workspace/wt/CONSULT-PARITY-133-mobile. After DS-PRIMITIVES-133; two PRs: (a) questions 03-36, (b) reveals and
@@ -98,7 +122,7 @@ How was my week, per 69-73), a composer that floats above the keyboard and the g
 feels like reading, history and "Your conversations" kept. Guidance entry (67) where today's You tab has it; Privacy > Roman revocation
 (74). No layout change to tabs. Parity table 67-74.
 
-### TOUR-133 (gpt_6_1_sol) — B33; prototype 46-66, adapted to today's 6 tabs (owner 16:20)
+### TOUR-133 (claude_opus_5_5) — B33; prototype 46-66, adapted to today's 6 tabs (owner 16:20)
 Worktree: /home/user/workspace/wt/TOUR-133-mobile. After DS-PRIMITIVES-133 and CONSULT-ALL-M-133. src/tutorial/**,
 src/components/tutorial/**: the prototype's beats (welcome, your plan card on Train, first exercise, Food log and add control, daily
 targets card, message your coach, completion) on our tabs; step count per decision 133-5 (default the prototype's 7, Calendar, Community
@@ -106,17 +130,29 @@ and wearables folded into the completion line); "Show me around" opt-in, skip wi
 (66), push priming after value with a single Continue (61-62), landing Home (63). Coachless clients: the "message your coach" beat becomes
 the Roman beat. Parity table 46-66.
 
-### CLIENT-HOME-133 (gpt_6_1_sol) — B25, B26 (label fit), B28, B29, B34
+### CLIENT-HOME-133 (claude_opus_5_5) — B25, B26 (label fit), B28, B29, B34
 Worktree: /home/user/workspace/wt/CLIENT-HOME-133-mobile. After COACHLESS-LOG-132 merges (it owns the locks). Home header never says
 "Message your coach" without a coach (Roman or "Join a coach" instead); the date line reads naturally (B34, "Thursday, 8 October" style
 per the doctrine); real targets instead of dashes once the consultation has run, a calm line before; breathing room on every client tab
 root; the Community tab label fits on one line at 360 pt and at large text (no tab removed). Parity reference 63 (layout stays ours).
 
-### LEAN-CUT-133 (gpt_6_1_sol) — decision 27 cleanup, decision 133-7
-Worktree: /home/user/workspace/wt/LEAN-CUT-133-mobile. Only after the operator confirms the consultation ran end to end on both phones.
+### LEAN-CUT-133 (claude_opus_5_5) — decision 27 cleanup, decision 133-7
+Worktree: /home/user/workspace/wt/LEAN-CUT-133-mobile. Owner 16:42 approved deleting the old and thin onboarding outright. Starts after
+CONSULT-ALL-M-133 merges.
 Delete LeanOnboardingNavigator.tsx, src/screens/onboarding/Lean*, finalizeLeanOnboarding.ts and the unreachable OnboardingStep1-10 /
 OnboardingResults files if nothing routes to them; list every route before and after; keep data migrations for users who finished the
 lean flow (onboarding_complete stays honoured).
+
+### REDO-AUDIT-133 (claude_opus_5_5, read-only first) — owner 16:36/16:42 "did all of that go to waste" / "need actually applied"
+No worktree for phase 1: read /home/user/workspace/wt/RO-mobile (main df7b8ae9) and GitHub. FACTS (operator, 16:45): the 48 DES-*-127/128
+redo PRs (mobile #465-#516 and #552, agent127/des-* and agent128/des-*) ALL merged on 10-07 and ARE in the owner's APK (a3a1c18e
+contains #465, #509, #516, #552). Agent 132's R01 FORENSICS covers the history; you cover APPLICATION in lane 133.
+Phase 1 (report within ~45 min, then notify): a table, one row per redo PR: PR | screen(s) | what it changed (copy, states, layout,
+components) | reachable in the owner's build for a coachless client and a coached client (route + flag) | does it meet the prototype
+and Q5 (look, not just copy) | verdict: KEEP / REDO TO PROTOTYPE (name the lane-133 job that absorbs it) / UNREACHABLE (why) / DELETE.
+Also list every OLD screen or flow in lane 133 that the consultation makes dead (lean flow, OnboardingStep1-10, OnboardingResults,
+Day1Win paths, old welcome variants) with the route that still reaches it. Name coach-side items for agent 134 (do not edit them).
+Phase 2: only on the operator's go, open the lane-133 apply PRs the table proposes that no other job covers.
 
 ---
 

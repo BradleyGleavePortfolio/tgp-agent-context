@@ -2,85 +2,56 @@
  {
   "id": "CONSULT-ALL-BE-133",
   "model": "claude_opus_5_5",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/CONSULT-ALL-BE-133-backend",
-  "wave": 1
- },
- {
-  "id": "DS-PRIMITIVES-133",
-  "model": "claude_opus_5_5",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/DS-PRIMITIVES-133-mobile",
-  "wave": 1
- },
- {
-  "id": "ROMAN-CONTEXT-133",
-  "model": "claude_opus_5_5",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/ROMAN-CONTEXT-133-backend and /home/user/workspace/wt/ROMAN-CONTEXT-133-mobile",
-  "wave": 1
+  "msg": "You are CONSULT-ALL-BE-133, a builder for operator agent 133 (lane 133, client journey to spec) in the TGP chain. The owner said execute at 16:42 PDT and wants this fixed fast, to a premium standard. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'CONSULT-ALL-BE-133'. Your worktree(s), already made on branch agent133/consult-all-be-133 off origin/main: /home/user/workspace/wt/CONSULT-ALL-BE-133-backend. node_modules: run `/home/user/workspace/ops/link_deps.sh backend <your worktree>` (shared install; until it prints linked, read code and rely on PR CI). Prototype screens: /home/user/workspace/specs133/shots/ (index.json). Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/CONSULT-ALL-BE-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/CONSULT-ALL-BE-133.txt. Final answer to the operator under 150 words."
  },
  {
   "id": "CONSULT-ALL-M-133",
   "model": "claude_opus_5_5",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/CONSULT-ALL-M-133-mobile",
-  "wave": 1
+  "msg": "You are CONSULT-ALL-M-133, a builder for operator agent 133 (lane 133, client journey to spec) in the TGP chain. The owner said execute at 16:42 PDT and wants this fixed fast, to a premium standard. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'CONSULT-ALL-M-133'. Your worktree(s), already made on branch agent133/consult-all-m-133 off origin/main: /home/user/workspace/wt/CONSULT-ALL-M-133-mobile. node_modules: run `/home/user/workspace/ops/link_deps.sh mobile <your worktree>` (shared install; until it prints linked, read code and rely on PR CI). Prototype screens: /home/user/workspace/specs133/shots/ (index.json). Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/CONSULT-ALL-M-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/CONSULT-ALL-M-133.txt. Final answer to the operator under 150 words."
  },
  {
-  "id": "LN-OPUS-A-133",
+  "id": "DS-PRIMITIVES-133",
   "model": "claude_opus_5_5",
-  "kind": "lens",
-  "worktree": null,
-  "wave": 1
+  "msg": "You are DS-PRIMITIVES-133, a builder for operator agent 133 (lane 133, client journey to spec) in the TGP chain. The owner said execute at 16:42 PDT and wants this fixed fast, to a premium standard. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'DS-PRIMITIVES-133'. Your worktree(s), already made on branch agent133/ds-primitives-133 off origin/main: /home/user/workspace/wt/DS-PRIMITIVES-133-mobile. node_modules: run `/home/user/workspace/ops/link_deps.sh mobile <your worktree>` (shared install; until it prints linked, read code and rely on PR CI). Prototype screens: /home/user/workspace/specs133/shots/ (index.json). Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/DS-PRIMITIVES-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/DS-PRIMITIVES-133.txt. Final answer to the operator under 150 words."
  },
  {
-  "id": "LN-SOL-A-133",
-  "model": "gpt_6_1_sol",
-  "kind": "lens",
-  "worktree": null,
-  "wave": 1
+  "id": "ROMAN-CONTEXT-133",
+  "model": "claude_opus_5_5",
+  "msg": "You are ROMAN-CONTEXT-133, a builder for operator agent 133 (lane 133, client journey to spec) in the TGP chain. The owner said execute at 16:42 PDT and wants this fixed fast, to a premium standard. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'ROMAN-CONTEXT-133'. Your worktree(s), already made on branch agent133/roman-context-133 off origin/main: /home/user/workspace/wt/ROMAN-CONTEXT-133-backend (a mobile worktree only if needed: `git -C /home/user/workspace/growth-project-mobile worktree add -b agent133/roman-context-133-m /home/user/workspace/wt/ROMAN-CONTEXT-133-mobile origin/main`). node_modules: run `/home/user/workspace/ops/link_deps.sh backend <your worktree>` (shared install; until it prints linked, read code and rely on PR CI). Prototype screens: /home/user/workspace/specs133/shots/ (index.json). Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/ROMAN-CONTEXT-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/ROMAN-CONTEXT-133.txt. Final answer to the operator under 150 words."
  },
  {
   "id": "AUTH-ENTRY-133",
-  "model": "gpt_6_1_sol",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/AUTH-ENTRY-133-mobile",
-  "wave": 2
+  "model": "claude_opus_5_5",
+  "msg": "You are AUTH-ENTRY-133, a builder for operator agent 133 (lane 133, client journey to spec) in the TGP chain. The owner said execute at 16:42 PDT and wants this fixed fast, to a premium standard. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'AUTH-ENTRY-133'. Your worktree(s), already made on branch agent133/auth-entry-133 off origin/main: /home/user/workspace/wt/AUTH-ENTRY-133-mobile. node_modules: run `/home/user/workspace/ops/link_deps.sh mobile <your worktree>` (shared install; until it prints linked, read code and rely on PR CI). Prototype screens: /home/user/workspace/specs133/shots/ (index.json). Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/AUTH-ENTRY-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/AUTH-ENTRY-133.txt. Final answer to the operator under 150 words."
  },
  {
   "id": "CONSULT-PARITY-133",
   "model": "claude_opus_5_5",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/CONSULT-PARITY-133-mobile",
-  "wave": 2
+  "msg": "You are CONSULT-PARITY-133, a builder for operator agent 133 (lane 133, client journey to spec) in the TGP chain. The owner said execute at 16:42 PDT and wants this fixed fast, to a premium standard. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'CONSULT-PARITY-133'. Your worktree(s), already made on branch agent133/consult-parity-133 off origin/main: /home/user/workspace/wt/CONSULT-PARITY-133-mobile. node_modules: run `/home/user/workspace/ops/link_deps.sh mobile <your worktree>` (shared install; until it prints linked, read code and rely on PR CI). Prototype screens: /home/user/workspace/specs133/shots/ (index.json). Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/CONSULT-PARITY-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/CONSULT-PARITY-133.txt. Final answer to the operator under 150 words."
  },
  {
   "id": "ROMAN-ROOM-133",
   "model": "claude_opus_5_5",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/ROMAN-ROOM-133-mobile",
-  "wave": 2
+  "msg": "You are ROMAN-ROOM-133, a builder for operator agent 133 (lane 133, client journey to spec) in the TGP chain. The owner said execute at 16:42 PDT and wants this fixed fast, to a premium standard. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'ROMAN-ROOM-133'. Your worktree(s), already made on branch agent133/roman-room-133 off origin/main: /home/user/workspace/wt/ROMAN-ROOM-133-mobile. node_modules: run `/home/user/workspace/ops/link_deps.sh mobile <your worktree>` (shared install; until it prints linked, read code and rely on PR CI). Prototype screens: /home/user/workspace/specs133/shots/ (index.json). Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/ROMAN-ROOM-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/ROMAN-ROOM-133.txt. Final answer to the operator under 150 words."
  },
  {
   "id": "TOUR-133",
-  "model": "gpt_6_1_sol",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/TOUR-133-mobile",
-  "wave": 2
+  "model": "claude_opus_5_5",
+  "msg": "You are TOUR-133, a builder for operator agent 133 (lane 133, client journey to spec) in the TGP chain. The owner said execute at 16:42 PDT and wants this fixed fast, to a premium standard. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'TOUR-133'. Your worktree(s), already made on branch agent133/tour-133 off origin/main: /home/user/workspace/wt/TOUR-133-mobile. node_modules: run `/home/user/workspace/ops/link_deps.sh mobile <your worktree>` (shared install; until it prints linked, read code and rely on PR CI). Prototype screens: /home/user/workspace/specs133/shots/ (index.json). Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/TOUR-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/TOUR-133.txt. Final answer to the operator under 150 words."
  },
  {
-  "id": "CLIENT-HOME-133",
-  "model": "gpt_6_1_sol",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/CLIENT-HOME-133-mobile",
-  "wave": 3
+  "id": "REDO-AUDIT-133",
+  "model": "claude_opus_5_5",
+  "msg": "You are REDO-AUDIT-133, a read-only auditor for operator agent 133 in the TGP chain. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'REDO-AUDIT-133'. No worktree for phase 1: read /home/user/workspace/wt/RO-mobile and /home/user/workspace/wt/RO-backend (never edit them) and GitHub. Prototype screens: /home/user/workspace/specs133/shots/ (index.json). Phase 1 ends with your report and notify line; do not open PRs until the operator says go. Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/REDO-AUDIT-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/REDO-AUDIT-133.txt. Final answer to the operator under 150 words."
  },
  {
-  "id": "LEAN-CUT-133",
+  "id": "LN-OPUS-A-133",
+  "model": "claude_opus_5_5",
+  "msg": "You are LN-OPUS-A-133, a review lens for operator agent 133 in the TGP chain. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'LN-OPUS-133' (you are instance A). No worktree: read code with gh and git show/fetch in /home/user/workspace/wt/RO-* (read-only), and the prototype in /home/user/workspace/specs133/. Start now: read the rules, then loop on /home/user/workspace/ops/board/board.md every 180 s until [133] PRs post READY; review each at its exact head. Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/LN-OPUS-A-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/LN-OPUS-A-133.txt. Final answer to the operator under 150 words."
+ },
+ {
+  "id": "LN-SOL-A-133",
   "model": "gpt_6_1_sol",
-  "kind": "builder",
-  "worktree": "/home/user/workspace/wt/LEAN-CUT-133-mobile",
-  "wave": 3
+  "msg": "You are LN-SOL-A-133, a review lens for operator agent 133 in the TGP chain. Read /home/user/workspace/ops/lanes133/_COMMON_133.md (the agent 133 header Q1-Q10 fully; the older parts only where the header or your entry points to them), then the 'Order and dependencies' section and ONLY your entry in /home/user/workspace/ops/lanes133/JOBS133.md. Your entry: 'LN-SOL-133' (you are instance A). No worktree: read code with gh and git show/fetch in /home/user/workspace/wt/RO-* (read-only), and the prototype in /home/user/workspace/specs133/. Start now: read the rules, then loop on /home/user/workspace/ops/board/board.md every 180 s until [133] PRs post READY; review each at its exact head. Use bash with api_credentials [\"github\"] for gh and git (token file: `umask 077 && printf %s \"$GH_ENTERPRISE_TOKEN\" > /home/user/workspace/ops/.ghtoken`); repos BradleyGleavePortfolio/growth-project-backend and growth-project-mobile. Sign every comment \"agent 133\". Report /home/user/workspace/ops/reports/LN-SOL-A-133.md (kept current; final \"## HANDOFF\"), notify line /home/user/workspace/ops/lanes133/notify/LN-SOL-A-133.txt. Final answer to the operator under 150 words."
  }
 ]
