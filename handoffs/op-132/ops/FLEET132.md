@@ -48,3 +48,4 @@
   (f) Order is the same for every coach (wizard: practice basics -> Stripe -> package -> invite -> ready); step 1 asks only practice name + 6 focus chips.
 
 - 15:20 RESCUE WAVE launched on owner 15:02-15:19 ("50 point plan", "15 agents ... then one agent that combines", 19.7k/45k at 15:12, iOS build 8 tonight): builders SETUP-STALE-132, START-HANG-132, COACHLESS-LOG-132 (Opus), COACH-EDGES-132 (Sol); planners R01-R15 (8 Opus, 7 Sol) per ops/rescue132/BRIEF.md; R16 combiner after R01-R15. Lenses launch at first READY.
+- 15:31 OWNER 15:29: decision 27 YES (consultation for every client, lean flow retired); 28 coachless = everything except direct coaching, no lock pages, empty states; 29 NO build 8 until perfection (no cutoff). BRIEF 0a + JOBS addenda written; all 19 agents messaged.

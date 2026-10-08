@@ -275,3 +275,14 @@ coach programs, paid packages) keep honest gates. (3) Replace blocking locks wit
 card where it helps; the Home header must not say "Message your coach" when there is no coach (B25). (4) Tests in both repos. No
 Stripe calls, no price or take-rate change. Backend PR first if the backend gates. If the backend change is not small and safe, STOP
 and write it up for the operator with options and a default. Then wait for verdicts (Q3).
+
+### ADDENDUM 15:31 to COACHLESS-LOG-132 (owner 15:29, binding; wins over the entry above)
+Owner (verbatim): "they can do everything a normal coached client can, besides getting direct coaching, and generally all of that
+isnt behind a locked page its jsut empty for them inherently". So remove every lock / paywall wall / "Logging comes with coaching" /
+"need active access" surface for coachless clients — not just logging: everything a coached client can use (targets, plan, logging,
+Roman, check-ins, progress) works for them; places that need a real coach (coach messages, coach feedback) are calm empty states with
+an optional "join a coach with their code" entry. Do not build the house-coach auto-attach. Keep paid-package and money flows as they are.
+If this makes your PR larger than 800 lines, split it (backend first, then mobile) and say so in the READY body.
+
+### ADDENDUM 15:31 to every rescue builder (owner 15:29): "we don't do build 8 until this is PERFECTION". No tonight deadline:
+quality over speed. Same rules, same order; take the time to get it right and test it properly.

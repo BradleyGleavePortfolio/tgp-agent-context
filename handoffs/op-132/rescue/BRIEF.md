@@ -28,6 +28,20 @@ So: DIG EXTRA DEEP. Quality over speed. Besides fixes, actively propose (a) what
 replacements (delete-and-replace beats patching where the current code is the problem). BUT tonight's iOS build 8 depends on you: write
 your section "Tonight (iOS build 8)" FIRST into your report file as soon as you are confident, then keep digging and fill the rest.
 
+## 0a. OWNER ANSWERS 15:29 PDT (binding; these win over anything below)
+- Decision 27, "Full consultation for every client: the short 6-step flow is retired" — owner: "yes" (emphatic). The approved
+  consultation becomes every client's onboarding in every build; the lean flow (LeanQ1-Q6, "Where does it begin?") is retired.
+- Decision 28, clients without a coach — owner (verbatim): "they can do everything a normal coached client can, besides getting
+  direct coaching, and generally all of that isn't behind a locked page, it's just empty for them inherently". So: NO lock pages,
+  paywall walls or "comes with coaching" screens for coachless clients anywhere. They get the whole app (consultation, targets,
+  plan/programs, logging, Roman, check-ins, progress). Only direct coaching (a real coach's messages, feedback, coach-written work) is
+  absent, and those places are simply calm empty states with an optional "join a coach with their code" entry, never a lock.
+  (Approved packet decision 1, auto-attaching no-code clients to Bradley as house coach, is NOT confirmed by this answer: treat it as
+  an open question for the combiner, default "coachless clients stay coachless; joining a coach is optional".)
+- Decision 29, a 21:00 cutoff for iOS build 8 tonight — owner: "no, we don't do build 8 until this is PERFECTION". There is NO
+  deadline tonight. Build 8 ships only when the whole app meets the spec. Quality over speed. Your report's section 1 becomes
+  "## 1. Build 8 gate": everything in your scope that must be true before build 8 (keep that heading; the combiner accepts the old one).
+
 ## 1. Bug register (every problem individually; IDs are shared by all agents; add new ones as B42+ with your scope prefix, e.g. B42-R06)
 Owner screenshots (see section 3 for files): S0 coach Stripe step, S1 coach invite step, S2 welcome, S3 role choice, S4 lean "Where
 does it begin?", S5 birth year + target weight, S6 client Home, S7 Train lock, S8 Roman chat, S9 endless spinner.
@@ -158,7 +172,7 @@ Plain, specific language; no filler. Think like the best mobile product team in 
 
 ## 5. Report: /home/user/workspace/ops/rescue132/reports/<RNN>.md, these headings exactly (the combiner parses them)
 # RNN <scope title>
-## 1. Tonight (iOS build 8)  — write FIRST: what in your scope must be fixed/changed/switched before tonight's iPhone submission, why
+## 1. Build 8 gate (was "Tonight (iOS build 8)") — write FIRST: what in your scope must be fixed/changed/switched before tonight's iPhone submission, why
    (Apple rejection risk or broken use), smallest safe change, and what must NOT go in tonight.
 ## 2. Verdict — 5 plain lines: what is wrong in your scope and the single biggest reason.
 ## 3. Findings — one row per bug ID (register + your new B42-RNN ones): What the owner saw | WHERE (screen + file:line) | WHY (root cause +

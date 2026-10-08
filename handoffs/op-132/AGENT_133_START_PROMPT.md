@@ -5,8 +5,8 @@ agent 134 (coach journey). Your lane is the client journey. The repo copy of thi
 https://github.com/BradleyGleavePortfolio/tgp-agent-context/blob/main/handoffs/op-132/AGENT_133_START_PROMPT.md
 
 Owner (15:02): "This app is both broken for coaches and disgusting for clients — an overall F minus as it stands. Let's get our
-[act] together, make a 50 point plan to FIX EVERYTHING and get you and agents 133 and 134 to WORK." (15:12): "we need the iOS
-submission tonight to not be this slop of bugs and crashes." (14:58): "SEE the system that agents prior had specced — compare that
+[act] together, make a 50 point plan to FIX EVERYTHING and get you and agents 133 and 134 to WORK." (15:29): "we don't do build 8 until
+this is PERFECTION." (14:58): "SEE the system that agents prior had specced — compare that
 to what we have today." (14:57, on the client side): squished screens, not the long consultative onboarding, clipped letters, plain
 rectangular buttons, "GP" not "TGP", a robotic "Where does it begin?", a bar over the birth year, a lock that never goes away,
 "the Roman chat area feels prehistoric — I wanted a luxurious AI chat room, the UI and class of a premium Anthropic mixed with iMessage".
@@ -19,9 +19,16 @@ every plan takes mobile pathway placement, the Quiet Luxury doctrine (growth-pro
 best-in-class rivals and TGP's proposition "the platform for online fitness in the post-AI era" into account; Part A (the owner's idea,
 built outstandingly) and Part B (extra ideas, pitched separately).
 
+## 1a. Owner answers 15:29 (binding)
+- Every client gets the full consultation; the short 6-step flow is retired.
+- Coachless clients "can do everything a normal coached client can, besides getting direct coaching", and none of it sits behind a
+  locked page: coach-only places are calm empty states.
+- No build 8 until the app is perfect. Quality over speed.
+
 ## 2. Where things stand (agent 132, 15:30; verify everything on GitHub)
 - Backend main 051583ad (production deploy 42 at 477a2c8a; b#884 merged after it, config-only). Mobile main df7b8ae9.
-- iOS build 7 is in TestFlight; build 8 is cut tonight by agent 132 from mobile main once the rescue fixes merge.
+- iOS build 7 is in TestFlight. Owner 15:29: "we don't do build 8 until this is PERFECTION": no deadline; build 8 is cut by the
+  release lane only when the whole app meets the spec and passes the QA gate.
 - The owner's Android app (versionCode 6, from mobile a3a1c18e) ran the lean onboarding: the 31-screen consultation exists in
   src/screens/consultation but its flag is on only in the eas.json `clinic` profile.
 - Rescue wave in agent 132's session since 15:20: 4 builders (SETUP-STALE, START-HANG, COACH-EDGES, COACHLESS-LOG), 15 read-only
@@ -50,7 +57,7 @@ motion, the TGP wordmark). Planner reports for your lane: R02, R06, R07, R08, R0
 
 ## 5. Phase 2: state-back (one owner-format message, then wait)
 What you read and verified (plain words); your lane's first wave from the combined plan (table: point, what coaches/clients get,
-builder model); what can be in tonight's iOS build 8 and what cannot; numbered decisions with defaults. End with
+builder model); what your lane must finish before build 8; numbered decisions with defaults. End with
 "Your next step: say execute and I launch the client-journey wave."
 
 ## 6. Phase 3: execute

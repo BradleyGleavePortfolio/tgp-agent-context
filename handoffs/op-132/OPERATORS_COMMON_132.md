@@ -10,7 +10,8 @@ progress icons, packages before the profile, thin questions, the confirmation em
 flow instead of the approved consultation, clipped letters, plain rectangular buttons, a "GP" logo, a robotic "Where does it begin?",
 a wheel band hiding the birth year, a "Logging comes with coaching" lock that reappears forever, a 6-tab bar, a dated Roman chat
 that does not know the client's name), and reopening the app as a coachless client ends on an endless spinner. The approved spec
-is an 87-screen prototype plus an approval packet. The owner wants the iOS submission tonight (build 8) free of these bugs.
+is an 87-screen prototype plus an approval packet. Owner 15:29: no build 8 until the app is perfect; every client gets the full consultation; coachless clients get everything
+except direct coaching, never a locked page.
 The full bug register (B01-B41) is rescue/BRIEF.md section 1.
 
 ## The rescue wave (agent 132's session, launched 15:20)
