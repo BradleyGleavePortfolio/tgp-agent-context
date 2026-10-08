@@ -1,0 +1,26 @@
+Repair checkpoint: 924306e477386d45da504ef9cdeea2ee40f406de
+Main: fceb0d1c377cd6b2c0057928dd65dc11831b50c6
+Merged head: 308e0a3be1ee942bf653b9ca41194897f0a6f366
+Expected automatic tree: 18078f9045ea9205578a3b6cc2a47923bb164d71
+Actual tree: 18078f9045ea9205578a3b6cc2a47923bb164d71
+Owned production files: 11
+FROZEN src/navigation/Day1OnboardingNavigator.tsx
+FROZEN src/navigation/RootNavigator.tsx
+FROZEN src/screens/day-one/NotificationsScreen.tsx
+FROZEN src/screens/day-one/ReadyScreen.tsx
+FROZEN src/screens/day-one/StepHeader.tsx
+FROZEN src/screens/onboarding/LeanQ1GoalScreen.tsx
+FROZEN src/screens/onboarding/LeanQ2ExperienceScreen.tsx
+FROZEN src/screens/onboarding/LeanQ3IntentScreen.tsx
+FROZEN src/screens/onboarding/LeanQ4MetricsScreen.tsx
+FROZEN src/screens/onboarding/LeanQ5Screen.tsx
+FROZEN src/screens/onboarding/LeanQ6Screen.tsx
+
+Authored repair delta:
+ src/__tests__/rootNavigatorConsultationComplete.test.tsx | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+Final PR size vs current main:
+22 files +434/-268 total=702
+308e0a3be1ee942bf653b9ca41194897f0a6f366
+Bradley Gleave <bradley@bradleytgpcoaching.com> / Bradley Gleave <bradley@bradleytgpcoaching.com>

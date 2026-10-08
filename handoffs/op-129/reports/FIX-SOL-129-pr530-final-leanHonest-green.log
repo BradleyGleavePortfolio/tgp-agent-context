@@ -1,0 +1,6 @@
+PASS src/screens/onboarding/__tests__/leanHonest.test.tsx
+
+Test Suites: 1 passed, 1 total
+Tests:       24 passed, 24 total
+Snapshots:   0 total
+Time:        1.47 s, estimated 2 s

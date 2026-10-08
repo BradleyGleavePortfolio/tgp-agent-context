@@ -1,0 +1,11 @@
+PASS frozen production file src/navigation/Day1OnboardingNavigator.tsx
+PASS frozen production file src/navigation/RootNavigator.tsx
+PASS frozen production file src/screens/day-one/NotificationsScreen.tsx
+PASS frozen production file src/screens/day-one/ReadyScreen.tsx
+PASS frozen production file src/screens/day-one/StepHeader.tsx
+PASS frozen production file src/screens/onboarding/LeanQ1GoalScreen.tsx
+PASS frozen production file src/screens/onboarding/LeanQ2ExperienceScreen.tsx
+PASS frozen production file src/screens/onboarding/LeanQ3IntentScreen.tsx
+PASS frozen production file src/screens/onboarding/LeanQ4MetricsScreen.tsx
+PASS frozen production file src/screens/onboarding/LeanQ5Screen.tsx
+PASS frozen production file src/screens/onboarding/LeanQ6Screen.tsx

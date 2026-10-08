@@ -1,0 +1,183 @@
+  console.warn
+    [FoodLogSync] offline food sync failed TypeError: Cannot read properties of undefined (reading 'flushed')
+        at flushed (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:54:45)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+        at _next (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+      16 | function log(level: LogLevel, context: string, ...args: unknown[]) {
+      17 |   if (__DEV__) {
+    > 18 |     console[level](`[${context}]`, ...args);
+         |                   ^
+      19 |   }
+      20 |   // In production, could forward to Sentry breadcrumbs here
+      21 | }
+
+      at log (src/utils/logger.ts:18:19)
+      at Object.log [as warn] (src/utils/logger.ts:25:50)
+      at warn (src/services/foodLogSync.ts:61:14)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.warn
+    [FoodLogSync] pending count read failed TypeError: (0 , _foodLogQueue.getQueueLength) is not a function
+        at /home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:23:32
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+        at _next (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+        at /home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at /home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+        at apply (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:28:2)
+        at apply (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:21:46)
+        at readPendingFoodLogCount (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:32:25)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+        at _next (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+        at /home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at /home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+        at apply (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:35:2)
+        at apply (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:31:44)
+        at notifyPendingFoodLogs (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:65:11)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+        at _next (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+      16 | function log(level: LogLevel, context: string, ...args: unknown[]) {
+      17 |   if (__DEV__) {
+    > 18 |     console[level](`[${context}]`, ...args);
+         |                   ^
+      19 |   }
+      20 |   // In production, could forward to Sentry breadcrumbs here
+      21 | }
+
+      at log (src/utils/logger.ts:18:19)
+      at Object.log [as warn] (src/utils/logger.ts:25:50)
+      at warn (src/services/foodLogSync.ts:25:12)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at ../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at ../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at apply (src/services/foodLogSync.ts:28:2)
+      at apply (src/services/foodLogSync.ts:21:46)
+      at readPendingFoodLogCount (src/services/foodLogSync.ts:32:25)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at ../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at ../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at apply (src/services/foodLogSync.ts:35:2)
+      at apply (src/services/foodLogSync.ts:31:44)
+      at notifyPendingFoodLogs (src/services/foodLogSync.ts:65:11)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.warn
+    [FoodLogSync] offline food sync failed TypeError: Cannot read properties of undefined (reading 'flushed')
+        at flushed (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:54:45)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+        at _next (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+      16 | function log(level: LogLevel, context: string, ...args: unknown[]) {
+      17 |   if (__DEV__) {
+    > 18 |     console[level](`[${context}]`, ...args);
+         |                   ^
+      19 |   }
+      20 |   // In production, could forward to Sentry breadcrumbs here
+      21 | }
+
+      at log (src/utils/logger.ts:18:19)
+      at Object.log [as warn] (src/utils/logger.ts:25:50)
+      at warn (src/services/foodLogSync.ts:61:14)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  console.warn
+    [FoodLogSync] pending count read failed TypeError: (0 , _foodLogQueue.getQueueLength) is not a function
+        at /home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:23:32
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+        at _next (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+        at /home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at /home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+        at apply (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:21:46)
+        at readPendingFoodLogCount (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:32:25)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+        at _next (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+        at /home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+        at new Promise (<anonymous>)
+        at /home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+        at apply (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:31:44)
+        at notifyPendingFoodLogs (/home/user/workspace/wt/FIX-SOL-129-530-mobile/src/services/foodLogSync.ts:65:11)
+        at Generator.next (<anonymous>)
+        at asyncGeneratorStep (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+        at _next (/home/user/workspace/deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+      16 | function log(level: LogLevel, context: string, ...args: unknown[]) {
+      17 |   if (__DEV__) {
+    > 18 |     console[level](`[${context}]`, ...args);
+         |                   ^
+      19 |   }
+      20 |   // In production, could forward to Sentry breadcrumbs here
+      21 | }
+
+      at log (src/utils/logger.ts:18:19)
+      at Object.log [as warn] (src/utils/logger.ts:25:50)
+      at warn (src/services/foodLogSync.ts:25:12)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at ../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at ../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at apply (src/services/foodLogSync.ts:21:46)
+      at readPendingFoodLogCount (src/services/foodLogSync.ts:32:25)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at ../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at ../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at apply (src/services/foodLogSync.ts:31:44)
+      at notifyPendingFoodLogs (src/services/foodLogSync.ts:65:11)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL src/__tests__/rootNavigatorConsultationComplete.test.tsx
+  RootNavigator after the consultation (flag on)
+    ✓ finished consultation: straight to the app, no Day-1 flow, no Day-1 win (60 ms)
+    ✓ local flag only (server profile not caught up): still the app (10 ms)
+    ✓ not finished: the consultation, not the lean flow (4 ms)
+  RootNavigator with the flag off (unchanged)
+    ✕ the same client still gets the Day-1 flow (1004 ms)
+    ✓ Day-1 done but the win not: the Day-1 win (3 ms)
+
+  ● RootNavigator with the flag off (unchanged) › the same client still gets the Day-1 flow
+
+    Unable to find an element with testID: nav-day1
+
+    [36m<Text[39m
+      [33mtestID[39m=[32m"day1-win"[39m
+    [36m>[39m
+      [0mwin[0m
+    [36m</Text>[39m
+
+      211 |     await seed({ ...CONSULTED, profile: { onboarding_completed: false, day_one_completed: false } }, true);
+      212 |     const r = await mount();
+    > 213 |     await r.findByTestId('nav-day1');
+          |             ^
+      214 |   });
+      215 |
+      216 |   it('Day-1 done but the win not: the Day-1 win', async () => {
+
+      at Object.findByTestId (src/__tests__/rootNavigatorConsultationComplete.test.tsx:213:13)
+      at asyncGeneratorStep (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (../../deps/mobile/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 4 passed, 5 total
+Snapshots:   0 total
+Time:        2.865 s
+Ran all test suites matching /src\/__tests__\/rootNavigatorConsultationComplete.test.tsx/i.
+Jest did not exit one second after the test run has completed.
+
+'This usually means that there are asynchronous operations that weren't stopped in your tests. Consider running Jest with `--detectOpenHandles` to troubleshoot this issue.

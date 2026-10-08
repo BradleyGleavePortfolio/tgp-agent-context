@@ -51,3 +51,11 @@
 - Proposed jobs NOT started (owner: no new work): CF-COACH-BILLING-129 (coach Billing & access crash, App Review risk), MONEY-INBOX-129,
   MONEY-DUNNING-COPY-129, COACH-WEEKLY-129, FIN-COACH-AI-GATE-129, CF-TEAMPROFILE-COPY-129, four QA-COACH-* design jobs, five team jobs,
   client sign-out flush (EXPLORE-CLIENT-129 B1), food fold-ins (AUD-FIN-FOOD-129).
+- 16:57 IOS-RELEASE-129 finished: m#528 READY at a627281b (T2; CI green; comment-only purchase-policy hash fix like 0897487c). Needs both lenses.
+- 16:58 MERGED (dual APPROVE at exact head): m#526 CF-FOOD-LOAD-128 (food first-load states), m#521 TRAIN-GATE-128 @0d278929 (T4,
+  workout autosave; the two choices kept as built, owner default).
+- 17:03 OWNER: "Billing crash gets fixed RIGHT FUCKING NOW". 17:04 AUD-COACH-WEEK1-129 resumed as builder CF-COACH-BILLING-129 (T2 mobile;
+  branch agent129/cf-coach-billing-129; root cause CoachBillingScreen.tsx ~L224 reads s.state, backend sends status -> STATE_COPY[undefined].tone
+  throws). Both lenses told to review its PR first the moment READY lands.
+17:35 FIX_PLANS_130_131.md drafted (92 PRs: 130=37, 131=55; Roman 9); not in handoff until owner says handoff. CF-TRAIN-TAB patch committed to tgp-agent-context. LN-SOL-D3-129 resumed as second Sol lens (m#532 first).
+17:49 agent 129 retired; deploy 28 run 37709600403 at 272dc8ef approved and rolling; b#864, b#862, b#859 dual approved, left for agent 130 to merge; five agents told to stop smoothly.

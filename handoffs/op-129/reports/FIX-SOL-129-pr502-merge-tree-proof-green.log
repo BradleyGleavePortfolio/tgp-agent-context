@@ -1,0 +1,8 @@
+PASS expected automatic-merge tree b7f4e4bb6e98dfa72d37213ce6d513de5072f39a; final index tree 1ce067d0db770be7bf2d188f7bfab82c5c882b45
+PASS all other files exactly match the direct merge of the approved head and current main
+PASS EmailVerified exactly matches the automatic merge with both conflicting imports retained
+PASS AcceptInviteScreen.tsx byte-identical to the prior dual-approved head
+PASS RoleSelectionScreen.tsx byte-identical to the prior dual-approved head
+PASS only test-fixture change adds the existing semantic tokens required by main
+PASS main auth README rows retained verbatim; all owned rows present once
+No automatic verdict carry-over claimed: the documented fixture/import/docs delta needs both exact-head confirmations.

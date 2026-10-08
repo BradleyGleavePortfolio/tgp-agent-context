@@ -1,6 +1,6 @@
 # IOS-RELEASE-129 (agent 129) — iOS release prep for the 23:00 build
 
-Status 16:37 PDT: STOPPED on operator order. PR open, CI red (1 test, fix known, not applied). Branch `agent129/ios-release-129` (worktree /home/user/workspace/wt/IOS-RELEASE-129-mobile), commit c9011bd9 on main a1be6fb2, then `git merge origin/main` (e634d19e, no overlap with these files) -> head b4988f4efb3c572b99ae58e80c6a65094ffef9a0.
+Status 16:58 PDT: DONE. m#528 READY FOR AUDIT at a627281ba6e113653589c8c48c1292164dbb5b32, CI green. Branch `agent129/ios-release-129` (worktree /home/user/workspace/wt/IOS-RELEASE-129-mobile), commit c9011bd9 on main a1be6fb2, then `git merge origin/main` (e634d19e) -> b4988f4e (CI red), then `git merge origin/main` (1d0564ff, merge 952e3988, clean) + comment-only fix a627281b (current head).
 
 ## B list (proven)
 None. Every checked item passes or is a U/C below.
@@ -28,7 +28,7 @@ None. Every checked item passes or is a U/C below.
 - C: HealthKit share string names only the coach; Roman reads the same data only with the separate optional AI consent that names Anthropic; owner may add Roman to the string later (needs the same change in ConnectProviderSheet copy).
 
 ## PRs
-- growth-project-mobile#528 https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/528 `chore(release): add App Store submit profiles and iOS build 7` @ b4988f4efb3c572b99ae58e80c6a65094ffef9a0, +105/-7 (112 lines, 6 files: eas.json, app.json, README.md, scripts/__tests__/easSubmitProfile.test.js (new), scripts/__tests__/validateAppConfigUpdates.test.js, src/config/__tests__/storeReviewPermissions.test.js). CI: Typecheck, lint, test FAILED at b4988f4e (1 of 9272: src/config/__tests__/purchaseSurfaces.test.ts:92 wants the purchaseSurfaces.ts comment to say `ios.buildNumber is 7`); CodeQL green. Verdicts: none. No READY posted.
+- growth-project-mobile#528 https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/528 `chore(release): add App Store submit profiles and iOS build 7` @ a627281ba6e113653589c8c48c1292164dbb5b32 (16:51; merged main 1d0564ff), +107/-9 (116 lines, 8 files; adds src/config/purchaseSurfaces.ts:41 comment-only build 7 + scripts/purchase-policy.sha256 re-pin like 0897487c). Earlier head b4988f4efb3c572b99ae58e80c6a65094ffef9a0, +105/-7 (6 files: eas.json, app.json, README.md, scripts/__tests__/easSubmitProfile.test.js (new), scripts/__tests__/validateAppConfigUpdates.test.js, src/config/__tests__/storeReviewPermissions.test.js). CI at b4988f4e: Typecheck, lint, test FAILED (1 of 9272: src/config/__tests__/purchaseSurfaces.test.ts:92 wants the purchaseSurfaces.ts comment to say `ios.buildNumber is 7`), fixed in a627281b. CI at a627281b: Typecheck, lint, test success; CodeQL success; mergeable clean. READY comment 16:57 https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/528#issuecomment-6049257818 (Tier T2). Verdicts: pending (Opus) / pending (Sol); no REQUEST CHANGES at this head.
 - Failing-first at main a1be6fb2: easSubmitProfile 3 failed / 1 passed; storeReviewPermissions 1 failed (Face ID wording); validateAppConfigUpdates 1 failed (Expected "7", Received "6"). At head: 4/4, 11/11, 38/38 pass; validate-app-config OK (2 existing warnings).
 - What it does: `submit.production.ios.ascAppId` 6765847915 (no credentials; ASC key, signing, push key stay in Expo), `submit.clinic` extends production (so `eas build -p ios --profile clinic --auto-submit` uses it); `ios.buildNumber` 6 -> 7; Face ID string (U-1).
 
@@ -62,9 +62,9 @@ User content (1.2): Community asks members to accept the community terms first. 
 Permissions: notifications are asked only when the user taps Turn on; Face ID only when the user turns on Biometric unlock; calendar only when saving a session; camera and photos only for support chat attachments and Save Image. No tracking, no ATT prompt. iPhone only.
 
 ## Not fixed (needs operator)
-- CI red on m#528: src/config/purchaseSurfaces.ts:41 comment says `app.json ios.buildNumber is 6`. Smallest fix: change it to `is 7` and write the new `sha256sum src/config/purchaseSurfaces.ts` value into scripts/purchase-policy.sha256 (scripts/__tests__/easUpdateGuard.test.js:178 pins the lock); comment only, no logic; same pattern as the build-6 bump (0897487c). Note the PR body's promotion line names purchaseSurfaces.ts; say the edit is comment-only plus lock.
 - Owner: fill the two demo accounts in the review notes above (coach + client with an active package, one workout, one meal plan) in App Store Connect only, never in the repo.
 
 ## HANDOFF
-- 16:51 RESUMED (operator 16:48). Branch agent129/ios-release-129, PR m#528; pushed head still b4988f4e (CI red). Local: merged origin/main 1d0564ff (merge 952e3988, clean), applied comment-only fix purchaseSurfaces.ts:41 "is 7" + scripts/purchase-policy.sha256 = 935ac636... (same one-line re-pin as 0897487c). Not yet committed or pushed.
-- Left: targeted tests via heavy.sh, commit, push once, update PR body, CI green, READY at the new head, notify line.
+- 16:58 Branch agent129/ios-release-129, PR m#528, head a627281ba6e113653589c8c48c1292164dbb5b32 (8 files, +107/-9), nothing unpushed; CI green; READY FOR AUDIT posted 16:57 (T2).
+- Done: submit profiles (no credentials), build 7, Face ID string (U-1), purchase-gate comment + lock re-pin, review notes draft in this report; B=0.
+- Left: lens verdicts (none yet, no REQUEST CHANGES); merge by the operator before the 23:00 build; owner fills the demo accounts in App Store Connect.

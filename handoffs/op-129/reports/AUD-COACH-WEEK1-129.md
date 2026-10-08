@@ -7,6 +7,11 @@ with unauthenticated GETs. Reproductions are two throwaway jest tests in my own 
 Open PRs checked for overlap (local git diff of their head branches): m#514 touches src/services/api.ts (so the B1 job avoids that
 file), and m#513 touches AIBudgetTutorialModal (U2 job avoids it). No open PR fixes any finding below.
 
+## Update 17:20 PDT: B1 fix opened
+B1 is being fixed by growth-project-mobile#532 (CF-COACH-BILLING-129, agent 129, branch agent129/cf-coach-billing-129, head
+aaf917053bb383ffa50119f60c272b5df3f53a43). It maps every backend status in coachBillingApi.getStatus, the screen never throws, and the
+Settings Subscription row is hidden because coach plans were removed. Failing-first: 14/14 fail on main code, 14/14 pass on the branch.
+
 ## (1) B list
 
 ### REPRODUCED
@@ -95,3 +100,7 @@ assign to client, booking setup, broadcasts.
   .../src/__tests__/AUDCOACHWEEK1129.package.test.tsx (re-run: `cd <worktree> && /home/user/workspace/ops/heavy.sh npx jest <file>`).
   A fix builder can copy the billing test's two backend bodies as its failing-first case.
 - A fresh auditor can continue with the "Not checked" list above.
+- Builder handoff (CF-COACH-BILLING-129, 17:25 PDT): growth-project-mobile#532, head aaf917053bb383ffa50119f60c272b5df3f53a43,
+  CI green (Typecheck, lint, test; CodeQL), READY FOR AUDIT posted. Worktree /home/user/workspace/wt/CF-COACH-BILLING-129-mobile
+  (branch agent129/cf-coach-billing-129). Not merged, not deployed. A copy of the new test also sits uncommitted in the audit worktree
+  (used only for the on-main failing-first run). Notify: ops/lanes128/notify/CF-COACH-BILLING-129.txt.

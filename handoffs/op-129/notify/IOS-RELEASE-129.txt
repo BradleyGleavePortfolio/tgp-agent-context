@@ -1,1 +1,1 @@
-done | PRs: growth-project-mobile#528 (CI red: purchaseSurfaces.ts:41 comment + lock bump needed, not READY) | B=0 U=1 | verdicts: none/none @ b4988f4e | needs operator: 2
+done | PRs: growth-project-mobile#528 | B=0 U=1 | verdicts: pending/pending @ a627281b | needs operator: 1

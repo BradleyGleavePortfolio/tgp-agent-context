@@ -12,9 +12,11 @@ Operator: agent 129. Lane: LN-SOL-D3-129.
 
 ## Standing status
 
-STOPPED on the operator's explicit credits stop order. Seven exact-head verdicts posted: six APPROVE and one REQUEST CHANGES (B-521-SOL-1). Evidence and payloads are retained in `/home/user/workspace/ops/review-evidence/LN-SOL-D3-129/`. [#520](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/520#issuecomment-6048682615) [#506](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/506#issuecomment-6048704422) [#519](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/519#issuecomment-6048721281) [#521](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/521#issuecomment-6048765704) [#502](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/502#issuecomment-6048789859) [#523](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/523#issuecomment-6048953053) [#504](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/504#issuecomment-6049010818)
+ACTIVE/IDLE under the operator's 16:43 RESUME order. Thirteen exact-head verdicts posted so far: twelve APPROVE and one REQUEST CHANGES (historical B-521-SOL-1); latest backend #864 APPROVE at 17:35 PDT. [Latest verdict](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/864#issuecomment-6049699153)
 
-The local board resumed updating at 16:29 PDT; work selection remains board-only, with 180-second sleeps when idle and no compensating GitHub listings. [Operator board](/home/user/workspace/ops/board/board.md)
+Evidence and payloads are retained in `/home/user/workspace/ops/review-evidence/LN-SOL-D3-129/`; all prior verdicts and exact heads are recorded below.
+
+Selection: m#532 first, then Opus-approved heads still needing Sol in the assigned queue; m#513 held. Re-check exact head and Sol claims before both claim and verdict. Use the board while fresh; if its updated time exceeds ten minutes, direct GitHub state is permitted no more than once per three minutes. Sleep 180 seconds while idle; deadline remains 22:45 PDT.
 
 ## B list
 
@@ -44,6 +46,8 @@ None recorded yet.
 
 ### Selection skips
 
+- backend #861 at `cf1c41765ea4b14a843b1987331999ffc3fb5088` skipped: LN-SOL-B3-129 has a fresh exact-head claim at 17:31 PDT. [Existing Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/861#issuecomment-6049653610)
+- mobile #532 at `aaf917053bb383ffa50119f60c272b5df3f53a43` checked first on resume; skipped because LN-SOL-B3-129 claimed that exact head at 17:27 PDT, less than 45 minutes ago. [Existing Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/532#issuecomment-6049606857)
 - mobile #513 at `79e0760d90c7a3cebee3728d4c7e94113498f8d7` skipped: LN-SOL-B3-129 has a fresh claim at that exact head; no review or verdict posted by this lane. [Existing Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/513#issuecomment-6048663197)
 - mobile #518 at `cd4a29d23c5cebbdf94f923d94595ddbcdb5b928` skipped: LN-SOL-C3-129 has a fresh claim at that exact head; no review or verdict posted by this lane. [Existing Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/518#issuecomment-6048692259)
 - mobile #504 at `431f65b8b239f63f63f7668a82e07d903630a731` skipped: another Sol verdict already exists at that head. [Existing Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/504#issuecomment-6048784588)
@@ -95,14 +99,50 @@ None recorded yet.
 - Claim first; traced delta from prior Sol-approved `431f65b8`, preserved main's resend import/error state/conditional action, unchanged main-parent auth/session/provider handlers, inherited resend regression and shared README resolution. [Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/504#issuecomment-6049001920)
 - Sol APPROVE posted after exact-head recheck; B/U=0 newly identified; four CI checks green; no local/device run. [Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/504#issuecomment-6049010818) [CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37702031330/job/113067494987)
 
-## Not fixed (needs operator)
+### backend #860 — client guidelines read (T4)
 
-- B-521-SOL-1: route the bounded unfinished-draft retention fix and its regression to the assigned Opus fixer; default preserve draft on ordinary leave/back and clear only after successful Finish. [Deletion path requiring fix](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/0b10156da508c37cba55a18f902ad97ab6cb953e/src/screens/client/ActiveWorkoutScreen.tsx#L1088-L1137)
+- Head `b896ef9aa3662aabdaff161cde16f93aca57b97a`; 255 changed lines (+228/-27), eight files. [PR #860](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/860)
+- Claim first; traced `client-guidelines.controller.ts:26–36` auth/roles/entitlement, `coach.service.ts:555–570` current-coach/own-client composite query and minimal DTO, unchanged coach ownership/write, module registration, shipped mobile consumer, and five HTTP regression cases. [Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/860#issuecomment-6049628244)
+- Sol APPROVE after fresh Sol-claim and exact-head GitHub rechecks; B/U=0 newly identified; required CI green; no local/device execution. [Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/860#issuecomment-6049636550) [CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37702508642/job/113069056893)
+
+### backend #858 — own water/fast deletion (T4)
+
+- Head `14aaf3a76a01bd386e465465dabbb21d82f3bf0a`; 250 changed lines (+246/-4), five files. [PR #858](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/858)
+- Claim first; traced controller authentication/roles/fasting entitlement, `water.service.ts:71–74` and `fasting.service.ts:65–72` owner-scoped deletion, indistinguishable foreign/missing 404s, fasting cache invalidation, unchanged history/start/end paths, and eight HTTP regression cases. [Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/858#issuecomment-6049642267)
+- Sol APPROVE after fresh Sol-claim and exact-head GitHub rechecks; B/U=0 newly identified; required CI green; no local execution; app wiring is a separate delivery. [Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/858#issuecomment-6049647492) [CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37702269735/job/113068278729)
+
+### backend #863 — leaderboard chosen-name filter (T3)
+
+- Head `381fdda0786c1484cadf1559cd287fc381a91d06`; 81 changed lines (+76/-5), three files. [PR #863](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/863)
+- Claim first; traced `leaderboard.service.ts:235–245` filter before write, unconditional opt-out, `:383–390` legacy chosen-name suppression, existing content filter/422 envelope, unchanged roster/consent scope, and three added regressions. [Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/863#issuecomment-6049651868)
+- Sol APPROVE after fresh Sol-claim and exact-head GitHub rechecks; B/U=0 newly identified; required CI green; no local execution. [Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/863#issuecomment-6049659625) [CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37702776449/job/113069924019)
+
+### backend #862 — post/reply first names and reaction reads (T3)
+
+- Head `a340113982a504bcb8697ab1eb8dab30f8afe753`; 467 changed lines (+442/-25), ten files. [PR #862](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/862)
+- Claim first; traced `community-posts.service.ts:103–155,222–269,361–367` authorization/block boundaries, batched first-name/reaction reads, shared reaction aggregation, all write responses, DI registration, mobile passthrough DTO compatibility, four service regressions and live-DB case 9. [Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/862#issuecomment-6049664987)
+- Sol APPROVE after fresh Sol-claim and exact-head GitHub rechecks; B/U=0 newly identified; build and community-live CI green; no local execution. [Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/862#issuecomment-6049675838) [Build CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37702751945/job/113069841921) [Community CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37702751945/job/113069841887)
+
+### backend #859 — own weigh-in edit/delete (T4)
+
+- Head `b7f74c4e289d5550eabec4f077f4837474bc4103`; 258 changed lines (+253/-5), four files. [PR #859](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/859)
+- Claim first; traced `weight.service.ts:45–62` owner-scoped update/delete/return, empty-edit rejection, cache invalidation, `weight.dto.ts:23–35` allowlist/bounds/note clearing, controller guard inheritance/204, unchanged create/history, and 16 regression cases. [Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/859#issuecomment-6049680139)
+- Sol APPROVE after fresh Sol-claim and exact-head GitHub rechecks; B/U=0 newly identified; required CI green; no local execution; mobile row actions are separate. [Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/859#issuecomment-6049686299) [CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37702412223/job/113068745399)
+
+### backend #864 — truthful client digests/reminder copy (T2)
+
+- Head `fbf4d1a9a2e45787c35fff98e93e444f7900b8e2`; 544 changed lines (+453/-91), 14 files. [PR #864](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/864)
+- Claim first; traced `digest.service.ts:69–75,258–328` daily-only default-off switch, own-client seven-day queries, actual current/best streaks and unit-aware first-to-last weight change, `:167–170` inbox-row removal, unchanged weekly/coach/opt-out delivery, assignment-aware reminder copy, nine digest cases and modified reminder/privacy regressions. [Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/864#issuecomment-6049690331)
+- Sol APPROVE after fresh Sol-claim and exact-head GitHub rechecks; B/U=0 newly identified; required CI green; no local execution or production switch change. [Sol verdict](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/864#issuecomment-6049699153) [CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37704790337/job/113076456456)
+
+## Historical finding (current disposition not rechecked)
+
+- B-521-SOL-1 was proven at the old exact head above; no claim is made about its later disposition. Recommended default at that head: preserve the unfinished draft on ordinary leave/back and clear only after successful Finish. [Reviewed deletion path](https://github.com/BradleyGleavePortfolio/growth-project-mobile/blob/0b10156da508c37cba55a18f902ad97ab6cb953e/src/screens/client/ActiveWorkoutScreen.tsx#L1088-L1137)
 
 ## HANDOFF
 
 Branch: review-only lane; no builder branch, commits or unpushed work created.
-Exact head last reviewed: mobile #504 `01f2dee6c09d284ad501901f7b49b704372dcbdb`; all seven exact heads, sizes and CI evidence are recorded above. [Last posted verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/504#issuecomment-6049010818)
-Done: seven independent Sol verdicts, six APPROVE and one REQUEST CHANGES; report/evidence current; no merges, deployments, production changes or local test runs.
-Left: B-521-SOL-1 at mobile #521 `0b10156da508c37cba55a18f902ad97ab6cb953e`; default route a bounded Opus draft-preservation fix, then fresh exact-head CI/dual review. [Outstanding verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/521#issuecomment-6048765704)
-STOPPED by explicit operator order; no further claims, reviews, verdicts, tests or fixes will be started.
+Exact head last reviewed: backend #864 `fbf4d1a9a2e45787c35fff98e93e444f7900b8e2`; all thirteen exact heads, sizes and CI evidence are recorded above. [Last posted verdict](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/864#issuecomment-6049699153)
+Done: thirteen independent Sol verdicts, twelve APPROVE and one REQUEST CHANGES; report/evidence current; no merges, deployments, production changes or local test runs.
+Left: monitor m#530 until READY at head, plus new READY heads missing Sol, respecting fresh claims; m#513 held. B-521-SOL-1 is historical, with later disposition not rechecked. [Historical verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/521#issuecomment-6048765704)
+RESUMED by the later operator order; standing until 22:45 PDT or another explicit stop.
