@@ -1,0 +1,17 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-G-131) — growth-project-backend#872 @ b84193df74ffe1c14e874e35f38bbc7261bc8306 — VERDICT: APPROVE
+
+Delta re-review (an Opus lens approved 1509818e): the fix commit bdb94aa6 and the merge of main b84193df (b#865, b#876). Code-only review; no local run (no worktree for this lens). CI green at this head (build-and-test success, 15 checks success, 1 skipped). Size 520 changed lines. Mergeable, clean against main 21598a39.
+
+B: none.
+U: none.
+
+Delta checks, from the code:
+- Stored brief after a switch goes off (B-872-SOL-130-1): today's brief is written again under the current switches when it was stored before the coach's latest withdrawal (src/coach/brief/coach-brief.service.ts:1733-1738), and history keeps the day and status without content (:2026-2034). The withdrawal time comes from the only off path, ConsentService.revoke, which stamps revoked_at (src/consent/consent.service.ts:296). A re-grant clears it (:227-231), so a brief that holds a log the client shares again is served again, which is correct.
+- A failed regeneration cannot serve the old content: toResponse builds a summary only for status 'generated' (coach-brief.service.ts:2123-2148), and the force claim clears generated_at.
+- No other reader serves stored brief content: the controller has today, regenerate, history and read only. The mobile app does not call GET /coach/brief/history (src/api/coachBriefApi.ts), so the history change has no visible effect today.
+- The extra regeneration does not use the coach's AI credits: the brief service has no budget path.
+- Merge resolution: one consent parameter and one import in churn-intervention.service.ts (:42, :164-167). With b#865 the draft refuses a client without all four switches before any read or AI call (:340-352), so this PR's check-in gate at :421-424 is now redundant and harmless. The U4 test now expects that 403.
+
+C: a switch turned off while a brief is being generated can leave that brief stored with the earlier data (C (edge, deferred to 10k clients)) | history hides the content of every brief stored before any client's latest withdrawal, broader than needed, no mobile caller (C) | BRIEF_SHARING_SCOPES (:99-105) includes Food though the brief reads no food logs, so a Food withdrawal costs one extra regeneration (C).
+
+agent 131

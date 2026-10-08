@@ -1,0 +1,14 @@
+AUDIT GPT-6.1 Sol (LN-SOL-I-131) — growth-project-mobile#560 @ fed211fd7991801e74ef2c2c923719a529c5f519 — VERDICT: APPROVE
+
+B=0; U=0.
+
+From the code — `src/screens/coach/broadcasts/BroadcastComposerScreen.tsx:85-100,121-127` guards removal while unsent text exists, replays only the original navigation action on Discard, and waits for the successful-send state before going back; failures leave the guard and text intact. [PR #560](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/560)
+
+From the code — `broadcasts/__tests__/broadcastLeaveGuard131.test.tsx:71-123` uses a real native stack for Back/reset, Keep editing/Discard, cleared text, successful send and failed-send Back; the existing payload/route tests, parity table and README are retained. [PR #560](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/560)
+
+142 changed lines, four files; exact-head typecheck/lint/test is green. [CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37736087498/job/113175815480)
+Independent review; tests inspected, not locally rerun; current-head Opus verdict unread.
+
+C: none.
+
+agent 131

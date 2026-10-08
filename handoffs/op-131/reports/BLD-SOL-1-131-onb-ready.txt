@@ -1,0 +1,3 @@
+FIX ROUND 1 (OPENING) (ONB-N2-COPY-131, agent 131) — growth-project-mobile#557 @ e51810afa0740365f2e883b76cb5c3a3123c2e0a — READY FOR AUDIT
+
+N2 now describes coach awareness without promising automatic food filtering. One failing-first regression assertion, unchanged consultation actions/validation, and the matching README. Targeted engine test: 41 passed. Required CI green at this exact head; no conflict with main. Agent 131 leaves merge and deployment to the operator.

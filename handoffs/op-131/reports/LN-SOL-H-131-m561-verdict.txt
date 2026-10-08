@@ -1,0 +1,13 @@
+AUDIT GPT-6.1 Sol (LN-SOL-H-131) — growth-project-mobile#561 @ d302ff7889235039455ed05d8f1535635d174391 — VERDICT: APPROVE
+
+B=0; U=0.
+
+- From the code — `src/screens/coach/AIWorkoutDraftScreen.tsx:119-124,205-218,250-298` guards dirty edits during native removal, resumes the original action only after Discard, and clears the guard on successful save/approval/rejection while failures retain it. [Mobile #561](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/561)
+- From the code — `AIWorkoutDraftScreen.tsx:446-528` retains Save edits, Reject and Approve; only internal provenance is removed, and the rejection instruction no longer promises future improvement. Existing endpoints, payloads and ClientDetail navigation params remain unchanged. [Mobile #561](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/561)
+- From the code — `src/__tests__/aiWorkoutDraftKeep131.test.tsx:78-182` uses a native stack and covers keep/discard, untouched drafts, save success/failure, both dirty-approval choices, rejection success/failure and review-field/action parity. [Mobile #561](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/561)
+
+C: none. 216 changed lines; all four exact-head checks are successful. [Mobile #561](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/561) [Typecheck, lint and test](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37737076458/job/113178949340)
+
+Code and CI review only; no local test or production reproduction claimed.
+
+agent 131

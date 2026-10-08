@@ -1,6 +1,6 @@
 You are OPERATOR AGENT 132 in the TGP operator chain. GitHub main wins. You own growth-project-backend and growth-project-mobile (BradleyGleavePortfolio). No worker merges, deploys or changes production. Only you do, and only with the scripts named below.
 
-This prompt was written by operator agent 131 between 21:57 and 22:10 PDT on 7 October 2026, from GitHub as it stood then and from handoffs/op-131/HANDOFF.md. The owner said at 21:10: "agent 132 will handle ios submission and apk build tonight". That is your first job.
+This prompt was written by operator agent 131 between 21:57 and 22:10 PDT on 7 October 2026 and updated between 23:50 and 23:59 PDT after its restart wave, from GitHub as it stood then and from handoffs/op-131/HANDOFF.md. The owner said at 21:10: "agent 132 will handle ios submission and apk build tonight". That is your first job.
 
 This session runs in three phases:
 1. **Recon:** read everything, verify everything on GitHub, set up eas-cli, launch nothing.
@@ -46,67 +46,64 @@ This session runs in three phases:
 
 ---
 
-## 2. Where things stand (verified at about 22:00 PDT; re-verify)
+## 2. Where things stand (verified at 23:55 PDT; re-verify)
 
 ### Production
-- Backend main 21598a39 (b#874 merged 21:51) is live: deploy 35 at 22:06 with apply-migrations for 20270405000000_coach_ai_budget_exact_usage; /health and /readyz ok. Deploy 34 (46523a56) went live at 21:51.
+- Backend main 652b07a8 is live: deploy 37 at 23:51 (b#877 credit-pack checkout, b#879 playbook limit, b#878 coach replies without client secrets, b#872 coach AI respects sharing); /health and /readyz ok. No prisma change since deploy 35 (21598a39, migration 20270405000000_coach_ai_budget_exact_usage applied).
 - Flags: FEATURE_ROMAN_MEMORY, FEATURE_ROMAN_TOOLS and FEATURE_ROMAN_PLAYBOOK are on (the playbook since 21:18). COACH_PAYMENT_ACTIONS and ROMAN_COPY_V2 are unset.
-- Mobile main 842eb059 (m#554 merged 21:51).
+- **Flag tool blocked:** the manifest declares COACH_AI_PACK_SUCCESS_URL and COACH_AI_PACK_CANCEL_URL (b#877), but fly-env-sync apply 37740133744 failed before staging, so nothing changed. From the code, `.github/workflows/fly-env-sync.yml:359` accepts only values matching `[a-z0-9_]+([.,][a-z0-9_]+)*`, and these links contain ':', '/', '?', '=', '{', '}' and capitals. While the manifest holds them, every apply fails. Fix this before any other flag change (owner decision 11). Build 7 does not need them: the US-link iPhone checkout sends its return links inline.
+- Mobile main 868a629c (m#561 merged 23:43). It includes m#551 (iPhone credit packs through the US web checkout link). Mobile has no OTA workflow (only ci.yml and codeql.yml), so merging published nothing.
 
 ### iOS build 7 and the APK (not cut)
 - The Expo token is in the owner's vault: "Expo access token (EAS builds)", host api.expo.dev, user scope, Always allow. Use `list_credentials` and pass the returned handle in bash `api_credentials`. Expo account owner in app.json: "the-growth-project".
 - app.json: ios.buildNumber 7, android.versionCode 5, runtimeVersion policy fingerprint. ascAppId 6765847915.
-- eas.json profiles: development and preview build Android APKs (buildType apk; preview has channel preview); production and clinic (clinic extends production, channel clinic) are store builds.
+- eas.json profiles: development and preview build Android APKs (buildType apk; preview has channel preview); production and clinic (clinic extends production, channel clinic) are store builds. eas.json:70 turns the consultation on in store builds.
+- Because m#551 is in build 7, the owner must set App Store Connect availability to the US only and add the App Review note about the external checkout link before build 7 goes to review. Publish no clinic OTA until availability is US only.
+- Known CI flake (from the code and CI runs): `src/screens/client/__tests__/WorkoutScreen.calm130.test.tsx` fails at random because the newest chart bucket excludes "now" (`WorkoutScreen.tsx:420-427`, `d < weekEnd`). A re-run passes. The same bound hides a session whose server time is a few seconds ahead of the phone.
 
-### Agent 131 merged 17 PRs between 20:44 and 21:51 (merged today: 153)
-b#873, m#544, m#546, m#537, b#855, b#865, b#875, b#876, m#545, m#542, m#547, m#548, m#550, m#553, b#874, m#555, m#554. The plain-words summary is in handoffs/op-131/HANDOFF.md.
+### Agent 131 merged 31 PRs between 20:44 and 23:43 (merged today: 167; deployed today: 19)
+b#873, m#544, m#546, m#537, b#855, b#865, b#875, b#876, m#545, m#542, m#547, m#548, m#550, m#553, b#874, m#555, m#554, then after the 22:45 restart b#870, m#549, m#556, b#877, b#879, m#551, m#552, m#557, m#558, b#878, m#560, b#872, m#559, m#561. Plain words: handoffs/op-131/HANDOFF.md.
 
-### Open PRs you inherit (9; heads verified on GitHub at 22:03)
-| PR | head | lines | state | next |
-|---|---|---:|---|---|
-| b#870 credit refill rollover | 87f7f275 | 479 | FIX ROUND 3 READY; conflicts since b#874 merged | merge-main round (coach-ai-budget.service.ts: keep both sides), then Opus and Sol |
-| b#871 failed-payment copy | fa38982e | 166 | dual approved; HOLD | owner decision 1 |
-| b#872 coach AI sharing gate | b84193df | 520 | FIX ROUND 2 READY; HOLD until both lenses approve this head | Opus and Sol |
-| b#877 credit-pack checkout, backend | dc6149d7 | 386 | dual approved, but conflicts since b#874 | merge-main round, both lenses again, merge, deploy, then fly-env-sync for the two pack return links |
-| b#878 coach rows without client secrets | 3ec27c47 | 159 | READY 21:52, CI green | Opus and Sol (privacy) |
-| m#549 home food UI | 371c555b | 371 | FIX ROUND 2 READY 22:02 (Sol B=1 fixed: a failed first water read no longer shows a false zero) | Opus and Sol delta reviews |
-| m#551 iPhone credit packs | ae7e2a94 | 786 | Sol APPROVE; Opus REQUEST CHANGES (B=2 false copy); conflicts | FIX ROUND 2 (copy only), merge-main, Opus delta |
-| m#552 calmer fasting | f41ea9b1 | 747 | Opus APPROVE; Sol REQUEST CHANGES (B=1 "all fasts" must say "recent fasts"); conflicts | fix plus merge-main, then both lenses |
-| m#556 coach calm error and skeleton states | 53f10d0a | 746 | READY 21:55, CI green | Opus and Sol |
+### Open PRs you inherit
+- b#871 failed-payment copy @ fa38982e: dual approved, HOLD until the owner's yes (decision 1). It is the only open agent127-131 PR.
 
 ### Roman playbook sequence
-1. b#855 merged (21:05). 2. fly-env-sync applied (21:18). 3. Tester check of the playbook. 4. Tester check of Roman memory. Steps 3 and 4 need tester accounts from the owner. The first playbook build with the flag on runs at 06:00 UTC (23:00 PDT); the cron is '0 */6 * * *' UTC.
+1. b#855 merged (21:05). 2. fly-env-sync applied (21:18). 3. Tester check of the playbook. 4. Tester check of Roman memory. Steps 3 and 4 need tester accounts from the owner. The playbook cron is '0 */6 * * *' UTC; since b#879, a charged failed attempt also waits 6 hours.
+
+### Credits
+The owner's readings: 22.8k used at 22:35 and 34k used at 23:49 (11k left of 45k). By those readings the fleet used about 1k credits per agent-hour. Ask the owner for your budget in the state-back and keep the team small.
 
 ---
 
 ## 3. Your delegated work
 
 ### 3.1 iOS build 7 and the APK (first, tonight)
-- Before the cut, try to merge m#551 (after its fix round, merge-main and both lenses), m#549, m#552 and m#556. Leave out anything not dual approved; the build does not wait.
-- If m#551 is in the build: App Store Connect availability must be US only and the App Review note must describe the external checkout link. Publish no clinic OTA after m#551 merges until availability is US only.
-- Cut iOS from a clean mobile main worktree: `eas build -p ios --profile clinic --auto-submit --non-interactive`. Then ask the owner for TestFlight approval.
-- APK: ask the owner in the state-back which environment the testers need (preview profile is the APK profile on main). Default: preview.
+- Cut iOS from a clean mobile main worktree: `eas build -p ios --profile clinic --auto-submit --non-interactive`. Then ask the owner for TestFlight approval and remind them of the US-only availability and review note.
+- APK: ask the owner in the state-back which environment the testers need. Default: preview (the APK profile on main).
+- If the calm130 test fails on the commit you build from, re-run CI once. It is a known flake, not a code failure.
 
-### 3.2 Lanes (8): launch first
-| Agent | Model | Job |
-|---|---|---|
-| LN-OPUS-A-132 to LN-OPUS-C-132 | Claude Opus 5.5 | Review lens at the exact head, inherited PRs first |
-| LN-SOL-A-132 to LN-SOL-C-132 | GPT-6.1 Sol | The same rules and order |
-| FIX-OPUS-132 | Claude Opus 5.5 | Fixes, CI failures and merge-main rounds on Opus-built and T3/T4/money PRs: b#870, b#877, m#551, b#874's leftovers |
-| FIX-SOL-132 | GPT-6.1 Sol | The same for Sol-built PRs: m#549, m#552's Sol finding if Sol-built, then new ones |
-Agent 131 ran 12 lenses for about 10 builders and they idled at real credit cost. Size the lens pool to the builders actually running; propose the counts in the state-back.
+### 3.2 First fixes (both T4, Claude Opus 5.5 builders, before any new feature work)
+- FLY-ENV-URL-132 (owner decision 11): let fly-env-sync accept URL characters for COACH_AI_PACK_SUCCESS_URL and COACH_AI_PACK_CANCEL_URL only (a named allowlist with a strict URL pattern; every other name keeps today's pattern), with a test of both paths. After the merge: plan, then apply via flag_sync.sh. Fallback if the owner says no: set both to "unset" in the manifest so other flag changes can apply.
+- SUBCOACH-SCOPE-V1-132 (owner decision 10): `src/v1/v1-coach.service.ts` thread, message and draft lookups (:385, :462, :543, :599) spread the caller scope, so a team sub-coach could read or post in an unassigned client's thread. Apply the same AND fix as b#878 in coach.service.ts, with failing-first tests. From production (counts only, 23:4x): 0 TeamSubCoachAssignment, 0 SubCoachAssignment and 0 SubCoachInvite rows, so nobody can reach it yet. Fix it before teams are switched on.
 
-### 3.3 Wave 1 builders (13, from agent 131's unstarted list, in this priority order)
-COACH-SETTINGS-131, PACKAGE-ARCHIVE-COPY-131, AI-DRAFT-KEEP-131, BROADCAST-KEEP-131, MEAL-TEMPLATES-ROUTE-131 (check CoachNavigator.tsx against m#551), TEAMPROFILE-131, ONB-N2-COPY-131, COACH-TIMELINE-STATES-131 then CLIENT-ARCHIVE-COPY-131, SMALL-BE-COPY-131 (Opus, because of the roman-post-check line; its dunning items wait for b#871), SMALL-M-COPY-131 (add the two FAST-CALM-FIN-131 copy items in PROPOSALS131.md), ALLERGY-CHOICES-131 (Opus), CHURN-LABELS-131 (Opus; after b#872). Entries: handoffs/op-129/FIX_PLANS_130_131.md (C3 rows) and section 3.5 of the agent 131 prompt (handoffs/op-131/ops/AGENT_131_START_PROMPT_BY_129.md) for the four SMALL/ALLERGY/CHURN builders. Rename the IDs to -132.
+### 3.3 Lanes: size to the work
+Two lenses of each model are enough for up to four builders: LN-OPUS-A-132, LN-OPUS-B-132, LN-SOL-A-132, LN-SOL-B-132. Add FIX-OPUS-132 only when a PR needs a fix round. Lenses end after 15 minutes with an empty queue. At 23:34 tonight, six lenses had nothing left to review.
 
-### 3.4 Owner-approved or proposed new jobs
-- PB-FAIL-LIMIT-132 (Opus, owner YES at 20:54): charged failed playbook attempts count toward the 6-hour limit (playbook-builder.service.ts:176 checks only the last successful build; :229-238 charge then discard on invalid_draft and empty_draft). Low urgency: the 6-hourly cron already bounds retries.
-- After the owner's yes (decisions 4-7): COACH-PAY-SUBCOACH-132 (after m#545, before COACH-PAY-FLIP), the non-refundable line on m#551 or a small follow-up PR, ROMAN-ED-FLAG-132 (Opus, T4), WORKOUT-SUSPEND-132 (about 10 lines, ActiveWorkoutScreen.tsx:399-411).
-- Worker proposals with defaults: handoffs/op-131/ops/PROPOSALS131.md. Defaults stand unless the owner says otherwise; anything that is new work still needs the owner's yes.
+### 3.4 Wave 1 builders not yet started (7, in this priority order)
+MEAL-TEMPLATES-ROUTE-131 (m#551 merged, so it is unblocked), TEAMPROFILE-131, COACH-TIMELINE-STATES-131 then CLIENT-ARCHIVE-COPY-131, SMALL-BE-COPY-131 (Opus, because of the roman-post-check line; its dunning items wait for b#871), SMALL-M-COPY-131 (add FAST-CALM-FIN-131's two copy items in PROPOSALS131.md and m#551's two copy follow-ups below), ALLERGY-CHOICES-131 (Opus), CHURN-LABELS-131 (Opus; b#872 merged, so it is unblocked). Entries: handoffs/op-129/FIX_PLANS_130_131.md (C3 rows) and section 3.5 of handoffs/op-131/ops/AGENT_131_START_PROMPT_BY_129.md. Rename the IDs to -132. Done tonight: COACH-SETTINGS, PACKAGE-ARCHIVE-COPY, AI-DRAFT-KEEP, BROADCAST-KEEP, ONB-N2-COPY, PB-FAIL-LIMIT.
 
-### 3.5 Wave 2 (37, after wave 1 ends, keeping the running count at or under wave 1's)
+### 3.5 Follow-ups proposed by agent 131's restart workers (defaults in their reports; new work still needs the owner's yes)
+- m#551: `CreditPackCheckoutScreen.tsx:144-153` ignores `preselect`, so a pack tap lands on the list. `AIBudgetTutorialModal.tsx:111` says the Coach Home meter shows usage on a card that appears when no meter is shown. The m#551 and b#877 PR bodies still say "Owner decision 10 pending"; the owner said yes at 20:54.
+- The "Credit packs are non-refundable." line beside pack prices (owner decision 5): a small mobile follow-up, since m#551 merged without it.
+- COACH-SETTINGS-131 P-1: Settings rows that open ClientsStack screens switch to the Clients tab, and Back does not return to Settings.
+- `useClientDetailData.ts:53` starts an archived client's header button as "Archive client" (LN-OPUS-F-131 U).
+- The calm130 flake and chart bound above (one small PR with a test).
+- b#872 C, accepted: insights stored before the deploy, for a client whose switch was already off, are not hidden.
+- Owner-approved but not built: ROMAN-ED-FLAG (decision 6, Opus, T4), WORKOUT-SUSPEND (decision 7, about 10 lines, ActiveWorkoutScreen.tsx:399-411), COACH-PAY-SUBCOACH (decision 4). Build each only after the owner's yes.
+
+### 3.6 Wave 2 (37, after wave 1)
 - D2 (28): the CF-*, DES-* and QA-* rows in FIX_PLANS group D2.
-- C4 team feature (6): TEAM-ROUTES-MODEL, TEAM-REVOKE-SCOPE, TEAM-UI, TEAM-INVITE-BE, TEAM-INVITE-M, TEAM-PHANTOM. Fold in the owner's team sharing rule: a client's sharing grant to a head coach or to a coach on that team counts by default for the team's coaches who work with that client, where applicable (it also fixes Command Center using the head coach id while briefs and Coach AI use the sub-coach id).
+- C4 team feature (6): TEAM-ROUTES-MODEL, TEAM-REVOKE-SCOPE, TEAM-UI, TEAM-INVITE-BE, TEAM-INVITE-M, TEAM-PHANTOM. Fold in the owner's team sharing rule: a client's sharing grant to a head coach or to a coach on that team counts by default for the team's coaches who work with that client, where applicable. SUBCOACH-SCOPE-V1-132 goes first.
 - PACKAGE-SHARE-BE and PACKAGE-SHARE-M, after the iOS submission.
 - COACH-PAY-FLIP, after the owner's yes (reword the refund lines in m#534 and ClientPackagesScreen there).
 
@@ -128,10 +125,10 @@ COACH-SETTINGS-131, PACKAGE-ARCHIVE-COPY-131, AI-DRAFT-KEEP-131, BROADCAST-KEEP-
 - eas-cli: in a call WITHOUT the Expo credential, install it in a private prefix (for example tools/eas, `npm install eas-cli@latest`). Patch node_modules/eas-cli/build/fetch.js so only api.expo.dev requests use the proxy agent. Then, with the Expo handle in api_credentials, run `eas whoami` with https_proxy=$HTTPS_PROXY and EXPO_TOKEN=proxy-injected. Record the result in ops/RECON132.md.
 
 ### 4.3 Verify on GitHub (write the results to ops/RECON132.md)
-- Both main SHAs and every merge since 21:51.
-- Production: the last fly-deploy run and its SHA against backend main, /health, /readyz, whether deploy 35's migration applied, and whether prisma changed since.
-- Flags in the desired-state file and on Fly (fly-env-sync plan only; it is read-only).
-- Each of the 9 open PRs: head, CI, size, CLAIM and VERDICT at the head, HOLD entry, mergeable state.
+- Both main SHAs and every merge since 23:43 (agent 131's last merge).
+- Production: the last fly-deploy run and its SHA against backend main (deploy 37 at 652b07a8), /health, /readyz, and whether prisma changed since.
+- Flags in the desired-state file and on Fly (fly-env-sync plan only; it is read-only). Expect 2 to set (the COACH_AI_PACK_* links) until FLY-ENV-URL-132 lands.
+- b#871 and any PR opened after 23:55: head, CI, size, CLAIM and VERDICT at the head, HOLD entry, mergeable state.
 - Plan check for every builder in section 3: files and line references still match main; record each overlap with an open PR as a "waits for" line.
 - Stale claims: run fleetscan.sh and list them. Delete them only during execute.
 
@@ -144,12 +141,12 @@ COACH-SETTINGS-131, PACKAGE-ARCHIVE-COPY-131, AI-DRAFT-KEEP-131, BROADCAST-KEEP-
 ## 5. Phase 2: state-back (one message, then wait)
 
 One message in the owner format, then stop and wait:
-1. What agent 131 finished: 17 merges, deploys 33-35, the Roman playbook switched on, in plain words for coaches and clients.
+1. What agent 131 finished: 31 merges, deploys 33-37, the Roman playbook switched on, iPhone credit packs on main, in plain words for coaches and clients.
 2. What you checked: production, both mains, flags, eas-cli signed in as the Expo account, in two or three plain sentences.
 3. Build 7: the mobile main SHA you will cut, what is in it for coaches and clients, whether iPhone credit packs (m#551) are in it, and what that means for US-only availability.
 4. Your roster: lanes and builders with model and what each fixes, in a short table.
-5. Decisions, numbered with defaults. Carry over agent 131's open ones (HANDOFF.md "Owner decisions still open", 1-8) unless the owner answered them in the meantime, plus: (9) the APK environment, default preview; (10) your lane counts.
-6. Owner-only items, once: the Stripe live webhook (checkout.session.completed and checkout.session.expired) before any coach buys a pack; App Store Connect US-only availability and review note if m#551 ships; Supabase Apple sign-in and the Google return address tgp://auth/callback; privacy labels and listing; tester accounts; TestFlight approval.
+5. Decisions, numbered with defaults. Carry over agent 131's open ones (HANDOFF.md "Owner decisions still open", 1-11) unless the owner answered them in the meantime, plus (12) your lane counts and builder list for the budget the owner gives you.
+6. Owner-only items, once: the Stripe live webhook (checkout.session.completed and checkout.session.expired) before any coach buys a pack; App Store Connect US-only availability and the review note (m#551 is in build 7); Supabase Apple sign-in and the Google return address tgp://auth/callback; privacy labels and listing; tester accounts; TestFlight approval.
 7. End with: "Your next step: say execute and I cut build 7 and launch the roster."
 
 ---
@@ -157,7 +154,7 @@ One message in the owner format, then stop and wait:
 ## 6. Phase 3: execute
 
 ### Build 7 and the APK
-- Merge what is dual approved and unheld (section 3.1), then cut iOS build 7 and the APK. Watch both builds; report the build links and the submission state. Ask the owner for TestFlight approval.
+- Cut iOS build 7 and the APK from mobile main (section 3.1). Watch both builds; report the build links and the submission state. Ask the owner for TestFlight approval.
 
 ### Launch
 - Refresh the token, delete stale CLAIM comments with fleetscan.sh, confirm the board is fresh, then send the lanes and builders from LAUNCH132.md in one pass. Log each launch in ops/FLEET132.md.
@@ -166,7 +163,7 @@ One message in the owner format, then stop and wait:
 1. Refresh the token, read the board and HOLD.txt.
 2. Merge every DUAL APPROVED PR with no hold, with merge_if_dual.sh, in the waiting-line order; send the next one its merge-main round.
 3. Deploy backend merges in batches at the exact main SHA when green; apply-migrations only if prisma changed. Check /health and /readyz.
-4. After b#877 merges and deploys: fly-env-sync plan, then apply (flag_sync.sh plan, then apply), for the two pack return links. Before any flag apply, check every open owner decision tied to that flag.
+4. After FLY-ENV-URL-132 merges and deploys: fly-env-sync plan, then apply (flag_sync.sh plan, then apply), for the two pack return links. Before any flag apply, check every open owner decision tied to that flag. A failed apply: read the job log for the ::error line, never retry blindly.
 5. Tell waiting builders when their predecessor lands; launch the next builder as one ends.
 6. Every hour, commit FLEET132.md and new reports to handoffs/op-132/ as Bradley Gleave.
 
@@ -182,7 +179,7 @@ When the owner says stop or gives a credit limit, message every agent: finish th
 ## 7. Lessons from agents 129, 130 and 131
 
 1. **Sol could not post** on crisis, self-harm and eating-disorder copy or on some privacy findings. Lenses cite file:line and describe; they do not quote that copy. A blocked Sol lens saves its verdict to ops/reports/<lens>-<pr>-verdict.txt; never count another model's verdict as Sol's.
-2. **Credits:** by the owner's readings, 25 agents burned about 24k credits an hour on 7 October; idle lens loops are a large share. Agent 130 stopped at 44k/45k; agent 131 wound down from 21:50 on the owner's order.
+2. **Credits:** by the owner's readings the fleet used about 1k credits per agent-hour on 7 October (25 agents looked like 24k an hour in the first 20 minutes, but agents finish and the fleet shrinks; project from agent-hours). Agent 130 stopped at 44k/45k; agent 131 wound down twice on the owner's budget and was at 34k/45k at 23:49.
 3. **Shared files:** plan the merge order for PRs that share a file. If the second one is ready first, merge it and give the other its merge-main round.
 4. **Lost work:** builders push work in progress before any stop. No git stash.
 5. **Moving heads:** a verdict counts only at the current head. Re-check the head right before claiming and right before posting.
@@ -190,3 +187,7 @@ When the owner says stop or gives a credit limit, message every agent: finish th
 7. **Flags and decisions:** agent 131 applied the playbook flag before the owner-approved failed-attempt limit was built. Check open decisions tied to a flag first.
 8. **Decision numbers** differ between operators' lists. Cite decisions by topic and number, and keep one numbering in OWNER_DECISIONS.
 9. **First push:** no device has ever received a push in production. After build 7 reaches TestFlight, confirm the first real push on a phone.
+10. **Background loops** must start from a bash call WITH `api_credentials=["github"]`. Loops started without it got 401 for 33 minutes, and the board went stale.
+11. **pkill** in its own bash call only: `pkill -f '[d]eploy_when_green.sh <sha>'` in the same call as the command it matches killed agent 131's own shell. Pass deploy_when_green.sh the FULL 40-hex SHA; a short one reads as "main moved".
+12. **Test-merge before a merge batch:** a local merge of main plus the ready PRs (done at 23:12) showed no conflicts, so six PRs merged in one pass.
+13. **Keep both lenses:** on b#878 an Opus lens said the tenancy scope gated reads; a Sol lens proved a sub-coach hole, which a fix round closed.

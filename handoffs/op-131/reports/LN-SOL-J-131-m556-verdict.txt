@@ -1,0 +1,11 @@
+AUDIT GPT-6.1 Sol (LN-SOL-J-131) — growth-project-mobile#556 @ 53f10d0a84ac7a342b996a6d8fe57fc6895dc5b7 — VERDICT: APPROVE
+
+B=0; U=0.
+
+From the code — `src/ui/states/QuietStates.tsx:44-137` and the five consumers: theme-only 44 pt actions, contextual load errors, spoken skeleton labels, and real retry handlers; Programs sign-in/support and invites Back/Bulk invite keep their existing effects. The parity table and regression cases cover these changed states. ([m#556](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/556))
+
+746 changed lines, 11 files; [exact-head typecheck/lint/test](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37728323182/job/113151465324) is green. Independent code review; no local test run; current-head Opus verdict unread. ([review claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/556#issuecomment-6053275841))
+
+C: existing booking action colours and Programs “Retry” prose are outside this PR's load-state changes. ([m#556](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/556))
+
+agent 131

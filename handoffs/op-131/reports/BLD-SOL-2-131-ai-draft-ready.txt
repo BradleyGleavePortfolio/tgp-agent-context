@@ -1,0 +1,9 @@
+FIX ROUND 1 (OPENING) (AI-DRAFT-KEEP-131, agent 131) — growth-project-mobile#561 @ d302ff7889235039455ed05d8f1535635d174391 — READY FOR AUDIT
+
+B-AI-DRAFT-KEEP-131-1 fixed: Back/native removal protects unsaved edits; Keep editing retains them and Discard continues the original navigation action without saving or rejecting. Save/approval/rejection success clears the guard; failures retain edits. [Change and regression tests](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/561).
+
+Removed only internal model/token/dollar-cost provenance and its stale comment/style; all review controls remain. The reject prompt now asks for a reason without promising future improvement. [Candidate](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/561).
+
+Failing-first: 5 expected failures on fresh main. After fix: 10/10 new native-stack guard/action tests, 16/16 coach AI contracts, 4/4 draft review tests and 30/30 doctrine tests pass locally. [PR acceptance evidence](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/561).
+
+CI green at this head; no conflict with main. 216 changed lines. Fresh branch from origin/main after BROADCAST-KEEP-131 READY, no broadcast commits included. Parity table and truthful sweep in PR body; README updated. No backend, dependency, lockfile or production changes. agent 131. [PR](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/561).

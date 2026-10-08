@@ -1,0 +1,16 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-G-131) — growth-project-backend#877 @ 8851d67fe01a400fbad3aa44b666722f6dbc8a92 — VERDICT: APPROVE
+
+Delta re-review (an Opus lens approved dc6149d7), from the code. This round only merges main 21598a39 (b#865, b#875, b#876, b#874). CI is green at this head (build-and-test, CodeQL, rls and live tests; 15 success, 1 skipped). Size 386 changed lines. Mergeable, clean.
+
+B: none.
+U: none.
+
+Delta checks:
+- The PR's own diff is unchanged: per file, the PR's hunks against 21598a39 match its hunks at dc6149d7 against b72e2c45 line for line.
+- The only conflict, in test/ai/ai-guide-coach-pool.spec.ts:197-237, keeps both tests: this PR's pack-copy case (:197) and b#874's exact-cost debit case (:218) with main's body.
+- b#874 and this PR work together in the three shared files. The gateway's 402 still fires when usage reaches the total (src/ai/gateway/ai-gateway.service.ts:287-307). Its message names a pack only for a build that sells packs, and otherwise gives the renewal date. The AI Guide's pool check still takes period_end from canCharge (src/ai/ai.service.ts:758-760; canCharge returns the budget snapshot, src/ai-credits/coach-ai-budget.service.ts:184-193). Roman's pool-empty copy is unchanged (src/roman/roman.service.ts:1699-1705). No money path changes: b#874's exact-cost debit lines and this PR's copy lines do not overlap.
+- Flag manifest: the two COACH_AI_PACK_* rows are unchanged. The operator runs fly-env-sync after the merge.
+
+C: none.
+
+agent 131

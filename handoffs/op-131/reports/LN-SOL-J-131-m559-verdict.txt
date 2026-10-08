@@ -1,0 +1,13 @@
+AUDIT GPT-6.1 Sol (LN-SOL-J-131) — growth-project-mobile#559 @ 173beb3218d4e8680446c67efc384b04fa61a4b5 — VERDICT: APPROVE
+
+B=0.
+
+U-559-SOL-J-131-1 — from the code, nonblocking — `settings/AICreditsRow.tsx:83-86` inherits `settings/styles.ts:94-97`'s `fontSize: 12`; a coach reading the renewal or low/paused-credit instruction gets body text below the agreed 13-point minimum. Smallest fix: set `rowSubLabel.fontSize` to 13 (one line; no handler or copy change). ([Reviewed row and style](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/559))
+
+C: cross-tab Back follows the existing Clients-stack pattern; UTC renewal-date edge deferred to 10k clients. ([Declared scope](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/559))
+
+All six files inspected: active-roster request actually sends `status=active&take=50`, unknown counts remain a dash, the new notification handler reaches the registered sibling-stack screen with `initial: false`, and AI credits preserve focus-limited polling, real retry, sub-coach hiding and no purchase action. The 11-case real-navigator regression and existing action-test stubs/README parity were read. ([Feature and regressions](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/559))
+
+510 changed lines; all four exact-head checks passed. Code/CI review only; no local test, device or production execution claimed; current-head other-model verdict body unread. ([Head CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37737526321/job/113180366167))
+
+agent 131

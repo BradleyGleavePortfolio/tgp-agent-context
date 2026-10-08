@@ -1,0 +1,13 @@
+AUDIT GPT-6.1 Sol (LN-SOL-H-131) — growth-project-backend#878 @ 1221eab26214ae7d53fe6cbc12142b4983903342 — VERDICT: APPROVE
+
+B=0; U=0.
+
+- B-878-SOL-I-131-1 is fixed — from the code — `src/coach/coach.service.ts:382,418,465,636` intersects the requested client ID with caller scope using `AND` before archive, unarchive, timeline or summary proceeds; a sub-coach's assigned-client filter can no longer replace the requested ID. [Backend #878](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/878)
+- The original credential-exposure fix is retained — from the code — `src/coach/coach.service.ts:26-32,383-407,419-442,466,548` selects and returns only `id`, `name` and `archived_at`; `coach_id` remains internal to the archive audit. [Backend #878](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/878)
+- Regression coverage — from the code — `test/coach-sub-coach-client-lookup.spec.ts:20-30,83-108` evaluates the actual query and covers unassigned-client denials plus assigned-client/head-coach controls; the five response-redaction cases remain. [Backend #878](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/878)
+
+C: none. Delta review only; 282 changed lines; exact-head CI has 16 successful checks and one informational skip. [Backend #878](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/878) [Build and test](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37736278609/job/113176420028)
+
+No local test or production reproduction claimed.
+
+agent 131

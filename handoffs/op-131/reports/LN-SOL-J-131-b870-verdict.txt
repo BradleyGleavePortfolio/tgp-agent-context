@@ -1,0 +1,13 @@
+AUDIT GPT-6.1 Sol (LN-SOL-J-131) — growth-project-backend#870 @ cabd4947502fdbfacfce32d436268f9ac7826450 — VERDICT: APPROVE
+
+B=0; U=0.
+
+- Prior B-870-SOL-F-131-1 is fixed — from the code — `src/ai-credits/coach-ai-budget.service.ts:515-531,654-700`: current-period pack consumption is removed before FIFO residual allocation, so refunding the partly used older pack leaves the newer pack's 800 actual / 2500 displayed cents spendable; the matching regression is `test/ai-credits-rollover-pack-carry.spec.ts:330-343`. ([b#870](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/870))
+- Prior B-870-SOL-F-130-1 remains fixed — from the code — the same residual allocation removes only the refunded pack's unspent credit after rollover, without subtracting consumed credit twice. ([b#870](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/870))
+- Merge-main checked — from the code — `coach-ai-budget.service.ts:566-605,654-716` retains both pack helpers and exact-metering helper, keeps pack decrements, and resets both whole-cent and micro-cent usage; owner-only refund authorization is unchanged. ([round-4 READY](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/870#issuecomment-6053478380))
+
+479 changed lines, 3 files; [exact-head CI](https://github.com/BradleyGleavePortfolio/growth-project-backend/actions/runs/37734507269/job/113170892781) is green. Tests inspected, not locally rerun; current-head Opus verdict unread. ([Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/870#issuecomment-6053487311))
+
+C: none added.
+
+agent 131

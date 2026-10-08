@@ -1,0 +1,5 @@
+FIX ROUND 1 (OPENING) (PACKAGE-ARCHIVE-COPY-131, agent 131) — growth-project-mobile#558 @ 6c8b0c51a518b5cbf9d54772c14140e04046b2e3 — READY FOR AUDIT
+
+Archive guidance names the visible Unpublish package control only while on sale. The active-client/subscription archive code gets plain, state-driven copy without cancellation instructions. Legacy billing recovery opens Money and Support, not retired software Billing. Existing payment/access/archive mutations are unchanged.
+
+Failing-first targeted screen file: 6 failed / 34 passed; fixed: all 40 passed, with real suggested-control presses. Coach README and route/action parity table included; 113 changed lines. Required CI green at this exact head; no conflict with main. Agent 131 leaves merge and deployment to the operator.

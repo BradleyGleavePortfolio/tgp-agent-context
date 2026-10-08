@@ -126,3 +126,37 @@ None of these files is changed by an open PR or by a branch without a PR (checke
 | QA-COACH-HOME-131 | Opus | all eight files exist: src/screens/coach/command-center/{OverviewScreen,AtRiskScreen,WinStreaksScreen,InboxScreen,ActionQueueScreen,CommandCenterScreen}.tsx, src/components/command-center/KpiTile.tsx, src/screens/coach/TeamManagementScreen.tsx | none (no open PR or branch touches them; TEAMPROFILE-131 comes later) |
 | QA-COACH-STATES-131 | Opus | all five exist: src/screens/coach/{CoachBookingInboxScreen,CoachInvitesScreen,PendingAiDraftsScreen,RiskBoardScreen}.tsx, src/screens/coach/programs/ProgramUi.tsx | none |
 | QA-EMPTY-131 | Opus | files exist: src/ui/empty-states/EmptyState.tsx, src/components/EmptyState.tsx (src/components/community/EmptyState.tsx is a different component: leave it), src/ui/empty-states/EmptyStateNoClients.tsx, src/screens/client/CheckoutReturnScreen.tsx, src/screens/client/PurchaseUnpackScreen.tsx | none (m#542 edits the sibling EmptyStateNoWorkouts.tsx only: do not touch that file) |
+
+# ---- Restart 22:45 PDT (read _COMMON_131.md R1-R5 first; verified on backend main 21598a39 and mobile main 842eb059) ----
+
+## Lenses LN-OPUS-F/G/H-131 (Claude Opus 5.5) and LN-SOL-H/I/J-131 (GPT-6.1 Sol)
+Exactly the LN-OPUS-131 / LN-SOL-131 entries above, with this queue order: (1) READY now: b#878 @ 3ec27c47 (T4 privacy: coach replies no
+longer carry a client's push token, deletion hash or sign-in id), b#872 @ b84193df (T4: FIX ROUND 2 for B-872-SOL-130-1; Sol lenses say
+in the verdict whether that finding is fixed, described by file:line), m#556 @ 53f10d0a (coach calm error and loading states), m#549 @
+371c555b (delta: FIX ROUND 2 for Sol's B-549-SOL-C-131-1, a failed first water read showing a false zero). (2) The fix rounds as they
+turn READY: m#551 (iPhone credit packs, T4 money), b#877 (credit-pack checkout backend, T4 money), b#870 (credit refill rollover, T4
+money), m#552 (calmer fasting). (3) New agent131/* PRs. F and H take the oldest READY first; G and I the newest first; J takes T4 first.
+Idle rule: _COMMON R3.
+
+## FIX-OPUS-B-131 and FIX-OPUS-C-131 (Claude Opus 5.5): the FIX-131 entry above, with these queues
+- FIX-OPUS-B-131: (1) m#551 @ ae7e2a94 (branch agent130/credit-pay-m-130): Opus REQUEST CHANGES at this head (read it in full): two
+  false-copy Bs (the tutorial says the Coach Home meter opens packs at any time, but the meter only shows at 60-79 percent; checkout and
+  receipt copy say credit "shows on Coach Home") and two Us. Fix the Bs (and a one-line U), each with a test; merge origin/main (it
+  conflicts now); CI green; post FIX ROUND 2 READY. (2) b#877 @ dc6149d7 (branch agent131/credit-pay-131): both lenses approved, but it
+  conflicts with main since b#874 merged. Merge origin/main, keep both sides, CI green, post the next FIX ROUND READY (lenses re-review
+  the delta).
+- FIX-OPUS-C-131: (1) b#870 @ 87f7f275 (branch agent130/credit-refill-130): FIX ROUND 3 fixed B-870-SOL-F-131-1; it conflicts with main
+  since b#874 merged (src/ai-credits/coach-ai-budget.service.ts and the credits tests): merge origin/main, keep both sides, CI green,
+  post FIX ROUND 4 READY. (2) m#552 @ f41ea9b1 (branch agent130/fast-calm-fin-130): Opus APPROVE, Sol REQUEST CHANGES B=1 (a label says
+  "all fasts" where only recent fasts are counted: it must say "recent fasts"; read the Sol verdict in full). Fix with a test, merge
+  origin/main (it conflicts), CI green, post the FIX ROUND READY.
+- Then, either lane: any PR on the board that meets FIX-131 (a)-(d) at its current head (Sol-built T1/T2 PRs included, since no
+  FIX-SOL lane runs in this restart).
+
+## Builders (worktrees already made, node_modules linked)
+| ID | model | job(s) and verified refs | worktree / branch | waits for |
+|---|---|---|---|---|
+| BLD-SOL-1-131 | Sol | (1) ONB-N2-COPY-131 (FIX_PLANS C3 row): src/lib/consultation/definitions.ts:441 now reads 'So nothing suggested is something you avoid.' (promises food filtering that does not exist): change to "So your coach knows what you avoid." plus one test. (2) PACKAGE-ARCHIVE-COPY-131 (C3 row): src/screens/coach/payments/CoachPackageEditScreen.tsx: archive alert copy at :502 names a "Take off sale" button that does not exist; map PACKAGE_HAS_ACTIVE_SUBSCRIBERS in the archive catch to plain copy that does not tell the coach to cancel subscriptions; the "Open billing" button at :296 opens the hidden Billing screen: remove it or reroute it to CoachMoney (CoachNavigator.tsx:290); one test | wt/BLD-SOL-1-131-mobile, agent131/onb-n2-copy-131; second PR on agent131/package-archive-copy-131 from origin/main | none |
+| BLD-SOL-2-131 | Sol | (1) BROADCAST-KEEP-131 (C3 row): src/screens/coach/broadcasts/BroadcastComposerScreen.tsx has no leave guard (goBack at :111): ask "Discard this message?" on Back or close when the text is not empty; test. (2) AI-DRAFT-KEEP-131 (C3 row): src/screens/coach/AIWorkoutDraftScreen.tsx: a "Discard edits?" guard on Back when the draft was edited; remove the footer at :443-445 that shows the model name, tokens and dollar cost (and the doc comment at :15); reword the reject prompt; test | wt/BLD-SOL-2-131-mobile, agent131/broadcast-keep-131; second PR on agent131/ai-draft-keep-131 | none |
+| COACH-SETTINGS-131 | Opus | C3 row: src/screens/coach/SettingsScreen.tsx: clientCount starts at 0 (:59, set at :121) and "Active Clients" (:415-416) shows 0 while loading and after a failed load: show "—" until loaded and on failure; the NotificationPreferences link (:635): verify the route name exists in the coach navigator and fix it; add an AI credits row from src/hooks/useAIBudget.ts with the Roman sub-label and a low-credit note; tests. Do not touch src/components/coach/ai-budget/* (m#551 edits it) | wt/COACH-SETTINGS-131-mobile, agent131/coach-settings-131 | none (m#546 merged; m#551 does not touch SettingsScreen.tsx) |
+| PB-FAIL-LIMIT-131 | Opus | Owner YES at 20:54 (D7): the playbook's 6-hour limit counts charged failed attempts. From the code: src/roman/playbook/playbook-builder.service.ts:176 checks only the active playbook's built_at (builtTooRecently :66, PLAYBOOK_REBUILD_MIN_INTERVAL_MS :58). A model call that is charged and then ends as model_error (:222-227), invalid_draft (:236) or empty_draft (:238) leaves nothing that the next run checks, so every 6-hourly cron run (playbook-builder.scheduler.ts:38, '0 */6 * * *' UTC) pays again for the same failing coach. Fix: before spend.reserve (:189), return 'too_recent' when this head coach had a charged playbook attempt in the last 6 hours. Prefer the existing AI spend or usage ledger rows for the playbook feature; if none records the attempt time, use an additive migration and say so in the PR body (the operator applies it). Attempts settled at 0 (no charge) do not count. Tests: a charged failure, then a run 1 hour later skips without reserving; after 6 hours it runs; the unchanged-digest path is unaffected; a 0-charge attempt does not block. T4 Roman: flag behaviour unchanged when FEATURE_ROMAN_PLAYBOOK is off | wt/PB-FAIL-LIMIT-131-backend, agent131/pb-fail-limit-131 | none |

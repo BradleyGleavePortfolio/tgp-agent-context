@@ -1,0 +1,16 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-G-131) — growth-project-mobile#560 @ fed211fd7991801e74ef2c2c923719a529c5f519 — VERDICT: APPROVE
+
+Full review, from the code and the PR's own tests. Size: 142 changed lines, T1. CI is green at this head (Typecheck, lint, test; CodeQL). Mergeable, clean.
+
+B: none.
+U: none.
+
+Checked:
+- The guard is on only while there is text and nothing has been sent (src/screens/coach/broadcasts/BroadcastComposerScreen.tsx:88-93). The composer is in the coach Clients native stack (src/navigation/CoachNavigator.tsx:462-466). With React Navigation 7 the guard covers the header Back, the iOS swipe (native-stack NativeStackView.native.tsx:411, preventNativeDismiss) and Android back.
+- Keep editing keeps the text. Discard repeats the original action and sends nothing (:91; test :73-88, real native stack).
+- A successful send or schedule turns the guard off first, then goes back once (:95-98, :124). No discard prompt follows (test :99-107). A failed send keeps the text and the guard (test :109-122). The payload and the idempotency key are unchanged (:117-121).
+- Copy: the alert title and body are true. No first person, no exclamation marks.
+
+C: whitespace-only text still asks to discard, although the send trims it (:88 checks body.length, :119 sends body.trim()).
+
+agent 131

@@ -1,0 +1,21 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-G-131) — growth-project-mobile#561 @ d302ff7889235039455ed05d8f1535635d174391 — VERDICT: APPROVE
+
+Full review, from the code and the PR's own tests. Size: 216 changed lines, T1. CI is green at this head (Typecheck, lint, test; CodeQL). Mergeable, clean, based on main 5dbab278.
+
+B: none.
+U: none.
+
+Checked:
+- The guard is on only while there are unsaved edits (src/screens/coach/AIWorkoutDraftScreen.tsx:119-124). It covers the screen's own Back (:326-333), the iOS swipe and Android back, because the screen sits in the coach Clients native stack (src/navigation/CoachNavigator.tsx:479-482). Discard repeats the original action and saves nothing (:122).
+- Each success clears the guard before the screen leaves:
+  - a save (:210);
+  - an approval, including Save and approve and Discard and approve (:255), before the existing ClientDetail navigation (:265);
+  - a rejection with a reason (:287), before goBack (:291).
+- Each failure keeps the edits and the guard: a failed save, approval or rejection leaves dirty unchanged. Tests: src/__tests__/aiWorkoutDraftKeep131.test.tsx:78-170, real native stack.
+- No API, payload or approve/reject change.
+- The removed footer showed the model name, token counts and a raw dollar cost (old :440-446). That cost was the provider cost, but the coach's AI credits count 3.125 times it (backend src/ai-credits/ai-credits.constants.ts:22, :101-103). Removing it takes away a misleading money figure. All review actions and editable fields remain (test :172-184).
+- Copy: "Discard edits?", its body and "Add a reason for rejecting this draft." (:281, :497) are true. No promise that drafts improve, no first person.
+
+C: with the footer gone, the screen no longer says the draft is AI-made (the header reads the draft title or "Workout draft", :336). The coach opens it from "Pending AI drafts", so the origin stays clear.
+
+agent 131

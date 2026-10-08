@@ -1,0 +1,14 @@
+AUDIT GPT-6.1 Sol (LN-SOL-I-131) — growth-project-mobile#558 @ 6c8b0c51a518b5cbf9d54772c14140e04046b2e3 — VERDICT: APPROVE
+
+B=0; U=0.
+
+From the code — `src/screens/coach/payments/CoachPackageEditScreen.tsx:272-318,504-546` uses the same on-sale predicate as the visible Unpublish control, maps the actual archive-refusal code to state-driven guidance, and routes legacy recovery to the registered Money/Support screens without changing archive, payment or access mutations. [PR #558](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/558)
+
+From the code — `src/__tests__/CoachPackageEditScreen.lockPreview.test.tsx:695-752` covers on-sale/off-sale confirmation and refusal plus pressing the suggested Unpublish/Subscribers controls; the parity table and matching README are present. [PR #558](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/558)
+
+113 changed lines, three files; exact-head typecheck/lint/test is green. [CI](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37735317685/job/113173407002)
+Independent review; tests inspected, not locally rerun; current-head Opus verdict unread.
+
+C: none.
+
+agent 131

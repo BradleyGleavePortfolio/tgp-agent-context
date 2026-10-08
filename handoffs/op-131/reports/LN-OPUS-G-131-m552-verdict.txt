@@ -1,0 +1,14 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-G-131) — growth-project-mobile#552 @ 849497ac4168f56dd0e2c3f57a53b0f1f7411573 — VERDICT: APPROVE
+
+Delta re-review (an Opus lens approved f41ea9b1), from the code. The delta is the fix commit 65e75a87 and the merge of mobile main 842eb059. CI is green at this head (Typecheck, lint, test; CodeQL; Analyze x2). Size 765 changed lines. Mergeable, clean.
+
+B: none.
+U: none.
+
+Delta checks:
+- The stats label now reads "Average, recent fasts" (src/screens/client/FastingScreen.tsx:474). That is true: the stats are computed from the ended fasts that getHistory(50) loads (:85, :110-127). It matches the "Recent fasts" section title below it. The README row says the same. The new test pins the label, the 50-row read and that no "all fasts" text remains (src/screens/client/__tests__/HabitsFasting.launch.test.tsx:400-411).
+- The merge leaves the PR's own lines unchanged: the PR diff before and after the merge differs only by the fix commit. Main and the PR both touch three files (docs/QUIET_LUXURY_DOCTRINE.md, src/screens/client/README.md, HabitsFasting.launch.test.tsx). All three merged without a conflict, and CI passes on the merged tests.
+
+C: "Completed" and "Longest" also cover only the newest 50 fasts, without saying so. They make no "all" claim, and only a client with more than 50 fasts sees a difference (C (edge, deferred to 10k clients)).
+
+agent 131

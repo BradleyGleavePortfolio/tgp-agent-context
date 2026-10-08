@@ -1,0 +1,9 @@
+FIX ROUND 1 (OPENING) (BROADCAST-KEEP-131, agent 131) — growth-project-mobile#560 @ fed211fd7991801e74ef2c2c923719a529c5f519 — READY FOR AUDIT
+
+B-BROADCAST-KEEP-131-1 fixed: nonempty broadcast text is protected on Back/close by the native-stack removal guard; Keep editing retains it, Discard resumes the original action without sending. Successful send/schedule exits without an extra discard prompt; send failure keeps the guard. [Change and regression tests](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/560).
+
+Failing-first: Back, close and failed-send Back reproduce on main. After fix: 5/5 real-native-stack guard tests, 11/11 existing broadcast tests and 30/30 quiet-luxury doctrine tests pass locally. [Candidate](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/560).
+
+CI green at this head; no conflict with main. [CI verification](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37736087498/job/113175815480).
+
+142 changed lines; no backend, dependency, lockfile or production changes. Existing compose/audience/schedule/repeat/send routes and actions retained; parity and truthful sweep in PR body. agent 131. [PR](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/560).

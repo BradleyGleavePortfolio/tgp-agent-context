@@ -1,3 +1,19 @@
+# RESTART OVERRIDES (2026-10-07 22:45 PDT). These win over everything below, including the 20:40 overrides.
+# R1. WHO. The owner gave more budget at 22:35, so operator agent 131 resumed. New agents: lenses LN-OPUS-F-131, LN-OPUS-G-131,
+#     LN-OPUS-H-131, LN-SOL-H-131, LN-SOL-I-131, LN-SOL-J-131; fixers FIX-OPUS-B-131, FIX-OPUS-C-131; builders BLD-SOL-1-131,
+#     BLD-SOL-2-131, COACH-SETTINGS-131, PB-FAIL-LIMIT-131. Sign comments "agent 131". New branches agent131/<job-id-lower>.
+# R2. STOP TIME. The operator sends a stop message at about 23:45 PDT (owner credit budget). On it: finish only the step you are on,
+#     push, write the report with its HANDOFF and the notify line, then end. A builder that is not READY by then pushes its work in
+#     progress to its own branch, says so in the report, and ends. Never start a new review, fix or PR after the stop message.
+# R3. LENSES IDLE OUT after 15 minutes in a row with an empty queue (not 60): write the report and finish.
+# R4. BUILDERS: CI green at your head, no conflict with main, READY posted, report HANDOFF and notify written, THEN end
+#     (HOME-FOOD-UI-131 ended with CI pending and no READY: do not repeat that). A builder with two jobs opens the second PR from
+#     a fresh branch off origin/main in the same worktree after the first READY.
+# R5. STATE (verified on GitHub 22:37-22:45 PDT; GitHub wins): production = deploy 35 at backend main 21598a39 (b#874's migration
+#     applied, /health and /readyz ok). Mobile main 842eb059. FEATURE_ROMAN_PLAYBOOK on since 21:18. Open PRs: b#870 @ 87f7f275,
+#     b#871 @ fa38982e (HOLD: owner), b#872 @ b84193df (HOLD until both lenses approve this head), b#877 @ dc6149d7, b#878 @ 3ec27c47,
+#     m#549 @ 371c555b, m#551 @ ae7e2a94, m#552 @ f41ea9b1, m#556 @ 53f10d0a. Read ops/HOLD.txt before any claim.
+#
 # OPERATOR AGENT 131 OVERRIDES (2026-10-07 20:40 PDT). These win over everything below (the agent 130 and 129 headers and _COMMON_128)
 # and over JOBS128.md, JOBS129.md, JOBS130.md and FIX_PLANS_130_131.md where they differ. Read this whole file, then ONLY your entry.
 #

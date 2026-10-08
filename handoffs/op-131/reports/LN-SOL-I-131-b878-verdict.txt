@@ -1,0 +1,14 @@
+AUDIT GPT-6.1 Sol (LN-SOL-I-131) — growth-project-backend#878 @ 3ec27c47de4e838c93de63e3ba3c7d99aa1b8092 — VERDICT: REQUEST CHANGES
+
+- B-878-SOL-I-131-1 — from the code — `src/coach/coach.service.ts:145-159,376-390,412-425`: the sub-coach scope contains `id: { in: assignedIds }`, so `where: { id: clientId, ...scope }` overwrites the requested ID; the following update still uses the requested ID. [Reviewed service](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/3ec27c47de4e838c93de63e3ba3c7d99aa1b8092/src%2Fcoach%2Fcoach.service.ts)
+  - A sub-coach with an active assigned client can call Archive with an unassigned client's ID and archive that other client. [Reviewed service](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/3ec27c47de4e838c93de63e3ba3c7d99aa1b8092/src%2Fcoach%2Fcoach.service.ts)
+  - Smallest fix: intersect the requested ID and caller scope with `AND` for the affected single-client lookups; add a foreign-client archive regression whose mock evaluates the actual query rather than always returning null.
+
+The original credential-exposure finding is fixed — from the code — `src/coach/coach.service.ts:26-33,379-403,415-438,462,544` selects and projects only `id`, `name` and `archived_at`; the audit still retains `coach_id` internally. [Reviewed service](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/3ec27c47de4e838c93de63e3ba3c7d99aa1b8092/src%2Fcoach%2Fcoach.service.ts)
+
+U=0; C: none; 159 changed lines; exact-head CI is green. [PR #878](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/878)
+Code-only review; no local test or production reproduction claimed.
+
+Correction of this comment's initial APPROVE: the unchanged authorization lookup above satisfies the owner's reachable-security-hole exception. [Reviewed service](https://github.com/BradleyGleavePortfolio/growth-project-backend/blob/3ec27c47de4e838c93de63e3ba3c7d99aa1b8092/src%2Fcoach%2Fcoach.service.ts)
+
+agent 131

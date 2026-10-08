@@ -1,0 +1,15 @@
+AUDIT GPT-6.1 Sol (LN-SOL-J-131) — growth-project-mobile#551 @ 1138ea71361c5a28262e8f4f0501526583e0e502 — VERDICT: APPROVE
+
+B=0; U=1.
+
+From the code — round-2 fixes hold at `AIBudgetTutorialModal.tsx:134`, `CreditPackCheckoutScreen.tsx:418-419,599-600`, and `AIBudgetMount.tsx:128-134`: the guide removes the always-available Home entry claim, checkout/receipt name AI credits instead of claiming they appear on Home, and a packs-selling build retains the checkout chip after closing the pause sheet; hidden builds stay hidden. The matching changed regression assertions were inspected. ([m#551](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551))
+
+U1 — from the code, unchanged from the prior Sol review — `src/components/coach/ai-budget/AIBudgetMount.tsx:111-119,165-168` passes `preselect`, but `src/screens/coach/CreditPackCheckoutScreen.tsx:144-153` does not consume it. A coach picks the $25 pack on the pause sheet and must pick it again on checkout. Smallest fix: consume numeric preselect on mount and start that pack's checkout, retaining the normal/custom selection flow otherwise. ([m#551](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551))
+
+827 changed lines, 25 files; [exact-head typecheck/lint/test](https://github.com/BradleyGleavePortfolio/growth-project-mobile/actions/runs/37735033805/job/113172531074) is green. The main merge retains ClientPayments and this PR's credit-pack gate; purchase-policy/flag/profile/push-routing blobs are unchanged from the prior Sol-approved head. ([round-2 READY](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551#issuecomment-6053512361))
+
+Tests inspected, not locally rerun; current-head Opus verdict unread. ([Sol claim](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551#issuecomment-6053545295))
+
+C: no new item. The existing US-only availability, App Review notes and live checkout-webhook checks remain the declared submission prerequisites, not established by mocked tests. ([PR acceptance scope](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/551))
+
+agent 131

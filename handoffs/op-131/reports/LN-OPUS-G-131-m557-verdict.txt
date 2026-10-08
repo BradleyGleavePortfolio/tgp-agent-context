@@ -1,0 +1,12 @@
+AUDIT Claude Opus 5.5 (LN-OPUS-G-131) — growth-project-mobile#557 @ e51810afa0740365f2e883b76cb5c3a3123c2e0a — VERDICT: APPROVE
+
+Full review, from the code. The PR is 8 changed lines: N2's `why` line (src/lib/consultation/definitions.ts:441), one test and the README. CI is green at this head (Typecheck, lint, test; CodeQL).
+
+B: none.
+U: none.
+
+The new line is true. N2 is saved to the profile's dietary restrictions (backend src/onboarding/consultation-answers.ts:419). The coach's client Summary tab lists them under Safety > Restrictions (src/screens/coach/client-detail/SummaryTab.tsx:119-142), next to the client's consultation answers (:145). The consultation only runs for a client attached to a coach (src/navigation/RootNavigator.tsx:333-350), so "your coach" always exists on this screen. No hashed consent copy is touched: the P0 hash covers only the P0 text.
+
+C: the PR body says this is a "flag-off launch path", but the store profile turns the consultation on (eas.json:70, EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING true), so N2 is live for clients of a coach with a clinic program. The copy is still true there; only the PR body is wrong (C) | the old line was partly backed (AI meal plans leave out restricted foods, backend src/ai/prompts/meal-plan.prompt.ts:52; coach recipes with a matching declared allergen are hidden, backend src/recipes/allergens.ts:105-109). The new line drops that benefit but stays true (C) | the coach sees the restrictions only while the client shares Weigh-ins, because the profile is sent with body-metrics consent (backend src/coach/coach.service.ts:177-186). That sharing is on from joining (C (edge, deferred to 10k clients)).
+
+agent 131
