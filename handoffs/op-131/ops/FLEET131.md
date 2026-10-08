@@ -1,0 +1,52 @@
+# FLEET131: operator agent 131 log (times PDT)
+
+- 20:31 owner: "Lets get the first 25 agents working right away ; EXECUTE"; 20:44 owner: "START THE 25 AGENTS - YOUR RECON PHASE IS DONE".
+- 20:42 deleted 5 stale claims (b#872 SOL LENS CLAIM LN-SOL-B-130 at head with no verdict; FIX-OPUS-130 FIX CLAIMs at old heads on b#870, b#865, b#855, m#537).
+- 20:44 MERGED b#873 (coach Roman surface, dual approved @ 0b7aa108) -> backend main f0cd518a; MERGED m#544 (allergy labels, dual approved @ 62d1c546) -> mobile main e1688b51.
+- 20:44 LAUNCHED 25 (wave 1, roster order 1-25):
+  - LN-OPUS-A-131 (claude_opus_5_5) agent_id=ln_opus_a_131_muyzt9k9
+  - LN-OPUS-B-131 (claude_opus_5_5) agent_id=ln_opus_b_131_muyzt9kk
+  - LN-OPUS-C-131 (claude_opus_5_5) agent_id=ln_opus_c_131_muyzt9kt
+  - LN-OPUS-D-131 (claude_opus_5_5) agent_id=ln_opus_d_131_muyzt9l2
+  - LN-OPUS-E-131 (claude_opus_5_5) agent_id=ln_opus_e_131_muyzt9lc
+  - LN-SOL-A-131 (gpt_6_1_sol) agent_id=ln_sol_a_131_muyzt9ln
+  - LN-SOL-B-131 (gpt_6_1_sol) agent_id=ln_sol_b_131_muyzt9m6
+  - LN-SOL-C-131 (gpt_6_1_sol) agent_id=ln_sol_c_131_muyzt9mw
+  - LN-SOL-D-131 (gpt_6_1_sol) agent_id=ln_sol_d_131_muyzt9na
+  - LN-SOL-E-131 (gpt_6_1_sol) agent_id=ln_sol_e_131_muyzt9nl
+  - LN-SOL-F-131 (gpt_6_1_sol) agent_id=ln_sol_f_131_muyzt9oi
+  - LN-SOL-G-131 (gpt_6_1_sol) agent_id=ln_sol_g_131_muyzt9pq
+  - FIX-OPUS-131 (claude_opus_5_5) agent_id=fix_opus_131_muyzt9qn
+  - FIX-SOL-131 (gpt_6_1_sol) agent_id=fix_sol_131_muyzt9r9
+  - COACH-ROMAN-ROW-FIN-131 (gpt_6_1_sol) agent_id=coach_roman_row_fin_131_muyzt9rv
+  - CREDIT-METER-FIN-131 (claude_opus_5_5) agent_id=credit_meter_fin_131_muyzt9sl
+  - CREDIT-PAY-131 (claude_opus_5_5) agent_id=credit_pay_131_muyzt9tg
+  - COACH-ROW-SCRUB-FIN-131 (claude_opus_5_5) agent_id=coach_row_scrub_fin_131_muyzt9ve
+  - FAST-CALM-FIN-131 (claude_opus_5_5) agent_id=fast_calm_fin_131_muyzt9w9
+  - WORKOUT-CLAMP-131 (gpt_6_1_sol) agent_id=workout_clamp_131_muyzt9x3
+  - WORKOUT-RESUME-131 (claude_opus_5_5) agent_id=workout_resume_131_muyzt9xr
+  - HOME-FOOD-STORE-131 (gpt_6_1_sol) agent_id=home_food_store_131_muyzt9yd
+  - HOME-FOOD-UI-131 (gpt_6_1_sol) agent_id=home_food_ui_131_muyzt9yx
+  - SESSION-REMINDER-COPY-131 (gpt_6_1_sol) agent_id=session_reminder_copy_131_muyzt9zi
+  - HABIT-ADD-GUARD-131 (gpt_6_1_sol) agent_id=habit_add_guard_131_muyzt9zx
+- Not yet launched (wave 1, roster order 26-42): COACH-WEEKLY-131, COACH-TIMELINE-STATES-131, CLIENT-ARCHIVE-COPY-131, QA-COACH-HOME-131, QA-COACH-STATES-131, QA-EMPTY-131, COACH-SETTINGS-131, PACKAGE-ARCHIVE-COPY-131, AI-DRAFT-KEEP-131, BROADCAST-KEEP-131, MEAL-TEMPLATES-ROUTE-131, TEAMPROFILE-131, ONB-N2-COPY-131, SMALL-BE-COPY-131, SMALL-M-COPY-131, ALLERGY-CHOICES-131, CHURN-LABELS-131 (waiting for the owner's word).
+- 20:51 deploy 33 dispatched: fly-deploy run 37724677279 at f0cd518a (CI, codeql, SBOM green; migrations: none)
+- 20:49 COACH-ROMAN-ROW-FIN-131 ended: m#546 READY @ 0b1a6b43 (verified: READY line, clean, 1 ahead/5 behind; no merge-main needed). Builder had read 'never merge' as forbidding git merge origin/main: _COMMON_131 item 15 clarified at 20:53; running builders told.
+- 20:51 deploy 33 dispatched: fly-deploy run 37724677279 at f0cd518a (b#873), production approved.
+- 20:56 deploy 33 run 37724677279 finished completed/success. /health: {"ok":true,"uptime":59,"timestamp":"2026-10-08T03:56:13.520Z"} | /readyz: {"ok":true,"db":"up","timestamp":"2026-10-08T03:56:13.656Z"}
+- 20:54 OWNER ANSWERS (verbatim in ops/OWNER_DECISIONS_131.md): 1 form + link; 2 yes; 3 show copy (b#871 stays on hold); 4 iPhone yes, asked why Android is hidden; 5 sub-coaches SHOULD have buttons, asked what causes the warning; 6 yes; 7 yes; 8 show copy; 9 yes; 10 AI packs non-refundable, team grants count across the team's coaches, Roman flags the coach on an eating-disorder disclosure.
+- 20:55 LAUNCHED COACH-WEEKLY-131 (gpt_6_1_sol) agent_id=coach_weekly_131_muz08b2j (decision 2 yes: next in roster order as slots free, max 25 running).
+- 20:56 Expo access token secure form sent (host api.expo.dev, bearer). Link given: https://expo.dev/settings/access-tokens
+- 20:56 deploy 33 run 37724677279 success at f0cd518a; /health ok, /readyz ok db up. Deployed today: 15.
+- 20:58 HOME-FOOD-STORE-131 ended: m#547 READY @ 54b4552d (verified: READY line, clean, 88 lines).
+- 21:00 WORKOUT-CLAMP-131 ended: b#876 READY @ 15db7492 (verified: READY line, clean, 64 lines).
+- 21:02 SESSION-REMINDER-COPY-131 ended: b#875 READY @ 118ae6a2 (verified: READY line, clean, 47 lines).
+- 21:05 LAUNCHED QA-COACH-HOME-131 (qa_coach_home_131_muz0g7xq), QA-COACH-STATES-131 (qa_coach_states_131_muz0g7xz), QA-EMPTY-131 (qa_empty_131_muz0g7yd), all claude_opus_5_5. Skipped for now (waiting on predecessors): COACH-TIMELINE-STATES-131 (after COACH-WEEKLY-131), CLIENT-ARCHIVE-COPY-131 (after COACH-TIMELINE-STATES-131), COACH-SETTINGS-131 (after m#546). Running: 25.
+- 21:05 MERGED m#546 (COACH-ROMAN-ROW-FIN-131), m#537 (CF-SETTINGS) and b#855 (Roman playbook switch-on) via merge_if_dual.sh (Opus + Sol APPROVE at head, checks green). Backend main b72e2c45, mobile main 2bed5deb. Merged today: 141.
+- 21:05-21:10 Owner: credits 9k/45k at 21:05; about 1.2k at swarm launch (20:45) and 10.6k at 21:08 (owner readings). Agent 132 handles the iOS submission and the APK build tonight. Wind-down from about 21:50 approved ("do it").
+- 21:12 Automations: "TGP wind-down start (21:50)" (runs in this thread) and "TGP 41k credit check (22:20)" (own thread, alert only). Straight line from the owner's readings: 9.4k in 23 min, about 24k an hour; 41k at about 22:20.
+- 21:13 CREDIT-METER-FIN-131 ended: b#874 READY @ fbab7f99 (626 lines). Deploy needs apply-migrations; merge-main round after b#870 (FIX-OPUS-131 told).
+- 21:14 HABIT-ADD-GUARD-131 ended: m#548 READY @ ba855c3e (91 lines, CI green).
+- 21:15 Wind-down heads-up sent to all 22 running agents. FAST-CALM-FIN-131 unblocked (m#537 merged). FIX-SOL-131 takes m#549 (HOME-FOOD-UI-131 ended before CI; no READY posted).
+- 21:15 No new launches after 21:10 (owner wind-down). Queued wave-1 jobs (COACH-SETTINGS-131 and 16 more) and wave 2 go to agent 132.
+- 21:16 Roman playbook step 2: fly-env-sync plan dispatched (desired state FEATURE_ROMAN_PLAYBOOK=true after b#855).

@@ -1,0 +1,307 @@
+[
+ {
+  "id": "LN-OPUS-A-131",
+  "model": "claude_opus_5_5",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-OPUS-A-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-OPUS-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance A). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-OPUS-A-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-OPUS-B-131",
+  "model": "claude_opus_5_5",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-OPUS-B-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-OPUS-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance B). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-OPUS-B-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-OPUS-C-131",
+  "model": "claude_opus_5_5",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-OPUS-C-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-OPUS-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance C). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-OPUS-C-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-OPUS-D-131",
+  "model": "claude_opus_5_5",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-OPUS-D-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-OPUS-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance D). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-OPUS-D-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-OPUS-E-131",
+  "model": "claude_opus_5_5",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-OPUS-E-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-OPUS-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance E). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-OPUS-E-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-SOL-A-131",
+  "model": "gpt_6_1_sol",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-SOL-A-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-SOL-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance A). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-SOL-A-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-SOL-B-131",
+  "model": "gpt_6_1_sol",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-SOL-B-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-SOL-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance B). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-SOL-B-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-SOL-C-131",
+  "model": "gpt_6_1_sol",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-SOL-C-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-SOL-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance C). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-SOL-C-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-SOL-D-131",
+  "model": "gpt_6_1_sol",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-SOL-D-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-SOL-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance D). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-SOL-D-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-SOL-E-131",
+  "model": "gpt_6_1_sol",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-SOL-E-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-SOL-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance E). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-SOL-E-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-SOL-F-131",
+  "model": "gpt_6_1_sol",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-SOL-F-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-SOL-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance F). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-SOL-F-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "LN-SOL-G-131",
+  "model": "gpt_6_1_sol",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are LN-SOL-G-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'LN-SOL-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are instance G). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/LN-SOL-G-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "FIX-OPUS-131",
+  "model": "claude_opus_5_5",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are FIX-OPUS-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'FIX-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are FIX-OPUS-131). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/FIX-OPUS-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "FIX-SOL-131",
+  "model": "gpt_6_1_sol",
+  "kind": "lane",
+  "repo": null,
+  "branch": null,
+  "wt": null,
+  "msg": "You are FIX-SOL-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'FIX-131' in /home/user/workspace/ops/lanes131/JOBS131.md (you are FIX-SOL-131). No worktree: read code with gh and the read-only worktrees /home/user/workspace/wt/RO-backend and /home/user/workspace/wt/RO-mobile (FIX lanes make one worktree per PR as the entry says). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/FIX-SOL-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "COACH-ROMAN-ROW-FIN-131",
+  "model": "gpt_6_1_sol",
+  "kind": "finisher",
+  "repo": "mobile",
+  "branch": "agent130/coach-roman-row-130",
+  "base": "origin/agent130/coach-roman-row-130",
+  "wt": "/home/user/workspace/wt/COACH-ROMAN-ROW-FIN-131-mobile",
+  "msg": "You are COACH-ROMAN-ROW-FIN-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'COACH-ROMAN-ROW-FIN-131' in /home/user/workspace/ops/lanes131/JOBS131.md. Your worktree is /home/user/workspace/wt/COACH-ROMAN-ROW-FIN-131-mobile (branch agent130/coach-roman-row-130). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/COACH-ROMAN-ROW-FIN-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "CREDIT-METER-FIN-131",
+  "model": "claude_opus_5_5",
+  "kind": "finisher",
+  "repo": "backend",
+  "branch": "agent130/credit-meter-130",
+  "base": "origin/agent130/credit-meter-130",
+  "wt": "/home/user/workspace/wt/CREDIT-METER-FIN-131-backend",
+  "msg": "You are CREDIT-METER-FIN-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'CREDIT-METER-FIN-131' in /home/user/workspace/ops/lanes131/JOBS131.md. Your worktree is /home/user/workspace/wt/CREDIT-METER-FIN-131-backend (branch agent130/credit-meter-130). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/CREDIT-METER-FIN-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "CREDIT-PAY-131",
+  "model": "claude_opus_5_5",
+  "kind": "finisher",
+  "repo": "mobile",
+  "branch": "agent130/credit-pay-m-130",
+  "base": "origin/agent130/credit-pay-m-130",
+  "wt": "/home/user/workspace/wt/CREDIT-PAY-131-mobile",
+  "msg": "You are CREDIT-PAY-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'CREDIT-PAY-131' in /home/user/workspace/ops/lanes131/JOBS131.md. Your worktree is /home/user/workspace/wt/CREDIT-PAY-131-mobile (branch agent130/credit-pay-m-130) and /home/user/workspace/wt/CREDIT-PAY-131-backend (new branch agent131/credit-pay-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/CREDIT-PAY-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "COACH-ROW-SCRUB-FIN-131",
+  "model": "claude_opus_5_5",
+  "kind": "finisher",
+  "repo": "backend",
+  "branch": "agent130/coach-row-scrub-130",
+  "base": "origin/agent130/coach-row-scrub-130",
+  "wt": "/home/user/workspace/wt/COACH-ROW-SCRUB-FIN-131-backend",
+  "msg": "You are COACH-ROW-SCRUB-FIN-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'COACH-ROW-SCRUB-FIN-131' in /home/user/workspace/ops/lanes131/JOBS131.md. Your worktree is /home/user/workspace/wt/COACH-ROW-SCRUB-FIN-131-backend (branch agent130/coach-row-scrub-130). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/COACH-ROW-SCRUB-FIN-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "FAST-CALM-FIN-131",
+  "model": "claude_opus_5_5",
+  "kind": "finisher",
+  "repo": "mobile",
+  "branch": "agent130/fast-calm-fin-130",
+  "base": "origin/agent130/fast-calm-fin-130",
+  "wt": "/home/user/workspace/wt/FAST-CALM-FIN-131-mobile",
+  "msg": "You are FAST-CALM-FIN-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the entry 'FAST-CALM-FIN-131' in /home/user/workspace/ops/lanes131/JOBS131.md. Your worktree is /home/user/workspace/wt/FAST-CALM-FIN-131-mobile (branch agent130/fast-calm-fin-130). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/FAST-CALM-FIN-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "WORKOUT-CLAMP-131",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "repo": "backend",
+  "branch": "agent131/workout-clamp-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/WORKOUT-CLAMP-131-backend",
+  "msg": "You are WORKOUT-CLAMP-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'WORKOUT-CLAMP-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C2, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/WORKOUT-CLAMP-131-backend (new branch agent131/workout-clamp-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/WORKOUT-CLAMP-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "WORKOUT-RESUME-131",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "repo": "mobile",
+  "branch": "agent131/workout-resume-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/WORKOUT-RESUME-131-mobile",
+  "msg": "You are WORKOUT-RESUME-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'WORKOUT-RESUME-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C2, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/WORKOUT-RESUME-131-mobile (new branch agent131/workout-resume-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/WORKOUT-RESUME-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "HOME-FOOD-STORE-131",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "repo": "mobile",
+  "branch": "agent131/home-food-store-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/HOME-FOOD-STORE-131-mobile",
+  "msg": "You are HOME-FOOD-STORE-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'HOME-FOOD-STORE-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C2, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/HOME-FOOD-STORE-131-mobile (new branch agent131/home-food-store-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/HOME-FOOD-STORE-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "HOME-FOOD-UI-131",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "repo": "mobile",
+  "branch": "agent131/home-food-ui-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/HOME-FOOD-UI-131-mobile",
+  "msg": "You are HOME-FOOD-UI-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'HOME-FOOD-UI-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C2, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/HOME-FOOD-UI-131-mobile (new branch agent131/home-food-ui-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/HOME-FOOD-UI-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "SESSION-REMINDER-COPY-131",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "repo": "backend",
+  "branch": "agent131/session-reminder-copy-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/SESSION-REMINDER-COPY-131-backend",
+  "msg": "You are SESSION-REMINDER-COPY-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'SESSION-REMINDER-COPY-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C2, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/SESSION-REMINDER-COPY-131-backend (new branch agent131/session-reminder-copy-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/SESSION-REMINDER-COPY-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "HABIT-ADD-GUARD-131",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "repo": "mobile",
+  "branch": "agent131/habit-add-guard-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/HABIT-ADD-GUARD-131-mobile",
+  "msg": "You are HABIT-ADD-GUARD-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'HABIT-ADD-GUARD-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C2, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/HABIT-ADD-GUARD-131-mobile (new branch agent131/habit-add-guard-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/HABIT-ADD-GUARD-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "COACH-WEEKLY-131",
+  "model": "gpt_6_1_sol",
+  "kind": "builder",
+  "repo": "mobile",
+  "branch": "agent131/coach-weekly-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/COACH-WEEKLY-131-mobile",
+  "msg": "You are COACH-WEEKLY-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'COACH-WEEKLY-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C3, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/COACH-WEEKLY-131-mobile (new branch agent131/coach-weekly-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/COACH-WEEKLY-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "QA-COACH-HOME-131",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "repo": "mobile",
+  "branch": "agent131/qa-coach-home-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/QA-COACH-HOME-131-mobile",
+  "msg": "You are QA-COACH-HOME-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'QA-COACH-HOME-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C3, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/QA-COACH-HOME-131-mobile (new branch agent131/qa-coach-home-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/QA-COACH-HOME-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "QA-COACH-STATES-131",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "repo": "mobile",
+  "branch": "agent131/qa-coach-states-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/QA-COACH-STATES-131-mobile",
+  "msg": "You are QA-COACH-STATES-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'QA-COACH-STATES-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C3, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/QA-COACH-STATES-131-mobile (new branch agent131/qa-coach-states-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/QA-COACH-STATES-131.md.",
+  "wave": 1
+ },
+ {
+  "id": "QA-EMPTY-131",
+  "model": "claude_opus_5_5",
+  "kind": "builder",
+  "repo": "mobile",
+  "branch": "agent131/qa-empty-131",
+  "base": "origin/main",
+  "wt": "/home/user/workspace/wt/QA-EMPTY-131-mobile",
+  "msg": "You are QA-EMPTY-131 for operator agent 131 in the TGP chain. Read /home/user/workspace/ops/lanes131/_COMMON_131.md fully, then ONLY the row 'QA-EMPTY-131' in /home/user/workspace/tgp-agent-context/handoffs/op-129/FIX_PLANS_130_131.md (group C3, plus its 'Rules for every plan' section) and your row under 'Recon 131 adjustments' in /home/user/workspace/ops/lanes131/JOBS131.md (verified line refs win). Your worktree is /home/user/workspace/wt/QA-EMPTY-131-mobile (new branch agent131/qa-empty-131 from main). GitHub via bash with api_credentials=[\"github\"]. Never merge, deploy or change production. Report /home/user/workspace/ops/reports/QA-EMPTY-131.md.",
+  "wave": 1
+ }
+]
