@@ -23,7 +23,8 @@ Both are binding. Speed matters, and a half-done build is worse than no build.
    entire app specs" (owner 16:20). It governs onboarding at about 90%, and the six tabs and button counts stay.
 2. **Delete before you add.** The best PR is the one you don't need. The lean 6-step onboarding is retired ("can jsut get thrown
    away and never used again", owner 16:42). Nobody fixes old-flow bugs; agent 133 checked that no open or merged PR touches
-   Lean*/OnboardingStep* files. Nine redesigned screens have no route at all: delete them (default yes) rather than polish them.
+   Lean*/OnboardingStep* files. Nine redesigned screens have no button that opens them. OWNER 19:12: do NOT delete them ("I HIGHLYYY doubt they wont be used").
+   Keep them and wire each one when its feature launches. Only the old Day-1 onboarding set goes (it's replaced by the consultation).
 3. **Simplify.** One shared look (src/theme tokens, Screen, PrimaryButton, TextLink, Headline, WheelBand, QuietRow) and no local
    copies. Rounded and luxurious: buttons 12, cards 16, sheets 24 (owner 17:07 "nice rounded corners, luxurious, not rectangles"
    overrides the doctrine's radius 4).
@@ -233,7 +234,7 @@ owner's rule is that the consultation is the ONLY onboarding experience for coac
     screenings alerting the owner.
   - 133-15: sub-coach money options go to the coach lane.
   - 133-16: the consent sheet shows the server's consent text.
-  - Delete the 9 unreachable screens except Preferences (yes).
+  - The 9 redesigned screens nothing opens: KEEP (owner 19:12). Wire them when their features launch; only the Day-1 onboarding set is deleted.
   - Habits part 2 and Progress B/C PRs (yes).
   - Keep the `seed-clinic-programs --house` gate until m#581 ships (yes).
   - Jest snapshot lines don't count toward 1,500 (no).
