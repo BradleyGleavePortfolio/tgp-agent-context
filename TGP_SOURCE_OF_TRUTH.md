@@ -1442,6 +1442,22 @@ also the release lane (A6.13 item 10).
     (RootNavigator.tsx, eas.json) after agent 132 gave no answer by 18:15; 133-14 "Add a coach code" row in client Settings for
     coachless clients (m#611); unreachable redesigned screens deleted except Preferences (gets a Settings row).
 
+### A6.14 Owner decisions 2026-10-08 to operator agent 134 (recorded by agent 134 at 21:0x PDT)
+1. 134-1 (owner 19:34): the coach consultation (prototype 75-86, K0-K8) goes into build 8, and build 8 waits for it. Agents: cap 18,
+   never fewer than 9 (19:34); cap raised to 22 (20:4x).
+2. B04 (owner 20:2x): done on the owner's side: Resend is connected to Supabase Auth, so confirmation and reset emails leave from TGP's
+   verified domain (not seen in a test).
+3. Owner 20:2x: "alert me when all 41 issues are done and UI is improved for clients and coaches clearly" (in-app alert).
+4. Coach Home (owner 20:5x): "the home target solo is amazing - do that one": design-targets/mobile/coach-home-solo is the target for every
+   coach's first tab. Client faces are initials monograms until photos exist; only real numbers (no fake figures, no dash walls).
+5. V1.1 IDEAL (owner 21:0x, "Notate profile pictures as a v1.1 ideal"): PROFILE PICTURES. Clients and coaches upload a profile photo
+   (camera or library, crop to a circle), stored per user (backend UserProfile.avatar_url already exists; today there is no upload
+   endpoint and no image picker in the app, from the code). Wherever v1 shows an initials monogram (coach Home client rows and the
+   most-urgent card, client lists, messages, community, the coach card in the join flow, prototype decision D9 "monogram, photo later"),
+   the photo replaces it when set. Not in build 8.
+6. 134-2 (default NO, pending owner): the owner's house account gets an in-app alert for a coachless client's flagged screening (b#895),
+   without the health details, and cannot open that client's intake.
+
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
