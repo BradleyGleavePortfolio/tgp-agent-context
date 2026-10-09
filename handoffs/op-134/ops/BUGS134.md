@@ -5,8 +5,8 @@
 | B | Problem | Fix (PR) | Status 20:30 |
 |---|---|---|---|
 | B01 | Progress icons cut off | m#576 (COACHLESS-FIX-134) merged 20:59 | DONE (from the code) |
-| B02 | Packages before coach setup | b#894 deployed (deploy 10); m#620 m#621 m#622 merged; m#623 (K5-K8) open | review (m#623) |
-| B03 | Coach questions thin | b#894 deployed; m#620-622 merged; m#630 merged; b#897 open; m#623 open | review (m#623, b#897) |
+| B02 | Packages before coach setup | b#894 deployed; m#620 m#621 m#622 m#623 merged (K0-K8, routing: every new coach gets the consultation; packages optional after) | DONE (from the code; seen in a test) |
+| B03 | Coach questions thin | b#894 b#897 deployed; m#620-623 + m#630 merged (K1-K6 answers on the coach card and in Roman); b#898/m#637 coach-code card open | DONE (from the code; seen in a test) |
 | B04 | Confirmation email in spam | owner: Resend connected to Supabase (owner 20:2x "done") | DONE (owner; not seen in a test) |
 | B05 | "Resend" looked broken | m#576 merged 20:59 | DONE (from the code) |
 | B06 | Payouts not switched on | owner Stripe Connect 17:53 + m#576 copy merged 20:59 | DONE (from the code; not tested) |
@@ -25,9 +25,9 @@
 | B19 | Bar over birth-year wheel | m#579 merged 20:59 | DONE (from the code) |
 | B20 | Target weight on birth-year page | m#580 merged | DONE (from the code) |
 | B21 | "Step 3 of 6" not chapters | m#579 merged 20:59; m#581 merged 21:06 | DONE (from the code) |
-| B22 | "Logging comes with coaching" | b#888 deployed; app copy PaywallSheet.tsx:47 + HomeScreen.tsx:409 (CLIENT-POLISH-134 item 5) | server done; app copy building |
+| B22 | "Logging comes with coaching" | b#888 deployed; m#635 merged 22:32 (coachless never gated) | DONE (from the code; seen in a test) |
 | B23 | Logging disabled coachless | b#888 merged, deploy 9 live 20:28 | DONE (from the code) |
-| B24 | "Food and water logging need active access" | b#888, deploy 9 live 20:28 | DONE (from the code) |
+| B24 | "Food and water logging need active access" | b#888 deployed; m#635 merged 22:32 | DONE (from the code; seen in a test) |
 | B25 | "Message your coach" coachless | m#618 merged 21:23 | DONE (from the code; seen in a test) |
 | B26 | Community on two lines | m#618 merged 21:23 (Inter 11, one line at 360 pt measured from the font file) | DONE (from the code; seen in a test) |
 | B27 | Roman picture cut off | m#602 merged | DONE |

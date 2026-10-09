@@ -68,3 +68,19 @@ Worktree /home/user/workspace/wt/COACH-INSETS-A-134-mobile, branch agent134/coac
 - 22:2x m#626 MERGED (05:13Z, b8c8e8bf). Follow-up branch merged origin/main (clean; no open PR overlaps its 16 files),
   README row as the LAST commit, pushed ca3adbdbceba964590a841aea638df70fc4cd069 and opened **m#638**
   "[134] B08 B29 — ..." (387 lines). Waiting for CI, then READY, then SLICE D lenses.
+- 22:3x m#638 CI green at ca3adbdb (run 37888237052), MERGEABLE; READY posted (issuecomment-6074926701). Polling for SLICE D verdicts.
+- 22:4x m#638 @ ca3adbdb: Opus D APPROVE + Sol D APPROVE (board: "DUAL APPROVED: operator merge"). SAFE STOP received.
+
+## HANDOFF (final, SAFE STOP)
+- **m#626** (agent134/coach-insets-a-134): MERGED 2026-10-09T05:13Z (merge commit b8c8e8bf). B13 B28 B39 B16 B29 on the
+  12 entry files. Fixed 1 B (B-626-SOL-D-134-1, PR-body parity claim).
+- **m#638** (agent134/coach-insets-a-134-back-gutter): head ca3adbdbceba964590a841aea638df70fc4cd069, CI green
+  (run 37888237052), both SLICE D lenses APPROVE at this head; left for the merge loop. B08 B29: arrow-back with a 44 pt target on
+  pushed Risk board / SubCoachDetail / Business profile (only when canGoBack()), page gutters = layout.gutter (24) on the 12 files.
+  387 lines; new test coachBackGutter134 (26) at 360x800 and 390x844.
+- No work-in-progress branches; nothing unpushed. Worktree: /home/user/workspace/wt/COACH-INSETS-A-134-mobile.
+- Left: ClientRiskDetailScreen is unreachable (nothing navigates to it since AUDIT-13-125), untouched. Nothing seen on a device:
+  check the reassign modal (iOS sheet / Android), the coach thread header and composer, and the new Back on a phone.
+- Next steps for agent 135: if m#638 goes CONFLICTING before it merges, `git merge origin/main` in the worktree (never rebase),
+  rerun coachBackGutter134 + tsc via heavy.sh, push, post "FIX ROUND 2 (COACH-INSETS-A-134, agent 134, COACH-INSETS-A-134) —
+  growth-project-mobile#638 @ <sha> — READY FOR AUDIT". If a lens posts a B: fix it at the current head, then do one push and post the next FIX ROUND line.

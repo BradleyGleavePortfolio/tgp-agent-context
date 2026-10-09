@@ -5,7 +5,44 @@ Agent 134 took over from agent 133 at 19:2x PDT (start prompt: handoffs/op-133/A
 consultation, prototype 75-86, is IN build 8 and build 8 waits for it), Roman knowing who he talks to, and the luxury screens.
 "NO DO NOT KICKOFF A HALF ASSED BUILD."
 
-## State at handoff
+## FINAL STATE (22:5x PDT, owner: "42k hit - start graceful stop and handoff documents for agent 135")
+- SAFE STOP sent to every agent (22:39); all builders and lenses wrote their HANDOFFs (copied in ops/reports/). The only work allowed
+  after the stop: LN-OPUS-D-134 and LN-SOL-D-134 verdicts on m#642.
+- Merged today: 94 (last: m#635 22:32 B22/B24, m#623 22:35 coach consultation K5-K8, m#638 22:38 Back on 3 coach screens).
+  Deploys today: 11 (production backend 30535548, deploy 11 live 22:19). Mobile main: cc5f67af.
+- 41-problem register: 39 DONE (ops/BUGS134.md). Left: B29 (small polish PRs below), B41 (owner phone check of build 8).
+- BUILD 8 NOT STARTED. It waits only for m#642.
+
+## Agent 135: first moves, in order
+1. m#642 @2bc2a659 (operator agent 134): app.json iOS buildNumber 7 -> 8 and Android versionCode 6 -> 7 (eas.json appVersionSource
+   local; EAS build:list shows iOS clinic 1.0.0 (7) and Android clinic-apk 1.0.0 (6) finished today, so without this the iOS submit
+   is refused as a duplicate) + the K8 hand-off line (no coach tour exists; finishing lands on Clients): Roman line "Next is your Clients
+   page. Share your link there to bring in your first client.", button "Go to my clients". Tests pass locally (19/19). Opus D + Sol D
+   were asked for verdicts at 22:4x; check the PR comments. Merge via merge_if_dual.sh when both APPROVE at the exact head.
+2. BUILD 8 at the main SHA that contains m#642: clean worktree, `cp -al` a real node_modules (lock identical to deps/mobile at
+   cc5f67af), then (api_credentials ["custom-cred:a58dfd11-9a2a-4b51-b25e-a4c9ce356336@api.expo.dev"]):
+   `bash ops/eas.sh build -p android --profile clinic-apk --non-interactive --no-wait` and
+   `bash ops/eas.sh build -p ios --profile clinic --auto-submit --non-interactive --no-wait`. eas.json cli requireCommit true: the
+   worktree must be clean. Send the owner the APK link and the TestFlight status.
+3. Open PRs (each READY, CI green unless noted; reviewers' state from their HANDOFFs):
+   - b#898 @765dd23c + m#637 @be853f88 (coachless coach-code card shows headline + specialties): Opus D APPROVE, Sol not yet. b#898
+     needs deploy 12 after merge (no migrations expected; check).
+   - m#639 @8f4b22a9 (P0 Continue says to tick the box): Opus D APPROVE (pre-READY), Sol E REQUEST CHANGES B=1 = PR-body parity
+     correction only (no code). Fix the body, re-verdict.
+   - m#640 @25305923 (sign-in underline inputs, "Continue with Google"): unreviewed.
+   - m#641 @e60b8ec4 (coach Home cards to coach-home-solo, "Send a message" reachable, tab strip / greeting / numeral fixes):
+     unreviewed (Sol D prepared notes in its HANDOFF).
+   - Unpushed branch agent134/client-polish-134-f @2be89305 (Community tab label shrink-to-fit; tests pass locally) in the
+     CLIENT-POLISH worktree (sandbox-local: re-create from the HANDOFF if the sandbox is gone).
+   - Not started: Home "Allergies and restrictions" line (SHOTS-134B item e).
+4. Decision for the owner (new, with default): coachless consent text. The server accepts only consent wording it already holds, so
+   a coach-free consent for coachless clients needs new backend consent versions plus mobile (CLIENT-POLISH-134 wrote a removals-only
+   draft in its report). Default: next lane after build 8, wording removals only (legal text).
+5. Deferred by agent 134: live Roman eval "never claims to be the coach" (b#605 harness unmerged); K7 "Show me how" opens Import once
+   the importer flag is on; SHOTS re-run (harness steps in ops/reports/SHOTS-134B.md) after the polish PRs; Home "Today" row style
+   question from the owner (today's workout is the hero line "<plan> is ready." + the "Start <plan>" button).
+
+## State at the first handoff write (22:3x, kept for history)
 - Production backend: deploy 11 live 22:19 PDT at 30535548 (b#897), /health ok, /readyz db up. Deploys today: 11 (8-11 by agent 134).
   Deploy 10 included the additive migration 20270408000000_coach_consultation (has down.sql).
 - Mobile main: e3c55596 (green). Merged today (both repos): 91.

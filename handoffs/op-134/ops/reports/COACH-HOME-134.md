@@ -31,13 +31,32 @@ entry. The ready patch (presentation only, 52 lines) is saved at /home/user/work
 - NEED src/components/coach/brief/BriefHomeCard.tsx — same square box (flag coachBrief, on in the clinic profile). — COACH-HOME-134.
   Default: operator assigns (patch ready).
 
+- 22:2x operator: YES to the 3 NEED items as one follow-up PR + the Opus a11y C + one-liner Cs + SHOTS-134B item f.
+- PR m#641: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/641, branch agent134/coach-home-cards-134 (off main
+  e3c55596, merged origin/main 737f4e60; README rows last). 231 lines. Head e60b8ec45e69beba46f91389f28c8b61e13af338.
+  Cards: radius.card hairline, serif titles, Money need in forest words. Urgent card: "Send a message" accessibilityAction.
+  Change line "on the same days in <month>". f: tabs gutter to gutter (space-between, minWidth 44, maxFontSizeMultiplier 1.2;
+  17.218 em measured from Inter TTF); overlinePair (short date / no name when it does not fit, widths from Inter Medium hmtx);
+  lining-nums on serif figures. Web render of this branch (harness copy shots134/harness-ch134, output shots134/ch134/*.png):
+  tabs fit, one-line overline, lining 1, rounded cards (seen in a web render, not a device).
+  Local tests all pass (list in the PR body); tsc + eslint clean. CI green, MERGEABLE CLEAN; READY posted (FIX ROUND 1).
+- SAFE STOP received after READY; nothing else pushed.
+- Seen in a web render, outside my entry: the LTV dashboard's failed state says "Unable to load LTV metrics. Check your
+  connection." with a filled Retry (CoachLtvDashboard.tsx; generic copy). Harness had no ltv fixture. Not changed.
+
 ## HANDOFF
-- DONE: growth-project-mobile#633 MERGED at head 13081f41696110d58fd84d156dd75ae7640d6a4b (both lenses APPROVE, CI green).
-  Branch agent134/coach-home-134; worktree /home/user/workspace/wt/COACH-HOME-134-mobile clean, nothing unpushed.
-- Deferred Cs (for a later lane, not blocking): "Send a message" inside the urgent card Pressable is not reachable by screen
-  reader (fix: accessibilityActions on the card, CoachHomeSections.tsx ClientCard); ltv-metrics read twice per load; the
-  narrative count uses overview at_risk_count while the cards use the sharing-gated at-risk list; change-line wording; silent
-  omission of payout/retention/urgent on failed optional reads.
-- Needs operator (3 NEED above): the Money card, setup checklist and brief card restyles; patch at
-  /home/user/workspace/ops/reports/COACH-HOME-134-cards-proposal.patch (built on main 60097251; `git apply`, then add those three
-  files to the source guard list in src/__tests__/coachHome134.test.tsx).
+- SAFE STOP. m#633 MERGED (13081f41). Follow-up **m#641** open for the lenses and the merge loop: branch
+  agent134/coach-home-cards-134, head e60b8ec45e69beba46f91389f28c8b61e13af338, CI green, CLEAN, 231 lines,
+  `FIX ROUND 1 (OPENING)` READY posted. No verdicts yet. Worktree /home/user/workspace/wt/COACH-HOME-134-mobile is on that
+  branch, clean, nothing unpushed. No other WIP branches.
+- Next for agent 135: wait for LN-OPUS-D-134 and LN-SOL-D-134 at e60b8ec4. On a B: fix at the current head in the worktree, run
+  each touched test file alone via `/home/user/workspace/ops/heavy.sh npx jest <file>` (coachHomeCards134, coachHome134,
+  qaCoachHome131, money, coachSetup, coachSetupRound2), `heavy.sh npx tsc --noEmit -p .`, one push, CI green, then post
+  `FIX ROUND 2 (COACH-HOME-134, agent 134, COACH-HOME-134) — growth-project-mobile#641 @ <sha> — READY FOR AUDIT`.
+  If main conflicts: `git merge origin/main` (never rebase).
+- Left out on purpose (not one-liners): ltv-metrics is read twice (CoachLtvDashboard fetches on its own); the narrative count vs
+  the sharing-gated cards; Sol C, failed optional reads stay silent. Outside my entry, seen in a web render: CoachLtvDashboard's
+  failed state uses generic copy ("Check your connection") with a filled Retry.
+- Web render of a branch: shots134/harness-ch134 points at this worktree (`cd shots134/harness-ch134 &&
+  /home/user/workspace/ops/heavy.sh ./build.sh dist`, then `python3 capture_scroll.py dist /home/user/workspace/shots134/ch134
+  coach-home`). Current shots: shots134/ch134/coach-home-{360x800,390x844}{,-cards}.png (web render, not a device).

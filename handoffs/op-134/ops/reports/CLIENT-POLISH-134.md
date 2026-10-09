@@ -35,17 +35,56 @@ Worktree /home/user/workspace/wt/CLIENT-POLISH-134-mobile, branch agent134/clien
 6. Day1Win shows only the weight card without a package. Default: leave.
 7. Workout "Coach guidelines" button shows for a coachless client (opens a 402). Default: leave.
 
-## HANDOFF
-- PRs (all mine, worktree /home/user/workspace/wt/CLIENT-POLISH-134-mobile):
-  - m#624 agent134/client-polish-134 @ b0c08d7690d9a4d446fb86cee1971d91705f863a: items 1+2. CI green, READY posted. Lenses SLICE E.
-  - m#631 agent134/client-polish-134-b @ 02a25beb0fad55dcc3c415045d6445c6e17a1428: items 3+4. CI green, READY posted.
-  - m#635 agent134/client-polish-134-c @ 856053155303f581be5e8e1d3f306141dbb3d122: item 5. CI green (after one rerun of an
-    untouched flaky file), READY posted: https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/635#issuecomment-6074681473
-- Verdicts: m#624 and m#631 APPROVE from LN-OPUS-E-134 and LN-SOL-E-134 at their exact heads (B=0 U=0); both MERGED.
-  m#635: review in progress (SLICE E; board /home/user/workspace/ops/board/board.md).
-- Next steps for agent 135: poll each PR (180 s); fix any B at its current head in one push (merge origin/main, never rebase),
-  CI green, then `FIX ROUND <k> (CLIENT-POLISH-134, agent 134, CLIENT-POLISH-134) — growth-project-mobile#<n> @ <sha> — READY FOR AUDIT`.
-  Test commands: heavy.sh npx jest --ci <file> one at a time; tsc via heavy.sh.
-- Bodies: CLIENT-POLISH-134-prA-body.md, -prB-body.md, -prC-body.md in this folder.
-- m#635 CI run 37885785368: 1 failure in WorkoutScreen.calm130 (file not touched; passes locally 11/11; previous run failed useBiometricGate instead, also passes locally) -> rerun --failed.
-- m#635 Sol REQUEST CHANGES B-635-SOL-E-1 (parity table missing in body) -> body fixed, FIX ROUND 2 READY at same head 85605315.
+## HANDOFF (SAFE STOP, operator agent 134; refreshed at the stop)
+Worktree /home/user/workspace/wt/CLIENT-POLISH-134-mobile. Identity Bradley Gleave <bradley@bradleytgpcoaching.com>; never rebase.
+
+### Merged
+- m#624 (items 1+2) and m#631 (items 3+4): APPROVE from LN-OPUS-E-134 + LN-SOL-E-134 at exact heads, B=0 U=0, merged.
+- m#635 (item 5, B22 B24) @ 85605315: Sol B-635-SOL-E-1 (parity table) fixed in the body, FIX ROUND 2 READY; Sol APPROVE; merged 05:32Z.
+
+### Open, pushed (leave for the lenses: LN-SOL-E-134 + LN-OPUS-D-134)
+- m#639 agent134/client-polish-134-d @ 8f4b22a9ef3586de7381fb0906a5713a6181f9c8 (SHOTS-134B b, P0 tick line). CI green, READY posted
+  (https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/639#issuecomment-6075049297). No verdict yet.
+- m#640 agent134/client-polish-134-e @ 25305923838ec8f69290ecaaf9ed8db15c9a89c4 (SHOTS-134B c, underline inputs + Google case).
+  CI was running at the stop; READY NOT posted. Next: when CI is green post
+  `FIX ROUND 1 (OPENING) (CLIENT-POLISH-134, agent 134) — growth-project-mobile#640 @ 25305923838ec8f69290ecaaf9ed8db15c9a89c4 — READY FOR AUDIT`
+  (body: /home/user/workspace/ops/reports/CLIENT-POLISH-134-prE-body.md). If CI fails only in an untouched file, rerun --failed.
+
+### Work in progress (committed locally, NOT pushed)
+- agent134/client-polish-134-f @ 2be8930562d7d4b5ce11dc2cc8104d81c42e76c6 off main 737f4e60 (SHOTS-134B d, tab labels). Done and tested
+  locally: root cause (from the code) is bottom-tabs' own 5 pt padding on the tab BUTTON (BottomTabItem tabVerticalUiKit), not the
+  item, so the label had 50 pt, not the 60 pt m#618 assumed; "Community" is 58.5 pt and clipped where text cannot shrink (web). Fix:
+  label `marginHorizontal: -TAB_BUTTON_PADDING` (5) + `textAlign: 'center'` in ClientNavigator tabBarLabel; minimumFontScale kept at
+  0.8 (0.85 would clip at the 1.3 text-size cap). clientTabLabels.test 2/2 (pins the library padding), tabBarPolish125 2/2,
+  clientNavigator 6/6, coachlessNeverGated134 26/26, workoutSessionReachability124 1/1, eslint 0 errors, tsc clean.
+  Next: `git merge origin/main`, push, open "[134] B26 — CLIENT-POLISH-134 F: tab labels get the full tab width, Community never
+  clips" with Before -> after (360: label 50 pt -> 60 pt), parity (prototype tab bar | ClientNavigator.tsx), WHY/WHEN/WHO
+  (m#618 0921c6e2 measured against the item, not the button), not seen on device; READY when green.
+
+### Not started
+- SHOTS-134B e (Home "Add Allergies and restrictions to set daily targets."): from the code the label comes from
+  src/lib/profileCompletion.ts:163 (`diet_restrictions: 'Allergies and restrictions'`) interpolated into a Home line. Next: new
+  branch off main; lower-case the label inside the sentence and show the line only when targets are missing, or say what adding
+  allergies changes (food suggestions), with tests both ways; HomeScreen.tsx is free now (m#635 merged).
+
+### Item a (coachless consent) needs a backend change: NOT built (tell the operator)
+- From the code: the server accepts a P0 only when copy_version is in CONSULT_CONSENT_COPY_VERSIONS (v3, v4) AND text_sha256
+  equals that version's pinned full-screen text (backend src/onboarding/consult-consent-copy.ts; env-validation: unknown names are
+  ignored). A coachless variant needs a new server copy (e.g. consult-consent-v5-coachless / v6 for the memory paragraph) and,
+  because box 2 hashes to the AI ledger copy, new ledger copies too (client-ai-v4 / v5 coachless). So: backend change required.
+- Removal-only draft for legal review (no new claims; one grammar change "collect" -> "collects" flagged):
+  P3: "To coach you, The Growth Project collects and uses what you share here: your profile, this consultation including the
+  screening questions, your targets, food and workout logs, check-ins, any health, sleep or wearable data you choose to connect, and
+  posts you write in the community. We use it only to provide your training. We never sell it. If you joined through a clinic, the
+  clinic does not see it."  Box 1: "I agree to the training waiver, and to The Growth Project collecting and using my information to
+  coach me."  P4 (v4): drop "and your coach can use AI drafts about your training", ", and never your coach's private notes",
+  "are private from your coach and".  Box 2: "Optional: I allow Roman to use my information, processed by Anthropic."
+- Risks for the operator: (1) the v5 memory paragraph's "information about your training may help with that without identifying
+  you" is a data-use disclosure; removing it with the coach clause may drop a disclosure that still applies; (2) a coachless client
+  who later joins a coach agreed to no coach collection, so joining would need a fresh P0 (or a join-time consent).
+  Default: no change in build 8; backend copy versions + mobile variant in the next COACHLESS lane.
+
+## Proposed (needs operator) — current list
+1-7 as above (Settings redeem endpoint; CoachCodeSheet maxLength 40; Health back chevrons; keyboard footer band; Community
+package-only for coachless server-side; Day1Win weight-only card; Workout "Coach guidelines" button for coachless).
+8. Item a needs backend consent versions (above).

@@ -21,7 +21,13 @@ with the COACH-CONSULT-M2-134 K5-K8 PR if READY and unreviewed by Opus. Sol coun
 | m#633 COACH-HOME-134 | 754e2bf6 | APPROVE | 0/0 |
 | m#626 FIX ROUND 3 (merge) | 6f35387b | APPROVE | 0/0 |
 | m#633 FIX ROUND 2 | 13081f41 | APPROVE (Sol's hero B fixed; merged) | 0/0 |
-| m#634 COACH-INSETS-B3-134 | 6631a7b7 | APPROVE | 0/0 |
+| m#634 COACH-INSETS-B3-134 | 6631a7b7 | APPROVE (merged) | 0/0 |
+| m#635 CLIENT-POLISH-134 C (B22 B24) | 85605315 | APPROVE | 0/0 |
+| b#898 coach-code card (backend) | 765dd23c | APPROVE | 0/0 |
+| m#637 coach-code card (mobile) | be853f88 | APPROVE | 0/0 |
+| m#623 FIX ROUND 3 (merge) | fd7fd734 | APPROVE | 0/0 |
+| m#638 COACH-INSETS-A follow-up | ca3adbdb | APPROVE | 0/0 |
+| m#639 CLIENT-POLISH-134 D (P0 tick hint) | 8f4b22a9 | APPROVE (posted at SAFE STOP, before a READY line) | 0/0 |
 | b#897 COACH-CARD-134 backend | 902b9ca1 then 79a422da | REQUEST CHANGES (B-897-1 bio vs headline; U-897-1 per-row card), then APPROVE after FIX ROUND 2 | 1/1, then 0/0 |
 
 Log entries below the table are in time order.
@@ -93,17 +99,6 @@ Log entries below the table are in time order.
     count vs the sharing-gated urgent list.
   Waiting for READY. b#897 @ 902b9ca1: test-only delta, CI running.
 
-## HANDOFF (kept current; 21:58 PDT)
-Status: every READY head in my slice has a verdict, and none is pending. Waiting for merges or new pushes:
-1. b#897: APPROVE @ 79a422da, merged.
-2. m#630: APPROVE @ 56fb2fa4, merged. b#897 uses the bio fallback inside `headline`, so m#630 needs no follow-up.
-3. m#633: APPROVE @ 13081f41, merged. m#634 (COACH-INSETS-B3-134): APPROVE @ 6631a7b7 (22:14). Re-verdict only if the head moves.
-   Note for 135: the board file has been stale since 21:23, so check `gh pr list` for coach-(insets|home|card) branches.
-4. Done: b#894, b#896, m#625, m#627, m#630 (merged), m#623 (APPROVE @ de909bbb), m#626 (APPROVE @ 6f35387b, FIX ROUND 3).
-Feeder notify files: all present except COACH-CARD-134 (b#897 still open).
-Own lens misses: the m#626 parity gutter claim (Sol's B), the m#633 hero-without-own-charge edge (Sol's B), and b#897 B-897-1 in my 21:15 prep (I read headline without checking
-what mobile K1 actually sends). Every "matches" claim and every field mapping is now checked against the sender.
-Needs operator: 0.
 - 21:43 b#897 @ 902b9ca1: CLAIM, then VERDICT REQUEST CHANGES (B-897-1, U-897-1; copy reports/LN-OPUS-D-134-b897-verdict.txt).
   m#630 @ 56fb2fa4 FIX ROUND 2: CLAIM, then VERDICT APPROVE (copy reports/LN-OPUS-D-134-m630-fixround2-verdict.txt).
 - 21:47 m#633 @ 754e2bf6 (COACH-HOME-134): READY. CLAIM, then VERDICT APPROVE (B=0 U=0, 4 Cs). Copy:
@@ -130,3 +125,30 @@ Needs operator: 0.
   follow-up: Back on pushed Risk board, SubCoachDetail and Business profile; 24 pt gutters) @ ca3adbdb: CI pending, no READY.
   Prep (from the code): Back renders only when `navigation.canGoBack()`, with a 44 pt target and an a11y label, and gutters use
   `layout.gutter`. Possible C: when the screen is a stack root, canGoBack bubbles up to the tab navigator, so Back switches tabs. No B so far.
+- 22:28 operator: I am now also the Opus side for CLIENT-POLISH-134. Order: m#635, then m#637 and b#898, then m#638 and the follow-ups.
+- 22:30 m#635 @ 85605315 (B22 B24, coachless never gated): CLAIM, then VERDICT APPROVE. Every `openToCoachless` screen maps to a
+  backend route with @OpenToCoachlessClient(). Copy: reports/LN-OPUS-D-134-m635-verdict.txt.
+- 22:32 b#898 @ 765dd23c and m#637 @ be853f88 (coach-code card): CLAIM, then VERDICT APPROVE on both (JwtAuthGuard client routes,
+  null-safe, same rule as b#897). Copies: reports/LN-OPUS-D-134-b898-verdict.txt and -m637-verdict.txt.
+- 22:35 m#623 FIX ROUND 3 @ fd7fd734 (main merges; test-only conflict): CLAIM, then merge-only VERDICT APPROVE (copy
+  -m623-fixround3-verdict.txt). m#638 @ ca3adbdb (Back + gutters): CLAIM, then VERDICT APPROVE (copy -m638-verdict.txt; I checked
+  the gutter parity claim against the head). m#639 (CLIENT-POLISH-134 D, P0 Continue hint) @ 8f4b22a9: CI pending, no READY.
+- 22:40 SAFE STOP (operator). m#639 @ 8f4b22a9: VERDICT APPROVE (copy -m639-verdict.txt). No further claims or polling.
+
+## HANDOFF (final, 22:40 PDT, SAFE STOP)
+Verdicts posted by LN-OPUS-D-134 (latest head each):
+- APPROVE: b#894, b#896, b#897 @ 79a422da, b#898 @ 765dd23c.
+- APPROVE: m#623 @ fd7fd734, m#625, m#626 @ 6f35387b, m#627, m#630, m#633 @ 13081f41, m#634.
+- APPROVE: m#635 @ 85605315, m#637 @ be853f88, m#638 @ ca3adbdb, m#639 @ 8f4b22a9.
+- Merged so far: b#894, b#896, b#897, m#625, m#626, m#627, m#630, m#633, m#634.
+Open findings: none of mine. B-623-1, B-630-1, B-897-1 and U-897-1 are all fixed and re-verdicted.
+Not reviewed (for agent 135, slice D or CLIENT-POLISH Opus side):
+- m#640 (agent134/client-polish-134-e) and m#641 (agent134/coach-home-cards-134): opened after 22:36; no claim and no verdict from me.
+- m#639 got my APPROVE before its READY line. If the builder pushes or posts READY at a new head, it needs a new verdict.
+Note: board.md has been stale since 21:23, so find slice PRs with `gh pr list` on the coach-(insets|home|card) and client-polish branches.
+Own lens misses (caught by Sol), for calibration:
+- m#626: parity gutter claim;
+- m#633: hero hidden on net without own charge;
+- b#897: headline vs bio. I raised this one at the same time as Sol, after missing it in prep.
+Lesson: check every "matches" claim and every field mapping against the code that sends or uses it.
+Needs operator: 0.

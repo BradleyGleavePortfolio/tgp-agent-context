@@ -54,3 +54,4 @@
 - 22:19 COACH-HOME-134 done (m#633). Follow-up YES: Money/setup/brief cards restyle (patch) + 'Send a message' screen-reader reachability.
 - 22:19 deploy 11 LIVE (run 37887651459, 30535548; /health ok). Deployed today 11. MERGED m#634 22:16. Merged today 91.
 - 22:26 SHOTS-134B done: 62 PNGs + 6 compare sheets in shots134/ (web render, not a device). Findings a-e -> CLIENT-POLISH-134, f -> COACH-HOME-134. Re-run of shots after m#623/m#635: YES (later, if credits allow).
+- 22:39 MERGED m#635 22:32 (B22 B24 DONE) and m#623 22:35 (K5-K8: coach consultation complete, B02 B03 DONE on mobile). Merged today 93. SAFE STOP sent to 5 lenses + 5 builders (estimated 42k; lenses finish verdicts on m#638 m#637 b#898 m#639). Build 8 after m#638 (Back on 3 coach screens).

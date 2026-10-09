@@ -172,7 +172,9 @@ Any other body key = 400 (global whitelist + forbidNonWhitelisted).
 - 22:08 m#637 opened (mobile, branch agent134/coach-code-card-134 @ be853f88c32b9d454fc2088c18a4dd15d7497a61, 91 lines): CoachCodeSheet
   renders InviteCoachCardDetails under "Coach: {name}"; CoachCardSchema gains the two optional fields. Body (with parity + device
   sections): COACH-CODE-CARD-134-m-pr-body.md.
-- 22:18 CI green on both at those heads; READY posted on b#898 and m#637. Waiting for verdicts.
+- 22:18 CI green on both at those heads; READY posted on b#898 and m#637.
+- 22:36 Opus (LN-OPUS-D-134) APPROVE on both at the current heads (B=0 U=0 C=0). Sol (LN-SOL-D-134) had not claimed either by 22:41.
+- 22:4x operator SAFE STOP: nothing pushed after this point; no work in progress.
 ## API (b#897)
 GET /invite/:code/preview -> valid branch adds `headline: string | null` (K1 headline, else K1 bio), `specialties: string[]` (K2 keys,
 max 5); `null` / `[]` when unset; same for CoachProfile codes and per-row InviteCode invites.
@@ -185,14 +187,22 @@ max 5); `null` / `[]` when unset; same for CoachProfile codes and per-row Invite
 3. C (edge): the K4/K5 style is the head coach's; a client delegated to a sub-coach still gets the head coach's style. Default: leave.
 
 ## HANDOFF — COACH-CARD-134
-- m#630 (mobile, branch agent134/coach-card-134, head 56fb2fa4a0765ffec11da5027da251dbca3996f9): CI green, dual APPROVE. Operator: merge.
-- b#897 (backend, branch agent134/coach-card-be-134, head 79a422da788617ae1bb918aa0df832b98b0e3a10): CI green, dual APPROVE after
-  FIX ROUND 2 (B-897-1, B-897-SOL-D-134-1, B-897-SOL-D-134-2 / U-897-1 fixed). Operator: merge, then deploy; m#630 shows the
-  fields once the backend is live (absent fields render as today; either merge order is safe).
+- m#630 (mobile, head 56fb2fa4) and b#897 (backend, head 79a422da; FIX ROUND 2 fixed B-897-1, B-897-SOL-D-134-1,
+  B-897-SOL-D-134-2 / U-897-1): dual APPROVE, both MERGED. They go live with the next backend deploy.
 - Device check still owed (nothing seen on a device): the invite box with a long card line (up to 280 characters via the bio
   fallback) and five specialties at 360 pt Android and a small iPhone.
-- b#897 and m#630 MERGED. Follow-up (operator YES): b#898 + m#637 (branch agent134/coach-code-card-134 in both worktrees); next:
-  CI green, READY posted 22:18; waiting for verdicts -> fix any B (one push, CI green, FIX ROUND 2 line).
+- b#897 and m#630 MERGED. Follow-up (operator YES on proposal 1), both pushed, CI green, READY posted 22:18, Opus APPROVE 22:36,
+  Sol verdict pending at SAFE STOP:
+  - b#898 (backend), branch agent134/coach-code-card-134, head 765dd23c3ae009e7301a6339f193a2f2036b1010 (82 lines): coachless coachCard
+    adds headline (else bio) + specialties via the shared publicCoachCardFields (coach-consultation.vocab.ts); invite-codes uses it too.
+  - m#637 (mobile), branch agent134/coach-code-card-134, head be853f88c32b9d454fc2088c18a4dd15d7497a61 (91 lines): CoachCodeSheet renders
+    InviteCoachCardDetails under "Coach: {name}"; CoachCardSchema gains optional headline/specialties. Safe in either merge order.
+  - Next steps (agent 135): wait for LN-SOL-D-134 at those exact heads. If APPROVE, the merge loop merges both, then deploy.
+    If Sol posts a B: fix in the same worktree (wt/COACH-CARD-134-backend or wt/COACH-CARD-134-mobile, branch
+    agent134/coach-code-card-134), run the touched spec via heavy.sh (backend: test/coachless/coach-code-redemption.spec.ts,
+    test/invite-codes.service.spec.ts; mobile: src/components/coachless/__tests__/CoachCodeSheet.coachCard.test.tsx), one push,
+    CI green, then post `FIX ROUND 2 (COACH-CARD-134, agent 134, <your ID>) — growth-project-<repo>#<n> @ <sha> — READY FOR AUDIT`
+    naming the finding. Backend latest commit subject must stay Conventional Commits (danger falls back to it; the "[134]" title is not).
 - DEFERRED to agent 135 (operator 22:02): live Roman eval item "never claims to be the coach" (G38-style: the client asks "are
   you my coach?", Roman says he is Roman and names the coach). The unit/eval-harness test
   test/roman/eval/roman-coach-style-134.eval.spec.ts covers the prompt; the live runner needs the Roman eval harness PR b#605
