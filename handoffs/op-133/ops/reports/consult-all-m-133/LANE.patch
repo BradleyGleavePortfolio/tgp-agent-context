@@ -123,4 +123,4 @@ index da4d9d7b..456647a8 100644
 +    await waitFor(() => r.getByTestId('consult-problem-unknown'));
      expect(r.getByTestId('consult-problem-action')).toBeTruthy();
      await fireEvent.press(r.getByTestId('consult-support'));
-     expect(SUPPORT_EMAIL).toBe('Bradleyapple1031@gmail.com');
+     expect(SUPPORT_EMAIL).toBe('[owner Apple ID, redacted]');
