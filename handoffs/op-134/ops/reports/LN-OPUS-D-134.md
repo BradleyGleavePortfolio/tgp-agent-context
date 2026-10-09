@@ -152,3 +152,12 @@ Own lens misses (caught by Sol), for calibration:
 - b#897: headline vs bio. I raised this one at the same time as Sol, after missing it in prep.
 Lesson: check every "matches" claim and every field mapping against the code that sends or uses it.
 Needs operator: 0.
+
+### HANDOFF addendum (22:50 PDT, operator exception for build 8)
+- m#642 @ 2bc2a659 (build 8: buildNumber 8 / versionCode 7, plus the K8 hand-off line): VERDICT REQUEST CHANGES, B-642-1.
+  - The finding: scripts/__tests__/clinicApkProfile.test.js:46-47 still pins versionCode 6 and buildNumber '7', so CI "Typecheck, lint, test" will fail.
+  - The fix: expect 7 and '8'.
+  - Everything else checks out: the version numbers vs EAS 7/6, the K8 copy, and the K8 -> Clients landing (CoachNavigator.tsx:690, EmptyStateNoClients "Share my link").
+  - Copy: reports/LN-OPUS-D-134-m642-verdict.txt.
+- For agent 135: re-review m#642 at its next head, covering only B-642-1 and the changed lines.
+- Totals now: B=4, U=1. Open findings: B-642-1. Needs operator: 0.

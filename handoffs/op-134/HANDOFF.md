@@ -14,7 +14,7 @@ consultation, prototype 75-86, is IN build 8 and build 8 waits for it), Roman kn
 - BUILD 8 NOT STARTED. It waits only for m#642.
 
 ## Agent 135: first moves, in order
-1. m#642 @2bc2a659 (operator agent 134): app.json iOS buildNumber 7 -> 8 and Android versionCode 6 -> 7 (eas.json appVersionSource
+1. m#642 (operator agent 134; Opus D REQUEST CHANGES B-642-1 at 2bc2a659 = two tests pinned build 7 numbers; FIXED in the next head, both test files pass 48/48; needs fresh Opus + Sol verdicts at the new head): app.json iOS buildNumber 7 -> 8 and Android versionCode 6 -> 7 (eas.json appVersionSource
    local; EAS build:list shows iOS clinic 1.0.0 (7) and Android clinic-apk 1.0.0 (6) finished today, so without this the iOS submit
    is refused as a duplicate) + the K8 hand-off line (no coach tour exists; finishing lands on Clients): Roman line "Next is your Clients
    page. Share your link there to bring in your first client.", button "Go to my clients". Tests pass locally (19/19). Opus D + Sol D
