@@ -59,7 +59,7 @@ as a coach grows; gym tools come later. TGP takes 2% of what a coach sells.
 - App copy: no first person (Roman excepted), no exclamation marks, no emojis.
 
 ## 6. Root causes found (the 41-problem register)
-Status per problem is in ops/BUGS134.md (39 DONE at handoff). The causes behind them:
+Status per problem is in ops/BUGS134.md (39 done at handoff; full list in section 12). The causes behind them:
 - Consultation never appeared for clients (B14, from agent 133, confirmed by production SELECT): production had no house program set, so
   every client fell to the short flow. Fixed: seed runner (b#896), seed applied 21:18 under the owner's coach account; 1 active house set.
   The exercise catalog in production was empty, so the first apply needed exercise_catalog=upsert.
@@ -120,6 +120,64 @@ Status per problem is in ops/BUGS134.md (39 DONE at handoff). The causes behind 
 - Nothing has been seen on a real phone since build 7; B41 is the owner's phone pass of build 8.
 - The coachless consent text still mentions a coach; a coach-free version needs new backend consent versions (legal text, removals only).
 - A live Roman evaluation of "never claims to be the coach" waits for the Roman eval harness (backend PR #605, unmerged).
+
+## 12. The 41 problems: done and left
+
+Status at handoff: 39 done, 2 left (B29 partly done, B41 open). "Done" means the fix is merged to main and, for server fixes, deployed to production. The evidence label is in each row; none was checked on a phone. Source: ops/BUGS134.md.
+
+### Left (2)
+
+| # | Problem | Where it stands | Status |
+|---|---|---|---|
+| B29 | Pages not world-class | Merged: m#614-m#616, m#632 (Habits, Progress), m#633 (coach Home, solo target), m#624, m#631, m#638. Open: m#639 (P0 Continue says to tick the box; Sol asked for a PR-description fix only), m#640 (sign-in underline inputs, "Continue with Google"; unreviewed), m#641 (coach Home cards, "Send a message" reachable, tab strip and greeting fixes; unreviewed), plus the unpushed Community tab label guard and the Home "Allergies" line (not started) | Partly done: the main redesigns are merged, small polish is open |
+| B41 | Owner first to see screens on a phone | Pre-build web-render pass done (62 renders, SHOTS-134/134B). Build 8 not started: it waits for m#642 (version 8 / 7 and the K8 line), then the owner's phone check | Open |
+
+### Done (39)
+
+| # | Problem | Fix | Status |
+|---|---|---|---|
+| B01 | Progress icons cut off | m#576 (COACHLESS-FIX-134) merged 20:59 | Done (from the code) |
+| B02 | Packages before coach setup | b#894 deployed; m#620 m#621 m#622 m#623 merged (K0-K8, routing: every new coach gets the consultation; packages optional after) | Done (from the code; seen in a test) |
+| B03 | Coach questions thin | b#894 b#897 deployed; m#620-623 + m#630 merged (K1-K6 answers on the coach card and in Roman); b#898/m#637 coach-code card open | Done (from the code; seen in a test) |
+| B04 | Confirmation email in spam | owner: Resend connected to Supabase (owner 20:2x "done") | Done (owner; not seen in a test) |
+| B05 | "Resend" looked broken | m#576 merged 20:59 | Done (from the code) |
+| B06 | Payouts not switched on | owner Stripe Connect 17:53 + m#576 copy merged 20:59 | Done (from the code; not tested) |
+| B07 | "Setup moved on another device" | b#889 (deploy 8) | Done (from the code) |
+| B08 | Back does nothing | m#576 merged 20:59 | Done (from the code) |
+| B09 | Back under gesture bar | m#576 merged 20:59 | Done (from the code) |
+| B10 | Technical error text | m#576 merged 20:59 | Done (from the code) |
+| B11 | Logo "GP" | merged (agent 133) | Done |
+| B12 | Bare welcome | merged (agent 133) | Done |
+| B13 | Squished to top | client: m#582 m#593 m#607 m#608 merged; coach: m#625 m#626 m#627 m#633 merged | Done (from the code; seen in a test) |
+| B14 | Not the consultative onboarding | m#580 m#579 m#581 merged; house seed applied 21:18 (1 active house set, owner account; SELECT) | Done (from the code + production SELECT) |
+| B15 | Letters cut off | merged | Done |
+| B16 | Rectangle buttons | m#607 merged 21:23 (radius tokens); coach literals m#625-627 | Done (from the code) |
+| B17 | Crammed role page | merged | Done |
+| B18 | "Where does it begin?" robotic | m#580 merged (lean flow never mounted) | Done (from the code) |
+| B19 | Bar over birth-year wheel | m#579 merged 20:59 | Done (from the code) |
+| B20 | Target weight on birth-year page | m#580 merged | Done (from the code) |
+| B21 | "Step 3 of 6" not chapters | m#579 merged 20:59; m#581 merged 21:06 | Done (from the code) |
+| B22 | "Logging comes with coaching" | b#888 deployed; m#635 merged 22:32 (coachless never gated) | Done (from the code; seen in a test) |
+| B23 | Logging disabled coachless | b#888 merged, deploy 9 live 20:28 | Done (from the code) |
+| B24 | "Food and water logging need active access" | b#888 deployed; m#635 merged 22:32 | Done (from the code; seen in a test) |
+| B25 | "Message your coach" coachless | m#618 merged 21:23 | Done (from the code; seen in a test) |
+| B26 | Community on two lines | m#618 merged 21:23 (Inter 11, one line at 360 pt measured from the font file) | Done (from the code; seen in a test) |
+| B27 | Roman picture cut off | m#602 merged | Done |
+| B28 | Squished at top | client + coach inset PRs merged (m#582 m#607 m#624 m#625 m#626 m#627 m#633) | Done (from the code; seen in a test) |
+| B30 | Roman chat prehistoric | m#601 m#602 merged | Done |
+| B31 | Roman can't see details | merged + deployed (agent 133) | Done |
+| B32 | No "Before Roman answers" sheet | m#592 merged 21:03; aiRefusal.ts coachless line (REFUSAL-COACHLESS-134) | Done (from the code; one coachless copy line follow-up) |
+| B33 | No reveals / tour | m#603 m#604 m#605 m#606 merged (tour, 7 beats, spotlights, overlay); m#581 merged | Done (from the code; seen in a test) |
+| B34 | "THURSDAY, THE EIGHTH." | m#618 merged 21:23 ("Thursday, 8 October", locale order) | Done (from the code; seen in a test) |
+| B35 | App never opens | m#619 merged 21:06 | Done (from the code; seen in a test) |
+| B36 | "Locked" flashes | m#619 merged 21:06 | Done (from the code; seen in a test) |
+| B37 | No calm try-again screen | m#619 merged 21:06 (prototype 44) | Done (from the code; seen in a test) |
+| B38 | Old data up to 60 s | b#889 (deploy 8) | Done (from the code) |
+| B39 | iPhone-only safe-area wrapper | safe-area-context everywhere: client PRs + coach m#625 m#626 m#627 merged | Done (from the code) |
+| B40 | Approved features off in builds | m#580 (eas.json flags) merged | Done (from the code) |
+
+Extra polish open but not blocking any item: b#898 and m#637, the coachless coach-code card (one approval, needs the Sol verdict; b#898 needs a backend deploy after merge).
+
 
 ## Where to find things
 handoffs/op-134/HANDOFF.md (state and first moves), ops/BUGS134.md (the register), ops/FLEET134.md (timeline), ops/reports/ (each
