@@ -1,0 +1,412 @@
+diff --git a/config/expected-env.json b/config/expected-env.json
+index 2f18c662..728dd2b4 100644
+--- a/config/expected-env.json
++++ b/config/expected-env.json
+@@ -79,7 +79,7 @@
+     "EXPO_PUBLIC_FF_CLIENT_TUTORIAL": {
+       "kind": "flag",
+       "default": "off",
+-      "reason": "Feature flag read via featureFlags.ts with a literal key."
++      "reason": "Feature flag read via featureFlags.ts with a literal key (Roman's client tour after the consultation). B40: must be \"true\" in every store and test profile (preview, production, clinic, clinic-apk); scripts/validate-app-config.js enforces it."
+     },
+     "EXPO_PUBLIC_FF_COACH_BRIEF": {
+       "kind": "flag",
+@@ -154,7 +154,7 @@
+     "EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING": {
+       "kind": "flag",
+       "default": "off",
+-      "reason": "Feature flag read via featureFlags.ts with a literal key (consultation onboarding, #310); on in the clinic EAS profile."
++      "reason": "Feature flag read via featureFlags.ts with a literal key (consultation onboarding, #310). B14/B40: must be \"true\" in every store and test profile (preview, production, clinic, clinic-apk); scripts/validate-app-config.js enforces it. RootNavigator sends every new client to the consultation whatever its value; it still gates the tour's recovery read."
+     },
+     "EXPO_PUBLIC_FF_DELIVERABLES": {
+       "kind": "flag",
+diff --git a/eas.json b/eas.json
+index e695beaf..ea4448e4 100644
+--- a/eas.json
++++ b/eas.json
+@@ -28,7 +28,9 @@
+         "EXPO_PUBLIC_NOTIFICATIONS_MOCK": "false",
+         "EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES": "true",
+         "EXPO_PUBLIC_FF_DELIVERABLES": "true",
+-        "EXPO_PUBLIC_FF_ANDROID_CREDIT_PACK_LINK": "true"
++        "EXPO_PUBLIC_FF_ANDROID_CREDIT_PACK_LINK": "true",
++        "EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING": "true",
++        "EXPO_PUBLIC_FF_CLIENT_TUTORIAL": "true"
+       }
+     },
+     "production": {
+@@ -48,7 +50,9 @@
+         "EXPO_PUBLIC_FF_COMMUNITY_TAB": "true",
+         "EXPO_PUBLIC_FF_COMMUNITY_HALL": "true",
+         "EXPO_PUBLIC_FF_COMMUNITY_COHORTS": "true",
+-        "EXPO_PUBLIC_FF_DELIVERABLES": "true"
++        "EXPO_PUBLIC_FF_DELIVERABLES": "true",
++        "EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING": "true",
++        "EXPO_PUBLIC_FF_CLIENT_TUTORIAL": "true"
+       }
+     },
+     "clinic": {
+diff --git a/scripts/__tests__/easUpdateGuard.test.js b/scripts/__tests__/easUpdateGuard.test.js
+index 51ab67a5..1e062544 100644
+--- a/scripts/__tests__/easUpdateGuard.test.js
++++ b/scripts/__tests__/easUpdateGuard.test.js
+@@ -138,7 +138,9 @@ describe('eas-update-guard', () => {
+       expect(c.clinic.env.EXPO_PUBLIC_FF_CLIENT_TUTORIAL).toBe('true');
+       expect(c.clinic.env.EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES).toBe('true');
+       expect(c.clinic.env.TGP_ANDROID_HEALTH_CONNECT).toBe('1');
+-      expect(c.production.env.EXPO_PUBLIC_FF_CLIENT_TUTORIAL).toBeUndefined();
++      // B40 (CONSULT-ALL-M-133): the consultation and the tour ship on in every store build.
++      expect(c.production.env.EXPO_PUBLIC_FF_CLIENT_TUTORIAL).toBe('true');
++      expect(c.production.env.EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING).toBe('true');
+     });
+ 
+     it('parses both --k v and --k=v forms', () => {
+diff --git a/scripts/__tests__/validateAppConfigUpdates.test.js b/scripts/__tests__/validateAppConfigUpdates.test.js
+index 751acf78..2de0a7d9 100644
+--- a/scripts/__tests__/validateAppConfigUpdates.test.js
++++ b/scripts/__tests__/validateAppConfigUpdates.test.js
+@@ -154,6 +154,11 @@ describe('validate-app-config — EAS Update gate', () => {
+       ['clinic-apk profile deleted', 'eas.json', (j) => { delete j.build['clinic-apk']; }, /build\.clinic-apk is required/],
+       ['clinic-apk inherits the clinic channel', 'eas.json', (j) => { delete j.build['clinic-apk'].channel; }, /channel "clinic" is used by clinic, clinic-apk/],
+       ['clinic-apk on the preview environment', 'eas.json', (j) => { j.build['clinic-apk'].environment = 'preview'; }, /build\.clinic-apk\.environment must be "production"/],
++      // B14/B40 (CONSULT-ALL-M-133): the consultation and the tour are on in every store and test build.
++      ['production consultation flag missing', 'eas.json', (j) => { delete j.build.production.env.EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING; }, /build\.production\.env\.EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING must be "true"/],
++      ['preview consultation flag false', 'eas.json', (j) => { j.build.preview.env.EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING = 'false'; }, /build\.preview\.env\.EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING must be "true"/],
++      ['preview tour flag missing', 'eas.json', (j) => { delete j.build.preview.env.EXPO_PUBLIC_FF_CLIENT_TUTORIAL; }, /build\.preview\.env\.EXPO_PUBLIC_FF_CLIENT_TUTORIAL must be "true"/],
++      ['clinic-apk turns the tour off', 'eas.json', (j) => { j.build['clinic-apk'].env.EXPO_PUBLIC_FF_CLIENT_TUTORIAL = 'false'; }, /build\.clinic-apk\.env\.EXPO_PUBLIC_FF_CLIENT_TUTORIAL must be "true"/],
+       // Audit #305 C4: the accepted launch behaviour is enforced, not just "valid".
+       ['updates disabled', 'app.json', (j) => { j.expo.updates.enabled = false; }, /expo\.updates\.enabled must be true/],
+       ['update check only on Wi-Fi', 'app.json', (j) => { j.expo.updates.checkAutomatically = 'WIFI_ONLY'; }, /checkAutomatically must be "ON_LOAD"/],
+diff --git a/scripts/validate-app-config.js b/scripts/validate-app-config.js
+index 211a6550..96e1d7ae 100644
+--- a/scripts/validate-app-config.js
++++ b/scripts/validate-app-config.js
+@@ -742,6 +742,9 @@ const EXPECTED_CHANNELS = {
+   'clinic-apk': { channel: 'clinic-apk', environment: 'production' },
+ };
+ 
++// B14/B40: flags that must be "true" in every OTA store/test profile.
++const ALWAYS_ON_FLAGS = ['EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING', 'EXPO_PUBLIC_FF_CLIENT_TUTORIAL'];
++
+ function validateUpdates(app) {
+   const expo = (app && app.expo) || {};
+   const pkgPath = path.join(ROOT, 'package.json');
+@@ -854,6 +857,15 @@ function validateUpdates(app) {
+       if (flag !== 'true') {
+         fail(`eas.json: build.${profile}.env.EXPO_PUBLIC_FF_IOS_HIDE_NON_P2P_PURCHASES must be "true", got ${JSON.stringify(flag)}`);
+       }
++      // B14/B40 (CONSULT-ALL-M-133): the consultation and Roman's tour are
++      // on in every build the owner or a client installs, so no store or
++      // test build is ever a "general build" without them again.
++      for (const name of ALWAYS_ON_FLAGS) {
++        const v = (eff.env || {})[name];
++        if (v !== 'true') {
++          fail(`eas.json: build.${profile}.env.${name} must be "true" (B40: the consultation and the tour ship on in every store and test build), got ${JSON.stringify(v)}`);
++        }
++      }
+     }
+     // One binary population per channel: two profiles on the same channel
+     // would receive each other's updates (built with different env).
+diff --git a/src/__tests__/rootNavigatorConsultationAvailable.test.tsx b/src/__tests__/rootNavigatorConsultationAvailable.test.tsx
+index f1351d98..0860d1fc 100644
+--- a/src/__tests__/rootNavigatorConsultationAvailable.test.tsx
++++ b/src/__tests__/rootNavigatorConsultationAvailable.test.tsx
+@@ -1,11 +1,13 @@
+ /**
+- * S-REVENUE-124 (B-REV-1), caller level: with the consultation flag on (the
+- * clinic build), a new client the server cannot finish the consultation for
+- * (GET /me/onboarding consultation_available: false: no coach yet, or a coach
+- * without a clinic program set) gets the standard onboarding, with no second
+- * Day-1 setup flow after completion, instead of a consultation that
+- * ends on "not_attached" / "clinic_not_configured" forever. A missing field,
+- * a 404 or a failed read keeps the consultation. Harness copied from
++ * B14 (CONSULT-ALL-M-133, owner decisions 27-28), caller level: every new
++ * client gets the consultation, coached or coachless, whatever GET
++ * /me/onboarding says about `consultation_available` (an older server says
++ * false when it cannot finish it; the consultation then shows its calm server
++ * state at POST /complete, see ConsultationFlow.test.tsx). The lean flow is
++ * never mounted, in any build. A lean marker left by an earlier build is
++ * cleared for a client who never finished it; a client who did finish keeps
++ * the first-win step and never sees a second onboarding. History: S-REVENUE-124
++ * (B-REV-1) sent these clients to the lean flow. Harness copied from
+  * rootNavigatorConsultationComplete.test.tsx (real RootNavigator).
+  */
+ const mockSecure: Record<string, string | null> = {};
+@@ -194,60 +196,85 @@ const mount = () =>
+     </QueryClientProvider>,
+   );
+ 
+-describe('B-REV-1: the consultation only where the server can finish it (flag on)', () => {
+-  it('no coach or a coach without a program set: the standard onboarding, never the consultation', async () => {
++describe('B14: every new client gets the consultation, never the lean flow', () => {
++  it('a coachless client on an older server (consultation_available: false): the consultation, not the lean flow', async () => {
+     mockOnboarding.body = { completed: false, answers: null, consultation_available: false };
+     const r = await mount();
+-    await r.findByTestId('nav-lean');
+-    expect(r.queryByTestId('nav-consultation')).toBeNull();
+-    expect(await AsyncStorage.getItem(MARKER)).toBe('true');
++    await r.findByTestId('nav-consultation');
++    expect(r.queryByTestId('nav-lean')).toBeNull();
++    // Routing no longer asks the server; no lean marker is written.
++    expect(onboardingReads()).toBe(0);
++    expect(await AsyncStorage.getItem(MARKER)).toBeNull();
+   });
+ 
+-  it.each([true, false])('after lean completion, never starts another Day-1 flow (profile synced: %s)', async (synced) => {
+-    await AsyncStorage.setItem(MARKER, 'true');
+-    await AsyncStorage.setItem('onboarding_complete', 'true');
+-    await AsyncStorage.setItem('prefs:auth.user_data', JSON.stringify({
+-      ...NEW_CLIENT, profile: { ...NEW_CLIENT.profile, onboardingCompleted: synced },
+-    }));
++  it('a coached client (server: available): the consultation', async () => {
++    mockOnboarding.body = { completed: false, answers: null, consultation_available: true };
+     const r = await mount();
+-    await r.findByTestId('day1-win');
+-    expect(r.queryByTestId('nav-day1')).toBeNull();
+-    expect(onboardingReads()).toBe(0);
++    await r.findByTestId('nav-consultation');
++    expect(r.queryByTestId('nav-lean')).toBeNull();
+   });
+ 
+-  it('ignores an old Day-1 checkpoint after onboarding, with the consultation flag off', async () => {
+-    mockConsultFlag = false;
+-    await AsyncStorage.setItem('onboarding_complete', 'true');
+-    await AsyncStorage.setItem('day_one_onboarding_state_v1', JSON.stringify({ step: 'Goals' }));
++  it.each([
++    ['an older server without the field', () => { mockOnboarding.body = { completed: false, answers: null }; }],
++    ['a failed read', () => { mockOnboarding.fail = true; }],
++    ['the consultation flag off (a development build)', () => { mockConsultFlag = false; }],
++  ])('%s: the consultation', async (_label, arrange) => {
++    arrange();
+     const r = await mount();
+-    await r.findByTestId('day1-win');
+-    expect(r.queryByTestId('nav-day1')).toBeNull();
++    await r.findByTestId('nav-consultation');
++    expect(r.queryByTestId('nav-lean')).toBeNull();
+   });
+ 
+-  it('a clinic client (server: available): the consultation, unchanged', async () => {
+-    mockOnboarding.body = { completed: false, answers: null, consultation_available: true };
++  it('a lean marker from an earlier build, onboarding never finished: the consultation, and the marker is cleared', async () => {
++    await AsyncStorage.setItem(MARKER, 'true');
+     const r = await mount();
+     await r.findByTestId('nav-consultation');
+     expect(r.queryByTestId('nav-lean')).toBeNull();
+     expect(await AsyncStorage.getItem(MARKER)).toBeNull();
+   });
+ 
+-  it('an older server without the field: the consultation, as before', async () => {
+-    mockOnboarding.body = { completed: false, answers: null };
++  it.each([true, false])('a returning client who finished the consultation goes straight to the app (profile synced: %s)', async (synced) => {
++    await AsyncStorage.setItem('onboarding_complete', 'true');
++    await AsyncStorage.setItem('prefs:auth.user_data', JSON.stringify({
++      ...NEW_CLIENT, profile: { ...NEW_CLIENT.profile, onboardingCompleted: synced },
++    }));
++    const r = await mount();
++    await r.findByTestId('nav-client');
++    expect(r.queryByTestId('nav-consultation')).toBeNull();
++    expect(r.queryByTestId('day1-win')).toBeNull();
++    expect(r.queryByTestId('nav-day1')).toBeNull();
++    expect(onboardingReads()).toBe(0);
++  });
++
++  it('a returning client who finished on the server only (fresh install): the app, and the local flag is repaired', async () => {
++    await AsyncStorage.setItem('prefs:auth.user_data', JSON.stringify({
++      ...NEW_CLIENT, profile: { ...NEW_CLIENT.profile, onboarding_completed: true },
++    }));
+     const r = await mount();
+-    await r.findByTestId('nav-consultation');
++    await r.findByTestId('nav-client');
++    expect(r.queryByTestId('nav-consultation')).toBeNull();
++    expect(await AsyncStorage.getItem('onboarding_complete')).toBe('true');
+   });
+ 
+-  it('a failed read: the consultation, as before', async () => {
+-    mockOnboarding.fail = true;
++  it.each([true, false])('after lean completion in an earlier build, never starts another onboarding (profile synced: %s)', async (synced) => {
++    await AsyncStorage.setItem(MARKER, 'true');
++    await AsyncStorage.setItem('onboarding_complete', 'true');
++    await AsyncStorage.setItem('prefs:auth.user_data', JSON.stringify({
++      ...NEW_CLIENT, profile: { ...NEW_CLIENT.profile, onboardingCompleted: synced },
++    }));
+     const r = await mount();
+-    await r.findByTestId('nav-consultation');
++    await r.findByTestId('day1-win');
++    expect(r.queryByTestId('nav-day1')).toBeNull();
++    expect(r.queryByTestId('nav-consultation')).toBeNull();
++    expect(onboardingReads()).toBe(0);
+   });
+ 
+-  it('flag off: no read, the standard onboarding (unchanged)', async () => {
++  it('ignores an old Day-1 checkpoint after onboarding, with the consultation flag off', async () => {
+     mockConsultFlag = false;
++    await AsyncStorage.setItem('onboarding_complete', 'true');
++    await AsyncStorage.setItem('day_one_onboarding_state_v1', JSON.stringify({ step: 'Goals' }));
+     const r = await mount();
+-    await r.findByTestId('nav-lean');
+-    expect(onboardingReads()).toBe(0);
++    await r.findByTestId('day1-win');
++    expect(r.queryByTestId('nav-day1')).toBeNull();
+   });
+ });
+diff --git a/src/__tests__/rootNavigatorOnboardingField.test.tsx b/src/__tests__/rootNavigatorOnboardingField.test.tsx
+index 29193326..7c92b9bf 100644
+--- a/src/__tests__/rootNavigatorOnboardingField.test.tsx
++++ b/src/__tests__/rootNavigatorOnboardingField.test.tsx
+@@ -108,6 +108,13 @@ jest.mock("../navigation/LeanOnboardingNavigator", () => {
+   return () =>
+     R.createElement(Text, { testID: "nav-onboarding" }, "onboarding");
+ });
++// B14: every new student gets the consultation (the lean flow is no longer mounted).
++jest.mock("../navigation/ConsultationOnboardingNavigator", () => {
++  const { Text } = jest.requireActual("react-native");
++  const R = jest.requireActual("react");
++  return () =>
++    R.createElement(Text, { testID: "nav-onboarding" }, "onboarding");
++});
+ jest.mock("../navigation/CoachWizardNavigator", () => () => null);
+ jest.mock("../navigation/Day1OnboardingNavigator", () => () => null);
+ jest.mock("../components/OfflineBanner", () => () => null);
+diff --git a/src/navigation/RootNavigator.tsx b/src/navigation/RootNavigator.tsx
+index 52ad937d..d133a7e4 100644
+--- a/src/navigation/RootNavigator.tsx
++++ b/src/navigation/RootNavigator.tsx
+@@ -19,7 +19,8 @@ import CoachWizardNavigator from './CoachWizardNavigator';
+ // implementation and future rollback. See the file header for context.
+ // eslint-disable-next-line @typescript-eslint/no-unused-vars
+ import OnboardingNavigator from './OnboardingNavigator';
+-import LeanOnboardingNavigator from './LeanOnboardingNavigator';
++// B14 (CONSULT-ALL-M-133): the lean flow is no longer mounted; every new
++// client gets the consultation. LEAN-CUT-133 deletes the lean files.
+ import ConsultationOnboardingNavigator from './ConsultationOnboardingNavigator';
+ import OfflineBanner from '../components/OfflineBanner';
+ import { authEvents } from '../utils/authEvents';
+@@ -33,7 +34,6 @@ import { isScreenshotMode } from '../screenshots';
+ // contributes nothing, so no `tgp://community*` route exists in the parser.
+ import { featureFlags } from '../config/featureFlags';
+ import { firstWinApi, WinType } from '../services/firstWinApi';
+-import { consultationApi } from '../api/consultationApi';
+ import Day1WinScreen from '../screens/client/Day1WinScreen';
+ import PackageSelectionSheet from '../components/PackageSelectionSheet';
+ import { prefsStorage } from '../storage/mmkv';
+@@ -327,28 +327,13 @@ function openUpdateCard(params: { autostart: boolean; surface: string }): void {
+   }
+ }
+ 
+-/** B-REV-1: per-user marker that this client was sent to the standard onboarding. */
+-const STANDARD_ONBOARDING_KEY = 'onboarding_standard_path';
+-
+ /**
+- * S-REVENUE-124 (B-REV-1): with the consultation flag on, the consultation
+- * runs only for a client the server can finish it for. GET /me/onboarding
+- * `consultation_available: false` (no coach yet, or a coach without a clinic
+- * program set: POST /complete would answer not_attached or
+- * clinic_not_configured forever) means the standard onboarding.
+- * A missing field (older server), a 404 or
+- * a failed read keeps the consultation, as before.
++ * B-REV-1: per-user marker that this client was sent to the standard (lean)
++ * onboarding by an earlier build. Read only for a client who finished that
++ * flow (they may still choose a first win); cleared when a client who never
++ * finished it is sent to the consultation instead (B14).
+  */
+-async function consultationApplies(): Promise<boolean> {
+-  if (!featureFlags.consultationOnboarding) return false;
+-  try {
+-    const state = await consultationApi.getState();
+-    return state?.consultation_available !== false;
+-  } catch (err) {
+-    logger.warn('RootNavigator', 'consultation availability not read', err);
+-    return true;
+-  }
+-}
++const STANDARD_ONBOARDING_KEY = 'onboarding_standard_path';
+ 
+ function signOutFromLockout(): void {
+   signOut().catch((err: unknown) => {
+@@ -373,8 +358,6 @@ export function extractAcceptInviteToken(url: string): string | null {
+ 
+ export default function RootNavigator() {
+   const [authState, setAuthState] = useState<AuthState>('loading');
+-  // B-REV-1: consultation or the standard onboarding, decided per client at boot.
+-  const [consultationMode, setConsultationMode] = useState<boolean>(featureFlags.consultationOnboarding);
+ 
+   // Push-tap routing: hand the container ref to pushTapRouter once. The
+   // session effect below (after sessionUserId is declared) tells the router
+@@ -759,15 +742,17 @@ export default function RootNavigator() {
+           typeof user?.id === 'string' && user.id ? `${STANDARD_ONBOARDING_KEY}:${user.id}` : null;
+ 
+         if (onboardingDone !== 'true' && !profileDone) {
+-          // Psych Report #1: route new users to 3-question lean flow.
+-          // Existing users who already have the old 10-step onboarding_complete
+-          // flag bypass this entirely — the check above handles them.
+-          // B-REV-1: the consultation only where the server can finish it.
+-          const useConsultation = await consultationApplies();
+-          setConsultationMode(useConsultation);
+-          if (!useConsultation && featureFlags.consultationOnboarding && standardKey) {
+-            await AsyncStorage.setItem(standardKey, 'true').catch((err: unknown) =>
+-              logger.warn('RootNavigator', 'standard onboarding marker not saved', err),
++          // B14 (owner decisions 27-28): every new client, with or without a
++          // coach, gets the full consultation. GET /me/onboarding
++          // consultation_available is no longer read here: an older server that
++          // cannot finish it answers POST /complete with not_attached /
++          // clinic_not_configured, and the consultation shows its calm server
++          // state with Try again (prototype 44). A lean marker left by an earlier
++          // build is cleared, so the consultation's finish is never followed by
++          // the lean flow's first-win step.
++          if (standardKey) {
++            await AsyncStorage.removeItem(standardKey).catch((err: unknown) =>
++              logger.warn('RootNavigator', 'standard onboarding marker not cleared', err),
+             );
+           }
+           setAuthState('onboarding');
+@@ -958,13 +943,8 @@ export default function RootNavigator() {
+       {authState === 'unauthenticated' ? (
+         <AuthNavigator />
+       ) : authState === 'onboarding' ? (
+-        // Consultation onboarding (consult-v1) when the flag is on; it has no
+-        // skip-to-finish path. Flag off: the lean flow, unchanged.
+-        consultationMode ? (
+-          <ConsultationOnboardingNavigator />
+-        ) : (
+-          <LeanOnboardingNavigator />
+-        )
++        // B14: the consultation for every new client; it has no skip-to-finish path.
++        <ConsultationOnboardingNavigator />
+       ) : authState === 'coach_wizard' ? (
+         // New coach — onboarding wizard before full coach dashboard.
+         <CoachWizardNavigator />
+diff --git a/src/screens/consultation/__tests__/consultationTemplates.test.tsx b/src/screens/consultation/__tests__/consultationTemplates.test.tsx
+index b17d8866..0010a524 100644
+--- a/src/screens/consultation/__tests__/consultationTemplates.test.tsx
++++ b/src/screens/consultation/__tests__/consultationTemplates.test.tsx
+@@ -242,18 +242,22 @@ describe('rollback flag', () => {
+     });
+   });
+ 
+-  it('is on only in the clinic EAS profile', () => {
++  it('B14/B40: is on in every store and test EAS profile, so every build the owner installs runs the consultation', () => {
+     const eas = JSON.parse(fs.readFileSync(path.join(root, 'eas.json'), 'utf8'));
+-    expect(eas.build.clinic.env.EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING).toBe('true');
+-    for (const name of Object.keys(eas.build).filter((n) => n !== 'clinic')) {
+-      expect(eas.build[name].env?.EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING).toBeUndefined();
++    const env = (name: string): Record<string, string> => {
++      const b = eas.build[name];
++      return { ...(b.extends ? env(b.extends) : {}), ...(b.env ?? {}) };
++    };
++    for (const name of ['preview', 'production', 'clinic', 'clinic-apk']) {
++      expect([name, env(name).EXPO_PUBLIC_FF_CONSULTATION_ONBOARDING]).toEqual([name, 'true']);
++      expect([name, env(name).EXPO_PUBLIC_FF_CLIENT_TUTORIAL]).toEqual([name, 'true']);
+     }
+   });
+ 
+-  it('RootNavigator mounts the consultation instead of the lean flow when on', () => {
++  it('B14: RootNavigator mounts the consultation for every new client and never the lean flow', () => {
+     const src = fs.readFileSync(path.join(root, 'src/navigation/RootNavigator.tsx'), 'utf8');
+-    // B-REV-1: the per-client decision starts from the flag; the server can turn it off for one client.
+-    expect(src).toMatch(/useState<boolean>\(featureFlags\.consultationOnboarding\)/);
+-    expect(src).toMatch(/consultationMode \? \(\s*<ConsultationOnboardingNavigator \/>\s*\) : \(\s*<LeanOnboardingNavigator \/>/);
++    expect(src).toMatch(/authState === 'onboarding' \? \([^)]*<ConsultationOnboardingNavigator \/>/);
++    expect(src).not.toMatch(/<LeanOnboardingNavigator/);
++    expect(src).not.toMatch(/consultationApplies|consultationMode/);
+   });
+ });
