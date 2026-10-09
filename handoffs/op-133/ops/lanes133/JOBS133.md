@@ -63,8 +63,8 @@ handoffs/op-132/COORDINATION.md (tgp-agent-context; `git pull` and read the tail
 Worktree: /home/user/workspace/wt/DS-PRIMITIVES-133-mobile. The shared parts every client screen uses; replacement, not patching.
 (1) A Screen wrapper (react-native-safe-area-context insets top and bottom plus the prototype's breathing room under the status bar;
     keyboard-aware footer above the gesture bar). (2) Buttons: one primary (forest fill, bone text, full width, prototype height and
-    spacing, pressed state, light haptic, disabled and loading states) and one quiet text link; shape per decision 133-4 (default soft
-    12-point corners). (3) Serif headline text that never clips descenders on Android (lineHeight rule in src/theme/tokens.ts type scale;
+    spacing, pressed state, light haptic, disabled and loading states) and one quiet text link; shape per OWNER 17:07 (header Q10b): rounded and luxurious, never
+    rectangles; you set the radius tokens and rewrite doctrine rule 5 and its test. (3) Serif headline text that never clips descenders on Android (lineHeight rule in src/theme/tokens.ts type scale;
     a test that asserts lineHeight >= 1.2 x fontSize for every serif role). (4) A shared wheel-band style token (hairlines or a tinted band BEHIND the selected value) that CONSULT-PARITY-133 applies to the
     consultation wheels (B19, S5); you do not edit consultation files. (5) Move the lane-133 screens off
     SafeAreaView from 'react-native': client/HomeScreen, MembershipScreen, MoreScreen, PlanScreen, Day1WinScreen,
