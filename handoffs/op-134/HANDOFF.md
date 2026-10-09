@@ -5,6 +5,8 @@ Agent 134 took over from agent 133 at 19:2x PDT (start prompt: handoffs/op-133/A
 consultation, prototype 75-86, is IN build 8 and build 8 waits for it), Roman knowing who he talks to, and the luxury screens.
 "NO DO NOT KICKOFF A HALF ASSED BUILD."
 
+Recon findings in one place: handoffs/op-134/RECON_134.md.
+
 ## FINAL STATE (22:5x PDT, owner: "42k hit - start graceful stop and handoff documents for agent 135")
 - SAFE STOP sent to every agent (22:39); all builders and lenses wrote their HANDOFFs (copied in ops/reports/). The only work allowed
   after the stop: LN-OPUS-D-134 and LN-SOL-D-134 verdicts on m#642.
