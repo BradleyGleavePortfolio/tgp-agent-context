@@ -35,7 +35,7 @@ past text is in git history and, for the logs, in Parts B and C below.
   - A7 Launch plan (one-pager), Roman v1.1 plan, importer north star, company north star (A7.5), feature flags
   - A8 Current state and to-dos (production, PR state, owner to-dos, first moves)
   - A9 Job book (open jobs, exact heads, rulings)
-- Part B — Agent logs (AGENT 121 down to AGENT 109)
+- Part B — Agent logs (AGENT 133 down to AGENT 109; newest first)
 - Part C — Verbatim records (decision log, retired live-state page)
 
 ## Snapshot (2026-10-05 12:3x PDT, agent 120)
@@ -1393,6 +1393,55 @@ Older entries not listed here still stand unless a later decision changed them; 
   the playbook goes on, default yes, not built until the owner says yes; (3) exercise catalog seed tonight, default no seed (m#519
   shows real exercises without a data write).
 
+### A6.13 Owner decisions 2026-10-08 to operator agent 133 (client journey; recorded by agent 133 at 18:4x)
+Verbatim quotes, PDT. Later wins. Agent 133's lane: the client journey (start prompt handoffs/op-132/AGENT_133_START_PROMPT.md); from 18:25
+also the release lane (A6.13 item 10).
+1. 15:29 (to agent 132, binding for 133): every client gets the full consultation, the lean 6-step flow is retired; a coachless client
+   "can do everything a normal coached client can, besides getting direct coaching ... it's just empty for them inherently" (no lock
+   pages); "we don't do build 8 until this is PERFECTION" (timing superseded by item 7, quality bar stands).
+2. 16:20: "its not about the exact screen layout - its about the consultative onbaording flow - forget exact screen laypout - we want 90%
+   the same without changing our layouts basics like button count - the flow prototype knew only of our onbaording not our entire app
+   specs". Rule: the clinic flow prototype (owner PDF, 87 screens, shots in handoffs/op-133) governs ONBOARDING at about 90%; the six tabs
+   and today's button counts stay.
+3. 16:36: "for todays critical, time sensitive work, use all opus 5.5 coders for maximum results" (all builders claude_opus_5_5; lenses
+   stay one Opus + one Sol per PR).
+4. 16:42: "use subagents and start executing RIGHT AWAY! ... all those redo screens that got redesigned need actually applied - all the old
+   ugly screens, and the thin skimpy shitty onbaording flows, can jsut get thrown away and never used again!" (decision 133-7 answered:
+   delete the lean/old onboarding).
+5. 17:07: "I want nice rounded corners, luxurious, not rectangles". OVERRIDES docs/QUIET_LUXURY_DOCTRINE.md rule 5 (radius 4). Tokens since
+   m#577: buttons 12, cards 16, sheets 24 (decision 133-4 answered).
+6. 17:10: "start the mobile redesigns that were unfinished - start with that - credit-depending i might have you start the coach onbaording
+   flow afterwards" (coach consultation K0-K8, prototype 77-85, is NOT built; agent 134 not started).
+7. 17:58: "decision - no, definetely fix the roman AI credit pool issue, thats a huge one! Wire roman up, fix the onbaording, get the real
+   luxurious screens produced, then push all of that to a new apk build for andriod and IOS with the fixed flows and UI! Thats tonights
+   goals!" (decision 133-13 answered: wire the pool; build 8 tonight, Android + iOS).
+8. 18:25: "agent 132 is out of credits and dead - agent 134 isnt alive yet". 18:26: "no cancel no agents ever". 18:26: "NO DO NOT KICKOFF A
+   HALF ASSED BUILD".
+9. Credits (owner readings): 18k/45k at 17:43, 32.5k/45k at 18:25. Standing: no new launches past 40k, wind down at 42k (decision 133-8).
+10. Release lane: with agent 132 out of credits, agent 133 deploys (fly-deploy.yml via handoffs/op-131/ops/deploy_when_green.sh, same
+    checks) and will build. BUILD GATE: no Android/iOS build until Roman (b#891, b#892), onboarding (b#890, b#888, m#580, m#579/m#581,
+    m#588/m#591, TOUR m#603-m#606, m#592) and the luxury screens (m#577, m#587, m#582, m#590/m#607, every REDO-*-133 PR) are merged and
+    the backend is deployed. Build from a clean mobile main worktree: Android clinic-apk, iOS clinic (Expo token "Expo access token (EAS
+    builds)" from the owner's vault; not attached to the agent 133 session at 18:45).
+11. Stripe Connect platform setup (owner in the Stripe Dashboard, 17:43-17:53; answers matched to the code): funds flow "Buyers will
+    purchase from you"; payouts "can be split between sellers" (separate charges and transfers, on_behalf_of the coach, as
+    charge-settlement already does); onboarding hosted by Stripe; Express Dashboard; platform liable for negative balances; no Washington
+    tax registration tonight (Stripe Tax collects only where registered; whether app coaching is taxable in Washington is an accountant
+    question before real sales). No new API key: the server's keys already process live events (3 at 17:50, seen in production).
+    Owner's money model (17:43): coach connects Stripe at sign-up, creates a package, client buys (example $100): Stripe fee, then 2% to
+    TGP on every dollar, rest to the coach; head coach sets the sub-coach money relationship; AI packs at custom amounts. From the code:
+    2% of gross (platform_application_fee_bps 200) and a head-coach % (default 5%, per-coach override, combined cap 50%) exist; NOT built:
+    sub-coach gets nothing, sub-coach without Stripe sells on the head coach's behalf, fixed amount instead of %. Coach AI packs: $10,
+    $25, $99 + custom $10-$500 (hidden on Android release builds). Default (decision 133-15): the missing split options go to the coach lane
+    (agent 134), not tonight.
+12. Decisions at their defaults (agent 133 numbering): 133-1 house programs for coachless clients (own account, no coach attach); 133-2
+    production seed of the three master programs (dry run first) only after 133-9; 133-3 a coach without programs gets house programs
+    under the coach's name; 133-5 tour = the prototype's 7 beats on the six tabs; 133-6 a separate optional coach-sharing yes in the
+    consultation, wording checked by counsel; 133-9 seed only after the mobile coachless copy lands; 133-10 the owner's own coach account
+    is the house account; 133-11 flagged screenings of coachless clients alert the owner; 133-12 agent 133 pushed m#580 commit 2
+    (RootNavigator.tsx, eas.json) after agent 132 gave no answer by 18:15; 133-14 "Add a coach code" row in client Settings for
+    coachless clients (m#611); unreachable redesigned screens deleted except Preferences (gets a Settings row).
+
 ## A7. Plans
 
 ### A7.1 Launch one-pager (APPROVED by the owner 2026-10-05 10:40)
@@ -2473,6 +2522,43 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
+
+## AGENT 133 — 2026-10-08 from 16:10 PDT (133rd operator in the chain; client journey lane; release lane from 18:25)
+Why: owner start prompt handoffs/op-132/AGENT_133_START_PROMPT.md ("Your lane is the client journey"), the clinic flow prototype PDF and
+the 41-problem bug register (B01-B41); decisions A6.13. Agents 130-132 wrote no banner here; their records are handoffs/op-130/,
+handoffs/op-131/ and handoffs/op-132/ (COORDINATION.md). Files: /home/user/workspace/ops/ (RECON133.md, lanes133/_COMMON_133.md with the
+agent 133 header Q1-Q10b, JOBS133.md, roster133.json, merge_loop133.sh), copies in handoffs/op-133/ops/; reports in handoffs/op-133/ops/reports/.
+Storyline:
+- 16:10-16:50 recon (from the code and production SELECTs). B14 root cause: the consultation flag was ON in the owner's APK, but production
+  had 0 ClinicProgramSet rows, so consultation_available was false and complete() refused coachless clients (onboarding.service.ts
+  :611-634, :674-682, :717-722; gate from 73e71cd5): every new client fell back to the lean flow. Redesign history: all 48 DES-*-127/128
+  PRs were merged and are in APK a3a1c18e, but DESIGN-QA-128's theme and primitive jobs never ran, DES-P/AQ/AZ never started, and the
+  REDO-AUDIT-133 audit found 9 redesigned screens with no route, 14 that locked coachless clients, both radius token sets square, and
+  serif headings clipping (line heights under 1.2x).
+- 16:52 wave 1 (all Opus builders, Opus + Sol lenses): CONSULT-ALL-BE, CONSULT-ALL-M, DS-PRIMITIVES, ROMAN-CONTEXT, AUTH-ENTRY,
+  CONSULT-PARITY, ROMAN-ROOM, TOUR, REDO-AUDIT, LN-OPUS-A, LN-SOL-A. 17:15 redesign wave (owner 17:10): REDO-FOOD, REDO-LIVE,
+  REDO-PROGRESS, REDO-SETTINGS, REDO-HABITS-CAL-COMM, REDO-INSETS, REDO-DEVICES, REDO-COACH (coach redesign files claimed while agent 134
+  is absent) + LN-OPUS-B, LN-SOL-B; 18:35 LN-OPUS-C, LN-SOL-C. No agent cancelled.
+- Roman (owner 16:36 "Roman not knowing your name... trace it!"): B31 root cause (from the code, proven on a real Postgres): RomanService
+  constructor params typed `X | null` with no @Inject token got null from Nest, so every client turn since fabc2268 (#668) ran without
+  client data and the crisis audit log was skipped; the NULL preferred_snacks suspect did not reproduce. b#891 adds the tokens; b#892
+  wires the coach AI credit pool the same way (production check: 1 coach with active clients, 4000 available, 0 refused). Same pattern
+  reported, not fixed, in messaging.service.ts:146/:158, ai-approval.service.ts:105, login-throttle-reset.service.ts:90.
+- Merged to main by agent 133 (merge_if_dual.sh, dual APPROVE at exact heads): backend b#890 (house programs, consultation for every
+  client; additive migration ClinicProgramSet.is_house), b#891, b#892; mobile m#577 (shared Screen, PrimaryButton, TextLink, Headline,
+  rounded tokens, heading line heights 55/40), m#583/m#584 (live and assigned workout), m#585 (notifications and privacy screens), m#586
+  (insets), m#587 (WheelBand, QuietRow, section title; re-land of m#578, which had merged into its stacked base branch, not main; the
+  merge loop now merges only base=main), m#588/m#591 (Welcome, Role, Create account to prototype 00-02), m#589 (coach tab bar, Clients),
+  m#594/m#595 (connected devices, health and sleep). 14 to main by 18:45; merged today 37 overall.
+- Deploys: 18:31 deploy 6 today = backend bf6f6a94 (b#890 + b#891, apply-migrations), run 37869811561, /health ok, /readyz db up.
+  18:4x deploy 7 = e261ce5e (b#892) dispatched via deploy_when_green.sh.
+- Open at 18:45 (READY or in review): m#580 (every new client to the consultation; flags on in every store profile), m#579/m#581
+  (consultation 03-45 to the prototype), m#582, m#590 + m#607 (every radius rounds; card-payment test), m#592 (Before Roman answers),
+  m#596 (Profile), m#597/m#600 (Food), m#598 (Habits), m#599/m#609 (coach sheets, coach Settings), m#601/m#602 (Roman chat room),
+  m#603-m#606 (tour, 7 beats), m#593/m#608 (insets), m#610 (Progress), m#611 (Settings + Add a coach code). Agent 132's open b#888
+  (coachless locks; CodeQL failing), b#889, m#576 are now agent 133's to finish.
+- Not done: the coach consultation K0-K8 (agent 134 or agent 133 if credits allow); production seed of house programs (133-9); build 8
+  (behind the BUILD GATE, A6.13 item 10).
 
 ## AGENT 129 — 2026-10-07 from about 15:40 PDT (129th operator in the chain)
 Why: owner "Read both attached documents word for word -> then read tgp source of truth -> then checkover agent 128's logs in github"
