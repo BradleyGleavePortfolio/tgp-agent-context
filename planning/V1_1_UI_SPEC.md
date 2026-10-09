@@ -1,6 +1,6 @@
 # v1.1 specs: UI
 
-Owner-selected screen designs for v1.1. Each section is a spec for one screen, written from a design study (agent 135, 2026-10-09). The mockup images live in the owner's Perplexity library, not in this public repository. Copy rules apply to every section: sentence case, no first person except Roman's own lines, no exclamation marks, no emojis, no clinic or partner names.
+Owner-selected screen designs for v1.1. Each section is a spec for one screen, written from a design study (agent 135, 2026-10-09). Each section carries the selected mockup images and the exact HTML/CSS reference in planning/v1_1_ui/<section>/; build to match them exactly (owner, 2026-10-09: "put the mockup image inside the plans as well as an exact thing to copy"). Sample data in the mockups is fictional. Copy rules apply to every section: sentence case, no first person except Roman's own lines, no exclamation marks, no emojis, no clinic or partner names.
 
 | Section | Screen | Status |
 |---|---|---|
@@ -15,7 +15,27 @@ Owner-selected screen designs for v1.1. Each section is a spec for one screen, w
 
 Owner, 2026-10-09 PDT (verbatim): "Of the screen mockups, the rings and tiles one looks amazing - add this to v1.1 specs under a new UI section please"
 
-Source study: DESIGN-HOME-135 (three concepts: Day timeline, Rings and tiles, Coach letter and one next step). Mockup images: "Client Home: today and three concepts" and "Client Home concept mockups (all images)" in the owner's library.
+Source study: DESIGN-HOME-135 (three concepts: Day timeline, Rings and tiles, Coach letter and one next step).
+
+### The mockup to copy
+
+| Coached, first screen | Coachless, first screen |
+|---|---|
+| ![Rings and tiles, coached client, first screen](v1_1_ui/ui-1-client-home/coached.png) | ![Rings and tiles, coachless client, first screen](v1_1_ui/ui-1-client-home/coachless.png) |
+
+| Coached, full scroll | Coachless, full scroll |
+|---|---|
+| ![Rings and tiles, coached client, full scroll](v1_1_ui/ui-1-client-home/coached-full.png) | ![Rings and tiles, coachless client, full scroll](v1_1_ui/ui-1-client-home/coachless-full.png) |
+
+Exact reference: [coached.html](v1_1_ui/ui-1-client-home/coached.html) and [coachless.html](v1_1_ui/ui-1-client-home/coachless.html) (390 x 844 pt frame; open in a browser). Every size, color, radius and spacing in them comes from the app's theme tokens (src/theme), so a builder copies these values one to one:
+
+- Colors: bone #F5EFE4 (background), surface #FFFDF8 (cards and tiles), cream #F1E8D5, ink #1A1A18, muted #6B675F, border #DCD5CC, forest #2C4A36 (primary, ring fill, the one filled button), on-forest #FBF7F0, gold #C9A961.
+- Type: Cormorant Garamond for numbers and headings (h1 32/40, h2 24/30, h3 500 20/25; dial number 25/30; tile value 26/32; Roman's line italic 19/26); Inter for text (body 16/26, small 14/22, sub-lines 13/18, eyebrow 500 11/13 with 1.98 letter spacing, uppercase).
+- Layout: side gutter 24; cards and tiles radius 16 with a 0.5 hairline border; tile grid two columns, gap 12, tile minimum height 118, padding 14; the filled forest button is 54 high, radius 12.
+- Dials: three across, each 92 x 92, ring radius 40, stroke 7, track #DCD5CC, fill forest with round caps, starting at 12 o'clock; label 10 below the ring, sub-line 4 below the label.
+- Tab bar: 83 high, labels 11/14; "Community" must fit at 360 pt.
+
+Parity rule: every PR that builds this screen carries a parity table against these images and HTML, row by row.
 
 ### Inspiration
 - Whoop: three dials at the top, tap a dial to go deeper ([WHOOP](https://www.whoop.com/us/en/thelocker/the-all-new-whoop-home-screen/)).
