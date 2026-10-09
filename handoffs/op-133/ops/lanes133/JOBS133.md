@@ -161,3 +161,77 @@ Review every [133] PR at its exact head, oldest READY first (Q4 of the 132 heade
 prototype screens in /home/user/workspace/specs133/shots/ and check the parity table claim by claim; a missing parity table or an
 unsupported "matches" is a B. T4 scan first on CONSULT-ALL-BE-133 and ROMAN-CONTEXT-133 (tenancy, health data, consent). End when every
 builder in the lane has a notify file and nothing needed you for 15 minutes, or at the operator's stop.
+
+---
+
+## REDESIGN WAVE (OWNER 17:10: "start the mobile redesigns that were unfinished - start with that")
+These finish the 10-07 redesign program that stopped at the credit stop. Briefs (read the named section in
+/home/user/workspace/repos/tgp-agent-context/handoffs/; `git -C /home/user/workspace/repos/tgp-agent-context pull -q` first):
+DESIGN-QA-128 = op-131/ops/reports/DESIGN-QA-128.md (table "Fix jobs", the row named in your entry, plus "To DES-P-128");
+AUD-FIN-DESIGN-129 = op-131/ops/reports/AUD-FIN-DESIGN-129.md; DES-P-128 = op-128/ops/JOBS128.md:167; DES-AQ-127 and DES-AZ-127 =
+op-127/ops/DES-JOBS-PASTE.md:914 and :1174.
+RULES FOR EVERY REDESIGN JOB (they win over the old briefs):
+R1. The briefs are two days old: verify every file:line row against main first; drop what is already fixed, say so in the PR body.
+R2. OWNER 17:07 (header Q10b): rounded, luxurious corners. EVERY old brief line that says "radius ... to 4" or "radius 0 to 4" is
+    REVERSED: use the radius tokens DS-PRIMITIVES-133 publishes (defaults: buttons/inputs 12, cards 16, sheet tops 24, chips pill).
+R3. The old row list is the floor, not the ceiling. The bar is design-targets/mobile/CATALOG.md and its luxury.jpg images in the
+    context repo (progress-details, plan, plan-fullweek, ai-guide, clientfile-workouts and the rest): "would a person looking at this
+    screen next to the reference believe both came from the same studio?" Serif titles, overlines, hairline sections, generous
+    margins, tabular numbers, one filled forest action per screen, calm load/empty/error states. Keep every route, handler,
+    action and tab (owner 16:20: button counts and the 6 tabs stay).
+R4. Use the shared parts from DS-PRIMITIVES-133 (src/ui/: PrimaryButton, QuietRow, Overline, QuietSection, radius tokens,
+    HapticPressable with the haptics switch). Never write your own. Start now with R1 verification, structure, copy (sentence
+    case, truthful states) and layout; read "## API" in /home/user/workspace/ops/reports/DS-PRIMITIVES-133.md as soon as it is
+    posted. You MAY `git merge origin/agent133/ds-primitives-133` into your branch to build against it, but open your PR only
+    after DS-PRIMITIVES merges to main (check `git -C <worktree> fetch -q origin && git log origin/main --oneline -30` every 10
+    minutes), then `git merge origin/main`. Never edit src/theme/**, src/ui/** primitives or src/__tests__/quietLuxuryDoctrine.test.ts
+    (DS-PRIMITIVES owns them); add new test files instead.
+R5. PR body: the parity table against the CATALOG reference you matched (folder name) and what differs and why; what was not
+    seen on a device. Under 800 lines; split into two PRs when the brief is two jobs.
+
+Each entry below points at its "### APPLY-..." section in /home/user/workspace/ops/reports/REDO-AUDIT-133.md (re-checked against main
+df7b8ae9 at 17:05-17:20; its "Still wrong" list is your starting checklist; R1-R5 above still apply, and R3 means go past the list).
+Lanes (operator 17:15): src/screens/settings/**, src/screens/notifications/**, src/screens/community/**, src/screens/TrustCenterScreen.tsx,
+src/screens/day-one/** and src/screens/onboarding/** are lane 133. Parked: DES-AQ-127 (Community DMs and Find are behind flags that are
+off; nobody can reach them).
+
+### REDO-FOOD-133 (claude_opus_5_5) — APPLY-FOOD-133 (QA-FOOD-128). Food tab, the most used client screen. First.
+Worktree /home/user/workspace/wt/REDO-FOOD-133-mobile. Keep #525/#526 load, water and stale-day behaviour exactly; no change to logging,
+offline queue, portions or totals. Reference: design-targets/mobile/plan/ and plan-fullweek/.
+
+### REDO-LIVE-133 (claude_opus_5_5) — APPLY-LIVE-133 (QA-LIVE-128). Live workout.
+Worktree /home/user/workspace/wt/REDO-LIVE-133-mobile. Set logging, the rest alert (#474) and finish logic stay frozen. The finish button
+becomes the shared PrimaryButton (rounded). Reference: clientfile-workouts/.
+
+### REDO-PROGRESS-133 (claude_opus_5_5) — APPLY-PROGRESS-133 (DES-P-128, never started). Progress, "the full picture".
+Worktree /home/user/workspace/wt/REDO-PROGRESS-133-mobile. Split body/chart into two PRs if over 800 lines. The FAB becomes an inline
+action; keep every action listed. Reference: progress-details/luxury.jpg (the bar for this screen).
+
+### REDO-SETTINGS-133 (claude_opus_5_5) — APPLY-SETTINGS-133, then APPLY-PROFILE-133 (two PRs)
+Worktree /home/user/workspace/wt/REDO-SETTINGS-133-mobile. Settings, NotificationCenter, TrustCenter, BlockedUsers, DataExport,
+DeleteAccount; then ProfileScreen (U2: the stone text fails AA). Delete-account, export and block logic frozen. These screens also open
+from coach Settings: say so in the PR body. ClientTutorialSetting is TOUR-133's.
+
+### REDO-HABITS-CAL-COMM-133 (claude_opus_5_5) — APPLY-HABITS-CAL-COMM-133 (QA-HABITS-CAL-COMM-128)
+Worktree /home/user/workspace/wt/REDO-HABITS-CAL-COMM-133-mobile. Habits, CalendarSessionScreen, CommunityTodayScreen. Not ClientNavigator.
+
+### REDO-INSETS-133 (claude_opus_5_5) — APPLY-INSETS-133, MINUS MoreScreen, PlanScreen, MembershipScreen (DS-PRIMITIVES-133 owns those)
+Worktree /home/user/workspace/wt/REDO-INSETS-133-mobile. The DS screen wrapper on WorkoutScreen (:1008 top60), EditProfile, Education,
+GroceryList, PrepGuide, Recipes, RecipeDetail, Report, RoutineBuilder, Widgets, ClientPackages, PackageCheckout, PurchaseUnpack,
+CoachGuidelines, Messages, Leaderboard, Timeline; components/messaging/MessageBubble.tsx and ThreadV2Parts.tsx (shared with coaches:
+say so). Every hardcoded radius in these files to the DS tokens. Starts after DS-PRIMITIVES-133 posts the wrapper in "## API". Two PRs
+if over 800 lines.
+
+### REDO-DEVICES-133 (claude_opus_5_5) — APPLY-DEVICES-133 (DES-AZ-127, never started). Last in priority.
+Worktree /home/user/workspace/wt/REDO-DEVICES-133-mobile. Connections, WearablesShell, MetricDetailScreen. Health data stays T2: no
+change to what is read or shared; consent copy untouched.
+
+### REDO-COACH-133 (claude_opus_5_5) — coach redesign items from REDO-AUDIT-133 section 4 (QA-COACH-128, QA-SHEETS-128 coach part,
+QA-COACH-SET-129). Agent 134 has not started; agent 133 claims these files in COORDINATION.md until it does.
+Worktree /home/user/workspace/wt/REDO-COACH-133-mobile. Three PRs: (a) CoachNavigator.tsx presentation only (outline icons, 11 pt labels
+instead of 10/600 at :707, bone bar + hairline, selection haptic; no tab, order or route change), ClientsListScreen, CoachWorkoutBuilderScreen
+(pressed states), programs/ProgramsLibraryScreen; (b) coach AI sheets (AiBuilderSheet, WeekAiSheet, AdjustForClient, RevisionHistorySheet,
+ClientCopyBar) radius tokens + HapticPressable — NOT src/entitlements/** (agent 132), NOT components/ai/AiConsentSheet.tsx (ROMAN-ROOM-133);
+(c) coach SettingsScreen (QA-COACH-SET-129 in op-131/ops/reports/AUD-FIN-DESIGN-129.md). Never touch CoachWizardNavigator.tsx,
+src/components/coach/setup/**, src/lib/coachSetup/** (m#576, then the coach onboarding flow). Reference: coach-home-solo/,
+coach-workout-builder/, drafts-queue/.
