@@ -1680,6 +1680,12 @@ inside the cap; client retention for clients who use Roman versus those who do n
    notes ship. ANSWERED: yes.
 
 
+### A7.2a v1.1 UI spec (owner, 2026-10-09)
+
+- planning/V1_1_UI_SPEC.md is the v1.1 UI section. UI-1 Client Home: Rings and tiles, selected by the owner 2026-10-09 ("the rings and tiles one looks amazing - add this to v1.1 specs under a new UI section").
+- The winning mockup images and the exact HTML/CSS to copy live in planning/v1_1_ui/ui-1-client-home/ (coached and coachless, first screen and full scroll). Owner: "put the mockup image inside the plans as well as an exact thing to copy". Every PR that builds it carries a parity table against them.
+- UI-2 coach Home, UI-3 client food logging, UI-4 coach client lookup: mockups in progress (agent 135); each gets the same images-plus-HTML treatment once the owner picks.
+
 ### A7.3 Importer north star (owner, effective 2026-09-27; importer work only)
 
 
