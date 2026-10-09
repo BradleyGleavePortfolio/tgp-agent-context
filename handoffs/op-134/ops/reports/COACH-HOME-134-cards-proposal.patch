@@ -1,0 +1,146 @@
+diff --git a/src/components/coach/brief/BriefHomeCard.tsx b/src/components/coach/brief/BriefHomeCard.tsx
+index 4574ca05..633ba423 100644
+--- a/src/components/coach/brief/BriefHomeCard.tsx
++++ b/src/components/coach/brief/BriefHomeCard.tsx
+@@ -7,6 +7,7 @@ import React, { useMemo } from "react";
+ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+ import { Ionicons } from "@expo/vector-icons";
+ import { useTheme, ThemeColors } from "../../../theme/ThemeProvider";
++import { radius, typography } from "../../../theme/tokens";
+ 
+ interface Props {
+   onOpen: () => void;
+@@ -41,16 +42,17 @@ const makeStyles = (colors: ThemeColors) =>
+       alignItems: "center",
+       gap: 12,
+       minHeight: 64,
+-      borderWidth: 1,
++      // COACH-HOME-134: rounded hairline card (Q10b) with a serif title.
++      borderWidth: StyleSheet.hairlineWidth,
+       borderColor: colors.border,
++      borderRadius: radius.card,
+       backgroundColor: colors.surface,
+-      padding: 16,
++      padding: 20,
+       marginBottom: 16,
+     },
+     text: { flex: 1, gap: 2 },
+     title: {
+-      fontFamily: "Inter_600SemiBold",
+-      fontSize: 17,
++      ...typography.h3,
+       color: colors.textPrimary,
+     },
+     sub: {
+diff --git a/src/components/coach/money/MoneyHomeCard.tsx b/src/components/coach/money/MoneyHomeCard.tsx
+index a23f7d9a..f521ac2b 100644
+--- a/src/components/coach/money/MoneyHomeCard.tsx
++++ b/src/components/coach/money/MoneyHomeCard.tsx
+@@ -21,6 +21,7 @@ import {
+ } from "react-native";
+ import { useFocusEffect } from "@react-navigation/native";
+ import { useTheme, ThemeColors } from "../../../theme/ThemeProvider";
++import { radius, typography } from "../../../theme/tokens";
+ import { coachMoneyApi, type MoneySummary } from "../../../api/coachMoneyApi";
+ import { coachSetupApi, type ConnectView } from "../../../api/coachSetupApi";
+ import {
+@@ -228,11 +229,14 @@ export default function MoneyHomeCard({ onOpenMoney, onSetUpStripe }: Props) {
+ 
+ const makeStyles = (colors: ThemeColors) =>
+   StyleSheet.create({
++    // COACH-HOME-134: rounded hairline card (Q10b), serif title and amount;
++    // the attention count is said in forest words, never a red pill.
+     card: {
+-      borderWidth: 1,
++      borderWidth: StyleSheet.hairlineWidth,
+       borderColor: colors.border,
++      borderRadius: radius.card,
+       backgroundColor: colors.surface,
+-      padding: 16,
++      padding: 20,
+       marginBottom: 16,
+     },
+     head: {
+@@ -242,31 +246,25 @@ const makeStyles = (colors: ThemeColors) =>
+       marginBottom: 8,
+     },
+     title: {
+-      fontFamily: "Inter_600SemiBold",
+-      fontSize: 17,
++      ...typography.h3,
+       color: colors.textPrimary,
+     },
+     badge: {
+-      backgroundColor: colors.error,
+-      paddingHorizontal: 10,
+       paddingVertical: 4,
+-      borderRadius: 12,
+     },
+     badgeText: {
+-      fontFamily: "Inter_600SemiBold",
+-      fontSize: 13,
+-      color: colors.textOnPrimary,
++      ...typography.bodySmall,
++      fontFamily: "Inter_500Medium",
++      color: colors.primary,
+     },
+     eyebrow: {
+-      fontFamily: "Inter_600SemiBold",
+-      fontSize: 12,
+-      letterSpacing: 0.6,
+-      textTransform: "uppercase",
++      ...typography.eyebrow,
+       color: colors.textSecondary,
++      marginTop: 4,
+     },
+     amount: {
+-      fontFamily: "Inter_600SemiBold",
+-      fontSize: 30,
++      ...typography.h1,
++      fontVariant: ["tabular-nums"],
+       color: colors.textPrimary,
+       marginVertical: 2,
+     },
+diff --git a/src/components/coach/setup/CoachSetupChecklist.tsx b/src/components/coach/setup/CoachSetupChecklist.tsx
+index 362c2a29..3df4e94d 100644
+--- a/src/components/coach/setup/CoachSetupChecklist.tsx
++++ b/src/components/coach/setup/CoachSetupChecklist.tsx
+@@ -23,6 +23,7 @@ import {
+ } from "react-native";
+ import { useFocusEffect } from "@react-navigation/native";
+ import { useTheme, ThemeColors } from "../../../theme/ThemeProvider";
++import { radius, typography } from "../../../theme/tokens";
+ import { useCurrentUser } from "../../../hooks/useCurrentUser";
+ import {
+   loadSetupStatus,
+@@ -224,16 +225,17 @@ export default function CoachSetupChecklist({ onOpen }: Props) {
+ 
+ const makeStyles = (colors: ThemeColors) =>
+   StyleSheet.create({
++    // COACH-HOME-134: rounded hairline card (Q10b) with a serif title.
+     card: {
+-      borderWidth: 1,
++      borderWidth: StyleSheet.hairlineWidth,
+       borderColor: colors.border,
++      borderRadius: radius.card,
+       backgroundColor: colors.surface,
+-      padding: 16,
++      padding: 20,
+       marginBottom: 16,
+     },
+     title: {
+-      fontFamily: "Inter_600SemiBold",
+-      fontSize: 17,
++      ...typography.h3,
+       color: colors.textPrimary,
+     },
+     sub: {
+@@ -252,7 +254,7 @@ const makeStyles = (colors: ThemeColors) =>
+     dot: {
+       width: 14,
+       height: 14,
+-      borderRadius: 7,
++      borderRadius: radius.chip,
+       borderWidth: 2,
+       borderColor: colors.primary,
+       marginRight: 12,

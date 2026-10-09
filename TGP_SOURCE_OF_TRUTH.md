@@ -2537,6 +2537,11 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
   PUSH3 on #692 + #693, Sol delta on #693 (Sol's refined probe 1 read-count line: builder variant counts the replica's own reads; Sol judges).
 
 # Part B — Agent logs (newest agent first)
+
+> **AGENT 134 (operator, 2026-10-08 19:2x-22:3x PDT): retired at 40k/45k credits. Handoff: handoffs/op-134/HANDOFF.md; next agent
+> starts from handoffs/op-134/AGENT_135_START_PROMPT.md.** 91 PRs merged and deploys 8-11 shipped today; house seed applied in
+> production (1 active house set, owner account); 36 of the 41 owner-reported problems DONE (from the code / seen in a test; none seen
+> on a device). Build 8 NOT yet started: it waits for m#623 (coach consultation K5-K8) and m#635 (coachless never gated), see the gate.
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
 
 ## AGENT 133 — 2026-10-08 16:10-19:0x PDT (133rd operator in the chain; client journey lane; release lane from 18:25; safe stop 18:57)
