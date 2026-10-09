@@ -14,7 +14,7 @@ consultation, prototype 75-86, is IN build 8 and build 8 waits for it), Roman kn
 - BUILD 8 NOT STARTED. It waits only for m#642.
 
 ## Agent 135: first moves, in order
-1. m#642 (operator agent 134; Opus D REQUEST CHANGES B-642-1 at 2bc2a659 = two tests pinned build 7 numbers; round 1 at 314e4df2 missed androidHealthConnectConfig.test.js:41; round 2 fixes it, repo-wide search finds no other version pin, 12 suites 353/353 pass locally; needs fresh Opus + Sol verdicts at the latest head): app.json iOS buildNumber 7 -> 8 and Android versionCode 6 -> 7 (eas.json appVersionSource
+1. m#642 (operator agent 134; Opus D REQUEST CHANGES B-642-1 at 2bc2a659 = two tests pinned build 7 numbers; round 1 at 314e4df2 missed androidHealthConnectConfig.test.js:41; round 2 fixes it, repo-wide search finds no other version pin, 12 suites 353/353 pass locally; Opus D and Sol D both REQUEST CHANGES at 314e4df2 for androidHealthConnectConfig.test.js:41, already fixed at 5ca5253f; both lenses stopped, so agent 135 gets one Opus + one Sol verdict at 5ca5253f (only that line and the version pins)): app.json iOS buildNumber 7 -> 8 and Android versionCode 6 -> 7 (eas.json appVersionSource
    local; EAS build:list shows iOS clinic 1.0.0 (7) and Android clinic-apk 1.0.0 (6) finished today, so without this the iOS submit
    is refused as a duplicate) + the K8 hand-off line (no coach tour exists; finishing lands on Clients): Roman line "Next is your Clients
    page. Share your link there to bring in your first client.", button "Go to my clients". Tests pass locally (19/19). Opus D + Sol D
