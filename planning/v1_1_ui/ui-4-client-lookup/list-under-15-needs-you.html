@@ -1,0 +1,216 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept 1, Needs you splits, 3 clients (mockup, not the app)</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap');
+:root{--bone:#F5EFE4;--surface:#FFFDF8;--cream:#F1E8D5;--ink:#1A1A18;--muted:#6B675F;--border:#DCD5CC;
+--forest:#2C4A36;--on:#FBF7F0;--gold:#C9A961;--stone:#B1A89F;--g:24px}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bone)}
+body{font-family:'Inter',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.screen{min-height:100vh;padding-bottom:104px;position:relative;overflow-x:hidden}
+.screen.dock{padding-bottom:176px}
+/* type scale (tokens.ts typography) */
+.display{font:400 44px/55px 'Cormorant Garamond';letter-spacing:.4px}
+.h1{font:400 32px/40px 'Cormorant Garamond';letter-spacing:.6px}
+.h2{font:400 24px/30px 'Cormorant Garamond';letter-spacing:.5px}
+.h3{font:500 20px/25px 'Cormorant Garamond';letter-spacing:.4px}
+.h4{font:500 17px/22px 'Inter';letter-spacing:-.1px}
+.body{font:400 16px/26px 'Inter';letter-spacing:-.16px}
+.bodyMd{font:500 16px/26px 'Inter';letter-spacing:-.16px}
+.small{font:400 14px/22px 'Inter'}
+.smallMd{font:500 14px/22px 'Inter'}
+.caption{font:500 12px/18px 'Inter';letter-spacing:.96px}
+.eyebrow{font:500 11px/13px 'Inter';letter-spacing:1.98px;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.forest{color:var(--forest)}
+.roman-line{font:italic 400 19px/26px 'Cormorant Garamond';letter-spacing:.2px}
+.g{padding-left:var(--g);padding-right:var(--g)}
+.row{display:flex;align-items:center}
+.between{justify-content:space-between}
+.hair{border-top:.5px solid var(--border)}
+.hairb{border-bottom:.5px solid var(--border)}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:16px}
+.cream{background:var(--cream)}
+.btn{height:54px;border-radius:12px;background:var(--forest);color:var(--on);display:flex;align-items:center;justify-content:center;font:500 16px/22px 'Inter';letter-spacing:-.16px;padding:0 16px;text-align:center}
+.btn.out{background:transparent;border:1px solid var(--forest);color:var(--forest)}
+.btn.bone{background:var(--on);color:var(--forest)}
+.btn.sm{height:44px;font-size:15px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font:500 14px/18px 'Inter';white-space:nowrap}
+.link{font:500 15px/22px 'Inter';color:var(--forest)}
+/* chrome */
+.status{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 32px;font:600 15px/18px 'Inter'}
+.mock{font:500 11px/14px 'Inter';letter-spacing:.3px;background:var(--ink);color:var(--bone);padding:4px 10px;border-radius:999px;white-space:nowrap}
+.tabbar{position:fixed;left:0;right:0;bottom:0;height:83px;background:var(--bone);border-top:.5px solid var(--border);display:flex;padding-top:8px;z-index:20}
+.tab{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;font:400 11px/14px 'Inter';letter-spacing:-.2px;color:var(--muted);white-space:nowrap}
+.tab.on{color:var(--ink);font-weight:500}
+.tab svg{width:24px;height:24px}
+.ico{width:24px;height:24px;flex:none}
+.ico.i18{width:18px;height:18px}
+/* avatars */
+.av{width:36px;height:36px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font:400 15px/1 'Cormorant Garamond';border:1px solid #B08D57;background:var(--cream);color:var(--ink)}
+.roman{width:36px;height:36px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--gold);color:#1A1A18;font:500 19px/1 'Cormorant Garamond';box-shadow:0 0 0 2px var(--bone),0 0 0 3px var(--gold);position:relative}
+.roman.sm{width:28px;height:28px;font-size:15px}
+.roman.xs{width:22px;height:22px;font-size:13px}.roman.xs .lockbadge{width:15px;height:15px;right:-6px;bottom:-6px}
+.roman.locked{background:var(--cream);color:var(--muted);box-shadow:0 0 0 2px var(--bone),0 0 0 3px var(--border)}
+.lockbadge{position:absolute;right:-5px;bottom:-5px;width:18px;height:18px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.lockbadge svg{width:11px;height:11px}
+.badge{min-width:18px;height:18px;border-radius:9px;background:var(--forest);color:var(--on);font:600 11px/18px 'Inter';text-align:center;padding:0 5px}
+/* join banner (JoinCoachBanner.tsx copy and shape) */
+.join{background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:20px 20px 8px}
+.join .t{font:500 20px/25px 'Cormorant Garamond';letter-spacing:.4px;margin-bottom:6px}
+.join .b{font:400 16px/26px 'Inter';letter-spacing:-.16px;color:var(--muted);margin-bottom:16px}
+.join .n{height:44px;display:flex;align-items:center;justify-content:center;font:500 15px/22px 'Inter';color:var(--forest)}
+.lockrow{display:flex;gap:14px;align-items:flex-start}
+.bar{height:4px;border-radius:2px;background:var(--border);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--forest);border-radius:2px}
+.clamp2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nowrap{white-space:nowrap}
+.ell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+.status{position:relative;z-index:40}
+.lk{width:13px;height:13px;flex:none}
+.avm{border-color:var(--border);color:var(--muted)}
+.hdr{padding-top:6px}
+.titlerow{display:flex;align-items:center;gap:10px;margin-top:6px}
+.titlerow .h1{flex:1;min-width:0}
+.pill{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:999px;font:500 14px/18px 'Inter';white-space:nowrap;flex:none}
+.pill.fill{background:var(--forest);color:var(--on)}
+.pill.out{border:1px solid var(--forest);color:var(--forest)}
+.pill.ghost{border:1px solid var(--border);color:var(--ink);background:var(--surface)}
+.pill svg{width:16px;height:16px}
+.iconbtn{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;color:var(--ink)}
+.iconbtn.bd{border:1px solid var(--border);background:var(--surface)}
+.iconbtn svg{width:20px;height:20px}
+.sect{display:flex;align-items:baseline;justify-content:space-between;margin:22px 0 4px}
+.sect .eyebrow b{font-weight:600;color:var(--ink)}
+.note{font:400 13px/19px 'Inter';color:var(--muted)}
+.privacy{display:flex;gap:10px;align-items:flex-start;padding:14px 0;border-top:.5px solid var(--border);margin-top:18px}
+.privacy svg{width:16px;height:16px;flex:none;margin-top:2px;color:var(--muted)}
+.topbar{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 8px}
+.topbar .bk{display:flex;align-items:center;gap:2px;font:500 16px/22px 'Inter';color:var(--forest);height:44px;padding-right:8px}
+.topbar .bk svg{width:22px;height:22px}
+.searchbox{height:48px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 14px;font:400 16px/22px 'Inter';color:var(--muted)}
+.searchbox svg{width:18px;height:18px;flex:none}
+.searchbox.big{height:54px;border-color:var(--forest);border-width:1.5px}
+.searchbox .typed{color:var(--ink)}
+.caret{display:inline-block;width:1.5px;height:20px;background:var(--forest);vertical-align:-4px;margin-left:1px}
+/* generic list row */
+.crow{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 0;border-bottom:.5px solid var(--border)}
+.crow .mid{flex:1;min-width:0}
+.crow .nm{font:500 16px/22px 'Inter';letter-spacing:-.16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crow .rs{font:400 14px/20px 'Inter';color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crow .rs.ok{color:var(--ink)}
+.dotg{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--forest);margin-right:6px;vertical-align:1px}
+.dots{display:inline-block;width:7px;height:7px;border-radius:50%;border:1.5px solid var(--stone);margin-right:6px;vertical-align:1px}
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:6px;background:var(--cream);font:500 12px/16px 'Inter';color:var(--ink);white-space:nowrap;flex:none}
+.tag.g{background:var(--forest);color:var(--on)}
+.chevr{width:18px;height:18px;color:var(--stone);flex:none}
+/* ---- concept 1: splits ---- */
+.splits{display:flex;margin-top:14px;border-bottom:.5px solid var(--border)}
+.sp{flex:1 1 auto;min-width:0;height:44px;display:flex;align-items:center;justify-content:center;gap:5px;font:500 14px/18px 'Inter';color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent}
+.sp b{font:600 12px/16px 'Inter';color:var(--muted);background:var(--cream);border-radius:999px;padding:2px 7px}
+.sp.on{color:var(--ink);border-bottom-color:var(--forest)}
+.sp.on b{background:var(--forest);color:var(--on)}
+@media (max-width:370px){.sp{font-size:13px;gap:4px}.sp b{padding:2px 6px}}
+.act{height:36px;min-width:76px;padding:0 14px;border-radius:999px;border:1px solid var(--forest);color:var(--forest);font:500 14px/18px 'Inter';display:flex;align-items:center;justify-content:center;flex:none;white-space:nowrap}
+.act.fill{background:var(--forest);color:var(--on)}
+.waitcard{background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:16px}
+.kv{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.kv span{font:500 13px/18px 'Inter';background:var(--cream);border-radius:6px;padding:4px 8px;white-space:nowrap}
+.quote{font:italic 400 19px/26px 'Cormorant Garamond';letter-spacing:.2px;margin-top:12px;padding-left:12px;border-left:2px solid var(--gold)}
+.btnrow{display:flex;gap:10px;margin-top:14px}
+.btnrow .btn{flex:1;height:48px;font-size:15px;padding:0 8px;white-space:nowrap}
+.stat3{display:flex;margin-top:10px;border-top:.5px solid var(--border);border-bottom:.5px solid var(--border)}
+.stat3>div{flex:1;min-width:0;padding:12px 0 12px 0}
+.stat3>div+div{border-left:.5px solid var(--border);padding-left:12px}
+.stat3 .v{font:400 26px/32px 'Cormorant Garamond';letter-spacing:.3px;white-space:nowrap}
+.stat3 .v small{font:400 13px/18px 'Inter';color:var(--muted);letter-spacing:0}
+.stat3 .s{font:400 13px/18px 'Inter';color:var(--muted)}
+.stat3 .off{display:flex;align-items:center;gap:5px;font:500 14px/20px 'Inter';color:var(--muted);margin-top:6px}
+.share{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.share>div{display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 12px;border-radius:12px;border:.5px solid var(--border);background:var(--surface);font:500 14px/18px 'Inter';min-width:0}
+.share>div .st{font:400 12px/16px 'Inter';color:var(--muted)}
+.share>div.no{background:transparent;border-style:dashed;color:var(--muted)}
+.share svg{width:16px;height:16px;flex:none}
+.share .ok svg{color:var(--forest)}
+.openrow{display:flex;align-items:center;gap:12px;min-height:56px;border-bottom:.5px solid var(--border)}
+.openrow .ico{width:20px;height:20px;color:var(--muted)}
+.openrow .mid{flex:1;min-width:0}
+.openrow .t{font:500 15px/20px 'Inter'}
+.openrow .s{font:400 13px/18px 'Inter';color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.openrow.off .t{color:var(--muted)}
+.invitecard{background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:20px;margin-top:22px}
+/* ---- concept 2: directory ---- */
+.ctl{display:flex;gap:8px;margin-top:12px}
+.recent{display:flex;justify-content:space-between;margin-top:10px}
+.recent>div{width:56px;display:flex;flex-direction:column;align-items:center;gap:6px;font:400 12px/16px 'Inter';color:var(--ink)}
+.recent .av{position:relative}
+.recent .rb{position:absolute;top:-3px;right:-3px;width:12px;height:12px;border-radius:50%;background:var(--forest);box-shadow:0 0 0 2px var(--bone)}
+.letter{font:500 13px/18px 'Inter';color:var(--forest);padding:14px 0 4px;border-bottom:.5px solid var(--border)}
+.drow{display:flex;align-items:center;gap:12px;min-height:62px;padding:9px 0;border-bottom:.5px solid var(--border)}
+.drow .mid{flex:1;min-width:0}
+.drow .l1{display:flex;align-items:center;gap:8px;min-width:0}
+.drow .nm{font:500 16px/22px 'Inter';letter-spacing:-.16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.marks{display:flex;gap:9px;margin-top:3px;white-space:nowrap}
+.mk{display:inline-flex;align-items:center;gap:3px;font:500 12px/16px 'Inter';color:var(--ink)}
+.mk svg{width:14px;height:14px;color:var(--forest)}
+.mk.old{color:var(--muted)}.mk.old svg{color:var(--muted)}
+.mk.off{color:var(--stone)}.mk.off svg{color:var(--stone)}
+.mk.off .lk{width:12px;height:12px}
+.scrub{position:absolute;right:4px;top:372px;display:flex;flex-direction:column;align-items:center;font:600 10px/12.6px 'Inter';color:var(--forest);width:18px}
+.withscrub{padding-right:30px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;font:400 12px/16px 'Inter';color:var(--muted)}
+.legend .mk{color:var(--muted)}
+.prof{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:4px}
+.qa{display:flex;justify-content:space-between;margin-top:18px}
+.qa>div{width:72px;display:flex;flex-direction:column;align-items:center;gap:6px;font:500 12px/16px 'Inter';color:var(--forest)}
+.qa .c{width:52px;height:52px;border-radius:50%;background:var(--surface);border:.5px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--forest)}
+.qa .c svg{width:22px;height:22px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);row-gap:6px;margin-top:10px;text-align:center}
+.cal .h{font:500 11px/14px 'Inter';color:var(--muted);letter-spacing:.5px}
+.cal .d{display:flex;flex-direction:column;align-items:center;gap:3px}
+.cal .n{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:500 13px/1 'Inter'}
+.cal .wo .n{box-shadow:inset 0 0 0 1.5px var(--forest)}
+.cal .td .n{background:var(--forest);color:var(--on)}
+.cal .fu .n{color:var(--stone)}
+.cal i{width:5px;height:5px;border-radius:50%;background:var(--forest);display:block}
+.cal i.no{background:transparent}
+.pcard{background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:16px;margin-top:12px}
+.pcard .hd{display:flex;align-items:center;gap:8px}
+.pcard .hd svg{width:18px;height:18px;color:var(--forest)}
+.pcard .hd .t{flex:1;font:500 15px/20px 'Inter'}
+.pcard .big{font:400 26px/32px 'Cormorant Garamond';letter-spacing:.3px;margin-top:8px;white-space:nowrap}
+.pcard .big small{font:400 14px/18px 'Inter';color:var(--muted);letter-spacing:0}
+.pcard.off{background:transparent;border-style:dashed}
+.pcard.off .hd svg,.pcard.off .hd .t{color:var(--muted)}
+/* ---- concept 3: search first ---- */
+.tokens{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tok{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font:500 14px/18px 'Inter';white-space:nowrap}
+.tok b{font:600 12px/16px 'Inter';color:var(--muted)}
+.qrow{display:flex;align-items:center;gap:10px;min-height:60px;padding:8px 0;border-bottom:.5px solid var(--border)}
+.qrow .mid{flex:1;min-width:0}
+.qrow .nm{font:500 16px/22px 'Inter';white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qrow .rs{font:400 13px/19px 'Inter';color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qrow .iconbtn{width:44px;height:44px;color:var(--forest)}
+.crow2{display:flex;align-items:center;gap:10px;min-height:52px;border-bottom:.5px solid var(--border)}
+.crow2 .nm{flex:1;min-width:0;font:500 15px/20px 'Inter';white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crow2 .w{font:400 13px/18px 'Inter';color:var(--muted);white-space:nowrap;flex:none}
+.hl{background:#E6DCC4;border-radius:3px;padding:0 1px}
+.scrim{position:fixed;inset:0;background:rgba(26,26,24,.38);z-index:30}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:35;background:var(--bone);border-radius:24px 24px 0 0;padding:8px 24px 30px;box-shadow:0 -6px 24px rgba(26,26,24,.12)}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--border);margin:0 auto 12px}
+.slice{display:flex;align-items:center;gap:12px;min-height:54px;border-bottom:.5px solid var(--border)}
+.slice .ico{width:20px;height:20px;color:var(--forest)}
+.slice .mid{flex:1;min-width:0}
+.slice .t{font:500 12px/16px 'Inter';letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.slice .v{font:400 15px/21px 'Inter'}
+.slice{padding:6px 0}
+.slice.off .ico,.slice.off .v{color:var(--muted)}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.jump .tok{height:34px;font-size:13px;padding:0 12px}
+</style></head>
+<body><div class="screen"><div class="status"><span>8:30</span><span class="mock">Mockup, not the app</span></div><div class="g hdr"><span class="eyebrow">Friday, October 9</span>
+<div class="titlerow"><div class="h1">Clients</div><span class="pill fill"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="8" r="3.8"/><path d="M3 20c.9-3.8 3.7-5.8 7-5.8 1.6 0 3 .4 4.2 1.2"/><path d="M18 14v6M15 17h6"/></svg>Invite</span></div><div class="small muted" style="margin-top:2px">3 active clients</div></div><div class="g"><div class="small" style="margin-top:14px">Two need you today. One is steady.</div><div style="margin-top:8px"><div class="crow"><span class="av" style="width:40px;height:40px;font-size:16px">MB</span><div class="mid"><div class="nm">Maya Brooks</div><div class="rs">2 check-ins to review</div></div>
+<div class="act">Review</div></div><div class="crow"><span class="av" style="width:40px;height:40px;font-size:16px">TG</span><div class="mid"><div class="nm">Theo Grant</div><div class="rs ok"><span class="dotg"></span>Logged today, workout done</div></div><svg class="chevr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div><div class="crow"><span class="av" style="width:40px;height:40px;font-size:16px">PN</span><div class="mid"><div class="nm">Priya Nair</div><div class="rs">New, no logs yet</div></div>
+<div class="act">Say hello</div></div></div><div class="invitecard"><div class="h3">Add your next client</div>
+<div class="small muted" style="margin:6px 0 16px">Share your code or link. New clients land here with a New tag for their first week.</div><div class="btn out sm">Share invite code</div></div><div class="privacy"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l7 2.5v5.5c0 4.4-3 7.8-7 9-4-1.2-7-4.6-7-9V6z"/></svg><div class="note">Clients choose what they share with you. Anything not shared stays private.</div></div></div></div><div class="tabbar"><div class="tab"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>Overview</span></div><div class="tab on"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 19.5c.8-3.4 3.4-5.2 6.5-5.2s5.7 1.8 6.5 5.2"/><circle cx="17" cy="9.5" r="2.7"/><path d="M16.5 14.4c2.6.2 4.4 1.8 5 4.6"/></svg><span>Clients</span></div><div class="tab"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7v10M17 7v10M4.5 9.5v5M19.5 9.5v5M7 12h10"/></svg><span>Programs</span></div><div class="tab"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4c4.7 0 8.5 3.2 8.5 7.2s-3.8 7.2-8.5 7.2c-1 0-2-.1-2.9-.4L4.5 20l1.2-3.6C4.3 15 3.5 13.2 3.5 11.2 3.5 7.2 7.3 4 12 4z"/><circle cx="8.5" cy="11.2" r=".6" fill="currentColor"/><circle cx="12" cy="11.2" r=".6" fill="currentColor"/><circle cx="15.5" cy="11.2" r=".6" fill="currentColor"/></svg><span>Messages</span></div><div class="tab"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span>Settings</span></div></div></body></html>

@@ -1,0 +1,197 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Concept 1, plate (mockup, not the app)</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap');
+:root{--bone:#F5EFE4;--surface:#FFFDF8;--cream:#F1E8D5;--ink:#1A1A18;--muted:#6B675F;--border:#DCD5CC;
+--forest:#2C4A36;--on:#FBF7F0;--gold:#C9A961;--stone:#B1A89F;--g:24px}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bone)}
+body{font-family:'Inter',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.screen{min-height:100vh;padding-bottom:104px;position:relative;overflow-x:hidden}
+.screen.dock{padding-bottom:176px}
+/* type scale (tokens.ts typography) */
+.display{font:400 44px/55px 'Cormorant Garamond';letter-spacing:.4px}
+.h1{font:400 32px/40px 'Cormorant Garamond';letter-spacing:.6px}
+.h2{font:400 24px/30px 'Cormorant Garamond';letter-spacing:.5px}
+.h3{font:500 20px/25px 'Cormorant Garamond';letter-spacing:.4px}
+.h4{font:500 17px/22px 'Inter';letter-spacing:-.1px}
+.body{font:400 16px/26px 'Inter';letter-spacing:-.16px}
+.bodyMd{font:500 16px/26px 'Inter';letter-spacing:-.16px}
+.small{font:400 14px/22px 'Inter'}
+.smallMd{font:500 14px/22px 'Inter'}
+.caption{font:500 12px/18px 'Inter';letter-spacing:.96px}
+.eyebrow{font:500 11px/13px 'Inter';letter-spacing:1.98px;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.forest{color:var(--forest)}
+.roman-line{font:italic 400 19px/26px 'Cormorant Garamond';letter-spacing:.2px}
+.g{padding-left:var(--g);padding-right:var(--g)}
+.row{display:flex;align-items:center}
+.between{justify-content:space-between}
+.hair{border-top:.5px solid var(--border)}
+.hairb{border-bottom:.5px solid var(--border)}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:16px}
+.cream{background:var(--cream)}
+.btn{height:54px;border-radius:12px;background:var(--forest);color:var(--on);display:flex;align-items:center;justify-content:center;font:500 16px/22px 'Inter';letter-spacing:-.16px;padding:0 16px;text-align:center}
+.btn.out{background:transparent;border:1px solid var(--forest);color:var(--forest)}
+.btn.bone{background:var(--on);color:var(--forest)}
+.btn.sm{height:44px;font-size:15px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font:500 14px/18px 'Inter';white-space:nowrap}
+.link{font:500 15px/22px 'Inter';color:var(--forest)}
+/* chrome */
+.status{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 32px;font:600 15px/18px 'Inter'}
+.mock{font:500 11px/14px 'Inter';letter-spacing:.3px;background:var(--ink);color:var(--bone);padding:4px 10px;border-radius:999px;white-space:nowrap}
+.tabbar{position:fixed;left:0;right:0;bottom:0;height:83px;background:var(--bone);border-top:.5px solid var(--border);display:flex;padding-top:8px;z-index:20}
+.tab{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;font:400 11px/14px 'Inter';letter-spacing:-.2px;color:var(--muted);white-space:nowrap}
+.tab.on{color:var(--ink);font-weight:500}
+.tab svg{width:24px;height:24px}
+.ico{width:24px;height:24px;flex:none}
+.ico.i18{width:18px;height:18px}
+/* avatars */
+.av{width:36px;height:36px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font:400 15px/1 'Cormorant Garamond';border:1px solid #B08D57;background:var(--cream);color:var(--ink)}
+.roman{width:36px;height:36px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--gold);color:#1A1A18;font:500 19px/1 'Cormorant Garamond';box-shadow:0 0 0 2px var(--bone),0 0 0 3px var(--gold);position:relative}
+.roman.sm{width:28px;height:28px;font-size:15px}
+.roman.xs{width:22px;height:22px;font-size:13px}.roman.xs .lockbadge{width:15px;height:15px;right:-6px;bottom:-6px}
+.roman.locked{background:var(--cream);color:var(--muted);box-shadow:0 0 0 2px var(--bone),0 0 0 3px var(--border)}
+.lockbadge{position:absolute;right:-5px;bottom:-5px;width:18px;height:18px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center}
+.lockbadge svg{width:11px;height:11px}
+.badge{min-width:18px;height:18px;border-radius:9px;background:var(--forest);color:var(--on);font:600 11px/18px 'Inter';text-align:center;padding:0 5px}
+/* join banner (JoinCoachBanner.tsx copy and shape) */
+.join{background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:20px 20px 8px}
+.join .t{font:500 20px/25px 'Cormorant Garamond';letter-spacing:.4px;margin-bottom:6px}
+.join .b{font:400 16px/26px 'Inter';letter-spacing:-.16px;color:var(--muted);margin-bottom:16px}
+.join .n{height:44px;display:flex;align-items:center;justify-content:center;font:500 15px/22px 'Inter';color:var(--forest)}
+.lockrow{display:flex;gap:14px;align-items:flex-start}
+.bar{height:4px;border-radius:2px;background:var(--border);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--forest);border-radius:2px}
+.clamp2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.nowrap{white-space:nowrap}
+.ell{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+.mockrow{display:flex;align-items:center;justify-content:space-between}
+.dayswitch{display:flex;align-items:center;gap:6px;color:var(--ink)}
+.dayswitch .ico{width:20px;height:20px;color:var(--muted)}
+.search{height:52px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;gap:10px;padding:0 14px;font:400 16px/22px 'Inter';color:var(--muted)}
+.search.focus{border-color:var(--forest);box-shadow:0 0 0 3px rgba(44,74,54,.12)}
+.caret{width:1.5px;height:20px;background:var(--forest);margin-left:-6px}
+.methods{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.meth{height:64px;border-radius:12px;background:var(--surface);border:.5px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:500 12px/16px 'Inter';color:var(--ink);min-width:0;white-space:nowrap}
+.meth .ico{width:22px;height:22px;color:var(--forest)}
+.seg{display:flex;background:var(--cream);border-radius:12px;padding:3px;gap:2px}
+.seg span{flex:1;min-width:0;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font:500 13px/16px 'Inter';color:var(--muted);white-space:nowrap}
+.seg span.on{background:var(--surface);color:var(--ink);box-shadow:0 0 0 .5px var(--border)}
+.sect{display:flex;align-items:baseline;justify-content:space-between;margin:22px 0 4px}
+.fi{display:flex;align-items:center;gap:12px;min-height:60px;border-bottom:.5px solid var(--border)}
+.fi .tx{flex:1;min-width:0}
+.fi .nm{font:500 15px/20px 'Inter';white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fi .mt{font:400 13px/19px 'Inter';color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fi .mt b{font-weight:500;color:var(--forest)}
+.add{width:36px;height:36px;border-radius:50%;border:1px solid var(--forest);color:var(--forest);display:flex;align-items:center;justify-content:center;flex:none}
+.add.on{background:var(--forest);color:var(--on)}
+.add .ico{width:18px;height:18px}
+.tag{display:inline-block;font:500 11px/16px 'Inter';letter-spacing:.3px;padding:0 6px;border-radius:6px;background:var(--cream);color:var(--muted);vertical-align:1px;margin-left:4px}
+.tag.new{background:transparent;border:1px dashed var(--stone);color:var(--muted)}
+.strip{display:flex;gap:16px;align-items:center;margin-top:10px}
+.strip>div{flex:1;min-width:0}
+.strip .v{font:500 14px/20px 'Inter';white-space:nowrap;margin-bottom:6px}
+.strip .v span{font:400 13px/20px 'Inter';color:var(--muted)}
+.platebar{position:fixed;left:0;right:0;bottom:83px;z-index:19;background:var(--surface);border-top:.5px solid var(--border);border-radius:24px 24px 0 0;box-shadow:0 -6px 18px rgba(26,26,24,.06);padding:10px 24px 12px}
+.platebar .hd{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.platebar .grab{width:36px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 8px}
+.platebar .btn{height:46px;font-size:15px;padding:0 18px;flex:none}
+.screen.plate{padding-bottom:190px}
+.tli{display:flex;gap:12px;min-height:56px;align-items:center;border-bottom:.5px solid var(--border)}
+.tli .tm{width:62px;flex:none;font:500 12px/18px 'Inter';color:var(--muted);white-space:nowrap}
+.tli .tx{flex:1;min-width:0}
+.tli .tt{font:500 15px/20px 'Inter'}
+.tli .ts{font:400 13px/19px 'Inter';color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tli .kc{font:500 14px/20px 'Inter';white-space:nowrap}
+.water{display:flex;align-items:center;gap:8px;margin-top:4px}
+.water .chip{height:36px;padding:0 12px;font-size:13px}
+.quiet{background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:16px}
+/* concept 2: plan checklist */
+.planhd{background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:16px}
+.segbar{display:flex;gap:4px;margin-top:12px}
+.segbar i{flex:1;height:6px;border-radius:3px;background:var(--border)}
+.segbar i.d{background:var(--forest)}
+.segbar i.n{background:repeating-linear-gradient(90deg,var(--forest) 0 4px,transparent 4px 7px);border:1px solid var(--forest);height:6px}
+.slot{display:flex;gap:14px;padding:14px 0;border-bottom:.5px solid var(--border);align-items:flex-start}
+.slot .st{width:24px;height:24px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.slot .st.done{background:var(--forest)}
+.slot .st.done svg{width:13px;height:13px}
+.slot .st.open{border:1.5px solid var(--forest)}
+.slot .st.soft{border:1.5px solid var(--stone)}
+.slot .tx{flex:1;min-width:0}
+.slot .lb{font:500 11px/13px 'Inter';letter-spacing:1.98px;text-transform:uppercase;color:var(--muted)}
+.slot .nm{font:500 16px/22px 'Inter';margin-top:4px}
+.slot .mt{font:400 13px/19px 'Inter';color:var(--muted);margin-top:2px}
+.slot .kc{font:500 14px/20px 'Inter';white-space:nowrap;color:var(--muted);margin-top:15px}
+.nowcard{background:var(--surface);border:1.5px solid var(--forest);border-radius:16px;padding:16px;margin:12px 0 4px}
+.nowcard .items{margin:10px 0 0;padding:0;list-style:none}
+.nowcard .items li{display:flex;justify-content:space-between;gap:12px;font:400 14px/22px 'Inter';color:var(--ink)}
+.nowcard .items li span:last-child{color:var(--muted);white-space:nowrap}
+.btnrow{display:flex;gap:10px;margin-top:14px}
+.btnrow .btn{flex:1;min-width:0;height:48px;font-size:15px;padding:0 10px}
+.links{display:flex;gap:20px;margin-top:10px}
+/* concept 3: macro budget */
+.budget .num{font:400 56px/60px 'Cormorant Garamond';letter-spacing:.2px;white-space:nowrap}
+.budget .num small{font:400 22px/28px 'Cormorant Garamond';color:var(--muted);margin-left:6px}
+.mrow{padding:14px 0;border-bottom:.5px solid var(--border)}
+.mrow .top{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.mrow .nm{font:500 15px/20px 'Inter'}
+.mrow .v{font:400 14px/20px 'Inter';color:var(--muted);white-space:nowrap}
+.mrow .v b{font-weight:500;color:var(--ink)}
+.mrow .bar{height:8px;border-radius:4px;margin-top:8px}
+.mrow .bar i{border-radius:4px}
+.mrow .bar .pl{display:block;height:100%;background:repeating-linear-gradient(135deg,rgba(44,74,54,.45) 0 3px,transparent 3px 6px);border-radius:0 4px 4px 0}
+.mrow .bar.split{display:flex}
+.mrow .gap{font:400 13px/19px 'Inter';color:var(--forest);margin-top:6px}
+.fits{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fit{background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:12px 12px 12px;display:flex;flex-direction:column;min-width:0;min-height:132px}
+.fit .src{font:500 11px/14px 'Inter';letter-spacing:1px;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.fit .nm{font:500 14px/19px 'Inter';margin-top:6px}
+.fit .p{font:400 22px/26px 'Cormorant Garamond';margin-top:auto;padding-top:8px;white-space:nowrap}
+.fit .p small{font:400 12px/16px 'Inter';color:var(--muted)}
+.fit .k{font:400 12px/16px 'Inter';color:var(--muted)}
+.fit .ft{display:flex;align-items:flex-end;justify-content:space-between;gap:6px}
+.fit .add{width:32px;height:32px}
+.legend{display:flex;gap:14px;margin-top:10px;font:400 12px/16px 'Inter';color:var(--muted);flex-wrap:wrap}
+.legend i{display:inline-block;width:14px;height:8px;border-radius:2px;vertical-align:0;margin-right:5px}
+/* add-food sheets */
+.dim{height:14px;background:#C9C2B6}
+.sheet{background:var(--bone);border-radius:24px 24px 0 0;margin-top:-4px;min-height:calc(100vh - 60px);padding-bottom:40px;position:relative}
+.sheet .grab{width:36px;height:4px;border-radius:2px;background:var(--border);margin:8px auto 0}
+.sheethd{display:flex;align-items:center;justify-content:space-between;padding:10px 24px 6px}
+.sheethd .ico{color:var(--ink)}
+.portion{display:flex;align-items:center;gap:10px;min-height:68px;border-bottom:.5px solid var(--border)}
+.portion .tx{flex:1;min-width:0}
+.stepper{display:flex;align-items:center;gap:0;border:1px solid var(--border);border-radius:12px;height:40px;background:var(--surface);flex:none}
+.stepper span{width:36px;display:flex;align-items:center;justify-content:center;color:var(--forest)}
+.stepper span .ico{width:16px;height:16px}
+.stepper b{font:500 14px/20px 'Inter';min-width:48px;text-align:center;white-space:nowrap}
+.sumbox{display:flex;margin-top:16px;background:var(--surface);border:.5px solid var(--border);border-radius:16px;padding:14px 0}
+.sumbox>div{flex:1;min-width:0;text-align:center;border-left:.5px solid var(--border)}
+.sumbox>div:first-child{border-left:0}
+.sumbox .v{font:400 22px/28px 'Cormorant Garamond';white-space:nowrap}
+.sumbox .l{font:500 11px/13px 'Inter';letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.after{font:400 12px/16px 'Inter';color:var(--muted);white-space:nowrap;text-align:right}
+.after b{display:block;font:500 13px/18px 'Inter';color:var(--forest)}
+.note{font:400 13px/19px 'Inter';color:var(--muted)}
+.romanread{display:flex;gap:12px;align-items:flex-start;padding:16px 0;border-top:.5px solid var(--border);border-bottom:.5px solid var(--border)}
+@media (max-width:370px){.meth{font-size:11px}.seg span{font-size:12px}.budget .num{font-size:50px}.fit .nm{font-size:13px}}
+</style></head>
+<body><div class="screen "><div class="status"><span>2:10</span><span class="mock">Mockup, not the app</span></div><div class="dim"></div><div class="sheet"><div class="grab"></div>
+<div class="sheethd"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span class="h4">Plate</span><span class="link">Clear</span></div>
+<div class="g">
+<div class="seg" style="margin-top:8px"><span>Breakfast</span><span>Lunch</span><span>Dinner</span><span class="on">Snack</span></div>
+<div class="mockrow" style="margin-top:12px"><span class="row small muted" style="gap:6px"><svg class="ico i18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg>Today, 2:10 pm</span><span class="link" style="font-size:14px">Change time</span></div>
+<div class="sect" style="margin-top:18px"><span class="eyebrow">On the plate</span><span class="small muted">2 foods</span></div>
+<div class="portion"><div class="tx"><div class="nm smallMd">Greek yogurt and berries</div><div class="small muted">From your plan, 210 kcal</div></div>
+<div class="stepper"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span><b>1 meal</b><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div></div>
+<div class="portion"><div class="tx"><div class="nm smallMd">Protein shake</div><div class="small muted">120 kcal, 24 g protein</div></div>
+<div class="stepper"><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></span><b>1 scoop</b><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></div></div>
+<div class="sumbox"><div><div class="v">330</div><div class="l">kcal</div></div><div><div class="v">52 g</div><div class="l">Protein</div></div><div><div class="v">25 g</div><div class="l">Carbs</div></div><div><div class="v">2 g</div><div class="l">Fat</div></div></div>
+<div class="note" style="margin-top:12px">After this plate: 490 kcal left and 25 g protein to go.</div>
+<div class="search" style="margin-top:20px"><svg class="ico i18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span class="ell">Add another food</span></div>
+<div class="btn" style="margin-top:24px">Log 2 foods to snack</div>
+<div class="row" style="justify-content:center;margin-top:8px;height:44px"><span class="link">Keep on plate for later</span></div>
+</div></div></div></body></html>

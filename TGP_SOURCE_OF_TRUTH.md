@@ -1684,7 +1684,7 @@ inside the cap; client retention for clients who use Roman versus those who do n
 
 - planning/V1_1_UI_SPEC.md is the v1.1 UI section. UI-1 Client Home: Rings and tiles, selected by the owner 2026-10-09 ("the rings and tiles one looks amazing - add this to v1.1 specs under a new UI section").
 - The winning mockup images and the exact HTML/CSS to copy live in planning/v1_1_ui/ui-1-client-home/ (coached and coachless, first screen and full scroll). Owner: "put the mockup image inside the plans as well as an exact thing to copy". Every PR that builds it carries a parity table against them.
-- UI-2 coach Home, UI-3 client food logging, UI-4 coach client lookup: mockups in progress (agent 135); each gets the same images-plus-HTML treatment once the owner picks.
+- UI-2 coach Home (Roster rings and tiles, "Approve Roman's drafts ->", a $ Money tab), UI-3 food logging (coached Plan checklist, coachless Your usual day, add food via the plate), UI-4 client lookup (Search first with the A to Z index at 15+ clients, Needs you under 15, the peek sheet): owner picks 2026-10-09, images and HTML in planning/v1_1_ui/ui-2..ui-4. Open: design options for the screens after the peek sheet.
 
 ### A7.3 Importer north star (owner, effective 2026-09-27; importer work only)
 
@@ -8197,6 +8197,19 @@ Recorded by agent 127. Applied in A6.10.
 #### 2026-10-07 11:49 PDT — gradual wind-down for agent 128 (owner, to agent 127)
 > "ok lets get all agents done safely - we are at 39.5k/45k credits - so I want a gradual wind down for prep for agent 128"
 Recorded by agent 127. Applied in A6.10.
+
+#### 2026-10-09 ~10:55 and ~12:00 PDT — v1.1 UI picks: client Home, coach Home, food logging, client lookup (owner, to agent 135)
+> "Of the screen mockups, the rings and tiles one looks amazing - add this to v1.1 specs under a new UI section please"
+> "AND MAKE SURE THE WINNING UI IMAGE WAS PLACED WITH THE V1.1 UI SECTION!"
+> "Coach home 30 clients - I like that roman is offering help, but he needs to lead into "Approve Roman's drafts ->" where he has already drafted message responses, workout adjustments, ect. - for themality, I like render 2 - but we should also have the money+biz combination pages as a tab at the bottom - icon $ + "Money""
+> "Client food logger - coached planned foods - render 2 is my chocie"
+> "Client food logging - coachless - concept 2"
+> "add-food step - concept 1"
+> "Coach client lookup - 60 clients - concept 3 but make sure to still use concept 2's alphabetical sorting UI under the recently opened profiles"
+> "Coach client look - doesnt share weight logs - I like the peek sheet, then we need to have an agent spec out the UI desing optiosn for what happens after you click food logs or workouts or payments, ect."
+> "coach client lockup - less than 15 clients - I like mockup 1 for anyone under 15 clients!"
+> "Take those mockup images and my decisions and save it to v1.1 decisions logs NOW!"
+Recorded by agent 135. Applied in planning/V1_1_UI_SPEC.md (UI-1 to UI-4) with the chosen images and exact HTML in planning/v1_1_ui/; pointer in A7.2a. Open: design options for the screens after the coach peek sheet (Food log, Workouts, Payments and the rest).
 
 ## C2. Retired live-state page (LIVE_STATE.md, last updated 2026-10-04; stale)
 
