@@ -1,0 +1,126 @@
+diff --git a/src/navigation/ConsultationOnboardingNavigator.tsx b/src/navigation/ConsultationOnboardingNavigator.tsx
+index d59e9651..b623b79d 100644
+--- a/src/navigation/ConsultationOnboardingNavigator.tsx
++++ b/src/navigation/ConsultationOnboardingNavigator.tsx
+@@ -1,12 +1,11 @@
+ /**
+- * ConsultationOnboardingNavigator: mounts the consultation onboarding for a
+- * new client when `featureFlags.consultationOnboarding` is on (see
++ * ConsultationOnboardingNavigator: mounts the consultation onboarding for
++ * every new client, coached or coachless (B14, owner decisions 27-28; see
+  * RootNavigator). It replaces the lean flow entirely, including the lean
+  * flow's skip-to-finish path: the consultation can only finish through
+- * POST /me/onboarding/complete.
+- *
+- * Rollback is the flag: with it off, RootNavigator mounts the lean flow as
+- * before and nothing here is reachable.
++ * POST /me/onboarding/complete. An older server that cannot finish it for
++ * this client (409 not_attached / clinic_not_configured) gets the calm
++ * server state with Try again (prototype 44), never a dead end.
+  *
+  * After "Show me around" (Opus B-05): the consultation replaces the Day-1
+  * flow and the Day-1 win, so this marks onboarding done locally and in the
+diff --git a/src/screens/consultation/ConsultationFlow.tsx b/src/screens/consultation/ConsultationFlow.tsx
+index 09d26a16..d8c6a0d3 100644
+--- a/src/screens/consultation/ConsultationFlow.tsx
++++ b/src/screens/consultation/ConsultationFlow.tsx
+@@ -1108,6 +1108,15 @@ export default function ConsultationFlow({
+       return;
+     }
+     if (outcome.kind === 'conflict') {
++      // B14 (owner decision 28): every client finishes the consultation, with
++      // or without a coach. Only a server from before that rule answers
++      // not_attached / clinic_not_configured; that is the server's problem,
++      // not the client's, so it gets the calm server state (prototype 44:
++      // answers safe, Try again, support) and is reported, never the old
++      // "a coach link is needed" dead end.
++      if (outcome.code === 'not_attached' || outcome.code === 'clinic_not_configured') {
++        return fail('unknown', { where: 'POST /me/onboarding/complete', status: 409, code: outcome.code, requestId: outcome.requestId });
++      }
+       if (outcome.code !== 'unknown') return fail(outcome.code);
+       return fail('unknown', { where: 'POST /me/onboarding/complete', status: 409, code: 'unknown', requestId: outcome.requestId });
+     }
+diff --git a/src/screens/consultation/__tests__/ConsultationFlow.test.tsx b/src/screens/consultation/__tests__/ConsultationFlow.test.tsx
+index 02f82346..f59c1aec 100644
+--- a/src/screens/consultation/__tests__/ConsultationFlow.test.tsx
++++ b/src/screens/consultation/__tests__/ConsultationFlow.test.tsx
+@@ -4,7 +4,8 @@
+  * auto-advance and back, per-chapter save, the P0 two-box agreement (D2)
+  * and its intake record, the P8 branch (shown on a yes, never blocks), resume,
+  * the complete-call happy path through macro and plan reveals, and 409
+- * handling (consultation_incomplete, consent_missing, not_attached).
++ * handling (consultation_incomplete, consent_missing; not_attached and
++ * clinic_not_configured from an older server get the calm server state, B14).
+  */
+ import React from 'react';
+ import { Alert, Linking } from 'react-native';
+@@ -317,19 +318,47 @@ describe('ConsultationFlow', () => {
+     await waitFor(() => r.getByTestId('consult-screen-P0'));
+   });
+ 
+-  it('409 not_attached and network failures offer a retry', async () => {
+-    const complete = jest
+-      .fn<Promise<CompleteOutcome>, []>()
+-      .mockResolvedValueOnce({ kind: 'conflict', code: 'not_attached' })
+-      .mockResolvedValueOnce({ kind: 'ok', data: RESULT });
+-    const api = makeApi({ complete });
++  it.each(['not_attached', 'clinic_not_configured'] as const)(
++    'B14: 409 %s from an older server shows the calm server state with Try again, never a coach-link dead end',
++    async (code) => {
++      const { captureError } = jest.requireMock('../../../services/sentry') as { captureError: jest.Mock };
++      captureError.mockClear();
++      const complete = jest
++        .fn<Promise<CompleteOutcome>, []>()
++        .mockResolvedValueOnce({ kind: 'conflict', code, requestId: '9a2b3c4d-1111-4222-8333-444455556666' })
++        .mockResolvedValueOnce({ kind: 'ok', data: RESULT });
++      const api = makeApi({ complete });
++      await seedLocal(fullAnswers(), 'SUM');
++      const r = await renderFlow(api);
++      await waitFor(() => r.getByTestId('consult-screen-SUM'));
++      await fireEvent.press(r.getByTestId('consult-prepare'));
++      await waitFor(() => r.getByTestId('consult-problem-unknown'));
++      expect(r.queryByTestId(`consult-problem-${code}`)).toBeNull();
++      expect(r.queryByText(/coach link|coach must be linked|coach setup/i)).toBeNull();
++      expect(r.getByText(/Your answers are kept on this phone/)).toBeTruthy();
++      expect(r.getByTestId('consult-problem-reference').props.children).toBe('Reference: 9a2b3c4d. Mention it if you write to support.');
++      // The operator sees an old server refusing a client.
++      expect(captureError).toHaveBeenCalledWith(
++        expect.any(Error),
++        expect.objectContaining({ where: 'POST /me/onboarding/complete', status: 409, code }),
++      );
++      // Try again runs the completion again; a ready server reveals the macros.
++      await fireEvent.press(r.getByTestId('consult-problem-action'));
++      await waitFor(() => r.getByTestId('consult-screen-MACRO'));
++      expect(complete).toHaveBeenCalledTimes(2);
++    },
++  );
++
++  it('B14: the calm server state goes back to the summary, answers intact', async () => {
++    const api = makeApi({ complete: jest.fn(async (): Promise<CompleteOutcome> => ({ kind: 'conflict', code: 'not_attached' })) });
+     await seedLocal(fullAnswers(), 'SUM');
+     const r = await renderFlow(api);
+     await waitFor(() => r.getByTestId('consult-screen-SUM'));
+     await fireEvent.press(r.getByTestId('consult-prepare'));
+-    await waitFor(() => r.getByTestId('consult-problem-not_attached'));
+-    await fireEvent.press(r.getByTestId('consult-problem-action'));
+-    await waitFor(() => r.getByTestId('consult-screen-MACRO'));
++    await waitFor(() => r.getByTestId('consult-problem-unknown'));
++    await fireEvent.press(r.getByTestId('consult-back'));
++    await waitFor(() => r.getByTestId('consult-screen-SUM'));
++    expect((await readLocalState('u1', NOW))?.answers).toEqual(expect.objectContaining({ G1: fullAnswers().G1 }));
+   });
+ 
+   it('a failed final save never calls complete', async () => {
+diff --git a/src/screens/consultation/__tests__/consultationPrivacy.test.tsx b/src/screens/consultation/__tests__/consultationPrivacy.test.tsx
+index da4d9d7b..456647a8 100644
+--- a/src/screens/consultation/__tests__/consultationPrivacy.test.tsx
++++ b/src/screens/consultation/__tests__/consultationPrivacy.test.tsx
+@@ -1008,7 +1008,7 @@ describe('C-310-1 / C-310-3 completion guard and the way out of problem screens'
+     const r = await renderFlow(api, { onSignOut });
+     await waitFor(() => r.getByTestId('consult-screen-SUM'));
+     await fireEvent.press(r.getByTestId('consult-prepare'));
+-    await waitFor(() => r.getByTestId('consult-problem-not_attached'));
++    await waitFor(() => r.getByTestId('consult-problem-unknown'));
+     expect(r.getByTestId('consult-problem-action')).toBeTruthy();
+     await fireEvent.press(r.getByTestId('consult-support'));
+     expect(SUPPORT_EMAIL).toBe('Bradleyapple1031@gmail.com');

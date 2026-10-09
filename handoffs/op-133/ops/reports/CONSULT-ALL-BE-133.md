@@ -71,9 +71,11 @@ Default for the house account: the owner's own coach/owner account (see P1).
   - The assignedCounts tenant filter (P2).
 
 ## HANDOFF
-- **Result:** b#890 @ a7bf9ee185710da47236a659c751f1ea0b8c35a4. CI fully green. Dual-approved at this head (Opus LN-OPUS-A-133; Sol LN-SOL-A-133 and LN-SOL-B-133). B=0, U=1 (U-890-1, an operator gate). I did not merge, deploy, seed or touch any flag.
+- **18:58 SAFE STOP (owner 18:57) acknowledged.** I was mid-step on nothing and have nothing unpushed or unfinished. I hold no claims. The first thing the next agent should do is the operator list below, starting with deploying b#890.
+- **18:55 stop-and-drain (owner 18:53) acknowledged.** b#890 was MERGED at 17:59 PDT at a7bf9ee1, and no comments have been added since the verdicts. I have no other open PRs and nothing unpushed. I started no follow-up and will start no new work.
+- **Result:** b#890 @ a7bf9ee185710da47236a659c751f1ea0b8c35a4 (merged). CI fully green. Dual-approved at this head (Opus LN-OPUS-A-133; Sol LN-SOL-A-133 and LN-SOL-B-133). B=0, U=1 (U-890-1, an operator gate). I did not merge, deploy, seed or touch any flag.
 - **Operator next, in order:**
-  1. Merge and deploy b#890 (the migration is additive).
+  1. Deploy b#890; it is already merged, and the migration is additive.
   2. Merge b#888 (COACHLESS-LOG-132) so coachless clients can read `/assignments/me` (P6b).
   3. Land the mobile coachless copy and nullable coach (P4, U-890-1).
   4. Decision 133-2 fixture-approval PR.

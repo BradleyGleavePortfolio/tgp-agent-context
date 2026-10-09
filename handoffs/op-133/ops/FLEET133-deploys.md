@@ -1,0 +1,4 @@
+- 18:26 Deploy 6 today (b#890 house programs + b#891 Roman client data) dispatched: fly-deploy run 37869811561 at bf6f6a94 (CI, codeql, SBOM green; migrations: apply-migrations)
+- 18:31 Deploy 6 today (b#890 house programs + b#891 Roman client data) run 37869811561 finished completed/success. /health: {"ok":true,"uptime":12,"timestamp":"2026-10-09T01:31:14.644Z"} | /readyz: {"ok":true,"db":"up","timestamp":"2026-10-09T01:31:14.968Z"}
+- 18:46 Deploy 7 today (b#892 Roman coach AI credit pool) dispatched: fly-deploy run 37871412168 at e261ce5e (CI, codeql, SBOM green; migrations: none)
+- 18:51 Deploy 7 today (b#892 Roman coach AI credit pool) run 37871412168 finished completed/success. /health: {"ok":true,"uptime":69,"timestamp":"2026-10-09T01:51:06.951Z"} | /readyz: {"ok":true,"db":"up","timestamp":"2026-10-09T01:51:07.073Z"}

@@ -221,7 +221,11 @@ U=4 new:
 4. Confirm that DS-PRIMITIVES-133 fixes the display/h1 line heights in tokens.ts (one change fixes every h1 title), or add it to its entry.
 
 ## HANDOFF
-- State: phase 1 done, read-only. No branch, PR, comment or edit. Mains df7b8ae9 / 051583ad.
+- SAFE STOP (owner 18:57, operator 18:58): stopped cleanly at 18:59. Phase 2 was never started. I have no PR, no branch (no agent133/redo-audit* exists), no CLAIM to release and no verdict pending. Nothing is unfinished or half-pushed.
+- PR state: none (read-only job).
+- Main moved after the audit: mobile is now 2acc228c372537119739453d065673614134fb9c (the audit was at df7b8ae9), backend e261ce5e85ac9b7f0a5df5687ed81813aea96671 (the audit was at 051583ad). The per-PR table and the APPLY JOBS file:line rows are true at df7b8ae9 only.
+- Next agent, first: run `git log --oneline df7b8ae9..origin/main --stat` in a read-only mobile clone. Re-run `ops/reports/redo-audit-133/q5scan.py` on the APPLY JOBS files, and re-check their file:line rows against the new main. Then read DS-PRIMITIVES-133's "## API" (radius tokens per Q10b, screen wrapper) before the operator launches any APPLY job. The 4 "Needs operator" items above are still open.
+- State: phase 1 done, read-only. No branch, PR, comment or edit. Audited mains df7b8ae9 / 051583ad.
 - Deliverables: this report; scan script and JSON + prototype contact sheet in ops/reports/redo-audit-133/; notify line ops/lanes133/notify/REDO-AUDIT-133.txt.
 - Phase 2 (on the operator's go only): open the APPLY jobs above that the operator assigns to me, in the order given, each from a fresh agent133/<job-id-lower>
   branch after DS-PRIMITIVES-133 merges.

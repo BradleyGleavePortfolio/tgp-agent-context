@@ -1,0 +1,101 @@
+diff --git a/src/components/ai/AiConsentSheet.tsx b/src/components/ai/AiConsentSheet.tsx
+index b09a7094..73eefb1c 100644
+--- a/src/components/ai/AiConsentSheet.tsx
++++ b/src/components/ai/AiConsentSheet.tsx
+@@ -62,6 +62,7 @@ import {
+   romanGrantBody,
+ } from '../../lib/consultation/aiConsent';
+ import { readUserCacheSync } from '../../lib/userCache';
++import { useCoachlessClient } from '../../hooks/useCoachlessClient';
+ import { openPrivacyPolicyPage } from '../../lib/legalLinks';
+ import { diagnosticReference, shortReference } from '../../utils/correlation';
+ import { captureError } from '../../services/sentry';
+@@ -169,6 +170,8 @@ export default function AiConsentSheet({
+   testID = 'ai-consent-sheet',
+ }: AiConsentSheetProps): React.ReactElement {
+   const beforeAnswer = variant === 'beforeAnswer';
++  // The coach note is true only when a coach is attached (B-592-SOL-B-1).
++  const coachless = useCoachlessClient();
+   const { colors } = useTheme();
+   const styles = makeStyles(colors);
+   // Presentation (ROMAN-ROOM-133, operator 17:16): the sheet clears the
+@@ -356,10 +359,12 @@ export default function AiConsentSheet({
+               <Text style={styles.label} testID={`${testID}-label`}>
+                 {phase.label}
+               </Text>
+-              <Text style={styles.note}>{AI_CONSENT_SHEET_COPY.coachNote}</Text>
++              {coachless ? null : (
++                <Text style={styles.note} testID={`${testID}-coach-note`}>{AI_CONSENT_SHEET_COPY.coachNote}</Text>
++              )}
+               <Text style={styles.note}>{AI_CONSENT_SHEET_COPY.changeLater}</Text>
+             </ScrollView>
+-            <View style={beforeAnswer ? styles.pair : null}>
++            <View style={beforeAnswer ? styles.pair : null} testID={`${testID}-actions`}>
+               <PrimaryButton
+                 label={beforeAnswer ? AI_CONSENT_SHEET_COPY.allowAndContinue : AI_CONSENT_SHEET_COPY.allow}
+                 onPress={() => void allow()}
+@@ -515,8 +520,9 @@ function makeStyles(colors: ThemeColors) {
+     reference: { fontSize: 13, color: colors.textSecondary, marginBottom: 12 },
+     primary: { marginTop: 8 },
+     secondary: { marginTop: 4 },
+-    pair: { flexDirection: 'row', gap: 12 },
+-    pairItem: { flex: 1, alignSelf: 'auto' },
++    // Stacked, both full width and 54 pt: the same size, and "Allow and continue" never truncates.
++    pair: { alignSelf: 'stretch' },
++    pairItem: { alignSelf: 'stretch' },
+     pairOutline: {
+       marginTop: 8,
+       minHeight: layout.buttonHeight,
+diff --git a/src/components/roman/__tests__/RomanConsentGate.test.tsx b/src/components/roman/__tests__/RomanConsentGate.test.tsx
+index bd339bb8..600c25ad 100644
+--- a/src/components/roman/__tests__/RomanConsentGate.test.tsx
++++ b/src/components/roman/__tests__/RomanConsentGate.test.tsx
+@@ -20,7 +20,8 @@ jest.mock('@react-navigation/native', () => ({
+   NavigationContext: jest.requireActual('react').createContext({ goBack: () => mockGoBack() }),
+ }));
+ jest.mock('../../../services/sentry', () => ({ captureError: jest.fn() }));
+-jest.mock('../../../lib/userCache', () => ({ readUserCacheSync: () => ({ id: 'client-me' }) }));
++let mockUser: { id: string; coach_id?: string } = { id: 'client-me', coach_id: 'coach-1' };
++jest.mock('../../../lib/userCache', () => ({ readUserCacheSync: () => mockUser, readUserCache: async () => mockUser }));
+ const mockOpenPrivacy = jest.fn();
+ jest.mock('../../../lib/legalLinks', () => ({ openPrivacyPolicyPage: () => mockOpenPrivacy() }));
+ 
+@@ -46,6 +47,7 @@ function makeApi(first: AiConsentOutcome): AiConsentSheetApi & { getStatus: jest
+ }
+ 
+ beforeEach(async () => {
++  mockUser = { id: 'client-me', coach_id: 'coach-1' };
+   jest.clearAllMocks();
+   resetAiLedgerWritesForTests();
+   await AsyncStorage.clear();
+@@ -65,6 +67,30 @@ it('opens before the first answer with the prototype title, paired actions and P
+   expect(api.grantRoman).not.toHaveBeenCalled();
+ });
+ 
++it('stacks Allow and Not now at the same full width so neither label truncates', async () => {
++  const { StyleSheet } = jest.requireActual('react-native');
++  const r = await render(<RomanConsentGate surface="client" api={makeApi({ kind: 'ok', status: OFF })} />);
++  await waitFor(() => expect(r.getByTestId('roman-consent-gate-allow')).toBeTruthy());
++  expect(StyleSheet.flatten(r.getByTestId('roman-consent-gate-actions').props.style)?.flexDirection).not.toBe('row');
++  for (const id of ['roman-consent-gate-allow', 'roman-consent-gate-not-now']) {
++    const st = StyleSheet.flatten(r.getByTestId(id).props.style);
++    expect(st.alignSelf).toBe('stretch');
++    expect(st.flex).toBeUndefined();
++  }
++});
++
++it.each([
++  ['a coached client sees', { id: 'client-me', coach_id: 'coach-1' }, true],
++  ['a coachless client never sees', { id: 'client-me' }, false],
++])('%s the coach note (B-592-SOL-B-1)', async (_label, user, shown) => {
++  mockUser = user;
++  const r = await render(<RomanConsentGate surface="client" api={makeApi({ kind: 'ok', status: OFF })} />);
++  await waitFor(() => expect(r.getByTestId('roman-consent-gate-allow')).toBeTruthy());
++  expect(r.queryByText(AI_CONSENT_SHEET_COPY.coachNote) !== null).toBe(shown);
++  // The server paragraph is shown either way.
++  expect(r.getByText(AI_CONSENT_PARAGRAPH)).toBeTruthy();
++});
++
+ it('Allow records consent through the existing ledger and keeps the room open', async () => {
+   const api = makeApi({ kind: 'ok', status: OFF });
+   const r = await render(<RomanConsentGate surface="client" api={api} />);

@@ -2523,7 +2523,7 @@ under 1,500 lines. Also ticket (not built): backend replace for rewritten Health
 # Part B — Agent logs (newest agent first)
 Each operator adds its banner at the top of this part on takeover and keeps it current. Sections are copied verbatim from LAST_OPERATOR_STATE.md, grouped by the agent that wrote them; headings were demoted only.
 
-## AGENT 133 — 2026-10-08 from 16:10 PDT (133rd operator in the chain; client journey lane; release lane from 18:25)
+## AGENT 133 — 2026-10-08 16:10-19:0x PDT (133rd operator in the chain; client journey lane; release lane from 18:25; safe stop 18:57)
 Why: owner start prompt handoffs/op-132/AGENT_133_START_PROMPT.md ("Your lane is the client journey"), the clinic flow prototype PDF and
 the 41-problem bug register (B01-B41); decisions A6.13. Agents 130-132 wrote no banner here; their records are handoffs/op-130/,
 handoffs/op-131/ and handoffs/op-132/ (COORDINATION.md). Files: /home/user/workspace/ops/ (RECON133.md, lanes133/_COMMON_133.md with the
@@ -2559,6 +2559,19 @@ Storyline:
   (coachless locks; CodeQL failing), b#889, m#576 are now agent 133's to finish.
 - Not done: the coach consultation K0-K8 (agent 134 or agent 133 if credits allow); production seed of house programs (133-9); build 8
   (behind the BUILD GATE, A6.13 item 10).
+- 18:53 owner stop-and-drain (40k/45k); 18:57 "get all agents to a safe stop and update tgp source of truth with their handoff
+  lcoations". 18:55 drain and 18:58 SAFE STOP sent to all 23 agents (none cancelled). Merged today 45 by 19:00 (agent 133: 22 to
+  main). Deploys today 7 (deploy 7 = e261ce5e, b#892, 18:51, healthy). No build 8 (BUILD GATE not met).
+- HANDOFF LOCATIONS (start here): handoffs/op-133/HANDOFF.md (state, open PRs with exact heads, first moves, table of every agent's
+  report). Every agent report ends with "## HANDOFF": handoffs/op-133/ops/reports/<JOB>.md for CONSULT-ALL-BE-133, CONSULT-ALL-M-133,
+  CONSULT-PARITY-133, AUTH-ENTRY-133, TOUR-133, DS-PRIMITIVES-133, ROMAN-CONTEXT-133, ROMAN-ROOM-133 (+ roman-room-133/
+  UNFINISHED-592-fix-round-2.patch, not pushed: tests fail), REDO-AUDIT-133, REDO-FOOD-133, REDO-LIVE-133, REDO-PROGRESS-133,
+  REDO-SETTINGS-133, REDO-HABITS-CAL-COMM-133, REDO-INSETS-133, REDO-DEVICES-133, REDO-COACH-133, LN-OPUS-A/B/C-133, LN-SOL-A/B/C-133.
+  Lane files: handoffs/op-133/ops/lanes133/ (roster133.json holds every launch prompt; notify/*.txt one status line per agent;
+  merge.log). Deploy log: handoffs/op-133/ops/FLEET133-deploys.md. Coordination: handoffs/op-132/COORDINATION.md.
+- At the stop (lens findings, from the reports): m#592, m#601, m#602 have REQUEST CHANGES from both lenses (coachless consent sheet
+  wording says a coach sees data; a failed chip send replaces the typed draft; the cut-off-reply note is not read by screen readers);
+  m#579 needs re-review at f2facf5d; m#597 has merge conflicts; m#580 has no verdicts yet. Agent 132's m#576, b#888, b#889 unreviewed.
 
 ## AGENT 129 — 2026-10-07 from about 15:40 PDT (129th operator in the chain)
 Why: owner "Read both attached documents word for word -> then read tgp source of truth -> then checkover agent 128's logs in github"

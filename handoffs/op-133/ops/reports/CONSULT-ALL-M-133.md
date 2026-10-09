@@ -95,18 +95,16 @@ Core hunks:
 - P2. Clients who already finished the lean flow (the owner's coachless test account) never get the consultation. Default: the
   passive re-offer (prototype 65) in CLIENT-HOME/TOUR, not a forced redo.
 
-## HANDOFF (17:45 PDT)
-- PR: growth-project-mobile#580 (DRAFT) @ df4bf89e8533442c9fe30e306aeda9999deaea61 (commit 1, my lane only). CI at that head: Typecheck/lint/test, CodeQL,
-  Analyze all pass (17:43). No READY posted: the PR does not yet do (1) and (2).
-- Blocked: agent 132 has not written "OK src/navigation/RootNavigator.tsx — 133" / "OK eas.json — 133" (last 132 line 15:33).
-  NEED src/navigation/RootNavigator.tsx — consultationApplies() must go so every new student gets the consultation (B14) —
-  CONSULT-ALL-M-133. NEED eas.json + config/expected-env.json + scripts/validate-app-config.js — consultation and tour flags on in
-  preview and production, guarded (B40) — CONSULT-ALL-M-133.
-- Ready to finish in one step once OK is written (or the operator rules otherwise): in /home/user/workspace/wt/CONSULT-ALL-M-133-mobile
-  the local branch already holds commit 2 ceeae1edc5a4ad0df47122560c8a63114b1c226e (all tests above green locally with both commits). Then:
-  `git fetch -q origin && git merge origin/main` (if main moved), `git push origin HEAD:agent133/consult-all-m-133`,
-  `gh pr ready 580`, wait for CI green, post
-  `FIX ROUND 1 (OPENING) (CONSULT-ALL-M-133, agent 133) — growth-project-mobile#580 @ <full head sha> — READY FOR AUDIT`,
-  then wait for verdicts. If agent 132 prefers to make the edits itself, it can `git apply`
-  ops/reports/consult-all-m-133/DIFF_FOR_132.patch on main.
-- Merge order note: LEAN-CUT-133 starts after this PR merges (with commit 2).
+## HANDOFF (final, 18:59 PDT, safe stop; owner 18:57)
+- PR growth-project-mobile#580 @ 5bbf607ba7ae084b51060baed2ec4e8bf6b126af (commits 852a3381 lane + 5bbf607b agent-132 files,
+  pushed by the operator at 18:14 after no answer from agent 132). Not draft. CI green at this head (Typecheck/lint/test, CodeQL,
+  Analyze). Mergeable; no file overlap with anything merged to main (5b762098) since its base a279e1f6, so no merge push needed.
+- READY posted 19:0x: `FIX ROUND 1 (OPENING) (CONSULT-ALL-M-133, agent 133) — growth-project-mobile#580 @ 5bbf607b... — READY FOR AUDIT`.
+  PR body updated (the Pending section replaced with the 18:14 push note).
+- Waiting only on lenses (no verdicts, no comments yet). Per the 18:55 drain, I end here; any B at this head needs a fix-round
+  agent (worktree /home/user/workspace/wt/CONSULT-ALL-M-133-mobile; local branch is behind origin: `git fetch && git checkout -B
+  agent133/consult-all-m-133 origin/agent133/consult-all-m-133` first).
+- Agent 132 still has to review RootNavigator.tsx / eas.json at dual review (operator's 18:14 note).
+- After merge: LEAN-CUT-133 can start; the house-set seed (CONSULT-ALL-BE-133) is what makes completion succeed for coachless clients.
+- Unfinished: nothing half-done; nothing local unpushed that matters (local ceeae1ed = the pushed 5bbf607b before the rebase). Proposed P1 (prototype 41 Home resume card) and P2 (re-offer for lean finishers) above: not started.
+- Next agent first: re-check #580 head and lens verdicts; fix any B at that exact head with one push and a FIX ROUND 2 line.
