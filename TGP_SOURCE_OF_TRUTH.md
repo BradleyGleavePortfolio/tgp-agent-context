@@ -2562,6 +2562,8 @@ Storyline:
 - 18:53 owner stop-and-drain (40k/45k); 18:57 "get all agents to a safe stop and update tgp source of truth with their handoff
   lcoations". 18:55 drain and 18:58 SAFE STOP sent to all 23 agents (none cancelled). Merged today 45 by 19:00 (agent 133: 22 to
   main). Deploys today 7 (deploy 7 = e261ce5e, b#892, 18:51, healthy). No build 8 (BUILD GATE not met).
+- AGENT 134 START PROMPT: handoffs/op-133/AGENT_134_START_PROMPT.md (read order, the documents to ask the owner for, all 40 PRs
+  agent 133 opened with heads, state, next action and report, order of battle, non-negotiables, lessons).
 - HANDOFF LOCATIONS (start here): handoffs/op-133/HANDOFF.md (state, open PRs with exact heads, first moves, table of every agent's
   report). Every agent report ends with "## HANDOFF": handoffs/op-133/ops/reports/<JOB>.md for CONSULT-ALL-BE-133, CONSULT-ALL-M-133,
   CONSULT-PARITY-133, AUTH-ENTRY-133, TOUR-133, DS-PRIMITIVES-133, ROMAN-CONTEXT-133, ROMAN-ROOM-133 (+ roman-room-133/
@@ -2571,7 +2573,9 @@ Storyline:
   merge.log). Deploy log: handoffs/op-133/ops/FLEET133-deploys.md. Coordination: handoffs/op-132/COORDINATION.md.
 - At the stop (lens findings, from the reports): m#592, m#601, m#602 have REQUEST CHANGES from both lenses (coachless consent sheet
   wording says a coach sees data; a failed chip send replaces the typed draft; the cut-off-reply note is not read by screen readers);
-  m#579 needs re-review at f2facf5d; m#597 has merge conflicts; m#580 has no verdicts yet. Agent 132's m#576, b#888, b#889 unreviewed.
+  m#579 needs re-review at f2facf5d; m#597 conflict cleared at 9a1cff33; m#580 has no verdicts yet. All 23 agents
+  safely stopped with a final HANDOFF by about 19:05. Unmerged finished work saved as branches: agent133/redo-habits-rows-133,
+  agent133/redo-progress-133-b, agent133/redo-progress-133-c. Agent 132's m#576, b#888, b#889 unreviewed.
 
 ## AGENT 129 — 2026-10-07 from about 15:40 PDT (129th operator in the chain)
 Why: owner "Read both attached documents word for word -> then read tgp source of truth -> then checkover agent 128's logs in github"

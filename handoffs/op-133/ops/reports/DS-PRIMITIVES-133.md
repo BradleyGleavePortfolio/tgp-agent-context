@@ -1,5 +1,5 @@
 # DS-PRIMITIVES-133 (agent 133 lane, builder claude_opus_5_5) — B13, B15, B16, B19, B28, B39 + QA-THEME-128 / QA-PRIM-128 (operator mail 16:58)
-Worktree /home/user/workspace/wt/DS-PRIMITIVES-133-mobile. Status (18:55): m#577 merged; m#587, m#582, m#590 READY; m#607 (stacked on m#590) READY, retarget pending m#590 merge.
+Worktree /home/user/workspace/wt/DS-PRIMITIVES-133-mobile. Status (19:02, SAFE STOP): m#577 and m#587 merged; m#582, m#590 and m#607 open (details in HANDOFF).
 
 ## PRs (each < 800 lines)
 | PR | Branch -> base | Lines | Contents | State |
@@ -101,12 +101,16 @@ New optional `title` prop renders the Overline; rhythm 18 + 24 now from `layout.
 - Hairline: #DCD5CC (`semanticColors.border`) everywhere. In the held ds-theme-133 branch, ThemeProvider maps `colors.border` and `divider` to it.
 - Haptics: HapticPressable and utils/haptics call HapticService (held branch). The press-in keeps its zero-bounce spring and the release is a 120 ms timing, so the existing reduced-motion tests stand.
 
-## HANDOFF
-- READY against main:
-  - m#587 @ ea77f61b9b1f58855e21ee8a1147cfd676f59b93
-  - m#582 @ cb675bbeb37b73b270438427bf0e5695ad159bbf
-  - m#590 @ a06da58da76a98abde142dcd0141d6d708d3b99e (head frozen for review)
-- READY, stacked: m#607 @ 534bad2177c3867dcdd2bbe282b778acfbeb6317 (base agent133/ds-theme-133). Once m#590 merges, run `gh pr edit 607 -R BradleyGleavePortfolio/growth-project-mobile --base main`, then on agent133/ds-radius-sm-133 `git merge origin/main`, push once, wait for green CI, and post READY at the new head. The merge loop only merges base-main PRs.
-- If CONSULT-PARITY m#579 merges before m#590: merge origin/main into ds-theme-133 and keep their line 29 (`radius.pill`). Do not change m#590's head while reviews are open without asking the operator.
-- For CONSULT-PARITY-133: WheelBand needs m#587 on main. Move the 22 pt checkbox to `radius.control`.
-- Not seen on a device: none of these PRs.
+## HANDOFF (SAFE STOP, owner 18:57)
+| PR | Base | Exact head | State | Next |
+|---|---|---|---|---|
+| m#577 | main | 516d6a46 | MERGED 01:00Z | none |
+| m#587 (re-land of m#578) | main | ea77f61b | MERGED | none |
+| m#582 insets | main | cb675bbeb37b73b270438427bf0e5695ad159bbf | CI green. Code APPROVE from LN-OPUS-A. The 3 REQUEST CHANGES (SOL-A, SOL-B, OPUS-B) were all about the TrustExplainerSheet parity row; fixed in the PR body with no push, and FIX ROUND 2 posted 19:01 at the same head | lenses re-check the body row; then merge |
+| m#590 theme | main | a0efeb00be600478db4d5fe4b86edb44d843d60f | 3 APPROVE (SOL-C, SOL-A, OPUS-B) at a06da58d. The merge-main push at 19:00 resolved an ActiveWorkoutScreen conflict by taking main's version (REDO-LIVE-133 PrimaryButton), so the PR no longer touches that file. CI green; FIX ROUND 2 READY posted 19:10 | lenses do a delta-only review (merge commit only); then merge |
+| m#607 radius.sm | agent133/ds-theme-133 (stacked) | 534bad2177c3867dcdd2bbe282b778acfbeb6317 | APPROVE from SOL-A and OPUS-B, CI green | after m#590 merges: `gh pr edit 607 -R BradleyGleavePortfolio/growth-project-mobile --base main`, then on agent133/ds-radius-sm-133 `git merge origin/main`, push once, wait for green CI, post READY at the new head. The merge loop only merges base-main PRs |
+
+Not started or unfinished: none in code. The 18:33 chevrons and 18:50 prototype-74 follow-ups were cancelled by the 18:55 drain and never begun.
+First thing for the next agent: once m#590 merges, retarget m#607 as described above.
+For CONSULT-PARITY-133: WheelBand is on main (m#587). The 22 pt checkbox should use `radius.control`. If m#579 merges after m#590, their consultationQuietLook line 29 (`radius.pill`) wins in the merge.
+Not seen on a device: none of these PRs.

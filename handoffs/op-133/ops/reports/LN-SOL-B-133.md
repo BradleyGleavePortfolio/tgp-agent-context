@@ -77,3 +77,34 @@ T4 scan first. Read exact-head diff and relevant callers/tests with gh and git s
 ## Proposed (needs operator)
 
 Production house seeding after merge/deploy and the b#888 entitlement fix remain operator release prerequisites; approval of the backend slice does not certify that the client build is already reachable or ready. [Builder readiness and seed caveat](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/890#issuecomment-6071832778).
+
+## HANDOFF
+
+SAFE STOP at operator instruction, 2026-10-08 18:58 PDT; final read-only GitHub state check at 18:59 PDT. No new claims after stop. Every claim this instance took already has a posted exact-head verdict; no unfinished review or held claim needs a RELEASE. No code edits, pushes, merges, deployments, production writes, flags or local test runs.
+
+Completed 15 exact-head verdicts on 14 unique PRs: 10 APPROVE, 5 REQUEST CHANGES (including two rounds of m#582); B=4 unique findings, U=0. The review ledger above links each verdict.
+
+Final states of every reviewed PR:
+
+| PR | current exact head | final state / next step |
+|---|---|---|
+| [b#890](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/890) | a7bf9ee185710da47236a659c751f1ea0b8c35a4 | MERGED; operator seed/deploy caveat remains a separate release step |
+| [b#892](https://github.com/BradleyGleavePortfolio/growth-project-backend/pull/892) | 1519f9f1913b51d3b9c0c540e72fe99097915cd2 | MERGED |
+| [m#577](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/577) | 516d6a466098a4859aa761fa5eb24d7b5470fc1a | MERGED |
+| [m#578](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/578) | ccfd901642a8e4cf89823c4325f7638cc84c10f1 | MERGED; stacked primitives subsequently re-landed as #587, reviewed by another Sol instance |
+| [m#585](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/585) | 95215c3f450de608895420c01ed5de9c48747a70 | MERGED |
+| [m#591](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/591) | 4790df4c83dc72f6c29d0e8d37013358f809a413 | MERGED |
+| [m#594](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/594) | 61624e69de8b0752dd29a04bc23c56f49c06e19d | MERGED; decorative-dot radius was C, not a blocker |
+| [m#596](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/596) | ddb5957a6ddb8a829b608cc6b58146b11e16b8da | MERGED |
+| [m#610](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/610) | ab3acfa59f1a933f5c45b66791c13c3e44ca514d | MERGED; only chart slice approved, remaining Progress work outside this verdict |
+| [m#579](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/579) | f2facf5d17cf53e7126a40648c9f43952fd79743 | OPEN, CI green; NEW UNREVIEWED HEAD, no current-head READY found in final metadata; previous B-579-SOL-B-1 needs delta validation |
+| [m#582](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/582) | cb675bbeb37b73b270438427bf0e5695ad159bbf | OPEN, CI green; latest Sol verdict REQUEST CHANGES, B-582-SOL-B-1 evidence/parity-table correction only |
+| [m#592](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/592) | baca8de0504b55b83aae426589cfb4e0e50ad536 | OPEN, CI green; latest Sol verdict REQUEST CHANGES, B-592-SOL-B-1 coachless ancillary visibility note |
+| [m#601](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/601) | 9d65c99d2fafa9af1ada0fec3b4407ad90c541bc | OPEN, CI green; latest Sol verdict REQUEST CHANGES, B-601-SOL-B-1 failed chip overwrites a typed draft |
+| [m#612](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/612) | 6fa49b1ed2deb02356c02f04fa2e5aa1b79c05a1 | OPEN, CI green; this Sol APPROVE remains exact-head; operator checks independent Opus verdict before any merge |
+
+Five reviewed open PRs need queue disposition (notify's `needs operator: 5`); this is not a merge or release instruction. Final metadata for each row is saved as `LN-SOL-B-133-{m|b}<number>-stop-state.json`.
+
+Next lens's first step: read the current HOLD/header and board, fresh-check GitHub head/READY/claims, then take the oldest READY unclaimed head only after the operator resumes execution. Do not reuse this lens's m#579 verdict at its new head. For fixes, review the previous B plus changed lines; m#582 may need only an honest PR-body correction, not code. Do not modify the server consent paragraph/hash for m#592. Preserve typed drafts and add the combined failure regression for m#601. [m#579 finding](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/579#issuecomment-6072461523), [m#582 finding](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/582#issuecomment-6072393868), [m#592 finding](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/592#issuecomment-6072481926), [m#601 finding](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/601#issuecomment-6072632631).
+
+At stop, other lanes also had unreviewed READY work (tour follow-ons, coach settings, consultation routing) and mobile #613 pending READY in the 18:58 board; this instance took no claim on that queue after the stop. Fresh metadata must win over that cached board on resume. [Tour B](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/604), [Tour C](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/605), [Tour D](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/606), [Coach settings](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/609), [Consultation routing](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/580), [Roman privacy](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/613).

@@ -1,5 +1,5 @@
 # REDO-FOOD-133 (agent 133 lane, builder claude_opus_5_5) — APPLY-FOOD-133 (QA-FOOD-128), Food tab redesign
-Worktree /home/user/workspace/wt/REDO-FOOD-133-mobile. Status: done — #597 and #600 CI green, READY posted (18:55 PDT).
+Worktree /home/user/workspace/wt/REDO-FOOD-133-mobile. Status: safe stop (19:10 PDT). #600 MERGED. #597 open, CI green, FIX ROUND 2 posted at 9a1cff33, waiting only on lenses.
 Reference: design-targets/mobile/plan/ (plan_luxury.jpg) and plan-fullweek/ (luxury.jpg).
 
 ## PRs
@@ -40,10 +40,12 @@ Not seen on a device: Android status-bar inset and font metrics, iOS pageSheet, 
 - 18:35 #597 opened; 18:40 #600 opened.
 - 18:50 #597 CI green, READY posted at 8113ab85. 18:55 #600 CI green, READY posted at e8506ee4. Main moved to da6442e3 (#584-#586); both PRs report MERGEABLE CLEAN and none of those merges touch the Food files (only src/ui QuietRow/WheelBand/QuietSection, backward compatible, and other README rows), so no extra merge or push.
 
+- 19:00 #600 merged (dual APPROVE). #597 had dual APPROVE at 8113ab85 but went CONFLICTING (README row). Merged origin/main twice (5b762098, then 2acc228c, since main moved during the check); one conflict in src/screens/client/README.md, kept main's ActiveWorkoutScreen row and this PR's LogScreen row. Tree check: all non-README PR files byte-identical to 8113ab85; no main change under src/ui, src/theme, src/components/log. 17 targeted test files pass on the merged tree; pushed 9a1cff33; CI green; FIX ROUND 2 posted.
+
 ## HANDOFF
-- growth-project-mobile#597 @ 8113ab851a0c2a03e4b5238ddbedad066a629fa8 — Food log page, 797 lines, CI green, READY posted.
-- growth-project-mobile#600 @ e8506ee4da73e31b3610d6ee9f5969fb104b6563 — add-food sheets, 748 lines, CI green, READY posted.
-- Independent: either merges first; the shared makeover-test hunk is identical.
-- Not seen on a device (U=1): Android inset and font metrics, iOS pageSheet, keyboard over sheets, haptics, Reduce Motion. Needs a look in tonight's build.
-- Not done: meal rows still use their own row (src/ui QuietRow landed on main after these PRs; long-press delete and macro lines would need checking against it). Possible follow-up, not required by the entry.
+- growth-project-mobile#600 — MERGED (head e8506ee4da73e31b3610d6ee9f5969fb104b6563, dual APPROVE). Add-food sheets.
+- growth-project-mobile#597 — OPEN @ 9a1cff330c3a1ccdac9031e88a98489a6a3b414e, MERGEABLE, CI green, FIX ROUND 2 (merge-only) posted. Earlier dual APPROVE was at 8113ab85; it needs lens verdicts at the new head (merge-only tree check). Food log page, 793 changed lines vs main.
+- Unfinished: nothing pushed half-done; no other local work. Optional follow-up (not started, cancelled by drain): meal rows onto src/ui QuietRow.
+- Next agent first: if #597 goes CONFLICTING again, `git merge origin/main` on agent133/redo-food-133 (README rows are the only likely conflict), rerun FoodLogPage.redesign133 + LogScreen suites, push once, post FIX ROUND 3.
+- Not seen on a device (U=1): Android inset and font metrics, iOS pageSheet, keyboard over sheets, haptics, Reduce Motion.
 - Never merged, deployed or touched flags. No rebase, no force-push, no stash.

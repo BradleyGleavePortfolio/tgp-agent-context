@@ -2,13 +2,13 @@
 Worktree /home/user/workspace/wt/REDO-PROGRESS-133-mobile. Reference: design-targets/mobile/progress-details/luxury.jpg ("The full picture").
 Reach: More > Progress.
 
-## Status (19:2x PDT)
-- PR A growth-project-mobile#610 (weight trend), head ab3acfa59f1a933f5c45b66791c13c3e44ca514d, 559 lines, CI green
-  (Typecheck, lint, test; CodeQL), MERGEABLE, READY posted. No reviews yet.
-- PR B (today's food U3, BMI U2, weigh-ins, sheet): branch agent133/redo-progress-133-b @ 8113224f (pushed, NO PR yet), 739 lines on
-  top of A. Body ready: ops/reports/REDO-PROGRESS-133-prB-body.md.
-- PR C (frame, Body numbers U12, inline Log weight, FAB gone, report foot row): branch agent133/redo-progress-133-c @ 72fc8280
-  (pushed, NO PR yet), 635 lines on top of B. Body ready: ops/reports/REDO-PROGRESS-133-prC-body.md.
+## Status (18:59 PDT, SAFE STOP)
+- PR A growth-project-mobile#610 (weight trend): MERGED 01:56 UTC at head ab3acfa59f1a933f5c45b66791c13c3e44ca514d
+  (merge 18a491b2d068f5610cfbed1b1fd42c9a3ba8d754), LN-OPUS-B-133 APPROVE plus a second approval; CI green.
+- PR B (today's food U3, BMI U2, weigh-ins, sheet): branch agent133/redo-progress-133-b @ 8113224f08ec36f6a5c0924cfcecc56221ae573b
+  pushed, NO PR (stop-and-drain 18:55: no new PRs). 739 lines over A. Body ready: ops/reports/REDO-PROGRESS-133-prB-body.md.
+- PR C (frame, Body numbers U12, inline Log weight, FAB gone, report foot row): branch agent133/redo-progress-133-c @
+  72fc82804e8280677d37064f42ef80d6c795dc98 pushed, NO PR. 635 lines over B. Body ready: ops/reports/REDO-PROGRESS-133-prC-body.md.
 - Why three: the redesign is about 1,930 changed lines (old ProgressScreen.tsx is 1,325 lines; its own churn alone is ~1,200), so
   under 800 per PR needs three, and they touch the same file, so B and C are sequential (no stacked PR bases after the #578
   incident).
@@ -52,13 +52,17 @@ the redesign draws that one (WeightTrendChart) and leaves the flag-on ProgressCh
   test), while the visible text should read "Save". Until then the visible label is "Save weight log entry". — REDO-PROGRESS-133
 
 ## HANDOFF
-- Done: #610 (PR A) open, CI green at ab3acfa59f1a933f5c45b66791c13c3e44ca514d, READY posted.
-- Waiting on merges, then needs a builder or the operator (each step is mechanical; bodies are written):
-  1. After #610 merges: in the worktree `git checkout agent133/redo-progress-133-b && git fetch -q origin && git merge origin/main`
-     (README.md row may conflict: keep the B row), run the 8 test files above one at a time, push, then
-     `gh pr create --base main --head agent133/redo-progress-133-b --title "[133] REDO-PROGRESS-133 B: U2 U3 today's food, BMI,
-     weigh-ins and the sheet to progress-details" --body-file ops/reports/REDO-PROGRESS-133-prB-body.md`; CI green; READY.
-  2. After B merges: same with agent133/redo-progress-133-c (title "[133] REDO-PROGRESS-133 C: U12 + FAB: the full picture frame,
-     Body numbers, inline Log weight", body ops/reports/REDO-PROGRESS-133-prC-body.md).
-- Until C lands the owner's build shows the new chart (A) or chart + lower half (B) inside the old top half; the full screen needs C.
-- Needs operator: 2 (open B after #610 merges and C after B merges, or relaunch me for it; the PrimaryButton accessibilityLabel NEED).
+- #610 (PR A, weight trend): MERGED, head ab3acfa59f1a933f5c45b66791c13c3e44ca514d. The owner's build shows the new chart section
+  inside the old top and bottom halves.
+- Unfinished, pushed, no PR (stopped by the 18:55 / 18:58 stop orders): agent133/redo-progress-133-b @ 8113224f (B) and
+  agent133/redo-progress-133-c @ 72fc8280 (C, contains B). Both tested locally (tsc clean, 8 test files green one at a time) but
+  built on A's branch before #610's merge commit, so each needs `git merge origin/main` first.
+- Next agent, first: in /home/user/workspace/wt/REDO-PROGRESS-133-mobile `git checkout agent133/redo-progress-133-b && git fetch -q
+  origin && git merge origin/main` (README.md ProgressScreen row may conflict: keep the B row), run measures, trend, weighIn,
+  chart, quietLuxuryDoctrine, romanP3HostWiring, romanP3FlagOff one at a time through ops/heavy.sh, push, then
+  `gh pr create --base main --head agent133/redo-progress-133-b --title "[133] REDO-PROGRESS-133 B: U2 U3 today's food, BMI,
+  weigh-ins and the sheet to progress-details" --body-file ops/reports/REDO-PROGRESS-133-prB-body.md`; CI green; READY line.
+  After B merges: the same for agent133/redo-progress-133-c (merge origin/main, add fullPicture to the tests, title "[133]
+  REDO-PROGRESS-133 C: U12 + FAB: the full picture frame, Body numbers, inline Log weight", body ...-prC-body.md).
+- Open items: U2, U3 (in B) and U12, the FAB (in C) are still open on main. NEED for DS: PrimaryButton accessibilityLabel prop.
+- Needs operator: 1 (decide when B and C may open after the stop).

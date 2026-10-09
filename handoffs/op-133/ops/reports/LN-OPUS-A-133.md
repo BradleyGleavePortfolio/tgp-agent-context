@@ -56,10 +56,37 @@ JOBS133 order + LN-OPUS-133 entry. Token file written. HOLD.txt: no PR held.
 - 18:48 m#603 REQUEST CHANGES (B-603-1: completion card changed, no parity table; body edit at the same head will do).
 - 18:55 m#601 REQUEST CHANGES (B-601-1 unsupported matches in parity row 69; body edit at same head).
 - 18:58 m#608 APPROVE (merge-tree with main after #583 is clean, no 4 pt button). m#612: claim posted after LN-OPUS-B-133's, withdrawn (6072678426).
+- 18:59 SAFE STOP received (operator 18:58, owner 18:57). Every claim I hold has a verdict; m#612 claim was withdrawn; no RELEASE needed; no new claims.
 
 ## Needs operator
 - specs133/shots/NN.png crop is wrong (left half only); use specs133_phone/NN.png or pdfpages.
-- U-890-1 gate: do not run `seed-clinic-programs --house` until the mobile coachless reveal copy is in the installed build.
+- U-890-1 gate: do not run `seed-clinic-programs --house` until the mobile coachless reveal copy is in the installed build. The copy fix is in m#581 (coachless={!user.coach_id} + COACHLESS_COPY), checked at 2121e09c; m#581 has since moved to c632fd01 (not re-reviewed). Default: keep the gate until m#581 merges and ships.
+- Proposed (needs operator): do jest snapshot lines count toward the 1,500-line automatic fail? m#591 (3,920 incl. 3,129 snapshot) and m#601 (2,256 incl. 1,605 snapshot). Default: snapshots do not count; source lines do.
 
 ## HANDOFF
-(in progress)
+Stopped at 18:59 PDT on the operator's SAFE STOP. No open claims. Verdicts I posted, each at its exact head:
+
+| PR | head | my verdict | state now |
+|---|---|---|---|
+| b#890 | a7bf9ee1 | APPROVE (U-890-1) | merged |
+| m#577 | 516d6a46 | APPROVE | merged |
+| m#582 | ccc34224 | APPROVE | head moved to cb675bbe; LN-OPUS-B-133 posted REQUEST CHANGES there; my verdict is void |
+| m#587 | ea77f61b | APPROVE | dual approved |
+| m#584 | b58f85bc | APPROVE | merged |
+| b#892 | 1519f9f1 | APPROVE | dual approved |
+| m#585 | 95215c3f | APPROVE | merged |
+| m#588 | 75967996 | APPROVE | merged or queued |
+| m#589 | 5e82996e | APPROVE | merged |
+| m#594 | 61624e69 | APPROVE (U-594-1 radius literal 3 at ConnectionsScreen.tsx:572) | merged |
+| m#583 | 31dda7d1 | APPROVE | merged |
+| m#581 | 2121e09c | REQUEST CHANGES: B-581-1 (offline Roman line promises auto-prepare; prototype 43 retries on reconnect, the code does not), U-581-2 (parity row 40 omits the Message coach link) | head now c632fd01, not READY at 18:58, not re-reviewed |
+| m#597 | 8113ab85 | APPROVE | dual approved; conflict with main (a merge-main push resets verdicts) |
+| m#598 | 27b56db0 | APPROVE (C: literal radii left in habits/styles.ts for PR 2) | dual approved |
+| m#603 | f8f569f5 | REQUEST CHANGES: B-603-1 (completion card 60 changed, no parity table; a body edit at the same head is enough) | open, same head |
+| m#601 | 9d65c99d | REQUEST CHANGES: B-601-1 (parity row 69 lists a history action as matching; the prototype has none; body edit at the same head) | open, same head |
+| m#608 | 3cdf7abb | APPROVE | open |
+| m#612 | 6fa49b1e | claim withdrawn (LN-OPUS-B-133 claimed first) | none from me |
+
+Unfinished: none in hand. Not reviewed by me (READY at 18:58, other lenses or nobody): m#580, m#604, m#605, m#606, m#609, m#612 (Opus B).
+
+Next agent, first: (1) m#581 at c632fd01: delta review of B-581-1 and U-581-2 only, plus the changed lines; (2) m#603 and m#601: re-read the PR bodies at the same heads for the parity fixes (no code change needed) and post the delta verdict; (3) m#597 and m#590 after their merge-main pushes: delta review; (4) keep the U-890-1 seed gate until m#581 ships.

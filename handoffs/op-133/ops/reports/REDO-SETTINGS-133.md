@@ -1,12 +1,12 @@
 # REDO-SETTINGS-133 (agent 133 lane, builder claude_opus_5_5): APPLY-SETTINGS-133, then APPLY-PROFILE-133
 Worktree /home/user/workspace/wt/REDO-SETTINGS-133-mobile. PR bodies: ops/reports/redo-settings-133/pr{1,2,3}_body.md.
 
-## Status (18:49 PDT)
+## Status (19:00 PDT, safe stop)
 | PR | Branch @ head | Scope | Lines | State |
 |---|---|---|---|---|
 | m#585 | agent133/redo-settings-133 @ 95215c3f | Notifications, Trust & Privacy, Blocked users, My data, Delete account | ~765 | MERGED (READY posted at the head) |
 | m#596 | agent133/redo-profile-133 @ ddb5957a6ddb8a829b608cc6b58146b11e16b8da | Profile (APPLY-PROFILE-133, U2) | 228 | MERGED (READY posted at the head) |
-| m#611 | agent133/redo-settings-133-b @ 3abed53a1cdd28636b6dc41d6b352b0f87049b69 | client Settings + SettingsSection on Screen and QuietRow; decision 133-14 Add a coach code | 719 | CI green, READY posted at the head (18:49) |
+| m#611 | agent133/redo-settings-133-b @ 3abed53a1cdd28636b6dc41d6b352b0f87049b69 | client Settings + SettingsSection on Screen and QuietRow; decision 133-14 Add a coach code | 719 | MERGED (dual APPROVE, Sol C + Opus C, at the head) |
 
 ## What was done
 - Part 1 (#585): the five shared screens use Screen/ScreenTopBar/Headline from #577, with rounded token corners and serif h1 32/40. Notifications gets a quiet Try again for the first-load and next-page errors. My data gains a back control (it had none). Delete, export and block logic unchanged.
@@ -31,6 +31,14 @@ Worktree /home/user/workspace/wt/REDO-SETTINGS-133-mobile. PR bodies: ops/report
 - ClientTutorialSetting (TOUR-133) was not touched.
 
 ## HANDOFF
-- Done: #585 and #596 merged. #611 is READY at 3abed53a1cdd28636b6dc41d6b352b0f87049b69 and awaiting the lens audits (merges on dual APPROVE).
-- Open items: none blocking. The two NEEDs above are optional.
-- Local only (do not push): agent133/redo-settings-133-wip (the old combined branch, kept for reference).
+- Safe stop (owner 18:53 / 18:57): all work landed. Nothing is in progress, half-pushed or holding a claim.
+- m#585 MERGED @ 95215c3f450de608895420c01ed5de9c48747a70 (Notifications, Trust & Privacy, Blocked users, My data, Delete account).
+- m#596 MERGED @ ddb5957a6ddb8a829b608cc6b58146b11e16b8da (Profile, U2).
+- m#611 MERGED @ 3abed53a1cdd28636b6dc41d6b352b0f87049b69 (client Settings + decision 133-14 Add a coach code).
+- Unfinished: none. The 18:33 chevrons and 18:50 Privacy > Roman follow-ups never reached this lane, so nothing was started.
+- The next agent should first check these on a device (360x800 and 390x844, Android and iOS):
+  - descender clipping on the serif titles
+  - real top insets on the six screens and Profile
+  - the coach-code attach with a live code
+- Optional NEEDs above: a QuietRow accessibilityLabel prop, and choosing one coach-code flow (attachInviteCode vs CoachCodeSheet).
+- Local-only branch agent133/redo-settings-133-wip: reference only, never push.

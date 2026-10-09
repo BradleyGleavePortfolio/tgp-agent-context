@@ -1,1 +1,1 @@
-done | PRs: m#597, m#600 | B=0 U=1 | head: 8113ab85 (m#597), e8506ee4 (m#600) | needs operator: 0
+done | PRs: m#597 (open, FIX ROUND 2, CI green, awaiting lenses), m#600 (merged) | B=0 U=1 | head: 9a1cff33 (m#597), e8506ee4 (m#600) | needs operator: 0

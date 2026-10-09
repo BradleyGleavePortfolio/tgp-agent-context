@@ -4,7 +4,7 @@
 
 Started 2026-10-08 16:53 PDT. Read lane 133 Q1–Q10, binding lens/grading/posting/waiting rules, the order/dependencies section and LN-SOL-133 entry. Read-only lens; no worktree, code changes, merges, deployments or flag changes.
 
-Latest activity 18:53 PDT: m#608 approved with U for its retained 4 pt Save override; merge-main must preserve #583's removal. m#601, m#610 and m#611 have fresh Sol B/C claims and are skipped. Checking the shared board every 180 seconds while idle. No GitHub PR reads while idle.
+STOPPED 19:00 PDT on operator's 18:58 safe-stop instruction. Last completed verdict was m#608 at 18:53. No active CLAIM or unfinished verdict; no RELEASE needed. No new claims taken after stop.
 
 ## Review ledger
 
@@ -78,3 +78,45 @@ b#891's live NULL-list suite needs CI workflow wiring; pool wiring needs the sep
 m#578 is stacked on m#577 and must receive fresh-head review after merge-main/retarget; B19 requires consultation application, not merely this helper ([m#578 verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/578#issuecomment-6072086970)).
 
 Coordination: Sol B claimed b#890 and m#577 while A's independent reviews were in flight. A will skip any visible other-Sol claim going forward to prevent duplicate work; proposed default: operator partition A/B queues explicitly. No other lens's findings were read before forming A's verdicts.
+
+## HANDOFF
+
+Safe stop received after the last review was complete. **18 posted verdicts across 17 distinct PRs**, all exact heads and comment URLs recorded in the ledger above. No held claim, unfinished verdict, code edit, push, test run, merge, deployment or flag change.
+
+**Findings: 2 unique B and 4 U raised; none independently cleared by A at a newer accepted head.** Do not count the two #582 rounds as two findings.
+
+- **B-582-SOL-A-133-1** remains requested at `cb675bbeb37b73b270438427bf0e5695ad159bbf`: correct the unsupported prototype-37 TrustExplainerSheet parity claim, then re-review the body without unnecessary code changes ([latest verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/582#issuecomment-6072392409)).
+- **B-581-SOL-A-133-1** was raised at `2121e09cd24cc13a90b75408dbe55b1d3a4479a3`: disclose PREP's static line and correct the MACRO eyebrow claim; newer head is unreviewed by A ([verdict](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/581#issuecomment-6072473735)).
+- **U-589-SOL-A-133-1**: remove literal-radius guard exceptions 22/3 and use radius.chip; **U-598-SOL-A-133-1**: replace retained literal/4 pt child-control radii; **U-600-SOL-A-133-1**: qualify/fix the 360 web CALORI… evidence and verify native; **U-608-SOL-A-133-1**: preserve #583's removal of Save's literal 4 pt override on integration ([#589](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/589#issuecomment-6072426076), [#598](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/598#issuecomment-6072512140), [#600](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/600#issuecomment-6072542380), [#608](https://github.com/BradleyGleavePortfolio/growth-project-mobile/pull/608#issuecomment-6072647013)).
+
+### Remaining queue at stop
+
+These are **board observations, not new GitHub head confirmations or reviews**; the 18:58 board is preserved as `/home/user/workspace/ops/reports/LN-SOL-A-133-board-at-stop.md`. The next agent must fetch current heads and READY lines again before doing anything.
+
+| PR | Board head at stop | Unfinished / next action |
+|---|---|---|
+| m#582 | cb675bbeb37b73b270438427bf0e5695ad159bbf | REQUEST CHANGES; parity wording fix above |
+| m#581 | c632fd01a1c152fb40040edf3ef15597f8633159 | CI green, no READY; prior B + changed lines await fresh review |
+| m#590 | a06da58da76a98abde142dcd0141d6d708d3b99e | Dual approved old head; merge-main conflict resolution + fresh-head delta |
+| m#607 | 534bad2177c3867dcdd2bbe282b778acfbeb6317 | Dual approved, stacked on #590; retarget/main and fresh-head review |
+| m#580 | 5bbf607ba7ae084b51060baed2ec4e8bf6b126af | READY, no Sol verdict; full first review |
+| m#604 | 4210f3997f34bdf1241b0685d36dfe2fd8959c1d | READY, no Sol verdict; tour full first review |
+| m#605 | acfc684b1ee85671de587774a35a8c366c0fc2a3 | READY, no Sol verdict; tour full first review |
+| m#606 | f6c3b6852e8ea823e699731d41da914711297e3e | READY, no Sol verdict; tour full first review |
+| m#609 | ea9aba95749cdb3afe6a21a5c661aac56ae8d92a | READY, no Sol verdict; coach settings full first review |
+| m#579 | f2facf5d17cf53e7126a40648c9f43952fd79743 | CI running, no READY; wait for completion and READY |
+| m#613 | dd6fbe2b392de2442cd587895533773e3e8ae581 | CI green, no READY; wait for READY |
+| m#612 | 6fa49b1ed2deb02356c02f04fa2e5aa1b79c05a1 | Sol B approved; Opus outstanding |
+| m#603 | f8f569f511263a00a3f4861879e59b021435b2e9 | Other-lens REQUEST CHANGES; operator assigns fix/re-review |
+| m#602 | fdf12cf8736455823f01f59cb21b3f626fdcd768 | Other-lens REQUEST CHANGES; operator assigns fix/re-review |
+| m#601 | 9d65c99d2fafa9af1ada0fec3b4407ad90c541bc | Other-lens REQUEST CHANGES; operator assigns fix/re-review |
+| m#592 | baca8de0504b55b83aae426589cfb4e0e50ad536 | Other-lens REQUEST CHANGES; operator assigns fix/re-review |
+| m#597 | 8113ab851a0c2a03e4b5238ddbedad066a629fa8 | Dual approved old head; merge-main conflict + fresh-head review |
+
+The board records m#598 and m#608 merged by 18:57; that does not independently close their U findings. Historical approvals for every other A-reviewed PR remain at the exact ledger heads; GitHub must establish current lifecycle and any newer head.
+
+**Next agent first:** read the stop/continuation instruction, HOLD and current board; confirm fresh READY/head/claims and take the oldest unclaimed READY. For #581/#582, check the existing B wording before expanding scope. Never repeat prior full reviews for merge-main-only deltas.
+
+Saved metadata/verdicts use `LN-SOL-A-133-{b|m}<number>-*`; #582 round 2 files have `round2` in the name. Prototype-581 full-phone crops and #600 six-preview montage remain available. No device/pixel/keyboard acceptance was established. Backend release dependencies in Proposed remain operator-owned.
+
+Notify `needs operator: 7` means six uncleared A findings plus one remaining-queue assignment; it is not a count of all other lenses' findings.

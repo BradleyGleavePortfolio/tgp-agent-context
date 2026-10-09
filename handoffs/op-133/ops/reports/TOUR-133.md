@@ -44,8 +44,8 @@ Job: B33; prototype 46-66 adapted to today's 6 tabs. Worktree /home/user/workspa
 - Final full change set: /home/user/workspace/ops/tour133/full/ (pre-split; version 2 there became 3 in the stack). PR bodies: /home/user/workspace/ops/tour133/pr/body{1..4}b.md.
 
 ## HANDOFF
-- State: four PRs open, CI green, READY / FIX ROUND posted at every head: #603 @ f8f569f5 (FIX ROUND 2, body-only), #604 @ 4210f399, #605 @ acfc684b, #606 @ f6c3b685. Waiting only on lenses. Owner stop-and-drain 18:53: no new work started.
+- State: four PRs open, CI green, READY / FIX ROUND posted at every head: #603 @ f8f569f5 (FIX ROUND 2, body-only), #604 @ 4210f399, #605 @ acfc684b, #606 @ f6c3b685. Waiting only on lenses (19:01: #603 has both round-1 REQUEST CHANGES answered by FIX ROUND 2, no re-verdict yet; #604-#606 no verdicts yet). Owner safe stop 18:57: stopped; nothing half-done, nothing unpushed; worktree clean at #606's head.
 - Needs operator (1): after #603 merges, retarget #604 to main; after #604, #605; after #605, #606 (`gh pr edit <n> --base main`). Heads do not change, so verdicts stay valid.
-- If a lens asks for changes on PR k: check out its branch in /home/user/workspace/wt/TOUR-133-mobile, commit, push once, then `git merge` that branch into each later branch (never rebase) and push those once each; README conflicts are only in src/tutorial/README.md's notes list.
+- Next agent first: read the newest verdicts on #603-#606 at the heads above; if #603 is re-approved and merged, retarget #604. If a lens asks for changes on PR k: check out its branch in /home/user/workspace/wt/TOUR-133-mobile, commit, push once, then `git merge` that branch into each later branch (never rebase) and push those once each; README conflicts are only in src/tutorial/README.md's notes list.
 - Depends on CONSULT-ALL-M-133 (flags consultationOnboarding + clientTutorial on in every profile, consultation reachable) for clients to see the tour at all.
 - Not seen on a device. Device check after the build: consultation -> Show me around, on Android and iOS, at both a coached and a coachless account.

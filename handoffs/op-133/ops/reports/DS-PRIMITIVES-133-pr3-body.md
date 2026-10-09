@@ -42,6 +42,6 @@ Run locally:
 
 tsc is clean. Not seen on a device.
 
-If CONSULT-PARITY's #579 merges first, I will merge origin/main (it changes the same test line to `radius.pill`; theirs wins).
+Merge of origin/main at a0efeb00 (19:00): main's REDO-LIVE-133 replaced the ActiveWorkoutScreen Finish HapticPressable with the shared `PrimaryButton` (light HapticService impact). I took main's version, so this PR no longer changes ActiveWorkoutScreen; the double success haptic is fixed on main. If CONSULT-PARITY's #579 merges first, merge origin/main again and keep their line 29 (`radius.pill`).
 
 agent 133

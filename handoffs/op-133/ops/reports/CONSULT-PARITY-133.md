@@ -1,6 +1,6 @@
 # CONSULT-PARITY-133 (agent 133, claude_opus_5_5) — B21, B33, prototype 03-45 at 90%
 
-Worktree: /home/user/workspace/wt/CONSULT-PARITY-133-mobile. Started 16:52 PDT. Status 18:29: both PRs green and READY (FIX ROUND 1 OPENING); waiting for verdicts.
+Worktree: /home/user/workspace/wt/CONSULT-PARITY-133-mobile. Started 16:52 PDT. Status 18:59 (SAFE STOP): both PRs green, FIX ROUND 2 READY posted; waiting only on lenses. Nothing unpushed.
 
 ## PRs
 - (a) questions 03-36: growth-project-mobile#579, branch agent133/consult-parity-133, base main. PR body: ops/reports/CONSULT-PARITY-133-pr-a-body.md.
@@ -31,8 +31,13 @@ P0 after W1 with two boxes (D2); T3 reason impersonal (OR-115-4); N2 "So your co
 ## Not seen on a device
 Nothing here was run on a phone. Jest renders at 360x800 and 390x844 (style assertions, not pixels).
 
+## Verdicts so far
+- #579 @ 51b32566: Opus B APPROVE (U: coachName={null} in the navigator; C: stale coach_id cache, GB metric default, empty W1 top bar). Sol B REQUEST CHANGES B-579-SOL-B-1 (coachless B4 long-road note) -> fixed in FIX ROUND 2.
+- #581 @ 2121e09c: Sol A REQUEST CHANGES B-581-SOL-A-133-1 (38/39 parity rows) -> fixed; Opus A REQUEST CHANGES B-581-1 (offline line promised auto-prepare) -> fixed (auto-prepare on first reconnect); U-581-2 (Message <coach> link) -> listed in the 40 row.
+
 ## HANDOFF
-- #579 @ 51b32566e36f25ad36f10ce853ba522a6d03c665 (questions 03-36), CI green, READY posted 18:29.
-- #581 @ 2121e09cd24cc13a90b75408dbe55b1d3a4479a3 (reveals and states 37-45, stacked on #579), CI green, READY posted 18:29.
-- Next: poll verdicts every 180 s; fix B findings at head, one push, next FIX ROUND READY.
-- Needs operator: 1. DS-PRIMITIVES-133 `Screen` scroll-props pass-through (so Frame can become Screen). Optional: 41 Home resume card is CONSULT-ALL-M-133's proposal.
+- growth-project-mobile#579 (questions 03-36, base main) @ f2facf5d17cf53e7126a40648c9f43952fd79743: CI green, FIX ROUND 2 READY posted 18:59. Needs fresh lens verdicts at this head.
+- growth-project-mobile#581 (reveals and states 37-45, stacked on #579, base agent133/consult-parity-133) @ c632fd01a1c152fb40040edf3ef15597f8633159: CI green, FIX ROUND 2 READY posted 18:59. Needs fresh lens verdicts; GitHub retargets it to main when #579 merges (then check mergeability; if needed `git merge origin/main`, never rebase).
+- Unfinished (not started, not pushed): Frame -> src/ui `Screen` (needs a DS scroll-props pass-through for `ph-no-capture` and `automaticallyAdjustKeyboardInsets`); WheelBand swap after #578 merges; coach name for code-joined clients during the questions (needs a coach-name read; navigator passes `coachName={null}`); preparing-screen hairline sweep (38); macro haptic fires again after Back from the plan (C).
+- Next agent first: poll #579 and #581 for verdicts at the heads above; fix any B at head, one push, next FIX ROUND line. Merge #579 before #581.
+- Needs operator: 1 (DS `Screen` scroll-props request).

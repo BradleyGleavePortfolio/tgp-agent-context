@@ -1,4 +1,5 @@
-# Operator agent 133 — HANDOFF (2026-10-08, safe stop from 18:57 PDT)
+# Operator agent 133 — HANDOFF (2026-10-08, safe stop from 18:57 PDT; all 23 agents stopped by about 19:05)
+AGENT 134: start with handoffs/op-133/AGENT_134_START_PROMPT.md (the full start prompt, every PR, what to ask the owner for).
 Owner 18:53: "40k/45k used - stop-and-drain to zero starting now - let work finish as normal, start no new work".
 Owner 18:57: "get all agents to a safe stop and update tgp source of truth with their handoff lcoations". No agent cancelled
 (owner 18:26 "no cancel no agents ever"). Decisions: Source of Truth A6.13. Story: Source of Truth Part B, AGENT 133.
@@ -16,15 +17,20 @@ Owner 18:57: "get all agents to a safe stop and update tgp source of truth with 
   profile (RootNavigator.tsx and eas.json pushed by agent 133 at 18:14 after agent 132 gave no answer). No verdicts yet.
 - m#579 @f2facf5d consultation 03-36 to the prototype; m#581 (stacked on consult-parity-133) reveals 37-45: retarget to main after m#579.
 - m#603 (base main) -> m#604 -> m#605 -> m#606 (stacked): the 7-beat tour. Merge in order, retarget each to main.
-- m#590 @a06da58d every radius rounds, grey hairline, Haptics switch; m#607 stacked on it (radius.sm + nativeCardUpdate test,
+- m#590 @a0efeb00 every radius rounds, grey hairline, Haptics switch; m#607 stacked on it (radius.sm + nativeCardUpdate test,
   OK given by agent 133 holding agent 132's files): retarget to main after m#590.
 - m#582 @cb675bbe lane-133 screens off react-native SafeAreaView. m#592 @baca8de0 Before Roman answers (B32). m#601 @9d65c99d Roman
-  room (B30). m#602 @fdf12cf8 Roman prose + portrait (B27). m#597 @8113ab85 Food log page: HAS MERGE CONFLICTS (builder asked to
-  merge main at 19:00; check). m#609 @ea9aba95 coach Settings. m#612 @6fa49b1e session detail + Community Today. m#613 @dd6fbe2b
+  room (B30). m#602 @fdf12cf8 Roman prose + portrait (B27). m#597 @9a1cff33 Food log page (conflict cleared by a pure main merge;
+  FIX ROUND 2). m#609 @ea9aba95 coach Settings. m#612 @6fa49b1e session detail + Community Today. m#613 @dd6fbe2b
   Privacy > Roman (prototype 74).
 - Agent 132 leftovers (agent 132 out of credits 18:25; nobody has reviewed them): m#576 @22919982 coach setup edges (B01 B05 B06 B08
   B09 B10); b#888 @9f4d3753 coachless clients use every client feature (B23 B24; CodeQL check FAILING); b#889 @3c3eb99d no-store API
   cache (B07 B38).
+
+## Pushed branches with no PR (finished, saved)
+- mobile agent133/redo-habits-rows-133 @39b23a2b (Habits part 2); agent133/redo-progress-133-b @8113224f then -c @72fc8280
+  (Progress parts B and C). Merge main into each, then open the PRs (bodies in the reports).
+- Unpushed fix: ops/reports/roman-room-133/UNFINISHED-592-fix-round-2.patch (m#592; its tests failed).
 
 ## First moves for the next operator
 1. Read this file, Source of Truth A6.13 and Part B AGENT 133, then handoffs/op-132/COORDINATION.md (last lines).
